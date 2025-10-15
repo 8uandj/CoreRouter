@@ -11,6 +11,7 @@ Hệ thống sử dụng **Tekton Pipelines** làm Orchestrator, triển khai **
 - **Pipeline**: nhiều task song song + chuỗi lifecycle (instantiate, wait, scale, observe)
 
 ## Cấu trúc thư mục:
+```bash
 Demo_NFV_Orches/
 ├── tasks/
 │   ├── task-bb-sh.yaml
@@ -32,6 +33,7 @@ Demo_NFV_Orches/
 │
 ├── kustomization.yaml       # Gom các tài nguyên cần apply
 └── README.md                # Tóm tắt và hướng dẫn
+```
 
 ## Cài môi trng trên Fedora:
 # Cài Docker (Fedora)
