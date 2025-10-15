@@ -1,0 +1,43 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: vnf-frr
+  namespace: vnf
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: vnf-frr
+  template:
+    metadata:
+      labels:
+        app: vnf-frr
+    spec:
+      containers:
+      - name: frr
+        image: quay.io/frrouting/frr:9.1.1
+        imagePullPolicy: IfNotPresent
+        volumeMounts:
+        - name: frr-cfg
+          mountPath: /etc/frr/frr.conf
+          subPath: frr.conf
+        - name: frr-cfg
+          mountPath: /etc/frr/vtysh.conf
+          subPath: vtysh.conf
+      volumes:
+      - name: frr-cfg
+        configMap:
+          name: frr-cfg
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: vnf-frr-svc
+  namespace: vnf
+spec:
+  selector:
+    app: vnf-frr
+  ports:
+  - name: vty
+    port: 2601
+    targetPort: 2601

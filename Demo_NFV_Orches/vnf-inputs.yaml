@@ -1,0 +1,42 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: vnf-inputs
+  namespace: tekton-pipelines
+data:
+  vnf-frr.yaml: |
+    apiVersion: apps/v1
+    kind: Deployment
+    metadata:
+      name: vnf-frr
+      namespace: vnf
+    spec:
+      replicas: 1
+      selector:
+        matchLabels:
+          app: vnf-frr
+      template:
+        metadata:
+          labels:
+            app: vnf-frr
+        spec:
+          containers:
+          - name: frr
+            image: quay.io/frrouting/frr:9.1.1
+            imagePullPolicy: IfNotPresent
+            volumeMounts:
+            - name: frr-cfg
+              mountPath: /etc/frr/frr.conf
+              subPath: frr.conf
+            - name: frr-cfg
+              mountPath: /etc/frr/vtysh.conf
+              subPath: vtysh.conf
+          volumes:
+          - name: frr-cfg
+            configMap:
+              name: frr-cfg
+              items:
+              - key: frr.conf
+                path: frr.conf
+              - key: vtysh.conf
+                path: vtysh.conf

@@ -1,0 +1,124 @@
+apiVersion: tekton.dev/v1
+kind: Pipeline
+metadata:
+  name: vnf-lcm-wide
+  namespace: tekton-pipelines
+spec:
+  workspaces:
+  - name: ws
+  params:
+  - name: ns
+  - name: deployName
+  - name: labelSelector
+
+  tasks:
+  # (0) Ingest tổng quan
+  - name: ingest-nodes
+    taskRef: { name: kubectl-run }
+    params:
+    - name: args
+      value: ["get","nodes","-o","wide"]
+
+  - name: ingest-pods-all
+    runAfter: [ingest-nodes]
+    taskRef: { name: kubectl-run }
+    params:
+    - name: args
+      value: ["get","pods","-A","-o","wide"]
+
+  - name: ingest-events
+    runAfter: [ingest-pods-all]
+    taskRef: { name: kubectl-run }
+    params:
+    - name: args
+      value: ["get","events","-A","--sort-by=.lastTimestamp","--field-selector","type!=Normal"]
+
+  # (1) Fan-out 3 nhánh kiểm tra song song
+  - name: check-kube-system
+    runAfter: [ingest-events]
+    taskRef: { name: kubectl-run }
+    params:
+    - name: args
+      value: ["-n","kube-system","get","deploy,po","-o","wide"]
+
+  - name: check-tekton
+    runAfter: [ingest-events]
+    taskRef: { name: kubectl-run }
+    params:
+    - name: args
+      value: ["-n","tekton-pipelines","get","deploy,po,svc","-o","wide"]
+
+  - name: check-vnf-ns
+    runAfter: [ingest-events]
+    taskRef: { name: kubectl-run }
+    params:
+    - name: args
+      value: ["-n","$(params.ns)","get","all","-o","wide"]
+
+  # (2) Fan-in: tổng hợp
+  - name: aggregate
+    runAfter: [check-kube-system, check-tekton, check-vnf-ns]
+    taskRef: { name: kubectl-run }
+    params:
+    - name: args
+      value: ["get","ns","-o","name"]
+
+  # (3) Instantiate VNF từ workspace (y như pipeline cũ)
+  - name: instantiate
+    runAfter: [aggregate]
+    taskRef: { name: kubectl-apply-file }
+    workspaces:
+    - name: ws
+      workspace: ws
+
+  # (4) Wait ready
+  - name: wait-ready
+    runAfter: [instantiate]
+    taskRef: { name: kubectl-wait }
+    params:
+    - name: namespace
+      value: $(params.ns)
+    - name: labelSelector
+      value: $(params.labelSelector)
+
+  # (5) Scale-out
+  - name: scale-out
+    runAfter: [wait-ready]
+    taskRef: { name: kubectl-scale }
+    params:
+    - name: namespace
+      value: $(params.ns)
+    - name: deployName
+      value: $(params.deployName)
+    - name: replicas
+      value: "2"
+
+  # (6) Quan sát
+  - name: observe
+    runAfter: [scale-out]
+    taskRef: { name: kubectl-get }
+    params:
+    - name: namespace
+      value: $(params.ns)
+    - name: labelSelector
+      value: $(params.labelSelector)
+
+  # (7) Scale-in
+  - name: scale-in
+    runAfter: [observe]
+    taskRef: { name: kubectl-scale }
+    params:
+    - name: namespace
+      value: $(params.ns)
+    - name: deployName
+      value: $(params.deployName)
+    - name: replicas
+      value: "1"
+
+  # (8) Snapshot sau cùng
+  - name: snapshot
+    runAfter: [scale-in]
+    taskRef: { name: kubectl-run }
+    params:
+    - name: args
+      value: ["-n","$(params.ns)","get","deploy,po,svc","-o","wide"]
