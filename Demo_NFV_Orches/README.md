@@ -11,7 +11,7 @@ Hệ thống sử dụng **Tekton Pipelines** làm Orchestrator, triển khai **
 - **Pipeline**: nhiều task song song + chuỗi lifecycle (instantiate, wait, scale, observe)
 
 ## Cấu trúc thư mục:
-```bash
+```
 Demo_NFV_Orches/
 ├── tasks/
 │   ├── task-bb-sh.yaml
@@ -64,8 +64,9 @@ kubectl apply -f https://storage.googleapis.com/tekton-releases/dashboard/latest
 - Đợi Tekton sẵn sàng:
 kubectl -n tekton-pipelines get deploy,po
 # Tạo quyền cho Tekton
+```bash
 kubectl apply -f Demo_NFV_Orches/tekton-admin.yaml
-
+```
 ## 🚀 Cách chạy
 
 # Khởi chạy pipeline
