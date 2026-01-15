@@ -10,6 +10,9 @@ spec:
   - name: ns
   - name: deployName
   - name: labelSelector
+  # [NEW] Tham số nhận tên file template từ Backend (vnf-frr.yaml / vnf-firewall.yaml...)
+  - name: fileName
+    default: "vnf-frr.yaml"
 
   tasks:
   # (0) Ingest tổng quan
@@ -63,13 +66,31 @@ spec:
     - name: args
       value: ["get","ns","-o","name"]
 
-  # (3) Instantiate VNF từ workspace (y như pipeline cũ)
-  - name: instantiate
+  # [NEW] (2.5) Chuẩn bị Manifest: Chọn file đúng loại và đổi tên
+  - name: prepare-manifest
     runAfter: [aggregate]
+    taskRef: { name: prepare-vnf }
+    workspaces:
+    - name: ws
+      workspace: ws
+    params:
+    - name: deployName
+      value: $(params.deployName)
+    - name: fileName
+      value: $(params.fileName)
+
+  # (3) Instantiate VNF: Apply file đã chuẩn bị (final.yaml)
+  - name: instantiate
+    runAfter: [prepare-manifest]
     taskRef: { name: kubectl-apply-file }
     workspaces:
     - name: ws
       workspace: ws
+    params:
+    - name: filePath
+      value: /workspace/ws/final.yaml
+    - name: namespace
+      value: $(params.ns)
 
   # (4) Wait ready
   - name: wait-ready

@@ -1,0 +1,30 @@
+apiVersion: tekton.dev/v1
+kind: Task
+metadata:
+  name: kubectl-apply-file
+  namespace: tekton-pipelines
+spec:
+  # [QUAN TRỌNG] Phải khai báo workspace ở đây thì Task mới nhận được file
+  workspaces:
+    - name: ws
+      description: The workspace containing the manifest file
+  params:
+  - name: filePath
+    description: Path to the manifest file to apply
+  steps:
+  - name: apply
+    image: bitnami/kubectl:latest # Dùng image này có sẵn shell để debug
+    command: ["/bin/sh", "-c"]
+    args:
+      - |
+        echo ">>> DEBUG: Listing files in /workspace/ws/"
+        ls -la /workspace/ws/
+        
+        echo ">>> Applying file: $(params.filePath)"
+        # Kiểm tra file tồn tại trước khi apply
+        if [ ! -f $(params.filePath) ]; then
+            echo "ERROR: File $(params.filePath) does not exist!"
+            exit 1
+        fi
+        
+        kubectl apply -f $(params.filePath)

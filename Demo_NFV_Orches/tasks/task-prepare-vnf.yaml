@@ -1,0 +1,43 @@
+apiVersion: tekton.dev/v1
+kind: Task
+metadata:
+  name: prepare-vnf
+  namespace: tekton-pipelines
+spec:
+  workspaces:
+    - name: ws
+  params:
+    - name: deployName
+    - name: fileName
+  steps:
+    - name: fetch-and-process
+      image: bitnami/kubectl:latest
+      securityContext:
+        runAsUser: 0
+      command: ["/bin/sh", "-c"]
+      args:
+        - |
+          TARGET="$(params.fileName)"
+          echo ">>> DEBUG: Requesting template: $TARGET"
+          
+          # 1. Kiểm tra xem ConfigMap có những file nào (Để debug lỗi)
+          echo ">>> DEBUG: Available keys in ConfigMap:"
+          kubectl get cm vnf-inputs -n tekton-pipelines -o jsonpath='{.data}' | awk '{print substr($0, 1, 100)}' # In 1 phần để check
+          
+          # 2. Lấy nội dung file bằng go-template (An toàn hơn JSONPath)
+          # Lưu ý: Dùng escape quote cẩn thận
+          kubectl get cm vnf-inputs -n tekton-pipelines -o go-template="{{index .data \"$TARGET\"}}" > /workspace/ws/final.yaml
+          
+          # 3. Kiểm tra kết quả
+          if [ ! -s /workspace/ws/final.yaml ] || grep -q "<no value>" /workspace/ws/final.yaml; then
+            echo ">>> ERROR: Template '$TARGET' is EMPTY or NOT FOUND in ConfigMap 'vnf-inputs'."
+            echo "Please check if you applied the ConfigMap correctly."
+            exit 1
+          fi
+
+          # 4. Thay thế tên
+          sed -i 's/PLACEHOLDER_NAME/$(params.deployName)/g' /workspace/ws/final.yaml
+          
+          echo ">>> SUCCESS: Manifest prepared at /workspace/ws/final.yaml"
+          echo "--- Preview content ---"
+          head -n 5 /workspace/ws/final.yaml
