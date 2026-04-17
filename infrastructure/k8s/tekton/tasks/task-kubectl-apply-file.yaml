@@ -1,0 +1,33 @@
+apiVersion: tekton.dev/v1
+kind: Task
+metadata:
+  name: kubectl-apply-file
+  namespace: core-router
+spec:
+  workspaces:
+    - name: ws
+      description: The workspace containing the manifest file
+  params:
+  - name: filePath
+    description: Path to the manifest file to apply
+  - name: namespace 
+    description: Namespace to deploy resource into (defaults to current)
+    default: ""
+  steps:
+  - name: apply
+    image: bitnami/kubectl:latest
+    command: ["/bin/sh", "-c"]
+    args:
+      - |
+        if [ ! -f "$(params.filePath)" ]; then
+            echo "ERROR: File $(params.filePath) does not exist!"
+            exit 1
+        fi
+        
+        NS_FLAG=""
+        if [ -n "$(params.namespace)" ]; then
+            NS_FLAG="-n $(params.namespace)"
+        fi
+        
+        echo ">>> Applying manifest: $(params.filePath) ${NS_FLAG}"
+        kubectl apply -f "$(params.filePath)" $NS_FLAG

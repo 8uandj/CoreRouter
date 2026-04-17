@@ -1,0 +1,1523 @@
+INFO:     Will watch for changes in these directories: ['/home/hung8uandj/Study/CoreRouter']
+INFO:     Uvicorn running on http://0.0.0.0:8000 (Press CTRL+C to quit)
+INFO:     Started reloader process [147505] using StatReload
+INFO:     Started server process [147508]
+INFO:     Waiting for application startup.
+INFO:     Application startup complete.
+INFO:     127.0.0.1:53582 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:53582 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:53582 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:53582 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:48100 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:48100 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:48100 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:48100 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:48100 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:48100 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:48100 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55966 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55970 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:50240 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:50240 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:50240 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:50240 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:50240 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:50240 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:50240 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:50240 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:50240 - "OPTIONS /api/deploy HTTP/1.1" 200 OK
+Deploy Error: (404)
+Reason: Not Found
+HTTP response headers: HTTPHeaderDict({'Audit-Id': 'fd6e3a8b-91f0-4096-ad8a-69dc1e252dc8', 'Cache-Control': 'no-cache, private', 'Content-Type': 'application/json', 'X-Kubernetes-Pf-Flowschema-Uid': '8758eb40-2560-464f-aff6-bfb937a44ac2', 'X-Kubernetes-Pf-Prioritylevel-Uid': '12df47ef-4110-4032-ab21-3d9c978c6378', 'Date': 'Fri, 17 Apr 2026 07:50:09 GMT', 'Content-Length': '202'})
+HTTP response body: {"kind":"Status","apiVersion":"v1","metadata":{},"status":"Failure","message":"namespaces \"core-router\" not found","reason":"NotFound","details":{"name":"core-router","kind":"namespaces"},"code":404}
+
+
+INFO:     127.0.0.1:60690 - "POST /api/deploy HTTP/1.1" 200 OK
+INFO:     127.0.0.1:38196 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:38196 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:38196 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:38196 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:38196 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:38196 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:38196 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:43414 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:43414 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:43414 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:43414 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:43414 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:43414 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:43414 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:44500 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:50954 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:32974 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:45074 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:47250 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:59588 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56198 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56198 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56198 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56198 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56198 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56198 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56198 - "POST /api/deploy HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56198 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56198 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:44176 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:44188 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:44188 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:44188 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:44188 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:44188 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:44188 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:44188 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:44188 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:44188 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:44324 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:44324 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:44324 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:44324 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:44324 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:44324 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:41936 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:41936 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:38384 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:38384 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:38384 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:38384 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:38384 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:38384 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:38384 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:38384 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:39292 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:39292 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:52072 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:52072 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:52072 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:52072 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:52072 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:52072 - "OPTIONS /api/vnfs/vnf-fw-1 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:39484 - "DELETE /api/vnfs/vnf-fw-1 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:39484 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:39484 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:39484 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:39484 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:33210 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:33210 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:34226 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:34226 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:34226 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:34226 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:34226 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:34226 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:34572 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:34584 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:34584 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:34584 - "OPTIONS /api/deploy HTTP/1.1" 200 OK
+INFO:     127.0.0.1:36380 - "POST /api/deploy HTTP/1.1" 200 OK
+INFO:     127.0.0.1:36380 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:36380 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:36380 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:36380 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:36380 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:36380 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:33804 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:33808 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:33808 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:33808 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:33808 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:33808 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:33808 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:33808 - "POST /api/deploy HTTP/1.1" 200 OK
+INFO:     127.0.0.1:33808 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:33808 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:33808 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:47846 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:47846 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:47846 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:47846 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:47846 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:47846 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:47846 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:47846 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:47846 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:47846 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:54064 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:54078 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:54078 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:54078 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:54078 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:54078 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:54078 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:54078 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:54078 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:54078 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:54078 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:40318 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60066 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60066 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60066 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:42036 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:42036 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:42036 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:42036 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:42036 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:42036 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:42036 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:42036 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:42036 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:39058 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:39070 - "DELETE /api/vnfs/vnf-fw-1 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:39070 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:39070 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:33122 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:33122 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:33122 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:33122 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:33122 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:33122 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:39076 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:39080 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:39080 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:39080 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:39080 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:39080 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:50904 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:52586 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:42650 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:51388 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:51388 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:51388 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:51388 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:51388 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:51388 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:45130 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:45136 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:45136 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:45136 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:45136 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:45136 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:45136 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:54390 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:54390 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:54390 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:41406 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56752 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56752 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56752 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56752 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56752 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56752 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56752 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:44364 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:44364 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:44364 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:44364 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:44364 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:44364 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:44364 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:44364 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:44364 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:34776 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:34776 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:34776 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:34776 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:34776 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:34776 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:34776 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:34776 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55090 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55094 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55094 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55094 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55094 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55094 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55094 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55094 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:49092 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:49104 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:49104 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:49104 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:49104 - "GET /api/vnfs HTTP/1.1" 200 OK
+WARNING:  StatReload detected changes in 'src/portal/backend/app/models/schemas.py'. Reloading...
+INFO:     Shutting down
+INFO:     Waiting for application shutdown.
+INFO:     Application shutdown complete.
+INFO:     Finished server process [147508]
+INFO:     Started server process [167248]
+INFO:     Waiting for application startup.
+INFO:     Application startup complete.
+INFO:     127.0.0.1:42038 - "GET /api/vnfs HTTP/1.1" 200 OK
+WARNING:  StatReload detected changes in 'src/core/interfaces/orchestrator.py'. Reloading...
+INFO:     Shutting down
+INFO:     Waiting for application shutdown.
+INFO:     Application shutdown complete.
+INFO:     Finished server process [167248]
+INFO:     Started server process [167276]
+INFO:     Waiting for application startup.
+INFO:     Application startup complete.
+INFO:     127.0.0.1:37234 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:37234 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:37234 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58038 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58038 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58038 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58038 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58038 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:35358 - "GET /api/vnfs HTTP/1.1" 200 OK
+WARNING:  StatReload detected changes in 'src/infrastructure/k8s/tekton_orchestrator.py'. Reloading...
+INFO:     Shutting down
+INFO:     Waiting for application shutdown.
+INFO:     Application shutdown complete.
+INFO:     Finished server process [167276]
+INFO:     Started server process [167673]
+INFO:     Waiting for application startup.
+INFO:     Application startup complete.
+INFO:     127.0.0.1:35360 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:35360 - "GET /api/vnfs HTTP/1.1" 200 OK
+WARNING:  StatReload detected changes in 'src/portal/backend/app/routers/api_v1.py'. Reloading...
+INFO:     Shutting down
+INFO:     Waiting for application shutdown.
+INFO:     Application shutdown complete.
+INFO:     Finished server process [167673]
+INFO:     Started server process [167891]
+INFO:     Waiting for application startup.
+INFO:     Application startup complete.
+INFO:     127.0.0.1:50102 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56022 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56022 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:49728 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:49728 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:49728 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57364 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57364 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58394 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:46100 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:46100 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:46100 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:46100 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:46100 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:46100 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:46100 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:46100 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:51568 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:51568 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:59414 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:59414 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:59414 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:42030 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:42030 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:42030 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:42030 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:42030 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:42030 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:42030 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56666 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56666 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56666 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56666 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56666 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56666 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56666 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56666 - "OPTIONS /api/deploy HTTP/1.1" 200 OK
+INFO:     127.0.0.1:40288 - "POST /api/deploy HTTP/1.1" 200 OK
+INFO:     127.0.0.1:40288 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:40288 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:44012 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:44026 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:44026 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:44026 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:44026 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:44026 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:44026 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:44026 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:35326 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:35342 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:35342 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:35342 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:35342 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:35342 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:35342 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:35342 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:35342 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:48854 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:48854 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:48854 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:48854 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:48854 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:48854 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:48854 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:48854 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:46754 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:46754 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:39998 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:39998 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:39998 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:39998 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:39998 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:39998 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:59026 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:59026 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:59026 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:59026 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:59026 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:59026 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:59026 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:59026 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:36448 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:36448 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:36448 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:52650 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:52650 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:52650 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:52650 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:52650 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:40188 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:40166 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:40166 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:40166 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:40166 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:40166 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:40166 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:49322 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:49322 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:49322 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:49322 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:52792 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:52792 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:52792 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:52792 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:52792 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:52792 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:52792 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:52792 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:32956 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:32956 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:32956 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:32956 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:32956 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:32956 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:32956 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:32956 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:32956 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:40184 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:40184 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:40184 - "POST /api/deploy HTTP/1.1" 200 OK
+INFO:     127.0.0.1:40184 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:40184 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:48944 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:48944 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:48944 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:48944 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:48944 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:42994 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:42994 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:42994 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:42994 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:42994 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:42994 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:42994 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:42994 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:54720 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:35684 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:35684 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:35684 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:35684 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:35684 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:35684 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:35684 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:34790 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58226 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58226 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58226 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58226 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58226 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58226 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58226 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56160 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:47306 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:47306 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:47306 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:47306 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:47306 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:47306 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:47306 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:47306 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:53592 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:53592 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:53592 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:53592 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:53592 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:53592 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:53592 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:53592 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:48554 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:48554 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:48554 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:48554 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:48554 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:48554 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:48554 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:48554 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:52318 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:52318 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:52318 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:52318 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:52318 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:52318 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:52318 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:52318 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:35680 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:35694 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:35694 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:35694 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:39800 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:39800 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:39800 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:39800 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:39800 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:41502 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:41502 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:41502 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:41502 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:41502 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:41502 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:41502 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:41502 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57366 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57366 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57366 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57366 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57366 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57366 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57366 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:37624 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:37628 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:49532 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:49532 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:49532 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:49532 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:49532 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:49532 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:49532 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:33930 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:33930 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:33930 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:33930 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:33930 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:33930 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:33930 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:33930 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:40906 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:48356 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:35366 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:35366 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:51068 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:51068 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:38110 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:38110 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:38110 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:38110 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:35904 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:35904 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:35904 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:35904 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:35904 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:35904 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:35904 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:42142 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:42142 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:39168 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:39168 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:39168 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:39168 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57188 - "OPTIONS /api/vnfs/firewall-hn HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57194 - "DELETE /api/vnfs/firewall-hn HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57188 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57188 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57208 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55406 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55406 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55406 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55406 - "OPTIONS /api/deploy HTTP/1.1" 200 OK
+INFO:     127.0.0.1:53794 - "POST /api/deploy HTTP/1.1" 200 OK
+INFO:     127.0.0.1:53794 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:53794 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:53794 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:52196 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:52196 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:39488 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:39488 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:39488 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:39488 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:39488 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:39488 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:39488 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:39488 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:39488 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:39488 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:39488 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:39488 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:39488 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:39488 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:39488 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:38994 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:49612 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:49612 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:49612 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:49612 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:49612 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:49612 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:49612 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:49612 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56266 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56266 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56266 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56266 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56266 - "POST /api/deploy HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56266 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56266 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56266 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56266 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56266 - "POST /api/deploy HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56266 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56266 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:49152 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:49152 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:49152 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:49152 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:49152 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:49152 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:49152 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:49152 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:46022 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:46022 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:46022 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:46022 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:35592 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:35592 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:45976 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:45976 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:42014 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:42014 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:47402 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:47402 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:47402 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:47408 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:47408 - "OPTIONS /api/vnfs/idps-dn HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60454 - "DELETE /api/vnfs/idps-dn HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60454 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60454 - "OPTIONS /api/vnfs/ai-scaled-firewall-523 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:47408 - "DELETE /api/vnfs/ai-scaled-firewall-523 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60454 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:47408 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:47408 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:47408 - "OPTIONS /api/vnfs/vnf-node-1 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:52442 - "DELETE /api/vnfs/vnf-node-1 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:52442 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:52442 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:52442 - "OPTIONS /api/vnfs/ai-scaled-firewall-939 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:52444 - "DELETE /api/vnfs/ai-scaled-firewall-939 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:52444 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:52444 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:52218 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:52218 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:52218 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:52218 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:52218 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:52218 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:52218 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:52218 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:59702 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:59714 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:59714 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:33556 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:33556 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:33556 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:33556 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:33556 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57104 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57110 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57110 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57110 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57110 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57110 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57110 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57110 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57110 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:48470 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:48470 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:48470 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:48470 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:48470 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:48470 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:48470 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:48470 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:38464 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:38464 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:38464 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:38464 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:38464 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:38464 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:38464 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:38464 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:33946 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57626 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57626 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57626 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57626 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57626 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57626 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57626 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57626 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:46616 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:46616 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:46616 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:46616 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:46616 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:46616 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:46616 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:46616 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:49690 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:49696 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:49696 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:49696 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:49696 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:49696 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:49696 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:49696 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:49696 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58504 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58504 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58504 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58504 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58504 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58504 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58504 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58504 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:40630 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:40630 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:40630 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:40630 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:40630 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:40630 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:40630 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:40630 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:41290 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:41290 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:41290 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:41290 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:41290 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:41290 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:41290 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:41290 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:52418 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:40984 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:40984 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:40984 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:40984 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:40984 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:40984 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:40984 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57754 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60398 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60398 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:47026 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:47026 - "OPTIONS /api/deploy HTTP/1.1" 200 OK
+INFO:     127.0.0.1:47028 - "POST /api/deploy HTTP/1.1" 200 OK
+INFO:     127.0.0.1:47028 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:47028 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:47028 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:47028 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:47028 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:47028 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:39912 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:39912 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:39912 - "POST /api/deploy HTTP/1.1" 200 OK
+INFO:     127.0.0.1:39912 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:39912 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:39912 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:39912 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:39912 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:39912 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:39912 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:35784 - "POST /api/deploy HTTP/1.1" 200 OK
+INFO:     127.0.0.1:35800 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:35800 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:35800 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:35800 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:35800 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:35800 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:35800 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:35800 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:35800 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:41896 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:41896 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:41896 - "GET /api/vnfs HTTP/1.1" 200 OK
+WARNING:  StatReload detected changes in 'src/infrastructure/k8s/tekton_orchestrator.py'. Reloading...
+INFO:     Shutting down
+INFO:     Waiting for application shutdown.
+INFO:     Application shutdown complete.
+INFO:     Finished server process [167891]
+INFO:     Started server process [200329]
+INFO:     Waiting for application startup.
+INFO:     Application startup complete.
+INFO:     127.0.0.1:43996 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:43996 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:43996 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:43996 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:43996 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:47078 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:47088 - "POST /api/deploy HTTP/1.1" 200 OK
+INFO:     127.0.0.1:47088 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:47088 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:47088 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:47088 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:47088 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:47088 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:47088 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:47088 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:47088 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:42760 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:42760 - "POST /api/deploy HTTP/1.1" 200 OK
+INFO:     127.0.0.1:42760 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:42760 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:42760 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:42760 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:42760 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:42760 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:42760 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:42760 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:42760 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:42760 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:42760 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:41400 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:41400 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:41400 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:41400 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:41400 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:41400 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:41400 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:41400 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:35112 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:35112 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:35112 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:35112 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:35112 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:35112 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:35112 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:35112 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55020 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55020 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55020 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55020 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55020 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55020 - "OPTIONS /api/vnfs/ai-scaled-firewall-423 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:43046 - "DELETE /api/vnfs/ai-scaled-firewall-423 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:43046 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:43046 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:43046 - "OPTIONS /api/vnfs/ai-scaled-firewall-131 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:38548 - "DELETE /api/vnfs/ai-scaled-firewall-131 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:38548 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:38548 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:38548 - "OPTIONS /api/vnfs/idps-hn HTTP/1.1" 200 OK
+INFO:     127.0.0.1:43046 - "DELETE /api/vnfs/idps-hn HTTP/1.1" 200 OK
+INFO:     127.0.0.1:43046 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:43046 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:43046 - "OPTIONS /api/vnfs/router-hn HTTP/1.1" 200 OK
+INFO:     127.0.0.1:38560 - "DELETE /api/vnfs/router-hn HTTP/1.1" 200 OK
+INFO:     127.0.0.1:38560 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:38560 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:38560 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:38560 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:38560 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60404 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60404 - "OPTIONS /api/vnfs/vnf-node-1 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60412 - "DELETE /api/vnfs/vnf-node-1 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60412 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60412 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60412 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60412 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60412 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60412 - "POST /api/deploy HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60412 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60412 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60412 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60412 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56510 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56520 - "POST /api/deploy HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56520 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56520 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56520 - "POST /api/deploy HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56520 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56520 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56520 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56520 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56520 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56520 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56520 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56520 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56520 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56520 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56520 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56520 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56520 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:37240 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:37250 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:37250 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:37250 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:37250 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:37250 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:37250 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:37250 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:37250 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:41166 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:41166 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:41166 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:41166 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:41166 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:41166 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:41166 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:41166 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:54042 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:54042 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:54042 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:54042 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:47222 - "GET /api/v1/vnfs HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:54042 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:54042 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:54042 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:54042 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:54042 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:54042 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:46294 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:46294 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:46294 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:46294 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:45452 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:46294 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:46294 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:46294 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:46294 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:53238 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:53238 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:53238 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:53238 - "GET /api/vnfs HTTP/1.1" 200 OK
+WARNING:  StatReload detected changes in 'src/portal/backend/app/services/topology_service.py'. Reloading...
+INFO:     Shutting down
+INFO:     Waiting for application shutdown.
+INFO:     Application shutdown complete.
+INFO:     Finished server process [200329]
+INFO:     Started server process [215464]
+INFO:     Waiting for application startup.
+INFO:     Application startup complete.
+INFO:     127.0.0.1:34258 - "GET /api/vnfs HTTP/1.1" 500 Internal Server Error
+ERROR:    Exception in ASGI application
+Traceback (most recent call last):
+  File "/home/hung8uandj/.local/lib/python3.14/site-packages/uvicorn/protocols/http/h11_impl.py", line 403, in run_asgi
+    result = await app(  # type: ignore[func-returns-value]
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+        self.scope, self.receive, self.send
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "/home/hung8uandj/.local/lib/python3.14/site-packages/uvicorn/middleware/proxy_headers.py", line 60, in __call__
+    return await self.app(scope, receive, send)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/hung8uandj/.local/lib/python3.14/site-packages/fastapi/applications.py", line 1134, in __call__
+    await super().__call__(scope, receive, send)
+  File "/home/hung8uandj/.local/lib/python3.14/site-packages/starlette/applications.py", line 107, in __call__
+    await self.middleware_stack(scope, receive, send)
+  File "/home/hung8uandj/.local/lib/python3.14/site-packages/starlette/middleware/errors.py", line 186, in __call__
+    raise exc
+  File "/home/hung8uandj/.local/lib/python3.14/site-packages/starlette/middleware/errors.py", line 164, in __call__
+    await self.app(scope, receive, _send)
+  File "/home/hung8uandj/.local/lib/python3.14/site-packages/starlette/middleware/cors.py", line 93, in __call__
+    await self.simple_response(scope, receive, send, request_headers=headers)
+  File "/home/hung8uandj/.local/lib/python3.14/site-packages/starlette/middleware/cors.py", line 144, in simple_response
+    await self.app(scope, receive, send)
+  File "/home/hung8uandj/.local/lib/python3.14/site-packages/starlette/middleware/exceptions.py", line 63, in __call__
+    await wrap_app_handling_exceptions(self.app, conn)(scope, receive, send)
+  File "/home/hung8uandj/.local/lib/python3.14/site-packages/starlette/_exception_handler.py", line 53, in wrapped_app
+    raise exc
+  File "/home/hung8uandj/.local/lib/python3.14/site-packages/starlette/_exception_handler.py", line 42, in wrapped_app
+    await app(scope, receive, sender)
+  File "/home/hung8uandj/.local/lib/python3.14/site-packages/fastapi/middleware/asyncexitstack.py", line 18, in __call__
+    await self.app(scope, receive, send)
+  File "/home/hung8uandj/.local/lib/python3.14/site-packages/starlette/routing.py", line 716, in __call__
+    await self.middleware_stack(scope, receive, send)
+  File "/home/hung8uandj/.local/lib/python3.14/site-packages/starlette/routing.py", line 736, in app
+    await route.handle(scope, receive, send)
+  File "/home/hung8uandj/.local/lib/python3.14/site-packages/starlette/routing.py", line 290, in handle
+    await self.app(scope, receive, send)
+  File "/home/hung8uandj/.local/lib/python3.14/site-packages/fastapi/routing.py", line 125, in app
+    await wrap_app_handling_exceptions(app, request)(scope, receive, send)
+  File "/home/hung8uandj/.local/lib/python3.14/site-packages/starlette/_exception_handler.py", line 53, in wrapped_app
+    raise exc
+  File "/home/hung8uandj/.local/lib/python3.14/site-packages/starlette/_exception_handler.py", line 42, in wrapped_app
+    await app(scope, receive, sender)
+  File "/home/hung8uandj/.local/lib/python3.14/site-packages/fastapi/routing.py", line 111, in app
+    response = await f(request)
+               ^^^^^^^^^^^^^^^^
+  File "/home/hung8uandj/.local/lib/python3.14/site-packages/fastapi/routing.py", line 391, in app
+    raw_response = await run_endpoint_function(
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ...<3 lines>...
+    )
+    ^
+  File "/home/hung8uandj/.local/lib/python3.14/site-packages/fastapi/routing.py", line 292, in run_endpoint_function
+    return await run_in_threadpool(dependant.call, **values)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/hung8uandj/.local/lib/python3.14/site-packages/starlette/concurrency.py", line 32, in run_in_threadpool
+    return await anyio.to_thread.run_sync(func)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.14/site-packages/anyio/to_thread.py", line 63, in run_sync
+    return await get_async_backend().run_sync_in_worker_thread(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+        func, args, abandon_on_cancel=abandon_on_cancel, limiter=limiter
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "/usr/lib/python3.14/site-packages/anyio/_backends/_asyncio.py", line 2502, in run_sync_in_worker_thread
+    return await future
+           ^^^^^^^^^^^^
+  File "/usr/lib/python3.14/site-packages/anyio/_backends/_asyncio.py", line 986, in run
+    result = context.run(func, *args)
+  File "/home/hung8uandj/Study/CoreRouter/src/portal/backend/app/routers/api_v1.py", line 19, in get_vnfs
+    return container.topology_service.get_topology()
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^
+  File "/home/hung8uandj/Study/CoreRouter/src/portal/backend/app/services/topology_service.py", line 21, in get_topology
+    "ready": ready,
+             ^^^^^
+NameError: name 'ready' is not defined
+INFO:     127.0.0.1:34262 - "GET /api/vnfs HTTP/1.1" 500 Internal Server Error
+ERROR:    Exception in ASGI application
+Traceback (most recent call last):
+  File "/home/hung8uandj/.local/lib/python3.14/site-packages/uvicorn/protocols/http/h11_impl.py", line 403, in run_asgi
+    result = await app(  # type: ignore[func-returns-value]
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+        self.scope, self.receive, self.send
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "/home/hung8uandj/.local/lib/python3.14/site-packages/uvicorn/middleware/proxy_headers.py", line 60, in __call__
+    return await self.app(scope, receive, send)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/hung8uandj/.local/lib/python3.14/site-packages/fastapi/applications.py", line 1134, in __call__
+    await super().__call__(scope, receive, send)
+  File "/home/hung8uandj/.local/lib/python3.14/site-packages/starlette/applications.py", line 107, in __call__
+    await self.middleware_stack(scope, receive, send)
+  File "/home/hung8uandj/.local/lib/python3.14/site-packages/starlette/middleware/errors.py", line 186, in __call__
+    raise exc
+  File "/home/hung8uandj/.local/lib/python3.14/site-packages/starlette/middleware/errors.py", line 164, in __call__
+    await self.app(scope, receive, _send)
+  File "/home/hung8uandj/.local/lib/python3.14/site-packages/starlette/middleware/cors.py", line 93, in __call__
+    await self.simple_response(scope, receive, send, request_headers=headers)
+  File "/home/hung8uandj/.local/lib/python3.14/site-packages/starlette/middleware/cors.py", line 144, in simple_response
+    await self.app(scope, receive, send)
+  File "/home/hung8uandj/.local/lib/python3.14/site-packages/starlette/middleware/exceptions.py", line 63, in __call__
+    await wrap_app_handling_exceptions(self.app, conn)(scope, receive, send)
+  File "/home/hung8uandj/.local/lib/python3.14/site-packages/starlette/_exception_handler.py", line 53, in wrapped_app
+    raise exc
+  File "/home/hung8uandj/.local/lib/python3.14/site-packages/starlette/_exception_handler.py", line 42, in wrapped_app
+    await app(scope, receive, sender)
+  File "/home/hung8uandj/.local/lib/python3.14/site-packages/fastapi/middleware/asyncexitstack.py", line 18, in __call__
+    await self.app(scope, receive, send)
+  File "/home/hung8uandj/.local/lib/python3.14/site-packages/starlette/routing.py", line 716, in __call__
+    await self.middleware_stack(scope, receive, send)
+  File "/home/hung8uandj/.local/lib/python3.14/site-packages/starlette/routing.py", line 736, in app
+    await route.handle(scope, receive, send)
+  File "/home/hung8uandj/.local/lib/python3.14/site-packages/starlette/routing.py", line 290, in handle
+    await self.app(scope, receive, send)
+  File "/home/hung8uandj/.local/lib/python3.14/site-packages/fastapi/routing.py", line 125, in app
+    await wrap_app_handling_exceptions(app, request)(scope, receive, send)
+  File "/home/hung8uandj/.local/lib/python3.14/site-packages/starlette/_exception_handler.py", line 53, in wrapped_app
+    raise exc
+  File "/home/hung8uandj/.local/lib/python3.14/site-packages/starlette/_exception_handler.py", line 42, in wrapped_app
+    await app(scope, receive, sender)
+  File "/home/hung8uandj/.local/lib/python3.14/site-packages/fastapi/routing.py", line 111, in app
+    response = await f(request)
+               ^^^^^^^^^^^^^^^^
+  File "/home/hung8uandj/.local/lib/python3.14/site-packages/fastapi/routing.py", line 391, in app
+    raw_response = await run_endpoint_function(
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ...<3 lines>...
+    )
+    ^
+  File "/home/hung8uandj/.local/lib/python3.14/site-packages/fastapi/routing.py", line 292, in run_endpoint_function
+    return await run_in_threadpool(dependant.call, **values)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/hung8uandj/.local/lib/python3.14/site-packages/starlette/concurrency.py", line 32, in run_in_threadpool
+    return await anyio.to_thread.run_sync(func)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.14/site-packages/anyio/to_thread.py", line 63, in run_sync
+    return await get_async_backend().run_sync_in_worker_thread(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+        func, args, abandon_on_cancel=abandon_on_cancel, limiter=limiter
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "/usr/lib/python3.14/site-packages/anyio/_backends/_asyncio.py", line 2502, in run_sync_in_worker_thread
+    return await future
+           ^^^^^^^^^^^^
+  File "/usr/lib/python3.14/site-packages/anyio/_backends/_asyncio.py", line 986, in run
+    result = context.run(func, *args)
+  File "/home/hung8uandj/Study/CoreRouter/src/portal/backend/app/routers/api_v1.py", line 19, in get_vnfs
+    return container.topology_service.get_topology()
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^
+  File "/home/hung8uandj/Study/CoreRouter/src/portal/backend/app/services/topology_service.py", line 21, in get_topology
+    "ready": ready,
+             ^^^^^
+NameError: name 'ready' is not defined
+INFO:     127.0.0.1:34272 - "GET /api/vnfs HTTP/1.1" 500 Internal Server Error
+ERROR:    Exception in ASGI application
+Traceback (most recent call last):
+  File "/home/hung8uandj/.local/lib/python3.14/site-packages/uvicorn/protocols/http/h11_impl.py", line 403, in run_asgi
+    result = await app(  # type: ignore[func-returns-value]
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+        self.scope, self.receive, self.send
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "/home/hung8uandj/.local/lib/python3.14/site-packages/uvicorn/middleware/proxy_headers.py", line 60, in __call__
+    return await self.app(scope, receive, send)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/hung8uandj/.local/lib/python3.14/site-packages/fastapi/applications.py", line 1134, in __call__
+    await super().__call__(scope, receive, send)
+  File "/home/hung8uandj/.local/lib/python3.14/site-packages/starlette/applications.py", line 107, in __call__
+    await self.middleware_stack(scope, receive, send)
+  File "/home/hung8uandj/.local/lib/python3.14/site-packages/starlette/middleware/errors.py", line 186, in __call__
+    raise exc
+  File "/home/hung8uandj/.local/lib/python3.14/site-packages/starlette/middleware/errors.py", line 164, in __call__
+    await self.app(scope, receive, _send)
+  File "/home/hung8uandj/.local/lib/python3.14/site-packages/starlette/middleware/cors.py", line 93, in __call__
+    await self.simple_response(scope, receive, send, request_headers=headers)
+  File "/home/hung8uandj/.local/lib/python3.14/site-packages/starlette/middleware/cors.py", line 144, in simple_response
+    await self.app(scope, receive, send)
+  File "/home/hung8uandj/.local/lib/python3.14/site-packages/starlette/middleware/exceptions.py", line 63, in __call__
+    await wrap_app_handling_exceptions(self.app, conn)(scope, receive, send)
+  File "/home/hung8uandj/.local/lib/python3.14/site-packages/starlette/_exception_handler.py", line 53, in wrapped_app
+    raise exc
+  File "/home/hung8uandj/.local/lib/python3.14/site-packages/starlette/_exception_handler.py", line 42, in wrapped_app
+    await app(scope, receive, sender)
+  File "/home/hung8uandj/.local/lib/python3.14/site-packages/fastapi/middleware/asyncexitstack.py", line 18, in __call__
+    await self.app(scope, receive, send)
+  File "/home/hung8uandj/.local/lib/python3.14/site-packages/starlette/routing.py", line 716, in __call__
+    await self.middleware_stack(scope, receive, send)
+  File "/home/hung8uandj/.local/lib/python3.14/site-packages/starlette/routing.py", line 736, in app
+    await route.handle(scope, receive, send)
+  File "/home/hung8uandj/.local/lib/python3.14/site-packages/starlette/routing.py", line 290, in handle
+    await self.app(scope, receive, send)
+  File "/home/hung8uandj/.local/lib/python3.14/site-packages/fastapi/routing.py", line 125, in app
+    await wrap_app_handling_exceptions(app, request)(scope, receive, send)
+  File "/home/hung8uandj/.local/lib/python3.14/site-packages/starlette/_exception_handler.py", line 53, in wrapped_app
+    raise exc
+  File "/home/hung8uandj/.local/lib/python3.14/site-packages/starlette/_exception_handler.py", line 42, in wrapped_app
+    await app(scope, receive, sender)
+  File "/home/hung8uandj/.local/lib/python3.14/site-packages/fastapi/routing.py", line 111, in app
+    response = await f(request)
+               ^^^^^^^^^^^^^^^^
+  File "/home/hung8uandj/.local/lib/python3.14/site-packages/fastapi/routing.py", line 391, in app
+    raw_response = await run_endpoint_function(
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ...<3 lines>...
+    )
+    ^
+  File "/home/hung8uandj/.local/lib/python3.14/site-packages/fastapi/routing.py", line 292, in run_endpoint_function
+    return await run_in_threadpool(dependant.call, **values)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/hung8uandj/.local/lib/python3.14/site-packages/starlette/concurrency.py", line 32, in run_in_threadpool
+    return await anyio.to_thread.run_sync(func)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.14/site-packages/anyio/to_thread.py", line 63, in run_sync
+    return await get_async_backend().run_sync_in_worker_thread(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+        func, args, abandon_on_cancel=abandon_on_cancel, limiter=limiter
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "/usr/lib/python3.14/site-packages/anyio/_backends/_asyncio.py", line 2502, in run_sync_in_worker_thread
+    return await future
+           ^^^^^^^^^^^^
+  File "/usr/lib/python3.14/site-packages/anyio/_backends/_asyncio.py", line 986, in run
+    result = context.run(func, *args)
+  File "/home/hung8uandj/Study/CoreRouter/src/portal/backend/app/routers/api_v1.py", line 19, in get_vnfs
+    return container.topology_service.get_topology()
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^
+  File "/home/hung8uandj/Study/CoreRouter/src/portal/backend/app/services/topology_service.py", line 21, in get_topology
+    "ready": ready,
+             ^^^^^
+NameError: name 'ready' is not defined
+INFO:     127.0.0.1:34282 - "GET /api/vnfs HTTP/1.1" 500 Internal Server Error
+ERROR:    Exception in ASGI application
+Traceback (most recent call last):
+  File "/home/hung8uandj/.local/lib/python3.14/site-packages/uvicorn/protocols/http/h11_impl.py", line 403, in run_asgi
+    result = await app(  # type: ignore[func-returns-value]
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+        self.scope, self.receive, self.send
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "/home/hung8uandj/.local/lib/python3.14/site-packages/uvicorn/middleware/proxy_headers.py", line 60, in __call__
+    return await self.app(scope, receive, send)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/hung8uandj/.local/lib/python3.14/site-packages/fastapi/applications.py", line 1134, in __call__
+    await super().__call__(scope, receive, send)
+  File "/home/hung8uandj/.local/lib/python3.14/site-packages/starlette/applications.py", line 107, in __call__
+    await self.middleware_stack(scope, receive, send)
+  File "/home/hung8uandj/.local/lib/python3.14/site-packages/starlette/middleware/errors.py", line 186, in __call__
+    raise exc
+  File "/home/hung8uandj/.local/lib/python3.14/site-packages/starlette/middleware/errors.py", line 164, in __call__
+    await self.app(scope, receive, _send)
+  File "/home/hung8uandj/.local/lib/python3.14/site-packages/starlette/middleware/cors.py", line 93, in __call__
+    await self.simple_response(scope, receive, send, request_headers=headers)
+  File "/home/hung8uandj/.local/lib/python3.14/site-packages/starlette/middleware/cors.py", line 144, in simple_response
+    await self.app(scope, receive, send)
+  File "/home/hung8uandj/.local/lib/python3.14/site-packages/starlette/middleware/exceptions.py", line 63, in __call__
+    await wrap_app_handling_exceptions(self.app, conn)(scope, receive, send)
+  File "/home/hung8uandj/.local/lib/python3.14/site-packages/starlette/_exception_handler.py", line 53, in wrapped_app
+    raise exc
+  File "/home/hung8uandj/.local/lib/python3.14/site-packages/starlette/_exception_handler.py", line 42, in wrapped_app
+    await app(scope, receive, sender)
+  File "/home/hung8uandj/.local/lib/python3.14/site-packages/fastapi/middleware/asyncexitstack.py", line 18, in __call__
+    await self.app(scope, receive, send)
+  File "/home/hung8uandj/.local/lib/python3.14/site-packages/starlette/routing.py", line 716, in __call__
+    await self.middleware_stack(scope, receive, send)
+  File "/home/hung8uandj/.local/lib/python3.14/site-packages/starlette/routing.py", line 736, in app
+    await route.handle(scope, receive, send)
+  File "/home/hung8uandj/.local/lib/python3.14/site-packages/starlette/routing.py", line 290, in handle
+    await self.app(scope, receive, send)
+  File "/home/hung8uandj/.local/lib/python3.14/site-packages/fastapi/routing.py", line 125, in app
+    await wrap_app_handling_exceptions(app, request)(scope, receive, send)
+  File "/home/hung8uandj/.local/lib/python3.14/site-packages/starlette/_exception_handler.py", line 53, in wrapped_app
+    raise exc
+  File "/home/hung8uandj/.local/lib/python3.14/site-packages/starlette/_exception_handler.py", line 42, in wrapped_app
+    await app(scope, receive, sender)
+  File "/home/hung8uandj/.local/lib/python3.14/site-packages/fastapi/routing.py", line 111, in app
+    response = await f(request)
+               ^^^^^^^^^^^^^^^^
+  File "/home/hung8uandj/.local/lib/python3.14/site-packages/fastapi/routing.py", line 391, in app
+    raw_response = await run_endpoint_function(
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ...<3 lines>...
+    )
+    ^
+  File "/home/hung8uandj/.local/lib/python3.14/site-packages/fastapi/routing.py", line 292, in run_endpoint_function
+    return await run_in_threadpool(dependant.call, **values)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/hung8uandj/.local/lib/python3.14/site-packages/starlette/concurrency.py", line 32, in run_in_threadpool
+    return await anyio.to_thread.run_sync(func)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.14/site-packages/anyio/to_thread.py", line 63, in run_sync
+    return await get_async_backend().run_sync_in_worker_thread(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+        func, args, abandon_on_cancel=abandon_on_cancel, limiter=limiter
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "/usr/lib/python3.14/site-packages/anyio/_backends/_asyncio.py", line 2502, in run_sync_in_worker_thread
+    return await future
+           ^^^^^^^^^^^^
+  File "/usr/lib/python3.14/site-packages/anyio/_backends/_asyncio.py", line 986, in run
+    result = context.run(func, *args)
+  File "/home/hung8uandj/Study/CoreRouter/src/portal/backend/app/routers/api_v1.py", line 19, in get_vnfs
+    return container.topology_service.get_topology()
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^
+  File "/home/hung8uandj/Study/CoreRouter/src/portal/backend/app/services/topology_service.py", line 21, in get_topology
+    "ready": ready,
+             ^^^^^
+NameError: name 'ready' is not defined
+WARNING:  StatReload detected changes in 'src/portal/backend/app/services/topology_service.py'. Reloading...
+INFO:     Shutting down
+INFO:     Waiting for application shutdown.
+INFO:     Application shutdown complete.
+INFO:     Finished server process [215464]
+INFO:     Started server process [215618]
+INFO:     Waiting for application startup.
+INFO:     Application startup complete.
+INFO:     127.0.0.1:32890 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:32890 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60844 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60854 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60844 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:33326 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:33326 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:33326 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:33326 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:33326 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:33326 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:50490 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:36242 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:36246 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:36246 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:36246 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:33212 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:33212 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:33212 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:33212 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:33212 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:37662 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:37662 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:37662 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:37662 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:37662 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:45774 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:45774 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:45774 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:49602 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:49602 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:49602 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:49602 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:49602 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:49602 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:49602 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:49602 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:54036 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:44266 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57180 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57140 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60176 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60184 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60200 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60200 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60200 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60200 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60200 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60200 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60200 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:51656 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:51662 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:51662 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:51662 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:51662 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:51662 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:43172 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:53920 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:45352 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:52686 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58520 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:34350 - "GET /api/vnfs HTTP/1.1" 200 OK
+WARNING:  StatReload detected changes in 'src/infrastructure/persistence/csv_repository.py'. Reloading...
+INFO:     Shutting down
+INFO:     Waiting for application shutdown.
+INFO:     Application shutdown complete.
+INFO:     Finished server process [215618]
+Process SpawnProcess-9:
+Traceback (most recent call last):
+  File "/usr/lib64/python3.14/multiprocessing/process.py", line 320, in _bootstrap
+    self.run()
+    ~~~~~~~~^^
+  File "/usr/lib64/python3.14/multiprocessing/process.py", line 108, in run
+    self._target(*self._args, **self._kwargs)
+    ~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/hung8uandj/.local/lib/python3.14/site-packages/uvicorn/_subprocess.py", line 80, in subprocess_started
+    target(sockets=sockets)
+    ~~~~~~^^^^^^^^^^^^^^^^^
+  File "/home/hung8uandj/.local/lib/python3.14/site-packages/uvicorn/server.py", line 67, in run
+    return asyncio_run(self.serve(sockets=sockets), loop_factory=self.config.get_loop_factory())
+  File "/usr/lib64/python3.14/asyncio/runners.py", line 204, in run
+    return runner.run(main)
+           ~~~~~~~~~~^^^^^^
+  File "/usr/lib64/python3.14/asyncio/runners.py", line 127, in run
+    return self._loop.run_until_complete(task)
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^
+  File "/usr/lib64/python3.14/asyncio/base_events.py", line 719, in run_until_complete
+    return future.result()
+           ~~~~~~~~~~~~~^^
+  File "/home/hung8uandj/.local/lib/python3.14/site-packages/uvicorn/server.py", line 71, in serve
+    await self._serve(sockets)
+  File "/home/hung8uandj/.local/lib/python3.14/site-packages/uvicorn/server.py", line 78, in _serve
+    config.load()
+    ~~~~~~~~~~~^^
+  File "/home/hung8uandj/.local/lib/python3.14/site-packages/uvicorn/config.py", line 439, in load
+    self.loaded_app = import_from_string(self.app)
+                      ~~~~~~~~~~~~~~~~~~^^^^^^^^^^
+  File "/home/hung8uandj/.local/lib/python3.14/site-packages/uvicorn/importer.py", line 19, in import_from_string
+    module = importlib.import_module(module_str)
+  File "/usr/lib64/python3.14/importlib/__init__.py", line 88, in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+           ~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<frozen importlib._bootstrap>", line 1398, in _gcd_import
+  File "<frozen importlib._bootstrap>", line 1371, in _find_and_load
+  File "<frozen importlib._bootstrap>", line 1342, in _find_and_load_unlocked
+  File "<frozen importlib._bootstrap>", line 938, in _load_unlocked
+  File "<frozen importlib._bootstrap_external>", line 759, in exec_module
+  File "<frozen importlib._bootstrap>", line 491, in _call_with_frames_removed
+  File "/home/hung8uandj/Study/CoreRouter/src/portal/backend/app/main.py", line 4, in <module>
+    from src.portal.backend.app.routers import api_v1, ai
+  File "/home/hung8uandj/Study/CoreRouter/src/portal/backend/app/routers/api_v1.py", line 3, in <module>
+    from src.portal.backend.app.containers.service_container import container
+  File "/home/hung8uandj/Study/CoreRouter/src/portal/backend/app/containers/service_container.py", line 3, in <module>
+    from src.infrastructure.persistence.csv_repository import CSVRepository
+  File "/home/hung8uandj/Study/CoreRouter/src/infrastructure/persistence/csv_repository.py", line 19
+    try:
+IndentationError: unexpected indent
+WARNING:  StatReload detected changes in 'src/infrastructure/persistence/csv_repository.py'. Reloading...
+INFO:     Started server process [221641]
+INFO:     Waiting for application startup.
+INFO:     Application startup complete.
+INFO:     127.0.0.1:51404 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:43750 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:42176 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:33616 - "GET /api/vnfs HTTP/1.1" 200 OK
+WARNING:  StatReload detected changes in 'src/orchestration/jo_vdpr/env.py'. Reloading...
+INFO:     Shutting down
+INFO:     Waiting for application shutdown.
+INFO:     Application shutdown complete.
+INFO:     Finished server process [221641]
+INFO:     Started server process [223658]
+INFO:     Waiting for application startup.
+INFO:     Application startup complete.
+WARNING:  StatReload detected changes in 'src/orchestration/jo_vdpr/env.py'. Reloading...
+INFO:     Shutting down
+INFO:     Waiting for application shutdown.
+INFO:     Application shutdown complete.
+INFO:     Finished server process [223658]
+INFO:     Started server process [223745]
+INFO:     Waiting for application startup.
+INFO:     Application startup complete.
+INFO:     127.0.0.1:42900 - "GET /api/vnfs HTTP/1.1" 200 OK
+WARNING:  StatReload detected changes in 'src/orchestration/jo_vdpr/rewards.py'. Reloading...
+INFO:     Shutting down
+INFO:     Waiting for application shutdown.
+INFO:     Application shutdown complete.
+INFO:     Finished server process [223745]
+INFO:     Started server process [223800]
+INFO:     Waiting for application startup.
+INFO:     Application startup complete.
+WARNING:  StatReload detected changes in 'src/analytics/benchmark_eval.py'. Reloading...
+INFO:     Shutting down
+INFO:     Waiting for application shutdown.
+INFO:     Application shutdown complete.
+INFO:     Finished server process [223800]
+INFO:     Started server process [224059]
+INFO:     Waiting for application startup.
+INFO:     Application startup complete.
+INFO:     127.0.0.1:48210 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:34012 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:39040 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:42010 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:45250 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:50444 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:52534 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:43592 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55186 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55180 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:42936 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:47484 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58266 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:42998 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:59000 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:49428 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:51170 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:45736 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:59658 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:34584 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56666 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:33110 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57264 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:41702 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:54732 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:54846 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55902 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:52682 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:43142 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:59740 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:38882 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:38882 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:39188 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:39188 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:39188 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:39188 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:39188 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:39188 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:39280 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:39280 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:39280 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:39280 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:39280 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:36724 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:36724 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:48658 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60262 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60270 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60270 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60270 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60270 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60270 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:44820 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:43376 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:37448 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:42642 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:51870 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:34802 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:45530 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:49506 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:50292 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:45480 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60856 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56824 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:39114 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:49548 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:36284 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:44698 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:37428 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:33566 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:47130 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56662 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:49030 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58370 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60852 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:43940 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:46882 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:33992 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:36122 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:49862 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58902 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58942 - "GET /api/vnfs HTTP/1.1" 200 OK
+WARNING:  StatReload detected changes in 'src/analytics/benchmark_eval.py'. Reloading...
+INFO:     Shutting down
+INFO:     Waiting for application shutdown.
+INFO:     Application shutdown complete.
+INFO:     Finished server process [224059]
+INFO:     Started server process [258591]
+INFO:     Waiting for application startup.
+INFO:     Application startup complete.
+INFO:     127.0.0.1:44570 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:38902 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:48686 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56380 - "GET /api/vnfs HTTP/1.1" 200 OK
+WARNING:  StatReload detected changes in 'src/analytics/benchmark_eval.py'. Reloading...
+INFO:     Shutting down
+INFO:     Waiting for application shutdown.
+INFO:     Application shutdown complete.
+INFO:     Finished server process [258591]
+INFO:     Started server process [260382]
+INFO:     Waiting for application startup.
+INFO:     Application startup complete.
+WARNING:  StatReload detected changes in 'src/analytics/benchmark_eval.py'. Reloading...
+INFO:     Shutting down
+INFO:     Waiting for application shutdown.
+INFO:     Application shutdown complete.
+INFO:     Finished server process [260382]
+INFO:     Started server process [260429]
+INFO:     Waiting for application startup.
+INFO:     Application startup complete.
+INFO:     127.0.0.1:49446 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:34212 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:39700 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:45346 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:52238 - "GET /api/vnfs HTTP/1.1" 200 OK
+WARNING:  StatReload detected changes in 'src/orchestration/jo_vdpr/gnn_policy.py'. Reloading...
+INFO:     Shutting down
+INFO:     Waiting for application shutdown.
+INFO:     Application shutdown complete.
+INFO:     Finished server process [260429]
+INFO:     Started server process [262939]
+INFO:     Waiting for application startup.
+INFO:     Application startup complete.
+INFO:     127.0.0.1:57326 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60624 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:45800 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:43854 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57704 - "GET /api/vnfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:43782 - "GET /api/vnfs HTTP/1.1" 200 OK

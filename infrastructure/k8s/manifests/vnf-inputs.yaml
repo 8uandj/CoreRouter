@@ -1,0 +1,38 @@
+apiVersion: v1
+data:
+  vnf-firewall.yaml: "apiVersion: apps/v1\nkind: Deployment\nmetadata:\n  labels:\n\
+    \    core-router/role: firewall\n  name: PLACEHOLDER_NAME\n  namespace: core-router\n\
+    spec:\n  replicas: 1\n  selector:\n    matchLabels:\n      app: PLACEHOLDER_NAME\n\
+    \  template:\n    metadata:\n      labels:\n        app: PLACEHOLDER_NAME\n  \
+    \  spec:\n      containers:\n      - command:\n        - /bin/sh\n        - -c\n\
+    \        - echo 'Firewall Running'; sleep infinity\n        image: alpine:latest\n\
+    \        imagePullPolicy: IfNotPresent\n        name: firewall\n---\napiVersion:\
+    \ v1\nkind: Service\nmetadata:\n  name: PLACEHOLDER_NAME-svc\n  namespace: core-router\n\
+    spec:\n  ports:\n  - name: web\n    port: 80\n    targetPort: 80\n  selector:\n\
+    \    app: PLACEHOLDER_NAME\n"
+  vnf-frr.yaml: "apiVersion: apps/v1\nkind: Deployment\nmetadata:\n  labels:\n   \
+    \ core-router/role: router\n  name: PLACEHOLDER_NAME\n  namespace: core-router\n\
+    spec:\n  replicas: 1\n  selector:\n    matchLabels:\n      app: PLACEHOLDER_NAME\n\
+    \  template:\n    metadata:\n      labels:\n        app: PLACEHOLDER_NAME\n  \
+    \  spec:\n      containers:\n      - image: quay.io/frrouting/frr:9.1.1\n    \
+    \    imagePullPolicy: IfNotPresent\n        name: frr\n        volumeMounts:\n\
+    \        - mountPath: /etc/frr/frr.conf\n          name: frr-cfg\n          subPath:\
+    \ frr.conf\n        - mountPath: /etc/frr/vtysh.conf\n          name: frr-cfg\n\
+    \          subPath: vtysh.conf\n      volumes:\n      - configMap:\n         \
+    \ name: frr-cfg\n        name: frr-cfg\n---\napiVersion: v1\nkind: Service\nmetadata:\n\
+    \  name: PLACEHOLDER_NAME-svc\n  namespace: core-router\nspec:\n  ports:\n  -\
+    \ name: vty\n    port: 2601\n    targetPort: 2601\n  selector:\n    app: PLACEHOLDER_NAME\n"
+  vnf-idps.yaml: "apiVersion: apps/v1\nkind: Deployment\nmetadata:\n  labels:\n  \
+    \  core-router/role: idps\n  name: PLACEHOLDER_NAME\n  namespace: core-router\n\
+    spec:\n  replicas: 1\n  selector:\n    matchLabels:\n      app: PLACEHOLDER_NAME\n\
+    \  template:\n    metadata:\n      labels:\n        app: PLACEHOLDER_NAME\n  \
+    \  spec:\n      containers:\n      - command:\n        - /bin/sh\n        - -c\n\
+    \        - echo 'IDPS Running'; sleep infinity\n        image: alpine:latest\n\
+    \        imagePullPolicy: IfNotPresent\n        name: idps\n---\napiVersion: v1\n\
+    kind: Service\nmetadata:\n  name: PLACEHOLDER_NAME-svc\n  namespace: core-router\n\
+    spec:\n  ports:\n  - name: web\n    port: 80\n    targetPort: 80\n  selector:\n\
+    \    app: PLACEHOLDER_NAME\n"
+kind: ConfigMap
+metadata:
+  name: vnf-inputs
+  namespace: core-router

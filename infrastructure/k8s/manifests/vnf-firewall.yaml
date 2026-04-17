@@ -1,0 +1,35 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: PLACEHOLDER_NAME
+  namespace: core-router
+  labels:
+    core-router/role: firewall
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: PLACEHOLDER_NAME
+  template:
+    metadata:
+      labels:
+        app: PLACEHOLDER_NAME
+    spec:
+      containers:
+      - name: firewall
+        image: alpine:latest
+        command: ["/bin/sh", "-c", "echo 'Firewall Running'; sleep infinity"]
+        imagePullPolicy: IfNotPresent
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: PLACEHOLDER_NAME-svc
+  namespace: core-router
+spec:
+  selector:
+    app: PLACEHOLDER_NAME
+  ports:
+  - name: web
+    port: 80
+    targetPort: 80

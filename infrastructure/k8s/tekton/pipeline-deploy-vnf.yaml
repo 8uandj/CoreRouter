@@ -1,0 +1,33 @@
+apiVersion: tekton.dev/v1
+kind: Pipeline
+metadata:
+  name: vnf-deploy
+  namespace: tekton-pipelines
+spec:
+  workspaces:
+  - name: ws
+  params:
+  - name: deployName
+  - name: fileName
+  tasks:
+  - name: prepare-manifest
+    taskRef: { name: prepare-vnf }
+    workspaces:
+    - name: ws
+      workspace: ws
+    params:
+    - name: deployName
+      value: $(params.deployName)
+    - name: fileName
+      value: $(params.fileName)
+  - name: instantiate-vnf
+    runAfter: [prepare-manifest]
+    taskRef: { name: kubectl-apply-file }
+    workspaces:
+    - name: ws
+      workspace: ws
+    params:
+    - name: filePath
+      value: /workspace/ws/final.yaml
+    - name: namespace
+      value: vnf
