@@ -1,242 +1,214 @@
 """
-gnn_policy.py — Deep Graph Reinforcement Learning (DGRL)
-Triển khai Graph Attention Network (GAT) làm Policy Backbone cho PPO.
+gnn_policy.py — Deep Graph Reinforcement Learning (DGRL) v3 (Phase 7)
 
-Kiến trúc:
-  Input: Node Feature Matrix (num_nodes x node_feat_dim) + Adjacency Matrix
-      → 2 x GAT Layer (Attention-weighted message passing)
-      → Flatten + Linear → pi (actor) & vf (critic)
+Sửa lỗi nghiêm trọng của Phase 6:
+    - [BUG FIX] Ma trận kề (Adjacency) trả về dạng tĩnh thuần túy (chỉ cáp quang vật lý).
+      Phase 6 đã động hoá A theo MSD residual, phá hủy tính ổn định phổ đồ thị và khiến
+      Critic không hội tụ (explained_variance ≈ 0 sau 290K steps).
+    - [PRINCIPLE] Adjacency mô tả CẤU TRÚC, Node Features mô tả TRẠNG THÁI.
+      GAT sẽ tự học attention weights từ msd_free_ratio (dim 3 của node feat) —
+      không cần bóp méo cấu trúc đồ thị để "gợi ý" cho Agent.
 
-Ưu điểm so với MLP thuần:
-  - "Hiểu" cấu trúc đồ thị mạng: Node gần nhau có attention weight cao hơn.
-  - Có khả năng generalize sang topologies khác nhau.
-  - Tự học được "trọng tâm" của đồ thị theo từng bước thời gian.
+Kiến trúc v3:
+    Input (B, 10, 4) + adj_static (10, 10)
+      → GAT Layer 1 [concat, 4 heads, 64 dim]
+      → Dropout(0.1) + LayerNorm          ← ổn định gradient
+      → GAT Layer 2 [mean-pool, 4 heads, 64 dim]
+      + Residual skip (Linear in_d → 64)
+      → Flatten (B, 10*64)
+      + Request Encoder (MLP 8→32→16)
+      → Fusion MLP (640+16 → 512 → 256)  ← features_dim
 """
 
 import torch
 import torch.nn as nn
 import torch.nn.functional as F
-import numpy as np
-from typing import Callable, Dict, List, Optional, Tuple, Type, Union
 
-from stable_baselines3.common.policies import ActorCriticPolicy
+from sb3_contrib.common.maskable.policies import MaskableActorCriticPolicy
 from stable_baselines3.common.torch_layers import BaseFeaturesExtractor
 from gymnasium import spaces
 
+from src.orchestration.jo_vdpr.topology import (
+    LATENCY_MATRIX, NUM_NODES, get_adjacency_matrix
+)
+
 
 # ═══════════════════════════════════════════════════════════════
-#  1. Graph Attention Network (GAT) Layer
+#  1. GAT Layer — không thay đổi logic, cải tiến masking
 # ═══════════════════════════════════════════════════════════════
 class GATLayer(nn.Module):
     """
-    Multi-head Graph Attention Layer.
-    Tính attention weight giữa các cặp node dựa trên đặc trưng của chúng,
-    sau đó tổng hợp (aggregate) thông tin từ các node lân cận.
+    Multi-head Graph Attention Layer với soft masking.
+
+    Args:
+        in_features  : chiều đầu vào mỗi node
+        out_features : chiều đầu ra mỗi head
+        num_heads    : số heads
+        concat       : True → concat heads (B,N,H*F); False → mean (B,N,F)
+        dropout      : dropout trên attention weights
+
+    I/O:
+        h   : (B, N, in_features)
+        adj : (B, N, N) hoặc (N, N) — trọng số [0,1], tĩnh hoặc bất kỳ
+        → (B, N, out_features*H hoặc out_features)
     """
-    def __init__(self, in_features: int, out_features: int, num_heads: int = 4,
-                 dropout: float = 0.0, concat: bool = True):
-        super(GATLayer, self).__init__()
-        self.in_features  = in_features
+    def __init__(self, in_features: int, out_features: int,
+                 num_heads: int = 4, concat: bool = True,
+                 dropout: float = 0.1):
+        super().__init__()
         self.out_features = out_features
         self.num_heads    = num_heads
         self.concat       = concat
-        self.dropout      = nn.Dropout(dropout)
+        self.attn_drop    = nn.Dropout(dropout)
 
-        # Learnable weights
         self.W = nn.Linear(in_features, out_features * num_heads, bias=False)
         self.a = nn.Parameter(torch.empty(num_heads, 2 * out_features))
-        nn.init.xavier_uniform_(self.a)
+        nn.init.xavier_uniform_(self.a.unsqueeze(0))
 
     def forward(self, h: torch.Tensor, adj: torch.Tensor) -> torch.Tensor:
-        """
-        h   : (batch, N, in_features)  — Node features
-        adj : (batch, N, N) or (N, N)   — Adjacency matrix (normalized)
-        Returns: (batch, N, out_features*num_heads) if concat else (batch, N, out_features)
-        """
-        batch = h.size(0)
-        N     = h.size(1)
+        B, N, _ = h.shape
 
-        # Linear projection: (B, N, out*H)
-        Wh = self.W(h).view(batch, N, self.num_heads, self.out_features)
-        # → (B, N, H, F)
+        Wh   = self.W(h).view(B, N, self.num_heads, self.out_features)       # (B,N,H,F)
+        Whi  = Wh.unsqueeze(2).expand(-1, -1, N, -1, -1)                     # (B,N,N,H,F)
+        Whj  = Wh.unsqueeze(1).expand(-1, N, -1, -1, -1)                     # (B,N,N,H,F)
+        pair = torch.cat([Whi, Whj], dim=-1)                                  # (B,N,N,H,2F)
 
-        # Attention scores dùng broadcasting
-        # (B, N, 1, H, F) vs (B, 1, N, H, F) → (B, N, N, H, 2F)
-        Whi = Wh.unsqueeze(2).expand(-1, -1, N, -1, -1)  # (B,N,N,H,F)
-        Whj = Wh.unsqueeze(1).expand(-1, N, -1, -1, -1)  # (B,N,N,H,F)
-        pair = torch.cat([Whi, Whj], dim=-1)              # (B,N,N,H,2F)
+        a4   = self.a.unsqueeze(0).unsqueeze(0).unsqueeze(0)                  # (1,1,1,H,2F)
+        e    = F.leaky_relu((pair * a4).sum(-1), 0.2).permute(0, 3, 1, 2)    # (B,H,N,N)
 
-        # a : (H, 2F) → (1,1,1,H,2F)
-        a_vec = self.a.unsqueeze(0).unsqueeze(0).unsqueeze(0)
-        e = F.leaky_relu((pair * a_vec).sum(dim=-1), negative_slope=0.2)  # (B,N,N,H)
-        e = e.permute(0, 3, 1, 2)  # (B,H,N,N)
-
-        # Mask với adjacency (chỉ attend các node kết nối)
+        # ── Soft masking: cạnh không kết nối → -∞ ──────────────────
         if adj.dim() == 2:
-            adj = adj.unsqueeze(0).unsqueeze(0)  # (1,1,N,N)
-        else:
-            adj = adj.unsqueeze(1)               # (B,1,N,N)
+            adj = adj.unsqueeze(0).unsqueeze(0)   # (1,1,N,N)
+        elif adj.dim() == 3:
+            adj = adj.unsqueeze(1)                # (B,1,N,N)
+        adj_c = adj.clamp(0.0, 1.0)
+        e     = e + (adj_c - 1.0) * 1e9           # mask disconnected edges
 
-        INF = -1e9
-        e = e + (1.0 - adj.clamp(0, 1)) * INF   # Mask disconnected
-
-        alpha = F.softmax(e, dim=-1)             # (B,H,N,N)
-        alpha = self.dropout(alpha)
-
-        # Aggregation: h' = alpha @ Wh
-        # Wh: (B,N,H,F) → (B,H,N,F)
-        Wh_p = Wh.permute(0, 2, 1, 3)           # (B,H,N,F)
-        out = torch.matmul(alpha, Wh_p)          # (B,H,N,F)
-        out = out.permute(0, 2, 1, 3)            # (B,N,H,F)
+        alpha = self.attn_drop(F.softmax(e, dim=-1))                          # (B,H,N,N)
+        out   = torch.matmul(alpha, Wh.permute(0, 2, 1, 3))                  # (B,H,N,F)
+        out   = out.permute(0, 2, 1, 3)                                       # (B,N,H,F)
 
         if self.concat:
-            out = out.contiguous().view(batch, N, -1)  # (B,N,H*F)
-        else:
-            out = out.mean(dim=2)                      # (B,N,F)
-
-        return F.elu(out)
+            return F.elu(out.contiguous().view(B, N, -1))   # (B,N,H*F)
+        return F.elu(out.mean(2))                            # (B,N,F)
 
 
 # ═══════════════════════════════════════════════════════════════
-#  2. GNN Feature Extractor (tích hợp vào SB3)
+#  2. GNN Feature Extractor v3 — Static Adjacency
 # ═══════════════════════════════════════════════════════════════
 class GNNFeaturesExtractor(BaseFeaturesExtractor):
     """
-    Trích xuất đặc trưng từ observation bằng 2 lớp GAT.
+    Phase 7 Feature Extractor.
 
-    Observation shape: (23,)  = 5 nodes × 3 features + 3 request + 5 traffic_class
-        node_features : (5, 3) — [cpu_used_norm, ram_used_norm, msd_used_norm]
-        request_feat  : (3,)   — [cpu_req, ram_req, msd_req]
-        traffic_class : (5,)   — One-hot
+    Observation layout (48 dims, 10 nodes x 4 feats + 8 request):
+        [0..39]  : node features × 10
+                   [cpu_norm, ram_norm, msd_used_norm, msd_free_norm]
+        [40..42] : request (cpu_req, ram_req, msd_req)
+        [43..47] : traffic class one-hot
 
-    Adjacency matrix được tính từ LATENCY_MATRIX (cạnh tồn tại khi latency < ngưỡng).
+    Nguyên tắc thiết kế:
+        adj (tĩnh) = cáp quang vật lý (Geodesic threshold)
+        msd_free   = Node Feature dim 3 → GAT tự học attention weight
+                     → Agent tự né node full-MSD qua gradient,
+                       KHÔNG thông qua bóp méo adjacency.
     """
-    # Latency matrix từ env (ms)
-    LATENCY_MATRIX = torch.tensor([
-        [ 0,   2,   5,   8, 200],
-        [ 2,   0,   2,   5, 198],
-        [ 5,   2,   0,   2, 195],
-        [ 8,   5,   2,   0, 192],
-        [200, 198, 195, 192,   0],
-    ], dtype=torch.float32)
-
-    # Chỉ connect nodes có latency < 20ms (nội bộ DC)
-    LATENCY_THRESHOLD = 20.0
+    NODE_FEAT_DIM = 4
+    REQ_DIM       = 3
+    TRAFFIC_DIM   = 5
 
     def __init__(self, observation_space: spaces.Box,
-                 num_nodes: int = 5,
-                 node_feat_dim: int = 3,   # cpu, ram, msd per node
-                 gat_hidden: int = 64,
-                 gat_heads: int = 4,
-                 num_gat_layers: int = 2,
+                 num_nodes:    int = NUM_NODES,
+                 gat_hidden:   int = 64,
+                 gat_heads:    int = 4,
                  features_dim: int = 256):
         super().__init__(observation_space, features_dim=features_dim)
+        self.num_nodes  = num_nodes
+        self.gat_hidden = gat_hidden
 
-        self.num_nodes    = num_nodes
-        self.node_feat_d  = node_feat_dim
-        self.req_feat_d   = 3   # cpu_req, ram_req, msd_req
-        self.traffic_d    = 5   # one-hot traffic class
+        # ── Static Adjacency (chỉ thay đổi khi cáp quang đứt) ──────
+        adj_np   = get_adjacency_matrix(threshold_ms=15.0)[:num_nodes, :num_nodes]
+        adj_t    = torch.tensor(adj_np, dtype=torch.float32)
+        # D^{-1/2} A D^{-1/2} normalisation
+        deg      = adj_t.sum(1, keepdim=True).clamp(min=1e-9).sqrt()
+        adj_norm = adj_t / (deg * deg.T)
+        self.register_buffer('adj', adj_norm)          # (N, N), không trainable
 
-        # Adjacency matrix (không thay đổi trong training)
-        adj_raw = (self.LATENCY_MATRIX < self.LATENCY_THRESHOLD).float()
-        # Thêm self-loop
-        adj_raw = adj_raw + torch.eye(num_nodes)
-        # Normalize D^{-1/2} A D^{-1/2}
-        deg = adj_raw.sum(dim=1, keepdim=True).sqrt().clamp(min=1e-9)
-        self.register_buffer('adj', adj_raw / (deg * deg.T))
+        # ── GAT stack ───────────────────────────────────────────────
+        # Layer 1: concat → (B, N, H*F)
+        self.gat1     = GATLayer(self.NODE_FEAT_DIM, gat_hidden,
+                                 num_heads=gat_heads, concat=True,  dropout=0.1)
+        mid_d         = gat_hidden * gat_heads         # 256
+        # LayerNorm sau layer 1 để ổn định training sâu
+        self.ln1      = nn.LayerNorm(mid_d)
 
-        # GAT layers: node_feat_dim → gat_hidden*heads → gat_hidden
-        self.gat_layers = nn.ModuleList()
-        in_d = node_feat_dim
-        for i in range(num_gat_layers):
-            if i < num_gat_layers - 1:
-                self.gat_layers.append(GATLayer(in_d, gat_hidden, num_heads=gat_heads, concat=True))
-                in_d = gat_hidden * gat_heads
-            else:
-                # Final layer: mean-aggregate để giảm chiều
-                self.gat_layers.append(GATLayer(in_d, gat_hidden, num_heads=gat_heads, concat=False))
-                in_d = gat_hidden
+        # Layer 2: mean-pool → (B, N, F)
+        self.gat2     = GATLayer(mid_d, gat_hidden,
+                                 num_heads=gat_heads, concat=False, dropout=0.0)
 
-        # Graph embedding sau khi flatten: num_nodes * gat_hidden
-        graph_embed_dim = num_nodes * in_d
+        # Residual projection input → gat_hidden
+        self.skip     = nn.Linear(self.NODE_FEAT_DIM, gat_hidden, bias=False)
 
-        # Request + traffic class feature
-        req_embed_dim = 16
-        self.req_encoder = nn.Sequential(
-            nn.Linear(self.req_feat_d + self.traffic_d, req_embed_dim),
+        # ── Request encoder ─────────────────────────────────────────
+        self.req_enc  = nn.Sequential(
+            nn.Linear(self.REQ_DIM + self.TRAFFIC_DIM, 32),
+            nn.ReLU(),
+            nn.Linear(32, 16),
             nn.ReLU()
         )
 
-        # Final fusion MLP → features_dim
-        self.fusion = nn.Sequential(
-            nn.Linear(graph_embed_dim + req_embed_dim, 512),
+        # ── Fusion MLP ──────────────────────────────────────────────
+        graph_dim     = num_nodes * gat_hidden          # 10 * 64 = 640
+        self.fusion   = nn.Sequential(
+            nn.Linear(graph_dim + 16, 512),
+            nn.LayerNorm(512),
             nn.ReLU(),
+            nn.Dropout(0.05),
             nn.Linear(512, features_dim),
             nn.ReLU()
         )
 
-    def forward(self, observations: torch.Tensor) -> torch.Tensor:
-        """
-        observations: (batch, 23)
-        """
-        B = observations.size(0)
+    def forward(self, obs: torch.Tensor) -> torch.Tensor:
+        B = obs.size(0)
+        N = self.num_nodes
 
-        # Tách node features: index 0..14 (5 nodes × 3 feats)
-        node_part = observations[:, :self.num_nodes * self.node_feat_d]  # (B, 15)
-        node_feat = node_part.view(B, self.num_nodes, self.node_feat_d)  # (B, 5, 3)
+        # Tách features
+        node_feat = obs[:, :N * self.NODE_FEAT_DIM].view(B, N, self.NODE_FEAT_DIM)
+        req_part  = obs[:, N * self.NODE_FEAT_DIM:]               # (B, 8)
 
-        # Request + traffic class: index 15..22
-        req_part  = observations[:, self.num_nodes * self.node_feat_d:]  # (B, 8)
+        # Static adj broadcast
+        adj = self.adj.unsqueeze(0).expand(B, -1, -1)             # (B, N, N)
 
-        # GAT forward pass
-        adj = self.adj.unsqueeze(0).expand(B, -1, -1)  # (B, 5, 5)
-        h = node_feat
-        for gat in self.gat_layers:
-            h = gat(h, adj)  # (B, 5, hidden)
+        # GAT forward
+        h1  = self.ln1(self.gat1(node_feat, adj))                 # (B, N, H*F)
+        h2  = self.gat2(h1, adj)                                   # (B, N, F)
 
-        # Flatten graph output: (B, 5*hidden)
-        graph_embed = h.contiguous().view(B, -1)
+        # Residual: project input → gat_hidden, add
+        h_out = h2 + self.skip(node_feat)                          # (B, N, gat_hidden)
 
-        # Encode request
-        req_embed = self.req_encoder(req_part)  # (B, 16)
+        graph_embed = h_out.contiguous().view(B, -1)               # (B, N*gat_hidden)
+        req_embed   = self.req_enc(req_part)                       # (B, 16)
 
-        # Fusion
-        fused = torch.cat([graph_embed, req_embed], dim=-1)
-        return self.fusion(fused)  # (B, features_dim)
+        return self.fusion(torch.cat([graph_embed, req_embed], -1))
 
 
 # ═══════════════════════════════════════════════════════════════
-#  3. GNN Actor-Critic Policy cho SB3
+#  3. GNN Actor-Critic Policy
 # ═══════════════════════════════════════════════════════════════
-class GNNActorCriticPolicy(ActorCriticPolicy):
-    """
-    PPO Policy sử dụng GNN Feature Extractor thay vì MLP thuần.
-    Tương thích hoàn toàn với stable_baselines3 PPO.
-    """
+class GNNActorCriticPolicy(MaskableActorCriticPolicy):
+    """PPO Policy v3 — Static-Adj GAT, LayerNorm, Dropout."""
     def __init__(self, observation_space, action_space, lr_schedule,
-                 num_nodes: int = 5,
-                 gat_hidden: int = 64,
-                 gat_heads: int = 4,
+                 num_nodes:    int = NUM_NODES,
+                 gat_hidden:   int = 64,
+                 gat_heads:    int = 4,
                  features_dim: int = 256,
                  **kwargs):
-        # Loại bỏ net_arch nếu được truyền vào (GNN tự xử lý)
         kwargs.pop('net_arch', None)
-
-        self._gnn_num_nodes  = num_nodes
-        self._gnn_gat_hidden = gat_hidden
-        self._gnn_gat_heads  = gat_heads
-        self._gnn_feat_dim   = features_dim
-
         super().__init__(
-            observation_space,
-            action_space,
-            lr_schedule,
+            observation_space, action_space, lr_schedule,
             features_extractor_class=GNNFeaturesExtractor,
             features_extractor_kwargs=dict(
-                num_nodes=num_nodes,
-                gat_hidden=gat_hidden,
-                gat_heads=gat_heads,
-                features_dim=features_dim,
+                num_nodes=num_nodes, gat_hidden=gat_hidden,
+                gat_heads=gat_heads, features_dim=features_dim,
             ),
             net_arch=dict(pi=[256, 128], vf=[256, 128]),
             **kwargs

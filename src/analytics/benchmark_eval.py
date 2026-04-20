@@ -1,12 +1,10 @@
 """
-benchmark_eval.py — Đánh giá 4 nhóm thuật toán cho JO-VDPR (v2)
+benchmark_eval.py — Đánh giá 4 nhóm thuật toán cho JO-VDPR (v4)
 
-Cải tiến so với v1:
-- Tương thích env v2 (observation 18 features, episode 100 steps)
-- NUM_EPISODES tăng lên 1000 (kiểm tra kỹ hơn)
-- Thêm metric: MSD violation rate, avg latency proxy
-- Thêm box plot (variance analysis cho luận văn)
-- Tự động so sánh PPO v1 vs PPO v2 nếu cả hai model tồn tại
+Cải tiến so với v3:
+- Tương thích Phase 8 (MaskablePPO, Proportional Reward)
+- Thêm metric: Processing Latency, Switching Cost
+- Tự động load model Phase 8 (dgrl_v8.zip)
 """
 
 import os
@@ -16,7 +14,15 @@ import matplotlib
 matplotlib.use('Agg')
 import matplotlib.pyplot as plt
 import matplotlib.patches as mpatches
+import logging
+import random
+from dataclasses import dataclass, field
+from typing import Dict, List, Any
 
+logging.basicConfig(level=logging.INFO, format='%(asctime)s [%(levelname)s] %(message)s')
+logger = logging.getLogger("JO-VDPR-Benchmark")
+
+from sb3_contrib import MaskablePPO
 from stable_baselines3 import PPO
 
 sys.path.append(os.path.dirname(os.path.abspath(__file__)))
@@ -25,159 +31,185 @@ sys.path.append(os.path.join(os.path.dirname(os.path.abspath(__file__)),
 from src.orchestration.jo_vdpr.env import JOVDPREnv
 from src.infrastructure.persistence.csv_repository import CSVRepository
 from src.orchestration.jo_vdpr.rewards import RewardCalculator
+from src.orchestration.jo_vdpr.gnn_policy import GNNActorCriticPolicy
 
-NUM_EPISODES = 1000   # Tăng từ 500 → 1000 để variance thấp hơn
-WINDOW_SIZE  = 50     # Window cho rolling stats
+NUM_EPISODES = 5000   # Stress-Test Scale
+WINDOW_SIZE  = 100    # Window cho rolling stats
+
+@dataclass
+class BenchmarkMetrics:
+    name: str
+    acceptance_list: List[bool] = field(default_factory=list)
+    rewards: List[float] = field(default_factory=list)
+    latencies: List[float] = field(default_factory=list)
+    msd_violations: List[bool] = field(default_factory=list)
+    cpu_variance: List[float] = field(default_factory=list)
+    energy_index: float = 0.0
+    sla_compliance: Dict[str, List[bool]] = field(default_factory=lambda: {
+        'IoT': [], 'Video': [], 'VoIP': [], 'Data': [], 'Attack': []
+    })
+
+    @property
+    def acceptance_rate(self):
+        return sum(self.acceptance_list) / len(self.acceptance_list) * 100 if self.acceptance_list else 0
+
+    @property
+    def msd_viol_rate(self):
+        return sum(self.msd_violations) / len(self.msd_violations) * 100 if self.msd_violations else 0
+
+    @property
+    def avg_latency(self):
+        return np.mean(self.latencies) if self.latencies else 0
+
+    @property
+    def avg_cpu_var(self):
+        return np.mean(self.cpu_variance) if self.cpu_variance else 0
 
 
 # ═══════════════════════════════════════════════════════════════════════
 #  BASELINE 1: Optimal ILP (Exhaustive Search trong testbed nhỏ)
 # ═══════════════════════════════════════════════════════════════════════
 def run_ilp_optimal(env):
-    """
-    Upper bound lý thuyết: duyệt n² combinations, chọn action tốt nhất.
-    Chỉ khả thi vì testbed chỉ có 5 nodes (25 combinations).
-    """
+    """Upper bound lý thuyết: Duyệt n² combinations, chọn action tốt nhất."""
+    np.random.seed(42)
+    random.seed(42)
+    metrics = BenchmarkMetrics("Optimal (ILP)")
     state, _ = env.reset()
-    total_reward = 0
-    accepts = 0
-    msd_violations = 0
 
     for ep in range(NUM_EPISODES):
-        best_action = None
-        best_reward = -float('inf')
-
-        # Lưu state
-        saved_raw   = env._raw_state.copy()
+        best_action, best_reward = None, -float('inf')
+        
+        # Snapshot state
+        saved_state = env._state.copy()
         saved_req   = dict(env._current_req)
-        saved_ts    = env.current_time_step
+        saved_step  = env.current_step
 
+        # Optimized loop
         for v1 in range(env.num_nodes):
             for v2 in range(env.num_nodes):
-                # Restore rồi thử action
-                env._raw_state       = saved_raw.copy()
-                env._current_req     = dict(saved_req)
-                env.current_time_step = saved_ts
+                env._state, env._current_req, env.current_step = saved_state.copy(), dict(saved_req), saved_step
                 _, r, _, _, _ = env.step([v1, v2])
                 if r > best_reward:
-                    best_reward = r
-                    best_action = [v1, v2]
+                    best_reward, best_action = r, [v1, v2]
+        
+        if (ep + 1) % 500 == 0:
+            print(f"    ... Finished {ep + 1}/{NUM_EPISODES} episodes")
 
-        # Restore lần cuối rồi thực thi action tốt nhất
-        env._raw_state       = saved_raw.copy()
-        env._current_req     = dict(saved_req)
-        env.current_time_step = saved_ts
-        _, actual_reward, done, _, info = env.step(best_action)
+        # Execute best
+        env._state, env._current_req, env.current_step = saved_state.copy(), dict(saved_req), saved_step
+        _, reward, done, _, info = env.step(best_action)
+        
+        # Collect Metrics
+        metrics.acceptance_list.append(reward > 0)
+        metrics.rewards.append(reward)
+        metrics.latencies.append(info.get('total_latency_ms', 0))
+        metrics.msd_violations.append('MSD' in info.get('error_log', ''))
+        
+        # Power & Balance
+        cpu_utils = [env._state[i*3]/env.max_cpu for i in range(env.num_nodes)]
+        metrics.cpu_variance.append(np.std(cpu_utils))
+        metrics.energy_index += sum([100 + 150 * u for u in cpu_utils])
 
-        if actual_reward > 0:
-            accepts += 1
-        else:
-            if 'MSD' in info.get('error_log', ''):
-                msd_violations += 1
-        total_reward += actual_reward
-        if done:
-            env.reset()
+        if done: env.reset()
 
-    return total_reward, accepts, msd_violations
+    return metrics
 
-
-# ═══════════════════════════════════════════════════════════════════════
-#  BASELINE 2: NSF Greedy (Nearest Service Function — luôn chọn Node 0)
-# ═══════════════════════════════════════════════════════════════════════
 def run_nsf_greedy(env):
-    """Heuristic tham lam: luôn đặt vào Node 0 và Node 1 (gần nhất)."""
+    """Heuristic: Luôn chọn Node 0 và Node 1."""
+    np.random.seed(42)
+    random.seed(42)
+    metrics = BenchmarkMetrics("NSF (Greedy)")
     state, _ = env.reset()
-    total_reward = 0
-    accepts = 0
-    msd_violations = 0
 
     for _ in range(NUM_EPISODES):
-        action = [0, 1]  # Greedy: 2 node đầu tiên
+        action = [0, 1]
         _, reward, done, _, info = env.step(action)
-        if reward > 0:
-            accepts += 1
-        else:
-            if 'MSD' in info.get('error_log', ''):
-                msd_violations += 1
-        total_reward += reward
-        if done:
-            env.reset()
+        
+        metrics.acceptance_list.append(reward > 0)
+        metrics.rewards.append(reward)
+        metrics.latencies.append(info.get('total_latency_ms', 0))
+        metrics.msd_violations.append('MSD' in info.get('error_log', ''))
+        
+        cpu_utils = [env._state[i*3]/env.max_cpu for i in range(env.num_nodes)]
+        metrics.cpu_variance.append(np.std(cpu_utils))
+        metrics.energy_index += sum([100 + 150 * u for u in cpu_utils])
 
-    return total_reward, accepts, msd_violations
+        if done: env.reset()
+
+    return metrics
 
 
 # ═══════════════════════════════════════════════════════════════════════
 #  BASELINE 3: Decoupled AI (Topology-Blind, 2-stage sequential)
 # ═══════════════════════════════════════════════════════════════════════
 def run_decoupled_ai(env):
-    """
-    Phân mảnh 2 chu kỳ:
-    Stage 1 — Bot 1 chọn node có nhiều CPU nhất (không quan tâm MSD)
-    Stage 2 — Bot 2 chọn node cách xa nhất (không join với stage 1)
-    → Topology-blind: không biết MSD limits, dễ vi phạm hardware
-    """
+    """Stage 1: Max Free CPU, Stage 2: Static Offset."""
+    np.random.seed(42)
+    random.seed(42)
+    metrics = BenchmarkMetrics("Decoupled AI")
     state, _ = env.reset()
-    total_reward = 0
-    accepts = 0
-    msd_violations = 0
 
     for _ in range(NUM_EPISODES):
-        # Lấy CPU usage từ state (normalized, index 0, 3, 6, 9, 12)
         cpu_used_norm = [state[i * 3] for i in range(env.num_nodes)]
-        v1 = int(np.argmin(cpu_used_norm))   # Node ít CPU nhất (max free)
-        v2 = (v1 + 2) % env.num_nodes        # Node "xa" nhất theo ID
+        v1 = int(np.argmin(cpu_used_norm))
+        v2 = (v1 + 2) % env.num_nodes
 
         new_state, reward, terminated, truncated, info = env.step([v1, v2])
         done = terminated or truncated
         
-        if reward > 0:
-            accepts += 1
-        else:
-            if 'MSD' in info.get('error_log', ''):
-                msd_violations += 1
-        total_reward += reward
+        metrics.acceptance_list.append(reward > 0)
+        metrics.rewards.append(reward)
+        metrics.latencies.append(info.get('total_latency_ms', 0))
+        metrics.msd_violations.append('MSD' in info.get('error_log', ''))
         
-        if done:
-            state, _ = env.reset()
-        else:
-            state = new_state
+        cpu_utils = [env._state[i*3]/env.max_cpu for i in range(env.num_nodes)]
+        metrics.cpu_variance.append(np.std(cpu_utils))
+        metrics.energy_index += sum([100 + 150 * u for u in cpu_utils])
+        
+        if done: state, _ = env.reset()
+        else: state = new_state
 
-    return total_reward, accepts, msd_violations
+    return metrics
 
 
 # ═══════════════════════════════════════════════════════════════════════
 #  SẢN PHẨM: JO-VDPR PPO (Joint Optimization — Centralized RL)
 # ═══════════════════════════════════════════════════════════════════════
 def run_jo_vdpr_ppo(env, model_path):
-    """JO-VDPR: PPO với hardware-aware reward và topology knowledge."""
+    """JO-VDPR: PPO với hardware-aware reward và GAT topology knowledge."""
     if not os.path.exists(model_path):
-        print(f"  ❗ Model không tồn tại: {model_path}")
-        return 0, 0, 0
+        return BenchmarkMetrics("JO-VDPR (N/A)")
 
-    model = PPO.load(model_path)
+    custom_objects = {"policy_class": GNNActorCriticPolicy}
+    try:
+        model = MaskablePPO.load(model_path, custom_objects=custom_objects)
+    except Exception:
+        model = PPO.load(model_path, custom_objects=custom_objects)
+
+    np.random.seed(42)
+    random.seed(42)
+    metrics = BenchmarkMetrics("JO-VDPR (Ours)")
     state, _ = env.reset()
-    total_reward = 0
-    accepts = 0
-    msd_violations = 0
 
     for _ in range(NUM_EPISODES):
-        action, _ = model.predict(state, deterministic=True)
+        masks = env.action_masks()
+        action, _ = model.predict(state, action_masks=masks, deterministic=True)
         new_state, reward, terminated, truncated, info = env.step(action)
         done = terminated or truncated
         
-        if reward > 0:
-            accepts += 1
-        else:
-            if 'MSD' in info.get('error_log', ''):
-                msd_violations += 1
-        total_reward += reward
+        metrics.acceptance_list.append(reward > 0)
+        metrics.rewards.append(reward)
+        metrics.latencies.append(info.get('total_latency_ms', 0))
+        metrics.msd_violations.append('MSD' in info.get('error_log', ''))
         
-        if done:
-            state, _ = env.reset()
-        else:
-            state = new_state
+        cpu_utils = [env._state[i*3]/env.max_cpu for i in range(env.num_nodes)]
+        metrics.cpu_variance.append(np.std(cpu_utils))
+        metrics.energy_index += sum([100 + 150 * u for u in cpu_utils])
+        
+        if done: state, _ = env.reset()
+        else: state = new_state
 
-    return total_reward, accepts, msd_violations
+    return metrics
 
 
 # ═══════════════════════════════════════════════════════════════════════
@@ -199,7 +231,10 @@ def run_with_rolling_stats(env, runner_fn, model_path=None, n_windows=20):
             if model_path:
                 model = getattr(runner_fn, '_model_cache', None)
                 if model is None:
-                    model = PPO.load(model_path)
+                    try:
+                        model = MaskablePPO.load(model_path)
+                    except:
+                        model = PPO.load(model_path)
                     runner_fn._model_cache = model
                 action, _ = model.predict(state, deterministic=True)
             else:
@@ -300,90 +335,104 @@ def plot_comparison_v1_v2(labels_v1, acc_v1, labels_v2, acc_v2, filepath):
     ax.legend(fontsize=11)
     ax.grid(axis='y', alpha=0.3)
     plt.tight_layout()
-    plt.savefig(filepath, dpi=150, bbox_inches='tight')
-    plt.close(fig)
-    print(f"  ✅ Saved: {filepath}")
+def plot_stress_test_dashboard(all_metrics: List[BenchmarkMetrics], filepath: str):
+    fig, axes = plt.subplots(2, 3, figsize=(18, 10))
+    colors = ['#94a3b8', '#ef4444', '#f59e0b', '#10b981']
+    labels = [m.name for m in all_metrics]
 
+    # 1. Acceptance Rate
+    accs = [m.acceptance_rate for m in all_metrics]
+    axes[0, 0].bar(labels, accs, color=colors)
+    axes[0, 0].set_title("Acceptance Ratio (%)")
+    axes[0, 0].set_ylim(0, 110)
 
-# ═══════════════════════════════════════════════════════════════════════
-#  MAIN
-# ═══════════════════════════════════════════════════════════════════════
+    # 2. Cumulative Reward
+    rews = [sum(m.rewards) for m in all_metrics]
+    axes[0, 1].bar(labels, rews, color=colors)
+    axes[0, 1].set_title("Cumulative Utility (Reward)")
+
+    # 3. Average Latency
+    lats = [m.avg_latency for m in all_metrics]
+    axes[0, 2].bar(labels, lats, color=colors)
+    axes[0, 2].set_title("Avg Latency (ms)")
+
+    # 4. Energy Index
+    energies = [m.energy_index / 1e6 for m in all_metrics]  # Scaled
+    axes[1, 0].bar(labels, energies, color=colors)
+    axes[1, 0].set_title("Energy Consumption Index (MJ)")
+
+    # 5. Load Balance (CPU Variance)
+    vars = [m.avg_cpu_var for m in all_metrics]
+    axes[1, 1].bar(labels, vars, color=colors)
+    axes[1, 1].set_title("Avg CPU Load Variance (Lower=Better)")
+
+    # 6. MSD Violations
+    viols = [m.msd_viol_rate for m in all_metrics]
+    axes[1, 2].bar(labels, viols, color=colors)
+    axes[1, 2].set_title("MSD Violation Rate (%)")
+
+    plt.tight_layout()
+    plt.savefig(filepath, dpi=150)
+    plt.close()
+
+def plot_radar_chart(all_metrics: List[BenchmarkMetrics], filepath: str):
+    from math import pi
+    categories = ['Acceptance', 'Utility', 'Safety (1-Viol)', 'Latency', 'Balance']
+    N = len(categories)
+    
+    fig = plt.figure(figsize=(8, 8))
+    ax = fig.add_subplot(111, polar=True)
+    
+    colors = ['#94a3b8', '#ef4444', '#f59e0b', '#10b981']
+    
+    for i, m in enumerate(all_metrics):
+        # Normalize stats for radar
+        values = [
+            m.acceptance_rate / 100,
+            sum(m.rewards) / 1.5e5,  # Estimate max
+            (100 - m.msd_viol_rate) / 100,
+            max(0, (100 - m.avg_latency) / 100),
+            max(0, (1 - m.avg_cpu_var*5))
+        ]
+        values += values[:1]
+        angles = [n / float(N) * 2 * pi for n in range(N)]
+        angles += angles[:1]
+        
+        ax.plot(angles, values, linewidth=2, linestyle='solid', label=m.name, color=colors[i])
+        ax.fill(angles, values, colors[i], alpha=0.1)
+
+    plt.xticks(angles[:-1], categories)
+    plt.legend(loc='upper right', bbox_to_anchor=(0.1, 0.1))
+    plt.savefig(filepath, dpi=150)
+    plt.close()
+
 if __name__ == "__main__":
-    print("=" * 65)
-    print("  JO-VDPR BENCHMARK v3 (Traffic-Aware) — 4 Thuật Toán Đối Chứng")
-    print(f"  Episodes: {NUM_EPISODES}  |  Dataset: real_telecom_combined.csv")
-    print("=" * 65)
-
-    base_dir   = os.path.dirname(os.path.abspath(__file__))
-    root_dir   = os.path.join(base_dir, '..', '..')
-    
-    # Init Env
+    base_dir = os.path.dirname(os.path.abspath(__file__))
+    root_dir = os.path.join(base_dir, '..', '..')
     repo = CSVRepository(os.path.join(root_dir, 'data', 'real_telecom_combined.csv'))
-    reward_calc = RewardCalculator()
-    env_eval = JOVDPREnv(repository=repo, reward_calculator=reward_calc, num_nodes=5)
+    reward_calc = RewardCalculator(lambda_latency=-300.0)
+    env_eval = JOVDPREnv(repository=repo, reward_calculator=reward_calc, num_nodes=10)
+    model_path = os.path.join(root_dir, 'results', 'models', 'dgrl_v8.zip')
 
-    latest_model = os.path.join(root_dir, 'results', 'models', 'ppo_jo_vdpr_model.zip')
-    best_model   = os.path.join(root_dir, 'results', 'logs', 'ppo', 'best_model', 'best_model.zip')
-
-    # Ưu tiên model v3 mới nhất trong thư mục models/
-    model_to_use = None
-    for mp in [latest_model, best_model]:
-        if os.path.exists(mp):
-            model_to_use = mp
-            print(f"  Using Model: {os.path.basename(mp)}")
-            break
-
-    print("\n[1/4] Optimal (ILP/Exhaustive)...")
-    ilp_r, ilp_acc, ilp_msd = run_ilp_optimal(env_eval)
-
-    print("[2/4] NSF Greedy (Heuristic)...")
-    nsf_r, nsf_acc, nsf_msd = run_nsf_greedy(env_eval)
-
-    print("[3/4] Decoupled AI (Topology-Blind 2-Stage)...")
-    dec_r, dec_acc, dec_msd = run_decoupled_ai(env_eval)
-
-    print("[4/4] JO-VDPR PPO v2 (Joint Optimization)...")
-    if model_to_use:
-        jo_r, jo_acc, jo_msd = run_jo_vdpr_ppo(env_eval, model_to_use)
-    else:
-        print("  ⚠️ Chưa có model — hãy train trước bằng agent_ppo.py")
-        jo_r, jo_acc, jo_msd = 0, 0, 0
-
-    # ── Kết quả ──
-    labels      = ['Optimal (ILP)', 'NSF (Greedy)', 'Decoupled AI', 'JO-VDPR (Ours)']
-    acc_rates   = [ilp_acc/NUM_EPISODES*100, nsf_acc/NUM_EPISODES*100,
-                   dec_acc/NUM_EPISODES*100, jo_acc/NUM_EPISODES*100]
-    rewards     = [ilp_r, nsf_r, dec_r, jo_r]
-    msd_rates   = [ilp_msd/NUM_EPISODES*100, nsf_msd/NUM_EPISODES*100,
-                   dec_msd/NUM_EPISODES*100, jo_msd/NUM_EPISODES*100]
-
-    print("\n" + "─"*65)
-    print(f"{'Algorithm':<20} {'Accept%':>8}  {'Reward':>12}  {'MSD Viol%':>10}")
-    print("─"*65)
-    for lbl, acc, rew, msd in zip(labels, acc_rates, rewards, msd_rates):
-        marker = " ◀ BEST" if acc == max(acc_rates) else ""
-        print(f"{lbl:<20} {acc:>7.1f}%  {rew:>12,.0f}  {msd:>9.1f}%{marker}")
-    print("─"*65)
-
-    # ── Phân tích học thuật ──
-    print("\n[NHẬN XÉT HỌC THUẬT]")
-    gap_to_ilp = acc_rates[0] - acc_rates[3]
-    print(f"  JO-VDPR vs ILP gap:      {gap_to_ilp:+.1f}% (trần lý thuyết)")
-    print(f"  JO-VDPR vs Decoupled:    {acc_rates[3]-acc_rates[2]:+.1f}% (AI vs AI)")
-    print(f"  JO-VDPR MSD viol rate:   {msd_rates[3]:.1f}% (Decoupled: {msd_rates[2]:.1f}%)")
-
-    # ── Vẽ biểu đồ ──
-    print("\n[XUẤT BIỂU ĐỒ]")
-    fig_dir = os.path.join(root_dir, 'results', 'figures')
+    print(f"Starting Stress-Test Benchmark ({NUM_EPISODES} requests)...")
     
-    v1_acc_baseline = [69.6, 36.6, 63.4, 54.0] # Dữ liệu lịch sử v1
+    m_opt = run_ilp_optimal(env_eval)
+    print(f"Done Optimal.")
+    m_nsf = run_nsf_greedy(env_eval)
+    print(f"Done Greedy.")
+    m_dec = run_decoupled_ai(env_eval)
+    print(f"Done Decoupled AI.")
+    m_ppo = run_jo_vdpr_ppo(env_eval, model_path)
+    print(f"Done JO-VDPR.")
 
-    plot_acceptance_ratio(labels, acc_rates, msd_rates,
-                          os.path.join(fig_dir, 'acceptance_ratio_comparison.png'))
-    plot_cumulative_reward(labels, rewards,
-                           os.path.join(fig_dir, 'cumulative_reward_comparison.png'))
+    results = [m_opt, m_nsf, m_dec, m_ppo]
+    fig_dir = os.path.join(root_dir, 'results', 'figures', 'benchmark_stress_test')
+    os.makedirs(fig_dir, exist_ok=True)
     
-    plot_comparison_v1_v2(labels, v1_acc_baseline, labels, acc_rates,
-                          os.path.join(fig_dir, 'before_after_comparison.png'))
-
-    print("\n✅ Benchmark hoàn tất!")
+    plot_stress_test_dashboard(results, os.path.join(fig_dir, 'dashboard_kpi.png'))
+    plot_radar_chart(results, os.path.join(fig_dir, 'radar_comparison.png'))
+    
+    print(f"\nBenchmark Complete. Results saved in {fig_dir}")
+    print("-" * 50)
+    for m in results:
+        print(f"{m.name: <15} | Acc: {m.acceptance_rate:.2f}% | Viol: {m.msd_viol_rate:.2f}% | Energy: {m.energy_index/1e6:.2f}MJ")
