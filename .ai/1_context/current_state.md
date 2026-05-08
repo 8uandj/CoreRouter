@@ -14,11 +14,24 @@
   - Hoàn thành benchmark trên 900,000 steps. Tại kịch bản Stress Test trên GEANT2, JO-VPPM đạt Acceptance Rate **16.4%** (Tăng +121% so với Greedy), giảm 60% vi phạm MSD. Việc Reject 83.6% request là "Smart Admission Control" dựa trên Định lý Little (Little's Law) để bảo vệ mạng khỏi sụp đổ.
 
 ## 2. Các hạng mục đang thực hiện (WIP)
-- Phát triển định hướng tương lai (Future Work) theo Chương 6:
-  - Tích hợp Multi-Objective RL (MORL) (Mặt Pareto thay vì cộng dồn Reward).
-  - Curriculum Learning ("từ dễ đến khó" chống Catastrophic Forgetting).
-  - Federated Learning cho kiến trúc 6G (Multi-Agent phân phân tán).
+- **Định hướng triển khai chính thức hiện tại: Hybrid Orchestration (RuleDRL).** Mọi WIP code phải bám theo trục Heuristic + DGRL (MaskablePPO) + Make-Before-Break đã có.
+- Tinh chỉnh ổn định training PPO: chuẩn hóa reward kết hợp `VecNormalize` với cấu hình rollout cố định (xem mục 3 — Known Issues).
+- Hoàn thiện đường ống Backend `/orchestrate` (fallback Heuristic→DGRL khi vi phạm Hard Constraints, kích hoạt Make-Before-Break theo Alert Flag).
+
+> ⛔ **Đã HỦY khỏi roadmap code và TODO list hiện tại (KHÔNG được sinh code, KHÔNG đưa vào WIP):**
+> - Multi-Objective RL (MORL) / Pareto Front.
+> - Curriculum Learning.
+>
+> Các hạng mục trên CHỈ được phép xuất hiện trong **luận văn — Chương 6 Future Work** dưới dạng định hướng nghiên cứu, KHÔNG được implement vào branch code hiện tại.
+> Federated Learning cho 6G cũng chỉ thuộc Chương 6 Future Work.
 
 ## 3. Các vấn đề đang theo dõi (Known Bugs/Issues)
-- GAT đôi khi bị bùng nổ gradient nếu hàm Reward không được normalize kỹ. Hãy dùng `VecNormalize` của SB3.
+- **Gradient explode / Explained Variance thấp khi train GAT+PPO:** KHÔNG được nêu `VecNormalize` như giải pháp đơn lẻ. `VecNormalize` BẮT BUỘC phải đi kèm bộ siêu tham số PPO sau (đã được kiểm chứng ổn định cho dự án):
+  - `n_steps = 512`
+  - `10` parallel environments (vectorized envs)
+  - tổng rollout batch = `10 × 512 = 5120` steps
+  - `batch_size = 128` hoặc `256`
+  Nếu chỉ bật `VecNormalize` mà không đi kèm cấu hình rollout/batch ở trên thì KHÔNG được coi là fix hợp lệ — agent phải từ chối và yêu cầu áp dụng đồng thời cả gói cấu hình.
+- **HTTP 409 / `NO_SAFE_ACTION` KHÔNG PHẢI BUG:** Đây là hành vi đúng của **Smart Admission Control**. Khi không tồn tại cặp placement/routing nào thỏa Hard Constraints (MSD, CPU, Alert), hệ thống PHẢI từ chối request thay vì ép đặt VNF. Tuyệt đối **không "fix"** bằng cách bỏ Action Masking, hạ ngưỡng MSD, hay ép placement vào node không an toàn.
+- **Smart Admission Control hợp lệ theo Định lý Little (Little's Law):** Trong Stress Test trên GEANT2, việc reject **83.6%** request để bảo toàn **16.4%** request được chấp nhận an toàn (tránh tràn MSD và sụp đổ mạng) là hành vi mong muốn, KHÔNG phải lỗi cần sửa.
 - Cần chú ý cẩn thận khi kết nối P4Runtime với Mininet ở môi trường thật, dễ gặp lỗi timeout nếu Controller gửi rule quá nhanh.

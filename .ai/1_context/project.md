@@ -13,6 +13,20 @@ Hệ thống đóng vai trò như một bộ não điều phối (Orchestrator) 
 - **Tối ưu hóa kết hợp (Joint Optimization)**: Vượt qua nghịch lý hai giai đoạn (chia để trị), Agent đưa ra quyết định đồng thời (Single-step) cả Placement và Routing trong một không gian hành động nguyên tử `[v_place, v_route]`.
 - **Hybrid Orchestration (RuleDRL)**: Khi tải mạng thấp (< 40%), bypass AI và dùng thuật toán Heuristic (Decoupled) để tối ưu chi phí. Khi tải mạng cao (> 60%), nhường quyền điều khiển cho AI (JO-VPPM) để bảo vệ mạng, hy sinh trễ để đảm bảo an toàn MSD.
 
+> 🎯 **Định hướng triển khai chính thức (Official Roadmap):** **Hybrid Orchestration (RuleDRL + MaskablePPO + Make-Before-Break)**. Đây là trục duy nhất được phép phát triển code ở thời điểm hiện tại. Mọi đề xuất MORL / Pareto Front / Curriculum Learning chỉ được phép xuất hiện trong **luận văn Chương 6 Future Work**, không được sinh code hay đưa vào TODO list.
+
+## 2.1. Phân lớp SLA (SLA Classes)
+Hệ thống phân loại traffic theo các lớp SLA độ trễ end-to-end để Reward Shaping và Admission Control áp dụng đúng ngưỡng:
+
+| Lớp SLA       | Ngưỡng độ trễ mục tiêu | Ghi chú |
+|---------------|-------------------------|---------|
+| URLLC         | ~1–10 ms                | Ultra-Reliable Low-Latency Communication. |
+| VoIP          | ~30–50 ms               | Thoại thời gian thực. |
+| Video         | ~50–80 ms               | Streaming / hội nghị truyền hình. |
+| **Traffic Data** | **~80–100 ms**       | **Bắt buộc có** — lớp dữ liệu thường (web/file/API). KHÔNG được bỏ sót khi cấu hình SLA. |
+
+Khi vi phạm ngưỡng của bất kỳ lớp nào, áp Penalty theo Adaptive Lagrangian. Thiếu lớp Traffic Data sẽ dẫn tới Reward bias về low-latency và Admission Control sai lệch.
+
 ## 3. Tech Stack
 - **Control Plane & AI**: Python 3.10+, PyTorch, Stable-Baselines3 (MaskablePPO), Gymnasium.
 - **Data Plane**: P4-16 (BMv2 switch), SRv6 (Segment Routing over IPv6), Mininet.

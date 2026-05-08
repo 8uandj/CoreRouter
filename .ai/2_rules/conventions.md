@@ -19,3 +19,24 @@
 
 ## 3. Quản lý State
 - Mọi biến đổi làm ảnh hưởng tới trạng thái mạng (giảm CPU, tăng MSD utilization) phải được thực hiện trong hàm `step()` của RL Environment và phải có cơ chế rollback nếu fail.
+
+## 4. Phạm vi Roadmap (Bắt buộc tuân thủ)
+- **Định hướng triển khai chính thức = Hybrid Orchestration (RuleDRL + MaskablePPO + Make-Before-Break).** Mọi PR/commit phải nằm trong phạm vi này.
+- **CẤM sinh code, CẤM thêm vào TODO/WIP** các hạng mục sau (chỉ được mô tả ở luận văn Chương 6 Future Work):
+  - Multi-Objective RL (MORL) / Pareto Front (mặt Pareto thay cho cộng dồn Reward).
+  - Curriculum Learning ("từ dễ đến khó").
+  - Federated / Multi-Agent phân tán cho 6G.
+- Nếu user yêu cầu implement các hạng mục Chương 6 trên branch hiện tại, agent phải **TỪ CHỐI** và chỉ ngược lại để mở issue/PR riêng cho Future Work khi roadmap chính thức được thay đổi.
+
+## 5. Cấu hình PPO chuẩn cho Stability (Bắt buộc khi train DGRL)
+Khi training MaskablePPO + GAT, để xử lý gradient explode / Explained Variance thấp, BẮT BUỘC dùng **đồng thời** `VecNormalize` và bộ siêu tham số rollout sau:
+- `n_steps = 512`
+- `10` parallel envs (vectorized)
+- tổng rollout batch = `10 × 512 = 5120` steps
+- `batch_size = 128` hoặc `256`
+
+Chỉ bật `VecNormalize` mà không kèm cấu hình rollout/batch nêu trên KHÔNG được coi là fix hợp lệ.
+
+## 6. Smart Admission Control vs Bug
+- HTTP `409 NO_SAFE_ACTION` = hành vi đúng (Smart Admission Control), KHÔNG được "fix" bằng việc nới Hard Constraints hay ép placement.
+- Việc reject 83.6% / accept 16.4% trong stress test (GEANT2) tuân Little's Law là hợp lệ, KHÔNG phải lỗi acceptance rate.

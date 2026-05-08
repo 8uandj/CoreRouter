@@ -21,4 +21,10 @@
   - `method_used`: Tên phương pháp (ví dụ: "Heuristic (Latency Optimized)" hoặc "JO-VPPM AI (Resilience Optimized)").
   - `hybrid_branch`: Nhánh xử lý (`heuristic` hoặc `drl`).
   - `make_before_break`: Cờ (boolean) báo hiệu xem migration có được trigger không.
-  - Xử lý lỗi: Trả về HTTP 409 (Conflict) với thông báo rõ ràng khi không tìm được cặp placement/routing nào an toàn (vi phạm Hard Constraints).
+  - Xử lý lỗi: Trả về HTTP 409 (Conflict) với mã `NO_SAFE_ACTION` và thông báo rõ ràng khi không tìm được cặp placement/routing nào an toàn (vi phạm Hard Constraints).
+
+## 5. Smart Admission Control — KHÔNG PHẢI BUG
+- HTTP `409 NO_SAFE_ACTION` là **hành vi đúng** của **Smart Admission Control**, KHÔNG phải bug. Khi mọi node ứng viên đều vi phạm Hard Constraints (MSD/CPU/Alert), hệ thống PHẢI reject request.
+- TUYỆT ĐỐI KHÔNG "fix" 409 bằng cách: bỏ/ nới lỏng Action Masking, hạ ngưỡng MSD, ép placement vào node không an toàn, hay biến `NO_SAFE_ACTION` thành 200/202.
+- Trong Stress Test (ví dụ GEANT2), việc reject **83.6%** request để bảo toàn **16.4%** request được chấp nhận an toàn (tránh tràn MSD, tuân Định lý Little / Little's Law) là hành vi mong muốn của hệ thống — KHÔNG báo cáo dưới dạng "lỗi acceptance rate thấp".
+- Khi gặp 409 trong log/test, hướng xử lý đúng là: kiểm tra capacity / topology / Alert Flag / phân lớp SLA, KHÔNG sửa code Orchestrator để ép qua.
