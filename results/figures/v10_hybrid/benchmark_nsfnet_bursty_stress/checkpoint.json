@@ -1,0 +1,267 @@
+{
+  "Exhaustive Pair-Search": [
+    {
+      "seed": 0,
+      "acc": 0.3,
+      "sla": 0.0,
+      "avg_lat": 5.078045028352959,
+      "evac": 0.03,
+      "method_counts": {
+        "Exhaustive": 10000
+      }
+    },
+    {
+      "seed": 1,
+      "acc": 0.25,
+      "sla": 0.0,
+      "avg_lat": 4.863440982236787,
+      "evac": 0.01,
+      "method_counts": {
+        "Exhaustive": 10000
+      }
+    },
+    {
+      "seed": 2,
+      "acc": 0.33999999999999997,
+      "sla": 0.0,
+      "avg_lat": 4.771050424172572,
+      "evac": 0.02,
+      "method_counts": {
+        "Exhaustive": 10000
+      }
+    },
+    {
+      "seed": 3,
+      "acc": 0.27999999999999997,
+      "sla": 0.0,
+      "avg_lat": 4.964720888555915,
+      "evac": 0.03,
+      "method_counts": {
+        "Exhaustive": 10000
+      }
+    },
+    {
+      "seed": 4,
+      "acc": 0.26,
+      "sla": 0.0,
+      "avg_lat": 4.767242432513316,
+      "evac": 0.02,
+      "method_counts": {
+        "Exhaustive": 10000
+      }
+    }
+  ],
+  "Traditional Greedy": [
+    {
+      "seed": 0,
+      "acc": 7.51,
+      "sla": 0.0,
+      "avg_lat": 5.089354515927265,
+      "evac": 4.5,
+      "method_counts": {
+        "Heuristic": 10000
+      }
+    },
+    {
+      "seed": 1,
+      "acc": 7.23,
+      "sla": 0.0,
+      "avg_lat": 5.163970491706359,
+      "evac": 8.59,
+      "method_counts": {
+        "Heuristic": 10000
+      }
+    },
+    {
+      "seed": 2,
+      "acc": 7.51,
+      "sla": 0.0,
+      "avg_lat": 5.170321818287302,
+      "evac": 6.79,
+      "method_counts": {
+        "Heuristic": 10000
+      }
+    },
+    {
+      "seed": 3,
+      "acc": 7.85,
+      "sla": 0.0,
+      "avg_lat": 5.176329564356208,
+      "evac": 6.370000000000001,
+      "method_counts": {
+        "Heuristic": 10000
+      }
+    },
+    {
+      "seed": 4,
+      "acc": 7.57,
+      "sla": 0.0,
+      "avg_lat": 5.11175572353357,
+      "evac": 7.2700000000000005,
+      "method_counts": {
+        "Heuristic": 10000
+      }
+    }
+  ],
+  "Decoupled AI": [
+    {
+      "seed": 0,
+      "acc": 6.59,
+      "sla": 0.7587253414264037,
+      "avg_lat": 4.18141179595616,
+      "evac": 3.2099999999999995,
+      "method_counts": {
+        "Decoupled": 10000
+      }
+    },
+    {
+      "seed": 1,
+      "acc": 6.909999999999999,
+      "sla": 1.3024602026049203,
+      "avg_lat": 4.426993201511305,
+      "evac": 1.3,
+      "method_counts": {
+        "Decoupled": 10000
+      }
+    },
+    {
+      "seed": 2,
+      "acc": 6.619999999999999,
+      "sla": 1.3595166163141994,
+      "avg_lat": 4.169776482178485,
+      "evac": 0.62,
+      "method_counts": {
+        "Decoupled": 10000
+      }
+    },
+    {
+      "seed": 3,
+      "acc": 6.710000000000001,
+      "sla": 0.5961251862891207,
+      "avg_lat": 4.247878142027341,
+      "evac": 1.71,
+      "method_counts": {
+        "Decoupled": 10000
+      }
+    },
+    {
+      "seed": 4,
+      "acc": 6.5,
+      "sla": 1.6923076923076923,
+      "avg_lat": 4.096398094992479,
+      "evac": 1.9800000000000002,
+      "method_counts": {
+        "Decoupled": 10000
+      }
+    }
+  ],
+  "\u2605 JO-VPPM v10 (Ours)": [
+    {
+      "seed": 0,
+      "acc": 11.37,
+      "sla": 0.2638522427440633,
+      "avg_lat": 1.5173163782552528,
+      "evac": 26.36,
+      "method_counts": {
+        "DRL": 10000
+      }
+    },
+    {
+      "seed": 1,
+      "acc": 11.05,
+      "sla": 0.18099547511312217,
+      "avg_lat": 1.5410999418077147,
+      "evac": 35.949999999999996,
+      "method_counts": {
+        "DRL": 10000
+      }
+    },
+    {
+      "seed": 2,
+      "acc": 11.73,
+      "sla": 0.4262574595055414,
+      "avg_lat": 1.6204083379095509,
+      "evac": 38.11,
+      "method_counts": {
+        "DRL": 10000
+      }
+    },
+    {
+      "seed": 3,
+      "acc": 11.26,
+      "sla": 0.2664298401420959,
+      "avg_lat": 1.7156521147535084,
+      "evac": 26.650000000000002,
+      "method_counts": {
+        "DRL": 10000
+      }
+    },
+    {
+      "seed": 4,
+      "acc": 10.9,
+      "sla": 0.3669724770642202,
+      "avg_lat": 1.663473918937017,
+      "evac": 45.65,
+      "method_counts": {
+        "DRL": 10000
+      }
+    }
+  ],
+  "\u2605 Hybrid (Heur+DRL)": [
+    {
+      "seed": 0,
+      "acc": 11.39,
+      "sla": 0.4389815627743635,
+      "avg_lat": 1.7263114471135748,
+      "evac": 24.92,
+      "method_counts": {
+        "Hybrid:Heuristic": 9,
+        "Hybrid:DRL": 9991
+      }
+    },
+    {
+      "seed": 1,
+      "acc": 11.37,
+      "sla": 0.3518029903254178,
+      "avg_lat": 1.674686231206308,
+      "evac": 40.14,
+      "method_counts": {
+        "Hybrid:Heuristic": 9,
+        "Hybrid:DRL": 9991
+      }
+    },
+    {
+      "seed": 2,
+      "acc": 11.1,
+      "sla": 0.7207207207207207,
+      "avg_lat": 1.6613227390767893,
+      "evac": 47.54,
+      "method_counts": {
+        "Hybrid:Heuristic": 9,
+        "Hybrid:DRL": 9991
+      }
+    },
+    {
+      "seed": 3,
+      "acc": 11.31,
+      "sla": 0.4420866489832007,
+      "avg_lat": 1.4081328843645176,
+      "evac": 37.56,
+      "method_counts": {
+        "Hybrid:Heuristic": 9,
+        "Hybrid:DRL": 9991
+      }
+    },
+    {
+      "seed": 4,
+      "acc": 11.129999999999999,
+      "sla": 0.3593890386343217,
+      "avg_lat": 1.5284896602602678,
+      "evac": 29.59,
+      "method_counts": {
+        "Hybrid:Heuristic": 9,
+        "Hybrid:DRL": 9991
+      }
+    }
+  ]
+}

@@ -1,0 +1,267 @@
+{
+  "Exhaustive Pair-Search": [
+    {
+      "seed": 0,
+      "acc": 0.19,
+      "sla": 0.0,
+      "avg_lat": 2.402965795457334,
+      "evac": 0.01,
+      "method_counts": {
+        "Exhaustive": 10000
+      }
+    },
+    {
+      "seed": 1,
+      "acc": 0.22,
+      "sla": 0.0,
+      "avg_lat": 2.313683173533223,
+      "evac": 0.0,
+      "method_counts": {
+        "Exhaustive": 10000
+      }
+    },
+    {
+      "seed": 2,
+      "acc": 0.24,
+      "sla": 0.0,
+      "avg_lat": 3.18562124793609,
+      "evac": 0.03,
+      "method_counts": {
+        "Exhaustive": 10000
+      }
+    },
+    {
+      "seed": 3,
+      "acc": 0.22999999999999998,
+      "sla": 0.0,
+      "avg_lat": 2.5516857267845015,
+      "evac": 0.0,
+      "method_counts": {
+        "Exhaustive": 10000
+      }
+    },
+    {
+      "seed": 4,
+      "acc": 0.19,
+      "sla": 0.0,
+      "avg_lat": 3.04923797398166,
+      "evac": 0.04,
+      "method_counts": {
+        "Exhaustive": 10000
+      }
+    }
+  ],
+  "Traditional Greedy": [
+    {
+      "seed": 0,
+      "acc": 4.68,
+      "sla": 0.0,
+      "avg_lat": 2.5868267189745637,
+      "evac": 6.959999999999999,
+      "method_counts": {
+        "Heuristic": 10000
+      }
+    },
+    {
+      "seed": 1,
+      "acc": 4.54,
+      "sla": 0.0,
+      "avg_lat": 2.6170326870434413,
+      "evac": 3.08,
+      "method_counts": {
+        "Heuristic": 10000
+      }
+    },
+    {
+      "seed": 2,
+      "acc": 4.9399999999999995,
+      "sla": 0.0,
+      "avg_lat": 2.6428712259771987,
+      "evac": 5.7700000000000005,
+      "method_counts": {
+        "Heuristic": 10000
+      }
+    },
+    {
+      "seed": 3,
+      "acc": 4.72,
+      "sla": 0.0,
+      "avg_lat": 2.6372215864229993,
+      "evac": 6.8500000000000005,
+      "method_counts": {
+        "Heuristic": 10000
+      }
+    },
+    {
+      "seed": 4,
+      "acc": 4.52,
+      "sla": 0.0,
+      "avg_lat": 2.633903787319316,
+      "evac": 7.99,
+      "method_counts": {
+        "Heuristic": 10000
+      }
+    }
+  ],
+  "Decoupled AI": [
+    {
+      "seed": 0,
+      "acc": 4.2299999999999995,
+      "sla": 0.0,
+      "avg_lat": 1.4268619452658557,
+      "evac": 0.0,
+      "method_counts": {
+        "Decoupled": 10000
+      }
+    },
+    {
+      "seed": 1,
+      "acc": 4.62,
+      "sla": 0.0,
+      "avg_lat": 1.441945227853896,
+      "evac": 0.0,
+      "method_counts": {
+        "Decoupled": 10000
+      }
+    },
+    {
+      "seed": 2,
+      "acc": 4.51,
+      "sla": 0.0,
+      "avg_lat": 1.1398180103158893,
+      "evac": 0.0,
+      "method_counts": {
+        "Decoupled": 10000
+      }
+    },
+    {
+      "seed": 3,
+      "acc": 4.3999999999999995,
+      "sla": 0.0,
+      "avg_lat": 1.5256605233546583,
+      "evac": 0.0,
+      "method_counts": {
+        "Decoupled": 10000
+      }
+    },
+    {
+      "seed": 4,
+      "acc": 4.62,
+      "sla": 0.0,
+      "avg_lat": 1.5543558757737266,
+      "evac": 0.0,
+      "method_counts": {
+        "Decoupled": 10000
+      }
+    }
+  ],
+  "\u2605 JO-VPPM v10 (Ours)": [
+    {
+      "seed": 0,
+      "acc": 8.15,
+      "sla": 0.245398773006135,
+      "avg_lat": 0.6336582428330438,
+      "evac": 14.180000000000001,
+      "method_counts": {
+        "DRL": 10000
+      }
+    },
+    {
+      "seed": 1,
+      "acc": 8.19,
+      "sla": 0.0,
+      "avg_lat": 0.7206543348548234,
+      "evac": 15.110000000000001,
+      "method_counts": {
+        "DRL": 10000
+      }
+    },
+    {
+      "seed": 2,
+      "acc": 7.6899999999999995,
+      "sla": 0.13003901170351106,
+      "avg_lat": 0.6260995543714313,
+      "evac": 20.169999999999998,
+      "method_counts": {
+        "DRL": 10000
+      }
+    },
+    {
+      "seed": 3,
+      "acc": 8.0,
+      "sla": 0.0,
+      "avg_lat": 0.6539401106294084,
+      "evac": 15.25,
+      "method_counts": {
+        "DRL": 10000
+      }
+    },
+    {
+      "seed": 4,
+      "acc": 7.6899999999999995,
+      "sla": 0.0,
+      "avg_lat": 0.6755158037186996,
+      "evac": 21.64,
+      "method_counts": {
+        "DRL": 10000
+      }
+    }
+  ],
+  "\u2605 Hybrid (Heur+DRL)": [
+    {
+      "seed": 0,
+      "acc": 8.1,
+      "sla": 0.0,
+      "avg_lat": 0.6513524611167573,
+      "evac": 16.520000000000003,
+      "method_counts": {
+        "Hybrid:Heuristic": 9,
+        "Hybrid:DRL": 9991
+      }
+    },
+    {
+      "seed": 1,
+      "acc": 8.18,
+      "sla": 0.0,
+      "avg_lat": 0.7262550289789635,
+      "evac": 20.74,
+      "method_counts": {
+        "Hybrid:Heuristic": 9,
+        "Hybrid:DRL": 9991
+      }
+    },
+    {
+      "seed": 2,
+      "acc": 7.99,
+      "sla": 0.1251564455569462,
+      "avg_lat": 0.7135627590174046,
+      "evac": 14.16,
+      "method_counts": {
+        "Hybrid:Heuristic": 9,
+        "Hybrid:DRL": 9991
+      }
+    },
+    {
+      "seed": 3,
+      "acc": 7.920000000000001,
+      "sla": 0.0,
+      "avg_lat": 0.6385168809119212,
+      "evac": 14.27,
+      "method_counts": {
+        "Hybrid:Heuristic": 9,
+        "Hybrid:DRL": 9991
+      }
+    },
+    {
+      "seed": 4,
+      "acc": 7.779999999999999,
+      "sla": 0.0,
+      "avg_lat": 0.716583913480421,
+      "evac": 20.89,
+      "method_counts": {
+        "Hybrid:Heuristic": 9,
+        "Hybrid:DRL": 9991
+      }
+    }
+  ]
+}

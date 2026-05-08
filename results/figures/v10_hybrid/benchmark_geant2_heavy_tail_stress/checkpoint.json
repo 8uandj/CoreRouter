@@ -1,0 +1,216 @@
+{
+  "Exhaustive Pair-Search": [],
+  "Traditional Greedy": [
+    {
+      "seed": 0,
+      "acc": 7.06,
+      "sla": 0.0,
+      "avg_lat": 3.797516041878165,
+      "evac": 1.0699999999999998,
+      "method_counts": {
+        "Heuristic": 10000
+      }
+    },
+    {
+      "seed": 1,
+      "acc": 7.969999999999999,
+      "sla": 0.0,
+      "avg_lat": 3.7700597698129954,
+      "evac": 1.02,
+      "method_counts": {
+        "Heuristic": 10000
+      }
+    },
+    {
+      "seed": 2,
+      "acc": 6.88,
+      "sla": 0.0,
+      "avg_lat": 3.7820300046362303,
+      "evac": 4.14,
+      "method_counts": {
+        "Heuristic": 10000
+      }
+    },
+    {
+      "seed": 3,
+      "acc": 7.26,
+      "sla": 0.0,
+      "avg_lat": 3.8010271981522536,
+      "evac": 1.15,
+      "method_counts": {
+        "Heuristic": 10000
+      }
+    },
+    {
+      "seed": 4,
+      "acc": 7.180000000000001,
+      "sla": 0.1392757660167131,
+      "avg_lat": 3.8618519829754487,
+      "evac": 2.65,
+      "method_counts": {
+        "Heuristic": 10000
+      }
+    }
+  ],
+  "Decoupled AI": [
+    {
+      "seed": 0,
+      "acc": 8.12,
+      "sla": 0.8620689655172413,
+      "avg_lat": 2.494570589665563,
+      "evac": 8.6,
+      "method_counts": {
+        "Decoupled": 10000
+      }
+    },
+    {
+      "seed": 1,
+      "acc": 7.7700000000000005,
+      "sla": 0.6435006435006435,
+      "avg_lat": 2.479023512469116,
+      "evac": 2.41,
+      "method_counts": {
+        "Decoupled": 10000
+      }
+    },
+    {
+      "seed": 2,
+      "acc": 7.7700000000000005,
+      "sla": 0.7722007722007722,
+      "avg_lat": 1.9486207006495553,
+      "evac": 0.44,
+      "method_counts": {
+        "Decoupled": 10000
+      }
+    },
+    {
+      "seed": 3,
+      "acc": 8.25,
+      "sla": 0.36363636363636365,
+      "avg_lat": 2.420458414605211,
+      "evac": 1.6199999999999999,
+      "method_counts": {
+        "Decoupled": 10000
+      }
+    },
+    {
+      "seed": 4,
+      "acc": 8.01,
+      "sla": 0.6242197253433208,
+      "avg_lat": 2.7097298340957168,
+      "evac": 0.0,
+      "method_counts": {
+        "Decoupled": 10000
+      }
+    }
+  ],
+  "\u2605 JO-VPPM v10 (Ours)": [
+    {
+      "seed": 0,
+      "acc": 14.52,
+      "sla": 0.27548209366391185,
+      "avg_lat": 1.3460485521421433,
+      "evac": 42.05,
+      "method_counts": {
+        "DRL": 10000
+      }
+    },
+    {
+      "seed": 1,
+      "acc": 15.0,
+      "sla": 0.33333333333333337,
+      "avg_lat": 1.4819325955913458,
+      "evac": 43.21,
+      "method_counts": {
+        "DRL": 10000
+      }
+    },
+    {
+      "seed": 2,
+      "acc": 15.39,
+      "sla": 0.3248862897985705,
+      "avg_lat": 1.4496523847968081,
+      "evac": 29.220000000000002,
+      "method_counts": {
+        "DRL": 10000
+      }
+    },
+    {
+      "seed": 3,
+      "acc": 15.0,
+      "sla": 0.26666666666666666,
+      "avg_lat": 1.5158228717316522,
+      "evac": 24.990000000000002,
+      "method_counts": {
+        "DRL": 10000
+      }
+    },
+    {
+      "seed": 4,
+      "acc": 15.21,
+      "sla": 0.5259697567389875,
+      "avg_lat": 1.5382465317828158,
+      "evac": 35.410000000000004,
+      "method_counts": {
+        "DRL": 10000
+      }
+    }
+  ],
+  "\u2605 Hybrid (Heur+DRL)": [
+    {
+      "seed": 0,
+      "acc": 14.91,
+      "sla": 0.2012072434607646,
+      "avg_lat": 1.3248759380882755,
+      "evac": 42.18,
+      "method_counts": {
+        "Hybrid:Heuristic": 16,
+        "Hybrid:DRL": 9984
+      }
+    },
+    {
+      "seed": 1,
+      "acc": 14.99,
+      "sla": 0.26684456304202797,
+      "avg_lat": 1.524675101223456,
+      "evac": 36.34,
+      "method_counts": {
+        "Hybrid:Heuristic": 11,
+        "Hybrid:DRL": 9989
+      }
+    },
+    {
+      "seed": 2,
+      "acc": 15.120000000000001,
+      "sla": 0.3306878306878307,
+      "avg_lat": 1.2485905539697062,
+      "evac": 45.839999999999996,
+      "method_counts": {
+        "Hybrid:Heuristic": 15,
+        "Hybrid:DRL": 9985
+      }
+    },
+    {
+      "seed": 3,
+      "acc": 15.47,
+      "sla": 0.19392372333548805,
+      "avg_lat": 1.301769532107583,
+      "evac": 41.83,
+      "method_counts": {
+        "Hybrid:Heuristic": 13,
+        "Hybrid:DRL": 9987
+      }
+    },
+    {
+      "seed": 4,
+      "acc": 14.74,
+      "sla": 0.0,
+      "avg_lat": 1.5087309746035211,
+      "evac": 28.349999999999998,
+      "method_counts": {
+        "Hybrid:Heuristic": 13,
+        "Hybrid:DRL": 9987
+      }
+    }
+  ]
+}
