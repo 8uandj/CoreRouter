@@ -1,7 +1,7 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from src.portal.backend.app.core.config import settings
-from src.portal.backend.app.routers import api_v1, ai
+from src.portal.backend.app.routers import ai, api_v1, migrate
 
 app = FastAPI(title=settings.PROJECT_NAME, version=settings.VERSION)
 
@@ -16,6 +16,7 @@ app.add_middleware(
 app.include_router(api_v1.router, prefix="/api")
 app.include_router(ai.router, prefix="/api/ai")
 app.include_router(ai.orchestration_router, prefix="/api")
+app.include_router(migrate.router, prefix="/api")
 
 if __name__ == "__main__":
     import uvicorn
