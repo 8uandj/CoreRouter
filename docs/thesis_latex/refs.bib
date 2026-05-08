@@ -121,3 +121,150 @@
   institution = {RFC 9352, February},
   type        = {RFC}
 }
+
+@article{zhang2025sfcmigration,
+  title     = {Service Function Chain Migration: A Survey},
+  author    = {Zhang, Zhiping and Wang, Changda},
+  journal   = {Computers},
+  volume    = {14},
+  number    = {6},
+  pages     = {203},
+  year      = {2025},
+  publisher = {MDPI},
+  note      = {Trích dẫn để làm tổng quan về các chiến lược SFC Migration hiện tại và chỉ ra hạn chế của việc di dời bị động (Reactive).}
+}
+
+@article{hu2026rlpmo,
+  title     = {{RL-PMO}: A Reinforcement Learning-Based Optimization Algorithm for Parallel {SFC} Migration},
+  author    = {Hu, Hefei and Liu, Zining and Wu, Fan},
+  journal   = {Sensors},
+  volume    = {26},
+  number    = {1},
+  pages     = {242},
+  year      = {2026},
+  publisher = {MDPI},
+  note      = {Trích dẫn ở phần Benchmark hoặc Related Work để so sánh với một bài báo SOTA năm 2026 cũng dùng RL cho Migration.}
+}
+
+@article{moshiri2026proactive,
+  title   = {Proactive {SFC} Provisioning with Forecast-Driven {DRL} in Data Centers},
+  author  = {Moshiri, Parisa Fard and Lohan, Poonam and Kantarci, Burak and Janulewicz, Emil},
+  journal = {arXiv preprint arXiv:2601.20229},
+  year    = {2026},
+  note    = {Bằng chứng thép bảo vệ cho việc sử dụng mô hình dự báo kết hợp DRL để cấp phát chủ động (Proactive).}
+}
+
+@article{zhai2023migration,
+  title     = {A Migration Method for Service Function Chain Based on Failure Prediction},
+  author    = {Zhai, D. and Meng, X. and Yu, Z. and Hu, H. and Liang, Y.},
+  journal   = {Computer Networks},
+  volume    = {222},
+  pages     = {109554},
+  year      = {2023},
+  publisher = {Elsevier}
+}
+
+@inproceedings{stockmayer2020p4sfc,
+  title     = {Service Function Chaining Based on Segment Routing Using {P4} and {SR-IOV} ({P4-SFC})},
+  author    = {Stockmayer, Andreas and Hinselmann, Stephan and H{\"a}berle, Marco and Menth, Michael},
+  booktitle = {High Performance Computing},
+  pages     = {297--309},
+  year      = {2020},
+  publisher = {Springer},
+  note      = {Cơ sở lý thuyết cực kỳ quan trọng về việc sử dụng P4 và SRv6 để bẻ luồng (Traffic Steering).}
+}
+
+@inproceedings{xiang2019p4sc,
+  title        = {{P4SC}: Towards High-Performance Service Function Chain Implementation on the {P4}-Capable Device},
+  author       = {Xiang, Chen and Zhang, Dong and Wang, Xiaojun and others},
+  booktitle    = {IFIP/IEEE Symposium on Integrated Network and Service Management (IM)},
+  pages        = {1--6},
+  year         = {2019},
+  organization = {IEEE},
+  note         = {Dùng để giải thích giới hạn vật lý của Data Plane và tại sao MSD Constraint lại quan trọng.}
+}
+
+@article{jeyakumar2014p4,
+  title     = {{P4}: programming protocol-independent packet processors},
+  author    = {Bosshart, Pat and Daly, Dan and Gibb, Glen and Izzard, Martin and McKeown, Nick and Rexford, Jennifer and Schlesinger, Cole and Talayco, Dan and Vahdat, Amin and Varghese, George and others},
+  journal   = {ACM SIGCOMM Computer Communication Review},
+  volume    = {44},
+  number    = {3},
+  pages     = {87--95},
+  year      = {2014},
+  publisher = {ACM}
+}
+
+@book{bertsekas1992data,
+  title     = {Data Networks},
+  author    = {Bertsekas, Dimitri and Gallager, Robert},
+  volume    = {2},
+  year      = {1992},
+  publisher = {Prentice Hall Englewood Cliffs, NJ},
+  note      = {Sách giáo khoa chuẩn mực nhất thế giới về Hàng đợi mạng. Trích dẫn khi viết về công thức M/G/1 và Định lý Little.}
+}
+
+@article{little1961proof,
+  title     = {A proof for the queuing formula: $L= \lambda W$},
+  author    = {Little, John DC},
+  journal   = {Operations research},
+  volume    = {9},
+  number    = {3},
+  pages     = {383--387},
+  year      = {1961},
+  publisher = {INFORMS},
+  note      = {Bài báo gốc của Định lý Little. Cực kỳ uy tín khi trích dẫn vào phần giải thích giới hạn sức chứa vật lý (Acceptance 16.4%).}
+}
+
+@article{qu2021reliable,
+  title     = {Reliable Service Function Chain Deployment Method Based on Deep Reinforcement Learning},
+  author    = {Qu, Hua and Wang, Ke and Zhao, Jihong},
+  journal   = {Sensors},
+  volume    = {21},
+  number    = {8},
+  pages     = {2733},
+  year      = {2021},
+  publisher = {MDPI},
+  note      = {Một phương pháp DRL thông thường (không có Graph/Masking). Dùng để làm ví dụ cho các phương pháp cũ bị đâm vào ngõ cụt khi tải nặng.}
+}
+
+@article{liu2025delay,
+  title     = {Delay guaranteed {SFC} placement with {VNF} parallelization in multidomain {IoT} networks},
+  author    = {Liu, Siquan and Zhang, Chuangchuang},
+  journal   = {Scientific Reports},
+  volume    = {15},
+  number    = {1},
+  pages     = {39864},
+  year      = {2025},
+  publisher = {Nature Publishing Group},
+  note      = {Dùng để minh họa rằng năm 2025 người ta vẫn đang vật lộn với việc đảm bảo trễ (Delay guaranteed) nhưng thường bằng cách Scale/Parallelize thay vì Proactive Migration như bạn.}
+}
+
+@article{taktak2024drl,
+  title     = {{DRL} approach for online user-centric {QoS}-Aware {SFC} embedding with dynamic {VNF} placement},
+  author    = {Taktak, Wiem and others},
+  journal   = {Computer Networks},
+  volume    = {254},
+  pages     = {110637},
+  year      = {2024},
+  publisher = {Elsevier}
+}
+
+@article{kantarci2025federated,
+  title   = {Federated Intelligent Service Function Chain Orchestration in Future {6G} Networks},
+  author  = {Kantarci, Burak and others},
+  journal = {ResearchGate},
+  year    = {2025},
+  note    = {Trích dẫn trong phần Hướng phát triển (Future Work) về việc mở rộng kiến trúc Single-Agent hiện tại thành Federated Learning cho mạng 6G.}
+}
+
+@article{wang2022securing,
+  title     = {Securing Dynamic Service Function Chain Orchestration in {EC-IoT} Using Federated Learning},
+  author    = {Wang, Shuyi and Yang, Longxiang},
+  journal   = {Sensors},
+  volume    = {22},
+  number    = {23},
+  pages     = {9437},
+  year      = {2022},
+  publisher = {MDPI}
+}

@@ -1,0 +1,46 @@
+2026-04-24 19:24:21,290 [INFO] Using model: dgrl_v8.zip
+2026-04-24 19:24:21,290 [INFO] 
+============================================================
+2026-04-24 19:24:21,290 [INFO]   Topology: VIETNAM | Scenario: UNIFORM
+2026-04-24 19:24:21,291 [INFO]   Episodes: 3,000
+2026-04-24 19:24:21,291 [INFO] ============================================================
+2026-04-24 19:24:21,291 [INFO] [1/4] Running Optimal ILP...
+2026-04-24 19:25:00,872 [INFO]   ILP: 1000/3000 | Acc: 96.5%
+2026-04-24 19:25:40,128 [INFO]   ILP: 2000/3000 | Acc: 96.5%
+2026-04-24 19:26:22,637 [INFO]   ILP: 3000/3000 | Acc: 96.2%
+2026-04-24 19:26:22,649 [INFO] [2/4] Running NSF Greedy...
+2026-04-24 19:26:24,551 [INFO] [3/4] Running Decoupled AI...
+2026-04-24 19:26:25,834 [INFO] [4/4] Running JO-VPPM...
+2026-04-24 19:26:30,306 [ERROR] Load error: Error(s) in loading state_dict for GNNActorCriticPolicy:
+	size mismatch for features_extractor.fusion.0.weight: copying a param with shape torch.Size([512, 656]) from checkpoint, the shape in current model is torch.Size([512, 664]).
+	size mismatch for pi_features_extractor.fusion.0.weight: copying a param with shape torch.Size([512, 656]) from checkpoint, the shape in current model is torch.Size([512, 664]).
+	size mismatch for vf_features_extractor.fusion.0.weight: copying a param with shape torch.Size([512, 656]) from checkpoint, the shape in current model is torch.Size([512, 664]).
+2026-04-24 19:26:34,579 [INFO] ✅ Saved: /home/hung8uandj/Study/CoreRouter/src/analytics/../../results/figures/benchmark_vietnam_uniform/dashboard_vietnam_uniform.png
+2026-04-24 19:26:35,660 [INFO] ✅ Saved: /home/hung8uandj/Study/CoreRouter/src/analytics/../../results/figures/benchmark_vietnam_uniform/latency_cdf_vietnam_uniform.png
+2026-04-24 19:26:36,899 [INFO] ✅ Saved: /home/hung8uandj/Study/CoreRouter/src/analytics/../../results/figures/benchmark_vietnam_uniform/rolling_acceptance_vietnam_uniform.png
+2026-04-24 19:26:37,929 [INFO] ✅ Saved: /home/hung8uandj/Study/CoreRouter/src/analytics/../../results/figures/benchmark_vietnam_uniform/radar_vietnam_uniform.png
+2026-04-24 19:26:37,929 [INFO] ✅ Scenario done. Figures → /home/hung8uandj/Study/CoreRouter/src/analytics/../../results/figures/benchmark_vietnam_uniform
+
+════════════════════════════════════════════════════════════════════════════════════════════════════════════════════
+Algorithm              |     Topo |   Scenario |   Acc% |         CI-95% |  MSD-V% |  SLA-V% |  Lat(ms) | Energy(MJ)
+════════════════════════════════════════════════════════════════════════════════════════════════════════════════════
+    Optimal (ILP)        |  vietnam |    uniform |  96.20 | [ 95.5,  96.9] |    0.10 |    0.00 |     2.34 |       4.99
+    NSF Greedy           |  vietnam |    uniform |  60.10 | [ 58.4,  61.6] |   14.50 |    0.00 |     2.31 |       3.68
+    Decoupled AI         |  vietnam |    uniform |  94.63 | [ 93.8,  95.5] |    1.90 |    0.00 |     4.34 |       3.99
+  ★ JO-VPPM (Ours, v8)   |  vietnam |    uniform |   0.00 | [  0.0,   0.0] |    0.00 |    0.00 |     0.00 |       0.00
+════════════════════════════════════════════════════════════════════════════════════════════════════════════════════
+
+
+============================================================
+  ALL RESULTS SUMMARY (4 runs)
+
+════════════════════════════════════════════════════════════════════════════════════════════════════════════════════
+Algorithm              |     Topo |   Scenario |   Acc% |         CI-95% |  MSD-V% |  SLA-V% |  Lat(ms) | Energy(MJ)
+════════════════════════════════════════════════════════════════════════════════════════════════════════════════════
+    Optimal (ILP)        |  vietnam |    uniform |  96.20 | [ 95.5,  96.9] |    0.10 |    0.00 |     2.34 |       4.99
+    NSF Greedy           |  vietnam |    uniform |  60.10 | [ 58.4,  61.6] |   14.50 |    0.00 |     2.31 |       3.68
+    Decoupled AI         |  vietnam |    uniform |  94.63 | [ 93.8,  95.5] |    1.90 |    0.00 |     4.34 |       3.99
+  ★ JO-VPPM (Ours, v8)   |  vietnam |    uniform |   0.00 | [  0.0,   0.0] |    0.00 |    0.00 |     0.00 |       0.00
+════════════════════════════════════════════════════════════════════════════════════════════════════════════════════
+
+✅ Full benchmark complete!
