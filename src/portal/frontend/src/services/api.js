@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const API_BASE = "http://localhost:8000/api";
+const API_BASE = import.meta.env.VITE_API_BASE || "http://localhost:8000/api";
 
 const apiClient = axios.create({
   baseURL: API_BASE,
@@ -41,6 +41,16 @@ export const vnfService = {
   
   getSimulationStatus: async () => {
     const res = await apiClient.get('/ai/status');
+    return res.data;
+  },
+
+  orchestrateSfc: async (payload) => {
+    const res = await apiClient.post('/orchestrate', payload);
+    return res.data;
+  },
+
+  getHybridState: async () => {
+    const res = await apiClient.get('/orchestrate/state');
     return res.data;
   }
 };

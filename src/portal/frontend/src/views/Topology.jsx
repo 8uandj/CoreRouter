@@ -10,6 +10,7 @@ import ControlHeader from '../components/topology/ControlHeader';
 import Sidebar from '../components/topology/Sidebar';
 import ProvisionModal from '../components/topology/ProvisionModal';
 import TelemetryPanel from '../components/topology/TelemetryPanel';
+import { vnfService } from '../services/api';
 
 // --- Configuration ---
 const DCS = {
@@ -45,6 +46,14 @@ const SID_MAP = {
   router: '2001:db8:VR::3',
 };
 
+const REQUEST_PROFILES = {
+  clean:        { cpu_req: 4,  ram_req: 2,  msd_req: 1, service_type: 'Data',   alert_flag: false },
+  suspicious:   { cpu_req: 12, ram_req: 6,  msd_req: 2, service_type: 'Data',   alert_flag: false },
+  corporate:    { cpu_req: 16, ram_req: 8,  msd_req: 2, service_type: 'VoIP',   alert_flag: false },
+  ddos:         { cpu_req: 70, ram_req: 35, msd_req: 4, service_type: 'Attack', alert_flag: true },
+  deep_inspect: { cpu_req: 35, ram_req: 18, msd_req: 5, service_type: 'Video',  alert_flag: false }
+};
+
 export default function Topology({ vnfs, onDeploy, onDelete }) {
   // State
   const [nodePos, setNodePos] = useState({ ...INIT_BACKBONE });
@@ -59,6 +68,14 @@ export default function Topology({ vnfs, onDeploy, onDelete }) {
   const [simVnfs, setSimVnfs] = useState([]);
   const [isTelemetryOpen, setIsTelemetryOpen] = useState(true);
   const [isSidebarOpen, setIsSidebarOpen] = useState(true);
+  const [hybridStatus, setHybridStatus] = useState({
+    branch: 'heuristic',
+    method: 'Decoupled Heuristic',
+    globalUtilization: 0,
+    avgCpu: 0,
+    avgMsdUsage: 0,
+    alertFlag: false
+  });
 
   // Constants / Refs
   const vnfLocMemo = useRef({});
@@ -139,6 +156,35 @@ export default function Topology({ vnfs, onDeploy, onDelete }) {
     const policy = TRAFFIC_POLICY[trafficOpt];
     pushLog(`> Flow Optimization: ${srcDc.toUpperCase()} → ${dstDc.toUpperCase()}`, '#facc15');
 
+    const profile = REQUEST_PROFILES[trafficOpt] || REQUEST_PROFILES.clean;
+    try {
+      const decision = await vnfService.orchestrateSfc({
+        ...profile,
+        msd_req: Math.max(profile.msd_req, policy.roles.length || 1),
+        is_ddos_spike: trafficOpt === 'ddos',
+        source_node: srcDc,
+        destination_node: dstDc,
+      });
+      const data = decision.data || {};
+      const nextStatus = {
+        branch: data.hybrid_branch || 'heuristic',
+        method: data.method_used || decision.method_used || 'Decoupled Heuristic',
+        globalUtilization: data.global_utilization || 0,
+        avgCpu: data.avg_cpu || 0,
+        avgMsdUsage: data.avg_msd_usage || 0,
+        alertFlag: Boolean(data.alert_flag)
+      };
+      setHybridStatus(nextStatus);
+      pushLog(
+        `> Hybrid Gate: ${nextStatus.method} | U=${Math.round(nextStatus.globalUtilization * 100)}%`,
+        nextStatus.branch === 'drl' ? '#f87171' : '#34d399'
+      );
+    } catch (e) {
+      const detail = e.response?.data?.detail;
+      const msg = detail?.message || detail || e.message;
+      pushLog(`> Hybrid API unavailable: ${msg}`, '#f97316');
+    }
+
     const C_INST = 5000, W_PENALTY = 1200;
     let matchedInstances = [], requiredScaleOuts = [];
 
@@ -194,7 +240,7 @@ export default function Topology({ vnfs, onDeploy, onDelete }) {
     }
     setEncapsulator(enc);
     setPackets(p => [...p, { id: `pkt-${Date.now()}`, waypoints: path, ptype: violation ? 'msd_drop' : 'normal', sids: matchedInstances.map(v => SID_MAP[v.data.role]), encapsulator: enc }]);
-  }, [activeVnfs, nodePos, trafficOpt, srcDc, dstDc, getVnfPos, onDeploy]);
+  }, [activeVnfs, nodePos, trafficOpt, srcDc, dstDc, getVnfPos, onDeploy, isBuffering, pushLog]);
 
   // Event Handlers
   useEffect(() => {
@@ -242,13 +288,14 @@ export default function Topology({ vnfs, onDeploy, onDelete }) {
         onOpenModal={() => setIsModalOpen(true)}
         activeVnfCount={activeVnfs.length}
         dcs={DCS} trafficPolicies={TRAFFIC_POLICY}
+        hybridStatus={hybridStatus}
       />
 
       <div className="flex flex-1 min-h-0 relative">
         <div className="flex-1 overflow-hidden bg-[#020617] cursor-grab active:cursor-grabbing relative"
              onMouseMove={onMouseMove} onMouseUp={onMouseUp} onMouseLeave={onMouseUp}>
           
-          <TelemetryPanel isOpen={isTelemetryOpen} setIsOpen={setIsTelemetryOpen} />
+          <TelemetryPanel isOpen={isTelemetryOpen} setIsOpen={setIsTelemetryOpen} hybridStatus={hybridStatus} />
 
           <svg ref={svgRef} width="100%" height="100%" onMouseDown={onCanvasDragStart}>
             <defs>

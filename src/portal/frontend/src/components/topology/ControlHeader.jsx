@@ -1,5 +1,5 @@
 import React from 'react';
-import { MapPin, Activity, LayoutDashboard, Plus } from 'lucide-react';
+import { MapPin, Activity, LayoutDashboard, Plus, BrainCircuit } from 'lucide-react';
 
 // --- Theme Colors (Easily adjustable) ---
 const THEME = {
@@ -14,8 +14,13 @@ const ControlHeader = ({
   trafficOpt, setTrafficOpt,
   onOptimize, isBuffering,
   onOpenModal, activeVnfCount,
-  dcs, trafficPolicies
+  dcs, trafficPolicies,
+  hybridStatus
 }) => {
+  const isDrl = hybridStatus?.branch === 'drl';
+  const modeLabel = isDrl ? 'AI JO-VPPM ENGAGED' : 'DECOUPLED HEURISTIC';
+  const utilPct = Math.round((hybridStatus?.globalUtilization || 0) * 100);
+
   return (
     <header className="shrink-0 flex items-center gap-6 px-8 py-4 border-b border-white/10 bg-[#030b18] z-50">
       <div>
@@ -75,6 +80,19 @@ const ControlHeader = ({
       </div>
 
       <div className="ml-auto flex items-center gap-6">
+        <div
+          className={`flex items-center gap-2 px-4 py-2 rounded-2xl border shadow-lg ${
+            isDrl
+              ? 'bg-red-500/10 border-red-500/40 text-red-300 animate-pulse'
+              : 'bg-emerald-500/10 border-emerald-500/30 text-emerald-300'
+          }`}
+        >
+          <BrainCircuit size={15} />
+          <div className="leading-none">
+            <div className="text-[10px] font-black tracking-widest">{modeLabel}</div>
+            <div className="text-[9px] font-bold opacity-70 mt-1">U_GLOBAL {utilPct}%</div>
+          </div>
+        </div>
         <div className="flex flex-col items-end">
           <span className="text-[9px] font-bold text-slate-500 uppercase tracking-tighter">Cluster Size</span>
           <span className="text-lg font-black text-indigo-400">{activeVnfCount} VNFs</span>

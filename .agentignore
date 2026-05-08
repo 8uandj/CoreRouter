@@ -1,0 +1,18 @@
+# Bỏ qua các file môi trường và IDE
+.venv/
+venv/
+.idea/
+.vscode/
+
+# Bỏ qua các thư mục chứa dữ liệu tĩnh lớn (CSV, PCAP) tránh ngộp token
+data/raw/
+data/processed/*.csv
+data/*.pcap
+
+# Bỏ qua file logs và kết quả training rác
+results/logs/
+*.zip
+*.pth
+*.pkl
+
+

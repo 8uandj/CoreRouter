@@ -2,7 +2,12 @@ import React from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Activity, ChevronUp, ChevronDown } from 'lucide-react';
 
-const TelemetryPanel = ({ isOpen, setIsOpen }) => {
+const TelemetryPanel = ({ isOpen, setIsOpen, hybridStatus }) => {
+  const globalUtil = Math.round((hybridStatus?.globalUtilization || 0) * 100);
+  const avgCpu = Math.round((hybridStatus?.avgCpu || 0) * 100);
+  const avgMsd = Math.round((hybridStatus?.avgMsdUsage || 0) * 100);
+  const isDrl = hybridStatus?.branch === 'drl';
+
   return (
     <motion.div 
       initial={false} 
@@ -32,18 +37,24 @@ const TelemetryPanel = ({ isOpen, setIsOpen }) => {
             className="px-6 pb-6 pt-2 space-y-4"
           >
             <div className="flex items-center justify-between gap-4">
-              <span className="text-[10px] font-bold text-slate-500 uppercase">Latency</span>
-              <span className="text-xs font-mono text-amber-400">12.4 ms</span>
+              <span className="text-[10px] font-bold text-slate-500 uppercase">Hybrid Mode</span>
+              <span className={`text-xs font-mono ${isDrl ? 'text-red-400' : 'text-emerald-400'}`}>
+                {isDrl ? 'JO-VPPM' : 'Heuristic'}
+              </span>
             </div>
             <div className="flex items-center justify-between gap-4">
-              <span className="text-[10px] font-bold text-slate-500 uppercase">Throughput</span>
-              <span className="text-xs font-mono text-cyan-400">4.2 Gbps</span>
+              <span className="text-[10px] font-bold text-slate-500 uppercase">Global Util</span>
+              <span className="text-xs font-mono text-amber-400">{globalUtil}%</span>
+            </div>
+            <div className="flex items-center justify-between gap-4">
+              <span className="text-[10px] font-bold text-slate-500 uppercase">Avg CPU / MSD</span>
+              <span className="text-xs font-mono text-cyan-400">{avgCpu}% / {avgMsd}%</span>
             </div>
             <div className="h-1 bg-white/5 rounded-full overflow-hidden">
               <motion.div 
-                animate={{ width: ['20%', '60%', '40%'] }} 
-                transition={{ repeat: Infinity, duration: 4 }} 
-                className="h-full bg-indigo-500"
+                animate={{ width: `${Math.max(4, globalUtil)}%` }} 
+                transition={{ duration: 0.4 }} 
+                className={`h-full ${isDrl ? 'bg-red-500' : 'bg-emerald-500'}`}
               />
             </div>
           </motion.div>

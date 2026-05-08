@@ -15,6 +15,7 @@ app.add_middleware(
 
 app.include_router(api_v1.router, prefix="/api")
 app.include_router(ai.router, prefix="/api/ai")
+app.include_router(ai.orchestration_router, prefix="/api")
 
 if __name__ == "__main__":
     import uvicorn
