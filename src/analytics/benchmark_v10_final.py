@@ -27,7 +27,7 @@ matplotlib.use('Agg')
 import matplotlib.pyplot as plt
 import matplotlib.gridspec as gridspec
 from dataclasses import dataclass, field
-from typing import List
+from typing import Dict, List
 import logging
 
 logging.basicConfig(level=logging.INFO, format='%(asctime)s [%(levelname)s] %(message)s')
@@ -46,6 +46,40 @@ from src.orchestration.jo_vdpr.gnn_policy import GNNActorCriticPolicy
 
 EVAL_SEEDS = [42, 100, 2024, 8888, 9999]
 
+# Hybrid Orchestration hysteresis thresholds (mirror src/core/state_manager.py).
+# Engage AI/DRL when load > 45%; release back to Heuristic only when load < 35%.
+AI_ENGAGE_THRESHOLD = 0.45
+AI_RELEASE_THRESHOLD = 0.35
+
+# Spike scenario timeline: 0-3000 normal, 3000-6000 stress, 6000-10000 normal.
+SPIKE_PHASES = [
+    (0,    3000, 0.2),
+    (3000, 6000, 1.0),
+    (6000, 10000, 0.2),
+]
+
+
+def _compute_u_global(env) -> float:
+    """Mirror NetworkStateManager.global_utilization for an env._state vector.
+
+    Returns max(avg_cpu_util, avg_msd_util) in [0,1]. Used by Hybrid hysteresis
+    gate and Spike telemetry. Reads env._state in-place; no side effects.
+    """
+    state = env._state.reshape(env.num_nodes, 3)
+    avg_cpu = float(np.mean(state[:, 0] / env.max_cpu))
+    msd_limits = np.asarray(env.node_msd_limits, dtype=np.float32)
+    avg_msd = float(np.mean(state[:, 2] / np.maximum(msd_limits, 1e-9)))
+    return max(avg_cpu, avg_msd)
+
+
+def _spike_arrival_rate(step_idx: int) -> float:
+    """Return arrival_rate for a given step in the Spike timeline."""
+    for lo, hi, ar in SPIKE_PHASES:
+        if lo <= step_idx < hi:
+            return ar
+    return SPIKE_PHASES[-1][2]
+
+
 # (Traffic shaping logic moved into env.step() — no longer needed here)
 
 
@@ -62,6 +96,11 @@ class RunMetrics:
     rewards:      List[float] = field(default_factory=list)
     sla_viols:    List[bool]  = field(default_factory=list)
     evacuation_hits: List[bool] = field(default_factory=list)
+    # Per-step provenance & telemetry — required so analysis can prove mode switching.
+    methods_used: List[str]   = field(default_factory=list)
+    u_global:     List[float] = field(default_factory=list)
+    arrival_rates: List[float] = field(default_factory=list)
+    steps:        List[int]   = field(default_factory=list)
 
     @property
     def acc_rate(self):    return np.mean(self.acceptance) * 100 if self.acceptance else 0.0
@@ -82,7 +121,9 @@ class RunMetrics:
         ret[window:] = ret[window:] - ret[:-window]
         return (ret[window - 1:] / window) * 100
 
-    def collect(self, info: dict, reward: float):
+    def collect(self, info: dict, reward: float, method_used: str = "",
+                u_global: float = 0.0, arrival_rate: float = 0.0,
+                step_idx: int = -1):
         # Bỏ qua các step không có request đến (arrival_rate control)
         if info.get('skipped', False):
             return
@@ -94,6 +135,12 @@ class RunMetrics:
             thr = info.get('latency_threshold_ms', 80.0)
             self.sla_viols.append(lat > thr)
         self.evacuation_hits.append(bool(info.get('evacuation_hit', False)))
+        # Provenance — `method_used` defaults to the algorithm name when caller
+        # does not specify a per-step branch (Heuristic / DRL / Hybrid-X).
+        self.methods_used.append(method_used or self.name)
+        self.u_global.append(float(u_global))
+        self.arrival_rates.append(float(arrival_rate))
+        self.steps.append(int(step_idx))
 
 
 # ══════════════════════════════════════════════════════════════
@@ -105,9 +152,12 @@ def run_exhaustive_search(make_env, scenario: str, num_steps: int, seed: int = 4
     env.traffic_scenario = scenario
     np.random.seed(seed); random.seed(seed)
     m = RunMetrics("Exhaustive Pair-Search", scenario, env.topo.topology_name)
-    
+    spike_mode = (scenario == "spike")
+
     env.reset()
     for step in range(num_steps):
+        if spike_mode:
+            env.arrival_rate = _spike_arrival_rate(step)
         # Lưu snapshot state trước khi thử
         snap_state = env._state.copy()
         snap_req   = dict(env._current_req)
@@ -130,7 +180,9 @@ def run_exhaustive_search(make_env, scenario: str, num_steps: int, seed: int = 4
         env.current_step = snap_step
         _, reward, done, _, info = env.step(best_a)
 
-        m.collect(info, reward)
+        u = _compute_u_global(env)
+        m.collect(info, reward, method_used="Exhaustive",
+                  u_global=u, arrival_rate=env.arrival_rate, step_idx=step)
         if done:
             env.reset()
 
@@ -152,9 +204,12 @@ def run_decoupled(make_env, scenario: str, num_steps: int, seed: int = 42) -> Ru
     env.traffic_scenario = scenario
     np.random.seed(seed); random.seed(seed)
     m = RunMetrics("Decoupled AI", scenario, env.topo.topology_name)
+    spike_mode = (scenario == "spike")
 
     state, _ = env.reset()
     for step in range(num_steps):
+        if spike_mode:
+            env.arrival_rate = _spike_arrival_rate(step)
         # Stage 1: min-CPU placement
         cpu_loads = [state[i * env.NODE_FEAT_DIM] for i in range(env.num_nodes)]
         v1 = int(np.argmin(cpu_loads))
@@ -171,7 +226,9 @@ def run_decoupled(make_env, scenario: str, num_steps: int, seed: int = 42) -> Ru
             v2 = int(np.argmin(cpu_copy))
 
         state, reward, done, _, info = env.step([v1, v2])
-        m.collect(info, reward)
+        u = _compute_u_global(env)
+        m.collect(info, reward, method_used="Decoupled",
+                  u_global=u, arrival_rate=env.arrival_rate, step_idx=step)
         if done:
             state, _ = env.reset()
 
@@ -189,9 +246,12 @@ def run_traditional_greedy(make_env, scenario: str, num_steps: int, seed: int = 
     env.traffic_scenario = scenario
     np.random.seed(seed); random.seed(seed)
     m = RunMetrics("Traditional Greedy", scenario, env.topo.topology_name)
+    spike_mode = (scenario == "spike")
 
     state, _ = env.reset(seed=seed)
     for step in range(num_steps):
+        if spike_mode:
+            env.arrival_rate = _spike_arrival_rate(step)
         # Placement: Node có CPU trống NHIỀU NHẤT
         free_cpu = [(env.max_cpu - env._state[i * 3]) for i in range(env.num_nodes)]
         v1 = int(np.argmax(free_cpu))
@@ -204,7 +264,9 @@ def run_traditional_greedy(make_env, scenario: str, num_steps: int, seed: int = 
                 best_v2 = v2_cand
         v2 = best_v2
         state, reward, done, _, info = env.step([v1, v2])
-        m.collect(info, reward)
+        u = _compute_u_global(env)
+        m.collect(info, reward, method_used="Heuristic",
+                  u_global=u, arrival_rate=env.arrival_rate, step_idx=step)
         if done: state, _ = env.reset(seed=seed)
     env.close()
     logger.info(f"  [Greedy]    Acc={m.acc_rate:.1f}% | SLA-viol={m.sla_rate:.1f}% | AvgLat={m.avg_lat:.2f}ms")
@@ -250,8 +312,11 @@ def run_jo_vppm(make_env, mdl_path: str, norm_path: str,
                 torch.load(buf, map_location="cpu", weights_only=False))
 
     obs = vec_env.reset()  # obs đã được normalize qua VecNormalize
+    spike_mode = (scenario == "spike")
 
     for step in range(num_steps):
+        if spike_mode:
+            raw_env.arrival_rate = _spike_arrival_rate(step)
         # Lấy action mask từ raw_env (trước normalize)
         masks = np.array([raw_env.action_masks()])
 
@@ -262,12 +327,136 @@ def run_jo_vppm(make_env, mdl_path: str, norm_path: str,
         info   = infos[0]
         reward = float(reward_arr[0])
 
-        m.collect(info, reward)
+        u = _compute_u_global(raw_env)
+        m.collect(info, reward, method_used="DRL",
+                  u_global=u, arrival_rate=raw_env.arrival_rate, step_idx=step)
         # VecEnv tự reset khi done — không cần gọi thủ công
 
     vec_env.close()
     logger.info(f"  [JO-VPPM]  Acc={m.acc_rate:.1f}% | SLA-viol={m.sla_rate:.1f}% | "
                 f"AvgLat={m.avg_lat:.2f}ms | Evac-hit={m.evac_rate:.1f}%")
+    return m
+
+
+# ══════════════════════════════════════════════════════════════
+#  Hybrid Orchestration Runner (RuleDRL with hysteresis 45/35)
+# ══════════════════════════════════════════════════════════════
+def run_hybrid(make_env, mdl_path: str, norm_path: str,
+               scenario: str, num_steps: int, seed: int = 42,
+               label: str = "★ Hybrid (Heur+DRL)") -> RunMetrics:
+    """Adaptive Hybrid: Heuristic ↔ DRL switch with hysteresis 45/35.
+
+    Gate (mirrors NetworkStateManager.choose_mode):
+      - Engage DRL when U_global > 0.45 OR Alert flag.
+      - Stay on DRL while 0.35 <= U_global <= 0.45 (hysteresis hold).
+      - Release back to Heuristic only when U_global < 0.35 and no alert.
+
+    The DRL branch uses MaskablePPO with VecNormalize. The Heuristic branch
+    is the Traditional-Greedy max-CPU + shortest-prop-latency policy. We do
+    NOT alter Smart Admission Control — the env still rejects when no safe
+    action exists; the gate only chooses *which* policy proposes the action.
+    """
+    raw_env = make_env()
+    raw_env.traffic_scenario = scenario
+    np.random.seed(seed); random.seed(seed)
+    m = RunMetrics(label, scenario, raw_env.topo.topology_name)
+    spike_mode = (scenario == "spike")
+
+    drl_available = os.path.exists(mdl_path) and os.path.exists(norm_path)
+    if not drl_available:
+        logger.warning(f"  [Hybrid] DRL model missing at {mdl_path}; Hybrid will run Heuristic-only branch.")
+
+    vec_env = DummyVecEnv([lambda: raw_env])
+    if drl_available:
+        vec_env = VecNormalize.load(norm_path, vec_env)
+        vec_env.training = False
+        vec_env.norm_reward = False
+
+        policy_kwargs = dict(
+            num_nodes=raw_env.topo.num_nodes,
+            adj_matrix=raw_env.topo.adj_matrix,
+            gat_hidden=64, gat_heads=4, features_dim=256,
+            net_arch=dict(pi=[256, 128], vf=[256, 128])
+        )
+        model = MaskablePPO(GNNActorCriticPolicy, vec_env,
+                            policy_kwargs=policy_kwargs, device="cpu")
+        with zipfile.ZipFile(mdl_path, "r") as z:
+            with z.open("policy.pth") as f:
+                buf = io.BytesIO(f.read())
+                model.policy.load_state_dict(
+                    torch.load(buf, map_location="cpu", weights_only=False))
+    else:
+        model = None
+
+    obs = vec_env.reset()
+
+    mode = "heuristic"          # Initial branch (matches state_manager default).
+    transitions = 0
+    drl_steps = 0
+    heuristic_steps = 0
+
+    for step in range(num_steps):
+        if spike_mode:
+            raw_env.arrival_rate = _spike_arrival_rate(step)
+
+        u = _compute_u_global(raw_env)
+        # Alert mirrors env hard-constraint pressure (any node CPU > 80%).
+        cpu_per_node = raw_env._state.reshape(raw_env.num_nodes, 3)[:, 0] / raw_env.max_cpu
+        alert = bool(np.any(cpu_per_node > 0.80))
+
+        # Hysteresis gate (45 engage / 35 release; alert forces DRL).
+        prev_mode = mode
+        if alert:
+            mode = "drl"
+        elif mode == "drl":
+            if u < AI_RELEASE_THRESHOLD:
+                mode = "heuristic"
+            # else: hysteresis hold — stay on DRL (avoid 39-41% ping-pong).
+        else:  # mode == "heuristic"
+            if u > AI_ENGAGE_THRESHOLD:
+                mode = "drl"
+        if mode != prev_mode:
+            transitions += 1
+
+        # If DRL is unavailable, always run Heuristic branch.
+        if mode == "drl" and model is not None:
+            masks = np.array([raw_env.action_masks()])
+            action, _ = model.predict(obs, action_masks=masks, deterministic=True)
+            obs, reward_arr, _done_arr, infos = vec_env.step(action)
+            info = infos[0]
+            reward = float(reward_arr[0])
+            method_label = "Hybrid:DRL"
+            drl_steps += 1
+        else:
+            # Heuristic branch: max-free-CPU placement + min-latency 1-hop route.
+            free_cpu = [(raw_env.max_cpu - raw_env._state[i * 3]) for i in range(raw_env.num_nodes)]
+            v1 = int(np.argmax(free_cpu))
+            best_v2, best_cost = v1, np.inf
+            for v2_cand in range(raw_env.num_nodes):
+                if v2_cand == v1:
+                    continue
+                cost = raw_env.latency_matrix[v1][v2_cand]
+                if cost < best_cost:
+                    best_cost = cost
+                    best_v2 = v2_cand
+            v2 = best_v2
+            obs, reward_arr, _done_arr, infos = vec_env.step(np.array([[v1, v2]]))
+            info = infos[0]
+            reward = float(reward_arr[0])
+            method_label = "Hybrid:Heuristic"
+            heuristic_steps += 1
+
+        u_after = _compute_u_global(raw_env)
+        m.collect(info, reward, method_used=method_label,
+                  u_global=u_after, arrival_rate=raw_env.arrival_rate,
+                  step_idx=step)
+
+    vec_env.close()
+    logger.info(
+        f"  [Hybrid]   Acc={m.acc_rate:.1f}% | SLA-viol={m.sla_rate:.1f}% | "
+        f"AvgLat={m.avg_lat:.2f}ms | DRL-steps={drl_steps} | Heur-steps={heuristic_steps} | "
+        f"transitions={transitions}"
+    )
     return m
 
 
@@ -279,6 +468,7 @@ PALETTE = {
     "Decoupled AI":           "#1f77b4",
     "Traditional Greedy":     "#ff7f0e",
     "★ JO-VPPM v10 (Ours)": "#d62728",
+    "★ Hybrid (Heur+DRL)":  "#9467bd",
 }
 
 def get_color(m: RunMetrics) -> str:
@@ -475,14 +665,76 @@ def save_checkpoint(algo_runs: dict, fig_dir: str, topo: str, scen: str):
     os.makedirs(fig_dir, exist_ok=True)
     checkpoint = {}
     for algo_name, runs in algo_runs.items():
-        checkpoint[algo_name] = [{
-            "seed": i, "acc": r.acc_rate, "sla": r.sla_rate,
-            "avg_lat": r.avg_lat, "evac": r.evac_rate
-        } for i, r in enumerate(runs)]
+        rows = []
+        for i, r in enumerate(runs):
+            method_counts: Dict[str, int] = {}
+            for mu in r.methods_used:
+                method_counts[mu] = method_counts.get(mu, 0) + 1
+            rows.append({
+                "seed": i, "acc": r.acc_rate, "sla": r.sla_rate,
+                "avg_lat": r.avg_lat, "evac": r.evac_rate,
+                "method_counts": method_counts,
+            })
+        checkpoint[algo_name] = rows
     path = os.path.join(fig_dir, "checkpoint.json")
     with open(path, "w") as f:
         json.dump(checkpoint, f, indent=2)
     logger.info(f"  💾 Checkpoint saved → {path}")
+
+
+def plot_spike_timeline(algo_runs: dict, fig_dir: str, topo: str):
+    """Plot U_global, arrival_rate, and Hybrid method-switch over time for the
+    Spike scenario. Uses the first-seed run of the Hybrid runner (and JO-VPPM)
+    so reviewers can visually verify the 45/35 hysteresis gate.
+    """
+    os.makedirs(fig_dir, exist_ok=True)
+    hybrid_runs = algo_runs.get("★ Hybrid (Heur+DRL)", [])
+    drl_runs = algo_runs.get("★ JO-VPPM v10 (Ours)", [])
+    if not hybrid_runs:
+        return
+    h = hybrid_runs[0]
+
+    fig, axes = plt.subplots(3, 1, figsize=(14, 9), sharex=True)
+    fig.suptitle(f"Spike Timeline — {topo.upper()} (seed=42)", fontsize=13, fontweight='bold')
+
+    # Phase shading.
+    for ax in axes:
+        for lo, hi, ar in SPIKE_PHASES:
+            color = "#ffcccc" if ar >= 1.0 else "#e8f5e9"
+            ax.axvspan(lo, hi, color=color, alpha=0.35, lw=0)
+
+    steps_h = np.array(h.steps)
+    u_h = np.array(h.u_global)
+    ar_h = np.array(h.arrival_rates)
+    methods_h = np.array(h.methods_used)
+
+    ax0 = axes[0]
+    ax0.plot(steps_h, u_h, color="#9467bd", lw=1.2, label="Hybrid U_global")
+    if drl_runs:
+        d = drl_runs[0]
+        ax0.plot(np.array(d.steps), np.array(d.u_global), color="#d62728", lw=0.9, alpha=0.7,
+                 label="JO-VPPM U_global")
+    ax0.axhline(AI_ENGAGE_THRESHOLD, color="orange", ls="--", lw=1, label="Engage 0.45")
+    ax0.axhline(AI_RELEASE_THRESHOLD, color="green", ls=":", lw=1, label="Release 0.35")
+    ax0.set_ylabel("U_global"); ax0.set_ylim(0, 1.05)
+    ax0.legend(fontsize=8, loc="upper right"); ax0.grid(alpha=0.3)
+
+    ax1 = axes[1]
+    ax1.plot(steps_h, ar_h, color="#1f77b4", lw=1.2)
+    ax1.set_ylabel("arrival_rate"); ax1.set_ylim(-0.05, 1.15)
+    ax1.grid(alpha=0.3)
+
+    ax2 = axes[2]
+    is_drl = np.array([m == "Hybrid:DRL" for m in methods_h], dtype=int)
+    ax2.plot(steps_h, is_drl, color="#9467bd", lw=1.0, drawstyle="steps-post")
+    ax2.set_yticks([0, 1]); ax2.set_yticklabels(["Heuristic", "DRL"])
+    ax2.set_ylabel("Hybrid branch"); ax2.set_xlabel("Step")
+    ax2.grid(alpha=0.3)
+
+    fig.savefig(os.path.join(fig_dir, "spike_timeline.png"), dpi=200, bbox_inches='tight')
+    fig.savefig(os.path.join(fig_dir, "spike_timeline.pdf"), dpi=200, bbox_inches='tight', format='pdf')
+    plt.close(fig)
+    logger.info(f"  ✅ Saved spike timeline → {fig_dir}")
 
 
 # ══════════════════════════════════════════════════════════════
@@ -493,9 +745,10 @@ if __name__ == "__main__":
     parser.add_argument("--topology", default="vietnam",
                         choices=["vietnam", "nsfnet", "geant2", "all"])
     parser.add_argument("--scenario", default="uniform",
-                        choices=["uniform", "bursty", "heavy_tail", "all"])
+                        choices=["uniform", "bursty", "heavy_tail", "spike", "all"])
     parser.add_argument("--steps",    default=10000, type=int,
-                        help="Số request mỗi run (khuyến nghị 10000 cho Stress Test)")
+                        help="Số request mỗi run (khuyến nghị 10000 cho Stress Test; "
+                             "spike scenario expects 10000 — 0-3000 normal, 3000-6000 stress, 6000-10000 normal)")
     parser.add_argument("--skip-ilp", action="store_true",
                         help="Bỏ qua Exhaustive Search (rất chậm với GEANT2)")
     parser.add_argument("--single-seed", action="store_true",
@@ -526,7 +779,13 @@ if __name__ == "__main__":
 
     seeds = [42] if args.single_seed else EVAL_SEEDS
     topologies = ["vietnam", "nsfnet", "geant2"] if args.topology == "all" else [args.topology]
-    scenarios  = ["uniform", "bursty", "heavy_tail"] if args.scenario == "all" else [args.scenario]
+    # Note: full external matrix is 2 loads × 3 topologies × 3 traffic scenarios × 5 seeds × 10k steps.
+    # The "spike" scenario is opt-in (10k step timeline) — kept out of "all" so existing
+    # external runs remain reproducible.
+    if args.scenario == "all":
+        scenarios = ["uniform", "bursty", "heavy_tail"]
+    else:
+        scenarios = [args.scenario]
 
     for topo_name in topologies:
         for scen in scenarios:
@@ -557,27 +816,33 @@ if __name__ == "__main__":
                 "Traditional Greedy": [],
                 "Decoupled AI": [],
                 "★ JO-VPPM v10 (Ours)": [],
+                "★ Hybrid (Heur+DRL)": [],
             }
 
             for si, seed in enumerate(seeds):
                 logger.info(f"\n  ── Seed {si+1}/{len(seeds)}: {seed} ──")
 
                 if not skip_ilp:
-                    logger.info(f"    [1/4] Exhaustive Pair-Search (seed={seed})...")
+                    logger.info(f"    [1/5] Exhaustive Pair-Search (seed={seed})...")
                     algo_runs["Exhaustive Pair-Search"].append(
                         run_exhaustive_search(make_env, scen, args.steps, seed))
 
-                logger.info(f"    [2/4] Traditional Greedy (seed={seed})...")
+                logger.info(f"    [2/5] Traditional Greedy (seed={seed})...")
                 algo_runs["Traditional Greedy"].append(
                     run_traditional_greedy(make_env, scen, args.steps, seed))
 
-                logger.info(f"    [3/4] Decoupled AI (seed={seed})...")
+                logger.info(f"    [3/5] Decoupled AI (seed={seed})...")
                 algo_runs["Decoupled AI"].append(
                     run_decoupled(make_env, scen, args.steps, seed))
 
-                logger.info(f"    [4/4] JO-VPPM v10 (seed={seed})...")
+                logger.info(f"    [4/5] JO-VPPM v10 (seed={seed})...")
                 algo_runs["★ JO-VPPM v10 (Ours)"].append(
                     run_jo_vppm(make_env, mdl_path, norm_path, scen, args.steps, seed, label="★ JO-VPPM v10 (Ours)"))
+
+                logger.info(f"    [5/5] Hybrid Heur+DRL (seed={seed})...")
+                algo_runs["★ Hybrid (Heur+DRL)"].append(
+                    run_hybrid(make_env, mdl_path, norm_path, scen, args.steps, seed,
+                               label="★ Hybrid (Heur+DRL)"))
 
                 # Checkpoint after each seed
                 save_checkpoint(algo_runs, fig_dir, topo_name, scen)
@@ -594,6 +859,10 @@ if __name__ == "__main__":
             # Plot multi-seed CI figure
             if len(seeds) > 1:
                 plot_multi_seed(algo_runs, fig_dir, topo_name, scen)
+
+            # Spike-specific telemetry plot (Uglobal/load + method_used over time)
+            if scen == "spike":
+                plot_spike_timeline(algo_runs, fig_dir, topo_name)
 
             # Print multi-seed summary
             print_multi_seed_table(algo_runs, topo_name, scen)
