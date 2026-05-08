@@ -1,38 +1,338 @@
 apiVersion: v1
-data:
-  vnf-firewall.yaml: "apiVersion: apps/v1\nkind: Deployment\nmetadata:\n  labels:\n\
-    \    core-router/role: firewall\n  name: PLACEHOLDER_NAME\n  namespace: core-router\n\
-    spec:\n  replicas: 1\n  selector:\n    matchLabels:\n      app: PLACEHOLDER_NAME\n\
-    \  template:\n    metadata:\n      labels:\n        app: PLACEHOLDER_NAME\n  \
-    \  spec:\n      containers:\n      - command:\n        - /bin/sh\n        - -c\n\
-    \        - echo 'Firewall Running'; sleep infinity\n        image: alpine:latest\n\
-    \        imagePullPolicy: IfNotPresent\n        name: firewall\n---\napiVersion:\
-    \ v1\nkind: Service\nmetadata:\n  name: PLACEHOLDER_NAME-svc\n  namespace: core-router\n\
-    spec:\n  ports:\n  - name: web\n    port: 80\n    targetPort: 80\n  selector:\n\
-    \    app: PLACEHOLDER_NAME\n"
-  vnf-frr.yaml: "apiVersion: apps/v1\nkind: Deployment\nmetadata:\n  labels:\n   \
-    \ core-router/role: router\n  name: PLACEHOLDER_NAME\n  namespace: core-router\n\
-    spec:\n  replicas: 1\n  selector:\n    matchLabels:\n      app: PLACEHOLDER_NAME\n\
-    \  template:\n    metadata:\n      labels:\n        app: PLACEHOLDER_NAME\n  \
-    \  spec:\n      containers:\n      - image: quay.io/frrouting/frr:9.1.1\n    \
-    \    imagePullPolicy: IfNotPresent\n        name: frr\n        volumeMounts:\n\
-    \        - mountPath: /etc/frr/frr.conf\n          name: frr-cfg\n          subPath:\
-    \ frr.conf\n        - mountPath: /etc/frr/vtysh.conf\n          name: frr-cfg\n\
-    \          subPath: vtysh.conf\n      volumes:\n      - configMap:\n         \
-    \ name: frr-cfg\n        name: frr-cfg\n---\napiVersion: v1\nkind: Service\nmetadata:\n\
-    \  name: PLACEHOLDER_NAME-svc\n  namespace: core-router\nspec:\n  ports:\n  -\
-    \ name: vty\n    port: 2601\n    targetPort: 2601\n  selector:\n    app: PLACEHOLDER_NAME\n"
-  vnf-idps.yaml: "apiVersion: apps/v1\nkind: Deployment\nmetadata:\n  labels:\n  \
-    \  core-router/role: idps\n  name: PLACEHOLDER_NAME\n  namespace: core-router\n\
-    spec:\n  replicas: 1\n  selector:\n    matchLabels:\n      app: PLACEHOLDER_NAME\n\
-    \  template:\n    metadata:\n      labels:\n        app: PLACEHOLDER_NAME\n  \
-    \  spec:\n      containers:\n      - command:\n        - /bin/sh\n        - -c\n\
-    \        - echo 'IDPS Running'; sleep infinity\n        image: alpine:latest\n\
-    \        imagePullPolicy: IfNotPresent\n        name: idps\n---\napiVersion: v1\n\
-    kind: Service\nmetadata:\n  name: PLACEHOLDER_NAME-svc\n  namespace: core-router\n\
-    spec:\n  ports:\n  - name: web\n    port: 80\n    targetPort: 80\n  selector:\n\
-    \    app: PLACEHOLDER_NAME\n"
 kind: ConfigMap
 metadata:
   name: vnf-inputs
   namespace: core-router
+data:
+  vnf-firewall.yaml: |
+    apiVersion: apps/v1
+    kind: Deployment
+    metadata:
+      labels:
+        core-router/role: firewall
+      name: PLACEHOLDER_NAME
+      namespace: core-router
+    spec:
+      replicas: 1
+      selector:
+        matchLabels:
+          app: PLACEHOLDER_NAME
+      template:
+        metadata:
+          labels:
+            app: PLACEHOLDER_NAME
+        spec:
+          containers:
+          - command:
+            - /bin/sh
+            - -c
+            - echo 'Firewall Running'; sleep infinity
+            image: alpine:latest
+            imagePullPolicy: IfNotPresent
+            name: firewall
+    ---
+    apiVersion: v1
+    kind: Service
+    metadata:
+      name: PLACEHOLDER_NAME-svc
+      namespace: core-router
+    spec:
+      ports:
+      - name: web
+        port: 80
+        targetPort: 80
+      selector:
+        app: PLACEHOLDER_NAME
+  vnf-frr.yaml: |
+    apiVersion: apps/v1
+    kind: Deployment
+    metadata:
+      labels:
+        core-router/role: router
+      name: PLACEHOLDER_NAME
+      namespace: core-router
+    spec:
+      replicas: 1
+      selector:
+        matchLabels:
+          app: PLACEHOLDER_NAME
+      template:
+        metadata:
+          labels:
+            app: PLACEHOLDER_NAME
+        spec:
+          containers:
+          - image: quay.io/frrouting/frr:9.1.1
+            imagePullPolicy: IfNotPresent
+            name: frr
+            volumeMounts:
+            - mountPath: /etc/frr/frr.conf
+              name: frr-cfg
+              subPath: frr.conf
+            - mountPath: /etc/frr/vtysh.conf
+              name: frr-cfg
+              subPath: vtysh.conf
+          volumes:
+          - configMap:
+              name: frr-cfg
+            name: frr-cfg
+    ---
+    apiVersion: v1
+    kind: Service
+    metadata:
+      name: PLACEHOLDER_NAME-svc
+      namespace: core-router
+    spec:
+      ports:
+      - name: vty
+        port: 2601
+        targetPort: 2601
+      selector:
+        app: PLACEHOLDER_NAME
+  vnf-idps.yaml: |
+    apiVersion: apps/v1
+    kind: Deployment
+    metadata:
+      labels:
+        core-router/role: idps
+      name: PLACEHOLDER_NAME
+      namespace: core-router
+    spec:
+      replicas: 1
+      selector:
+        matchLabels:
+          app: PLACEHOLDER_NAME
+      template:
+        metadata:
+          labels:
+            app: PLACEHOLDER_NAME
+        spec:
+          containers:
+          - command:
+            - /bin/sh
+            - -c
+            - echo 'IDPS Running'; sleep infinity
+            image: alpine:latest
+            imagePullPolicy: IfNotPresent
+            name: idps
+    ---
+    apiVersion: v1
+    kind: Service
+    metadata:
+      name: PLACEHOLDER_NAME-svc
+      namespace: core-router
+    spec:
+      ports:
+      - name: web
+        port: 80
+        targetPort: 80
+      selector:
+        app: PLACEHOLDER_NAME
+  vnf-nat.yaml: |
+    apiVersion: apps/v1
+    kind: Deployment
+    metadata:
+      labels:
+        core-router/role: nat
+      name: PLACEHOLDER_NAME
+      namespace: core-router
+    spec:
+      replicas: 1
+      selector:
+        matchLabels:
+          app: PLACEHOLDER_NAME
+      template:
+        metadata:
+          labels:
+            app: PLACEHOLDER_NAME
+            core-router/role: nat
+        spec:
+          containers:
+          - name: nat
+            image: alpine:latest
+            imagePullPolicy: IfNotPresent
+            command:
+            - /bin/sh
+            - -c
+            - |
+              echo 'NAT VNF (placeholder, Option C)';
+              while true; do
+                echo -e "HTTP/1.1 200 OK\r\nContent-Length: 7\r\n\r\nNAT-OK\n" | nc -l -p 8080 -q 1 || sleep 1;
+              done
+            ports:
+            - name: http
+              containerPort: 8080
+            resources:
+              requests:
+                cpu: "50m"
+                memory: "64Mi"
+              limits:
+                cpu: "200m"
+                memory: "128Mi"
+            readinessProbe:
+              tcpSocket:
+                port: 8080
+              initialDelaySeconds: 3
+              periodSeconds: 5
+              failureThreshold: 3
+            livenessProbe:
+              tcpSocket:
+                port: 8080
+              initialDelaySeconds: 10
+              periodSeconds: 15
+              failureThreshold: 3
+    ---
+    apiVersion: v1
+    kind: Service
+    metadata:
+      name: PLACEHOLDER_NAME-svc
+      namespace: core-router
+      labels:
+        core-router/role: nat
+    spec:
+      type: NodePort
+      selector:
+        app: PLACEHOLDER_NAME
+      ports:
+      - name: http
+        port: 80
+        targetPort: 8080
+  vnf-lb.yaml: |
+    apiVersion: apps/v1
+    kind: Deployment
+    metadata:
+      labels:
+        core-router/role: lb
+      name: PLACEHOLDER_NAME
+      namespace: core-router
+    spec:
+      replicas: 1
+      selector:
+        matchLabels:
+          app: PLACEHOLDER_NAME
+      template:
+        metadata:
+          labels:
+            app: PLACEHOLDER_NAME
+            core-router/role: lb
+        spec:
+          containers:
+          - name: lb
+            image: nginx:1.27-alpine
+            imagePullPolicy: IfNotPresent
+            ports:
+            - name: http
+              containerPort: 80
+            resources:
+              requests:
+                cpu: "50m"
+                memory: "64Mi"
+              limits:
+                cpu: "200m"
+                memory: "128Mi"
+            readinessProbe:
+              httpGet:
+                path: /
+                port: 80
+              initialDelaySeconds: 3
+              periodSeconds: 5
+              failureThreshold: 3
+            livenessProbe:
+              httpGet:
+                path: /
+                port: 80
+              initialDelaySeconds: 10
+              periodSeconds: 15
+              failureThreshold: 3
+    ---
+    apiVersion: v1
+    kind: Service
+    metadata:
+      name: PLACEHOLDER_NAME-svc
+      namespace: core-router
+      labels:
+        core-router/role: lb
+    spec:
+      type: NodePort
+      selector:
+        app: PLACEHOLDER_NAME
+      ports:
+      - name: http
+        port: 80
+        targetPort: 80
+  vnf-voc.yaml: |
+    apiVersion: apps/v1
+    kind: Deployment
+    metadata:
+      labels:
+        core-router/role: voc
+      name: PLACEHOLDER_NAME
+      namespace: core-router
+    spec:
+      replicas: 1
+      selector:
+        matchLabels:
+          app: PLACEHOLDER_NAME
+      template:
+        metadata:
+          labels:
+            app: PLACEHOLDER_NAME
+            core-router/role: voc
+        spec:
+          containers:
+          - name: voc
+            image: python:3.11-alpine
+            imagePullPolicy: IfNotPresent
+            command: ["/bin/sh", "-c"]
+            args:
+            - "python3 /app/vvoc.py"
+            ports:
+            - name: http
+              containerPort: 8000
+            env:
+            - name: VVOC_PORT
+              value: "8000"
+            resources:
+              requests:
+                cpu: "50m"
+                memory: "64Mi"
+              limits:
+                cpu: "300m"
+                memory: "192Mi"
+            readinessProbe:
+              httpGet:
+                path: /healthz
+                port: 8000
+              initialDelaySeconds: 3
+              periodSeconds: 5
+              failureThreshold: 3
+            livenessProbe:
+              httpGet:
+                path: /healthz
+                port: 8000
+              initialDelaySeconds: 10
+              periodSeconds: 15
+              failureThreshold: 3
+            volumeMounts:
+            - name: vvoc-app
+              mountPath: /app
+          volumes:
+          - name: vvoc-app
+            configMap:
+              name: vvoc-app
+    ---
+    apiVersion: v1
+    kind: Service
+    metadata:
+      name: PLACEHOLDER_NAME-svc
+      namespace: core-router
+      labels:
+        core-router/role: voc
+    spec:
+      type: NodePort
+      selector:
+        app: PLACEHOLDER_NAME
+      ports:
+      - name: http
+        port: 80
+        targetPort: 8000
