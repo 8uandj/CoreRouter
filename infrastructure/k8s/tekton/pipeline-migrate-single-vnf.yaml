@@ -54,7 +54,6 @@ spec:
 
     - name: instantiate-replacement
       runAfter: [prepare-replacement]
-      taskRef: { name: kubectl-apply-file }
       workspaces:
         - name: ws
           workspace: ws
@@ -63,6 +62,37 @@ spec:
           value: /workspace/ws/final.yaml
         - name: namespace
           value: $(params.ns)
+      taskSpec:
+        workspaces:
+          - name: ws
+        params:
+          - name: filePath
+          - name: namespace
+            default: ""
+        steps:
+          - name: apply
+            image: bitnami/kubectl:latest
+            securityContext:
+              runAsUser: 0
+            command: ["/bin/sh", "-c"]
+            args:
+              - |
+                set -e
+
+                if [ ! -f "$(params.filePath)" ]; then
+                    echo "ERROR: File $(params.filePath) does not exist!"
+                    echo "Workspace listing:"
+                    ls -la /workspace/ws/ || true
+                    exit 1
+                fi
+
+                NS_FLAG=""
+                if [ -n "$(params.namespace)" ]; then
+                    NS_FLAG="-n $(params.namespace)"
+                fi
+
+                echo ">>> Applying manifest: $(params.filePath) ${NS_FLAG}"
+                kubectl apply -f "$(params.filePath)" $NS_FLAG
 
     - name: wait-replacement-ready
       runAfter: [instantiate-replacement]
