@@ -1,0 +1,61 @@
+apiVersion: tekton.dev/v1
+kind: Pipeline
+metadata:
+  name: vnf-lcm-fast
+  namespace: core-router
+spec:
+  workspaces:
+    - name: ws
+  params:
+    - name: ns
+      default: "core-router"
+    - name: deployName
+    - name: labelSelector
+    - name: fileName
+      default: "vnf-frr.yaml"
+    - name: location
+      default: "auto"
+
+  tasks:
+    - name: prepare-manifest
+      taskRef: { name: prepare-vnf }
+      workspaces:
+        - name: ws
+          workspace: ws
+      params:
+        - name: deployName
+          value: $(params.deployName)
+        - name: fileName
+          value: $(params.fileName)
+        - name: location
+          value: $(params.location)
+
+    - name: instantiate
+      runAfter: [prepare-manifest]
+      taskRef: { name: kubectl-apply-file }
+      workspaces:
+        - name: ws
+          workspace: ws
+      params:
+        - name: filePath
+          value: /workspace/ws/final.yaml
+        - name: namespace
+          value: $(params.ns)
+
+    - name: wait-ready
+      runAfter: [instantiate]
+      taskRef: { name: kubectl-wait }
+      params:
+        - name: namespace
+          value: $(params.ns)
+        - name: labelSelector
+          value: $(params.labelSelector)
+
+    - name: observe
+      runAfter: [wait-ready]
+      taskRef: { name: kubectl-get }
+      params:
+        - name: namespace
+          value: $(params.ns)
+        - name: labelSelector
+          value: $(params.labelSelector)

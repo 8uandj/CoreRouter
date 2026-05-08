@@ -1,0 +1,41 @@
+apiVersion: tekton.dev/v1
+kind: Task
+metadata:
+  name: prepare-vnf
+  namespace: core-router
+spec:
+  workspaces:
+    - name: ws
+  params:
+    - name: deployName
+    - name: fileName
+    - name: location
+      default: "auto"
+  steps:
+    - name: fetch-and-process
+      image: bitnami/kubectl:latest
+      securityContext:
+        runAsUser: 0
+      command: ["/bin/sh", "-c"]
+      args:
+        - |
+          TARGET="$(params.fileName)"
+          echo ">>> Fetching template '$TARGET' from ConfigMap 'vnf-inputs'..."
+          
+          kubectl get cm vnf-inputs -o go-template="{{index .data \"$TARGET\"}}" > /workspace/ws/final.yaml
+          
+          if [ ! -s /workspace/ws/final.yaml ] || grep -q "<no value>" /workspace/ws/final.yaml; then
+            echo "ERROR: Template '$TARGET' not found in ConfigMap 'vnf-inputs'."
+            exit 1
+          fi
+
+          # Replace placeholder with actual deployment name
+          sed -i 's/PLACEHOLDER_NAME/$(params.deployName)/g' /workspace/ws/final.yaml
+          
+          # Add location label for persistence.
+          # We target the labels block belonging to the Deployment metadata.
+          # Since our templates now have 'labels:', we append the location right after it.
+          sed -i "0,/labels:/ s/labels:/labels:\n    core-router\/location: $(params.location)/" /workspace/ws/final.yaml
+          
+          echo ">>> SUCCESS: Manifest prepared with location=$(params.location)."
+          cat /workspace/ws/final.yaml | head -n 12

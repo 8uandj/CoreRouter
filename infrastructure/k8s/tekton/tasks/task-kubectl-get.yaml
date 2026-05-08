@@ -1,0 +1,14 @@
+apiVersion: tekton.dev/v1
+kind: Task
+metadata:
+  name: kubectl-get
+  namespace: core-router
+spec:
+  params:
+  - name: namespace
+  - name: labelSelector
+  steps:
+  - name: get
+    image: registry.k8s.io/kubectl:v1.30.0
+    command: ["kubectl"]
+    args: ["-n","$(params.namespace)","get","pods","-l","$(params.labelSelector)","-o","wide"]

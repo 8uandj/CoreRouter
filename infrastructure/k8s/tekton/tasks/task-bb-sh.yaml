@@ -1,0 +1,26 @@
+apiVersion: tekton.dev/v1
+kind: Task
+metadata:
+  name: bb-sh
+  namespace: core-router
+spec:
+  workspaces:
+    - name: ws
+      description: The workspace where files are stored
+  params:
+  - name: script
+    description: Shell script to run with /bin/sh -lc
+  steps:
+  - name: run
+    image: alpine:3.18
+    script: |
+      #!/bin/sh
+      set -e # Dừng ngay nếu có lỗi
+      echo "[bb-sh] Starting script execution..."
+      
+      # Debug: Liệt kê file hiện có để kiểm tra
+      echo "[Debug] Files in /workspace/ws:"
+      ls -la /workspace/ws/
+      
+      # Chạy script được truyền vào
+      sh -lc -- "$(params.script)"

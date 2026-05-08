@@ -1,0 +1,189 @@
+2026-05-05 18:05:06,120 [INFO] 
+==============================================================
+2026-05-05 18:05:06,120 [INFO]   TOPOLOGY: VIETNAM | SCENARIO: UNIFORM | STEPS: 3000
+2026-05-05 18:05:06,120 [INFO] ==============================================================
+2026-05-05 18:05:06,120 [INFO] [1/3] Running Exhaustive Pair-Search Baseline...
+2026-05-05 18:05:06,120 [WARNING]   ⚠ Exhaustive search skipped (--skip-ilp or geant2 > 1000 steps)
+2026-05-05 18:05:06,120 [INFO] [2/3] Running Decoupled AI Baseline...
+2026-05-05 18:05:06,517 [INFO]   [Decoupled] Acc=96.7% | SLA-viol=0.0% | AvgLat=3.40ms
+2026-05-05 18:05:06,520 [INFO] [3/3] Running JO-VPPM v10 (Trained Model)...
+2026-05-05 18:05:23,467 [INFO]   [JO-VPPM]  Acc=94.4% | SLA-viol=0.0% | AvgLat=3.62ms | Evac-hit=0.1%
+2026-05-05 18:05:25,287 [INFO]   ✅ Saved figures → /home/hung8uandj/Study/CoreRouter/results/figures/benchmark_vietnam_uniform
+2026-05-05 18:05:25,289 [INFO] 
+==============================================================
+2026-05-05 18:05:25,289 [INFO]   TOPOLOGY: VIETNAM | SCENARIO: BURSTY | STEPS: 3000
+2026-05-05 18:05:25,289 [INFO] ==============================================================
+2026-05-05 18:05:25,289 [INFO] [1/3] Running Exhaustive Pair-Search Baseline...
+2026-05-05 18:05:25,289 [WARNING]   ⚠ Exhaustive search skipped (--skip-ilp or geant2 > 1000 steps)
+2026-05-05 18:05:25,289 [INFO] [2/3] Running Decoupled AI Baseline...
+2026-05-05 18:05:25,926 [INFO]   [Decoupled] Acc=96.7% | SLA-viol=0.0% | AvgLat=3.40ms
+2026-05-05 18:05:25,933 [INFO] [3/3] Running JO-VPPM v10 (Trained Model)...
+2026-05-05 18:05:42,703 [INFO]   [JO-VPPM]  Acc=93.9% | SLA-viol=0.0% | AvgLat=3.65ms | Evac-hit=0.2%
+2026-05-05 18:05:43,834 [INFO]   ✅ Saved figures → /home/hung8uandj/Study/CoreRouter/results/figures/benchmark_vietnam_bursty
+2026-05-05 18:05:43,835 [INFO] 
+==============================================================
+2026-05-05 18:05:43,835 [INFO]   TOPOLOGY: VIETNAM | SCENARIO: HEAVY_TAIL | STEPS: 3000
+2026-05-05 18:05:43,835 [INFO] ==============================================================
+2026-05-05 18:05:43,835 [INFO] [1/3] Running Exhaustive Pair-Search Baseline...
+2026-05-05 18:05:43,835 [WARNING]   ⚠ Exhaustive search skipped (--skip-ilp or geant2 > 1000 steps)
+2026-05-05 18:05:43,835 [INFO] [2/3] Running Decoupled AI Baseline...
+2026-05-05 18:05:44,262 [INFO]   [Decoupled] Acc=96.7% | SLA-viol=0.0% | AvgLat=3.40ms
+2026-05-05 18:05:44,266 [INFO] [3/3] Running JO-VPPM v10 (Trained Model)...
+2026-05-05 18:06:02,539 [INFO]   [JO-VPPM]  Acc=94.8% | SLA-viol=0.0% | AvgLat=3.45ms | Evac-hit=0.3%
+2026-05-05 18:06:03,756 [INFO]   ✅ Saved figures → /home/hung8uandj/Study/CoreRouter/results/figures/benchmark_vietnam_heavy_tail
+2026-05-05 18:06:03,757 [INFO] 
+==============================================================
+2026-05-05 18:06:03,757 [INFO]   TOPOLOGY: NSFNET | SCENARIO: UNIFORM | STEPS: 3000
+2026-05-05 18:06:03,757 [INFO] ==============================================================
+2026-05-05 18:06:03,757 [INFO] [1/3] Running Exhaustive Pair-Search Baseline...
+2026-05-05 18:06:03,757 [WARNING]   ⚠ Exhaustive search skipped (--skip-ilp or geant2 > 1000 steps)
+2026-05-05 18:06:03,757 [INFO] [2/3] Running Decoupled AI Baseline...
+2026-05-05 18:06:04,320 [INFO]   [Decoupled] Acc=98.9% | SLA-viol=1.9% | AvgLat=7.94ms
+2026-05-05 18:06:04,324 [INFO] [3/3] Running JO-VPPM v10 (Trained Model)...
+2026-05-05 18:06:19,087 [INFO]   [JO-VPPM]  Acc=96.0% | SLA-viol=0.4% | AvgLat=6.25ms | Evac-hit=0.3%
+2026-05-05 18:06:20,475 [INFO]   ✅ Saved figures → /home/hung8uandj/Study/CoreRouter/results/figures/benchmark_nsfnet_uniform
+2026-05-05 18:06:20,476 [INFO] 
+==============================================================
+2026-05-05 18:06:20,476 [INFO]   TOPOLOGY: NSFNET | SCENARIO: BURSTY | STEPS: 3000
+2026-05-05 18:06:20,476 [INFO] ==============================================================
+2026-05-05 18:06:20,476 [INFO] [1/3] Running Exhaustive Pair-Search Baseline...
+2026-05-05 18:06:20,476 [WARNING]   ⚠ Exhaustive search skipped (--skip-ilp or geant2 > 1000 steps)
+2026-05-05 18:06:20,476 [INFO] [2/3] Running Decoupled AI Baseline...
+2026-05-05 18:06:20,983 [INFO]   [Decoupled] Acc=98.9% | SLA-viol=1.9% | AvgLat=7.94ms
+2026-05-05 18:06:20,987 [INFO] [3/3] Running JO-VPPM v10 (Trained Model)...
+2026-05-05 18:06:33,966 [INFO]   [JO-VPPM]  Acc=94.8% | SLA-viol=0.3% | AvgLat=6.31ms | Evac-hit=0.5%
+2026-05-05 18:06:35,217 [INFO]   ✅ Saved figures → /home/hung8uandj/Study/CoreRouter/results/figures/benchmark_nsfnet_bursty
+2026-05-05 18:06:35,218 [INFO] 
+==============================================================
+2026-05-05 18:06:35,218 [INFO]   TOPOLOGY: NSFNET | SCENARIO: HEAVY_TAIL | STEPS: 3000
+2026-05-05 18:06:35,218 [INFO] ==============================================================
+2026-05-05 18:06:35,218 [INFO] [1/3] Running Exhaustive Pair-Search Baseline...
+2026-05-05 18:06:35,218 [WARNING]   ⚠ Exhaustive search skipped (--skip-ilp or geant2 > 1000 steps)
+2026-05-05 18:06:35,218 [INFO] [2/3] Running Decoupled AI Baseline...
+2026-05-05 18:06:35,745 [INFO]   [Decoupled] Acc=98.9% | SLA-viol=1.9% | AvgLat=7.94ms
+2026-05-05 18:06:35,750 [INFO] [3/3] Running JO-VPPM v10 (Trained Model)...
+2026-05-05 18:06:52,903 [INFO]   [JO-VPPM]  Acc=95.9% | SLA-viol=0.3% | AvgLat=6.26ms | Evac-hit=0.2%
+2026-05-05 18:06:54,166 [INFO]   ✅ Saved figures → /home/hung8uandj/Study/CoreRouter/results/figures/benchmark_nsfnet_heavy_tail
+2026-05-05 18:06:54,167 [INFO] 
+==============================================================
+2026-05-05 18:06:54,167 [INFO]   TOPOLOGY: GEANT2 | SCENARIO: UNIFORM | STEPS: 3000
+2026-05-05 18:06:54,168 [INFO] ==============================================================
+2026-05-05 18:06:54,168 [INFO] [1/3] Running Exhaustive Pair-Search Baseline...
+2026-05-05 18:06:54,168 [WARNING]   ⚠ Exhaustive search skipped (--skip-ilp or geant2 > 1000 steps)
+2026-05-05 18:06:54,168 [INFO] [2/3] Running Decoupled AI Baseline...
+2026-05-05 18:06:54,842 [INFO]   [Decoupled] Acc=98.3% | SLA-viol=0.4% | AvgLat=4.35ms
+2026-05-05 18:06:54,846 [INFO] [3/3] Running JO-VPPM v10 (Trained Model)...
+2026-05-05 18:07:16,716 [INFO]   [JO-VPPM]  Acc=95.4% | SLA-viol=0.0% | AvgLat=5.19ms | Evac-hit=1.3%
+2026-05-05 18:07:17,976 [INFO]   ✅ Saved figures → /home/hung8uandj/Study/CoreRouter/results/figures/benchmark_geant2_uniform
+2026-05-05 18:07:17,978 [INFO] 
+==============================================================
+2026-05-05 18:07:17,978 [INFO]   TOPOLOGY: GEANT2 | SCENARIO: BURSTY | STEPS: 3000
+2026-05-05 18:07:17,978 [INFO] ==============================================================
+2026-05-05 18:07:17,978 [INFO] [1/3] Running Exhaustive Pair-Search Baseline...
+2026-05-05 18:07:17,978 [WARNING]   ⚠ Exhaustive search skipped (--skip-ilp or geant2 > 1000 steps)
+2026-05-05 18:07:17,978 [INFO] [2/3] Running Decoupled AI Baseline...
+2026-05-05 18:07:18,658 [INFO]   [Decoupled] Acc=98.3% | SLA-viol=0.4% | AvgLat=4.35ms
+2026-05-05 18:07:18,662 [INFO] [3/3] Running JO-VPPM v10 (Trained Model)...
+2026-05-05 18:07:46,164 [INFO]   [JO-VPPM]  Acc=94.9% | SLA-viol=0.0% | AvgLat=5.17ms | Evac-hit=1.2%
+2026-05-05 18:07:47,263 [INFO]   ✅ Saved figures → /home/hung8uandj/Study/CoreRouter/results/figures/benchmark_geant2_bursty
+2026-05-05 18:07:47,264 [INFO] 
+==============================================================
+2026-05-05 18:07:47,264 [INFO]   TOPOLOGY: GEANT2 | SCENARIO: HEAVY_TAIL | STEPS: 3000
+2026-05-05 18:07:47,264 [INFO] ==============================================================
+2026-05-05 18:07:47,264 [INFO] [1/3] Running Exhaustive Pair-Search Baseline...
+2026-05-05 18:07:47,264 [WARNING]   ⚠ Exhaustive search skipped (--skip-ilp or geant2 > 1000 steps)
+2026-05-05 18:07:47,264 [INFO] [2/3] Running Decoupled AI Baseline...
+2026-05-05 18:07:47,861 [INFO]   [Decoupled] Acc=98.3% | SLA-viol=0.4% | AvgLat=4.35ms
+2026-05-05 18:07:47,865 [INFO] [3/3] Running JO-VPPM v10 (Trained Model)...
+2026-05-05 18:08:08,253 [INFO]   [JO-VPPM]  Acc=95.3% | SLA-viol=0.0% | AvgLat=4.97ms | Evac-hit=0.7%
+2026-05-05 18:08:10,021 [INFO]   ✅ Saved figures → /home/hung8uandj/Study/CoreRouter/results/figures/benchmark_geant2_heavy_tail
+
+═══════════════════════════════════════════════════════════════════════════════════════════════
+Algorithm                    |    Topo |   Scenario |   Acc% | SLA-Viol% |  Avg Lat | Evac-Hit%
+═══════════════════════════════════════════════════════════════════════════════════════════════
+    Decoupled AI               | vietnam |    uniform |  96.7% |     0.00% |   3.40ms |      0.0%
+  ★ JO-VPPM v10 (Ours)         | vietnam |    uniform |  94.4% |     0.00% |   3.62ms |      0.1%
+═══════════════════════════════════════════════════════════════════════════════════════════════
+
+═══════════════════════════════════════════════════════════════════════════════════════════════
+Algorithm                    |    Topo |   Scenario |   Acc% | SLA-Viol% |  Avg Lat | Evac-Hit%
+═══════════════════════════════════════════════════════════════════════════════════════════════
+    Decoupled AI               | vietnam |     bursty |  96.7% |     0.00% |   3.40ms |      0.0%
+  ★ JO-VPPM v10 (Ours)         | vietnam |     bursty |  93.9% |     0.00% |   3.65ms |      0.2%
+═══════════════════════════════════════════════════════════════════════════════════════════════
+
+═══════════════════════════════════════════════════════════════════════════════════════════════
+Algorithm                    |    Topo |   Scenario |   Acc% | SLA-Viol% |  Avg Lat | Evac-Hit%
+═══════════════════════════════════════════════════════════════════════════════════════════════
+    Decoupled AI               | vietnam | heavy_tail |  96.7% |     0.00% |   3.40ms |      0.0%
+  ★ JO-VPPM v10 (Ours)         | vietnam | heavy_tail |  94.8% |     0.00% |   3.45ms |      0.3%
+═══════════════════════════════════════════════════════════════════════════════════════════════
+
+═══════════════════════════════════════════════════════════════════════════════════════════════
+Algorithm                    |    Topo |   Scenario |   Acc% | SLA-Viol% |  Avg Lat | Evac-Hit%
+═══════════════════════════════════════════════════════════════════════════════════════════════
+    Decoupled AI               |  nsfnet |    uniform |  98.9% |     1.92% |   7.94ms |      0.0%
+  ★ JO-VPPM v10 (Ours)         |  nsfnet |    uniform |  96.0% |     0.42% |   6.25ms |      0.3%
+═══════════════════════════════════════════════════════════════════════════════════════════════
+
+═══════════════════════════════════════════════════════════════════════════════════════════════
+Algorithm                    |    Topo |   Scenario |   Acc% | SLA-Viol% |  Avg Lat | Evac-Hit%
+═══════════════════════════════════════════════════════════════════════════════════════════════
+    Decoupled AI               |  nsfnet |     bursty |  98.9% |     1.92% |   7.94ms |      0.0%
+  ★ JO-VPPM v10 (Ours)         |  nsfnet |     bursty |  94.8% |     0.32% |   6.31ms |      0.5%
+═══════════════════════════════════════════════════════════════════════════════════════════════
+
+═══════════════════════════════════════════════════════════════════════════════════════════════
+Algorithm                    |    Topo |   Scenario |   Acc% | SLA-Viol% |  Avg Lat | Evac-Hit%
+═══════════════════════════════════════════════════════════════════════════════════════════════
+    Decoupled AI               |  nsfnet | heavy_tail |  98.9% |     1.92% |   7.94ms |      0.0%
+  ★ JO-VPPM v10 (Ours)         |  nsfnet | heavy_tail |  95.9% |     0.35% |   6.26ms |      0.2%
+═══════════════════════════════════════════════════════════════════════════════════════════════
+
+═══════════════════════════════════════════════════════════════════════════════════════════════
+Algorithm                    |    Topo |   Scenario |   Acc% | SLA-Viol% |  Avg Lat | Evac-Hit%
+═══════════════════════════════════════════════════════════════════════════════════════════════
+    Decoupled AI               |  geant2 |    uniform |  98.3% |     0.41% |   4.35ms |      0.0%
+  ★ JO-VPPM v10 (Ours)         |  geant2 |    uniform |  95.4% |     0.00% |   5.19ms |      1.3%
+═══════════════════════════════════════════════════════════════════════════════════════════════
+
+═══════════════════════════════════════════════════════════════════════════════════════════════
+Algorithm                    |    Topo |   Scenario |   Acc% | SLA-Viol% |  Avg Lat | Evac-Hit%
+═══════════════════════════════════════════════════════════════════════════════════════════════
+    Decoupled AI               |  geant2 |     bursty |  98.3% |     0.41% |   4.35ms |      0.0%
+  ★ JO-VPPM v10 (Ours)         |  geant2 |     bursty |  94.9% |     0.04% |   5.17ms |      1.2%
+═══════════════════════════════════════════════════════════════════════════════════════════════
+
+═══════════════════════════════════════════════════════════════════════════════════════════════
+Algorithm                    |    Topo |   Scenario |   Acc% | SLA-Viol% |  Avg Lat | Evac-Hit%
+═══════════════════════════════════════════════════════════════════════════════════════════════
+    Decoupled AI               |  geant2 | heavy_tail |  98.3% |     0.41% |   4.35ms |      0.0%
+  ★ JO-VPPM v10 (Ours)         |  geant2 | heavy_tail |  95.3% |     0.00% |   4.97ms |      0.7%
+═══════════════════════════════════════════════════════════════════════════════════════════════
+
+
+==============================================================
+  FULL SUMMARY — ALL TOPOLOGIES & SCENARIOS
+
+═══════════════════════════════════════════════════════════════════════════════════════════════
+Algorithm                    |    Topo |   Scenario |   Acc% | SLA-Viol% |  Avg Lat | Evac-Hit%
+═══════════════════════════════════════════════════════════════════════════════════════════════
+    Decoupled AI               | vietnam |    uniform |  96.7% |     0.00% |   3.40ms |      0.0%
+  ★ JO-VPPM v10 (Ours)         | vietnam |    uniform |  94.4% |     0.00% |   3.62ms |      0.1%
+    Decoupled AI               | vietnam |     bursty |  96.7% |     0.00% |   3.40ms |      0.0%
+  ★ JO-VPPM v10 (Ours)         | vietnam |     bursty |  93.9% |     0.00% |   3.65ms |      0.2%
+    Decoupled AI               | vietnam | heavy_tail |  96.7% |     0.00% |   3.40ms |      0.0%
+  ★ JO-VPPM v10 (Ours)         | vietnam | heavy_tail |  94.8% |     0.00% |   3.45ms |      0.3%
+    Decoupled AI               |  nsfnet |    uniform |  98.9% |     1.92% |   7.94ms |      0.0%
+  ★ JO-VPPM v10 (Ours)         |  nsfnet |    uniform |  96.0% |     0.42% |   6.25ms |      0.3%
+    Decoupled AI               |  nsfnet |     bursty |  98.9% |     1.92% |   7.94ms |      0.0%
+  ★ JO-VPPM v10 (Ours)         |  nsfnet |     bursty |  94.8% |     0.32% |   6.31ms |      0.5%
+    Decoupled AI               |  nsfnet | heavy_tail |  98.9% |     1.92% |   7.94ms |      0.0%
+  ★ JO-VPPM v10 (Ours)         |  nsfnet | heavy_tail |  95.9% |     0.35% |   6.26ms |      0.2%
+    Decoupled AI               |  geant2 |    uniform |  98.3% |     0.41% |   4.35ms |      0.0%
+  ★ JO-VPPM v10 (Ours)         |  geant2 |    uniform |  95.4% |     0.00% |   5.19ms |      1.3%
+    Decoupled AI               |  geant2 |     bursty |  98.3% |     0.41% |   4.35ms |      0.0%
+  ★ JO-VPPM v10 (Ours)         |  geant2 |     bursty |  94.9% |     0.04% |   5.17ms |      1.2%
+    Decoupled AI               |  geant2 | heavy_tail |  98.3% |     0.41% |   4.35ms |      0.0%
+  ★ JO-VPPM v10 (Ours)         |  geant2 | heavy_tail |  95.3% |     0.00% |   4.97ms |      0.7%
+═══════════════════════════════════════════════════════════════════════════════════════════════

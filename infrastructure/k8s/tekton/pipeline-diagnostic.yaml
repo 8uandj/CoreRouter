@@ -1,0 +1,26 @@
+apiVersion: tekton.dev/v1
+kind: Pipeline
+metadata:
+  name: vnf-diagnostic
+  namespace: core-router
+spec:
+  tasks:
+    - name: ingest-nodes
+      taskRef: { name: kubectl-run }
+      params:
+        - name: args
+          value: ["get","nodes","-o","wide"]
+
+    - name: ingest-pods-all
+      runAfter: [ingest-nodes]
+      taskRef: { name: kubectl-run }
+      params:
+        - name: args
+          value: ["get","pods","-A","-o","wide"]
+
+    - name: ingest-events
+      runAfter: [ingest-pods-all]
+      taskRef: { name: kubectl-run }
+      params:
+        - name: args
+          value: ["get","events","-A","--sort-by=.lastTimestamp","--field-selector","type!=Normal"]

@@ -1,0 +1,14 @@
+apiVersion: tekton.dev/v1
+kind: Task
+metadata:
+  name: kubectl-wait
+  namespace: core-router
+spec:
+  params:
+  - name: namespace
+  - name: labelSelector
+  steps:
+  - name: wait
+    image: registry.k8s.io/kubectl:v1.30.0
+    command: ["kubectl"]
+    args: ["-n","$(params.namespace)","rollout","status","deploy","-l","$(params.labelSelector)","--timeout=180s"]

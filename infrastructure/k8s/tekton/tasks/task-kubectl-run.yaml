@@ -1,0 +1,16 @@
+apiVersion: tekton.dev/v1
+kind: Task
+metadata:
+  name: kubectl-run
+  namespace: core-router
+spec:
+  params:
+  - name: args
+    type: array
+    description: Arguments passed to kubectl (e.g. ["get","pods","-A","-o","wide"])
+  steps:
+  - name: run
+    image: registry.k8s.io/kubectl:v1.30.0
+    command: ["kubectl"]
+    # Tekton array expansion: *(star) bung mảng thành nhiều argv
+    args: ["$(params.args[*])"]

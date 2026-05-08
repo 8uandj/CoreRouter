@@ -1,0 +1,27 @@
+*** Creating network
+*** Adding controller
+*** Adding hosts:
+h1 vnf1 vnf2 
+*** Adding switches:
+s1 s2 s3 
+*** Adding links:
+(h1, s1) (s1, s2) (s2, s3) (vnf1, s2) (vnf2, s3) 
+*** Configuring hosts
+h1 vnf1 vnf2 
+*** Starting controller
+c0 
+*** Starting 3 switches
+s1 s2 s3 ...
+*** 3S-COM Data Plane (Reconstructed) is ready.
+*** Thrift ports should be opened externally or via Docker if using BMv2.
+*** Starting CLI:
+mininet> 
+*** Stopping 1 controllers
+c0 
+*** Stopping 5 links
+.....
+*** Stopping 3 switches
+s1 s2 s3 
+*** Stopping 3 hosts
+h1 vnf1 vnf2 
+*** Done
