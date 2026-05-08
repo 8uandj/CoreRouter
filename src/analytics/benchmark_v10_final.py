@@ -297,6 +297,7 @@ def run_jo_vppm(make_env, mdl_path: str, norm_path: str,
     vec_env.norm_reward = False
 
     # Khởi tạo model architecture và load weights
+    device = "cuda" if torch.cuda.is_available() else "cpu"
     policy_kwargs = dict(
         num_nodes=raw_env.topo.num_nodes,
         adj_matrix=raw_env.topo.adj_matrix,
@@ -304,12 +305,12 @@ def run_jo_vppm(make_env, mdl_path: str, norm_path: str,
         net_arch=dict(pi=[256, 128], vf=[256, 128])
     )
     model = MaskablePPO(GNNActorCriticPolicy, vec_env,
-                        policy_kwargs=policy_kwargs, device="cpu")
+                        policy_kwargs=policy_kwargs, device=device)
     with zipfile.ZipFile(mdl_path, "r") as z:
         with z.open("policy.pth") as f:
             buf = io.BytesIO(f.read())
             model.policy.load_state_dict(
-                torch.load(buf, map_location="cpu", weights_only=False))
+                torch.load(buf, map_location=device, weights_only=False))
 
     obs = vec_env.reset()  # obs đã được normalize qua VecNormalize
     spike_mode = (scenario == "spike")
@@ -372,6 +373,7 @@ def run_hybrid(make_env, mdl_path: str, norm_path: str,
         vec_env.training = False
         vec_env.norm_reward = False
 
+        device = "cuda" if torch.cuda.is_available() else "cpu"
         policy_kwargs = dict(
             num_nodes=raw_env.topo.num_nodes,
             adj_matrix=raw_env.topo.adj_matrix,
@@ -379,12 +381,12 @@ def run_hybrid(make_env, mdl_path: str, norm_path: str,
             net_arch=dict(pi=[256, 128], vf=[256, 128])
         )
         model = MaskablePPO(GNNActorCriticPolicy, vec_env,
-                            policy_kwargs=policy_kwargs, device="cpu")
+                            policy_kwargs=policy_kwargs, device=device)
         with zipfile.ZipFile(mdl_path, "r") as z:
             with z.open("policy.pth") as f:
                 buf = io.BytesIO(f.read())
                 model.policy.load_state_dict(
-                    torch.load(buf, map_location="cpu", weights_only=False))
+                    torch.load(buf, map_location=device, weights_only=False))
     else:
         model = None
 
@@ -808,7 +810,8 @@ if __name__ == "__main__":
             mdl_path  = os.path.join(MDL_DIR, args.version, f"dgrl_{args.version}_final_{topo_name}.zip")
             norm_path = os.path.join(MDL_DIR, args.version, f"vec_normalize_{args.version}_{topo_name}.pkl")
 
-            fig_dir   = os.path.join(FIG_ROOT, args.version, f"benchmark_{topo_name}_{scen}_{args.load}")
+            version_tag = f"{args.version}_hybrid"
+            fig_dir     = os.path.join(FIG_ROOT, version_tag, f"benchmark_{topo_name}_{scen}_{args.load}")
             skip_ilp  = args.skip_ilp or (topo_name == 'geant2' and args.steps > 1000)
 
             algo_runs = {
