@@ -15,7 +15,7 @@ spec:
     default: ""
   steps:
   - name: apply
-    image: bitnami/kubectl:latest  # pull from Docker Hub
+    image: localhost:32000/kubectl:1.30  # local registry — deterministic pull latency
     command: ["/bin/sh", "-c"]
     args:
       - |

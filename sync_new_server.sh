@@ -50,6 +50,8 @@ BƯỚC 1 — Import Docker images vào MicroK8s
   docker pull quay.io/frrouting/frr:9.1.1
   docker pull nginx:1.27-alpine
   docker pull python:3.11-alpine
+  # CRITICAL: kubectl image cho Tekton tasks (dùng local, không DockerHub runtime)
+  # Lưu ý: bitnami/kubectl:1.30 KHÔNG tồn tại — dùng :latest rồi tag lại
   docker pull bitnami/kubectl:latest
 
   for img in \
@@ -62,15 +64,26 @@ BƯỚC 1 — Import Docker images vào MicroK8s
   done
 
   # Tag và push lên local registry (localhost:32000)
-  sudo microk8s ctr image tag docker.io/library/alpine:latest      localhost:32000/alpine:latest
-  sudo microk8s ctr image tag quay.io/frrouting/frr:9.1.1         localhost:32000/frr:9.1.1
-  sudo microk8s ctr image tag docker.io/library/nginx:1.27-alpine  localhost:32000/nginx:1.27-alpine
-  sudo microk8s ctr image tag docker.io/library/python:3.11-alpine localhost:32000/python:3.11-alpine
+  # LUẦT: TẤT CẢ image dùng bởi Tekton tasks và VNF pods phải
+  # có trong local registry — KHÔNG pull DockerHub/internet lúc runtime.
+  sudo microk8s ctr image tag docker.io/library/alpine:latest        localhost:32000/alpine:latest
+  sudo microk8s ctr image tag quay.io/frrouting/frr:9.1.1           localhost:32000/frr:9.1.1
+  sudo microk8s ctr image tag docker.io/library/nginx:1.27-alpine    localhost:32000/nginx:1.27-alpine
+  sudo microk8s ctr image tag docker.io/library/python:3.11-alpine   localhost:32000/python:3.11-alpine
+  # kubectl image: tag sang localhost:32000/kubectl:1.30 (khớp Tekton tasks)
+  sudo microk8s ctr image tag docker.io/bitnami/kubectl:latest       localhost:32000/kubectl:1.30
 
   sudo microk8s ctr image push localhost:32000/alpine:latest
   sudo microk8s ctr image push localhost:32000/frr:9.1.1
   sudo microk8s ctr image push localhost:32000/nginx:1.27-alpine
   sudo microk8s ctr image push localhost:32000/python:3.11-alpine
+  sudo microk8s ctr image push localhost:32000/kubectl:1.30
+
+  # VERIFY: Kiểm tra tất cả image đã vào local registry chưa
+  echo "=== Local Registry Image List ==="
+  for img in alpine:latest frr:9.1.1 nginx:1.27-alpine python:3.11-alpine kubectl:1.30; do
+    sudo microk8s ctr image ls | grep "localhost:32000/$img" && echo "✅ $img" || echo "❌ MISSING: $img"
+  done
 
 ══════════════════════════════════════════════════════════════
 BƯỚC 2 — Deploy Phase 1 + 2 (K8s resources + Tekton pipelines)

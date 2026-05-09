@@ -1,0 +1,95 @@
+pkg_info {
+  arch: "v1model"
+}
+tables {
+  preamble {
+    id: 45618837
+    name: "SRv6Ingress.routing_v6"
+    alias: "routing_v6"
+  }
+  match_fields {
+    id: 1
+    name: "hdr.ipv6.dstAddr"
+    bitwidth: 128
+    match_type: LPM
+  }
+  action_refs {
+    id: 18208948
+  }
+  action_refs {
+    id: 28335198
+  }
+  action_refs {
+    id: 21257015
+  }
+  size: 1024
+}
+tables {
+  preamble {
+    id: 42815118
+    name: "SRv6Ingress.srv6_local_sid"
+    alias: "srv6_local_sid"
+  }
+  match_fields {
+    id: 1
+    name: "hdr.ipv6.dstAddr"
+    bitwidth: 128
+    match_type: EXACT
+  }
+  action_refs {
+    id: 25071721
+  }
+  action_refs {
+    id: 28335198
+  }
+  action_refs {
+    id: 21257015
+  }
+  size: 256
+}
+actions {
+  preamble {
+    id: 21257015
+    name: "NoAction"
+    alias: "NoAction"
+    annotations: "@noWarn(\"unused\")"
+  }
+}
+actions {
+  preamble {
+    id: 28335198
+    name: "SRv6Ingress.drop"
+    alias: "drop"
+  }
+}
+actions {
+  preamble {
+    id: 18208948
+    name: "SRv6Ingress.ipv6_forward"
+    alias: "ipv6_forward"
+  }
+  params {
+    id: 1
+    name: "dstMac"
+    bitwidth: 48
+  }
+  params {
+    id: 2
+    name: "srcMac"
+    bitwidth: 48
+  }
+  params {
+    id: 3
+    name: "port"
+    bitwidth: 9
+  }
+}
+actions {
+  preamble {
+    id: 25071721
+    name: "SRv6Ingress.srv6_advance_segment"
+    alias: "srv6_advance_segment"
+  }
+}
+type_info {
+}

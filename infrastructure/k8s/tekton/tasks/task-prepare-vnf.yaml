@@ -13,7 +13,7 @@ spec:
       default: "auto"
   steps:
     - name: fetch-and-process
-      image: bitnami/kubectl:latest  # pull from Docker Hub
+      image: localhost:32000/kubectl:1.30  # local registry — deterministic pull latency
       securityContext:
         runAsUser: 0
       command: ["/bin/sh", "-c"]

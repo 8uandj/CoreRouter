@@ -6,6 +6,6 @@ metadata:
 spec:
   steps:
   - name: get-all
-    image: registry.k8s.io/kubectl:v1.30.0
+    image: localhost:32000/kubectl:1.30  # local registry — no internet dependency
     command: ["kubectl"]
     args: ["get","pods","-A","-o","wide"]

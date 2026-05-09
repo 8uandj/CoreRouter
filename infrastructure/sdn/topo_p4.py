@@ -1,27 +1,62 @@
 """
-3S-COM Testbed — Data Plane (Phase 3: Mininet ↔ K8s NodePort Bridge)
-=====================================================================
+3S-COM Testbed — Data Plane (Phase 4: P4 SRv6 + CPU-Pinned BMv2)
+=================================================================
 Topology:
-    h1 ── s1 ── s2 ── s3
-                │      │
-              vnf1    vnf2
+    h1 ── s1(P4) ── s2(P4) ── s3(P4)
+                    │           │
+                  vnf1        vnf2
 
-Bridge mode (Calico / MicroK8s):
-    Mỗi host có thêm veth nối vào br-k8s-mn → host kernel → K8s NodePort.
-    Tất cả host đều có default route qua br-k8s-mn để reach NodePort.
+Phase 4 thay đổi so với Phase 3:
+  - OVSBridge → P4RuntimeSwitch (BMv2 simple_switch_grpc)
+  - Mỗi switch trói vào 1 CPU core độc lập (--cpuset-cpus)
+  - SDNController bootstrap bảng routing_v6 qua Thrift
+  - Make-Before-Break steer với confirm_steer_done
+
+Quy tắc thép:
+  1. KHÔNG BSID — Parser hard-drop nếu #SID > MAX_SID_DEPTH
+  2. CPU Pinning — mỗi switch 1 core vật lý
+  3. Steer chỉ sau khi K8s Ready, BREAK chỉ sau confirm_steer_done
 
 Usage:
-    sudo python3 infrastructure/sdn/topo_p4.py
+    sudo python3 infrastructure/sdn/topo_p4.py [--p4]  # P4 mode
+    sudo python3 infrastructure/sdn/topo_p4.py         # Legacy OVS mode
 """
 
+import argparse
+import os
 from mininet.topo import Topo
 from mininet.net import Mininet
 from mininet.node import OVSBridge
 from mininet.cli import CLI
-from mininet.log import setLogLevel, info
+from mininet.log import setLogLevel, info, warn
 import subprocess
 import sys
 import time
+
+# ── Phase 4: P4 components ────────────────────────────────────
+_P4_SDN_DIR = os.path.dirname(os.path.abspath(__file__))
+try:
+    sys.path.insert(0, _P4_SDN_DIR)
+    from p4_switch import SwitchManager
+    from controller import SDNController, start_rest_api
+    import threading
+    HAS_P4 = True
+except ImportError as _e:
+    HAS_P4 = False
+    warn(f"*** P4 modules not available ({_e}), falling back to OVS\n")
+
+# Đường dẫn tới compiled BMv2 JSON (build bởi: cd p4 && make all)
+_REPO_ROOT   = os.path.dirname(os.path.dirname(_P4_SDN_DIR))
+_P4_BUILD    = os.path.join(_REPO_ROOT, "infrastructure", "sdn", "p4", "build")
+CORE_JSON    = os.path.join(_P4_BUILD, "core",   "srv6_core.json")
+BORDER_JSON  = os.path.join(_P4_BUILD, "border", "srv6_border.json")
+
+# Switch type mapping: s1/s2 = core (MSD=10), s3 = border (MSD=3)
+_SWITCH_JSON = {
+    "s1": CORE_JSON,
+    "s2": CORE_JSON,
+    "s3": BORDER_JSON,
+}
 
 # ══════════════════════════════════════════════════════════════
 #  CONFIG  (chỉnh ở đây khi deploy lên server mới)
@@ -141,21 +176,54 @@ def _cleanup_old_veths():
         run_cmd(f"ip link delete {veth} 2>/dev/null")
 
 
-def _ensure_masquerade(src_subnet: str):
-    """Đảm bảo iptables MASQUERADE rule tồn tại cho subnet Mininet.
+# Mapping: Mininet IP → bridge-side veth IP (dùng cho return routing)
+# Host-level route: "packet to 10.0.0.x, next-hop = bridge IP của host tương ứng"
+_MININET_TO_BRIDGE_IP = {
+    "h1":   ("10.0.0.1",  H1_K8S_IP),
+    "vnf1": ("10.0.0.11", VNF1_K8S_IP),
+    "vnf2": ("10.0.0.12", VNF2_K8S_IP),
+}
 
-    Cho phép traffic từ Mininet hosts reach NodePort bên ngoài
-    (ví dụ: 10.10.x.x) mà không bị drop.
+
+def _setup_transparent_routing(net, k8s_bridge: str):
+    """Thiết lập SFC-transparent routing: GIỮ source IP gốc từ Mininet.
+
+    Vấn đề với MASQUERADE (cũ):
+      h1 (10.0.0.1) → MASQUERADE → VNF thấy srcIP=10.1.240.1 (bridge GW)
+      => DDoS detection vô nghĩa vì mọi host trông giống nhau.
+
+    Giải pháp — L2 Transparent Routing:
+      1. Mininet host dùng `src <mininet_ip>` trong default route.
+         => h1 (10.0.0.1) gửi gói tin: srcIP=10.0.0.1 (thật), KHOONG rewrite.
+      2. Host-level return route: per-host 10.0.0.x/32 → via bridge veth IP.
+         => K8s pod reply đến 10.0.0.1 → host route: via 10.1.240.90 → vào h1's netns.
+      3. ip_forward=1 để host forward packets giữa Mininet và K8s.
+      4. KHÔNG MASQUERADE, không NAT, không rewrite header.
+
+    Tầng DATA PLANE SFC của chúầ ta sẽ bày ra chain:
+      h1(10.0.0.1) -> P4 switch -> SRv6 path -> vNAT -> vFW -> vIDPS
+      vFW thấy srcIP=10.0.0.1 => block đúng target => demo có giá trị khoa học.
+
+    Technical Debt note:
+      Đây là Milestone 2 (veth/direct bridge). Vấn đề còn lại:
+      - VNF pods trong K8s sẽ thấy traffic đến qua kube-proxy (NodePort path)
+        => header vẫn qua DNAT của kube-proxy.
+      Milestone 3 (Multus/macvlan) sẽ giải quyết cả kube-proxy DNAT.
     """
-    # Kiểm tra xem rule đã tồn tại chưa
-    check = run_out(
-        f"iptables -t nat -C POSTROUTING -s {src_subnet} ! -d {src_subnet} -j MASQUERADE 2>&1"
-    )
-    if "No chain/target" in check or check == "":
-        run_cmd(f"iptables -t nat -A POSTROUTING -s {src_subnet} ! -d {src_subnet} -j MASQUERADE")
-        run_cmd(f"iptables -A FORWARD -s {src_subnet} -j ACCEPT")
-        run_cmd(f"iptables -A FORWARD -d {src_subnet} -j ACCEPT")
-        info(f"*** MASQUERADE rule added for {src_subnet}\n")
+    info("*** [Transparent Routing] ip_forward + per-host return routes...\n")
+    run_cmd("sysctl -w net.ipv4.ip_forward=1 > /dev/null")
+
+    # FORWARD rules không NAT — chỉ cho phép forward, không rewrite
+    run_cmd(f"iptables -A FORWARD -i {k8s_bridge} -j ACCEPT 2>/dev/null || true")
+    run_cmd(f"iptables -A FORWARD -o {k8s_bridge} -j ACCEPT 2>/dev/null || true")
+
+    # Per-host return routes: 10.0.0.x/32 via <bridge_veth_ip> dev <bridge>
+    # K8s pod reply đến 10.0.0.x => host biết route vào đúng netns của host tương ứng
+    for host_name, (mn_ip, bridge_ip) in _MININET_TO_BRIDGE_IP.items():
+        run_cmd(f"ip route replace {mn_ip}/32 via {bridge_ip} dev {k8s_bridge} 2>/dev/null || true")
+        info(f"    Return route: {mn_ip}/32 via {bridge_ip} ({host_name})\n")
+
+    info("*** [Transparent Routing] Setup complete. NO MASQUERADE. SFC transparency: ON\n")
 
 
 def setup_bridge(net, k8s_bridge: str, k8s_ip: str, mode: str):
@@ -200,6 +268,9 @@ def setup_bridge(net, k8s_bridge: str, k8s_ip: str, mode: str):
         host = net.get(host_name)
         pid  = host.pid
 
+        # Lấy Mininet IP của host (để dùng làm src hint)
+        mn_ip = _MININET_TO_BRIDGE_IP.get(host_name, (None, None))[0]
+
         run_cmd(f"ip link add {veth_k8s} type veth peer name {veth_mn}")
         run_cmd(f"ip link set {veth_k8s} master {k8s_bridge}")
         run_cmd(f"ip link set {veth_k8s} up")
@@ -208,17 +279,24 @@ def setup_bridge(net, k8s_bridge: str, k8s_ip: str, mode: str):
         host.cmd(f"ip addr add {ip}/{prefix} dev {veth_mn}")
         host.cmd(f"ip link set {veth_mn} up")
         host.cmd(f"ip route add {subnet} via {gw} dev {veth_mn}")
-        # Default route: cho phép reach bất kỳ IP nào (NodePort, internet)
-        host.cmd(f"ip route add default via {gw} dev {veth_mn} 2>/dev/null || true")
-        info(f"    {host_name} → {ip} OK\n")
+
+        # KEY FIX (Lỗ hổng 1): Dùng `src <mininet_ip>` để bảo tòan source IP.
+        # Không có dòng này, Linux sẽ chọn IP của veth ({ip}={bridge_ip})
+        # làm source => VNF thấy tất cả trông giống nhau (phá SFC transparency).
+        if mn_ip:
+            host.cmd(f"ip route replace default via {gw} dev {veth_mn} src {mn_ip}")
+        else:
+            host.cmd(f"ip route add default via {gw} dev {veth_mn} 2>/dev/null || true")
+
+        info(f"    {host_name} → bridge={ip}, src_hint={mn_ip or '(none)'} OK\n")
 
     # /etc/hosts nội bộ Mininet
     hosts_entries = "10.0.0.1 h1\n10.0.0.11 vnf1\n10.0.0.12 vnf2\n"
     for host_name in ["h1", "vnf1", "vnf2"]:
         net.get(host_name).cmd(f"printf '{hosts_entries}' >> /etc/hosts")
 
-    # Đảm bảo MASQUERADE cho Mininet subnet
-    _ensure_masquerade(MN_SUBNET)
+    # Transparent routing — KHOONG MASQUERADE
+    _setup_transparent_routing(net, k8s_bridge)
 
     info("*** Bridge setup complete.\n")
 
@@ -280,21 +358,168 @@ def verify_phase3(net, k8s_ip: str, nodeport: int = VVOC_NODEPORT) -> bool:
 #  Entry point
 # ──────────────────────────────────────────────────────────────
 
-def run():
-    k8s_bridge, mode = detect_k8s_bridge()
-    k8s_ip           = detect_k8s_ip(mode)
+# ══════════════════════════════════════════════════════════════
+#  Initial routing plan (bootstrap tables sau khi switches up)
+# ══════════════════════════════════════════════════════════════
 
+# SID prefix scheme: fc00:X::Y
+#   X = switch_id (1/2/3)
+#   Y = host id
+# Ports: s1-p1=h1, s1-p2=s2; s2-p1=s1, s2-p2=s3, s2-p3=vnf1; s3-p1=s2, s3-p2=vnf2
+
+INITIAL_ROUTING = [
+    # ── s1: default forward đến s2 ────────────────────────────
+    {"switch": "s1", "type": "ipv6_route",
+     "prefix": "::", "prefix_len": 0,
+     "dst_mac": "00:00:00:00:02:01", "src_mac": "00:00:00:00:01:02", "out_port": 2},
+    # ── s2: forward vnf1 traffic (fc00:b::11) đến port3 ───────
+    {"switch": "s2", "type": "ipv6_route",
+     "prefix": "fc00:b::11", "prefix_len": 128,
+     "dst_mac": "00:00:00:00:00:11", "src_mac": "00:00:00:00:02:03", "out_port": 3},
+    # ── s2: default forward đến s3 ────────────────────────────
+    {"switch": "s2", "type": "ipv6_route",
+     "prefix": "::", "prefix_len": 0,
+     "dst_mac": "00:00:00:00:03:01", "src_mac": "00:00:00:00:02:02", "out_port": 2},
+    # ── s3: forward vnf2 traffic (fc00:b::12) đến port2 ───────
+    {"switch": "s3", "type": "ipv6_route",
+     "prefix": "fc00:b::12", "prefix_len": 128,
+     "dst_mac": "00:00:00:00:00:12", "src_mac": "00:00:00:00:03:02", "out_port": 2},
+    # ── SRv6 local SIDs ───────────────────────────────────────
+    {"switch": "s1", "type": "srv6_sid", "sid": "fc00:1::1"},
+    {"switch": "s2", "type": "srv6_sid", "sid": "fc00:2::1"},
+    {"switch": "s3", "type": "srv6_sid", "sid": "fc00:3::1"},
+]
+
+
+def run_p4(k8s_bridge: str, k8s_ip: str, mode: str):
+    """
+    Phase 4 mode: Mininet + P4RuntimeSwitch (BMv2) + SDNController.
+
+    Kiến trúc:
+      - Mininet topo khởi động KHÔNG có switch thật (switch=None)
+      - P4RuntimeSwitch được tạo riêng qua Docker với CPU pinning
+      - Mininet interfaces được pass vào BMv2 qua -i PORT@IFACE
+    """
+    if not HAS_P4:
+        warn("*** P4 modules not available. Falling back to OVS mode.\n")
+        return run_ovs(k8s_bridge, k8s_ip, mode)
+
+    # Kiểm tra JSON files đã được build chưa
+    for sw_name, json_path in _SWITCH_JSON.items():
+        if not os.path.isfile(json_path):
+            warn(
+                f"*** {sw_name} JSON not found: {json_path}\n"
+                f"    Run: cd infrastructure/sdn/p4 && make all\n"
+                f"    Falling back to OVS mode.\n"
+            )
+            return run_ovs(k8s_bridge, k8s_ip, mode)
+
+    info("*** [Phase 4] Starting P4RuntimeSwitch topology...\n")
+
+    # ── 1. Khởi Mininet topology (hosts only, no switch) ──────
     topo = CoreRouterTopo()
     net  = Mininet(topo=topo, switch=OVSBridge, controller=None)
     net.start()
 
+    # ── 2. Khởi SwitchManager + P4RuntimeSwitch (CPU pinned) ──
+    # Giao diện Mininet: s1-eth1 (h1↔s1), s1-eth2 (s1↔s2), ...
+    # BMv2 port numbering bắt đầu từ 1
+    manager = SwitchManager(cpu_base=2)  # core 2,3,4 cho s1,s2,s3
+
+    manager.add_switch(
+        name       = "s1",
+        switch_id  = 1,
+        json_path  = _SWITCH_JSON["s1"],
+        interfaces = [(1, "s1-eth1"), (2, "s1-eth2")],
+    )
+    manager.add_switch(
+        name       = "s2",
+        switch_id  = 2,
+        json_path  = _SWITCH_JSON["s2"],
+        interfaces = [(1, "s2-eth1"), (2, "s2-eth2"), (3, "s2-eth3")],
+    )
+    manager.add_switch(
+        name       = "s3",
+        switch_id  = 3,
+        json_path  = _SWITCH_JSON["s3"],
+        interfaces = [(1, "s3-eth1"), (2, "s3-eth2")],
+    )
+
+    if not manager.start_all():
+        warn("*** Some P4 switches failed to start! Check docker logs.\n")
+
+    info(manager.status_report() + "\n")
+
+    # ── 3. Setup K8s bridge (transparent routing) ─────────────
+    setup_bridge(net, k8s_bridge, k8s_ip, mode)
+    warm_up(net, k8s_ip)
+
+    # ── 4. Bootstrap forwarding tables qua Thrift ─────────────
+    thrift_map = {"s1": 9091, "s2": 9092, "s3": 9093}
+    controller = SDNController(thrift_map)
+
+    # Đợi Thrift ports ready (BMv2 cần ~3s sau khi gRPC up)
+    info("*** [Phase 4] Waiting for Thrift ports...\n")
+    time.sleep(3)
+
+    if controller.bootstrap(INITIAL_ROUTING):
+        info("*** [Phase 4] Forwarding tables populated ✅\n")
+    else:
+        warn("*** [Phase 4] Some table entries failed (BMv2 may not be ready yet)\n")
+
+    # ── 5. Khởi REST API cho Backend AI (non-blocking) ────────
+    api_thread = threading.Thread(
+        target=start_rest_api,
+        args=(controller, 8765),
+        daemon=True
+    )
+    api_thread.start()
+    info("*** [Phase 4] SDN Controller REST API: http://0.0.0.0:8765\n")
+
+    # ── 6. Phase 3 connectivity check ─────────────────────────
+    verify_phase3(net, k8s_ip)
+
+    info("*** 3S-COM Phase 4 Data Plane ready. Type 'exit' to stop.\n")
+    info("*** REST endpoints: /health  /bootstrap  /steer  /steer/status\n")
+    CLI(net)
+
+    # ── Teardown ───────────────────────────────────────────────
+    manager.stop_all()
+    net.stop()
+
+
+def run_ovs(k8s_bridge: str, k8s_ip: str, mode: str):
+    """Legacy Phase 3 mode: OVSBridge (fallback khi chưa có P4 JSON)."""
+    info("*** [OVS mode] Starting legacy OVSBridge topology...\n")
+    topo = CoreRouterTopo()
+    net  = Mininet(topo=topo, switch=OVSBridge, controller=None)
+    net.start()
     setup_bridge(net, k8s_bridge, k8s_ip, mode)
     warm_up(net, k8s_ip)
     verify_phase3(net, k8s_ip)
-
     info("*** 3S-COM Data Plane is ready. Type 'exit' to stop.\n")
     CLI(net)
     net.stop()
+
+
+def run():
+    ap = argparse.ArgumentParser(description="3S-COM Testbed Data Plane")
+    ap.add_argument(
+        "--p4", action="store_true",
+        help="Bật Phase 4 P4RuntimeSwitch mode (cần: cd p4 && make all trước)"
+    )
+    args, _ = ap.parse_known_args()
+
+    # Pre-cleanup mininet veths to prevent "RTNETLINK answers: File exists" from ungraceful exits
+    run_cmd("for i in $(ip link show | grep -oE '(s|h|vnf)[0-9]+-eth[0-9]+'); do ip link delete $i 2>/dev/null; done")
+
+    k8s_bridge, mode = detect_k8s_bridge()
+    k8s_ip           = detect_k8s_ip(mode)
+
+    if args.p4:
+        run_p4(k8s_bridge, k8s_ip, mode)
+    else:
+        run_ovs(k8s_bridge, k8s_ip, mode)
 
 
 if __name__ == "__main__":

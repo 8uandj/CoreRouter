@@ -10,7 +10,7 @@ spec:
     description: Arguments passed to kubectl (e.g. ["get","pods","-A","-o","wide"])
   steps:
   - name: run
-    image: registry.k8s.io/kubectl:v1.30.0
+    image: localhost:32000/kubectl:1.30  # local registry — no internet dependency
     command: ["kubectl"]
     # Tekton array expansion: *(star) bung mảng thành nhiều argv
     args: ["$(params.args[*])"]

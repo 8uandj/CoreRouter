@@ -105,7 +105,7 @@ spec:
             description: "Location của replacement đã gắn label core-router/location"
         steps:
           - name: write
-            image: alpine:3.18
+            image: localhost:32000/alpine:latest  # local registry — no internet dependency
             script: |
               #!/bin/sh
               set -e

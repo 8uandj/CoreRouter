@@ -9,6 +9,6 @@ spec:
   - name: labelSelector
   steps:
   - name: get
-    image: registry.k8s.io/kubectl:v1.30.0
+    image: localhost:32000/kubectl:1.30  # local registry — no internet dependency
     command: ["kubectl"]
     args: ["-n","$(params.namespace)","get","pods","-l","$(params.labelSelector)","-o","wide"]

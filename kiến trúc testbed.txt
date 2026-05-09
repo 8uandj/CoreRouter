@@ -1,73 +1,45 @@
 kiến trúc testbed sau correction với 3 correction chính. Đặc biệt, điểm về BSID là điểm chí mạng về novelty, không chỉ là chi tiết implementation. Nếu giữ BSID như một cơ chế “cứu” SID stack dài, nó làm mờ vai trò của Action Masking và tự phá câu chuyện khoa học của JO-VPPM.
 Về BSID và Action Masking đúng. Trong phiên bản luận văn/testbed hiện tại, nên bỏ hoàn toàn BSID khỏi critical path.
 
-Lập luận chuẩn nên là:
+- Lập luận chuẩn nên là:
+  - P4 hardware có MSD hữu hạn.
+  - JO-VPPM biết ràng buộc này.
+  - Invalid Action Masking loại bỏ mọi action tạo SID stack > MSD.
+  - Nếu không còn action an toàn, hệ thống từ chối bằng 409 NO_SAFE_ACTION.
+- Đây là câu chuyện khoa học sạch hơn nhiều so với:
+  - AI cố tránh vượt MSD, nhưng nếu vượt thì P4 dùng BSID để cứu.
+  - Câu thứ hai làm hội đồng hỏi ngay: vậy ràng buộc MSD còn là hard constraint thật không, hay chỉ là vấn đề engineering có thể bypass?
+- Vì vậy Phase 4 phải sửa thành:
+  - Không BSID.
+  - P4 chỉ forward SRv6 cơ bản.
+  - Border switch có MSD = 3, core switch có MSD = 10.
+  - Backend/AI chịu trách nhiệm không sinh SID stack vượt MSD.
+  - Nếu không tìm được path hợp lệ: HTTP 409 NO_SAFE_ACTION.
+  Đây là Smart Admission Control, không phải lỗi.
+  - Phản biện thêm: bỏ BSID làm testbed “khắt khe” hơn, nhưng cũng khiến bạn phải chứng minh rõ rằng NO_SAFE_ACTION không phải failure. Vì vậy dashboard và benchmark phải hiển thị rejected requests như một chỉ số bảo vệ phần cứng, không phải error count.
 
-text
-P4 hardware có MSD hữu hạn.
-JO-VPPM biết ràng buộc này.
-Invalid Action Masking loại bỏ mọi action tạo SID stack > MSD.
-Nếu không còn action an toàn, hệ thống từ chối bằng 409 NO_SAFE_ACTION.
-Đây là câu chuyện khoa học sạch hơn nhiều so với:
+- Về Tekton và migration
+  - pipeline provision-sfc và migrate-single-vnf là hai bài toán khác nhau.
+  - Nếu chỉ có pipeline deploy cả chuỗi, demo Make-Before-Break sẽ bị sai bản chất. Trong migration, ta không deploy lại [vNAT, vFW, vVOC]. Ta chỉ tạo bản sao mới của một VNF bị nghẽn hoặc cần di dời, ví dụ vVOC từ Hà Nội sang Đà Nẵng.
 
-text
-AI cố tránh vượt MSD, nhưng nếu vượt thì P4 dùng BSID để cứu.
-Câu thứ hai làm hội đồng hỏi ngay: vậy ràng buộc MSD còn là hard constraint thật không, hay chỉ là vấn đề engineering có thể bypass?
-
-Vì vậy Phase 4 phải sửa thành:
-
-Không BSID.
-
-P4 chỉ forward SRv6 cơ bản.
-
-Border switch có MSD = 3, core switch có MSD = 10.
-
-Backend/AI chịu trách nhiệm không sinh SID stack vượt MSD.
-
-Nếu không tìm được path hợp lệ: HTTP 409 NO_SAFE_ACTION.
-
-Đây là Smart Admission Control, không phải lỗi.
-
-Phản biện thêm: bỏ BSID làm testbed “khắt khe” hơn, nhưng cũng khiến bạn phải chứng minh rõ rằng NO_SAFE_ACTION không phải failure. Vì vậy dashboard và benchmark phải hiển thị rejected requests như một chỉ số bảo vệ phần cứng, không phải error count.
-
-Về Tekton và migration
-Bạn cũng đúng: pipeline provision-sfc và migrate-single-vnf là hai bài toán khác nhau.
-
-Nếu chỉ có pipeline deploy cả chuỗi, demo Make-Before-Break sẽ bị sai bản chất. Trong migration, ta không deploy lại [vNAT, vFW, vVOC]. Ta chỉ tạo bản sao mới của một VNF bị nghẽn hoặc cần di dời, ví dụ vVOC từ Hà Nội sang Đà Nẵng.
-
-Kiến trúc đúng nên có ít nhất 2 pipeline:
-
-instantiate-sfc
-Dùng khi khởi tạo service chain ban đầu.
-
-Input:
-
-text
-sfc_id
-vnf_chain
-placement_plan
-namespace
-Output:
-
-text
-toàn bộ VNF chain được tạo
-service endpoints được ghi nhận
-migrate-single-vnf
-Dùng cho Make-Before-Break.
-
-Input:
-
-text
-sfc_id
-vnf_type
-old_instance_id
-old_node
-target_node
-namespace
-Flow:
-
-text
-Make: tạo VNF mới tại target_node
+- Kiến trúc đúng nên có ít nhất 2 pipeline:
+    - instantiate-sfc: Dùng khi khởi tạo service chain ban đầu.
+      Input: sfc_id, vnf_chain, placement_plan, namespace
+      Output: toàn bộ VNF chain được tạo, service endpoints được ghi nhận
+    - migrate-single-vnf: Dùng cho Make-Before-Break.
+      Input: sfc_id, vnf_type, old_instance_id, old_node, target_node, namespace
+      Output: toàn bộ VNF chain được tạo; service endpoints được ghi nhận; 
+    - migrate-single-vnf: Dùng cho Make-Before-Break.
+      Input:    
+        sfc_id
+        vnf_type
+        old_instan ce_id
+        old_node
+        target_node
+        namespace
+    - migrate-single-vnf: Dùng cho Make-Before-Break.
+      Flow:
+        - Make: tạo VNF mới tại target_node
 Wait: chờ pod Ready
 Steer: backend/P4 controller cập nhật SRv6 forwarding
 Break: xóa VNF cũ
