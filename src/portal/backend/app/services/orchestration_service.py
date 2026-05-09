@@ -3,7 +3,6 @@ import requests
 import logging
 from typing import Dict, Any, List, Optional
 from src.portal.backend.app.models.schemas import SFCRequest
-from src.portal.backend.app.containers.service_container import container
 
 logger = logging.getLogger("OrchestrationService")
 
@@ -105,7 +104,7 @@ class OrchestrationService:
         # RÀ SOÁT 2: Deadlock tại bước chờ STEER.
         # Chờ xác nhận từ Controller với Timeout nghiêm ngặt.
         steer_confirmed = False
-        for _ in range(5): # 5 * 2s = 10s Timeout (theo yêu cầu chỉ thị)
+        for _ in range(15): # 15 * 2s = 30s Timeout (theo yêu cầu chỉ thị Phase 5)
             try:
                 s_resp = requests.get(f"{self.sdn_controller_url}/steer/status", timeout=2)
                 if s_resp.json().get("confirm_steer_done"):

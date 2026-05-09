@@ -10,6 +10,7 @@ Workflow:
 The endpoints intentionally never auto-delete the old VNF: BREAK is gated by
 ``confirm_steer_done=true`` so traffic is not lost if steer is not yet wired.
 """
+from typing import Optional
 from fastapi import APIRouter, HTTPException, Query
 import logging
 
@@ -57,7 +58,7 @@ def migrate_single_vnf_status(
 def migrate_single_vnf_endpoint(
     deploy: str = Query(..., description="Replacement deployment name"),
     namespace: str = Query("core-router"),
-    service: str | None = Query(None, description="Override service name (defaults to <deploy>-svc)"),
+    service: Optional[str] = Query(None, description="Override service name (defaults to <deploy>-svc)"),
 ):
     result = container.orchestrator.get_replacement_endpoint(
         deploy_name=deploy, namespace=namespace, service_name=service,

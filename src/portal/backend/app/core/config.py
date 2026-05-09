@@ -1,7 +1,7 @@
 import os
 
 class Settings:
-    PROJECT_NAME: str = "3S-COM Orchestrator"
+    PROJECT_NAME: str = "3S-COM Orchestrator - INTEGRATED"
     VERSION: str = "2.0.0"
     PROMETHEUS_URL: str = os.getenv("PROMETHEUS_URL", "http://localhost:9090")
     SDN_CONTROLLER_URL: str = os.getenv("SDN_CONTROLLER_URL", "http://localhost:8765")

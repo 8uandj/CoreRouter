@@ -90,14 +90,17 @@ def _k8s_pod_ready(deploy_name: str, namespace: str = "core-router",
     """
     log.info(f"[MBB] Waiting for K8s Ready: {deploy_name} ...")
     deadline = time.time() + timeout
+    # Thử microk8s kubectl trước, sau đó fallback kubectl
     cmd = (
+        f"microk8s kubectl get deploy {deploy_name} -n {namespace} "
+        f"-o jsonpath='{{.status.readyReplicas}}' 2>/dev/null || "
         f"kubectl get deploy {deploy_name} -n {namespace} "
         f"-o jsonpath='{{.status.readyReplicas}}' 2>/dev/null"
     )
     while time.time() < deadline:
         rc, out = _run(cmd)
         if rc == 0 and out.strip().isdigit() and int(out.strip()) >= 1:
-            log.info(f"[MBB] ✅ {deploy_name} Ready")
+            log.info(f"[MBB] \u2705 {deploy_name} Ready")
             return True
         time.sleep(2)
     log.error(f"[MBB] ❌ Timeout: {deploy_name} not Ready after {timeout}s")

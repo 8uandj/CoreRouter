@@ -64,6 +64,7 @@ def request_orchestration():
         "ram_req": 15.0,
         "msd_req": 3,
         "service_type": "Data",
+        "alert_flag": True,
         "source_node": "Hanoi",
         "destination_node": "HoChiMinh"
     }

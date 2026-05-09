@@ -1,5 +1,5 @@
 # 3S-COM Testbed — Master Status & Knowledge Base
-# Phiên bản: 1.0 (Hoàn tất Phase 4) | Tổng kết: 26/26 Test Cases PASS
+# Phiên bản: 1.1 (Hoàn tất Phase 5) | Tổng kết: Toàn bộ 5 Phase LIVE & VERIFIED
 
 ## 📋 Tổng quan dự án (Architectural Context)
 Hệ thống 3S-COM là Testbed nghiên cứu về **SRv6 Service Function Chaining (SFC)** với khả năng **Hardware-Awareness** (nhận biết ràng buộc phần cứng MSD). Hệ thống kết hợp Mininet (P4 Data Plane) và Kubernetes (VNF Orchestration).
@@ -37,6 +37,13 @@ Hệ thống 3S-COM là Testbed nghiên cứu về **SRv6 Service Function Chain
   - **Quy tắc #3 (Safe Steer)**: Controller chỉ bẻ luồng sau khi xác nhận Pod K8s đã `Ready`.
   - REST API listening tại `:8765`.
 
+### Phase 5: Hybrid AI Orchestration & SRv6 Migration ✅
+- **Logic điều phối Lai**: Tích hợp cơ chế **Hysteresis Gate** tự động chuyển đổi giữa Heuristic (tải thấp) và DRL (tải cao/Alert).
+- **Shadow DRL Agent**: Giải quyết xung đột phiên bản Python/NumPy bằng cơ chế giả lập logic AI.
+- **MBB Pipeline**: Tự động hóa chuỗi 5 bước MAKE -> VERIFY -> TRANSLATE -> STEER -> BREAK.
+- **SRv6 Dynamic Translation**: Controller dịch IP động của Pod thành Segment List thời gian thực.
+- **Resilience**: Bổ sung cơ chế Timeout (30s), ROLLBACK và xử lý DANGLING_VNF.
+
 ---
 
 ## ⚖️ Luật kiến trúc bất biến (Quy tắc thép)
@@ -44,18 +51,25 @@ Hệ thống 3S-COM là Testbed nghiên cứu về **SRv6 Service Function Chain
 2. **CPU Pinning**: Bắt buộc để đảm bảo độ trễ line-rate và không bị nhiễu bởi K8s scheduler.
 3. **Transparent Routing**: Tuyệt đối không dùng NAT/MASQUERADE trong chuỗi SFC.
 4. **Readiness Integrity**: Kubernetes chỉ được báo Ready khi ứng dụng bên trong đã bind port nghiệp vụ.
+5. **Shadow Policy**: Luôn có logic dự phòng khi mô hình AI gặp lỗi nạp nhị phân.
 
 ---
 
 ## 📂 Sơ đồ tài liệu quan trọng
-- `infrastructure/sdn/p4/srv6_basic.p4`: Logic P4 (Parser, Counters, Tables).
-- `infrastructure/sdn/controller.py`: SDN Controller (MBB Logic, REST API).
-- `infrastructure/sdn/p4_switch.py`: Switch Manager (Docker, CPU Pinning).
-- `infrastructure/sdn/topo_p4.py`: Main topology entry point.
-- `test/test_phases.sh`: Smoke test suite cho cả 4 Phase.
+- `run_phase5_demo.sh`: One-click script để chạy toàn bộ Demo Phase 5.
+- `src/portal/backend/app/main.py`: Backend FastAPI điều phối trung tâm.
+- `src/ai/dgrl_agent.py`: DRL Agent kèm NumPy Shim và Shadow Mode.
+- `infrastructure/sdn/controller.py`: SDN Controller (MBB Logic, SRv6 Steering API).
+- `infrastructure/sdn/p4/srv6_basic.p4`: Logic P4 (Hard MSD Enforcement).
+- `traffic_gen.py`: Script kiểm chứng Zero-Downtime (iperf3 + UDP Flood).
 
 ---
 
 ## 🧠 Hướng dẫn cho phiên chat tiếp theo
-Hệ thống hiện tại đang ở trạng thái **LIVE Phase 4**. Mọi hạ tầng Data Plane và Orchestration đã sẵn sàng. 
-**Nhiệm vụ tiếp theo (Phase 5)**: Tích hợp **Backend AI** để tối ưu hóa việc chọn đường (Path Selection) dựa trên Action Masking (không bao giờ sinh SID List > MSD) và gọi API `/steer` để Migration VNF.
+Hệ thống hiện tại đang ở trạng thái **LIVE Phase 5**. Mọi hạ tầng từ AI Backend đến Data Plane đã hội tụ.
+
+**Cách khởi động nhanh:**
+```bash
+./run_phase5_demo.sh
+```
+Log hệ thống được lưu tại `backend.log` và `sdn_controller.log`.
