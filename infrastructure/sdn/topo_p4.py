@@ -116,8 +116,9 @@ def run():
     kind_ip     = detect_kind_ip()
 
     topo = CoreRouterTopo()
-    # Use OVSController for fast learning to avoid drop
-    net = Mininet(topo=topo, controller=OVSController)
+    # Use OVSBridge to enable standalone MAC learning mode
+    from mininet.node import OVSBridge
+    net = Mininet(topo=topo, switch=OVSBridge, controller=None)
     net.start()
     
     setup_bridge(net, kind_bridge, kind_ip)
