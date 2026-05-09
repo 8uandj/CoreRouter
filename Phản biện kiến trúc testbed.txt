@@ -1,0 +1,265 @@
+Phản biện kiến trúc testbed sau correction
+Mình đồng ý với 3 correction chính của bạn. Đặc biệt, điểm về BSID là điểm chí mạng về novelty, không chỉ là chi tiết implementation. Nếu giữ BSID như một cơ chế “cứu” SID stack dài, nó làm mờ vai trò của Action Masking và tự phá câu chuyện khoa học của JO-VPPM.
+
+Về BSID và Action Masking
+Bạn đúng. Trong phiên bản luận văn/testbed hiện tại, nên bỏ hoàn toàn BSID khỏi critical path.
+
+Lập luận chuẩn nên là:
+
+text
+P4 hardware có MSD hữu hạn.
+JO-VPPM biết ràng buộc này.
+Invalid Action Masking loại bỏ mọi action tạo SID stack > MSD.
+Nếu không còn action an toàn, hệ thống từ chối bằng 409 NO_SAFE_ACTION.
+Đây là câu chuyện khoa học sạch hơn nhiều so với:
+
+text
+AI cố tránh vượt MSD, nhưng nếu vượt thì P4 dùng BSID để cứu.
+Câu thứ hai làm hội đồng hỏi ngay: vậy ràng buộc MSD còn là hard constraint thật không, hay chỉ là vấn đề engineering có thể bypass?
+
+Vì vậy Phase 4 phải sửa thành:
+
+Không BSID.
+
+P4 chỉ forward SRv6 cơ bản.
+
+Border switch có MSD = 3, core switch có MSD = 10.
+
+Backend/AI chịu trách nhiệm không sinh SID stack vượt MSD.
+
+Nếu không tìm được path hợp lệ: HTTP 409 NO_SAFE_ACTION.
+
+Đây là Smart Admission Control, không phải lỗi.
+
+Phản biện thêm: bỏ BSID làm testbed “khắt khe” hơn, nhưng cũng khiến bạn phải chứng minh rõ rằng NO_SAFE_ACTION không phải failure. Vì vậy dashboard và benchmark phải hiển thị rejected requests như một chỉ số bảo vệ phần cứng, không phải error count.
+
+Về Tekton và migration
+Bạn cũng đúng: pipeline provision-sfc và migrate-single-vnf là hai bài toán khác nhau.
+
+Nếu chỉ có pipeline deploy cả chuỗi, demo Make-Before-Break sẽ bị sai bản chất. Trong migration, ta không deploy lại [vNAT, vFW, vVOC]. Ta chỉ tạo bản sao mới của một VNF bị nghẽn hoặc cần di dời, ví dụ vVOC từ Hà Nội sang Đà Nẵng.
+
+Kiến trúc đúng nên có ít nhất 2 pipeline:
+
+instantiate-sfc
+Dùng khi khởi tạo service chain ban đầu.
+
+Input:
+
+text
+sfc_id
+vnf_chain
+placement_plan
+namespace
+Output:
+
+text
+toàn bộ VNF chain được tạo
+service endpoints được ghi nhận
+migrate-single-vnf
+Dùng cho Make-Before-Break.
+
+Input:
+
+text
+sfc_id
+vnf_type
+old_instance_id
+old_node
+target_node
+namespace
+Flow:
+
+text
+Make: tạo VNF mới tại target_node
+Wait: chờ pod Ready
+Steer: backend/P4 controller cập nhật SRv6 forwarding
+Break: xóa VNF cũ
+Điểm cần rất chặt: Tekton không nên tự steer traffic. Tekton chỉ nên làm phần lifecycle của pod. Quyền steer phải nằm ở backend/controller, vì nó cần biết SRv6, MSD, chain state và admission control.
+
+Về nối Mininet với Kubernetes
+Bạn bắt đúng bệnh: nếu không giải quyết đoạn này, testbed chỉ là “hai thế giới chạy song song”. Mininet/P4 forward trong namespace riêng, còn VNF pod nằm trong CNI network riêng. Packet không tự nhiên chảy từ BMv2 switch vào pod.
+
+Có 3 hướng, mình xếp theo độ thực dụng.
+
+Option A: NodePort bridge, nên làm đầu tiên
+Đây là cách đơn giản nhất để có end-to-end demo sớm.
+
+Ý tưởng:
+
+text
+Pod VNF chạy trong MicroK8s
+Service type NodePort expose VNF ra IP của node
+Mininet host/switch route traffic tới NodeIP:NodePort
+Ưu điểm:
+
+dễ triển khai;
+
+ít đụng CNI;
+
+dễ debug bằng curl, nc, tcpdump;
+
+hợp cho demo control-plane orchestration và Make-Before-Break.
+
+Nhược điểm:
+
+không phải dataplane “thuần” P4-to-pod;
+
+có kube-proxy/iptables/NAT ở giữa;
+
+latency đo được sẽ pha thêm overhead K8s;
+
+không đẹp nếu claim packet đi trực tiếp qua VNF interface.
+
+Mình đề xuất dùng NodePort cho Phase 1-2 demo khả dụng.
+
+Option B: veth pair vào namespace/pod hoặc worker node
+Ý tưởng:
+
+text
+Mininet switch port <-> veth pair <-> Linux bridge / pod namespace / worker interface
+Ưu điểm:
+
+sát hơn với data plane thật;
+
+có thể capture rõ packet từ P4 switch vào VNF;
+
+kiểm soát topology tốt hơn.
+
+Nhược điểm:
+
+phức tạp;
+
+pod restart là namespace đổi, veth mất;
+
+cần script reconcile;
+
+dễ xung đột CNI;
+
+Tekton/K8s không thích việc ta chọc thủ công vào netns của pod.
+
+Nếu dùng hướng này, mình khuyên không nối thẳng vào pod ở bản đầu. Nên nối vào worker node bridge hoặc một gateway namespace ổn định trước.
+
+Option C: Multus/Macvlan, đẹp nhất nhưng nặng nhất
+Ý tưởng:
+
+text
+Pod có thêm interface phụ qua Multus/macvlan
+Mininet/P4 nối vào mạng phụ đó
+Ưu điểm:
+
+kiến trúc sạch;
+
+pod có data-plane interface riêng;
+
+hợp với NFV/K8s testbed thật.
+
+Nhược điểm:
+
+phải cài Multus;
+
+MicroK8s + Multus cần cấu hình kỹ;
+
+debug khó hơn;
+
+dễ mất thời gian trước khi có demo.
+
+Mình đề xuất roadmap mạng như sau:
+
+text
+Milestone 1: NodePort để demo end-to-end sớm.
+Milestone 2: veth/gateway namespace để giảm overhead và tăng tính thật.
+Milestone 3: Multus/macvlan nếu còn thời gian và cần độ thuyết phục cao.
+Về inference latency và zero-downtime
+Bạn đúng khi tách control plane latency và data plane continuity.
+
+Zero-downtime không yêu cầu AI inference <1ms. Nó yêu cầu:
+
+text
+old path vẫn sống trong lúc AI/Tekton tính toán và tạo VNF mới
+new VNF Ready rồi mới steer
+steering rule apply nhanh và nhất quán
+old VNF chỉ bị xóa sau khi traffic đã chuyển
+Vì vậy, kể cả FastAPI + GPU inference mất 5ms, 10ms, thậm chí 100ms, TCP stream vẫn không đứt nếu old path vẫn đang phục vụ.
+
+Cần sửa cách claim:
+
+Không nên nói:
+
+text
+AI inference <1ms để bảo đảm zero-downtime.
+Nên nói:
+
+text
+Zero-downtime được đảm bảo bởi Make-Before-Break ở data plane. Control-plane inference latency chỉ ảnh hưởng thời gian phản ứng, không làm gián đoạn luồng hiện tại.
+Metric nên tách:
+
+Decision latency: thời gian backend/AI quyết định.
+
+Provisioning latency: thời gian Tekton tạo pod mới.
+
+Steering latency: thời gian P4Runtime apply rule.
+
+Data-plane interruption: packet gap / TCP retransmission / Seq-Ack continuity.
+
+Trong demo, bằng chứng thép là packet gap và TCP retransmission, không phải inference latency.
+
+Kế hoạch 6 phase sau khi sửa
+Mình đề xuất sửa lộ trình thành:
+
+Phase 1: VNF catalog
+Tạo:
+
+text
+infrastructure/nfv/vnf-nat.yaml
+infrastructure/nfv/vnf-lb.yaml
+infrastructure/nfv/vnf-voc.yaml
+vVOC chọn Option C: custom Python service mô phỏng processing latency/CPU load có kiểm soát.
+
+Phase 2: Tekton lifecycle
+Tạo hai pipeline riêng:
+
+text
+instantiate-sfc
+migrate-single-vnf
+migrate-single-vnf là pipeline bắt buộc cho Make-Before-Break.
+
+Phase 3: Mininet-K8s bridge
+Bản đầu dùng NodePort để có traffic thật chảy từ Mininet đến VNF pod.
+
+Sau đó mới nâng cấp veth/macvlan.
+
+Phase 4: P4 SRv6 forwarding cơ bản, không BSID
+P4 chỉ forward SRv6 cơ bản và expose giới hạn MSD cho AI/backend.
+
+Không implement BSID.
+
+Phase 5: Backend Hybrid + migration controller
+Backend quyết định:
+
+text
+Heuristic hay DRL
+VNF nào cần migrate
+target node
+khi nào gọi Tekton
+khi nào steer
+khi nào break
+Phase 6: Demo end-to-end
+Demo HN → HCM:
+
+text
+Normal: vNAT -> vFW -> vVOC, Heuristic
+DDoS: Alert = 1
+Make: tạo vVOC mới ở Đà Nẵng
+Steer: P4 cập nhật SRv6 path
+Break: xóa vVOC cũ
+Proof: Wireshark TCP continuity
+Kết luận khắt khe
+Ba correction của bạn là đúng và nên trở thành luật kiến trúc:
+
+Không BSID trong testbed hiện tại, vì nó làm yếu novelty của Action Masking.
+
+Migration phải là single-VNF Make-Before-Break, không deploy lại cả chain.
+
+Mininet-K8s bridge phải được thiết kế cụ thể, trước mắt dùng NodePort để chạy được, sau đó mới nâng lên veth/macvlan.
+
+Nếu bắt đầu code, bước đầu tiên hợp lý nhất vẫn là VNF catalog, nhưng mình sẽ viết YAML theo hướng tương thích về sau với migrate-single-vnf: mỗi VNF có label, service, readiness probe, resource profile, và node placement hook rõ ràng.
