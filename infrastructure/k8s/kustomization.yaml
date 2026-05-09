@@ -1,0 +1,23 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+namespace: core-router
+
+resources:
+  - ns-core-router.yaml
+  - tekton-admin.yaml
+  - manifests/config-frr.yaml
+  - manifests/vnf-inputs.yaml
+  - manifests/vvoc-app.yaml
+  - tekton/tasks/task-kubectl-apply-file.yaml
+  - tekton/tasks/task-kubectl-get.yaml
+  - tekton/tasks/task-kubectl-scale.yaml
+  - tekton/tasks/task-kubectl-wait.yaml
+  - tekton/tasks/task-kubectl-run.yaml
+  - tekton/tasks/task-bb-sh.yaml
+  - tekton/tasks/task-kubectl-get-all.yaml
+  - tekton/tasks/task-prepare-vnf.yaml
+  - tekton/pipeline-vnf-fast.yaml
+  - tekton/pipeline-diagnostic.yaml
+  - tekton/pipeline-terminate-vnf.yaml
+  - tekton/pipeline-migrate-single-vnf.yaml

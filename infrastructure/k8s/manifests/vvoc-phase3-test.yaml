@@ -1,0 +1,77 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: vnf-voc-phase3
+  namespace: core-router
+  labels:
+    app: vnf-voc-phase3
+    core-router/role: voc
+    core-router/phase: "3"
+    core-router/location: hanoi-1
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: vnf-voc-phase3
+  template:
+    metadata:
+      labels:
+        app: vnf-voc-phase3
+        core-router/role: voc
+    spec:
+      containers:
+      - name: vvoc
+        image: localhost:32000/python:3.11-alpine
+        command: ["python3", "/app/vvoc.py"]
+        ports:
+        - containerPort: 8000
+        env:
+        - name: VVOC_PORT
+          value: "8000"
+        resources:
+          requests:
+            cpu: "50m"
+            memory: "64Mi"
+          limits:
+            cpu: "300m"
+            memory: "192Mi"
+        readinessProbe:
+          httpGet:
+            path: /healthz
+            port: 8000
+          initialDelaySeconds: 3
+          periodSeconds: 5
+          failureThreshold: 3
+        livenessProbe:
+          httpGet:
+            path: /healthz
+            port: 8000
+          initialDelaySeconds: 10
+          periodSeconds: 15
+          failureThreshold: 3
+        volumeMounts:
+        - name: vvoc-app
+          mountPath: /app
+      volumes:
+      - name: vvoc-app
+        configMap:
+          name: vvoc-app
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: vnf-voc-phase3-svc
+  namespace: core-router
+  labels:
+    app: vnf-voc-phase3
+    core-router/role: voc
+    core-router/phase: "3"
+spec:
+  type: NodePort
+  selector:
+    app: vnf-voc-phase3
+  ports:
+  - name: http
+    port: 80
+    targetPort: 8000
+    nodePort: 31656   # Port Mininet đang test: vnf1 curl http://<nodeIP>:31656/healthz

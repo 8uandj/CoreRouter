@@ -1,0 +1,71 @@
+apiVersion: tekton.dev/v1
+kind: Pipeline
+metadata:
+  name: vnf-migrate-single
+  namespace: core-router
+spec:
+  description: |
+    Make-only step of single-VNF Make-Before-Break migration.
+    Creates the replacement Deployment + Service and waits for readiness.
+    DOES NOT steer traffic. DOES NOT delete the old VNF.
+    Traffic switch and BREAK are handled by the controller after VERIFY.
+  workspaces:
+    - name: ws
+  params:
+    - name: ns
+      default: "core-router"
+    - name: oldDeployName
+      description: "Existing VNF deployment name (kept alive during MAKE)."
+    - name: newDeployName
+      description: "Replacement VNF deployment name."
+    - name: fileName
+      default: "vnf-frr.yaml"
+      description: "Manifest key inside the vnf-inputs ConfigMap."
+    - name: targetLocation
+      default: "auto"
+    - name: labelSelector
+      description: "Selector used by kubectl wait for the replacement pod."
+
+  tasks:
+    - name: prepare-manifest
+      taskRef: { name: prepare-vnf }
+      workspaces:
+        - name: ws
+          workspace: ws
+      params:
+        - name: deployName
+          value: $(params.newDeployName)
+        - name: fileName
+          value: $(params.fileName)
+        - name: location
+          value: $(params.targetLocation)
+
+    - name: instantiate-replacement
+      runAfter: [prepare-manifest]
+      taskRef: { name: kubectl-apply-file }
+      workspaces:
+        - name: ws
+          workspace: ws
+      params:
+        - name: filePath
+          value: /workspace/ws/final.yaml
+        - name: namespace
+          value: $(params.ns)
+
+    - name: wait-replacement-ready
+      runAfter: [instantiate-replacement]
+      taskRef: { name: kubectl-wait }
+      params:
+        - name: namespace
+          value: $(params.ns)
+        - name: labelSelector
+          value: $(params.labelSelector)
+
+    - name: observe-replacement
+      runAfter: [wait-replacement-ready]
+      taskRef: { name: kubectl-get }
+      params:
+        - name: namespace
+          value: $(params.ns)
+        - name: labelSelector
+          value: $(params.labelSelector)

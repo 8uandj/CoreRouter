@@ -1,0 +1,125 @@
+apiVersion: tekton.dev/v1
+kind: Pipeline
+metadata:
+  name: vnf-migrate-single
+  namespace: core-router
+  labels:
+    core-router/phase: "2"
+    core-router/lifecycle: make-before-break
+spec:
+  description: |
+    Single-VNF Make-Before-Break — MAKE STEP ONLY.
+
+    Tạo 1 bản sao VNF (replacement) tại node đích (target location). KHÔNG bẻ lái
+    traffic. KHÔNG xóa VNF cũ. Pipeline chỉ thực hiện:
+      1. prepare-replacement: render template từ ConfigMap vnf-inputs với
+         deployName mới + label core-router/location = targetLocation.
+      2. instantiate-replacement: kubectl apply manifest đã render.
+      3. wait-replacement-ready: chờ Deployment Ready (rollout status, timeout 180s).
+      4. observe-replacement: kubectl get pods để Backend đọc IP/NodePort của replacement.
+
+    Sau khi pipeline kết thúc Succeeded, Backend / SDN Controller sẽ thực hiện:
+      (Steer) — rewrite luật SRv6 ở Ingress để bẻ luồng sang replacement.
+      (Break) — gọi pipeline `vnf-terminate` để xóa VNF cũ. KHÔNG được trigger
+      trong pipeline này, vì nếu xóa VNF cũ trước khi traffic đã switch sẽ vi
+      phạm Zero-Downtime SLA của Make-Before-Break.
+  workspaces:
+    - name: ws
+  params:
+    - name: ns
+      default: "core-router"
+    - name: oldDeployName
+      description: "Tên VNF hiện tại (chỉ dùng để log/metadata; KHÔNG bị pipeline này xóa)"
+    - name: newDeployName
+      description: "Tên VNF replacement, ví dụ: vnf-frr-001-mig-hanoi2"
+    - name: fileName
+      description: "Tên template trong ConfigMap vnf-inputs (vd vnf-frr.yaml, vnf-nat.yaml, vnf-voc.yaml)"
+    - name: targetLocation
+      description: "Node-location đích (ví dụ hanoi-2, danang-1) — gán vào label core-router/location"
+      default: "auto"
+
+  tasks:
+    - name: prepare-replacement
+      taskRef: { name: prepare-vnf }
+      workspaces:
+        - name: ws
+          workspace: ws
+      params:
+        - name: deployName
+          value: $(params.newDeployName)
+        - name: fileName
+          value: $(params.fileName)
+        - name: location
+          value: $(params.targetLocation)
+
+    - name: instantiate-replacement
+      runAfter: [prepare-replacement]
+      taskRef: { name: kubectl-apply-file }
+      workspaces:
+        - name: ws
+          workspace: ws
+      params:
+        - name: filePath
+          value: /workspace/ws/final.yaml
+        - name: namespace
+          value: $(params.ns)
+
+    - name: wait-replacement-ready
+      runAfter: [instantiate-replacement]
+      taskRef: { name: kubectl-wait }
+      params:
+        - name: namespace
+          value: $(params.ns)
+        - name: labelSelector
+          value: app=$(params.newDeployName)
+
+    - name: observe-replacement
+      runAfter: [wait-replacement-ready]
+      taskRef: { name: kubectl-get }
+      params:
+        - name: namespace
+          value: $(params.ns)
+        - name: labelSelector
+          value: app=$(params.newDeployName)
+
+    - name: emit-results
+      runAfter: [observe-replacement]
+      params:
+        - name: oldDeployName
+          value: $(params.oldDeployName)
+        - name: newDeployName
+          value: $(params.newDeployName)
+        - name: targetLocation
+          value: $(params.targetLocation)
+      taskSpec:
+        params:
+          - name: oldDeployName
+          - name: newDeployName
+          - name: targetLocation
+        results:
+          - name: oldDeployName
+            description: "Echo oldDeployName cho Backend gọi vnf-terminate sau khi Steer"
+          - name: newDeployName
+            description: "Tên replacement vừa được tạo và Ready"
+          - name: targetLocation
+            description: "Location của replacement đã gắn label core-router/location"
+        steps:
+          - name: write
+            image: alpine:3.18
+            script: |
+              #!/bin/sh
+              set -e
+              printf '%s' "$(params.oldDeployName)"  > "$(results.oldDeployName.path)"
+              printf '%s' "$(params.newDeployName)"  > "$(results.newDeployName.path)"
+              printf '%s' "$(params.targetLocation)" > "$(results.targetLocation.path)"
+
+  results:
+    - name: oldDeployName
+      description: "Echo oldDeployName để Backend gọi vnf-terminate sau khi đã Steer xong"
+      value: $(tasks.emit-results.results.oldDeployName)
+    - name: newDeployName
+      description: "Tên replacement vừa được tạo và Ready"
+      value: $(tasks.emit-results.results.newDeployName)
+    - name: targetLocation
+      description: "Location của replacement đã gắn label core-router/location"
+      value: $(tasks.emit-results.results.targetLocation)
