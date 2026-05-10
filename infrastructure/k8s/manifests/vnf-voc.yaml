@@ -18,7 +18,7 @@ spec:
     spec:
       containers:
       - name: voc
-        image: python:3.11-alpine
+        image: localhost:32000/python:3.11-alpine
         imagePullPolicy: IfNotPresent
         command: ["/bin/sh", "-c"]
         args:

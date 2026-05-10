@@ -18,7 +18,7 @@ spec:
     spec:
       containers:
       - name: nat
-        image: alpine:latest
+        image: localhost:32000/alpine:latest
         imagePullPolicy: IfNotPresent
         command: ["/bin/sh", "-c"]
         args:

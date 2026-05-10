@@ -18,12 +18,27 @@ class TektonOrchestrator(IOrchestrator):
         self._connect()
 
     def _connect(self):
-        try:
-            config.load_kube_config()
-            self.custom_api = client.CustomObjectsApi()
-            self.apps_api = client.AppsV1Api()
-            self.core_api = client.CoreV1Api()
-        except:
+        kubeconfig_paths = [
+            None, # Default ~/.kube/config
+            "/var/snap/microk8s/current/credentials/client.config"
+        ]
+        
+        connected = False
+        for path in kubeconfig_paths:
+            try:
+                if path:
+                    config.load_kube_config(config_file=path)
+                else:
+                    config.load_kube_config()
+                self.custom_api = client.CustomObjectsApi()
+                self.apps_api = client.AppsV1Api()
+                self.core_api = client.CoreV1Api()
+                connected = True
+                break
+            except Exception:
+                pass
+
+        if not connected:
             try:
                 config.load_incluster_config()
                 self.custom_api = client.CustomObjectsApi()

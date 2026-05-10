@@ -12,7 +12,7 @@ spec:
     description: Shell script to run with /bin/sh -lc
   steps:
   - name: run
-    image: alpine:3.18
+    image: localhost:32000/alpine:latest
     script: |
       #!/bin/sh
       set -e # Dừng ngay nếu có lỗi

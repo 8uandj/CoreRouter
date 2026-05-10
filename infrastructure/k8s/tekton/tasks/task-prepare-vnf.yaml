@@ -13,7 +13,7 @@ spec:
       default: "auto"
   steps:
     - name: fetch-and-process
-      image: bitnami/kubectl:latest
+      image: bitnami/kubectl:latest  # pull from Docker Hub
       securityContext:
         runAsUser: 0
       command: ["/bin/sh", "-c"]

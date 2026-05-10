@@ -71,7 +71,7 @@ spec:
             default: ""
         steps:
           - name: apply
-            image: bitnami/kubectl:latest
+            image: localhost:32000/kubectl:latest
             securityContext:
               runAsUser: 0
             command: ["/bin/sh", "-c"]
@@ -135,7 +135,7 @@ spec:
             description: "Location của replacement đã gắn label core-router/location"
         steps:
           - name: write
-            image: alpine:3.18
+            image: localhost:32000/alpine:3.18
             script: |
               #!/bin/sh
               set -e

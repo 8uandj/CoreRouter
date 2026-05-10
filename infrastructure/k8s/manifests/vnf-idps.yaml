@@ -17,7 +17,7 @@ spec:
     spec:
       containers:
       - name: idps
-        image: alpine:latest
+        image: localhost:32000/alpine:latest
         command: ["/bin/sh", "-c", "echo 'IDPS Running'; sleep infinity"]
         imagePullPolicy: IfNotPresent
 ---

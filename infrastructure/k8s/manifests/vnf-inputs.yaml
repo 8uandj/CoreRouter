@@ -27,7 +27,7 @@ data:
             - /bin/sh
             - -c
             - echo 'Firewall Running'; sleep infinity
-            image: alpine:latest
+            image: localhost:32000/alpine:latest
             imagePullPolicy: IfNotPresent
             name: firewall
     ---
@@ -62,7 +62,7 @@ data:
             app: PLACEHOLDER_NAME
         spec:
           containers:
-          - image: quay.io/frrouting/frr:9.1.1
+          - image: localhost:32000/frr:9.1.1
             imagePullPolicy: IfNotPresent
             name: frr
             volumeMounts:
@@ -112,7 +112,7 @@ data:
             - /bin/sh
             - -c
             - echo 'IDPS Running'; sleep infinity
-            image: alpine:latest
+            image: localhost:32000/alpine:latest
             imagePullPolicy: IfNotPresent
             name: idps
     ---
@@ -149,7 +149,7 @@ data:
         spec:
           containers:
           - name: nat
-            image: alpine:latest
+            image: localhost:32000/alpine:latest
             imagePullPolicy: IfNotPresent
             command:
             - /bin/sh
@@ -218,7 +218,7 @@ data:
         spec:
           containers:
           - name: lb
-            image: nginx:1.27-alpine
+            image: localhost:32000/nginx:1.27-alpine
             imagePullPolicy: IfNotPresent
             ports:
             - name: http
@@ -281,7 +281,7 @@ data:
         spec:
           containers:
           - name: voc
-            image: python:3.11-alpine
+            image: localhost:32000/python:3.11-alpine
             imagePullPolicy: IfNotPresent
             command: ["/bin/sh", "-c"]
             args:

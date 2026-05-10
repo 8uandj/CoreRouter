@@ -15,7 +15,7 @@ spec:
     spec:
       containers:
       - name: frr
-        image: quay.io/frrouting/frr:9.1.1
+        image: localhost:32000/frr:9.1.1
         imagePullPolicy: IfNotPresent
         volumeMounts:
         - name: frr-cfg

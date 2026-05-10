@@ -17,7 +17,7 @@ spec:
     spec:
       containers:
       - name: firewall
-        image: alpine:latest
+        image: localhost:32000/alpine:latest
         command: ["/bin/sh", "-c", "echo 'Firewall Running'; sleep infinity"]
         imagePullPolicy: IfNotPresent
 ---
