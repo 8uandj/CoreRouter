@@ -82,7 +82,7 @@ sleep 2
 # ─────────────────────────────────────────────
 echo "3️⃣  Starting Frontend UI..."
 cd "$SCRIPT_DIR/src/portal/frontend"
-npm run dev > "$SCRIPT_DIR/$LOG_DIR/logs_frontend.txt" 2>&1 &
+npx vite --host 0.0.0.0 --port 5173 > "$LOG_DIR/logs_frontend.txt" 2>&1 &
 FRONTEND_PID=$!
 cd "$SCRIPT_DIR"
 

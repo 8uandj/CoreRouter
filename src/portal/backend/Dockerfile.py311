@@ -1,0 +1,34 @@
+FROM python:3.11-slim
+
+WORKDIR /app
+
+# System deps
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    gcc g++ curl git \
+    && rm -rf /var/lib/apt/lists/*
+
+# Copy toàn bộ project root (cần src/ để resolve absolute imports)
+COPY . .
+
+# Cài Backend + ML deps từ PyPI trước
+RUN pip install --no-cache-dir \
+    fastapi "uvicorn[standard]" \
+    kubernetes \
+    numpy scipy \
+    stable-baselines3 "sb3-contrib>=2.0" \
+    torch_geometric \
+    pandas google-cloud-aiplatform
+
+# Cài PyTorch CPU riêng — dùng --extra-index-url để không ghi đè PyPI
+RUN pip install --no-cache-dir \
+    torch --extra-index-url https://download.pytorch.org/whl/cpu
+
+# Bật model AI thật — không Shadow Mode
+ENV JO_VPPM_ENABLE_MODEL=1
+ENV JO_VPPM_MODEL_PATH=results/models/v10/dgrl_v10_final_vietnam.zip
+
+EXPOSE 8000
+
+# Chạy từ project root để src.* imports hoạt động
+CMD ["python", "-m", "uvicorn", "src.portal.backend.app.main:app", \
+     "--host", "0.0.0.0", "--port", "8000"]

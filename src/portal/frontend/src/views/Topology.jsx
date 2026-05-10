@@ -12,17 +12,11 @@ import ProvisionModal from '../components/topology/ProvisionModal';
 import TelemetryPanel from '../components/topology/TelemetryPanel';
 import { vnfService } from '../services/api';
 
-// --- Configuration ---
+// --- Testbed DCs: khớp với label core-router/location trong K8s ---
 const DCS = {
-  hn:    { id:'hn',    name:'Hanoi Edge DC',      x:400,  y:100,  w:660, h:360, color:'#f43f5e', icon:'🏙️' },
-  hp:    { id:'hp',    name:'Hai Phong Core DC',  x:1570, y:100,  w:660, h:360, color:'#ec4899', icon:'⚓' },
-  tb:    { id:'tb',    name:'Thai Binh DC',       x:2740, y:100,  w:660, h:360, color:'#d946ef', icon:'🌾' },
-  dn:    { id:'dn',    name:'Da Nang DC',         x:400,  y:600,  w:660, h:360, color:'#8b5cf6', icon:'🌉' },
-  hcm:   { id:'hcm',   name:'Ho Chi Minh Edge DC',x:2740, y:600,  w:660, h:360, color:'#6366f1', icon:'🌇' },
-  bkk:   { id:'bkk',   name:'Bangkok DC',         x:400,  y:1540, w:660, h:360, color:'#3b82f6', icon:'🛕' },
-  paris: { id:'paris', name:'Paris Core DC',      x:1570, y:1540, w:660, h:360, color:'#0ea5e9', icon:'🗼' },
-  berlin:{ id:'berlin',name:'Berlin DC',          x:2740, y:1540, w:660, h:360, color:'#06b6d4', icon:'🏛️' },
-  ny:    { id:'ny',    name:'New York DC',        x:1570, y:2040, w:660, h:360, color:'#14b8a6', icon:'🗽' },
+  'hanoi-1':  { id:'hanoi-1',  name:'Hanoi Edge DC',       x:400,  y:300, w:660, h:360, color:'#f43f5e', icon:'🏹️' },
+  'danang-1': { id:'danang-1', name:'Da Nang Core DC',      x:1570, y:300, w:660, h:360, color:'#8b5cf6', icon:'🌉' },
+  'hcm-1':    { id:'hcm-1',    name:'Ho Chi Minh Edge DC',  x:2740, y:300, w:660, h:360, color:'#6366f1', icon:'🌇' },
 };
 
 const INIT_BACKBONE = {
@@ -32,6 +26,7 @@ const INIT_BACKBONE = {
 };
 
 const MSD = { s1: 3, s2: 6 };
+
 const TRAFFIC_POLICY = {
   clean: { roles: [] },
   suspicious: { roles: ['firewall'] },
@@ -90,8 +85,8 @@ export default function Topology({ vnfs, onDeploy, onDelete }) {
   // Form
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [formData, setFormData] = useState({ name: 'vnf-node-1', type: 'firewall', profile: 'standard', location: 'auto' });
-  const [srcDc, setSrcDc] = useState('hn');
-  const [dstDc, setDstDc] = useState('ny');
+  const [srcDc, setSrcDc] = useState('hanoi-1');
+  const [dstDc, setDstDc] = useState('hcm-1');
   const [trafficOpt, setTrafficOpt] = useState('clean');
 
   const activeVnfs = [...(vnfs?.nodes || []), ...simVnfs];
@@ -134,9 +129,10 @@ export default function Topology({ vnfs, onDeploy, onDelete }) {
   const grouped = getGroupedVnfs();
 
   const getVnfPos = useCallback((vid) => {
-    const loc = vnfLocMemo.current[vid] || 'hn';
-    const dc = DCS[loc];
+    const loc = vnfLocMemo.current[vid] || 'hanoi-1';
+    const dc = DCS[loc] || DCS['hanoi-1'];
     const list = grouped[loc];
+    if (!list) return { x: dc.x + dc.w / 2, y: dc.y + dc.h / 2 };
     const idx = list.findIndex(v => v.id === vid);
     if (idx === -1) return { x: dc.x + dc.w / 2, y: dc.y + dc.h / 2 };
     const maxCols = 3, cellW = 180, cellH = 150;

@@ -15,7 +15,6 @@ import time
 import json
 import struct
 import socket
-import subprocess
 import threading
 import logging
 from dataclasses import dataclass, field
@@ -78,33 +77,10 @@ class ForwardingRule:
 # ══════════════════════════════════════════════════════════════
 
 def _run(cmd: str) -> Tuple[int, str]:
+    import subprocess
     r = subprocess.run(cmd, shell=True, capture_output=True, text=True)
     return r.returncode, (r.stdout + r.stderr).strip()
 
-
-def _k8s_pod_ready(deploy_name: str, namespace: str = "core-router",
-                   timeout: int = 120) -> bool:
-    """
-    Poll K8s đến khi Deployment báo Ready (Readiness probe pass).
-    Đây là điều kiện tiên quyết của QUY TẮC THÉP SỐ 3.
-    """
-    log.info(f"[MBB] Waiting for K8s Ready: {deploy_name} ...")
-    deadline = time.time() + timeout
-    # Thử microk8s kubectl trước, sau đó fallback kubectl
-    cmd = (
-        f"microk8s kubectl get deploy {deploy_name} -n {namespace} "
-        f"-o jsonpath='{{.status.readyReplicas}}' 2>/dev/null || "
-        f"kubectl get deploy {deploy_name} -n {namespace} "
-        f"-o jsonpath='{{.status.readyReplicas}}' 2>/dev/null"
-    )
-    while time.time() < deadline:
-        rc, out = _run(cmd)
-        if rc == 0 and out.strip().isdigit() and int(out.strip()) >= 1:
-            log.info(f"[MBB] \u2705 {deploy_name} Ready")
-            return True
-        time.sleep(2)
-    log.error(f"[MBB] ❌ Timeout: {deploy_name} not Ready after {timeout}s")
-    return False
 
 
 def _ipv6_to_bytes(addr: str) -> bytes:
@@ -333,19 +309,21 @@ class SDNController:
         new_rules:     List[Dict],
         old_rules:     List[Dict],
         namespace:     str = "core-router",
-        ready_timeout: int = 120,
     ) -> bool:
         """
-        Thực hiện Make-Before-Break Steer.
+        Thực hiện Make-Before-Break Steer — CHỈ XỬ LÝ SWITCH PLANE.
 
-        LUỒNG BẮT BUỘC:
-          1. Kiểm tra K8s: new_deploy phải Ready trước khi steer
-          2. Gửi gRPC update new_rules xuống switch(es)
-          3. Set confirm_steer_done = True
-          4. Gọi _notify_break() → Tekton có thể BREAK VNF cũ
+        ⚠️  KIẾN TRÚC: Hàm này KHÔNG tự kiểm tra trạng thái K8s Pod.
+        Caller (FastAPI Backend) BẮT BUỘC phải:
+          1. Poll K8s bằng kubernetes-python-client cho đến khi new_deploy Ready.
+          2. Lấy IP/endpoint của Pod mới từ K8s API.
+          3. Chỉ sau đó gọi POST /steer với payload new_rules đã tính sẵn.
+        Controller nhận new_rules và nạp thẳng vào switch — Separation of Concerns.
 
-        KHÔNG được gọi bước 2 khi new_deploy chưa Ready.
-        KHÔNG được set confirm_steer_done trước khi gRPC thành công.
+        LUỒNG TRONG HÀM NÀY:
+          1. Gửi gRPC/Thrift new_rules xuống switch(es).
+          2. Xoá old_rules trên switch.
+          3. Set confirm_steer_done = True.
 
         Returns:
             True  — steer thành công, confirm_steer_done = True
@@ -353,22 +331,10 @@ class SDNController:
         """
         with self._steer_lock:
             self.confirm_steer_done = False
-            self._steer_state       = SteerState.WAITING_READY
+            self._steer_state       = SteerState.STEERING
 
-        log.info(f"[MBB-Steer] START: new_deploy={new_deploy}")
+        log.info(f"[MBB-Steer] START: Installing rules for {new_deploy}")
 
-        # ── BƯỚC 1: Chờ K8s Ready (điều kiện tiên quyết) ──────
-        if not _k8s_pod_ready(new_deploy, namespace, ready_timeout):
-            log.error("[MBB-Steer] ABORT: VNF not Ready → no steer")
-            with self._steer_lock:
-                self._steer_state = SteerState.FAILED
-            return False
-
-        # ── BƯỚC 2: Gửi new_rules xuống switch ────────────────
-        with self._steer_lock:
-            self._steer_state = SteerState.STEERING
-
-        log.info("[MBB-Steer] VNF Ready ✅ → Installing new forwarding rules...")
         ok = self.bootstrap(new_rules)
 
         if not ok:

@@ -1,8 +1,11 @@
 import uuid
 import logging
+import urllib3
 from typing import Dict, Any, List, Optional
 from kubernetes import client, config
 from src.core.interfaces.orchestrator import IOrchestrator
+
+urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
 
 logger = logging.getLogger("TektonOrchestrator")
 
@@ -19,8 +22,8 @@ class TektonOrchestrator(IOrchestrator):
 
     def _connect(self):
         kubeconfig_paths = [
-            None, # Default ~/.kube/config
-            "/var/snap/microk8s/current/credentials/client.config"
+            "/var/snap/microk8s/current/credentials/client.config",  # MicroK8s — ưu tiên cao nhất
+            None,  # Default ~/.kube/config — fallback
         ]
         
         connected = False
@@ -30,6 +33,11 @@ class TektonOrchestrator(IOrchestrator):
                     config.load_kube_config(config_file=path)
                 else:
                     config.load_kube_config()
+                
+                conf = client.Configuration.get_default_copy()
+                conf.verify_ssl = False
+                client.Configuration.set_default(conf)
+                
                 self.custom_api = client.CustomObjectsApi()
                 self.apps_api = client.AppsV1Api()
                 self.core_api = client.CoreV1Api()
@@ -41,6 +49,11 @@ class TektonOrchestrator(IOrchestrator):
         if not connected:
             try:
                 config.load_incluster_config()
+                
+                conf = client.Configuration.get_default_copy()
+                conf.verify_ssl = False
+                client.Configuration.set_default(conf)
+                
                 self.custom_api = client.CustomObjectsApi()
                 self.apps_api = client.AppsV1Api()
                 self.core_api = client.CoreV1Api()
