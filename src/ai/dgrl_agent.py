@@ -50,7 +50,9 @@ class DGRLAgent:
 
     def __init__(self, model_path: str = DEFAULT_MODEL_PATH) -> None:
         self.model_path = model_path
+        self.scaler_path = model_path.replace("dgrl_v10_final_vietnam.zip", "vec_normalize_v10_vietnam.pkl")
         self._model: Any = None
+        self._scaler: Any = None
         self._load_error: Optional[str] = None
         self._load_attempted = False
 
@@ -90,9 +92,34 @@ class DGRLAgent:
 
             self._model = MaskablePPO.load(self.model_path, device="cpu")
             logger.info("Loaded JO-VPPM model from %s", self.model_path)
+            
+            if os.path.exists(self.scaler_path):
+                from stable_baselines3.common.vec_env import VecNormalize, DummyVecEnv
+                # Cần một dummy env để load scaler
+                try:
+                    import gymnasium as gym
+                except ImportError:
+                    import gym
+                # Giả lập env với obs space tương ứng (N*6 + 13 = 10*6 + 13 = 73)
+                class DummyEnv(gym.Env):
+                    def __init__(self):
+                        self.observation_space = gym.spaces.Box(low=0, high=1, shape=(73,), dtype=np.float32)
+                        self.action_space = gym.spaces.MultiDiscrete([10, 10])
+                    def reset(self, seed=None): return np.zeros(73), {}
+                    def step(self, action): return np.zeros(73), 0, False, False, {}
+                
+                # Bọc trong DummyVecEnv để có num_envs và các thuộc tính SB3 cần thiết
+                venv = DummyVecEnv([lambda: DummyEnv()])
+                self._scaler = VecNormalize.load(self.scaler_path, venv)
+                self._scaler.training = False
+                self._scaler.norm_reward = False
+                logger.info("Loaded VecNormalize scaler from %s", self.scaler_path)
+            else:
+                logger.warning("VecNormalize scaler NOT found at %s. AI may be unstable.", self.scaler_path)
+
         except Exception as exc:
             self._load_error = f"incompatibility_detected:{exc}"
-            logger.warning("DRL Model Incompatible with Python 3.8. Activating SHADOW MODE.")
+            logger.warning("DRL Model Incompatible: %s. Activating SHADOW MODE.", exc)
             self._model = "SHADOW_MODE_ACTIVE" # Sentinel for simulation
         return self._model
 
@@ -104,7 +131,7 @@ class DGRLAgent:
         if model == "SHADOW_MODE_ACTIVE":
             # Logic giả lập DRL: Ưu tiên node có tài nguyên trống nhiều nhất
             snap = state_manager.snapshot()
-            state_array = snap["state"] # Mảng (N, 3)
+            state_array = snap.state # Mảng (N, 3)
             num_nodes = state_array.shape[0]
             
             best_node = 0
@@ -134,15 +161,28 @@ class DGRLAgent:
             )
 
         try:
-            obs = state_manager.to_observation(request)[None, :]
-            masks = state_manager.action_mask(request)[None, :]
-            action, _ = model.predict(obs, action_masks=masks, deterministic=True)
+            obs = state_manager.to_observation(request)
+            
+            # PHASE 6: Fix Tử Huyệt 3 — Đảm bảo Input của VecNormalize là 2D (1, N)
+            obs_2d = obs.reshape(1, -1)
+            
+            if self._scaler is not None:
+                obs_normalized = self._scaler.normalize_obs(obs_2d)
+            else:
+                obs_normalized = obs_2d
+
+            # PHASE 6: Fix Tử Huyệt 1 — Action Masking
+            masks = state_manager.action_mask(request)
+            
+            # MaskablePPO.predict yêu cầu masks có cùng batch size với obs
+            action, _ = model.predict(obs_normalized, action_masks=masks[None, :], deterministic=True)
+            
             action_arr = np.asarray(action).reshape(-1)
             return DGRLDecision(
                 choice=ActionChoice(
                     v_place=int(action_arr[0]),
                     v_route=int(action_arr[1]),
-                    reason="maskableppo_gnn_policy",
+                    reason="maskableppo_gnn_policy_with_masking_and_norm",
                 ),
                 model_loaded=True,
             )

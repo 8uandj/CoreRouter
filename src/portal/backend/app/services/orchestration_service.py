@@ -6,6 +6,44 @@ from src.portal.backend.app.models.schemas import SFCRequest
 
 logger = logging.getLogger("OrchestrationService")
 
+# =============================================================================
+# PHASE 6: AI → K8s Node Mapping Dictionary
+# =============================================================================
+# Theorem Backbone (from thesis Table 4.1):
+#   Node 0 = Hanoi        (Core, CPU=200, MSD=10)  → k8s-master
+#   Node 1 = Hai Phong    (Core, CPU=150, MSD=10)  → k8s-master
+#   Node 2 = Ninh Binh    (Edge, CPU=80,  MSD=5)   → k8s-master
+#   Node 3 = Vinh         (Edge, CPU=80,  MSD=5)   → worker1
+#   Node 4 = Hue          (Edge, CPU=60,  MSD=4)   → worker1
+#   Node 5 = Da Nang      (Core, CPU=150, MSD=8)   → worker1
+#   Node 6 = Quy Nhon     (Edge, CPU=60,  MSD=4)   → worker2
+#   Node 7 = Nha Trang    (Edge, CPU=80,  MSD=5)   → worker2
+#   Node 8 = Ho Chi Minh  (Core, CPU=200, MSD=10)  → worker2
+#   Node 9 = Can Tho      (Edge, CPU=80,  MSD=5)   → worker2
+#
+# Mapping logic: North cluster (3 nodes) → k8s-master
+#                Central cluster (3 nodes) → worker1
+#                South cluster (4 nodes)  → worker2
+AI_NODE_TO_K8S_HOSTNAME: Dict[int, str] = {
+    0: "k8s-master",   # Hà Nội
+    1: "k8s-master",   # Hải Phòng
+    2: "k8s-master",   # Ninh Bình
+    3: "worker1",      # Vinh
+    4: "worker1",      # Huế
+    5: "worker1",      # Đà Nẵng
+    6: "worker2",      # Quy Nhơn
+    7: "worker2",      # Nha Trang
+    8: "worker2",      # Hồ Chí Minh
+    9: "worker2",      # Cần Thơ
+}
+
+def get_k8s_hostname(ai_node_id: int) -> str:
+    """Translate JO-VPPM node index to K8s physical hostname."""
+    hostname = AI_NODE_TO_K8S_HOSTNAME.get(int(ai_node_id), "")
+    if not hostname:
+        logger.warning(f"AI node {ai_node_id} has no K8s mapping. Floating placement.")
+    return hostname
+
 class OrchestrationService:
     def __init__(self, orchestrator, controller, sdn_controller_url: str):
         self.orchestrator = orchestrator
@@ -20,18 +58,35 @@ class OrchestrationService:
         except Exception as e:
             logger.error(f"Rollback termination failed: {e}")
 
-    async def make_before_break_sequence(self, old_name: str, new_name: str, file_name: str, target_location: str, request: SFCRequest) -> Dict[str, Any]:
+    async def make_before_break_sequence(
+            self, old_name: str, new_name: str, file_name: str,
+            target_location: str, request: SFCRequest,
+            ai_node_id: Optional[int] = None) -> Dict[str, Any]:
         """
-        Full Phase 5 Orchestration: Decision -> K8s -> Polling -> Translate -> Steer.
+        Full Phase 5/6 Orchestration: Decision → K8s → Polling → Translate → Steer.
+        Phase 6 extensions:
+          - nodeSelector injection via ai_node_id→K8s mapping
+          - Control-plane Steering Overhead measurement
+            (Thời gian Backend REST→Controller→P4 push rule.
+             KHÔNG phải Data-plane latency — data-plane xảy ra ở tốc độ nano-giây
+             khi rule được nạp xong. MBB đảm bảo Packet Loss = 0 trong suốt thời gian này.)
         Includes Timeout and Rollback protection.
         """
+        # PHASE 6: Resolve K8s hostname from AI decision
+        k8s_hostname = get_k8s_hostname(ai_node_id) if ai_node_id is not None else ""
+        if k8s_hostname:
+            logger.info(f"PHASE 6: AI node {ai_node_id} mapped to K8s hostname '{k8s_hostname}'")
+        else:
+            logger.info("PHASE 6: No AI node mapping — floating placement (scheduler decides)")
+
         # 1. Kích hoạt K8s: Gọi Tekton để tạo Pod mới (MAKE phase)
         logger.info(f"PHASE: MAKE - Triggering Tekton for replacement VNF: {new_name} at {target_location}")
         make_result = self.orchestrator.trigger_migrate_single(
             old_deploy_name=old_name,
             new_deploy_name=new_name,
             file_name=file_name,
-            target_location=target_location
+            target_location=target_location,
+            node_hostname=k8s_hostname  # PHASE 6: pass nodeSelector target
         )
         if make_result.get("status") != "success":
             logger.error(f"MAKE phase failed: {make_result.get('message')}")
@@ -69,6 +124,12 @@ class OrchestrationService:
         logger.info(f"PHASE: TRANSLATE - Dynamic Endpoint {dynamic_ip}:{node_port} -> SID: {target_sid}")
 
         # 4. Bắn lệnh Steer: Gọi API /steer của SDN Controller Phase 4
+        # PHASE 6: Bắt đầu đồng hồ đo "Control-plane Steering Overhead"
+        # ⚠️  LƯU Ý THUẬT NGỮ (quan trọng cho luận văn):
+        #   Metric này đo thời gian REST request → Controller xử lý → P4 rule nạp xong.
+        #   ĐÂY KHÔNG PHẢI Data-plane latency (data-plane forward ở tốc độ nano-giây).
+        #   Trong suốt thời gian này, MBB đảm bảo old VNF vẫn phục vụ → Packet Loss = 0.
+        steer_start_ts = time.perf_counter()
         logger.info(f"PHASE: STEER - Sending command to SDN Controller at {self.sdn_controller_url}")
         steer_payload = {
             "new_deploy": new_name,
@@ -104,7 +165,7 @@ class OrchestrationService:
         # RÀ SOÁT 2: Deadlock tại bước chờ STEER.
         # Chờ xác nhận từ Controller với Timeout nghiêm ngặt.
         steer_confirmed = False
-        for _ in range(15): # 15 * 2s = 30s Timeout (theo yêu cầu chỉ thị Phase 5)
+        for _ in range(15): # 15 * 2s = 30s Timeout
             try:
                 s_resp = requests.get(f"{self.sdn_controller_url}/steer/status", timeout=2)
                 if s_resp.json().get("confirm_steer_done"):
@@ -113,28 +174,43 @@ class OrchestrationService:
             except Exception: pass
             time.sleep(2)
 
+        # PHASE 6: Tính toán Control-plane Steering Overhead (ms)
+        # = Thời gian từ lúc Backend gửi /steer REST request → confirm_steer_done
+        cp_steering_overhead_ms = round((time.perf_counter() - steer_start_ts) * 1000, 2)
+
         if not steer_confirmed:
             # CHỈ THỊ 2: Kích hoạt trạng thái "Dangling VNF"
-            logger.error("STEER confirmation TIMEOUT. System in DANGLING_VNF state. Keeping old VNF.")
+            logger.error(f"STEER confirmation TIMEOUT after {cp_steering_overhead_ms}ms. System in DANGLING_VNF state.")
             # KHÔNG gọi break_old_vnf, KHÔNG rollback (vì có thể switch đang update dở)
             return {
                 "status": "warning", 
-                "message": "DANGLING_VNF: Steer confirmation missing. Connectivity might be split. Manual check required.",
-                "data": {"new_vnf": new_name, "old_vnf": old_name}
+                "message": "DANGLING_VNF: Steer confirmation missing. Connectivity might be split.",
+                "data": {
+                    "new_vnf": new_name, "old_vnf": old_name,
+                    "cp_steering_overhead_ms": cp_steering_overhead_ms
+                }
             }
 
         # 5. BREAK: Xóa VNF cũ sau khi đã steer thành công (Zero-Downtime)
+        logger.info(
+            f"PHASE 6: Control-plane Steering Overhead = {cp_steering_overhead_ms} ms "
+            f"(REST→Controller→P4 rule push). Data-plane forward ≈ nanoseconds. Packet Loss = 0 via MBB."
+        )
         logger.info(f"PHASE: BREAK - confirm_steer_done=True. Deleting old VNF: {old_name}")
         break_result = self.orchestrator.break_old_vnf(old_name)
         
         return {
             "status": "success",
-            "message": "Hybrid Orchestration Phase 5 sequence COMPLETED",
+            "message": "Hybrid Orchestration Phase 5/6 sequence COMPLETED",
             "data": {
                 "dynamic_endpoint": {"ip": dynamic_ip, "port": node_port},
                 "sid_list": [target_sid],
                 "steer_status": "CONFIRMED",
-                "break_result": break_result
+                "break_result": break_result,
+                # PHASE 6 metrics — đúng thuật ngữ cho luận văn
+                "cp_steering_overhead_ms": cp_steering_overhead_ms,  # Control-plane overhead
+                "k8s_node_hostname": k8s_hostname or "auto",
+                # Note: Data-plane forwarding latency ≈ ns (P4 hardware speed, không đo được ở đây)
             }
         }
 

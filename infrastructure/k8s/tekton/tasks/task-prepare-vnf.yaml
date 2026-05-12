@@ -11,6 +11,9 @@ spec:
     - name: fileName
     - name: location
       default: "auto"
+    - name: nodeHostname
+      description: "kubernetes.io/hostname label của K8s node đích (vd: k8s-master, worker1, worker2). Rỗng = scheduler tự chọn."
+      default: ""
   steps:
     - name: fetch-and-process
       image: localhost:32000/kubectl:1.30  # local registry — deterministic pull latency
@@ -33,9 +36,66 @@ spec:
           sed -i 's/PLACEHOLDER_NAME/$(params.deployName)/g' /workspace/ws/final.yaml
           
           # Add location label for persistence.
-          # We target the labels block belonging to the Deployment metadata.
-          # Since our templates now have 'labels:', we append the location right after it.
           sed -i "0,/labels:/ s/labels:/labels:\n    core-router\/location: $(params.location)/" /workspace/ws/final.yaml
-          
-          echo ">>> SUCCESS: Manifest prepared with location=$(params.location)."
-          cat /workspace/ws/final.yaml | head -n 12
+
+          # --- PHASE 6: Geo-Distributed Orchestration via nodeSelector ---
+          # SỮd dụng yaml.safe_load/dump thay vì Regex để xử lý YAML đúng cấu trúc.
+          # Regex injection là brittle với indentation-sensitive YAML.
+          # yaml.dump đảm bảo indentation và cấu trúc luôn chính xác.
+          NODE_HOSTNAME="$(params.nodeHostname)"
+          if [ -n "$NODE_HOSTNAME" ] && [ "$NODE_HOSTNAME" != "" ]; then
+            echo ">>> PHASE 6: Injecting nodeSelector via YAML-aware merge (hostname=$NODE_HOSTNAME)..."
+            python3 - <<PYEOF
+          import yaml, sys
+
+          NODE_HOSTNAME = "$NODE_HOSTNAME"
+
+          # Đọc toàn bộ file (có thể là multi-document: Deployment + Service)
+          with open('/workspace/ws/final.yaml', 'r') as f:
+              docs = list(yaml.safe_load_all(f))
+
+          patched = []
+          for doc in docs:
+              if doc is None:
+                  continue
+              # Chỉ patch Deployment, bỏ qua Service và các loại khác
+              if doc.get('kind') == 'Deployment':
+                  pod_spec = doc['spec']['template']['spec']
+                  # 1. Thêm nodeSelector để buộc K8s đặt pod đúng node vật lý
+                  pod_spec['nodeSelector'] = {'kubernetes.io/hostname': NODE_HOSTNAME}
+                  # 2. Thêm tolerations để Pod có thể chạy trên node CoreRouter đã taint
+                  #    và vẫn tương thích nếu node đích là control-plane/master.
+                  pod_spec['tolerations'] = [
+                      {
+                          'key': 'dedicated',
+                          'operator': 'Equal',
+                          'value': 'core-router',
+                          'effect': 'NoSchedule'
+                      },
+                      {
+                          'key': 'node-role.kubernetes.io/control-plane',
+                          'operator': 'Exists',
+                          'effect': 'NoSchedule'
+                      },
+                      {
+                          'key': 'node-role.kubernetes.io/master',
+                          'operator': 'Exists',
+                          'effect': 'NoSchedule'
+                      }
+                  ]
+                  print(f'  [OK] Patched Deployment "{doc["metadata"]["name"]}":')
+                  print(f'       nodeSelector: kubernetes.io/hostname={NODE_HOSTNAME}')
+                  print(f'       tolerations: dedicated=core-router + control-plane/master')
+              patched.append(doc)
+
+          with open('/workspace/ws/final.yaml', 'w') as f:
+              yaml.dump_all(patched, f, default_flow_style=False, allow_unicode=True)
+
+          print('>>> YAML-structured injection complete. No regex used.')
+          PYEOF
+          else
+            echo ">>> PHASE 6: nodeHostname not specified. K8s scheduler decides (floating placement)."
+          fi
+
+          echo ">>> SUCCESS: Manifest prepared with location=$(params.location), nodeHostname=$NODE_HOSTNAME."
+          cat /workspace/ws/final.yaml | head -n 25

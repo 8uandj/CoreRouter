@@ -42,3 +42,10 @@ class BreakOldVnfRequest(BaseModel):
         default=False,
         description="Caller must explicitly assert SDN steer succeeded before BREAK.",
     )
+
+class FreeResourceRequest(BaseModel):
+    v_place: int
+    v_route: int
+    cpu_req: float
+    ram_req: float
+    msd_req: int

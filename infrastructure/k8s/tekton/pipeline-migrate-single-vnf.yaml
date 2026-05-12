@@ -37,6 +37,9 @@ spec:
     - name: targetLocation
       description: "Node-location đích (ví dụ hanoi-2, danang-1) — gán vào label core-router/location"
       default: "auto"
+    - name: nodeHostname
+      description: "kubernetes.io/hostname của K8s worker node (vd: k8s-master, worker1, worker2). Từ AI→K8s Mapping Dictionary."
+      default: ""
 
   tasks:
     - name: prepare-replacement
@@ -51,6 +54,8 @@ spec:
           value: $(params.fileName)
         - name: location
           value: $(params.targetLocation)
+        - name: nodeHostname
+          value: $(params.nodeHostname)
 
     - name: instantiate-replacement
       runAfter: [prepare-replacement]

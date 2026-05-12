@@ -7,7 +7,7 @@ from src.ai.dgrl_agent import get_dgrl_agent
 from src.ai.heuristic import HardConstraintError, get_decoupled_action
 from src.core.state_manager import get_state_manager
 from src.portal.backend.app.containers.service_container import container
-from src.portal.backend.app.models.schemas import SFCRequest, MigrateSingleRequest, BreakOldVnfRequest
+from src.portal.backend.app.models.schemas import SFCRequest, MigrateSingleRequest, BreakOldVnfRequest, FreeResourceRequest
 
 logger = logging.getLogger("OrchestrationRouter")
 router = APIRouter(tags=["Hybrid Orchestration"])
@@ -208,3 +208,30 @@ async def get_orchestration_status():
         # Hỗ trợ polling cho Tekton Pipeline mới nhất
         "latest_pipeline": container.orchestrator.get_status()
     }
+
+
+@router.post("/orchestrate/reset")
+def reset_network_state():
+    """
+    Reset toan bo network state (CPU/RAM/MSD usage) ve 0.
+    Dung truoc khi chay benchmark de clear ghost SFCs tu cac lan test truoc.
+    CANH BAO: Chi dung cho Benchmark/Testing, KHONG dung trong Production.
+    """
+    sm = get_state_manager()
+    sm.reset()
+    state = sm.as_public_dict()
+    logger.info("[BENCHMARK] Network state reset by /orchestrate/reset")
+    return {
+        "status": "success",
+        "message": "Network state reset. All resource usage cleared.",
+        "data": state
+    }
+
+@router.post("/orchestrate/free")
+def free_network_resources(req: FreeResourceRequest):
+    """
+    Giai phong tai nguyen khi SFC het han (TTL expire)
+    """
+    sm = get_state_manager()
+    sm.free_resources(req.v_place, req.v_route, req.cpu_req, req.ram_req, req.msd_req)
+    return {"status": "success", "message": "Resources freed"}

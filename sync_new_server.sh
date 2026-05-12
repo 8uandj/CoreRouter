@@ -8,11 +8,14 @@
 SERVER="112.137.129.246"
 REMOTE_DIR="/home/CoreRouter"
 LOCAL_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+SSH_CONFIG="${SSH_CONFIG:-$HOME/.ssh/config}"
+SSH_CMD="ssh -F $SSH_CONFIG"
+RSYNC_SSH="ssh -F $SSH_CONFIG"
 
 sync_to_server() {
     echo "🚀 Syncing to $SERVER:$REMOTE_DIR ..."
-    ssh "$SERVER" "sudo mkdir -p $REMOTE_DIR && sudo chown -R \$USER:\$USER $REMOTE_DIR"
-    rsync -avz --progress \
+    $SSH_CMD "$SERVER" "sudo mkdir -p $REMOTE_DIR && sudo chown -R \$USER:\$USER $REMOTE_DIR"
+    rsync -avz --progress -e "$RSYNC_SSH" \
         --exclude '.git' \
         --exclude 'venv' \
         --exclude '.venv' \
