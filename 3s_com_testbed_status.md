@@ -1,5 +1,5 @@
 # 3S-COM Testbed — Master Status & Knowledge Base
-# Phiên bản: 1.2 (Phase 6 Benchmarking) | Tổng kết: 6 Phase LIVE & VERIFIED
+# Phiên bản: 1.3 (Phase 7 - 10-node Vietnam Backbone) | Tổng kết: 7 Phase LIVE & VERIFIED
 
 ## 📋 Tổng quan dự án (Architectural Context)
 Hệ thống 3S-COM là Testbed nghiên cứu về **SRv6 Service Function Chaining (SFC)** với khả năng **Hardware-Awareness** (nhận biết ràng buộc phần cứng MSD). Hệ thống kết hợp Mininet (P4 Data Plane) và Kubernetes (VNF Orchestration).
@@ -53,6 +53,21 @@ Hệ thống 3S-COM là Testbed nghiên cứu về **SRv6 Service Function Chain
 - **Data-plane Steering Latency**: Backend đo chính xác khoảng thời gian từ `/steer` đến `confirm_steer_done` bằng `time.perf_counter()`. Metric này được trả về trong response API.
 - **Automated Benchmark Script**: `benchmark_phase6.py` so sánh AI vs Greedy vs Random trên 300 steps tự động. Output CSV + JSON summary.
 
+### Phase 7: AI Orchestration & Architectural Alignment (Phase 7) 🔄
+- **Kiến trúc**: Đồng bộ hóa 100% với sơ đồ "Intelligent MANO Plane".
+- **Hệ thần kinh**: 
+  - Triển khai **Rate-limited Orchestrator**: Di dời VNF tuần tự (Sequential MBB) để tránh "Migration Storm".
+  - Khôi phục **Hysteresis Gate**: Ngưỡng 0.45/0.35 để chuyển đổi chế độ Heuristic/DRL ổn định.
+- **Trạng thái AI**: 
+  - Đã chuẩn hóa Observation Space ($N \times 6 + 13$).
+  - Đã cấu hình backend để nạp model weights `results/models/v11/dgrl_v11_final_vietnam.zip` kèm `vec_normalize_v11_vietnam.pkl` cho mạng Việt Nam 10-node.
+- **Topology**: Đã mở rộng `topology.py` hỗ trợ NSFNET và GEANT2 (Sẵn sàng cho Generalization test sau này).
+- **Data Plane (10-Node Vietnam Topology)**: 
+  - Nâng cấp thành công Mininet P4 từ 3-node lên 10-node.
+  - Phân bổ port Thrift 19091-19100 tránh xung đột hoàn toàn với host.
+  - Dynamic CPU Pinning cho phép auto-scale theo tài nguyên server thực tế (ví dụ: cấp đủ 10 cores cho s1-s10).
+  - Hoàn thiện bridge L2 Transparent cho cả 10 node, vượt toàn bộ 33 Smoke Tests (test_phases.sh).
+
 ---
 
 ## ⚖️ Luật kiến trúc bất biến (Quy tắc thép)
@@ -61,6 +76,7 @@ Hệ thống 3S-COM là Testbed nghiên cứu về **SRv6 Service Function Chain
 3. **Transparent Routing**: Tuyệt đối không dùng NAT/MASQUERADE trong chuỗi SFC.
 4. **Readiness Integrity**: Kubernetes chỉ được báo Ready khi ứng dụng bên trong đã bind port nghiệp vụ.
 5. **Shadow Policy**: Luôn có logic dự phòng khi mô hình AI gặp lỗi nạp nhị phân.
+6. **ONAP Isolation**: Server `112.137.129.246` có ONAP; CoreRouter tuyệt đối không chỉnh/sửa/xóa/scale/restart ONAP. Worker `k8s-cluster` là worker CoreRouter và không được để pod ONAP chạy trên node này.
 
 ---
 
@@ -81,14 +97,10 @@ Hệ thống 3S-COM là Testbed nghiên cứu về **SRv6 Service Function Chain
 ## 🧠 Hướng dẫn cho phiên chat tiếp theo
 Hệ thống hiện tại đang ở trạng thái **LIVE Phase 6**. AI→K8s Mapping và Steering Latency đã được tích hợp.
 
-**Cách chạy Phase 6 Benchmark:**
-```bash
-# Dry-run (không cần cluster, chạy local):
-python3 benchmark_phase6.py --dry-run --steps 100
-
-# Full benchmark (cần Backend + SDN đang chạy):
-./run_backend_docker.sh run &
-sudo venv/bin/python3 infrastructure/sdn/topo_p4.py &
-python3 benchmark_phase6.py --steps 300 --methods ai greedy random
+## Quy trình vận hành (Operation Workflow)
+1. **Khởi động Backend:** `./run_backend_docker.sh run`
+2. **Khởi động SDN:** `sudo venv/bin/python3 infrastructure/sdn/topo_p4.py`
+3. **Khởi động Controller:** `venv/bin/python3 infrastructure/sdn/controller.py`
+4. **Khởi động Frontend:** `cd src/portal/frontend && npm run dev`
 ```
 Log hệ thống được lưu tại `backend.log`, `sdn_controller.log`, và `results/benchmark_phase6/`.

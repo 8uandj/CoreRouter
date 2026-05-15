@@ -4,8 +4,11 @@ from __future__ import annotations
 
 import logging
 import os
+import tempfile
 from dataclasses import dataclass
+from pathlib import Path
 from typing import Any, Optional
+from zipfile import ZipFile
 
 import numpy as np
 import sys
@@ -33,9 +36,62 @@ logger = logging.getLogger("DGRLAgent")
 
 DEFAULT_MODEL_PATH = os.getenv(
     "JO_VPPM_MODEL_PATH",
-    "results/models/v10/dgrl_v10_final_vietnam.zip",
+    "results/models/v11/dgrl_v11_final_vietnam.zip",
 )
 ENABLE_INPROCESS_MODEL = os.getenv("JO_VPPM_ENABLE_MODEL", "0") == "1"
+
+
+def _infer_scaler_path(model_path: str) -> str:
+    """Infer the matching VecNormalize artifact for a JO-VPPM checkpoint."""
+    explicit_path = os.getenv("JO_VPPM_SCALER_PATH")
+    if explicit_path:
+        return explicit_path
+
+    path = Path(model_path)
+    stem = path.name
+    if stem.startswith("dgrl_") and stem.endswith(".zip"):
+        parts = stem[:-4].split("_")
+        if len(parts) >= 4 and parts[0] == "dgrl" and parts[2] == "final":
+            version = parts[1]
+            topology = "_".join(parts[3:])
+            return str(path.with_name(f"vec_normalize_{version}_{topology}.pkl"))
+
+    return str(path.with_name("vec_normalize_v11_vietnam.pkl"))
+
+
+def _strip_single_root_zip(zip_path: str) -> str:
+    """Return an SB3-compatible zip path, flattening single-root archives if needed."""
+    with ZipFile(zip_path, "r") as source:
+        names = [name for name in source.namelist() if not name.endswith("/")]
+        if "data" in names:
+            return zip_path
+
+        roots = {name.split("/", 1)[0] for name in names if "/" in name}
+        if len(roots) != 1:
+            return zip_path
+
+        root = next(iter(roots))
+        if f"{root}/data" not in names:
+            return zip_path
+
+        source_stat = os.stat(zip_path)
+        cache_dir = Path(tempfile.gettempdir()) / "corerouter_sb3_models"
+        cache_dir.mkdir(parents=True, exist_ok=True)
+        flattened = cache_dir / (
+            f"{Path(zip_path).stem}-{source_stat.st_mtime_ns}-{source_stat.st_size}.zip"
+        )
+        if flattened.exists():
+            return str(flattened)
+
+        with ZipFile(flattened, "w") as target:
+            prefix = f"{root}/"
+            for name in names:
+                if not name.startswith(prefix):
+                    continue
+                target.writestr(name[len(prefix):], source.read(name))
+
+    logger.info("Normalized nested SB3 archive %s -> %s", zip_path, flattened)
+    return str(flattened)
 
 
 @dataclass
@@ -50,7 +106,7 @@ class DGRLAgent:
 
     def __init__(self, model_path: str = DEFAULT_MODEL_PATH) -> None:
         self.model_path = model_path
-        self.scaler_path = model_path.replace("dgrl_v10_final_vietnam.zip", "vec_normalize_v10_vietnam.pkl")
+        self.scaler_path = _infer_scaler_path(model_path)
         self._model: Any = None
         self._scaler: Any = None
         self._load_error: Optional[str] = None
@@ -90,7 +146,8 @@ class DGRLAgent:
             if not hasattr(np, '_frombuffer'):
                 np._frombuffer = np.frombuffer
 
-            self._model = MaskablePPO.load(self.model_path, device="cpu")
+            load_path = _strip_single_root_zip(self.model_path)
+            self._model = MaskablePPO.load(load_path, device="cpu")
             logger.info("Loaded JO-VPPM model from %s", self.model_path)
             
             if os.path.exists(self.scaler_path):

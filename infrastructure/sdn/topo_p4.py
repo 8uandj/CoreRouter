@@ -21,6 +21,7 @@ import os
 import sys
 import subprocess
 import time
+import math
 
 from mininet.topo import Topo
 from mininet.net import Mininet
@@ -33,9 +34,32 @@ from mininet.link import TCLink
 _P4_SDN_DIR = os.path.dirname(os.path.abspath(__file__))
 _REPO_ROOT  = os.path.dirname(os.path.dirname(_P4_SDN_DIR))
 
-# Import topoplogy definition
-sys.path.insert(0, _REPO_ROOT)
-from src.orchestration.jo_vdpr.topology import TOPOLOGIES, _haversine_km, FIBER_SPEED_KM_PER_MS
+# Inlined TOPOLOGIES and _haversine_km to remove numpy dependency in sudo
+FIBER_SPEED_KM_PER_MS = 200.0
+
+TOPOLOGIES = {
+    "vietnam": {
+        "nodes": [
+            ("Hanoi",      21.0285, 105.8542, "core",  10, 1),
+            ("HaiPhong",   20.8449, 106.6881, "core",  10, 1),
+            ("NinhBinh",   20.2541, 105.9750, "edge",   5, 2),
+            ("Vinh",       18.6796, 105.6813, "edge",   5, 2),
+            ("Hue",        16.4637, 107.5909, "edge",   4, 3),
+            ("DaNang",     16.0544, 108.2022, "core",   8, 1),
+            ("QuyNhon",    13.7830, 109.2196, "edge",   4, 3),
+            ("NhaTrang",   12.2388, 109.1967, "edge",   5, 2),
+            ("HoChiMinh",  10.8231, 106.6297, "core",  10, 1),
+            ("CanTho",     10.0452, 105.7469, "edge",   5, 2),
+        ]
+    }
+}
+
+def _haversine_km(lat1: float, lon1: float, lat2: float, lon2: float) -> float:
+    R = 6371.0
+    dlat = math.radians(lat2 - lat1)
+    dlon = math.radians(lon2 - lon1)
+    a = math.sin(dlat / 2)**2 + math.cos(math.radians(lat1)) * math.cos(math.radians(lat2)) * math.sin(dlon / 2)**2
+    return R * 2 * math.atan2(math.sqrt(a), math.sqrt(1 - a))
 
 try:
     sys.path.insert(0, _P4_SDN_DIR)
@@ -49,13 +73,10 @@ except ImportError as _e:
 
 # Đường dẫn tới compiled BMv2 JSON
 _P4_BUILD    = os.path.join(_REPO_ROOT, "infrastructure", "sdn", "p4", "build")
-CORE_JSON    = os.path.join(_P4_BUILD, "core",   "srv6_core.json")
-BORDER_JSON  = os.path.join(_P4_BUILD, "border", "srv6_border.json")
 
-_SWITCH_JSON = {
-    "core": CORE_JSON,
-    "edge": BORDER_JSON,
-}
+def get_json_path(msd: int) -> str:
+    return os.path.join(_P4_BUILD, f"msd_{msd}", f"srv6_msd_{msd}.json")
+
 
 # ══════════════════════════════════════════════════════════════
 #  CONFIG K8s
@@ -69,19 +90,15 @@ _MININET_TO_BRIDGE_IP = {
     f"h{i}": (f"10.0.0.{i}", f"10.1.240.{90+i}") for i in range(1, 11)
 }
 
-# Quy tắc 2: CPU Pinning (Core độc quyền, Edge chia sẻ)
-CPU_PINNING = {
-    "s1": 2,  # Hanoi (Core)
-    "s2": 3,  # HaiPhong (Core)
-    "s3": 6,  # NinhBinh (Edge) - shared
-    "s4": 6,  # Vinh (Edge) - shared
-    "s5": 6,  # Hue (Edge) - shared
-    "s6": 4,  # DaNang (Core)
-    "s7": 7,  # QuyNhon (Edge) - shared
-    "s8": 7,  # NhaTrang (Edge) - shared
-    "s9": 5,  # HoChiMinh (Core)
-    "s10": 7, # CanTho (Edge) - shared
-}
+# Quy tắc 2 & 4: CPU Pinning — Tận dụng tối đa 32 cores trên server
+def _build_cpu_pinning() -> dict:
+    # Với 32 cores, mỗi switch (s1-s10) sẽ có core riêng biệt từ 2-11
+    # Cores 12-31 để trống cho Traffic Generator và OS
+    names = [f"s{i}" for i in range(1, 11)]
+    pinning = {name: 2 + idx for idx, name in enumerate(names)}
+    return pinning
+
+CPU_PINNING = _build_cpu_pinning()
 
 # Backbone Edges
 EDGES = [
@@ -153,8 +170,9 @@ class VietnamTopo(Topo):
         for u, v in EDGES:
             lat1, lon1 = node_coords[u]
             lat2, lon2 = node_coords[v]
+            # Quy tắc 3 (Bãi Mìn 2): Trừ đi 1.5ms overhead của phần mềm BMv2 để tránh "trễ kép"
             dist = _haversine_km(lat1, lon1, lat2, lon2)
-            delay_ms = dist / FIBER_SPEED_KM_PER_MS
+            delay_ms = max(0.1, (dist / FIBER_SPEED_KM_PER_MS) - 1.5)
             self.addLink(u, v, delay=f"{delay_ms:.2f}ms")
 
 # ──────────────────────────────────────────────────────────────
@@ -204,8 +222,13 @@ def setup_bridge(net, k8s_bridge: str, k8s_ip: str, mode: str):
         run_cmd(f"ip link add {veth_k8s} type veth peer name {veth_mn}")
         run_cmd(f"ip link set {veth_k8s} master {k8s_bridge}")
         run_cmd(f"ip link set {veth_k8s} up")
+        
+        # Bãi Mìn 3: Tắt Reverse Path Filtering trên interface host-side
+        run_cmd(f"sysctl -w net.ipv4.conf.{veth_k8s}.rp_filter=0 > /dev/null")
         run_cmd(f"ip link set {veth_mn} netns {pid}")
 
+        host.cmd(f"sysctl -w net.ipv4.conf.all.rp_filter=0")
+        host.cmd(f"sysctl -w net.ipv4.conf.default.rp_filter=0")
         host.cmd(f"ip addr add {ip}/{prefix} dev {veth_mn}")
         host.cmd(f"ip link set {veth_mn} up")
         host.cmd(f"ip route add {subnet} via {gw} dev {veth_mn}")
@@ -226,49 +249,62 @@ def setup_bridge(net, k8s_bridge: str, k8s_ip: str, mode: str):
     info("*** Bridge setup complete.\n")
 
 def warm_up(net, k8s_ip: str):
-    info("*** Pre-populating ARP/MAC tables...\n")
+    info("*** [Bãi Mìn 3] Pre-populating ARP/MAC and setting static entries...\n")
     for i in range(1, 11):
-        net.get(f"h{i}").cmd(f"ping -c 1 {k8s_ip} > /dev/null 2>&1 &")
-    time.sleep(2)
+        host = net.get(f"h{i}")
+        # Ping K8s gateway to resolve ARP
+        host.cmd(f"ping -c 1 {k8s_ip} > /dev/null 2>&1")
+        # Extract MAC and set static ARP
+        mac = host.cmd(f"ip neigh show {k8s_ip} | awk '{{print $5}}'").strip()
+        if mac and len(mac) == 17:
+            host.cmd(f"arp -s {k8s_ip} {mac}")
+    time.sleep(1)
 
 # ──────────────────────────────────────────────────────────────
 #  Entry point
 # ──────────────────────────────────────────────────────────────
 
-def run_p4(k8s_bridge: str, k8s_ip: str, mode: str):
+def run_p4(k8s_bridge: str, k8s_ip: str, mode: str, args):
     if not HAS_P4:
         warn("*** P4 modules not available. Falling back to OVS mode.\n")
         return run_ovs(k8s_bridge, k8s_ip, mode)
 
-    for role, json_path in _SWITCH_JSON.items():
-        if not os.path.isfile(json_path):
-            warn(f"*** {role} JSON not found: {json_path}\n    Falling back to OVS mode.\n")
-            return run_ovs(k8s_bridge, k8s_ip, mode)
+    # Kiểm tra tất cả JSON đã build chưa — nếu thiếu bất kỳ MSD nào thì báo rõ
+    missing = []
+    for node in TOPOLOGIES["vietnam"]["nodes"]:
+        msd = node[4]
+        json_path = get_json_path(msd)
+        if not os.path.isfile(json_path) and msd not in [m[4] for m in TOPOLOGIES["vietnam"]["nodes"][:TOPOLOGIES["vietnam"]["nodes"].index(node)]]:
+            missing.append((msd, json_path))
+
+    unique_msds = sorted(set(n[4] for n in TOPOLOGIES["vietnam"]["nodes"]))
+    missing_msds = [msd for msd in unique_msds if not os.path.isfile(get_json_path(msd))]
+    if missing_msds:
+        warn(f"*** Missing P4 JSON for MSD={missing_msds}.\n"
+             f"    Run: cd infrastructure/sdn/p4 && make all\n"
+             f"    Falling back to OVS mode.\n")
+        return run_ovs(k8s_bridge, k8s_ip, mode)
 
     info("*** [Phase 7] Starting 10-node P4RuntimeSwitch topology...\n")
 
     topo = VietnamTopo()
-    # Quy tắc 3: Sử dụng TCLink để áp dụng Haversine delay
     net  = Mininet(topo=topo, switch=OVSBridge, controller=None, link=TCLink)
     net.start()
 
     manager = SwitchManager(cpu_base=2)
     topo_data = TOPOLOGIES["vietnam"]["nodes"]
-
     thrift_map = {}
-    
-    # Gán interface và CPU Pinning (Quy tắc 2)
+
     for i in range(1, 11):
         s_name = f"s{i}"
-        node = net.get(s_name)
-        role = topo_data[i-1][3]
-        
+        node   = net.get(s_name)
+        msd    = topo_data[i-1][4]
+        # Port 0 là loopback của OVSBridge, bỏ qua
         interfaces = [(port, intf.name) for port, intf in node.intfs.items() if port != 0]
-        
         sw = manager.add_switch(
             name=s_name,
             switch_id=i,
-            json_path=_SWITCH_JSON[role],
+            json_path=get_json_path(msd),
             interfaces=interfaces,
             cpu_core=CPU_PINNING[s_name],
         )
@@ -281,23 +317,25 @@ def run_p4(k8s_bridge: str, k8s_ip: str, mode: str):
     setup_bridge(net, k8s_bridge, k8s_ip, mode)
     warm_up(net, k8s_ip)
 
-    controller = SDNController(thrift_map)
-    info("*** [Phase 7] Waiting for Thrift ports...\n")
-    time.sleep(5)
+    if not args.no_controller:
+        controller = SDNController(thrift_map)
+        info("*** [Phase 7] Waiting for 10 BMv2 switches to stabilize (10s)...\n")
+        time.sleep(10) # Tăng lên 10s cho 10-node topo 
 
-    # Khởi tạo SRv6 Local SIDs cơ bản cho 10 nodes (Routing V6 để trống cho Backend tự đẩy)
-    initial_routing = []
-    for i in range(1, 11):
-        initial_routing.append({
-            "switch": f"s{i}", "type": "srv6_sid", "sid": f"fc00:{i}::1"
-        })
-    controller.bootstrap(initial_routing)
+        initial_routing = [
+            {"switch": f"s{i}", "type": "srv6_sid", "sid": f"fc00:{i}::1"}
+            for i in range(1, 11)
+        ]
+        controller.bootstrap(initial_routing)
 
-    api_thread = threading.Thread(
-        target=start_rest_api, args=(controller, 8765), daemon=True
-    )
-    api_thread.start()
-    info("*** [Phase 7] SDN Controller REST API: http://0.0.0.0:8765\n")
+        api_thread = threading.Thread(
+            target=start_rest_api, args=(controller, 8765), daemon=True
+        )
+        api_thread.start()
+        info("*** [Phase 7] SDN Controller REST API: http://0.0.0.0:8765\n")
+    else:
+        info("*** [Phase 7] SDN Controller is disabled (--no-controller).\n")
+        info("*** Please start the controller separately: python3 infrastructure/sdn/controller.py\n")
 
     info("*** 3S-COM Phase 7 Data Plane ready. Type 'exit' to stop.\n")
     CLI(net)
@@ -305,21 +343,29 @@ def run_p4(k8s_bridge: str, k8s_ip: str, mode: str):
     manager.stop_all()
     net.stop()
 
+
 def run_ovs(k8s_bridge: str, k8s_ip: str, mode: str):
-    info("*** [OVS mode] Starting legacy OVSBridge topology...\n")
+    """OVS fallback — hoạt động HOÀN TOÀN không cần P4 JSON được build."""
+    info("*** [OVS mode] Starting 10-node Vietnam OVSBridge topology...\n")
     topo = VietnamTopo()
+    # TCLink vẫn được dùng để có Haversine delay trên link (không cần P4)
     net  = Mininet(topo=topo, switch=OVSBridge, controller=None, link=TCLink)
     net.start()
     setup_bridge(net, k8s_bridge, k8s_ip, mode)
     warm_up(net, k8s_ip)
-    info("*** 3S-COM Data Plane is ready. Type 'exit' to stop.\n")
+    info("*** [OVS mode] 10-node Data Plane ready. Type 'exit' to stop.\n")
     CLI(net)
     net.stop()
 
 def run():
     ap = argparse.ArgumentParser()
     ap.add_argument("--p4", action="store_true", help="Bật Phase 7 P4 mode")
+    ap.add_argument("--no-controller", action="store_true", help="Không tự động bật SDN Controller")
     args, _ = ap.parse_known_args()
+    
+    # Để truy cập trong run_p4
+    global _args
+    _args = args
 
     run_cmd("for i in $(ip link show | grep -oE '(s|h)[0-9]+-eth[0-9]+'); do ip link delete $i 2>/dev/null; done")
 
@@ -327,7 +373,7 @@ def run():
     k8s_ip           = detect_k8s_ip(mode)
 
     if args.p4:
-        run_p4(k8s_bridge, k8s_ip, mode)
+        run_p4(k8s_bridge, k8s_ip, mode, args)
     else:
         run_ovs(k8s_bridge, k8s_ip, mode)
 

@@ -18,28 +18,28 @@ const ControlHeader = ({
   hybridStatus
 }) => {
   const isDrl = hybridStatus?.branch === 'drl';
-  const modeLabel = isDrl ? 'AI JO-VPPM ENGAGED' : 'DECOUPLED HEURISTIC';
+  const modeLabel = isDrl ? 'AI JO-VPPM ENGAGED' : 'HYBRID HEURISTIC';
   const utilPct = Math.round((hybridStatus?.globalUtilization || 0) * 100);
 
   return (
-    <header className="shrink-0 flex items-center gap-6 px-8 py-4 border-b border-white/10 bg-[#030b18] z-50">
+    <header className="shrink-0 flex items-center gap-5 px-6 py-4 border-b border-white/10 bg-[#030b18] z-50">
       <div>
         <p className="text-[10px] font-black text-indigo-400 uppercase tracking-[0.2em] flex items-center gap-1.5">
-          <LayoutDashboard size={12} /> ORCHESTRATION LAYER
+          <LayoutDashboard size={12} /> VIETNAM 10-NODE BACKBONE
         </p>
-        <h1 className="text-xl font-black italic tracking-tight">SDN/SRv6 <span className="text-indigo-500">OPTIMIZER</span></h1>
+        <h1 className="text-xl font-black italic tracking-tight">3S-COM <span className="text-indigo-500">SRv6 DEMO</span></h1>
       </div>
 
-      <div className="flex items-center bg-[#0f172a] rounded-2xl border border-white/10 p-1.5 shadow-2xl ml-6">
+      <div className="flex items-center bg-[#0f172a] rounded-2xl border border-white/10 p-1.5 shadow-2xl ml-2">
         <div className={`flex items-center px-4 border-r border-white/10 group ${THEME.source.bg} ${THEME.source.hover} transition-colors`}>
           <MapPin size={14} className={THEME.source.text + " mr-2"} />
           <select
             value={srcDc}
             onChange={e => setSrcDc(e.target.value)}
-            className={`bg-transparent text-xs font-black ${THEME.source.text} uppercase outline-none min-w-[140px] py-2 cursor-pointer`}
+            className={`bg-transparent text-xs font-black ${THEME.source.text} uppercase outline-none min-w-[128px] py-2 cursor-pointer`}
           >
             {Object.keys(dcs).map(k => (
-              <option key={k} value={k} className="bg-[#0f172a]">{dcs[k].name}</option>
+              <option key={k} value={k} className="bg-[#0f172a]">{dcs[k].label || dcs[k].name}</option>
             ))}
           </select>
         </div>
@@ -49,10 +49,10 @@ const ControlHeader = ({
           <select
             value={dstDc}
             onChange={e => setDstDc(e.target.value)}
-            className={`bg-transparent text-xs font-black ${THEME.dest.text} uppercase outline-none min-w-[140px] py-2 cursor-pointer`}
+            className={`bg-transparent text-xs font-black ${THEME.dest.text} uppercase outline-none min-w-[128px] py-2 cursor-pointer`}
           >
             {Object.keys(dcs).map(k => (
-              <option key={k} value={k} className="bg-[#0f172a]">{dcs[k].name}</option>
+              <option key={k} value={k} className="bg-[#0f172a]">{dcs[k].label || dcs[k].name}</option>
             ))}
           </select>
         </div>
@@ -64,8 +64,8 @@ const ControlHeader = ({
             onChange={e => setTrafficOpt(e.target.value)}
             className="bg-transparent text-xs font-black text-amber-200 uppercase outline-none min-w-[160px]"
           >
-            {Object.entries(trafficPolicies).map(([k]) => (
-              <option key={k} value={k} className="bg-[#0f172a]">{k.replace('_', ' ')}</option>
+            {Object.entries(trafficPolicies).map(([k, policy]) => (
+              <option key={k} value={k} className="bg-[#0f172a]">{policy.label || k.replace('_', ' ')}</option>
             ))}
           </select>
         </div>
@@ -75,7 +75,7 @@ const ControlHeader = ({
           disabled={isBuffering}
           className={`px-6 py-2.5 rounded-xl text-xs font-black shadow-lg ml-2 transition-all active:scale-95 ${isBuffering ? 'bg-slate-700 text-slate-500 cursor-wait' : 'bg-indigo-600 hover:bg-indigo-500 text-white'}`}
         >
-          {isBuffering ? 'CALCULATING...' : 'OPTIMIZE FLOW'}
+          {isBuffering ? 'CALCULATING...' : 'OPTIMIZE SRv6'}
         </button>
       </div>
 
@@ -94,7 +94,7 @@ const ControlHeader = ({
           </div>
         </div>
         <div className="flex flex-col items-end">
-          <span className="text-[9px] font-bold text-slate-500 uppercase tracking-tighter">Cluster Size</span>
+          <span className="text-[9px] font-bold text-slate-500 uppercase tracking-tighter">VNF Pool</span>
           <span className="text-lg font-black text-indigo-400">{activeVnfCount} VNFs</span>
         </div>
         <button

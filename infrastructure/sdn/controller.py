@@ -413,13 +413,22 @@ def start_rest_api(controller: SDNController, port: int = 8765):
             def log_message(self, fmt, *args):
                 log.debug(fmt % args)
 
+            def handle(self):
+                try:
+                    super().handle()
+                except BrokenPipeError:
+                    pass  # Im lặng khi client (như curl) đóng kết nối sớm
+
             def _respond(self, code: int, body: dict):
-                payload = _json.dumps(body).encode()
-                self.send_response(code)
-                self.send_header("Content-Type", "application/json")
-                self.send_header("Content-Length", str(len(payload)))
-                self.end_headers()
-                self.wfile.write(payload)
+                try:
+                    payload = _json.dumps(body).encode()
+                    self.send_response(code)
+                    self.send_header("Content-Type", "application/json")
+                    self.send_header("Content-Length", str(len(payload)))
+                    self.end_headers()
+                    self.wfile.write(payload)
+                except BrokenPipeError:
+                    pass
 
             def _body(self) -> dict:
                 length = int(self.headers.get("Content-Length", 0))
@@ -472,24 +481,28 @@ if __name__ == "__main__":
     import argparse
 
     parser = argparse.ArgumentParser(
-        description="3S-COM SDN Controller — Phase 4"
+        description="3S-COM SDN Controller"
     )
-    parser.add_argument("--s1-thrift", type=int, default=9091)
-    parser.add_argument("--s2-thrift", type=int, default=9092)
-    parser.add_argument("--s3-thrift", type=int, default=9093)
+    parser.add_argument("--nodes", type=int, default=10, help="Số lượng switches để điều khiển (mặc định: 10 cho mạng Vietnam)")
     parser.add_argument("--api-port",  type=int, default=8765)
     parser.add_argument("--bootstrap-file", type=str, default="",
                         help="Path to JSON file chứa initial routing rules")
     args = parser.parse_args()
 
-    ctrl = SDNController({
-        "s1": args.s1_thrift,
-        "s2": args.s2_thrift,
-        "s3": args.s3_thrift,
-    })
+    # Tự động mapping s1 -> 19091, s2 -> 19092 ...
+    thrift_map = {f"s{i}": 19090 + i for i in range(1, args.nodes + 1)}
+    
+    ctrl = SDNController(thrift_map)
 
-    # Bootstrap nếu có file
-    if args.bootstrap_file:
+    # Nếu chạy độc lập mà không có bootstrap từ mininet, tự nạp SID ban đầu
+    if not args.bootstrap_file:
+        log.info("[Controller] Auto-bootstrapping default SRv6 SIDs for 10-node topology...")
+        initial_routing = [
+            {"switch": f"s{i}", "type": "srv6_sid", "sid": f"fc00:{i}::1"}
+            for i in range(1, args.nodes + 1)
+        ]
+        ctrl.bootstrap(initial_routing)
+    else:
         with open(args.bootstrap_file) as f:
             plan = json.load(f)
         ctrl.bootstrap(plan.get("rules", []))

@@ -15,8 +15,8 @@ Kiến trúc:
   - BMv2 image: p4lang/behavioral-model:latest
   - Switch mode: simple_switch_grpc (hỗ trợ P4Runtime gRPC)
   - Mỗi switch chiếm 1 CPU core riêng (--cpuset-cpus N)
-  - gRPC port: 50051 + switch_id (50051, 50052, 50053)
-  - Thrift port: 9090 + switch_id (dùng cho debug CLI)
+  - gRPC port: 50051 + switch_id (50051, 50052, ...)
+  - Thrift port: 19091 + switch_id (19091, 19092, ...) — tránh xung đột với services hệ thống
 
 Usage:
     Xem topo_p4.py — không gọi trực tiếp.
@@ -107,7 +107,7 @@ class P4RuntimeSwitch:
         self.cpu_core    = cpu_core
         self.interfaces  = interfaces
         self.grpc_port   = grpc_port   or (50050 + switch_id)
-        self.thrift_port = thrift_port or (9090  + switch_id)
+        self.thrift_port = thrift_port or (19090 + switch_id)
         self.log_level   = log_level
         self.container_id: Optional[str] = None
         self._container_name = f"bmv2-{name}"
@@ -207,11 +207,24 @@ class P4RuntimeSwitch:
     # ──────────────────────────────────────────────────────────
 
     def _cleanup_existing(self):
-        """Xoá container cũ cùng tên nếu còn sót."""
+        """Xoá container cũ cùng tên và đợi port free."""
         _run(f"docker stop {self._container_name} 2>/dev/null")
         _run(f"docker rm   {self._container_name} 2>/dev/null")
+        self._wait_port_free(timeout=4.0)
+
+    def _wait_port_free(self, timeout: float = 5.0) -> bool:
+        """Chờ cho đến khi Thrift port KHÔNG còn bị chiếm (ngược với _wait_port)."""
+        deadline = time.time() + timeout
+        while time.time() < deadline:
+            try:
+                with socket.create_connection(("127.0.0.1", self.thrift_port), timeout=0.3):
+                    time.sleep(0.3)  # Port vẫn còn occupied → chờ tiếp
+            except (ConnectionRefusedError, OSError):
+                return True  # Port đã free
+        return False  # Vẫn chưa free sau timeout — tiếp tục và để BMv2 thử
 
     def is_running(self) -> bool:
+
         """Kiểm tra container còn alive không."""
         result = _run(
             f"docker inspect -f '{{{{.State.Running}}}}' "

@@ -10,7 +10,7 @@ const App = () => {
     try {
       const data = await vnfService.fetchVnfs();
       setVnfs(data);
-    } catch (e) {
+    } catch {
       // API unreachable
     }
   };
@@ -38,7 +38,7 @@ const App = () => {
   };
 
   useEffect(() => {
-    fetchData();
+    queueMicrotask(fetchData);
     const t = setInterval(fetchData, 5000);
     return () => clearInterval(t);
   }, []);

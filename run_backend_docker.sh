@@ -33,7 +33,8 @@ run_container() {
         --restart unless-stopped \
         -v /var/snap/microk8s/current/credentials/client.config:/root/.kube/config:ro \
         -e JO_VPPM_ENABLE_MODEL=1 \
-        -e JO_VPPM_MODEL_PATH=results/models/v10/dgrl_v10_final_vietnam.zip \
+        -e JO_VPPM_MODEL_PATH=results/models/v11/dgrl_v11_final_vietnam.zip \
+        -e JO_VPPM_SCALER_PATH=results/models/v11/vec_normalize_v11_vietnam.pkl \
         "$IMAGE"
 
     echo "✅ Container '$CONTAINER' started!"

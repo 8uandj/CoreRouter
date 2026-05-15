@@ -1,5 +1,5 @@
 import React from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
+import { motion as Motion, AnimatePresence } from 'framer-motion';
 import { Activity, ChevronUp, ChevronDown } from 'lucide-react';
 
 const TelemetryPanel = ({ isOpen, setIsOpen, hybridStatus }) => {
@@ -9,7 +9,7 @@ const TelemetryPanel = ({ isOpen, setIsOpen, hybridStatus }) => {
   const isDrl = hybridStatus?.branch === 'drl';
 
   return (
-    <motion.div 
+    <Motion.div 
       initial={false} 
       animate={{ 
         height: isOpen ? 'auto' : 48, 
@@ -23,27 +23,27 @@ const TelemetryPanel = ({ isOpen, setIsOpen, hybridStatus }) => {
       >
         <div className="flex items-center gap-2">
           <Activity size={14} className="text-indigo-400"/>
-          <h4 className="text-[10px] font-black text-slate-300 tracking-widest uppercase">Telemetry</h4>
+          <h4 className="text-[10px] font-black text-slate-300 tracking-widest uppercase">Live Telemetry</h4>
         </div>
         {isOpen ? <ChevronDown size={14} className="text-slate-500"/> : <ChevronUp size={14} className="text-slate-500"/>}
       </div>
       
       <AnimatePresence>
         {isOpen && (
-          <motion.div 
+          <Motion.div 
             initial={{ opacity: 0 }} 
             animate={{ opacity: 1 }} 
             exit={{ opacity: 0 }} 
             className="px-6 pb-6 pt-2 space-y-4"
           >
             <div className="flex items-center justify-between gap-4">
-              <span className="text-[10px] font-bold text-slate-500 uppercase">Hybrid Mode</span>
+              <span className="text-[10px] font-bold text-slate-500 uppercase">Control Branch</span>
               <span className={`text-xs font-mono ${isDrl ? 'text-red-400' : 'text-emerald-400'}`}>
                 {isDrl ? 'JO-VPPM' : 'Heuristic'}
               </span>
             </div>
             <div className="flex items-center justify-between gap-4">
-              <span className="text-[10px] font-bold text-slate-500 uppercase">Global Util</span>
+              <span className="text-[10px] font-bold text-slate-500 uppercase">Vietnam Util</span>
               <span className="text-xs font-mono text-amber-400">{globalUtil}%</span>
             </div>
             <div className="flex items-center justify-between gap-4">
@@ -51,16 +51,16 @@ const TelemetryPanel = ({ isOpen, setIsOpen, hybridStatus }) => {
               <span className="text-xs font-mono text-cyan-400">{avgCpu}% / {avgMsd}%</span>
             </div>
             <div className="h-1 bg-white/5 rounded-full overflow-hidden">
-              <motion.div 
+              <Motion.div 
                 animate={{ width: `${Math.max(4, globalUtil)}%` }} 
                 transition={{ duration: 0.4 }} 
                 className={`h-full ${isDrl ? 'bg-red-500' : 'bg-emerald-500'}`}
               />
             </div>
-          </motion.div>
+          </Motion.div>
         )}
       </AnimatePresence>
-    </motion.div>
+    </Motion.div>
   );
 };
 

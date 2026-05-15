@@ -1,5 +1,5 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { evalCurve } from './Edge';
+import { evalCurve } from './geometry';
 
 const Packet = ({ id, waypoints, ptype, sids, encapsulator, onDone }) => {
   const [pos, setPos] = useState({ ...waypoints[0] });

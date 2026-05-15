@@ -12,7 +12,11 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     git \
     && rm -rf /var/lib/apt/lists/*
 
-# 2. Cài đặt Python ML Libraries (Nặng, ít thay đổi - Layer 2)
+# 2. Cài đặt PyTorch CPU trước để SB3 không kéo nhầm CUDA wheels
+RUN pip install --no-cache-dir \
+    torch --index-url https://download.pytorch.org/whl/cpu
+
+# 3. Cài đặt Python ML Libraries (Nặng, ít thay đổi - Layer 3)
 # Chú ý: Đặt TRƯỚC khi COPY code để Docker Cache được bước này
 RUN pip install --no-cache-dir \
     fastapi "uvicorn[standard]" \
@@ -22,10 +26,6 @@ RUN pip install --no-cache-dir \
     torch_geometric \
     pandas google-cloud-aiplatform \
     gymnasium shimmy
-
-# 3. Cài đặt PyTorch CPU (Rất nặng - Layer 3)
-RUN pip install --no-cache-dir \
-    torch --extra-index-url https://download.pytorch.org/whl/cpu
 
 # 4. Thiết lập môi trường và COPY code (Thay đổi thường xuyên - Layer 4)
 # Việc thay đổi code chỉ làm chạy lại từ bước này trở xuống

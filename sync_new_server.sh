@@ -20,11 +20,11 @@ sync_to_server() {
         --exclude 'venv' \
         --exclude '.venv' \
         --exclude '__pycache__' \
-        --exclude '.ai' \
         --exclude 'node_modules/' \
         --exclude 'results/figures' \
         --exclude 'results/logs/' \
-        --exclude 'results/models/*.zip' \
+        --exclude 'results/models/**/*ckpt*.zip' \
+        --exclude 'results/models/**/*interrupted*.zip' \
         --exclude 'results/models/v10_dynamic/' \
         --exclude 'results/models/v10/*ckpt*.zip' \
         "$LOCAL_DIR/" "$SERVER:$REMOTE_DIR/"

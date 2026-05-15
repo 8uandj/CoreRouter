@@ -1,5 +1,5 @@
 import React from 'react';
-import { motion } from 'framer-motion';
+import { motion as Motion } from 'framer-motion';
 import { X } from 'lucide-react';
 
 // --- Theme Colors (Easily adjustable) ---
@@ -19,7 +19,7 @@ const ProvisionModal = ({
 
   return (
     <div className="fixed inset-0 z-[100] flex items-center justify-center bg-black/90 backdrop-blur-md p-6">
-      <motion.div
+      <Motion.div
         initial={{ scale: 0.9, opacity: 0 }}
         animate={{ scale: 1, opacity: 1 }}
         exit={{ scale: 0.9, opacity: 0 }}
@@ -33,10 +33,10 @@ const ProvisionModal = ({
         </button>
 
         <h3 className="text-2xl font-black mb-1 italic">
-          Provision <span className={THEME.accent}>Instance</span>
+          Provision <span className={THEME.accent}>VNF</span>
         </h3>
         <p className="text-slate-500 font-bold text-sm mb-10 tracking-tight">
-          Deploying virtualized resource to the infrastructure layer.
+          Deploy to the Vietnam backbone cluster labels used by Tekton.
         </p>
 
         <form onSubmit={onSubmit} className="space-y-6">
@@ -54,13 +54,12 @@ const ProvisionModal = ({
               </select>
             </div>
             <div>
-              <label className="text-[10px] font-black text-slate-500 mb-2 block uppercase tracking-widest">Location</label>
+              <label className="text-[10px] font-black text-slate-500 mb-2 block uppercase tracking-widest">Cluster Label</label>
               <select
                 className={`w-full ${THEME.input} border p-4 rounded-2xl text-xs font-black outline-none focus:ring-2 ${THEME.ring} transition-all`}
                 value={formData.location}
                 onChange={e => setFormData({ ...formData, location: e.target.value })}
               >
-                <option value="auto" className="bg-[#0f172a]">Auto (Optimal)</option>
                 {Object.values(dcs).map(dc => (
                   <option key={dc.id} value={dc.id} className="bg-[#0f172a]">{dc.name}</option>
                 ))}
@@ -82,7 +81,7 @@ const ProvisionModal = ({
             Start Orchestration
           </button>
         </form>
-      </motion.div>
+      </Motion.div>
     </div>
   );
 };
