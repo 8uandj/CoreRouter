@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import json
+import socket
 import time
 from typing import Any, Dict, Optional, Tuple
 from urllib.error import HTTPError, URLError
@@ -50,6 +51,9 @@ class TestbedClient:
         except URLError as exc:
             elapsed_ms = (time.perf_counter() - start) * 1000.0
             return 0, {"detail": str(exc.reason)}, elapsed_ms
+        except (TimeoutError, socket.timeout) as exc:
+            elapsed_ms = (time.perf_counter() - start) * 1000.0
+            return 0, {"detail": "timeout", "message": str(exc)}, elapsed_ms
 
     def health(self) -> Tuple[int, Dict[str, Any], float]:
         return self._request_json("GET", f"{self.api_base_url}/health")
@@ -86,4 +90,3 @@ class TestbedClient:
             f"{self.sdn_base_url}/stats/msd_drops",
             timeout_s=self.sdn_timeout_s,
         )
-

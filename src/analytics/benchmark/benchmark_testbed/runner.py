@@ -144,7 +144,13 @@ class ScenarioRunner:
 
         reject_reason = ""
         if not accepted:
-            reject_reason = str(detail.get("code") or detail.get("message") or body.get("detail") or "request_failed")
+            reject_reason = str(
+                detail.get("code")
+                or detail.get("message")
+                or body.get("message")
+                or body.get("detail")
+                or "request_failed"
+            )
 
         return RequestRecord(
             algorithm="hybrid_runtime",
@@ -168,6 +174,7 @@ class ScenarioRunner:
             routing_node_id=routing.get("id") if isinstance(routing, dict) else None,
             routing_node_name=str(routing.get("name", "")) if isinstance(routing, dict) else "",
             sid_count=len(sid_stack) if isinstance(sid_stack, list) else 0,
+            msd_violation=reject_reason == "msd_violation",
             reject_reason=reject_reason,
             migration_status=str(migration.get("status", "")) if isinstance(migration, dict) else "",
             migration_old_vnf=str(migration.get("old_vnf", "")) if isinstance(migration, dict) else "",

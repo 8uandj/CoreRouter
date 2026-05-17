@@ -23,6 +23,8 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--output-dir", default="results/benchmark_testbed")
     parser.add_argument("--steps", type=int, default=0, help="Override steps for every scenario.")
     parser.add_argument("--seed", type=int, default=42)
+    parser.add_argument("--request-timeout-s", type=float, default=60.0)
+    parser.add_argument("--sdn-timeout-s", type=float, default=15.0)
     parser.add_argument(
         "--scenario",
         action="append",
@@ -59,6 +61,8 @@ def main() -> None:
         output_dir=run_dir,
         steps=args.steps,
         seed=args.seed,
+        request_timeout_s=args.request_timeout_s,
+        sdn_timeout_s=args.sdn_timeout_s,
         reset_before_scenario=not args.no_reset,
         cleanup_after_scenario=not args.no_cleanup,
         wait_for_migration=not args.no_wait_migration,
@@ -94,7 +98,9 @@ def main() -> None:
             f"  hybrid_runtime requests={summary.generated_requests} "
             f"accept={summary.acceptance_rate:.1f}% "
             f"no_safe={summary.no_safe_rate:.1f}% "
+            f"msd_viol={summary.msd_violation_rate:.1f}% "
             f"lat_mean={summary.mean_decision_latency_ms:.1f}ms "
+            f"timeouts={summary.timeout_count} "
             f"migrations={summary.migration_triggers}"
         )
         if not args.no_baselines:
@@ -107,6 +113,7 @@ def main() -> None:
                     f"  {algorithm} requests={baseline_summary.generated_requests} "
                     f"accept={baseline_summary.acceptance_rate:.1f}% "
                     f"no_safe={baseline_summary.no_safe_rate:.1f}% "
+                    f"msd_viol={baseline_summary.msd_violation_rate:.1f}% "
                     f"lat_mean={baseline_summary.mean_decision_latency_ms:.1f}ms"
                 )
 

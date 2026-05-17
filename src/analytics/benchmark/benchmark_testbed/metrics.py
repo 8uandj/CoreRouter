@@ -6,6 +6,21 @@ from typing import Dict, Iterable, List
 from .models import RequestRecord, ScenarioSummary
 
 
+SAFE_REJECT_REASONS = {
+    "NO_SAFE_ACTION",
+    "no_safe_action",
+    "no_safe_action_mask_all_false",
+    "no_candidate",
+    "placement_node_full",
+    "routing_node_full",
+    "reserve_failed",
+    "heuristic_no_feasible_placement",
+    "heuristic_msd_or_capacity_route_failed",
+    "resilience_no_safe_pair_available",
+    "greedy_no_feasible_node",
+}
+
+
 def total_msd_drops(snapshot: Dict[str, object]) -> int:
     total = 0
     for value in snapshot.values():
@@ -36,8 +51,14 @@ def summarize_records(
     generated = len(rows)
     accepted = sum(1 for row in rows if row.accepted)
     rejected = generated - accepted
-    no_safe = sum(1 for row in rows if row.reject_reason in {"NO_SAFE_ACTION", "no_safe_action"})
-    latencies = [row.decision_latency_ms for row in rows]
+    timeout_count = sum(1 for row in rows if row.reject_reason == "timeout")
+    no_safe = sum(1 for row in rows if row.reject_reason in SAFE_REJECT_REASONS)
+    constraint_rejects = sum(
+        1 for row in rows
+        if (not row.accepted and row.reject_reason in SAFE_REJECT_REASONS)
+    )
+    msd_violations = sum(1 for row in rows if row.msd_violation)
+    latencies = [row.decision_latency_ms for row in rows if row.reject_reason != "timeout"]
     sid_counts = [row.sid_count for row in rows if row.accepted]
     migration_triggers = sum(1 for row in rows if row.migration_status)
     successful_pipelines = sum(
@@ -53,8 +74,11 @@ def summarize_records(
         rejected=rejected,
         acceptance_rate=(accepted / generated * 100.0) if generated else 0.0,
         no_safe_rate=(no_safe / generated * 100.0) if generated else 0.0,
+        constraint_reject_rate=(constraint_rejects / generated * 100.0) if generated else 0.0,
+        msd_violation_rate=(msd_violations / generated * 100.0) if generated else 0.0,
         mean_decision_latency_ms=mean(latencies) if latencies else 0.0,
         p95_decision_latency_ms=percentile(latencies, 95.0),
+        timeout_count=timeout_count,
         migration_triggers=migration_triggers,
         successful_migration_pipelines=successful_pipelines,
         msd_drop_delta=msd_drop_delta,

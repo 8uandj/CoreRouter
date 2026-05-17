@@ -24,7 +24,9 @@ def write_pdf_report(path: Path, summaries: List[ScenarioSummary], records: List
                 f"{s.generated_requests}",
                 f"{s.acceptance_rate:.1f}%",
                 f"{s.no_safe_rate:.1f}%",
+                f"{s.msd_violation_rate:.1f}%",
                 f"{s.mean_decision_latency_ms:.1f}",
+                f"{s.timeout_count}",
                 f"{s.migration_triggers}",
                 f"{s.msd_drop_delta}",
             ]
@@ -37,7 +39,9 @@ def write_pdf_report(path: Path, summaries: List[ScenarioSummary], records: List
                 "Requests",
                 "Accept",
                 "No safe",
+                "MSD viol",
                 "Mean latency ms",
+                "Timeouts",
                 "Migrations",
                 "MSD drops",
             ],
@@ -80,8 +84,36 @@ def write_pdf_report(path: Path, summaries: List[ScenarioSummary], records: List
         pdf.savefig(fig, bbox_inches="tight")
         plt.close(fig)
 
+        msd_by_algorithm = {
+            algorithm: [
+                next((s.msd_violation_rate for s in summaries if s.algorithm == algorithm and s.scenario == scenario), 0.0)
+                for scenario in scenario_labels
+            ]
+            for algorithm in algorithms
+        }
+        fig, ax = plt.subplots(figsize=(11.69, 8.27))
+        for idx, algorithm in enumerate(algorithms):
+            offset = (idx - (len(algorithms) - 1) / 2) * width
+            ax.bar(
+                [x + offset for x in x_values],
+                msd_by_algorithm[algorithm],
+                width=width,
+                label=algorithm,
+            )
+        ax.set_xticks(x_values)
+        ax.set_xticklabels(scenario_labels, rotation=25, ha="right")
+        ax.set_ylabel("MSD violation rate (%)")
+        ax.set_title("Hardware Safety Comparison")
+        ax.legend()
+        ax.grid(axis="y", alpha=0.25)
+        pdf.savefig(fig, bbox_inches="tight")
+        plt.close(fig)
+
         latency_groups = [
-            [r.decision_latency_ms for r in records if r.algorithm == algorithm] or [0.0]
+            [
+                r.decision_latency_ms for r in records
+                if r.algorithm == algorithm and r.reject_reason != "timeout"
+            ] or [0.0]
             for algorithm in algorithms
         ]
         fig, ax = plt.subplots(figsize=(11.69, 8.27))

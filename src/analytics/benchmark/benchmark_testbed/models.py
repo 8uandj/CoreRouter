@@ -67,6 +67,7 @@ class RequestRecord:
     routing_node_id: Optional[int] = None
     routing_node_name: str = ""
     sid_count: int = 0
+    msd_violation: bool = False
     reject_reason: str = ""
     migration_status: str = ""
     migration_old_vnf: str = ""
@@ -87,8 +88,11 @@ class ScenarioSummary:
     rejected: int
     acceptance_rate: float
     no_safe_rate: float
+    constraint_reject_rate: float
+    msd_violation_rate: float
     mean_decision_latency_ms: float
     p95_decision_latency_ms: float
+    timeout_count: int
     migration_triggers: int
     successful_migration_pipelines: int
     msd_drop_delta: int
