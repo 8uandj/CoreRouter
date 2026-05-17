@@ -59,6 +59,24 @@ def _infer_scaler_path(model_path: str) -> str:
     return str(path.with_name("vec_normalize_v11_vietnam.pkl"))
 
 
+class NpzVecNormalize:
+    """Small inference-only VecNormalize reader for cross-version scaler stats."""
+
+    def __init__(self, path: str) -> None:
+        stats = np.load(path)
+        self.obs_mean = stats["obs_mean"].astype(np.float32)
+        self.obs_var = stats["obs_var"].astype(np.float32)
+        self.clip_obs = float(stats["clip_obs"])
+        self.epsilon = float(stats["epsilon"])
+        self.norm_obs = bool(stats["norm_obs"])
+
+    def normalize_obs(self, obs: np.ndarray) -> np.ndarray:
+        if not self.norm_obs:
+            return obs
+        normalized = (obs - self.obs_mean) / np.sqrt(self.obs_var + self.epsilon)
+        return np.clip(normalized, -self.clip_obs, self.clip_obs).astype(np.float32)
+
+
 def _strip_single_root_zip(zip_path: str) -> str:
     """Return an SB3-compatible zip path, flattening single-root archives if needed."""
     with ZipFile(zip_path, "r") as source:
@@ -200,8 +218,13 @@ class DGRLAgent:
                     self._scaler.norm_reward = False
                     logger.info("Loaded VecNormalize scaler from %s", self.scaler_path)
                 except Exception as exc:
-                    self._scaler = None
-                    logger.warning("VecNormalize scaler load failed; running raw observations: %s", exc)
+                    npz_path = str(Path(self.scaler_path).with_suffix(".npz"))
+                    if os.path.exists(npz_path):
+                        self._scaler = NpzVecNormalize(npz_path)
+                        logger.info("Loaded VecNormalize stats from %s after pickle failure: %s", npz_path, exc)
+                    else:
+                        self._scaler = None
+                        logger.warning("VecNormalize scaler load failed; running raw observations: %s", exc)
             else:
                 logger.warning("VecNormalize scaler NOT found at %s. AI may be unstable.", self.scaler_path)
 

@@ -6,7 +6,7 @@ from typing import Dict, List, Tuple
 
 from .exporters import write_records_csv
 from .metrics import summarize_records
-from .models import RequestRecord, ScenarioDefinition
+from .models import RequestRecord, RequestSpec, ScenarioDefinition
 from .runner import stable_name_offset
 
 
@@ -40,6 +40,17 @@ class BaselineSimulator:
 
         rng = random.Random(self.seed + stable_name_offset(scenario.name))
         state_manager = NetworkStateManager()
+        dgrl_agent = get_dgrl_agent() if algorithm == "jo_vppm" else None
+        if dgrl_agent is not None:
+            warmup_req = scenario.request_factory(0, self.steps or scenario.default_steps, rng)
+            if warmup_req is not None:
+                dgrl_agent.get_action(state_manager, warmup_req)
+            else:
+                dgrl_agent.get_action(
+                    state_manager,
+                    RequestSpec(service_type="Data", cpu_req=8, ram_req=4, msd_req=1),
+                )
+            rng = random.Random(self.seed + stable_name_offset(scenario.name))
         records: List[RequestRecord] = []
         active: List[Dict[str, object]] = []
         steps = self.steps or scenario.default_steps
@@ -76,7 +87,7 @@ class BaselineSimulator:
             try:
                 snapshot = state_manager.snapshot()
                 if algorithm == "jo_vppm":
-                    decision = get_dgrl_agent().get_action(state_manager, spec)
+                    decision = dgrl_agent.get_action(state_manager, spec)
                     v_place = int(decision.choice.v_place)
                     v_route = int(decision.choice.v_route)
                     method_used = "JO-VPPM" if decision.model_loaded else "JO-VPPM fallback"
@@ -179,4 +190,3 @@ class BaselineSimulator:
 
             raise HardConstraintError("greedy_no_feasible_node")
         return int(best_node), int(best_node)
-
