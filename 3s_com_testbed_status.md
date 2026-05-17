@@ -99,7 +99,7 @@ Hệ thống hiện tại đang ở trạng thái **LIVE Phase 6**. AI→K8s Map
 
 ## Quy trình vận hành (Operation Workflow)
 1. **Khởi động Backend:** `./run_backend_docker.sh run`
-2. **Khởi động SDN:** `sudo venv/bin/python3 infrastructure/sdn/topo_p4.py`
+2. **Khởi động SDN:** `sudo venv/bin/python3 infrastructure/sdn/topo_p4.py --p4`
 3. **Khởi động Controller:** `venv/bin/python3 infrastructure/sdn/controller.py`
 4. **Khởi động Frontend:** `cd src/portal/frontend && npm run dev`
 ```

@@ -29,19 +29,28 @@ def _node_label(node_id: int, node_names: List[str]) -> Dict[str, object]:
     return {"id": int(node_id), "name": node_names[int(node_id)]}
 
 def _location_key(node_name: str) -> str:
+    """
+    Map AI topology node name -> targetLocation label used by Tekton prepare-vnf task.
+    Format: "<city>-<index>" matches core-router/location label in K8s manifests.
+    Nodes sharing the same physical K8s host get the same location label.
+      k8s-master  : Hanoi, HaiPhong, NinhBinh  → hanoi-1
+      worker1     : Vinh, Hue, DaNang          → danang-1
+      worker2     : QuyNhon, NhaTrang, HoChiMinh, CanTho → hcm-1
+    """
     mapping = {
-        "Hanoi": "hn",
-        "HaiPhong": "hp",
-        "NinhBinh": "hn",
-        "Vinh": "dn",
-        "Hue": "dn",
-        "DaNang": "dn",
-        "QuyNhon": "dn",
-        "NhaTrang": "hcm",
-        "HoChiMinh": "hcm",
-        "CanTho": "hcm",
+        "Hanoi":      "hanoi-1",
+        "HaiPhong":   "hanoi-1",   # same k8s-master cluster
+        "NinhBinh":   "hanoi-1",   # same k8s-master cluster
+        "Vinh":       "danang-1",
+        "Hue":        "danang-1",
+        "DaNang":     "danang-1",
+        "QuyNhon":    "hcm-1",
+        "NhaTrang":   "hcm-1",
+        "HoChiMinh":  "hcm-1",
+        "CanTho":     "hcm-1",
     }
     return mapping.get(node_name, "auto")
+
 
 @router.post("/orchestrate")
 async def orchestrate_sfc(request: SFCRequest, background_tasks: BackgroundTasks):
@@ -119,21 +128,37 @@ async def orchestrate_sfc(request: SFCRequest, background_tasks: BackgroundTasks
     placement = _node_label(choice.v_place, node_names)
     route = _node_label(choice.v_route, node_names)
     
-    # Luồng MBB Proactive nếu có Alert
+    # Luồng MBB Proactive nếu có Alert và có VNF đăng ký trong state_manager
     migration_result = None
     if branch == "drl" and forecast_alert:
-        async def background_mbb():
-            async with MIGRATION_LOCK:
-                await container.orchestration_service.make_before_break_sequence(
-                    old_name="vnf-legacy", # Placeholder
-                    new_name=vnf_name,
-                    file_name="vnf-firewall.yaml" if request.service_type.lower() == "attack" else "vnf-frr.yaml",
-                    target_location=_location_key(str(placement["name"])),
-                    request=request,
-                    ai_node_id=choice.v_place
+        # Tìm VNF cũ tốn CPU nhất trên node được chọn để migrate
+        existing_vnfs = state_manager.get_vnfs_on_node(choice.v_place)
+        old_vnf = existing_vnfs[0]["name"] if existing_vnfs else None
+
+        if old_vnf:
+            async def background_mbb():
+                async with MIGRATION_LOCK:
+                    await container.orchestration_service.make_before_break_sequence(
+                        old_name=old_vnf,
+                        new_name=vnf_name,
+                        file_name="vnf-firewall.yaml" if request.service_type.lower() == "attack" else "vnf-frr.yaml",
+                        target_location=_location_key(str(placement["name"])),
+                        request=request,
+                        ai_node_id=choice.v_place
+                    )
+            background_tasks.add_task(background_mbb)
+            migration_result = {"status": "triggered", "old_vnf": old_vnf, "new_vnf": vnf_name}
+        else:
+            # Không có VNF cũ → chỉ deploy VNF mới thông thường qua Tekton
+            async def background_deploy():
+                container.orchestrator.trigger_deploy(
+                    name=vnf_name,
+                    vnf_type="router",
+                    profile="standard",
+                    location=_location_key(str(placement["name"]))
                 )
-        background_tasks.add_task(background_mbb)
-        migration_result = {"status": "triggered", "vnf_name": vnf_name}
+            background_tasks.add_task(background_deploy)
+            migration_result = {"status": "deploying", "vnf_name": vnf_name}
 
     data = {
         "vnf_name": vnf_name,
@@ -198,7 +223,6 @@ async def set_alert(alert: bool, background_tasks: BackgroundTasks):
                             
                             from src.portal.backend.app.models.schemas import SFCRequest
                             fake_req = SFCRequest(
-                                source_node=0, target_node=0,
                                 cpu_req=vnf["cpu_req"], ram_req=vnf["ram_req"], msd_req=vnf["msd_req"],
                                 service_type="Video"
                             )

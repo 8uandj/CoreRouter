@@ -134,6 +134,10 @@ class DGRLAgent:
         try:
             from sb3_contrib import MaskablePPO
             import stable_baselines3.common.utils as sb3_utils
+            import gymnasium as gym
+
+            from src.orchestration.jo_vdpr.gnn_policy import GNNActorCriticPolicy
+            from src.orchestration.jo_vdpr.topology import DEFAULT_TOPO
             
             # Khắc phục lỗi thiếu thuộc tính do sai khác phiên bản SB3
             if not hasattr(sb3_utils, 'FloatSchedule'):
@@ -141,36 +145,63 @@ class DGRLAgent:
                     def __init__(self, val): self.val = val
                     def __call__(self, _): return self.val
                 sb3_utils.FloatSchedule = FloatSchedule
+            if not hasattr(sb3_utils, 'ConstantSchedule'):
+                class ConstantSchedule:
+                    def __init__(self, val): self.val = val
+                    def __call__(self, _): return self.val
+                sb3_utils.ConstantSchedule = ConstantSchedule
 
             # Khắc phục lỗi NumPy _frombuffer
             if not hasattr(np, '_frombuffer'):
                 np._frombuffer = np.frombuffer
 
             load_path = _strip_single_root_zip(self.model_path)
-            self._model = MaskablePPO.load(load_path, device="cpu")
+            obs_space = gym.spaces.Box(low=0, high=1, shape=(73,), dtype=np.float32)
+            action_space = gym.spaces.MultiDiscrete([10, 10])
+            policy_kwargs = dict(
+                num_nodes=DEFAULT_TOPO.num_nodes,
+                adj_matrix=DEFAULT_TOPO.adj_matrix,
+                gat_hidden=64,
+                gat_heads=4,
+                features_dim=256,
+            )
+            custom_objects = {
+                "policy_class": GNNActorCriticPolicy,
+                "policy_kwargs": policy_kwargs,
+                "observation_space": obs_space,
+                "action_space": action_space,
+                "learning_rate": 0.0003,
+                "lr_schedule": lambda _: 0.0003,
+                "clip_range": lambda _: 0.2,
+                "_last_obs": None,
+                "_last_episode_starts": None,
+                "_last_original_obs": None,
+                "ep_info_buffer": [],
+            }
+            self._model = MaskablePPO.load(load_path, device="cpu", custom_objects=custom_objects)
             logger.info("Loaded JO-VPPM model from %s", self.model_path)
             
             if os.path.exists(self.scaler_path):
-                from stable_baselines3.common.vec_env import VecNormalize, DummyVecEnv
-                # Cần một dummy env để load scaler
                 try:
-                    import gymnasium as gym
-                except ImportError:
-                    import gym
-                # Giả lập env với obs space tương ứng (N*6 + 13 = 10*6 + 13 = 73)
-                class DummyEnv(gym.Env):
-                    def __init__(self):
-                        self.observation_space = gym.spaces.Box(low=0, high=1, shape=(73,), dtype=np.float32)
-                        self.action_space = gym.spaces.MultiDiscrete([10, 10])
-                    def reset(self, seed=None): return np.zeros(73), {}
-                    def step(self, action): return np.zeros(73), 0, False, False, {}
-                
-                # Bọc trong DummyVecEnv để có num_envs và các thuộc tính SB3 cần thiết
-                venv = DummyVecEnv([lambda: DummyEnv()])
-                self._scaler = VecNormalize.load(self.scaler_path, venv)
-                self._scaler.training = False
-                self._scaler.norm_reward = False
-                logger.info("Loaded VecNormalize scaler from %s", self.scaler_path)
+                    from stable_baselines3.common.vec_env import VecNormalize, DummyVecEnv
+                    # Cần một dummy env để load scaler
+                    # Giả lập env với obs space tương ứng (N*6 + 13 = 10*6 + 13 = 73)
+                    class DummyEnv(gym.Env):
+                        def __init__(self):
+                            self.observation_space = gym.spaces.Box(low=0, high=1, shape=(73,), dtype=np.float32)
+                            self.action_space = gym.spaces.MultiDiscrete([10, 10])
+                        def reset(self, seed=None): return np.zeros(73), {}
+                        def step(self, action): return np.zeros(73), 0, False, False, {}
+                    
+                    # Bọc trong DummyVecEnv để có num_envs và các thuộc tính SB3 cần thiết
+                    venv = DummyVecEnv([lambda: DummyEnv()])
+                    self._scaler = VecNormalize.load(self.scaler_path, venv)
+                    self._scaler.training = False
+                    self._scaler.norm_reward = False
+                    logger.info("Loaded VecNormalize scaler from %s", self.scaler_path)
+                except Exception as exc:
+                    self._scaler = None
+                    logger.warning("VecNormalize scaler load failed; running raw observations: %s", exc)
             else:
                 logger.warning("VecNormalize scaler NOT found at %s. AI may be unstable.", self.scaler_path)
 
