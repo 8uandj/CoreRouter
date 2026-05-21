@@ -5,6 +5,7 @@ from pathlib import Path
 from typing import Dict, List, Tuple
 
 from .exporters import write_records_csv
+from .latency_model import modeled_service_latency_ms
 from .metrics import summarize_records
 from .models import RequestRecord, RequestSpec, ScenarioDefinition
 from .runner import stable_name_offset
@@ -139,6 +140,16 @@ class BaselineSimulator:
                 reject_reason = f"error:{exc}"
 
             latency_ms = round((time.perf_counter() - start) * 1000.0, 3)
+            service_latency_ms = 0.0
+            if accepted and v_place is not None and v_route is not None:
+                snap_after = state_manager.snapshot()
+                service_latency_ms = modeled_service_latency_ms(
+                    v_place,
+                    v_route,
+                    spec.msd_req,
+                    float(snap_after.state[int(v_place), 0]) / 100.0,
+                    float(snap_after.state[int(v_route), 0]) / 100.0,
+                )
             if accepted and v_place is not None and v_route is not None:
                 active.append(
                     {
@@ -159,6 +170,7 @@ class BaselineSimulator:
                     accepted=accepted,
                     status_code=200 if accepted else 409,
                     decision_latency_ms=latency_ms,
+                    service_latency_ms=round(service_latency_ms, 3),
                     service_type=spec.service_type,
                     cpu_req=spec.cpu_req,
                     ram_req=spec.ram_req,

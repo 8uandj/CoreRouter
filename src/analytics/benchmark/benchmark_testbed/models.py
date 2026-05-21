@@ -52,6 +52,7 @@ class RequestRecord:
     accepted: bool
     status_code: int
     decision_latency_ms: float
+    service_latency_ms: float
     service_type: str
     cpu_req: float
     ram_req: float
@@ -93,6 +94,7 @@ class ScenarioSummary:
     mean_decision_latency_ms: float
     p95_decision_latency_ms: float
     timeout_count: int
+    mean_service_latency_ms: float
     migration_triggers: int
     successful_migration_pipelines: int
     msd_drop_delta: int

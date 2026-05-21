@@ -60,6 +60,7 @@ def summarize_records(
     msd_violations = sum(1 for row in rows if row.msd_violation)
     latencies = [row.decision_latency_ms for row in rows if row.reject_reason != "timeout"]
     sid_counts = [row.sid_count for row in rows if row.accepted]
+    service_latencies = [row.service_latency_ms for row in rows if row.accepted and row.service_latency_ms > 0]
     migration_triggers = sum(1 for row in rows if row.migration_status)
     successful_pipelines = sum(
         1 for row in rows
@@ -79,6 +80,7 @@ def summarize_records(
         mean_decision_latency_ms=mean(latencies) if latencies else 0.0,
         p95_decision_latency_ms=percentile(latencies, 95.0),
         timeout_count=timeout_count,
+        mean_service_latency_ms=mean(service_latencies) if service_latencies else 0.0,
         migration_triggers=migration_triggers,
         successful_migration_pipelines=successful_pipelines,
         msd_drop_delta=msd_drop_delta,

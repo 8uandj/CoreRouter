@@ -7,7 +7,7 @@ from typing import List
 
 from .baseline_simulator import BASELINE_ALGORITHMS, BaselineSimulator
 from .config import BenchmarkConfig
-from .exporters import write_json, write_summary_csv
+from .exporters import write_json, write_records_csv, write_summary_csv
 from .http_client import TestbedClient
 from .models import RequestRecord, ScenarioSummary
 from .preflight import run_preflight
@@ -90,8 +90,10 @@ def main() -> None:
     summaries: List[ScenarioSummary] = []
 
     for scenario in selected:
+        scenario_dir = run_dir / "scenarios" / scenario.name
+        scenario_dir.mkdir(parents=True, exist_ok=True)
         print(f"Running {scenario.title} ({scenario.name})")
-        records, summary = runner.run(scenario, run_dir)
+        records, summary = runner.run(scenario, scenario_dir)
         all_records.extend(records)
         summaries.append(summary)
         print(
@@ -99,14 +101,15 @@ def main() -> None:
             f"accept={summary.acceptance_rate:.1f}% "
             f"no_safe={summary.no_safe_rate:.1f}% "
             f"msd_viol={summary.msd_violation_rate:.1f}% "
-            f"lat_mean={summary.mean_decision_latency_ms:.1f}ms "
+            f"decision_ms={summary.mean_decision_latency_ms:.1f} "
+            f"svc_lat={summary.mean_service_latency_ms:.2f}ms "
             f"timeouts={summary.timeout_count} "
             f"migrations={summary.migration_triggers}"
         )
         if not args.no_baselines:
             baselines = args.baseline or BASELINE_ALGORITHMS
             for algorithm in baselines:
-                baseline_records, baseline_summary = baseline_runner.run(scenario, algorithm, run_dir)
+                baseline_records, baseline_summary = baseline_runner.run(scenario, algorithm, scenario_dir)
                 all_records.extend(baseline_records)
                 summaries.append(baseline_summary)
                 print(
@@ -114,10 +117,23 @@ def main() -> None:
                     f"accept={baseline_summary.acceptance_rate:.1f}% "
                     f"no_safe={baseline_summary.no_safe_rate:.1f}% "
                     f"msd_viol={baseline_summary.msd_violation_rate:.1f}% "
-                    f"lat_mean={baseline_summary.mean_decision_latency_ms:.1f}ms"
+                    f"decision_ms={baseline_summary.mean_decision_latency_ms:.1f} "
+                    f"svc_lat={baseline_summary.mean_service_latency_ms:.2f}ms"
                 )
+        scenario_summaries = [s for s in summaries if s.scenario == scenario.name]
+        scenario_records = [r for r in all_records if r.scenario == scenario.name]
+        write_summary_csv(scenario_dir / "summary.csv", scenario_summaries)
+        write_records_csv(scenario_dir / "all_records.csv", scenario_records)
+        write_json(scenario_dir / "benchmark_results.json", scenario_summaries, scenario_records)
+        write_pdf_report(
+            scenario_dir / "benchmark_report.pdf",
+            scenario_summaries,
+            scenario_records,
+            report_title=f"3S-COM Testbed Scenario Report - {scenario.title}",
+        )
 
     write_summary_csv(run_dir / "summary.csv", summaries)
+    write_records_csv(run_dir / "all_records.csv", all_records)
     write_json(run_dir / "benchmark_results.json", summaries, all_records)
     write_pdf_report(run_dir / "benchmark_report.pdf", summaries, all_records)
     print(f"Saved benchmark outputs to {run_dir}")

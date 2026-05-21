@@ -6,7 +6,12 @@ from typing import List
 from .models import RequestRecord, ScenarioSummary
 
 
-def write_pdf_report(path: Path, summaries: List[ScenarioSummary], records: List[RequestRecord]) -> None:
+def write_pdf_report(
+    path: Path,
+    summaries: List[ScenarioSummary],
+    records: List[RequestRecord],
+    report_title: str = "3S-COM Testbed Benchmark Report",
+) -> None:
     import os
     import tempfile
 
@@ -17,15 +22,17 @@ def write_pdf_report(path: Path, summaries: List[ScenarioSummary], records: List
     with PdfPages(path) as pdf:
         fig, ax = plt.subplots(figsize=(11.69, 8.27))
         ax.axis("off")
-        ax.set_title("3S-COM Testbed Benchmark Report", fontsize=18, pad=20)
+        ax.set_title(report_title, fontsize=18, pad=20)
         table_data = [
             [
                 s.title,
+                s.algorithm,
                 f"{s.generated_requests}",
                 f"{s.acceptance_rate:.1f}%",
                 f"{s.no_safe_rate:.1f}%",
                 f"{s.msd_violation_rate:.1f}%",
                 f"{s.mean_decision_latency_ms:.1f}",
+                f"{s.mean_service_latency_ms:.2f}",
                 f"{s.timeout_count}",
                 f"{s.migration_triggers}",
                 f"{s.msd_drop_delta}",
@@ -36,11 +43,13 @@ def write_pdf_report(path: Path, summaries: List[ScenarioSummary], records: List
             cellText=table_data,
             colLabels=[
                 "Scenario",
+                "Algorithm",
                 "Requests",
                 "Accept",
                 "No safe",
                 "MSD viol",
-                "Mean latency ms",
+                "Decision ms",
+                "Service ms",
                 "Timeouts",
                 "Migrations",
                 "MSD drops",
@@ -121,6 +130,31 @@ def write_pdf_report(path: Path, summaries: List[ScenarioSummary], records: List
         ax.set_xticklabels(algorithms, rotation=25, ha="right")
         ax.set_ylabel("Decision latency (ms)")
         ax.set_title("Decision Latency by Algorithm")
+        ax.grid(axis="y", alpha=0.25)
+        pdf.savefig(fig, bbox_inches="tight")
+        plt.close(fig)
+
+        service_latency_by_algorithm = {
+            algorithm: [
+                next((s.mean_service_latency_ms for s in summaries if s.algorithm == algorithm and s.scenario == scenario), 0.0)
+                for scenario in scenario_labels
+            ]
+            for algorithm in algorithms
+        }
+        fig, ax = plt.subplots(figsize=(11.69, 8.27))
+        for idx, algorithm in enumerate(algorithms):
+            offset = (idx - (len(algorithms) - 1) / 2) * width
+            ax.bar(
+                [x + offset for x in x_values],
+                service_latency_by_algorithm[algorithm],
+                width=width,
+                label=algorithm,
+            )
+        ax.set_xticks(x_values)
+        ax.set_xticklabels(scenario_labels, rotation=25, ha="right")
+        ax.set_ylabel("Modeled service latency (ms)")
+        ax.set_title("Network Service Latency Comparison")
+        ax.legend()
         ax.grid(axis="y", alpha=0.25)
         pdf.savefig(fig, bbox_inches="tight")
         plt.close(fig)

@@ -24,7 +24,13 @@ python -m src.analytics.benchmark.benchmark_testbed.run_all_scenarios --baseline
 Outputs are written under `results/benchmark_testbed/<timestamp>/`:
 
 - `preflight.json`
-- `<scenario>_records.csv`
 - `summary.csv`
+- `all_records.csv`
 - `benchmark_results.json`
 - `benchmark_report.pdf`
+- `scenarios/<scenario>/summary.csv`
+- `scenarios/<scenario>/all_records.csv`
+- `scenarios/<scenario>/benchmark_results.json`
+- `scenarios/<scenario>/benchmark_report.pdf`
+- `scenarios/<scenario>/<scenario>_records.csv`
+- `scenarios/<scenario>/<scenario>_<algorithm>_records.csv`

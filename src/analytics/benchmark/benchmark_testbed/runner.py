@@ -8,6 +8,7 @@ from typing import Dict, List, Tuple
 from .config import BenchmarkConfig
 from .exporters import write_records_csv
 from .http_client import TestbedClient
+from .latency_model import modeled_service_latency_ms
 from .metrics import summarize_records, total_msd_drops
 from .models import ActiveReservation, RequestRecord, ScenarioDefinition
 
@@ -141,6 +142,7 @@ class ScenarioRunner:
         routing = data.get("routing_node") if isinstance(data, dict) else {}
         migration = data.get("migration_result") if isinstance(data, dict) else None
         sid_stack = data.get("srv6_segment_list") if isinstance(data, dict) else []
+        state = data.get("state") if isinstance(data.get("state"), dict) else {}
 
         reject_reason = ""
         if not accepted:
@@ -152,6 +154,24 @@ class ScenarioRunner:
                 or "request_failed"
             )
 
+        placement_id = placement.get("id") if isinstance(placement, dict) else None
+        routing_id = routing.get("id") if isinstance(routing, dict) else None
+        sid_count = len(sid_stack) if isinstance(sid_stack, list) else 0
+        service_latency = 0.0
+        if accepted and placement_id is not None and routing_id is not None:
+            cpu_utils = {
+                int(node.get("id")): float(node.get("cpu_util", 0.0)) / 100.0
+                for node in state.get("nodes", [])
+                if isinstance(node, dict) and node.get("id") is not None
+            }
+            service_latency = modeled_service_latency_ms(
+                placement_id,
+                routing_id,
+                sid_count or spec.msd_req,
+                cpu_utils.get(int(placement_id), 0.0),
+                cpu_utils.get(int(routing_id), 0.0),
+            )
+
         return RequestRecord(
             algorithm="hybrid_runtime",
             scenario=scenario_name,
@@ -159,6 +179,7 @@ class ScenarioRunner:
             accepted=accepted,
             status_code=status_code,
             decision_latency_ms=round(latency_ms, 3),
+            service_latency_ms=round(service_latency, 3),
             service_type=spec.service_type,
             cpu_req=spec.cpu_req,
             ram_req=spec.ram_req,
@@ -169,11 +190,11 @@ class ScenarioRunner:
             method_used=str(data.get("method_used", "")) if isinstance(data, dict) else "",
             hybrid_branch=str(data.get("hybrid_branch", "")) if isinstance(data, dict) else "",
             vnf_name=str(data.get("vnf_name", "")) if isinstance(data, dict) else "",
-            placement_node_id=placement.get("id") if isinstance(placement, dict) else None,
+            placement_node_id=placement_id,
             placement_node_name=str(placement.get("name", "")) if isinstance(placement, dict) else "",
-            routing_node_id=routing.get("id") if isinstance(routing, dict) else None,
+            routing_node_id=routing_id,
             routing_node_name=str(routing.get("name", "")) if isinstance(routing, dict) else "",
-            sid_count=len(sid_stack) if isinstance(sid_stack, list) else 0,
+            sid_count=sid_count,
             msd_violation=reject_reason == "msd_violation",
             reject_reason=reject_reason,
             migration_status=str(migration.get("status", "")) if isinstance(migration, dict) else "",
