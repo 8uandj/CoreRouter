@@ -38,7 +38,8 @@ DEFAULT_MODEL_PATH = os.getenv(
     "JO_VPPM_MODEL_PATH",
     "results/models/v11/dgrl_v11_final_vietnam.zip",
 )
-ENABLE_INPROCESS_MODEL = os.getenv("JO_VPPM_ENABLE_MODEL", "0") == "1"
+ENABLE_INPROCESS_MODEL = os.getenv("JO_VPPM_ENABLE_MODEL", "1") == "1"
+REQUIRE_REAL_MODEL = os.getenv("JO_VPPM_REQUIRE_MODEL", "1") == "1"
 
 
 def _infer_scaler_path(model_path: str) -> str:
@@ -142,11 +143,15 @@ class DGRLAgent:
         if not ENABLE_INPROCESS_MODEL:
             self._load_error = "model_loading_disabled:set_JO_VPPM_ENABLE_MODEL=1"
             logger.warning(self._load_error)
+            if REQUIRE_REAL_MODEL:
+                raise RuntimeError(self._load_error)
             return None
 
         if not os.path.exists(self.model_path):
             self._load_error = f"model_not_found:{self.model_path}"
             logger.warning(self._load_error)
+            if REQUIRE_REAL_MODEL:
+                raise FileNotFoundError(self._load_error)
             return None
 
         try:
@@ -230,6 +235,9 @@ class DGRLAgent:
 
         except Exception as exc:
             self._load_error = f"incompatibility_detected:{exc}"
+            if REQUIRE_REAL_MODEL:
+                logger.exception("DRL model is required but failed to load.")
+                raise RuntimeError(self._load_error) from exc
             logger.warning("DRL Model Incompatible: %s. Activating SHADOW MODE.", exc)
             self._model = "SHADOW_MODE_ACTIVE" # Sentinel for simulation
         return self._model

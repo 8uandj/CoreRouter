@@ -60,7 +60,14 @@ class TektonOrchestrator(IOrchestrator):
             except Exception as e:
                 logger.error(f"Failed to connect to K8s: {e}")
 
-    def trigger_deploy(self, name: str, vnf_type: str, profile: str, location: str = "auto") -> Dict[str, Any]:
+    def trigger_deploy(
+        self,
+        name: str,
+        vnf_type: str,
+        profile: str,
+        location: str = "auto",
+        node_hostname: str = "",
+    ) -> Dict[str, Any]:
         template_file = "vnf-frr.yaml"
         if vnf_type == "firewall": template_file = "vnf-firewall.yaml"
         elif vnf_type == "idps": template_file = "vnf-idps.yaml"
@@ -83,7 +90,8 @@ class TektonOrchestrator(IOrchestrator):
                     {"name": "deployName", "value": name},
                     {"name": "fileName", "value": template_file},
                     {"name": "labelSelector", "value": f"app={name}"},
-                    {"name": "location", "value": location}
+                    {"name": "location", "value": location},
+                    {"name": "nodeHostname", "value": node_hostname},
                 ],
                 "workspaces": [
                     {
@@ -224,6 +232,7 @@ class TektonOrchestrator(IOrchestrator):
                     {"name": "newDeployName", "value": new_deploy_name},
                     {"name": "fileName", "value": file_name},
                     {"name": "targetLocation", "value": target_location},
+                    {"name": "nodeHostname", "value": node_hostname},
                     {"name": "labelSelector", "value": f"app={new_deploy_name}"},
                 ],
                 "workspaces": [

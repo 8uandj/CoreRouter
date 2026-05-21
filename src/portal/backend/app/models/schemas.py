@@ -1,5 +1,5 @@
 from pydantic import BaseModel, Field
-from typing import Optional, Union
+from typing import List, Optional, Union
 
 class DeployRequest(BaseModel):
     name: str
@@ -18,6 +18,8 @@ class SFCRequest(BaseModel):
     alert_flag: bool = False
     source_node: Optional[Union[int, str]] = None
     destination_node: Optional[Union[int, str]] = None
+    ingress_node: Optional[int] = Field(default=None, ge=0)
+    pps: Optional[float] = Field(default=None, ge=0.0, description="Observed or estimated packets per second for forecasting.")
 
 
 class MigrateSingleRequest(BaseModel):
@@ -49,3 +51,17 @@ class FreeResourceRequest(BaseModel):
     cpu_req: float
     ram_req: float
     msd_req: int
+
+
+class TelemetryNodeSample(BaseModel):
+    node_id: int = Field(..., ge=0)
+    cpu_util: Optional[float] = Field(default=None, ge=0.0)
+    ram_util: Optional[float] = Field(default=None, ge=0.0)
+    msd_used: Optional[float] = Field(default=None, ge=0.0)
+    msd_util: Optional[float] = Field(default=None, ge=0.0)
+    pps: Optional[float] = Field(default=None, ge=0.0)
+    alert: Optional[bool] = None
+
+
+class TelemetryIngestRequest(BaseModel):
+    samples: List[TelemetryNodeSample]

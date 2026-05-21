@@ -23,6 +23,8 @@ spec:
       description: "Manifest key inside the vnf-inputs ConfigMap."
     - name: targetLocation
       default: "auto"
+    - name: nodeHostname
+      default: ""
     - name: labelSelector
       description: "Selector used by kubectl wait for the replacement pod."
 
@@ -39,6 +41,8 @@ spec:
           value: $(params.fileName)
         - name: location
           value: $(params.targetLocation)
+        - name: nodeHostname
+          value: $(params.nodeHostname)
 
     - name: instantiate-replacement
       runAfter: [prepare-manifest]

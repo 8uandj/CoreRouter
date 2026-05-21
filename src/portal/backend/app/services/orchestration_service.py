@@ -1,3 +1,4 @@
+import asyncio
 import time
 import requests
 import logging
@@ -104,7 +105,7 @@ class OrchestrationService:
                 endpoint_info = status
                 logger.info(f"VNF {new_name} is READY. IP: {status.get('clusterIP')}")
                 break
-            time.sleep(2)
+            await asyncio.sleep(2)
             attempts += 1
         
         if not endpoint_info:
@@ -172,7 +173,7 @@ class OrchestrationService:
                     steer_confirmed = True
                     break
             except Exception: pass
-            time.sleep(2)
+            await asyncio.sleep(2)
 
         # PHASE 6: Tính toán Control-plane Steering Overhead (ms)
         # = Thời gian từ lúc Backend gửi /steer REST request → confirm_steer_done
@@ -219,3 +220,6 @@ class OrchestrationService:
 
     def get_controller(self):
         return self.controller
+
+    def get_k8s_hostname(self, ai_node_id: int) -> str:
+        return get_k8s_hostname(ai_node_id)

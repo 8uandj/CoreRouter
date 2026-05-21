@@ -5,9 +5,16 @@ from typing import Dict, List, Optional
 
 from src.ai.dgrl_agent import get_dgrl_agent
 from src.ai.heuristic import HardConstraintError, get_decoupled_action
+from src.analytics.ai_forecasting import get_forecast_service
 from src.core.state_manager import get_state_manager
 from src.portal.backend.app.containers.service_container import container
-from src.portal.backend.app.models.schemas import SFCRequest, MigrateSingleRequest, BreakOldVnfRequest, FreeResourceRequest
+from src.portal.backend.app.models.schemas import (
+    SFCRequest,
+    MigrateSingleRequest,
+    BreakOldVnfRequest,
+    FreeResourceRequest,
+    TelemetryIngestRequest,
+)
 
 logger = logging.getLogger("OrchestrationRouter")
 router = APIRouter(tags=["Hybrid Orchestration"])
@@ -58,12 +65,24 @@ async def orchestrate_sfc(request: SFCRequest, background_tasks: BackgroundTasks
     Adaptive Hybrid Orchestration endpoint.
     """
     state_manager = get_state_manager()
+    forecaster = get_forecast_service()
     
     # Trigger Forecast Alert if needed
+    forecast_decision = None
+    forecast_node = request.ingress_node
+    if forecast_node is None and isinstance(request.source_node, int):
+        forecast_node = request.source_node
+    if forecast_node is None:
+        forecast_node = 0
+    if request.pps is not None:
+        forecast_decision = forecaster.observe(int(forecast_node), request.pps)
+        state_manager.set_node_forecast_alert(forecast_decision.node_id, forecast_decision.alert)
+
     forecast_alert = bool(
         request.alert_flag 
         or request.is_ddos_spike 
         or request.service_type.lower() == "attack"
+        or (forecast_decision.alert if forecast_decision else False)
     )
     if forecast_alert:
         state_manager.set_forecast_alert(True)
@@ -132,7 +151,10 @@ async def orchestrate_sfc(request: SFCRequest, background_tasks: BackgroundTasks
     migration_result = None
     if branch == "drl" and forecast_alert:
         # Tìm VNF cũ tốn CPU nhất trên node được chọn để migrate
-        existing_vnfs = state_manager.get_vnfs_on_node(choice.v_place)
+        existing_vnfs = [
+            vnf for vnf in state_manager.get_vnfs_on_node(choice.v_place)
+            if vnf.get("name") != vnf_name
+        ]
         old_vnf = existing_vnfs[0]["name"] if existing_vnfs else None
 
         if old_vnf:
@@ -155,7 +177,9 @@ async def orchestrate_sfc(request: SFCRequest, background_tasks: BackgroundTasks
                     name=vnf_name,
                     vnf_type="router",
                     profile="standard",
-                    location=_location_key(str(placement["name"]))
+                    location=_location_key(str(placement["name"])),
+                    node_hostname=container.orchestration_service.get_k8s_hostname(choice.v_place)
+                    if hasattr(container.orchestration_service, "get_k8s_hostname") else "",
                 )
             background_tasks.add_task(background_deploy)
             migration_result = {"status": "deploying", "vnf_name": vnf_name}
@@ -171,6 +195,13 @@ async def orchestrate_sfc(request: SFCRequest, background_tasks: BackgroundTasks
         "avg_cpu": public_state["avg_cpu"],
         "avg_msd_usage": public_state["avg_msd_usage"],
         "alert_flag": public_state["alert_flag"],
+        "forecast": {
+            "node_id": forecast_decision.node_id,
+            "current_pps": forecast_decision.current_pps,
+            "predicted_pps": forecast_decision.predicted_pps,
+            "alert": forecast_decision.alert,
+            "reason": forecast_decision.reason,
+        } if forecast_decision else None,
         "migration_result": migration_result,
         "state": public_state,
     }
@@ -192,7 +223,46 @@ async def orchestrate_sfc(request: SFCRequest, background_tasks: BackgroundTasks
 @router.get("/orchestrate/state")
 def get_hybrid_state():
     state = get_state_manager().as_public_dict()
-    return {"status": "success", "message": "Hybrid state snapshot", "data": state}
+    return {
+        "status": "success",
+        "message": "Hybrid state snapshot",
+        "data": state,
+        "forecast": get_forecast_service().status(),
+    }
+
+
+@router.post("/orchestrate/telemetry")
+def ingest_telemetry(req: TelemetryIngestRequest):
+    sm = get_state_manager()
+    forecaster = get_forecast_service()
+    decisions = []
+    for sample in req.samples:
+        forecast_alert = sample.alert
+        decision = None
+        if sample.pps is not None:
+            decision = forecaster.observe(sample.node_id, sample.pps)
+            forecast_alert = decision.alert
+            decisions.append({
+                "node_id": decision.node_id,
+                "current_pps": decision.current_pps,
+                "predicted_pps": decision.predicted_pps,
+                "alert": decision.alert,
+                "reason": decision.reason,
+            })
+        sm.update_node_telemetry(
+            node_id=sample.node_id,
+            cpu_util=sample.cpu_util,
+            ram_util=sample.ram_util,
+            msd_used=sample.msd_used,
+            msd_util=sample.msd_util,
+            alert=forecast_alert,
+        )
+    return {
+        "status": "success",
+        "message": "Telemetry ingested",
+        "forecast": decisions,
+        "data": sm.as_public_dict(),
+    }
 
 @router.post("/orchestrate/alert")
 async def set_alert(alert: bool, background_tasks: BackgroundTasks):

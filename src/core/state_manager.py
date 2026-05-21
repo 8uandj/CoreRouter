@@ -9,7 +9,7 @@ import numpy as np
 from dataclasses import dataclass
 from typing import Dict, List, Any, Optional, Tuple
 
-from src.orchestration.jo_vdpr.topology import DEFAULT_TOPO
+from src.orchestration.jo_vdpr.topology import DEFAULT_TOPO, TopologyManager
 
 # =============================================================================
 # CONSTANTS (TUAN THU .ai/ARCHITECTURE.MD)
@@ -33,6 +33,7 @@ class NetworkSnapshot:
     adj_matrix: np.ndarray
     msd_limits: np.ndarray
     node_names: List[str]
+    forecast_alerts: List[bool]
 
 class NetworkStateManager:
     """
@@ -40,15 +41,16 @@ class NetworkStateManager:
     Dam bao tinh Thread-safe va tuan thu Hysteresis Gate.
     """
     
-    def __init__(self, topology=DEFAULT_TOPO):
-        self.topology = topology
-        self.num_nodes = topology.num_nodes
+    def __init__(self, topology=DEFAULT_TOPO, topology_name: Optional[str] = None):
+        self.topology = TopologyManager(topology_name) if topology_name else topology
+        self.num_nodes = self.topology.num_nodes
         self._lock = threading.Lock()
         self._mode = "heuristic" # Mac dinh bat dau bang Heuristic
         
         # State matrix: [CPU_used, RAM_used, MSD_used]
         self._state = np.zeros((self.num_nodes, 3), dtype=np.float32)
         self._alert_active = False
+        self._forecast_alerts = np.zeros(self.num_nodes, dtype=bool)
         
         # Registry theo doi thuc the (Ho tro Phase 7 Proactive Migration)
         self._active_vnfs: Dict[str, Dict[str, Any]] = {}
@@ -57,6 +59,7 @@ class NetworkStateManager:
         with self._lock:
             self._state.fill(0)
             self._alert_active = False
+            self._forecast_alerts.fill(False)
             self._active_vnfs.clear()
             self._mode = "heuristic"
 
@@ -78,7 +81,7 @@ class NetworkStateManager:
                     "cpu_util": float(cpu_utils[i] * 100.0),
                     "ram_util": float((state[i, 1] / MAX_RAM) * 100.0),
                     "msd_util": float(msd_utils[i] * 100.0),
-                    "alert": bool(cpu_utils[i] > ALERT_CPU_THRESHOLD)
+                    "alert": bool(cpu_utils[i] > ALERT_CPU_THRESHOLD or self._forecast_alerts[i])
                 })
             
             return NetworkSnapshot(
@@ -92,7 +95,8 @@ class NetworkStateManager:
                 latency_matrix=self.topology.latency_matrix,
                 adj_matrix=self.topology.adj_matrix,
                 msd_limits=self.topology.msd_limits,
-                node_names=self.topology.names
+                node_names=self.topology.names,
+                forecast_alerts=[bool(x) for x in self._forecast_alerts],
             )
 
     def can_reserve(self, node: int, cpu_req: float, ram_req: float, msd_req: int) -> bool:
@@ -181,6 +185,7 @@ class NetworkStateManager:
                 {"name": name, **data}
                 for name, data in self._active_vnfs.items()
             ],
+            "forecast_alerts": snap.forecast_alerts,
         }
 
     def get_vnfs_on_node(self, node_id: int) -> List[Dict[str, Any]]:
@@ -191,6 +196,49 @@ class NetworkStateManager:
     def set_forecast_alert(self, alert: bool) -> None:
         with self._lock:
             self._alert_active = alert
+            if not alert:
+                self._forecast_alerts.fill(False)
+
+    def set_node_forecast_alert(self, node_id: int, alert: bool) -> None:
+        with self._lock:
+            self._forecast_alerts[int(node_id)] = bool(alert)
+            self._alert_active = bool(np.any(self._forecast_alerts))
+
+    def update_node_telemetry(
+        self,
+        node_id: int,
+        cpu_util: Optional[float] = None,
+        ram_util: Optional[float] = None,
+        msd_used: Optional[float] = None,
+        msd_util: Optional[float] = None,
+        alert: Optional[bool] = None,
+    ) -> None:
+        """Ingest live telemetry as absolute node resource state.
+
+        cpu_util/ram_util can be supplied as either 0..1 ratios or 0..100 percents.
+        msd_used is absolute SID depth; msd_util is 0..1 or 0..100 utilization.
+        """
+        node = int(node_id)
+        with self._lock:
+            if cpu_util is not None:
+                cpu = float(cpu_util)
+                self._state[node, 0] = np.clip(cpu * 100.0 if cpu <= 1.0 else cpu, 0.0, MAX_CPU)
+            if ram_util is not None:
+                ram = float(ram_util)
+                self._state[node, 1] = np.clip(ram * 100.0 if ram <= 1.0 else ram, 0.0, MAX_RAM)
+            if msd_used is not None:
+                self._state[node, 2] = np.clip(float(msd_used), 0.0, float(self.topology.msd_limits[node]))
+            elif msd_util is not None:
+                util = float(msd_util)
+                ratio = util if util <= 1.0 else util / 100.0
+                self._state[node, 2] = np.clip(
+                    ratio * float(self.topology.msd_limits[node]),
+                    0.0,
+                    float(self.topology.msd_limits[node]),
+                )
+            if alert is not None:
+                self._forecast_alerts[node] = bool(alert)
+            self._alert_active = bool(np.any(self._forecast_alerts))
 
     def choose_mode(self) -> Any:
         """
@@ -198,21 +246,24 @@ class NetworkStateManager:
         Tuan thu Quy tac 16: AI_ENGAGE=0.45, AI_RELEASE=0.35
         """
         from dataclasses import make_dataclass
-        Gate = make_dataclass("Gate", [("mode", str)])
+        Gate = make_dataclass("Gate", [("mode", str), ("reason", str), ("global_utilization", float)])
         
         snap = self.snapshot()
         u = snap.global_utilization
 
         with self._lock:
             # Logic Cong Tre (Hysteresis)
+            reason = "hold"
             if self._mode == "heuristic":
                 if u > AI_ENGAGE_THRESHOLD or self._alert_active:
                     self._mode = "drl"
+                    reason = "engage_drl_alert_or_utilization"
             else: # dang o che do drl
                 if u < AI_RELEASE_THRESHOLD and not self._alert_active:
                     self._mode = "heuristic"
+                    reason = "release_to_heuristic_low_utilization"
             
-            return Gate(mode=self._mode)
+            return Gate(mode=self._mode, reason=reason, global_utilization=u)
 
     def action_mask(self, request: Any) -> np.ndarray:
         with self._lock:
