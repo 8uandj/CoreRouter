@@ -331,15 +331,25 @@ class JOVDPREnv(gym.Env):
         msd_req = self._current_req.get('msd', 1)
         masks   = np.ones(2 * self.num_nodes, dtype=bool)
 
-        for i in range(self.num_nodes):
-            cpu_curr = self._state[i * 3]
-            msd_curr = self._state[i * 3 + 2]
-            feasible = (
-                (cpu_curr + cpu_req <= self.max_cpu) and
-                (msd_curr + msd_req <= self.node_msd_limits[i])
-            )
-            masks[i]                  = feasible
-            masks[self.num_nodes + i] = feasible
+        placement_feasible = np.zeros(self.num_nodes, dtype=bool)
+        routing_feasible = np.zeros(self.num_nodes, dtype=bool)
+
+        for place in range(self.num_nodes):
+            cpu_curr = self._state[place * 3]
+            placement_feasible[place] = (cpu_curr + cpu_req <= self.max_cpu)
+
+        for route in range(self.num_nodes):
+            msd_curr = self._state[route * 3 + 2]
+            for place in range(self.num_nodes):
+                if not placement_feasible[place]:
+                    continue
+                hop_count = self.topo.get_hop_distance(place, route)
+                if msd_curr + msd_req + hop_count <= self.node_msd_limits[route]:
+                    routing_feasible[route] = True
+                    break
+
+        masks[:self.num_nodes] = placement_feasible
+        masks[self.num_nodes:] = routing_feasible
 
         if not masks[:self.num_nodes].any():
             masks[:self.num_nodes] = True

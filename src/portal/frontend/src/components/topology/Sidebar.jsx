@@ -2,6 +2,44 @@ import React from 'react';
 import { motion as Motion, AnimatePresence } from 'framer-motion';
 import { Server, ShieldAlert, Cpu, Database, ZapOff, ChevronLeft, ChevronRight, Activity } from 'lucide-react';
 
+const CITY_CODES = {
+  hn: 'HN', hanoi: 'HN', s1: 'HN',
+  hp: 'HP', haiphong: 'HP', s2: 'HP',
+  nb: 'NB', ninhbinh: 'NB', s3: 'NB',
+  vinh: 'VINH', s4: 'VINH',
+  hue: 'HUE', s5: 'HUE',
+  dn: 'DN', danang: 'DN', s6: 'DN',
+  qn: 'QN', quynhon: 'QN', s7: 'QN',
+  nt: 'NT', nhatrang: 'NT', s8: 'NT',
+  hcm: 'HCM', hochiminh: 'HCM', s9: 'HCM',
+  ct: 'CT', cantho: 'CT', s10: 'CT',
+};
+
+const getVnfLocationCode = (name, rawLocation) => {
+  const normName = String(name || '').toLowerCase();
+  const normLoc = String(rawLocation || '').toLowerCase();
+
+  const keys = Object.keys(CITY_CODES).sort((a, b) => b.length - a.length);
+
+  for (const key of keys) {
+    if (normName.endsWith(key) || normName.includes(`-${key}`) || normName.includes(`_${key}`)) {
+      return CITY_CODES[key];
+    }
+  }
+
+  for (const key of keys) {
+    if (normLoc.includes(key)) {
+      return CITY_CODES[key];
+    }
+  }
+
+  if (normLoc.includes('master') || normLoc.includes('hn')) return 'HN';
+  if (normLoc.includes('worker1') || normLoc.includes('dn')) return 'DN';
+  if (normLoc.includes('worker2') || normLoc.includes('hcm')) return 'HCM';
+
+  return (rawLocation || 'AUTO').toUpperCase();
+};
+
 const Sidebar = ({ isOpen, setIsOpen, activeVnfs, vnfLocMemo, rrTrackers, logs, logEndRef }) => {
   return (
     <Motion.div 
@@ -53,10 +91,12 @@ const Sidebar = ({ isOpen, setIsOpen, activeVnfs, vnfLocMemo, rrTrackers, logs, 
                                 v.data?.role === 'idps' ? <Cpu size={14} className="text-cyan-400"/> :
                                 <Activity size={14} className="text-emerald-400"/>}
                             </div>
-                            <div>
-                               <p className="text-xs font-black leading-tight tracking-tight">{v.id}</p>
-                               <p className="text-[10px] font-bold text-slate-500 uppercase">{vnfLocMemo.current[v.id]?.toUpperCase() || 'Auto'}</p>
-                            </div>
+                             <div>
+                                <p className="text-xs font-black leading-tight tracking-tight">{v.id}</p>
+                                <span className="inline-block mt-1 px-1.5 py-0.5 text-[9px] font-bold bg-indigo-500/10 text-indigo-400 border border-indigo-500/20 rounded-md">
+                                  {getVnfLocationCode(v.id, vnfLocMemo.current[v.id] || v.data?.location)}
+                                </span>
+                             </div>
                          </div>
                          <span className={`text-[8px] font-black px-2 py-0.5 rounded-lg uppercase ${v.data?.status==='Running'?'bg-emerald-500/20 text-emerald-400':'bg-amber-500/20 text-amber-400'}`}>
                             {v.data?.status || 'Pending'}

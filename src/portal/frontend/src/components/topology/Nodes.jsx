@@ -76,39 +76,80 @@ export const BackboneNode = ({ n, active, telemetry, dcWidth = 380, dcHeight = 2
   );
 };
 
-export const VNFNode = ({ id, role, status, x, y, size = VR, autoDeployed, onDelete }) => {
-  const color = role === 'firewall' ? '#ef4444' : role === 'idps' ? '#06b6d4' : role === 'router' ? '#10b981' : '#f59e0b';
-  const icon = role === 'firewall' ? 'FW' : role === 'idps' ? 'IDPS' : role === 'router' ? 'RTR' : 'VNF';
-  const isRunning = status === 'Running';
+export const VNFNode = ({ id, role, status, x, y, size = VR, autoDeployed, onDelete, isMbbTarget, isMbbOld }) => {
+  let color = role === 'firewall' ? '#ef4444' : role === 'idps' ? '#06b6d4' : role === 'router' ? '#10b981' : '#f59e0b';
+  let icon = role === 'firewall' ? 'FW' : role === 'idps' ? 'IDPS' : role === 'router' ? 'RTR' : 'VNF';
+  
+  if (role === 'nat') icon = 'NAT';
+  if (role === 'lb') icon = 'LB';
+  if (role === 'voc') icon = 'VOC';
+
+  if (isMbbTarget) {
+    color = '#f59e0b'; // Amber for new target
+  } else if (isMbbOld) {
+    color = '#ec4899'; // Pink/Rose for old tearing-down VNF
+  }
+
+  const isRunning = status === 'Running' && !isMbbTarget && !isMbbOld;
+  const statusLabel = isMbbTarget ? 'MAKE (Deploying)' : isMbbOld ? 'BREAK (Terminating)' : status;
 
   return (
-    <g transform={`translate(${x},${y})`}>
+    <g 
+      transform={`translate(${x},${y})`}
+      className={`${isMbbTarget ? 'animate-mbb-pulse' : ''} ${isMbbOld ? 'animate-mbb-break' : ''}`}
+    >
       {autoDeployed && (
-        <text y={-size - 12} textAnchor="middle" fill="#a78bfa" fontSize={9} fontWeight="800">
+        <text y={-size - 22} textAnchor="middle" fill="#a78bfa" fontSize={9} fontWeight="800" className="uppercase tracking-widest">
           AI-Scaled
         </text>
       )}
+      
+      {/* Outer Status Ring */}
       <circle 
-        r={size + 5} 
+        r={size + 6} 
         fill="none" 
         stroke={color} 
-        strokeWidth={2} 
-        strokeDasharray={isRunning ? 'none' : '6,3'} 
-        opacity={0.7} 
+        strokeWidth={isMbbTarget || isMbbOld ? 3 : 2} 
+        strokeDasharray={isRunning ? 'none' : '5,3'} 
+        className={isMbbTarget ? 'animate-spin' : ''}
+        style={{ transformOrigin: 'center', animationDuration: '6s' }}
+        opacity={0.8} 
       />
-      <circle r={size} fill="#0f172a" stroke={color} strokeWidth={3} />
+
+      {/* Main Node Body */}
+      <circle 
+        r={size} 
+        fill="#080e1a" 
+        stroke={color} 
+        strokeWidth={3} 
+        style={{
+          filter: isMbbTarget ? 'drop-shadow(0 0 12px rgba(245, 158, 11, 0.6))' : isMbbOld ? 'drop-shadow(0 0 12px rgba(236, 72, 153, 0.6))' : 'none'
+        }}
+      />
+      
       <text y={4} textAnchor="middle" fill="#f8fafc" fontSize={size > 34 ? 12 : 9} fontWeight="900">{icon}</text>
-      <text y={size + 15} textAnchor="middle" fill="#e2e8f0" fontSize={9} fontWeight="800">
-        {id.length > 11 ? id.slice(0, 10) + '...' : id}
+      
+      {/* Label Identity */}
+      <text y={size + 15} textAnchor="middle" fill="#f1f5f9" fontSize={9} fontWeight="900" className="drop-shadow-md">
+        {id.length > 14 ? id.slice(0, 13) + '...' : id}
       </text>
-      <g 
-        onClick={() => onDelete(id)} 
-        style={{ cursor: 'pointer' }} 
-        transform={`translate(${size}, ${-size})`}
-      >
-        <circle r={8} fill="#ef4444" />
-        <text y={3} textAnchor="middle" fill="white" fontSize={7} fontWeight="900">X</text>
-      </g>
+
+      {/* Lifecycle Status Text Overlay */}
+      <text y={size + 27} textAnchor="middle" fill={isMbbTarget ? '#f59e0b' : isMbbOld ? '#ec4899' : '#64748b'} fontSize={8} fontWeight="855" className="uppercase tracking-wider">
+        {statusLabel}
+      </text>
+      
+      {!isMbbTarget && !isMbbOld && (
+        <g 
+          onClick={() => onDelete(id)} 
+          style={{ cursor: 'pointer' }} 
+          transform={`translate(${size}, ${-size})`}
+          className="hover:scale-110 transition-transform"
+        >
+          <circle r={8} fill="#ef4444" stroke="#ffffff" strokeWidth={1} />
+          <text y={2.5} textAnchor="middle" fill="white" fontSize={8} fontWeight="900">×</text>
+        </g>
+      )}
     </g>
   );
 };

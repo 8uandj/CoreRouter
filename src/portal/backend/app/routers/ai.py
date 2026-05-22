@@ -85,7 +85,25 @@ def stop_simulation():
 
 @router.get("/status")
 def get_ai_status():
-    return AI_STATE
+    agent = get_dgrl_agent()
+    model = agent._load_model()
+    
+    status_dict = dict(AI_STATE)
+    model_loaded = (model is not None and model != "SHADOW_MODE_ACTIVE")
+    
+    dgrl_status = "loaded" if model_loaded else ("shadow_mode" if model == "SHADOW_MODE_ACTIVE" else "error")
+    if agent.load_error:
+        dgrl_status = "error"
+        
+    status_dict.update({
+        "model_loaded": model_loaded,
+        "model_version": "v11",
+        "dgrl_status": dgrl_status,
+        "model_path": agent.model_path,
+        "scaler_path": agent.scaler_path,
+        "load_error": agent.load_error,
+    })
+    return status_dict
 
 
 def _generate_srv6_sids(v_place: int, v_route: int, msd_req: int) -> List[str]:

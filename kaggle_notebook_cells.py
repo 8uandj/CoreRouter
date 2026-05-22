@@ -1,12 +1,12 @@
 """
 ============================================================
-KAGGLE NOTEBOOK — JO-VPPM Train + Benchmark (NSFNET & GEANT2)
+KAGGLE NOTEBOOK — Vietnam Network Benchmark Only (10K Steps)
 ============================================================
-Dataset name: v11_train_nsfnet&geant22
+Dataset name: v11_train_nsfnet&geant22 (or custom dataset containing Vietnam model)
 Kaggle auto-extracts ZIP, files available at /kaggle/input/<slug>/
 
-Settings: GPU T4x2 or P100, Internet ON (for pip install)
-Expected runtime: ~4-6 hours total
+Settings: GPU or CPU, Internet ON (for pip install)
+Expected runtime: ~1-2 hours
 ============================================================
 """
 
@@ -20,15 +20,12 @@ import os, sys, shutil, glob
 
 # --- Kaggle auto-extracts ZIP — find dataset path recursively ---
 INPUT_BASE = "/kaggle/input"
-
-# Walk the entire input tree to find the directory containing 'src/'
 DATASET_DIR = None
 for root, dirs, files in os.walk(INPUT_BASE):
     if "src" in dirs and os.path.isdir(os.path.join(root, "src", "orchestration")):
         DATASET_DIR = root
         break
 
-# Debug: print what we see if not found
 if DATASET_DIR is None:
     print("❌ Cannot auto-detect dataset. Scanning /kaggle/input:")
     for root, dirs, files in os.walk(INPUT_BASE):
@@ -50,91 +47,112 @@ os.chdir(WORK_DIR)
 sys.path.insert(0, WORK_DIR)
 os.environ["MPLCONFIGDIR"] = "/tmp/matplotlib"
 
+# --- Set Thread Limit Env Variables in Parent Process ---
+os.environ["OMP_NUM_THREADS"] = "1"
+os.environ["MKL_NUM_THREADS"] = "1"
+os.environ["OPENBLAS_NUM_THREADS"] = "1"
+os.environ["VECLIB_MAXIMUM_THREADS"] = "1"
+os.environ["NUMEXPR_NUM_THREADS"] = "1"
+
+# --- Dynamic patch to run_all.py to prevent thread contention / QR hangs ---
+run_all_path = os.path.join(WORK_DIR, "src/analytics/benchmark/benchmark_algorithm/run_all.py")
+if os.path.exists(run_all_path):
+    with open(run_all_path, "r") as f:
+        content = f.read()
+    
+    # Check if env variables are already set
+    if "OMP_NUM_THREADS" not in content:
+        print("🔧 Patching run_all.py with thread limit environment variables...")
+        patch_code = (
+            "import os\n"
+            "os.environ['OMP_NUM_THREADS'] = '1'\n"
+            "os.environ['MKL_NUM_THREADS'] = '1'\n"
+            "os.environ['OPENBLAS_NUM_THREADS'] = '1'\n"
+            "os.environ['VECLIB_MAXIMUM_THREADS'] = '1'\n"
+            "os.environ['NUMEXPR_NUM_THREADS'] = '1'\n"
+        )
+        if "from __future__ import annotations" in content:
+            content = content.replace(
+                "from __future__ import annotations",
+                "from __future__ import annotations\n\n" + patch_code
+            )
+        else:
+            content = patch_code + "\n" + content
+            
+        with open(run_all_path, "w") as f:
+            f.write(content)
+        print("✅ run_all.py patched successfully!")
+    else:
+        print("✅ run_all.py already has thread limit patch.")
+
 # Create results dirs
 os.makedirs("results/models/v11", exist_ok=True)
 os.makedirs("results/benchmark_algorithm", exist_ok=True)
 
 # Verify key files exist
 assert os.path.exists("src/orchestration/jo_vdpr/env.py"), "❌ env.py missing!"
-assert os.path.exists("src/analytics/training/train_v11.py"), "❌ train_v11.py missing!"
-assert os.path.exists("data/telecom_trace.csv"), "❌ telecom_trace.csv missing!"
+assert os.path.exists("src/analytics/benchmark/benchmark_algorithm/run_all.py"), "❌ run_all.py missing!"
+assert os.path.exists("data/real_telecom_combined.csv"), "❌ real_telecom_combined.csv missing!"
 
 print("✅ Setup complete! Working directory:", WORK_DIR)
-print(f"   data/telecom_trace.csv: {os.path.getsize('data/telecom_trace.csv')/1024:.0f} KB")
 print(f"   data/real_telecom_combined.csv: {os.path.getsize('data/real_telecom_combined.csv')/1024:.0f} KB")
 
 # ══════════════════════════════════════════════════════════════
-# CELL 2: Train NSFNET (14 nodes) — ~1.5-2 hours
+# CELL 2: Verify Vietnam Model & Normalizer Files
 # ══════════════════════════════════════════════════════════════
 
-import os, sys
-os.chdir("/kaggle/working/CoreRouter")
-if "/kaggle/working/CoreRouter" not in sys.path:
-    sys.path.insert(0, "/kaggle/working/CoreRouter")
-
-from src.analytics.training.train_v11 import train_dgrl
-
-print("🚀 Starting NSFNET training (3M steps)...")
-train_dgrl("nsfnet")
-print("✅ NSFNET training complete!")
-
-# ══════════════════════════════════════════════════════════════
-# CELL 3: Train GEANT2 (23 nodes) — ~2-3 hours
-# ══════════════════════════════════════════════════════════════
-
-print("🚀 Starting GEANT2 training (3M steps)...")
-train_dgrl("geant2")
-print("✅ GEANT2 training complete!")
-
-# ══════════════════════════════════════════════════════════════
-# CELL 4: Verify & Rename trained models
-# ══════════════════════════════════════════════════════════════
-
-import os, shutil
+import os, zipfile
 
 MODEL_DIR = "/kaggle/working/CoreRouter/results/models/v11"
-print("📁 Models in", MODEL_DIR + ":")
-for f in sorted(os.listdir(MODEL_DIR)):
-    fpath = os.path.join(MODEL_DIR, f)
-    size = os.path.getsize(fpath) / 1024
-    print(f"  {f:50s}  {size:.1f} KB")
+print("📁 Target Models directory:", MODEL_DIR)
 
-# Rename: benchmark expects "dgrl_v11_final_{topo}.zip" but training saves "dgrl_v11_{topo}.zip"
-for topo in ["nsfnet", "geant2"]:
-    src = f"{MODEL_DIR}/dgrl_v11_{topo}.zip"
-    dst = f"{MODEL_DIR}/dgrl_v11_final_{topo}.zip"
-    if os.path.exists(src) and not os.path.exists(dst):
-        shutil.copy2(src, dst)
-        print(f"  ✅ Copied {os.path.basename(src)} -> {os.path.basename(dst)}")
+vietnam_model = f"{MODEL_DIR}/dgrl_v11_final_vietnam.zip"
+vietnam_dir = f"{MODEL_DIR}/dgrl_v11_final_vietnam"
 
-# Also need to convert VecNormalize .pkl to .npz for the benchmark loader
-# The benchmark model_loader tries .pkl first, then falls back to .npz
-for topo in ["nsfnet", "geant2"]:
-    pkl = f"{MODEL_DIR}/vec_normalize_v11_{topo}.pkl"
-    if os.path.exists(pkl):
-        print(f"  ✅ VecNormalize found: {os.path.basename(pkl)}")
-    else:
-        print(f"  ⚠️ VecNormalize NOT found for {topo}!")
+# Check if Kaggle recursively unzipped the model zip and re-zip it if so
+if not os.path.exists(vietnam_model) and os.path.isdir(vietnam_dir):
+    print("📦 Detected that Kaggle recursively unzipped the Vietnam model. Re-zipping it back...")
+    with zipfile.ZipFile(vietnam_model, 'w', zipfile.ZIP_DEFLATED) as zf:
+        for root, dirs, files in os.walk(vietnam_dir):
+            for f in files:
+                fpath = os.path.join(root, f)
+                arcname = os.path.relpath(fpath, vietnam_dir)
+                zf.write(fpath, arcname)
+    print("✅ Re-zipped model successfully!")
 
-print("\n✅ Model verification complete!")
+# Verify Vietnam Model
+if os.path.exists(vietnam_model):
+    print(f"  ✅ Vietnam model found: {os.path.basename(vietnam_model)} ({os.path.getsize(vietnam_model)/1024/1024:.2f} MB)")
+else:
+    print(f"  ❌ Vietnam model NOT found: {os.path.basename(vietnam_model)}")
+    print("  👉 Make sure you zipped 'results/models/v11/dgrl_v11_final_vietnam.zip' and uploaded it.")
+
+# Verify Vietnam VecNormalize
+vietnam_pkl = f"{MODEL_DIR}/vec_normalize_v11_vietnam.pkl"
+if os.path.exists(vietnam_pkl):
+    print(f"  ✅ Vietnam normalizer (.pkl) found: {os.path.basename(vietnam_pkl)}")
+else:
+    print(f"  ⚠️ Vietnam normalizer (.pkl) NOT found! Benchmark might fail to load normalizer.")
+
+print("\n✅ Verification complete!")
 
 # ══════════════════════════════════════════════════════════════
-# CELL 5: Run Algorithm Benchmark — NSFNET
+# CELL 3: Run Algorithm Benchmark — Vietnam
 # ══════════════════════════════════════════════════════════════
 
 import subprocess, sys, os
 os.chdir("/kaggle/working/CoreRouter")
 
-print("🏃 Running NSFNET benchmark...")
+print("🏃 Running Vietnam benchmark...")
 print("=" * 60)
 
-# Normal Load
-print("\n--- NSFNET: normal_load ---")
+# We run scenario 'thesis' (which covers normal_load + 3 stress scenarios: elephant_stress, burst_surge, chaos)
+# for 10,000 steps as required for Vietnam topology in the thesis.
 subprocess.run([
     sys.executable, "-m", "src.analytics.benchmark.benchmark_algorithm.run_all",
-    "--topology", "nsfnet",
-    "--scenario", "normal_load",
-    "--steps", "2000",
+    "--topology", "vietnam",
+    "--scenario", "thesis",
+    "--steps", "10000",
     "--version", "v11",
     "--skip-exhaustive",
     "--data-path", "data/real_telecom_combined.csv",
@@ -142,65 +160,10 @@ subprocess.run([
     "--output-dir", "results/benchmark_algorithm"
 ])
 
-# Stress scenarios
-for scenario in ["uniform", "bursty", "heavy_tail"]:
-    print(f"\n--- NSFNET stress: {scenario} ---")
-    subprocess.run([
-        sys.executable, "-m", "src.analytics.benchmark.benchmark_algorithm.run_all",
-        "--topology", "nsfnet",
-        "--scenario", scenario,
-        "--load", "stress",
-        "--steps", "2000",
-        "--version", "v11",
-        "--skip-exhaustive",
-        "--data-path", "data/real_telecom_combined.csv",
-        "--model-root", "results/models",
-        "--output-dir", "results/benchmark_algorithm"
-    ])
-
-print("\n✅ NSFNET benchmark complete!")
+print("\n✅ Vietnam benchmark complete!")
 
 # ══════════════════════════════════════════════════════════════
-# CELL 6: Run Algorithm Benchmark — GEANT2
-# ══════════════════════════════════════════════════════════════
-
-print("🏃 Running GEANT2 benchmark...")
-print("=" * 60)
-
-# Normal Load
-print("\n--- GEANT2: normal_load ---")
-subprocess.run([
-    sys.executable, "-m", "src.analytics.benchmark.benchmark_algorithm.run_all",
-    "--topology", "geant2",
-    "--scenario", "normal_load",
-    "--steps", "2000",
-    "--version", "v11",
-    "--skip-exhaustive",
-    "--data-path", "data/real_telecom_combined.csv",
-    "--model-root", "results/models",
-    "--output-dir", "results/benchmark_algorithm"
-])
-
-# Stress scenarios
-for scenario in ["uniform", "bursty", "heavy_tail"]:
-    print(f"\n--- GEANT2 stress: {scenario} ---")
-    subprocess.run([
-        sys.executable, "-m", "src.analytics.benchmark.benchmark_algorithm.run_all",
-        "--topology", "geant2",
-        "--scenario", scenario,
-        "--load", "stress",
-        "--steps", "2000",
-        "--version", "v11",
-        "--skip-exhaustive",
-        "--data-path", "data/real_telecom_combined.csv",
-        "--model-root", "results/models",
-        "--output-dir", "results/benchmark_algorithm"
-    ])
-
-print("\n✅ GEANT2 benchmark complete!")
-
-# ══════════════════════════════════════════════════════════════
-# CELL 7: Show Summary & Zip Results for Download
+# CELL 4: Show Summary & Zip Results for Download
 # ══════════════════════════════════════════════════════════════
 
 import zipfile, os
@@ -218,7 +181,7 @@ for root, dirs, files in os.walk(results_dir):
             print(f'{indent}  {f} ({fsize:.0f} KB)')
 
 # Zip everything
-output_zip = "/kaggle/working/benchmark_results_nsfnet_geant2.zip"
+output_zip = "/kaggle/working/benchmark_results_vietnam.zip"
 with zipfile.ZipFile(output_zip, 'w', zipfile.ZIP_DEFLATED) as zf:
     for root, dirs, files in os.walk(results_dir):
         for f in files:

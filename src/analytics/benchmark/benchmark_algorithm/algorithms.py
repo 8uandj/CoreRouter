@@ -114,8 +114,8 @@ def run_jo_vppm(
         raw_env.close()
         return metrics
 
-    normalizer = load_normalizer(norm_path)
     model = build_model_from_policy_weights(raw_env, model_path)
+    normalizer = load_normalizer(norm_path, model.get_env())
     obs, _ = raw_env.reset(seed=seed)
 
     for _ in range(steps):
@@ -155,4 +155,3 @@ def run_all_algorithms(
     results["decoupled_ai"] = run_decoupled(make_env_fn, scenario, steps, seed)
     results["jo_vppm"] = run_jo_vppm(make_env_fn, model_path, norm_path, scenario, steps, seed)
     return results
-

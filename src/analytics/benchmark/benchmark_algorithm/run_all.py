@@ -9,6 +9,13 @@ from typing import Dict, List
 
 os.environ.setdefault("MPLCONFIGDIR", "/tmp/matplotlib")
 
+# Prevent PyTorch/OpenBLAS/MKL thread contention and deadlocks in linalg.qr on multi-core servers
+os.environ["OMP_NUM_THREADS"] = "1"
+os.environ["MKL_NUM_THREADS"] = "1"
+os.environ["OPENBLAS_NUM_THREADS"] = "1"
+os.environ["VECLIB_MAXIMUM_THREADS"] = "1"
+os.environ["NUMEXPR_NUM_THREADS"] = "1"
+
 from .algorithms import run_all_algorithms
 from .config import AlgorithmBenchmarkConfig, SCENARIO_CHOICES, load_params, scenario_jobs
 from .env_factory import make_env
