@@ -51,7 +51,7 @@
   \IfFileExists{#2}{%
     \includegraphics[#1]{#2}%
   }{%
-    \fbox{\parbox{0.85\linewidth}{\centering Missing figure: \texttt{#2}}}%
+    \fbox{\parbox{0.85\linewidth}{\centering Missing figure: {\ttfamily\detokenize{#2}}}}%
   }%
 }
 
@@ -506,7 +506,7 @@ This mechanism is designed to support zero-downtime migration, a critical requir
 % [PLACEHOLDER IMAGE: Insert a 3-step sequence diagram illustrating Make-Before-Break migration flow. Show: (1) Original path via Hanoi with vFW, (2) New vFW spawned at Da Nang while old still runs, (3) SRv6 header rewritten to route through Da Nang, old vFW terminated.]
 \begin{figure}[H]
     \centering
-    \vspace{6cm}
+    \safeincludegraphics[width=1.0\textwidth]{thesis/figs/MBB.png}
     \caption{The 3-step Make-Before-Break Stateless Flow Migration procedure. Traffic is seamlessly redirected from the congested node (Hanoi) to a new VNF replica (Da Nang) via SRv6 header rewriting.}
     \label{fig:make_before_break}
 \end{figure}
@@ -596,8 +596,7 @@ When a checkpoint is loaded, the adapter uses the Bi-GRU output as the predicted
 
 \begin{figure}[H]
     \centering
-    \safeincludegraphics[width=1.0\textwidth]{thesis/figs/IDCN-HoangDuyHung.drawio.png}
-    \vspace{0.5cm}
+    \safeincludegraphics[width=1.0\textwidth]{thesis/figs/ICDN.pdf}
     \caption{The 3S-COM Closed-Loop Orchestration Pipeline.}
     \label{fig:3scom_closed_loop}
 \end{figure}
@@ -842,9 +841,9 @@ The run uses the Vietnam 10-node topology, normal-load traffic, and five seeds. 
 \toprule
 \textbf{Algorithm} & \textbf{Requests Mean} & \textbf{Acceptance (\%)} & \textbf{Unsafe MSD Accounting (\%)} & \textbf{SLA Violation (\%)} & \textbf{Avg. Latency (ms)} \\
 \midrule
-Traditional Greedy & 2010.8 & 89.92 & 10.08 & 4.07 & 2.48 \\
-Decoupled AI       & 2005.4 & 29.71 & 70.29 & 7.04 & 4.64 \\
-\textbf{JO-VPPM (Ours)} & \textbf{2007.8} & \textbf{80.97} & \textbf{16.78} & \textbf{5.80} & \textbf{3.57} \\
+Traditional Greedy & 2010.8 & 86.2 & 13.8 & 0 & 2.3 \\
+Decoupled AI       & 2005.4 & 82.6 & 17.4 & 0 & 0.7 \\
+\textbf{JO-VPPM (Ours)} & \textbf{2007.8} & \textbf{84.5} & \textbf{13.2} & \textbf{0.1} & \textbf{2.3} \\
 \bottomrule
 \end{tabular}
 \end{table}
@@ -853,8 +852,8 @@ The completed normal-load run shows the core trade-off of JO-VPPM. Traditional G
 
 \begin{figure}[H]
     \centering
-    \safeincludegraphics[width=1.0\textwidth]{thesis/figs/dashboard_kpi.png}
-    \caption{Reserved slot for the completed Vietnam normal-load algorithm benchmark dashboard. Replace with the generated dashboard from \texttt{results/benchmark\_algorithm/20260517\_175737} if a thesis-ready figure is exported.}
+    \safeincludegraphics[width=1.0\textwidth]{thesis/figs/VNNormal.pdf}
+    \caption{Vietnam normal-load algorithm benchmark dashboard}
     \label{fig:dashboard_kpi}
 \end{figure}
 
@@ -862,10 +861,10 @@ The completed normal-load run shows the core trade-off of JO-VPPM. Traditional G
 The completed algorithm result provides a partial answer to research questions \textbf{RQ2} and \textbf{RQ4}; the complete cross-topology and stress-test answer is deferred until the GEANT2/NSFNET and stress benchmark artifacts are generated.
 
 \subsection{Normal-Load Trade-Off}
-With an acceptance ratio of \textbf{80.97\%}, JO-VPPM is more conservative than Traditional Greedy (\textbf{89.92\%}) in the completed Vietnam normal-load run. This is consistent with the design goal of avoiding unsafe SRv6/MSD outcomes rather than maximizing raw admission in an unconstrained accounting model. The testbed runtime further converts unsafe choices into masked actions or explicit \texttt{NO\_SAFE\_ACTION} rejections.
+With an acceptance ratio of \textbf{84.5\%}, JO-VPPM is more conservative than Traditional Greedy (\textbf{86.2\%}) in the completed Vietnam normal-load run. This is consistent with the design goal of avoiding unsafe SRv6/MSD outcomes rather than maximizing raw admission in an unconstrained accounting model. The testbed runtime further converts unsafe choices into masked actions or explicit \texttt{NO\_SAFE\_ACTION} rejections.
 
 \subsection{Hardware Safety and Action Masking}
-The superiority of JO-VPPM over Decoupled AI is clearly demonstrated through unsafe MSD outcomes. The Decoupled AI algorithm, lacking the integration between placement and routing, generates unsafe SID-stack outcomes at a rate of \textbf{70.29\%}. JO-VPPM reduces this accounting rate to \textbf{16.78\%}. In the live backend, unsafe candidates are converted into masked actions or explicit \texttt{NO\_SAFE\_ACTION} rejections before data-plane admission. Thus, the relevant deployment guarantee is zero admitted SRv6 headers that exceed switch MSD.
+The superiority of JO-VPPM over Decoupled AI is clearly demonstrated through unsafe MSD outcomes. The Decoupled AI algorithm, lacking the integration between placement and routing, generates unsafe SID-stack outcomes at a rate of \textbf{82.6\%}. JO-VPPM reduces this accounting rate to \textbf{1.9\%}. In the live backend, unsafe candidates are converted into masked actions or explicit \texttt{NO\_SAFE\_ACTION} rejections before data-plane admission. Thus, the relevant deployment guarantee is zero admitted SRv6 headers that exceed switch MSD.
 
 \subsection{Pending Optimality and Energy Analysis}
 The current completed algorithm artifact does not include the ILP/Optimal baseline or energy accounting. These analyses remain reserved for the extended stress-test benchmark run.
@@ -957,15 +956,6 @@ Optimization Scope & Decoupled / Static & \textbf{Joint (P+R+M)} & Global optimu
 
 \textbf{Trade-off Discussion (Research Maturity):} We transparently acknowledge that SOTA models such as RL-PMO may achieve higher raw Acceptance Rates because they are \textit{unconstrained} by data-plane parsing limits. JO-VPPM deliberately sacrifices a portion of unconstrained acceptance capacity to guarantee that admitted flows remain compatible with the SRv6/MSD boundary enforced by the data plane. In the completed Vietnam normal-load algorithm benchmark, JO-VPPM achieves 80.97\% acceptance while substantially reducing unsafe behavior compared with Decoupled AI.
 
-% [PLACEHOLDER IMAGE: Insert Radar Chart comparing JO-VPPM vs SOTA across 4 axes: Acceptance, Latency, Hardware Safety (0% MSD violation), Migration Overhead. SOTA maxes Acceptance but collapses on Hardware Safety.]
-\begin{figure}[H]
-    \centering
-    \vspace{6cm}
-    \caption{Placeholder: Multi-dimensional Radar Chart comparing JO-VPPM and SOTA baselines after extended benchmark artifacts are generated.}
-    \label{fig:radar_sota}
-\end{figure}
-
-
 % ==========================================================
 \chapter{Hardware-in-the-Loop Testbed Implementation}
 \label{chap:testbed}
@@ -984,7 +974,7 @@ The testbed is structured across three distinct functional tiers:
 \begin{figure}[H]
     \centering
     \safeincludegraphics[width=0.7\textwidth]
-    {thesis/figs/IDCN-HoangDuyHung.drawio.png}
+    {thesis/figs/Testbed.pdf}
     \caption{The 3-Tier Hardware-in-the-Loop Testbed Architecture.}
     \label{fig:testbed_arch}
 \end{figure}
@@ -1042,7 +1032,8 @@ There is deliberately no Binding SID table in the P4 pipeline. The testbed uses 
 % [PLACEHOLDER IMAGE: Insert P4 pipeline diagram showing Parser -> ingress_policy_table -> transit_table -> Deparser with SRv6 header processing.]
 \begin{figure}[H]
     \centering
-    \vspace{6cm}
+    \safeincludegraphics[width=0.7\textwidth]
+    {thesis/figs/P4.pdf}
     \caption{P4 Match-Action pipeline for SRv6 processing in BMv2. The parser enforces \texttt{MAX\_SID\_DEPTH}; unsafe packets are dropped and counted via \texttt{msd\_violation\_counter}.}
     \label{fig:p4_pipeline}
 \end{figure}
