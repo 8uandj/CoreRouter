@@ -1,0 +1,39 @@
+# PHASE 6: Optimized Dockerfile for 3S-COM Hybrid Orchestration
+# Python 3.11 Slim for balance between speed and ML compatibility
+FROM python:3.11-slim
+
+# Avoid writing .pyc files and enable unbuffered logging
+ENV PYTHONDONTWRITEBYTECODE 1
+ENV PYTHONUNBUFFERED 1
+
+# 1. Cài đặt system dependencies (Ít thay đổi nhất - Layer 1)
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    build-essential \
+    git \
+    && rm -rf /var/lib/apt/lists/*
+
+# 2. Cài đặt PyTorch CPU trước để SB3 không kéo nhầm CUDA wheels
+RUN pip install --no-cache-dir \
+    torch --index-url https://download.pytorch.org/whl/cpu
+
+# 3. Cài đặt Python ML Libraries (Nặng, ít thay đổi - Layer 3)
+# Chú ý: Đặt TRƯỚC khi COPY code để Docker Cache được bước này
+RUN pip install --no-cache-dir \
+    fastapi "uvicorn[standard]" \
+    kubernetes \
+    numpy scipy \
+    stable-baselines3 "sb3-contrib>=2.0" \
+    torch_geometric \
+    pandas google-cloud-aiplatform \
+    gymnasium shimmy
+
+# 4. Thiết lập môi trường và COPY code (Thay đổi thường xuyên - Layer 4)
+# Việc thay đổi code chỉ làm chạy lại từ bước này trở xuống
+WORKDIR /app
+COPY . .
+
+# Mở port 8000 cho FastAPI
+EXPOSE 8000
+
+# Khởi chạy Backend
+CMD ["uvicorn", "src.portal.backend.app.main:app", "--host", "0.0.0.0", "--port", "8000"]

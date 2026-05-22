@@ -1,10 +1,48 @@
 import React from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
+import { motion as Motion, AnimatePresence } from 'framer-motion';
 import { Server, ShieldAlert, Cpu, Database, ZapOff, ChevronLeft, ChevronRight, Activity } from 'lucide-react';
+
+const CITY_CODES = {
+  hn: 'HN', hanoi: 'HN', s1: 'HN',
+  hp: 'HP', haiphong: 'HP', s2: 'HP',
+  nb: 'NB', ninhbinh: 'NB', s3: 'NB',
+  vinh: 'VINH', s4: 'VINH',
+  hue: 'HUE', s5: 'HUE',
+  dn: 'DN', danang: 'DN', s6: 'DN',
+  qn: 'QN', quynhon: 'QN', s7: 'QN',
+  nt: 'NT', nhatrang: 'NT', s8: 'NT',
+  hcm: 'HCM', hochiminh: 'HCM', s9: 'HCM',
+  ct: 'CT', cantho: 'CT', s10: 'CT',
+};
+
+const getVnfLocationCode = (name, rawLocation) => {
+  const normName = String(name || '').toLowerCase();
+  const normLoc = String(rawLocation || '').toLowerCase();
+
+  const keys = Object.keys(CITY_CODES).sort((a, b) => b.length - a.length);
+
+  for (const key of keys) {
+    if (normName.endsWith(key) || normName.includes(`-${key}`) || normName.includes(`_${key}`)) {
+      return CITY_CODES[key];
+    }
+  }
+
+  for (const key of keys) {
+    if (normLoc.includes(key)) {
+      return CITY_CODES[key];
+    }
+  }
+
+  if (normLoc.includes('master') || normLoc.includes('hn')) return 'HN';
+  if (normLoc.includes('worker1') || normLoc.includes('dn')) return 'DN';
+  if (normLoc.includes('worker2') || normLoc.includes('hcm')) return 'HCM';
+
+  return (rawLocation || 'AUTO').toUpperCase();
+};
 
 const Sidebar = ({ isOpen, setIsOpen, activeVnfs, vnfLocMemo, rrTrackers, logs, logEndRef }) => {
   return (
-    <motion.div 
+    <Motion.div 
       initial={false}
       animate={{ 
         width: isOpen ? 420 : 60,
@@ -22,7 +60,7 @@ const Sidebar = ({ isOpen, setIsOpen, activeVnfs, vnfLocMemo, rrTrackers, logs, 
 
       <AnimatePresence mode="wait">
         {isOpen ? (
-          <motion.div 
+          <Motion.div 
             key="open"
             initial={{ opacity: 0, x: 20 }}
             animate={{ opacity: 1, x: 0 }}
@@ -32,7 +70,7 @@ const Sidebar = ({ isOpen, setIsOpen, activeVnfs, vnfLocMemo, rrTrackers, logs, 
             {/* Resource Management */}
             <div className="p-6 border-b border-white/5 space-y-4">
                <h2 className="text-xs font-black text-indigo-400 uppercase tracking-widest flex items-center gap-2">
-                 <Server size={14}/> Resource Cluster
+                 <Server size={14}/> Vietnam VNF Pool
                </h2>
                <div className="space-y-3 max-h-[300px] overflow-y-auto pr-2 custom-scrollbar">
                   {activeVnfs.length === 0 ? (
@@ -53,17 +91,19 @@ const Sidebar = ({ isOpen, setIsOpen, activeVnfs, vnfLocMemo, rrTrackers, logs, 
                                 v.data?.role === 'idps' ? <Cpu size={14} className="text-cyan-400"/> :
                                 <Activity size={14} className="text-emerald-400"/>}
                             </div>
-                            <div>
-                               <p className="text-xs font-black leading-tight tracking-tight">{v.id}</p>
-                               <p className="text-[10px] font-bold text-slate-500 uppercase">{vnfLocMemo.current[v.id]?.toUpperCase() || 'Auto'}</p>
-                            </div>
+                             <div>
+                                <p className="text-xs font-black leading-tight tracking-tight">{v.id}</p>
+                                <span className="inline-block mt-1 px-1.5 py-0.5 text-[9px] font-bold bg-indigo-500/10 text-indigo-400 border border-indigo-500/20 rounded-md">
+                                  {getVnfLocationCode(v.id, vnfLocMemo.current[v.id] || v.data?.location)}
+                                </span>
+                             </div>
                          </div>
                          <span className={`text-[8px] font-black px-2 py-0.5 rounded-lg uppercase ${v.data?.status==='Running'?'bg-emerald-500/20 text-emerald-400':'bg-amber-500/20 text-amber-400'}`}>
                             {v.data?.status || 'Pending'}
                          </span>
                       </div>
                       <div className="h-1 bg-white/5 rounded-full overflow-hidden">
-                         <motion.div 
+                         <Motion.div 
                            initial={{ width: 0 }}
                            animate={{ width: `${Math.min(100, (rrTrackers.current[v.id] || 0) * 25)}%` }}
                            className={`h-full transition-all duration-500 ${(rrTrackers.current[v.id]||0)>3?'bg-red-500':(rrTrackers.current[v.id]||0)>1?'bg-amber-400':'bg-indigo-500'}`} 
@@ -77,7 +117,7 @@ const Sidebar = ({ isOpen, setIsOpen, activeVnfs, vnfLocMemo, rrTrackers, logs, 
             {/* Logs */}
             <div className="flex-1 flex flex-col p-6 min-h-0">
               <h2 className="text-xs font-black text-cyan-400 uppercase tracking-widest flex items-center gap-2 mb-4">
-                <Database size={14}/> Orchestration Logs
+                <Database size={14}/> Hybrid Orchestration Logs
               </h2>
               <div className="flex-1 bg-black/40 rounded-[2rem] border border-white/5 p-5 overflow-y-scroll space-y-2 font-mono text-[10px] leading-relaxed custom-scrollbar text-slate-400">
                 {logs.map(l => (
@@ -86,9 +126,9 @@ const Sidebar = ({ isOpen, setIsOpen, activeVnfs, vnfLocMemo, rrTrackers, logs, 
                 <div ref={logEndRef}/>
               </div>
             </div>
-          </motion.div>
+          </Motion.div>
         ) : (
-          <motion.div 
+          <Motion.div 
             key="closed"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
@@ -98,12 +138,12 @@ const Sidebar = ({ isOpen, setIsOpen, activeVnfs, vnfLocMemo, rrTrackers, logs, 
             <Database size={20} className="text-cyan-600" />
             <div className="h-40 w-1 bg-white/10 rounded-full" />
             <div className="transform -rotate-90 whitespace-nowrap text-[10px] font-black text-slate-600 tracking-[0.5em] uppercase">
-              Management Console
+              Vietnam Console
             </div>
-          </motion.div>
+          </Motion.div>
         )}
       </AnimatePresence>
-    </motion.div>
+    </Motion.div>
   );
 };
 

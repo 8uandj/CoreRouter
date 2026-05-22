@@ -22,7 +22,8 @@ class RewardCalculator:
                  balance_bonus:      float = 15.0,
                  switching_cost:     float = -10.0,
                  knapsack_scale:     float = 0.5,
-                 evacuation_penalty: float = -50.0):
+                 evacuation_penalty: float = -50.0,
+                 msd_violation_penalty: float = -50.0):
         
         self.BASE_REWARD        = base_reward
         self.CORE_BONUS         = core_bonus
@@ -33,6 +34,7 @@ class RewardCalculator:
         self.SWITCHING_COST     = switching_cost
         self.KNAPSACK_SCALE     = knapsack_scale
         self.EVACUATION_PENALTY = evacuation_penalty
+        self.MSD_VIOLATION_PENALTY = msd_violation_penalty
         
         # Đã đồng bộ với ngưỡng SLA chuẩn tại env.py
         self.LATENCY_THRESHOLDS = {
@@ -61,7 +63,8 @@ class RewardCalculator:
                   alert_v1:     float = 0.0,
                   alert_v2:     float = 0.0,
                   cpu_util_v1:  float = 0.0,
-                  cpu_util_v2:  float = 0.0) -> float:
+                  cpu_util_v2:  float = 0.0,
+                  has_msd_violation: bool = False) -> float:
 
         if not is_valid:
             return float(self.CPU_OVERFLOW)
@@ -107,5 +110,10 @@ class RewardCalculator:
         if alert_v1 == 1.0 or alert_v2 == 1.0:
             evac_penalty = self.EVACUATION_PENALTY
 
-        reward = (baseline) + knapsack_bonus + core_b + balance + switch_c - latency_cost + violation_penalty + evac_penalty
+        # ── [NEW] MSD Violation Penalty ──────────────────────────
+        msd_penalty = 0.0
+        if has_msd_violation:
+            msd_penalty = self.MSD_VIOLATION_PENALTY
+
+        reward = (baseline) + knapsack_bonus + core_b + balance + switch_c - latency_cost + violation_penalty + evac_penalty + msd_penalty
         return float(reward)

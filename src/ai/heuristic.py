@@ -3,12 +3,14 @@
 from __future__ import annotations
 
 from dataclasses import dataclass
-from typing import Any, Dict, Tuple
+from typing import Any, Dict, Tuple, TYPE_CHECKING
 
 import numpy as np
 
 from src.core.state_manager import MAX_CPU, MAX_RAM
 
+if TYPE_CHECKING:
+    from src.core.state_manager import NetworkSnapshot
 
 class HardConstraintError(RuntimeError):
     """Raised when a rule-based branch cannot satisfy hardware constraints."""
@@ -21,9 +23,9 @@ class ActionChoice:
     reason: str
 
 
-def _node_feasible(snapshot: Dict[str, Any], node: int, request: Any) -> bool:
-    state = snapshot["state"]
-    msd_limits = snapshot["msd_limits"]
+def _node_feasible(snapshot: NetworkSnapshot, node: int, request: Any) -> bool:
+    state = snapshot.state
+    msd_limits = snapshot.msd_limits
     return bool(
         state[node, 0] + request.cpu_req <= MAX_CPU
         and state[node, 1] + request.ram_req <= MAX_RAM
@@ -31,22 +33,17 @@ def _node_feasible(snapshot: Dict[str, Any], node: int, request: Any) -> bool:
     )
 
 
-def _pair_feasible(snapshot: Dict[str, Any], v_place: int, v_route: int, request: Any) -> bool:
+def _pair_feasible(snapshot: NetworkSnapshot, v_place: int, v_route: int, request: Any) -> bool:
     touched = {int(v_place), int(v_route)}
     return all(_node_feasible(snapshot, node, request) for node in touched)
 
 
-def get_decoupled_action(snapshot: Dict[str, Any], request: Any) -> ActionChoice:
-    """Choose the emptiest feasible node, then the shortest feasible 1-hop route.
-
-    This branch is intentionally cheap for normal load, but it still enforces
-    hard CPU/RAM/MSD constraints.  If no safe route exists, it raises and the
-    hybrid router must fallback to the DRL branch.
-    """
-    state = snapshot["state"]
-    latency_matrix = snapshot["latency_matrix"]
-    adj_matrix = snapshot["adj_matrix"]
-    num_nodes = len(snapshot["node_names"])
+def get_decoupled_action(snapshot: NetworkSnapshot, request: Any) -> ActionChoice:
+    """Choose the emptiest feasible node, then the shortest feasible 1-hop route."""
+    state = snapshot.state
+    latency_matrix = snapshot.latency_matrix
+    adj_matrix = snapshot.adj_matrix
+    num_nodes = len(snapshot.node_names)
 
     feasible_place = [
         node for node in range(num_nodes)
@@ -82,17 +79,12 @@ def get_decoupled_action(snapshot: Dict[str, Any], request: Any) -> ActionChoice
     )
 
 
-def get_resilience_safe_action(snapshot: Dict[str, Any], request: Any) -> ActionChoice:
-    """Fallback search used when the DRL checkpoint is unavailable.
-
-    It prefers pairs with large post-placement headroom and high MSD residual
-    instead of the lowest latency, mirroring the survival behavior expected from
-    JO-VPPM under stress.
-    """
-    state = snapshot["state"]
-    latency_matrix = snapshot["latency_matrix"]
-    msd_limits = snapshot["msd_limits"]
-    num_nodes = len(snapshot["node_names"])
+def get_resilience_safe_action(snapshot: NetworkSnapshot, request: Any) -> ActionChoice:
+    """Fallback search used when the DRL checkpoint is unavailable."""
+    state = snapshot.state
+    latency_matrix = snapshot.latency_matrix
+    msd_limits = snapshot.msd_limits
+    num_nodes = len(snapshot.node_names)
 
     best_score = -np.inf
     best_pair: Tuple[int, int] | None = None
@@ -120,4 +112,3 @@ def get_resilience_safe_action(snapshot: Dict[str, Any], request: Any) -> Action
         v_route=int(best_pair[1]),
         reason="resilience_safe_pair_search",
     )
-

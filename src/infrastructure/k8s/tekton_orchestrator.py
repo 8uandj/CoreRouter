@@ -1,8 +1,11 @@
 import uuid
 import logging
+import urllib3
 from typing import Dict, Any, List, Optional
 from kubernetes import client, config
 from src.core.interfaces.orchestrator import IOrchestrator
+
+urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
 
 logger = logging.getLogger("TektonOrchestrator")
 
@@ -19,8 +22,8 @@ class TektonOrchestrator(IOrchestrator):
 
     def _connect(self):
         kubeconfig_paths = [
-            None, # Default ~/.kube/config
-            "/var/snap/microk8s/current/credentials/client.config"
+            "/var/snap/microk8s/current/credentials/client.config",  # MicroK8s — ưu tiên cao nhất
+            None,  # Default ~/.kube/config — fallback
         ]
         
         connected = False
@@ -30,6 +33,11 @@ class TektonOrchestrator(IOrchestrator):
                     config.load_kube_config(config_file=path)
                 else:
                     config.load_kube_config()
+                
+                conf = client.Configuration.get_default_copy()
+                conf.verify_ssl = False
+                client.Configuration.set_default(conf)
+                
                 self.custom_api = client.CustomObjectsApi()
                 self.apps_api = client.AppsV1Api()
                 self.core_api = client.CoreV1Api()
@@ -41,16 +49,53 @@ class TektonOrchestrator(IOrchestrator):
         if not connected:
             try:
                 config.load_incluster_config()
+                
+                conf = client.Configuration.get_default_copy()
+                conf.verify_ssl = False
+                client.Configuration.set_default(conf)
+                
                 self.custom_api = client.CustomObjectsApi()
                 self.apps_api = client.AppsV1Api()
                 self.core_api = client.CoreV1Api()
             except Exception as e:
                 logger.error(f"Failed to connect to K8s: {e}")
 
-    def trigger_deploy(self, name: str, vnf_type: str, profile: str, location: str = "auto") -> Dict[str, Any]:
-        template_file = "vnf-frr.yaml"
-        if vnf_type == "firewall": template_file = "vnf-firewall.yaml"
-        elif vnf_type == "idps": template_file = "vnf-idps.yaml"
+    def trigger_deploy(
+        self,
+        name: str,
+        vnf_type: str,
+        profile: str,
+        location: str = "auto",
+        node_hostname: str = "",
+    ) -> Dict[str, Any]:
+        # Map location to physical hostname under Option A if node_hostname is not specified
+        if not node_hostname and location:
+            location_map = {
+                "hanoi-1": "k8s-master",
+                "hanoi-2": "k8s-master",
+                "haiphong-1": "k8s-master",
+                "ninhbinh-1": "k8s-master",
+                "vinh-1": "worker1",
+                "hue-1": "worker1",
+                "danang-1": "worker1",
+                "quynhon-1": "worker2",
+                "nhatrang-1": "worker2",
+                "hcm-1": "worker2",
+                "cantho-1": "worker2",
+            }
+            node_hostname = location_map.get(location, "")
+
+        # Support all VNF types
+        type_to_template = {
+            "firewall": "vnf-firewall.yaml",
+            "idps": "vnf-idps.yaml",
+            "nat": "vnf-nat.yaml",
+            "lb": "vnf-lb.yaml",
+            "voc": "vnf-voc.yaml",
+            "frr": "vnf-frr.yaml",
+            "router": "vnf-frr.yaml",
+        }
+        template_file = type_to_template.get(vnf_type, "vnf-frr.yaml")
 
         run_name = f"deploy-{vnf_type}-{uuid.uuid4().hex[:6]}"
         
@@ -70,7 +115,8 @@ class TektonOrchestrator(IOrchestrator):
                     {"name": "deployName", "value": name},
                     {"name": "fileName", "value": template_file},
                     {"name": "labelSelector", "value": f"app={name}"},
-                    {"name": "location", "value": location}
+                    {"name": "location", "value": location},
+                    {"name": "nodeHostname", "value": node_hostname},
                 ],
                 "workspaces": [
                     {
@@ -185,6 +231,7 @@ class TektonOrchestrator(IOrchestrator):
         file_name: str,
         target_location: str = "auto",
         namespace: str = DEFAULT_NAMESPACE,
+        node_hostname: str = "",
     ) -> Dict[str, Any]:
         """MAKE-only step of Make-Before-Break.
 
@@ -210,6 +257,7 @@ class TektonOrchestrator(IOrchestrator):
                     {"name": "newDeployName", "value": new_deploy_name},
                     {"name": "fileName", "value": file_name},
                     {"name": "targetLocation", "value": target_location},
+                    {"name": "nodeHostname", "value": node_hostname},
                     {"name": "labelSelector", "value": f"app={new_deploy_name}"},
                 ],
                 "workspaces": [

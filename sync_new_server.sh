@@ -8,20 +8,23 @@
 SERVER="112.137.129.246"
 REMOTE_DIR="/home/CoreRouter"
 LOCAL_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+SSH_CONFIG="${SSH_CONFIG:-$HOME/.ssh/config}"
+SSH_CMD="ssh -F $SSH_CONFIG"
+RSYNC_SSH="ssh -F $SSH_CONFIG"
 
 sync_to_server() {
     echo "🚀 Syncing to $SERVER:$REMOTE_DIR ..."
-    ssh "$SERVER" "sudo mkdir -p $REMOTE_DIR && sudo chown -R \$USER:\$USER $REMOTE_DIR"
-    rsync -avz --progress \
+    $SSH_CMD "$SERVER" "sudo mkdir -p $REMOTE_DIR && sudo chown -R \$USER:\$USER $REMOTE_DIR"
+    rsync -avz --progress -e "$RSYNC_SSH" \
         --exclude '.git' \
         --exclude 'venv' \
         --exclude '.venv' \
         --exclude '__pycache__' \
-        --exclude '.ai' \
         --exclude 'node_modules/' \
         --exclude 'results/figures' \
         --exclude 'results/logs/' \
-        --exclude 'results/models/*.zip' \
+        --exclude 'results/models/**/*ckpt*.zip' \
+        --exclude 'results/models/**/*interrupted*.zip' \
         --exclude 'results/models/v10_dynamic/' \
         --exclude 'results/models/v10/*ckpt*.zip' \
         "$LOCAL_DIR/" "$SERVER:$REMOTE_DIR/"

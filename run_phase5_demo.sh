@@ -6,6 +6,8 @@
 
 # 1. Cấu hình môi trường
 export JO_VPPM_ENABLE_MODEL=1
+export JO_VPPM_MODEL_PATH=results/models/v11/dgrl_v11_final_vietnam.zip
+export JO_VPPM_SCALER_PATH=results/models/v11/vec_normalize_v11_vietnam.pkl
 export PYTHONPATH=$PYTHONPATH:.
 VENV_PYTHON="./venv/bin/python3"
 

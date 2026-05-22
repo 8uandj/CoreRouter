@@ -5,14 +5,20 @@ from typing import Dict, List, Optional
 
 from src.ai.dgrl_agent import get_dgrl_agent
 from src.ai.heuristic import HardConstraintError, get_decoupled_action
+from src.analytics.ai_forecasting import get_forecast_service
 from src.core.state_manager import get_state_manager
 from src.portal.backend.app.containers.service_container import container
-from src.portal.backend.app.models.schemas import SFCRequest, MigrateSingleRequest, BreakOldVnfRequest
+from src.portal.backend.app.models.schemas import (
+    SFCRequest,
+    MigrateSingleRequest,
+    BreakOldVnfRequest,
+    FreeResourceRequest,
+    TelemetryIngestRequest,
+)
 
 logger = logging.getLogger("OrchestrationRouter")
 router = APIRouter(tags=["Hybrid Orchestration"])
 
-# Global Lock to prevent concurrent Make-Before-Break migrations (Race Condition Protection)
 MIGRATION_LOCK = asyncio.Lock()
 
 def _generate_srv6_sids(v_place: int, v_route: int, msd_req: int) -> List[str]:
@@ -30,89 +36,107 @@ def _node_label(node_id: int, node_names: List[str]) -> Dict[str, object]:
     return {"id": int(node_id), "name": node_names[int(node_id)]}
 
 def _location_key(node_name: str) -> str:
+    """
+    Map AI topology node name -> targetLocation label used by Tekton prepare-vnf task.
+    Format: "<city>-<index>" matches core-router/location label in K8s manifests.
+    Option A: Logically independent city locations running on shared physical nodes.
+    """
     mapping = {
-        "Hanoi": "hn",
-        "HaiPhong": "hp",
-        "NinhBinh": "hn",
-        "Vinh": "dn",
-        "Hue": "dn",
-        "DaNang": "dn",
-        "QuyNhon": "dn",
-        "NhaTrang": "hcm",
-        "HoChiMinh": "hcm",
-        "CanTho": "hcm",
+        "Hanoi":      "hanoi-1",
+        "HaiPhong":   "haiphong-1",
+        "NinhBinh":   "ninhbinh-1",
+        "Vinh":       "vinh-1",
+        "Hue":        "hue-1",
+        "DaNang":     "danang-1",
+        "QuyNhon":    "quynhon-1",
+        "NhaTrang":   "nhatrang-1",
+        "HoChiMinh":  "hcm-1",
+        "CanTho":     "cantho-1",
     }
     return mapping.get(node_name, "auto")
+
 
 @router.post("/orchestrate")
 async def orchestrate_sfc(request: SFCRequest, background_tasks: BackgroundTasks):
     """
     Adaptive Hybrid Orchestration endpoint.
-    Receives (source, target, traffic_type) through SFCRequest.
     """
     state_manager = get_state_manager()
+    try:
+        k8s_vnfs = container.orchestrator.list_vnfs()
+        state_manager.sync_with_kubernetes(k8s_vnfs)
+    except Exception as e:
+        logger.error(f"Failed to sync state with K8s during orchestrate: {e}")
+    forecaster = get_forecast_service()
     
     # Trigger Forecast Alert if needed
+    forecast_decision = None
+    forecast_node = request.ingress_node
+    if forecast_node is None and isinstance(request.source_node, int):
+        forecast_node = request.source_node
+    if forecast_node is None:
+        forecast_node = 0
+    if request.pps is not None:
+        forecast_decision = forecaster.observe(int(forecast_node), request.pps)
+        state_manager.set_node_forecast_alert(forecast_decision.node_id, forecast_decision.alert)
+
     forecast_alert = bool(
         request.alert_flag 
         or request.is_ddos_spike 
         or request.service_type.lower() == "attack"
+        or (forecast_decision.alert if forecast_decision else False)
     )
-    state_manager.set_forecast_alert(forecast_alert)
+    if forecast_alert:
+        state_manager.set_forecast_alert(True)
 
     gate = state_manager.choose_mode()
     method = "Hybrid:Heuristic"
     branch = "heuristic"
-    fallback_reason = None
-    model_loaded = False
 
     try:
         if gate.mode == "heuristic":
             try:
                 choice = get_decoupled_action(state_manager.snapshot(), request)
-            except HardConstraintError as exc:
-                fallback_reason = str(exc)
+            except HardConstraintError:
                 dgrl_decision = get_dgrl_agent().get_action(state_manager, request)
                 choice = dgrl_decision.choice
-                model_loaded = dgrl_decision.model_loaded
                 branch = "drl"
                 method = "Hybrid:DRL (Heuristic Fallback)"
         else:
             dgrl_decision = get_dgrl_agent().get_action(state_manager, request)
             choice = dgrl_decision.choice
-            model_loaded = dgrl_decision.model_loaded
             branch = "drl"
             method = "Hybrid:DRL"
 
         sid_stack = _generate_srv6_sids(choice.v_place, choice.v_route, request.msd_req)
         
-        # Admission Control
-        accepted, error = state_manager.reserve_resources(
-            choice.v_place, choice.v_route, request.cpu_req, request.ram_req, len(sid_stack)
+        # Phase 7: Generate unique VNF name for tracking
+        import uuid
+        vnf_id = str(uuid.uuid4())[:8]
+        vnf_name = f"vnf-{request.service_type.lower()}-{vnf_id}"
+
+        # Admission Control with Tracking
+        accepted, error = state_manager.try_reserve(
+            choice.v_place, choice.v_route, request.cpu_req, request.ram_req, len(sid_stack),
+            vnf_name=vnf_name
         )
 
-        if not accepted:
-            # If heuristic failed, try DRL as last resort if not already tried
-            if branch == "heuristic":
-                dgrl_decision = get_dgrl_agent().get_action(state_manager, request)
-                choice = dgrl_decision.choice
-                sid_stack = _generate_srv6_sids(choice.v_place, choice.v_route, request.msd_req)
-                accepted, error = state_manager.reserve_resources(
-                    choice.v_place, choice.v_route, request.cpu_req, request.ram_req, len(sid_stack)
-                )
-                if accepted:
-                    branch = "drl"
-                    method = "Hybrid:DRL (Capacity Fallback)"
+        if not accepted and branch == "heuristic":
+            dgrl_decision = get_dgrl_agent().get_action(state_manager, request)
+            choice = dgrl_decision.choice
+            sid_stack = _generate_srv6_sids(choice.v_place, choice.v_route, request.msd_req)
+            accepted, error = state_manager.try_reserve(
+                choice.v_place, choice.v_route, request.cpu_req, request.ram_req, len(sid_stack),
+                vnf_name=vnf_name
+            )
+            if accepted:
+                branch = "drl"
+                method = "Hybrid:DRL (Capacity Fallback)"
 
         if not accepted:
-            # Smart Admission Control: Must return 409 NO_SAFE_ACTION
             raise HTTPException(
                 status_code=409,
-                detail={
-                    "status": "error",
-                    "code": "NO_SAFE_ACTION",
-                    "message": error or "Hardware constraints violated (CPU/RAM/MSD)."
-                }
+                detail={"status": "error", "code": "NO_SAFE_ACTION", "message": error or "Hardware constraints violated."}
             )
 
     except Exception as e:
@@ -125,86 +149,216 @@ async def orchestrate_sfc(request: SFCRequest, background_tasks: BackgroundTasks
     placement = _node_label(choice.v_place, node_names)
     route = _node_label(choice.v_route, node_names)
     
+    # Luồng MBB Proactive nếu có Alert và có VNF đăng ký trong state_manager
     migration_result = None
-    make_before_break = bool(branch == "drl" and forecast_alert)
+    if branch == "drl" and forecast_alert:
+        # Tìm VNF cũ tốn CPU nhất trên node được chọn để migrate
+        existing_vnfs = [
+            vnf for vnf in state_manager.get_vnfs_on_node(choice.v_place)
+            if vnf.get("name") != vnf_name
+        ]
+        old_vnf = existing_vnfs[0]["name"] if existing_vnfs else None
 
-    # Trigger Make-Before-Break if Alert=1 and DRL is used (Race Condition Protection)
-    if make_before_break:
-        if MIGRATION_LOCK.locked():
-            logger.warning("PHASE 5: Concurrent migration request blocked by lock.")
-            migration_result = {
-                "status": "busy", 
-                "message": "Orchestrator is already handling a migration. Please wait."
-            }
-            make_before_break = False # Disable for this request
-        else:
-            # Example flow for migration
-            old_vnf = f"vnf-{placement['name']}".lower()
-            new_vnf = f"vnf-{placement['name']}-migrated".lower()
-            
-            # Helper to manage lock in background
-            async def locked_migration():
+        if old_vnf:
+            async def background_mbb():
                 async with MIGRATION_LOCK:
                     await container.orchestration_service.make_before_break_sequence(
                         old_name=old_vnf,
-                        new_name=new_vnf,
+                        new_name=vnf_name,
                         file_name="vnf-firewall.yaml" if request.service_type.lower() == "attack" else "vnf-frr.yaml",
                         target_location=_location_key(str(placement["name"])),
-                        request=request
+                        request=request,
+                        ai_node_id=choice.v_place
                     )
+            background_tasks.add_task(background_mbb)
+            migration_result = {"status": "triggered", "old_vnf": old_vnf, "new_vnf": vnf_name}
+        else:
+            # Không có VNF cũ → chỉ deploy VNF mới thông thường qua Tekton
+            async def background_deploy():
+                container.orchestrator.trigger_deploy(
+                    name=vnf_name,
+                    vnf_type="router",
+                    profile="standard",
+                    location=_location_key(str(placement["name"])),
+                    node_hostname=container.orchestration_service.get_k8s_hostname(choice.v_place)
+                    if hasattr(container.orchestration_service, "get_k8s_hostname") else "",
+                )
+            background_tasks.add_task(background_deploy)
+            migration_result = {"status": "deploying", "vnf_name": vnf_name}
 
-            background_tasks.add_task(locked_migration)
-            migration_result = {"status": "triggered", "message": "Make-Before-Break sequence started in background."}
-
-    return {
-        "status": "success",
+    data = {
+        "vnf_name": vnf_name,
         "placement_node": placement,
         "routing_node": route,
         "srv6_segment_list": sid_stack,
         "method_used": method,
         "hybrid_branch": branch,
-        "make_before_break": make_before_break,
+        "global_utilization": public_state["global_utilization"],
+        "avg_cpu": public_state["avg_cpu"],
+        "avg_msd_usage": public_state["avg_msd_usage"],
+        "alert_flag": public_state["alert_flag"],
+        "forecast": {
+            "node_id": forecast_decision.node_id,
+            "current_pps": forecast_decision.current_pps,
+            "predicted_pps": forecast_decision.predicted_pps,
+            "alert": forecast_decision.alert,
+            "reason": forecast_decision.reason,
+        } if forecast_decision else None,
+        "migration_result": migration_result,
+        "state": public_state,
+    }
+
+    return {
+        "status": "success",
+        "message": f"Hybrid orchestration selected {method}.",
+        "data": data,
+        # Compatibility: keep the flat response shape used by benchmark scripts.
+        "vnf_name": vnf_name,
+        "placement_node": placement,
+        "routing_node": route,
+        "srv6_segment_list": sid_stack,
+        "method_used": method,
+        "hybrid_branch": branch,
         "migration_result": migration_result
     }
 
-@router.post("/orchestrate/migrate-single-vnf")
-async def migrate_make(request: MigrateSingleRequest):
-    """MAKE phase: Trigger replacement creation."""
-    return container.orchestrator.trigger_migrate_single(
-        old_deploy_name=request.oldDeployName,
-        new_deploy_name=request.newDeployName,
-        file_name=request.fileName,
-        target_location=request.targetLocation,
-        namespace=request.namespace
-    )
+@router.get("/orchestrate/state")
+def get_hybrid_state():
+    try:
+        k8s_vnfs = container.orchestrator.list_vnfs()
+        get_state_manager().sync_with_kubernetes(k8s_vnfs)
+    except Exception as e:
+        logger.error(f"Failed to sync state with K8s in get_hybrid_state: {e}")
+    state = get_state_manager().as_public_dict()
+    return {
+        "status": "success",
+        "message": "Hybrid state snapshot",
+        "data": state,
+        "forecast": get_forecast_service().status(),
+    }
 
-@router.post("/orchestrate/migrate-single-vnf/break")
-async def migrate_break(request: BreakOldVnfRequest):
-    """BREAK phase: Delete old VNF after steer verification."""
-    if not request.confirm_steer_done:
-        raise HTTPException(status_code=400, detail="confirm_steer_done=True is required for BREAK.")
-    return container.orchestrator.break_old_vnf(
-        old_deploy_name=request.oldDeployName,
-        namespace=request.namespace
-    )
+
+@router.post("/orchestrate/telemetry")
+def ingest_telemetry(req: TelemetryIngestRequest):
+    sm = get_state_manager()
+    forecaster = get_forecast_service()
+    decisions = []
+    for sample in req.samples:
+        forecast_alert = sample.alert
+        decision = None
+        if sample.pps is not None:
+            decision = forecaster.observe(sample.node_id, sample.pps)
+            forecast_alert = decision.alert
+            decisions.append({
+                "node_id": decision.node_id,
+                "current_pps": decision.current_pps,
+                "predicted_pps": decision.predicted_pps,
+                "alert": decision.alert,
+                "reason": decision.reason,
+            })
+        sm.update_node_telemetry(
+            node_id=sample.node_id,
+            cpu_util=sample.cpu_util,
+            ram_util=sample.ram_util,
+            msd_used=sample.msd_used,
+            msd_util=sample.msd_util,
+            alert=forecast_alert,
+        )
+    return {
+        "status": "success",
+        "message": "Telemetry ingested",
+        "forecast": decisions,
+        "data": sm.as_public_dict(),
+    }
 
 @router.post("/orchestrate/alert")
-async def set_alert(alert: bool):
-    """Trigger/Clear forecast alert (Bi-GRU simulation)."""
-    get_state_manager().set_forecast_alert(alert)
+async def set_alert(alert: bool, background_tasks: BackgroundTasks):
+    """
+    SOTA PROACTIVE MIGRATION: Triggered by Bi-GRU.
+    Avoids 'Migration Storm' via Rate-limited Sequential Execution.
+    """
+    sm = get_state_manager()
+    sm.set_forecast_alert(alert)
+    
+    if alert:
+        snap = sm.snapshot()
+        # Tìm node bị "sốt" (CPU > 80%)
+        hot_nodes = [n["id"] for n in snap.nodes if n["cpu_util"] > 80.0]
+        
+        if hot_nodes:
+            logger.info(f"PHASE 7 ALERT: Hot nodes {hot_nodes}. Sequential migration starting...")
+            
+            async def sequential_proactive_migration():
+                async with MIGRATION_LOCK:
+                    for node_id in hot_nodes:
+                        vnfs = sm.get_vnfs_on_node(node_id)
+                        # Sắp xếp ngốn CPU giảm dần
+                        vnfs.sort(key=lambda x: x["cpu_req"], reverse=True)
+                        
+                        for vnf in vnfs:
+                            logger.info(f"PHASE 7 PROACTIVE: Migrating {vnf['name']} (CPU {vnf['cpu_req']})")
+                            
+                            from src.portal.backend.app.models.schemas import SFCRequest
+                            fake_req = SFCRequest(
+                                cpu_req=vnf["cpu_req"], ram_req=vnf["ram_req"], msd_req=vnf["msd_req"],
+                                service_type="Video"
+                            )
+                            
+                            dgrl_decision = get_dgrl_agent().get_action(sm, fake_req)
+                            target_node_id = dgrl_decision.choice.v_place
+                            target_name = snap.node_names[target_node_id]
+                            
+                            # MBB TUẦN TỰ - Đợi xong mới làm tiếp
+                            await container.orchestration_service.make_before_break_sequence(
+                                old_name=vnf["name"],
+                                new_name=f"{vnf['name']}-mig",
+                                file_name="vnf-frr.yaml",
+                                target_location=_location_key(target_name),
+                                request=fake_req,
+                                ai_node_id=target_node_id
+                            )
+            
+            background_tasks.add_task(sequential_proactive_migration)
+            return {"status": "triggered", "message": f"Sequential proactive migration started for {len(hot_nodes)} nodes."}
+
     return {"status": "success", "alert_flag": alert}
 
 @router.get("/orchestrate/status")
 async def get_orchestration_status():
     """
     RÀ SOÁT 4: Bất đồng bộ UI. 
-    Frontend gọi endpoint này để biết khi nào Migration thực sự xong.
     """
     is_busy = MIGRATION_LOCK.locked()
     return {
         "status": "success",
         "is_migrating": is_busy,
         "message": "System busy with migration" if is_busy else "System Idle",
-        # Hỗ trợ polling cho Tekton Pipeline mới nhất
         "latest_pipeline": container.orchestrator.get_status()
     }
+
+
+@router.post("/orchestrate/reset")
+def reset_network_state():
+    """
+    Reset toan bo network state (CPU/RAM/MSD usage) ve 0.
+    Dung truoc khi chay benchmark de clear ghost SFCs tu cac lan test truoc.
+    CANH BAO: Chi dung cho Benchmark/Testing, KHONG dung trong Production.
+    """
+    sm = get_state_manager()
+    sm.reset()
+    state = sm.as_public_dict()
+    logger.info("[BENCHMARK] Network state reset by /orchestrate/reset")
+    return {
+        "status": "success",
+        "message": "Network state reset. All resource usage cleared.",
+        "data": state
+    }
+
+@router.post("/orchestrate/free")
+def free_network_resources(req: FreeResourceRequest):
+    """
+    Giai phong tai nguyen khi SFC het han (TTL expire)
+    """
+    sm = get_state_manager()
+    sm.free_resources(req.v_place, req.v_route, req.cpu_req, req.ram_req, req.msd_req)
+    return {"status": "success", "message": "Resources freed"}

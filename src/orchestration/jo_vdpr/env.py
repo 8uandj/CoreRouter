@@ -162,13 +162,15 @@ class JOVDPREnv(gym.Env):
                 expired.append(flow)
         for flow in expired:
             self.active_flows.remove(flow)
-            fv1, fv2 = flow["v1"], flow["v2"]
-            self._state[fv1 * 3]     = max(0.0, self._state[fv1 * 3]     - flow["cpu"])
-            self._state[fv1 * 3 + 1] = max(0.0, self._state[fv1 * 3 + 1] - flow["ram"])
-            self._state[fv1 * 3 + 2] = max(0.0, self._state[fv1 * 3 + 2] - flow["msd"])
-            self._state[fv2 * 3]     = max(0.0, self._state[fv2 * 3]     - flow["cpu"])
-            self._state[fv2 * 3 + 1] = max(0.0, self._state[fv2 * 3 + 1] - flow["ram"])
-            self._state[fv2 * 3 + 2] = max(0.0, self._state[fv2 * 3 + 2] - flow["msd"])
+            fv1 = flow.get("placement_node", flow.get("v1"))
+            fv2 = flow.get("routing_node", flow.get("v2"))
+            cpu_alloc = flow.get("cpu_allocated", flow.get("cpu", 0))
+            ram_alloc = flow.get("ram_allocated", flow.get("ram", 0))
+            msd_alloc = flow.get("msd_allocated", flow.get("msd", 0))
+            
+            self._state[fv1 * 3]     = max(0.0, self._state[fv1 * 3]     - cpu_alloc)
+            self._state[fv1 * 3 + 1] = max(0.0, self._state[fv1 * 3 + 1] - ram_alloc)
+            self._state[fv2 * 3 + 2] = max(0.0, self._state[fv2 * 3 + 2] - msd_alloc)
             # Hoàn trả Link Bandwidth (SDN Controller Layer)
             if fv1 != fv2:
                 self._link_bw[fv1][fv2] += flow["bw"]
@@ -221,22 +223,25 @@ class JOVDPREnv(gym.Env):
 
         # ══ PHASE 4: Validation & Placement ══
 
+        # [NEW] Path-aware MSD (Hop count included)
+        hop_count = self.topo.get_hop_distance(v1, v2)
+        msd_total = msd_req + hop_count
+
         # Trích cờ cảnh báo (Proactive Alert)
         alert_v1 = 1.0 if (self._state[v1 * 3] / self.max_cpu) > 0.80 else 0.0
         alert_v2 = 1.0 if (self._state[v2 * 3] / self.max_cpu) > 0.80 else 0.0
 
         errors, is_valid = [], True
-        if (self._state[v1 * 3] + cpu_req > self.max_cpu or
-                self._state[v2 * 3] + cpu_req > self.max_cpu):
-            is_valid = False
-            errors.append("CPU overflow")
+        has_msd_violation = False
 
-        if self._state[v1 * 3 + 2] + msd_req > self.node_msd_limits[v1]:
+        if self._state[v1 * 3] + cpu_req > self.max_cpu:
             is_valid = False
-            errors.append(f"MSD violation node {v1}")
-        if self._state[v2 * 3 + 2] + msd_req > self.node_msd_limits[v2]:
+            errors.append("CPU overflow at placement node")
+
+        if self._state[v2 * 3 + 2] + msd_total > self.node_msd_limits[v2]:
             is_valid = False
-            errors.append(f"MSD violation node {v2}")
+            has_msd_violation = True
+            errors.append(f"MSD violation routing node {v2} (req:{msd_req}+hop:{hop_count})")
 
         # Bandwidth check (SDN Controller — Admission Control)
         if v1 != v2 and self._link_bw[v1][v2] < bw_req:
@@ -267,22 +272,24 @@ class JOVDPREnv(gym.Env):
             node_v1=v1, node_v2=v2, service_type=svc,
             is_switching=is_switching,
             alert_v1=alert_v1, alert_v2=alert_v2,
-            cpu_util_v1=cpu_util_v1, cpu_util_v2=cpu_util_v2
+            cpu_util_v1=cpu_util_v1, cpu_util_v2=cpu_util_v2,
+            has_msd_violation=has_msd_violation
         )
 
         if is_valid:
             self._state[v1 * 3]     += cpu_req
             self._state[v1 * 3 + 1] += ram_req
-            self._state[v1 * 3 + 2] += msd_req
-            self._state[v2 * 3]     += cpu_req
-            self._state[v2 * 3 + 1] += ram_req
-            self._state[v2 * 3 + 2] += msd_req
+            self._state[v2 * 3 + 2] += msd_total
             # SFC Lifecycle: Đăng ký flow với TTL ngẫu nhiên
             ttl = int(self.np_random.integers(self.ttl_range[0], self.ttl_range[1])) if self.np_random is not None else np.random.randint(self.ttl_range[0], self.ttl_range[1])
             self.active_flows.append({
-                "v1": v1, "v2": v2,
-                "cpu": cpu_req, "ram": ram_req, "msd": msd_req,
-                "bw": bw_req, "ttl": ttl
+                "placement_node": v1,
+                "routing_node": v2,
+                "cpu_allocated": cpu_req,
+                "ram_allocated": ram_req,
+                "msd_allocated": msd_total,
+                "bw": bw_req,
+                "ttl": ttl
             })
             # Trừ Link Bandwidth (SDN Controller Layer)
             if v1 != v2:
@@ -309,11 +316,12 @@ class JOVDPREnv(gym.Env):
             'latency_threshold_ms': threshold,
             'is_switching':    is_switching,
             'accepted':        is_valid,
+            'msd_violation':   has_msd_violation,
             'evacuation_hit':  (alert_v1 == 1.0 or alert_v2 == 1.0), # Tracking logic mới
             'latency_violation_rate': (sum(self._violation_window) / len(self._violation_window) if self._violation_window else 0.0),
             'cpu_util_v1':     cpu_util_v1,
             'cpu_util_v2':     cpu_util_v2,
-            'n_sids':          msd_req,
+            'n_sids':          msd_total,
             'service_type':    svc,
         }
         return self._get_obs(), float(reward), done, False, info
