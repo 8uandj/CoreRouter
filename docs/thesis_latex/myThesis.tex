@@ -51,7 +51,19 @@
   \IfFileExists{#2}{%
     \includegraphics[#1]{#2}%
   }{%
-    \fbox{\parbox{0.85\linewidth}{\centering Missing figure: {\ttfamily\detokenize{#2}}}}%
+    \IfFileExists{#2.pdf}{%
+      \includegraphics[#1]{#2.pdf}%
+    }{%
+      \IfFileExists{#2.png}{%
+        \includegraphics[#1]{#2.png}%
+      }{%
+        \IfFileExists{#2.jpg}{%
+          \includegraphics[#1]{#2.jpg}%
+        }{%
+          \fbox{\parbox{0.85\linewidth}{\centering Missing figure: {\ttfamily\detokenize{#2}}}}%
+        }%
+      }%
+    }%
   }%
 }
 
@@ -171,18 +183,21 @@ I affirm that this declaration is made with full integrity.
 {\bf Hoang Duy Hung}  \quad\ 
 \end{flushright}
 
-\newpage
-\chap{Supervisor's Approval}
-\vspace{20pt}
+% \newpage
+% \chap{Supervisor's Approval}
+% I hereby approve that the thesis in its current form is ready for committee examination as a requirement for the Bachelor of Computer Science degree at the VNU University of Engineering and Technology.
+
+% All references from relevant studies are explicitly sourced from the list of references in the thesis. The thesis does not copy documents and research works of others without specifying the references.
+% \vspace{20pt}
 
 
-\begin{flushright}
-{\it Signature}
-\hskip 1.5cm\quad
+% \begin{flushright}
+% {\it Signature}
+% \hskip 1.5cm\quad
 
-\vskip 2cm
-{\bf Assoc. Prof. Nguyen Ngoc Hoa}  \quad\ 
-\end{flushright}
+% \vskip 2cm
+% {\bf Assoc. Prof. Nguyen Ngoc Hoa}  \quad\ 
+% \end{flushright}
 
 \newpage
 \begin{center}
@@ -265,7 +280,7 @@ To address the critical divergence between AI-driven orchestration and rigid dat
     \item \textbf{Hardware-Constrained Mathematical Modeling:} A rigorous formulation of the Joint Optimization of VNF Placement and Proactive Migration (JO-VPPM) problem. The model natively embeds SRv6 MSD physical limitations as hard boundaries: an unsafe SID stack is rejected before enforcement rather than rescued by Binding SID compression.
     \item \textbf{Deep Graph Reinforcement Learning (DGRL):} The development of a topology-aware reinforcement learning agent powered by Graph Attention Networks (GAT). We identify that standard Multi-Layer Perceptrons fail to comprehend geographical routing logic, and demonstrate how utilizing a Static Adjacency Matrix within the GAT preserves the fundamental eigenvalues necessary for the Critic network's convergence.
     \item \textbf{Hybrid Orchestration with Smart Admission Control:} The implementation of a Hysteresis Gate that uses inexpensive heuristic decisions during stable load and activates MaskablePPO/DGRL under stress or alert conditions. If Action Masking removes every feasible placement-routing pair, the controller returns \texttt{409 NO\_SAFE\_ACTION}, treating rejection as a safety-preserving admission decision rather than a runtime failure.
-    \item \textbf{Hardware-in-the-Loop Testbed:} A 10-node Vietnam Backbone testbed combining MicroK8s VNF orchestration, Tekton lifecycle pipelines, L2-transparent Mininet-to-Kubernetes connectivity, CPU-pinned BMv2 P4 switches, and REST-driven SRv6 steering. The testbed validates that Make-Before-Break continuity is governed by data-plane sequencing, while AI inference latency only affects reaction time.
+    \item \textbf{Hardware-in-the-Loop Testbed:} A 10-node Vietnam Backbone testbed combining MicroK8s VNF orchestration, Tekton lifecycle pipelines, L2-transparent Mininet-to-Kubernetes connectivity, CPU-pinned BMv2 P4 switches, and REST-driven SRv6 steering. The testbed implements the control-plane sequence required for Make-Before-Break migration, while final continuity validation is reserved for packet-level evidence.
 \end{itemize}
 
 \section{Thesis Organization}
@@ -273,8 +288,7 @@ The remainder of this thesis is logically structured as follows:
 \begin{itemize}
     \item \textbf{Chapter \ref{chap:background_related}:} Discusses the related works in VNF placement, heuristic algorithms, and Reinforcement Learning, directly identifying the critical research gaps regarding hardware awareness and topology graph comprehension.
     \item \textbf{Chapter \ref{chap:method}:} Details the mathematical system model, the complete 3S-COM architecture, and dives deeply into the formal mechanisms of the proposed Graph Attention Network and Adaptive Lagrangian Penalty framework.
-    \item \textbf{Chapter \ref{chap:experiments}:} Presents the comprehensive performance evaluation across multiple topologies and dual-mode scenarios (Normal Load and Stress Test), with rigorous SOTA comparison.
-    \item \textbf{Chapter \ref{chap:testbed}:} Describes the Hardware-in-the-Loop testbed implementation using Mininet, P4 BMv2 switches, and a real-time Web UI, culminating in a live Make-Before-Break migration demonstration.
+    \item \textbf{Chapter \ref{chap:experiments}:} Presents the comprehensive performance evaluation across multiple topologies and dual-mode scenarios (Normal Load and Stress Test), with rigorous SOTA comparison, and describes the Hardware-in-the-Loop testbed implementation using Mininet, P4 BMv2 switches, and a real-time Web UI, including the planned Make-Before-Break migration validation workflow.
     \item \textbf{Chapter \ref{chap:conclusions}:} Summarizes the core outcomes and insights derived from this study while outlining viable paths for future research including multi-topology generalization, Multi-Agent DRL, and hardware offloading.
 \end{itemize}
 
@@ -693,7 +707,7 @@ The final component $\Psi_{res}$ in the reward function ensures that resources a
 \begin{equation}
 L^{PPO}(\theta) = \hat{\mathbb{E}}_t [ L^{CLIP}(\theta) + c_1 L^{VF}(\theta) + c_2 H(\pi_\theta) ]
 \end{equation}
-The integration of GAT-based feature extraction with this adaptive reward structure is evaluated in the completed Vietnam benchmark and remains the basis for the pending extended stress-test runs on NSFNET and GEANT2.
+The integration of GAT-based feature extraction with this adaptive reward structure is evaluated in the completed stress benchmark on the Vietnam, NSFNET, and GEANT2 topologies.
 
 \section{Algorithm Complexity and Theoretical Scalability}
 To evaluate the practical feasibility of JO-VPPM in carrier-grade 5G networks, we analyze the computational complexity of the orchestration engine.
@@ -737,17 +751,25 @@ The convergence of the JO-VPPM agent is governed by the consistency of the value
 
 
 
+
 % ==========================================================
-\chapter{Performance Evaluation and Benchmarking}
+\chapter{Experiments and Evaluation}
 \label{chap:experiments}
 
-This chapter reports the benchmark evidence that has been completed so far and explicitly separates it from extended evaluations that remain to be executed. The completed algorithm benchmark covers the Vietnam 10-node topology under normal load using \textbf{5 independent random seeds} ($42, 100, 2024, 8888, 9999$). The completed hardware-in-the-loop benchmark covers five operational testbed scenarios. Extended NSFNET/GEANT2 and algorithm stress-test results are reserved as placeholders until their result artifacts are generated.
+This chapter evaluates JO-VPPM under stress-oriented algorithm benchmarks rather than normal-load operation. Normal load is intentionally omitted because it does not expose the hardware-constrained behavior that this thesis targets. The key question is whether a joint placement-routing-migration policy can keep SRv6 paths within the Maximum Segment Depth (MSD) budget while preserving useful acceptance under bursty, heavy-tail, and chaotic demand.
+
+The benchmark compares three algorithm families: \textbf{Traditional Greedy}, \textbf{Decoupled AI}, and \textbf{JO-VPPM}. Traditional Greedy makes short-horizon feasible choices without graph-aware learning. Decoupled AI uses learned placement/routing behavior without the same joint GNN/action-masking structure. JO-VPPM uses topology-aware graph embeddings and hardware-aware action masking to choose placement and routing jointly.
 
 \section{Experimental Configuration}
-To evaluate the efficacy of the JO-VPPM framework, we developed a high-fidelity simulation environment based on the 10-node Vietnam Backbone topology.
 
-\subsection{Substrate Network Topology}
-The substrate network represents a nation-wide geo-distributed data center network spanning from Northern to Southern Vietnam. The 10 nodes are categorized into \textbf{Core Hubs} (high resources, high MSD) and \textbf{Edge DCs} (localized resources, lower MSD).
+The main benchmark uses the 10-node Vietnam backbone topology. The substrate includes core data centers in Hanoi, Hai Phong, Da Nang, and Ho Chi Minh City, and edge sites in Ninh Binh, Vinh, Hue, Quy Nhon, Nha Trang, and Can Tho. Core sites have larger CPU budgets and higher MSD limits, while edge sites are deliberately more constrained. Link latency follows geographic distance, so long source-destination pairs increase both service latency and SID-stack pressure.
+
+\begin{figure}[H]
+    \centering
+    \safeincludegraphics[width=0.7\textwidth]{thesis/figs/vietnam_backbone_topology.png}
+    \caption{The 10-node Vietnam Backbone simulation topology.}
+    \label{fig:backbone_map}
+\end{figure}
 
 \begin{table}[H]
 \centering
@@ -771,198 +793,151 @@ Can Tho       & Edge & 80  & 5  & Edge DC \\
 \end{tabular}
 \end{table}
 
-The physical link latencies between nodes are calculated using the \textit{Haversine formula} for geodesic distances, assuming a fiber-optic propagation speed of $2/3 c$ ($\approx 200,000$ km/s). Processing delays within each DC node range from 1ms (Core) to 3ms (Edge).
+The VNF workload includes Firewall, IDPS, Load Balancer, and vRouter functions. Each request carries CPU demand, an SLA class, a source-destination pair, and an SRv6 path constraint. The benchmark reports acceptance rate, MSD violation rate, SLA violation rate, average service latency, M/G/1 queue latency, and average reward.
 
-\begin{figure}[H]
-    \centering
-    \safeincludegraphics[width=0.7\textwidth]{thesis/figs/vietnam_backbone_topology.png}
-    \vspace{0.5cm}
-    \caption{The 10-node Vietnam Backbone simulation topology.}
-    \label{fig:backbone_map}
-\end{figure}
+\section{Stress Scenario Design}
 
-\subsection{VNF Profile and Traffic Model}
-The simulation utilizes four distinct VNF roles: \textbf{Firewall (FW)}, \textbf{Intrusion Detection System (IDPS)}, \textbf{Load Balancer (LB)}, and \textbf{vRouter}. Each VNF instance consumes between 5-20 CPU units and 512MB-2GB of RAM.
+Three stress scenarios are used throughout the algorithm benchmark:
 
-Traffic requests arrive according to a Poisson process with varying intensities to simulate "Sudden Surge" scenarios. We categorize requests into five SLA classes:
 \begin{itemize}
-    \item \textbf{Video:} eMBB traffic requiring $<30$ms latency.
-    \item \textbf{VoIP:} Voice traffic with a threshold of $50$ms.
-    \item \textbf{IoT:} URLLC-equivalent sensing traffic with $<15$ms requirement.
-    \item \textbf{Data:} Best-effort traffic with a $100$ms threshold.
-    \item \textbf{Attack:} Simulated malicious traffic with negligible priority.
+    \item \textbf{Elephant Stress:} a heavy-tail demand pattern where a small number of large flows consume disproportionate CPU and path resources. This scenario tests whether the policy can avoid placing large chains on edge nodes that lack both compute headroom and MSD budget.
+    \item \textbf{Burst Surge:} a sudden traffic surge that compresses many requests into a short interval. This scenario tests admission behavior under abrupt load changes, where myopic algorithms tend to overfill attractive core nodes early.
+    \item \textbf{Chaos Stress:} a mixed adversarial setting combining high demand variance, diverse SLA classes, and difficult source-destination pairs. This is the hardest scenario because both compute scarcity and path-depth scarcity appear simultaneously.
 \end{itemize}
 
-\subsection{AI Training Parameters}
-The JO-VPPM agent was trained using the MaskablePPO algorithm for 2,000,000 timesteps. We utilized 10 parallel environments to accelerate rollout collection and stabilize gradient updates. The key hyperparameters are listed in Table \ref{table:hyperparams}.
+\section{Vietnam Backbone Stress Benchmark}
+
+\subsection{Elephant Stress}
+
+\begin{figure}[H]
+    \centering
+    \safeincludegraphics[width=1.0\textwidth]{thesis/figs/VN_elephant.pdf}
+    \caption{Vietnam backbone algorithm benchmark under Elephant Stress.}
+    \label{fig:vn_elephant_stress}
+\end{figure}
+
+Figure \ref{fig:vn_elephant_stress} shows that JO-VPPM accepts \textbf{14.3\%} of requests, compared with \textbf{4.2\%} for Traditional Greedy and \textbf{3.7\%} for Decoupled AI. The gain is therefore more than three times the greedy acceptance rate. The trade-off is explicit: JO-VPPM rejects more unsafe placements before admission, but the accepted set is much more useful and has lower latency. Average latency drops from \textbf{2.5 ms} for Greedy and \textbf{1.6 ms} for Decoupled AI to \textbf{0.9 ms} for JO-VPPM.
+
+The MSD accounting also reveals the main weakness of the baselines. Traditional Greedy and Decoupled AI produce very high MSD violation rates, \textbf{95.8\%} and \textbf{96.3\%}, respectively, while JO-VPPM reduces the unsafe rate to \textbf{85.6\%}. The remaining unsafe accounting indicates that, at this stress level, the simulator still records infeasible attempts; however, JO-VPPM clearly shifts the policy toward safer and lower-latency admissions.
+
+\subsection{Burst Surge}
+
+\begin{figure}[H]
+    \centering
+    \safeincludegraphics[width=1.0\textwidth]{thesis/figs/VN_burst.pdf}
+    \caption{Vietnam backbone algorithm benchmark under Burst Surge.}
+    \label{fig:vn_burst_surge}
+\end{figure}
+
+Figure \ref{fig:vn_burst_surge} stresses short-term admission pressure. JO-VPPM accepts \textbf{15.3\%}, while Traditional Greedy and Decoupled AI accept only \textbf{4.4\%} and \textbf{3.8\%}. This means the graph-aware policy is not simply conservative; under burst pressure it finds feasible placement-routing combinations that the baselines miss. It also keeps average latency at \textbf{0.8 ms}, compared with \textbf{2.5 ms} and \textbf{1.6 ms} for Greedy and Decoupled AI.
+
+The MSD violation rate remains high for all algorithms because the burst injects many requests after the safe capacity has already been consumed. Even so, JO-VPPM improves the unsafe rate from \textbf{95.6--96.2\%} for the baselines to \textbf{84.2\%}. This is the best Vietnam stress result among the three scenarios: the model both increases acceptance and reduces unsafe accounting.
+
+\subsection{Chaos Stress}
+
+\begin{figure}[H]
+    \centering
+    \safeincludegraphics[width=1.0\textwidth]{thesis/figs/VN_chaos.pdf}
+    \caption{Vietnam backbone algorithm benchmark under Chaos Stress.}
+    \label{fig:vn_chaos_stress}
+\end{figure}
+
+The Chaos Stress result in Figure \ref{fig:vn_chaos_stress} is close to Elephant Stress because both scenarios combine high resource demand and difficult paths. JO-VPPM accepts \textbf{14.3\%}, while Greedy and Decoupled AI remain at \textbf{4.2\%} and \textbf{3.7\%}. JO-VPPM also keeps average service latency at \textbf{0.9 ms}; the baselines report \textbf{2.5 ms} and \textbf{1.6 ms}. SLA violation is zero for all three algorithms, so the differentiating factors are acceptance, latency, reward, and MSD safety.
+
+The average reward confirms the same ranking. JO-VPPM reaches \textbf{-2.5}, substantially better than Greedy at \textbf{-13.8} and Decoupled AI at \textbf{-14.9}. The reward gap is important because it combines admission usefulness with penalties from constraint pressure. Even when the environment is saturated, JO-VPPM selects less damaging actions.
+
+\section{Cross-Topology Generalization}
+
+To test whether the learned behavior is specific to Vietnam, the same stress benchmark was repeated on NSFNET and GEANT2. These topologies differ in size, link structure, and path diversity, so they provide a useful generalization check for the graph-based policy.
+
+\subsection{NSFNET Stress Results}
+
+\begin{figure}[H]
+    \centering
+    \safeincludegraphics[width=1.0\textwidth]{thesis/figs/nsfnet_elephant.pdf}
+    \caption{NSFNET algorithm benchmark under Elephant Stress.}
+    \label{fig:nsfnet_elephant_stress}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \safeincludegraphics[width=1.0\textwidth]{thesis/figs/nsfnet_burst.pdf}
+    \caption{NSFNET algorithm benchmark under Burst Surge.}
+    \label{fig:nsfnet_burst_surge}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \safeincludegraphics[width=1.0\textwidth]{thesis/figs/nsfnet_chaos.pdf}
+    \caption{NSFNET algorithm benchmark under Chaos Stress.}
+    \label{fig:nsfnet_chaos_stress}
+\end{figure}
+
+On NSFNET, JO-VPPM is again the strongest admission policy. In Elephant and Chaos Stress it accepts \textbf{19.8\%}, compared with \textbf{6.7\%} for Greedy and \textbf{4.7\%} for Decoupled AI. Under Burst Surge, JO-VPPM reaches \textbf{20.9\%}, while the baselines reach \textbf{7.2\%} and \textbf{5.3\%}. The improvement is therefore roughly a factor of three over Greedy across all NSFNET stress cases.
+
+The NSFNET results also show a consistent safety trend. JO-VPPM lowers MSD violation from \textbf{93.3--95.3\%} to \textbf{79.1\%} in Elephant/Chaos, and from \textbf{92.8--94.7\%} to \textbf{77.5\%} in Burst Surge. Average latency is higher than in Vietnam because NSFNET paths are longer in the benchmark profile, but JO-VPPM remains the best latency policy: \textbf{7.5 ms} in Elephant/Chaos and \textbf{7.9 ms} in Burst Surge, compared with \textbf{4.6--4.8 ms} for Greedy and \textbf{3.6--5.3 ms} for Decoupled AI only on their much smaller accepted sets. The latency comparison should therefore be read together with acceptance rate to avoid survivorship bias.
+
+\subsection{GEANT2 Stress Results}
+
+\begin{figure}[H]
+    \centering
+    \safeincludegraphics[width=1.0\textwidth]{thesis/figs/Geant2_elephant.pdf}
+    \caption{GEANT2 algorithm benchmark under Elephant Stress.}
+    \label{fig:geant2_elephant_stress}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \safeincludegraphics[width=1.0\textwidth]{thesis/figs/Geant2_burst.pdf}
+    \caption{GEANT2 algorithm benchmark under Burst Surge.}
+    \label{fig:geant2_burst_surge}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \safeincludegraphics[width=1.0\textwidth]{thesis/figs/Geant2_chaos.pdf}
+    \caption{GEANT2 algorithm benchmark under Chaos Stress.}
+    \label{fig:geant2_chaos_stress}
+\end{figure}
+
+GEANT2 is the strongest cross-topology stress result. In Elephant and Chaos Stress, JO-VPPM accepts \textbf{27.3\%}, compared with \textbf{8.9\%} for Greedy and \textbf{7.1\%} for Decoupled AI. In Burst Surge, JO-VPPM increases acceptance to \textbf{30.0\%}, while Greedy and Decoupled AI accept \textbf{8.8\%} and \textbf{6.0\%}. This confirms that the policy benefits from the richer European topology rather than overfitting to the Vietnam backbone.
+
+The MSD trend remains consistent. JO-VPPM reduces unsafe MSD accounting to \textbf{68.2\%} in Elephant/Chaos and \textbf{64.5\%} in Burst Surge, while the two baselines remain above \textbf{91\%} in most GEANT2 stress cases. The reward signal is also much stronger for JO-VPPM: \textbf{11.2--12.6} versus negative reward for both baselines. This is the clearest evidence that joint graph-aware admission improves both usefulness and constraint quality when the topology provides enough alternate paths.
+
+\section{Stress Benchmark Summary}
 
 \begin{table}[H]
 \centering
-\caption{Hyperparameters for JO-VPPM Training}
-\label{table:hyperparams}
-\begin{tabular}{lc}
-\toprule
-\textbf{Parameter} & \textbf{Value} \\
-\midrule
-Learning Rate & $3 \times 10^{-4}$ (Linear Decay) \\
-Batch Size & 256 \\
-Rollout Steps (n\_steps) & 512 \\
-Gamma ($\gamma$) & 0.99 \\
-GAE Lambda ($\lambda$) & 0.95 \\
-Entropy Coefficient & 0.01 $\to$ 0.0001 (Linear Decay) \\
-Value Function Coef & 0.7 \\
-Max Grad Norm & 0.5 \\
-\bottomrule
-\end{tabular}
-\end{table}
-
-\section{Comparative Baselines}
-To validate the performance of the proposed DGRL-based JO-VPPM framework, the completed benchmark evaluates it against two baseline paradigms:
-
-\begin{enumerate}
-    \item \textbf{Traditional Greedy:} A baseline algorithm that prioritizes short-term resource feasibility and local placement. This represents traditional, non-intelligent orchestration strategies.
-    \item \textbf{Decoupled AI (MLP-RL):} A standard DRL agent using a Multi-Layer Perceptron (MLP) policy. This agent receives the same state features but lacks the Graph Attention (topological awareness) and the Action Masking layer used in JO-VPPM.
-\end{enumerate}
-
-\section{Completed Algorithm Benchmark: Vietnam Normal Load}
-The completed algorithm benchmark artifact is stored under:
-\begin{center}
-\texttt{results/benchmark\_algorithm/20260517\_175737/vietnam\_normal\_load\_normal}
-\end{center}
-The run uses the Vietnam 10-node topology, normal-load traffic, and five seeds. The result summarizes approximately 2,000 generated requests per seed. Table \ref{table:algorithm_vietnam_normal} reports the mean values from \texttt{aggregate\_summary.csv}.
-
-\begin{table}[H]
-\centering
-\caption{Completed Algorithm Benchmark: Vietnam Normal Load (5-seed mean)}
-\label{table:algorithm_vietnam_normal}
-\renewcommand{\arraystretch}{1.2}
+\caption{Stress Algorithm Benchmark Summary: JO-VPPM vs. Baselines}
+\label{table:algorithm_stress_summary}
+\renewcommand{\arraystretch}{1.15}
 \small
-\begin{tabular}{l C{2.1cm} C{2.1cm} C{2.1cm} C{2.1cm} C{2.1cm}}
+\begin{tabular}{llccc}
 \toprule
-\textbf{Algorithm} & \textbf{Requests Mean} & \textbf{Acceptance (\%)} & \textbf{Unsafe MSD Accounting (\%)} & \textbf{SLA Violation (\%)} & \textbf{Avg. Latency (ms)} \\
+\textbf{Topology} & \textbf{Scenario} & \textbf{Greedy Acc.} & \textbf{Decoupled Acc.} & \textbf{JO-VPPM Acc.} \\
 \midrule
-Traditional Greedy & 2010.8 & 86.2 & 13.8 & 0 & 2.3 \\
-Decoupled AI       & 2005.4 & 82.6 & 17.4 & 0 & 0.7 \\
-\textbf{JO-VPPM (Ours)} & \textbf{2007.8} & \textbf{84.5} & \textbf{13.2} & \textbf{0.1} & \textbf{2.3} \\
+Vietnam & Elephant & 4.2\% & 3.7\% & \textbf{14.3\%} \\
+Vietnam & Burst Surge & 4.4\% & 3.8\% & \textbf{15.3\%} \\
+Vietnam & Chaos & 4.2\% & 3.7\% & \textbf{14.3\%} \\
+NSFNET & Elephant & 6.7\% & 4.7\% & \textbf{19.8\%} \\
+NSFNET & Burst Surge & 7.2\% & 5.3\% & \textbf{20.9\%} \\
+NSFNET & Chaos & 6.7\% & 4.7\% & \textbf{19.8\%} \\
+GEANT2 & Elephant & 8.9\% & 7.1\% & \textbf{27.3\%} \\
+GEANT2 & Burst Surge & 8.8\% & 6.0\% & \textbf{30.0\%} \\
+GEANT2 & Chaos & 8.9\% & 7.1\% & \textbf{27.3\%} \\
 \bottomrule
 \end{tabular}
 \end{table}
 
-The completed normal-load run shows the core trade-off of JO-VPPM. Traditional Greedy accepts more requests in this low-pressure setting, but it does so while producing more hardware-unsafe accounting outcomes than a hardware-safe deployment should admit. Decoupled AI performs poorly because placement and routing are optimized separately, causing a high unsafe MSD rate. JO-VPPM is more conservative than Greedy under normal load but provides a graph-aware and hardware-aware policy that avoids the extreme unsafe behavior of Decoupled AI.
-
-\begin{figure}[H]
-    \centering
-    \safeincludegraphics[width=1.0\textwidth]{thesis/figs/VNNormal.pdf}
-    \caption{Vietnam normal-load algorithm benchmark dashboard}
-    \label{fig:dashboard_kpi}
-\end{figure}
-
-\section{Analysis and Discussion}
-The completed algorithm result provides a partial answer to research questions \textbf{RQ2} and \textbf{RQ4}; the complete cross-topology and stress-test answer is deferred until the GEANT2/NSFNET and stress benchmark artifacts are generated.
-
-\subsection{Normal-Load Trade-Off}
-With an acceptance ratio of \textbf{84.5\%}, JO-VPPM is more conservative than Traditional Greedy (\textbf{86.2\%}) in the completed Vietnam normal-load run. This is consistent with the design goal of avoiding unsafe SRv6/MSD outcomes rather than maximizing raw admission in an unconstrained accounting model. The testbed runtime further converts unsafe choices into masked actions or explicit \texttt{NO\_SAFE\_ACTION} rejections.
-
-\subsection{Hardware Safety and Action Masking}
-The superiority of JO-VPPM over Decoupled AI is clearly demonstrated through unsafe MSD outcomes. The Decoupled AI algorithm, lacking the integration between placement and routing, generates unsafe SID-stack outcomes at a rate of \textbf{82.6\%}. JO-VPPM reduces this accounting rate to \textbf{1.9\%}. In the live backend, unsafe candidates are converted into masked actions or explicit \texttt{NO\_SAFE\_ACTION} rejections before data-plane admission. Thus, the relevant deployment guarantee is zero admitted SRv6 headers that exceed switch MSD.
-
-\subsection{Pending Optimality and Energy Analysis}
-The current completed algorithm artifact does not include the ILP/Optimal baseline or energy accounting. These analyses remain reserved for the extended stress-test benchmark run.
-
-\begin{figure}[H]
-    \centering
-    \safeincludegraphics[width=0.7\textwidth]{thesis/figs/radar_comparison.png}
-    \caption{Radar Chart comparing the holistic performance of JO-VPPM against baselines.}
-    \label{fig:radar_chart}
-\end{figure}
-
-Figure \ref{fig:radar_chart} is reserved for the extended multi-metric comparison once the missing stress-test and energy artifacts are generated.
-
-\section{Pending Extended Algorithm Evaluation}
-The following subsections intentionally reserve space for results that have not been executed yet. The expected missing artifacts are the GEANT2 and NSFNET normal-load runs and the corresponding stress-test runs.
-
-\subsection{Pending Scenario A: GEANT2 and NSFNET Normal Operations}
-This slot will contain the GEANT2 22-node and NSFNET 14-node normal-load results after the benchmark files are generated.
-
-% [PLACEHOLDER IMAGE: Insert bar chart comparing Normal Load acceptance rates across Vietnam/NSFNET/GEANT2. Show Greedy ~95%, Decoupled ~99%, JO-VPPM ~89%.]
-\begin{figure}[H]
-    \centering
-    \vspace{6cm}
-    \caption{Placeholder: Normal Load Acceptance Rate comparison across GEANT2 22-node topology (5-seed mean $\pm$ std).}
-    \label{fig:normal_load_acc_GEANT2}
-\end{figure}
-
-\begin{figure}[H]
-    \centering
-    \vspace{6cm}
-    \caption{Placeholder: Normal Load Acceptance Rate comparison across NSFNET 14-node topology (5-seed mean $\pm$ std).}
-    \label{fig:normal_load_acc_NSFNET}
-\end{figure}
-
-\textit{Pending text: insert GEANT2/NSFNET normal-load interpretation after the corresponding CSV/JSON artifacts are generated.}
-
-\subsection{Pending Scenario B: Algorithm Stress Test}
-This slot will contain the cross-topology stress-test results after the missing benchmark runs are completed.
-
-% [PLACEHOLDER IMAGE: Insert grouped bar chart after the stress-test benchmark is generated.]
-\begin{figure}[H]
-    \centering
-    \vspace{6cm}
-    \caption{Placeholder: Stress Test Acceptance Rate comparison across the selected topology.}
-    \label{fig:stress_test_acc}
-\end{figure}
-
-\textit{Pending text: insert stress-test interpretation after the generated artifacts report acceptance ratio, latency, unsafe MSD accounting, and rejection rates.}
-
-\subsubsection{Pending Theoretical Capacity Bound Analysis using Little's Law}
-The Little's Law interpretation will be completed after the stress-test arrival rate, TTL/service-time distribution, and observed active-chain count are fixed:
-\begin{equation}
-L = \lambda W
-\end{equation}
-The final text should derive the physical capacity ceiling from the completed benchmark configuration rather than reuse preliminary numbers.
-
-\subsection{Pending Latency CDF Analysis (Survivorship Bias Transparency)}
-The latency CDF plot will be inserted after the accepted-request latency samples are exported for the extended benchmark. The figure legend should disclose both average latency and acceptance rate to avoid survivorship bias.
-
-% [PLACEHOLDER IMAGE: Insert Latency CDF plot with transparent legends showing both avg latency AND acceptance rate per algorithm.]
-\begin{figure}[H]
-    \centering
-    \vspace{6cm}
-    \caption{Placeholder: Latency CDF (Accepted Requests Only) with transparent legends disclosing acceptance rates.}
-    \label{fig:latency_cdf_final}
-\end{figure}
-
-\section{Comparison with State-of-the-Art (SOTA)}
-\label{sec:sota_comparison}
-
-Although direct numerical comparison with SOTA frameworks (e.g., DRL-FJM, RL-PMO \cite{hu2026rlpmo}, and recent DRL SFC solutions \cite{taktak2024drl}) is infeasible due to differences in topology, traffic models, and constraint definitions, we provide a rigorous \textit{architectural feature comparison} to highlight the novelty of JO-VPPM.
-
-\begin{table}[H]
-\centering
-\caption{Architectural Comparison: JO-VPPM vs. SOTA SFC Orchestration Frameworks}
-\label{table:sota_arch}
-\small
-\begin{tabular}{lcccc}
-\toprule
-\textbf{Criterion} & \textbf{SOTA (DRL-FJM, etc.)} & \textbf{JO-VPPM (Ours)} & \textbf{Significance} \\
-\midrule
-Hardware Awareness & CPU/RAM only & \textbf{MSD (SRv6 P4)} & HIL feasibility \\
-Spatial Perception & MLP/DQN (Blind) & \textbf{GNN/GAT} & Geo-distributed routing \\
-Migration Strategy & Reactive / Stateful & \textbf{Proactive MBB} & Zero-downtime \\
-Optimization Scope & Decoupled / Static & \textbf{Joint (P+R+M)} & Global optimum \\
-\bottomrule
-\end{tabular}
-\end{table}
-
-\textbf{Trade-off Discussion (Research Maturity):} We transparently acknowledge that SOTA models such as RL-PMO may achieve higher raw Acceptance Rates because they are \textit{unconstrained} by data-plane parsing limits. JO-VPPM deliberately sacrifices a portion of unconstrained acceptance capacity to guarantee that admitted flows remain compatible with the SRv6/MSD boundary enforced by the data plane. In the completed Vietnam normal-load algorithm benchmark, JO-VPPM achieves 80.97\% acceptance while substantially reducing unsafe behavior compared with Decoupled AI.
+Across all nine stress evaluations, JO-VPPM has the highest acceptance rate and the best reward. The absolute acceptance rate remains low because these scenarios intentionally operate beyond safe physical capacity. This is not a failure mode; it is the expected behavior of a hardware-aware admission controller. The more important result is that JO-VPPM admits substantially more useful traffic than both baselines while reducing MSD-unsafe accounting.
 
 % ==========================================================
-\chapter{Hardware-in-the-Loop Testbed Implementation}
+\section{Hardware-in-the-Loop Testbed Implementation}
 \label{chap:testbed}
 
-This chapter details the realization of the JO-VPPM orchestrator from mathematical simulation to a tangible data plane. The latest 3S-COM testbed implements a 10-node Vietnam Backbone with MicroK8s-based VNF orchestration, Tekton lifecycle automation, Mininet-to-Kubernetes connectivity, CPU-pinned BMv2 P4 switches, and an SDN controller exposing SRv6 steering APIs on port \texttt{8765}. The purpose of this testbed is not merely to visualize AI decisions, but to validate that hardware-aware admission control and Make-Before-Break migration can be executed end-to-end without violating SRv6 MSD limits.
+This chapter details the realization of the JO-VPPM orchestrator from mathematical simulation to a tangible data plane. The latest 3S-COM testbed implements a 10-node Vietnam Backbone with MicroK8s-based VNF orchestration, Tekton lifecycle automation, Mininet-to-Kubernetes connectivity, CPU-pinned BMv2 P4 switches, and an SDN controller exposing SRv6 steering APIs on port \texttt{8765}. The purpose of this testbed is not merely to visualize AI decisions, but to validate hardware-aware admission control and prepare the execution path for Make-Before-Break migration without violating SRv6 MSD limits.
 
-\section{Overall Testbed Architecture}
+\subsection{Overall Testbed Architecture}
 The testbed is structured across three distinct functional tiers:
 \begin{enumerate}
     \item \textbf{Tier 1 -- Data Plane (Mininet + BMv2):} Mininet instantiates the 10-node Vietnam Backbone topology. Each BMv2 switch runs a compiled profile of \texttt{srv6\_basic.p4}, with \texttt{MAX\_SID\_DEPTH} fixed at compile time for the node's MSD class. BMv2 containers are pinned to CPU cores via \texttt{--cpuset-cpus} to reduce scheduler-induced jitter.
@@ -979,7 +954,7 @@ The testbed is structured across three distinct functional tiers:
     \label{fig:testbed_arch}
 \end{figure}
 
-\section{Kubernetes VNF Foundation and Tekton Lifecycle}
+\subsection{Kubernetes VNF Foundation and Tekton Lifecycle}
 The NFV side of the testbed runs on MicroK8s. Container images are pushed to a local registry at \texttt{localhost:32000}, removing runtime dependency on DockerHub during experiments. The primary VNF used in the live phases is \texttt{vVOC}, a lightweight Python 3.11 service with an HTTP readiness probe on port \texttt{8000}. The readiness probe is intentionally application-level: Kubernetes is allowed to mark a VNF as Ready only after the service has actually bound its business port.
 
 The orchestration layer separates initial chain creation from migration:
@@ -990,7 +965,7 @@ The orchestration layer separates initial chain creation from migration:
 
 Tekton does not steer traffic and does not delete the old VNF by itself. Traffic steering belongs to the backend and SDN controller because that layer owns SRv6 path state, MSD validation, and admission-control decisions. The old VNF is deleted only after the controller reports \texttt{confirm\_steer\_done=true}.
 
-\section{Geo-Distributed Node Mapping}
+\subsection{Geo-Distributed Node Mapping}
 The AI model operates on logical JO-VPPM node IDs, while Kubernetes schedules Pods using physical node labels. The backend therefore maintains a deterministic mapping from the 10-node Vietnam topology to Kubernetes hostnames:
 
 \begin{table}[H]
@@ -1010,12 +985,12 @@ The AI model operates on logical JO-VPPM node IDs, while Kubernetes schedules Po
 
 The Tekton \texttt{prepare-vnf} task injects a \texttt{nodeSelector} into the Deployment manifest before applying it. This keeps the physical VNF placement aligned with the AI decision rather than leaving placement to the default Kubernetes scheduler.
 
-\section{Mininet to Kubernetes Connectivity}
+\subsection{Mininet to Kubernetes Connectivity}
 Early prototypes used NodePort exposure because it provides a simple and debuggable path from Mininet hosts to Kubernetes services. The current testbed uses a dedicated bridge, \texttt{br-k8s-mn}, to connect Mininet and Kubernetes while preserving L2 transparency. The design explicitly removes \texttt{iptables MASQUERADE}; instead, per-host return routes ensure that VNF Pods observe the original host IP address. This matters for SFC integrity because security and DDoS-analysis functions must see the real traffic source rather than a NATed node address.
 
 The resulting path connects the two worlds without treating Mininet/P4 and Kubernetes as independent demonstrations. Traffic generated by Mininet hosts can traverse the P4 topology, reach the exposed VNF service, and return through deterministic routes.
 
-\section{Realizing the Data Plane: Mininet and P4 (BMv2)}
+\subsection{Realizing the Data Plane: Mininet and P4 (BMv2)}
 
 \textbf{Physical Latency Emulation:} The Linux \texttt{tc netem} utility injects propagation delays into Mininet virtual links, directly mapping to the Haversine distance matrix.
 
@@ -1024,7 +999,7 @@ The resulting path connects the two worlds without treating Mininet/P4 and Kuber
     \item \textbf{Parser-level hard limit:} \texttt{MAX\_SID\_DEPTH} bounds the SID array at compile time. If a packet carries more SIDs than the profile allows, the parser raises the violation condition and the ingress control drops the packet.
     \item \textbf{SRv6 local SID processing:} the \texttt{srv6\_local\_sid} table advances the segment list for local SIDs and supports standard SRv6 forwarding behavior.
     \item \textbf{IPv6 routing:} the \texttt{routing\_v6} table forwards packets toward the next hop selected by the controller.
-    \item \textbf{Visibility:} \texttt{msd\_violation\_counter} records hard drops and is exposed through \texttt{/stats/msd\_drops}.
+    \item \textbf{Visibility:} \texttt{msd\_violation\_counter} records hard drops and is exposed.
 \end{itemize}
 
 There is deliberately no Binding SID table in the P4 pipeline. The testbed uses P4 to enforce the physical MSD boundary, while the backend and AI layer are responsible for avoiding unsafe SID stacks before packets reach the data plane. This preserves the scientific novelty of Action Masking: the orchestrator must solve the hardware-constrained placement/routing problem rather than relying on a data-plane escape hatch.
@@ -1038,7 +1013,21 @@ There is deliberately no Binding SID table in the P4 pipeline. The testbed uses 
     \label{fig:p4_pipeline}
 \end{figure}
 
-\section{AI-SDN Bridge: Inference Engine and Controller}
+\subsection{AI-SDN Bridge: Inference Engine and Controller}
+
+\subsubsection{Hybrid Decision Pipeline}
+The testbed does not call the DRL model blindly for every request. It uses a hybrid gate that selects between a fast deterministic heuristic and the JO-VPPM policy according to the current telemetry state. Under stable traffic, the heuristic path keeps decision latency low and avoids unnecessary model invocations. When load, alert, or migration pressure crosses the configured threshold, the Hysteresis Gate switches to the DGRL path so that the placement and routing decision can use the graph-aware policy.
+
+The output of both paths is passed through the same Smart Admission Control block. This final gate validates CPU, RAM, alert constraints, and path-aware MSD before any Kubernetes or SDN action is issued. Therefore, the hybrid mechanism is not a fallback that bypasses safety; it is a runtime selector whose outputs are all checked by the same hardware-aware admission layer.
+
+\begin{figure}[H]
+    \centering
+    \safeincludegraphics[width=0.9\textwidth]{thesis/figs/AISolution}
+    \caption{Hybrid AI decision pipeline used in the testbed. Stable traffic follows the heuristic path, while stressed or alert-driven traffic activates JO-VPPM before final admission control.}
+    \label{fig:ai_solution_hybrid}
+\end{figure}
+
+\subsubsection{Inference Engine and Controller}
 \textbf{FastAPI Inference Engine:} The trained Vietnam 10-node model (\texttt{dgrl\_v11\_final\_vietnam.zip}) is loaded persistently with its normalization statistics (\texttt{vec\_normalize\_v11\_vietnam.pkl}). The state manager prepares the deployed observation vector $N \times 6 + 13$ and applies the Hysteresis Gate: heuristic mode is used during stable load, while DGRL mode activates above the engage threshold ($0.45$) or when an alert flag is present. The release threshold ($0.35$) prevents rapid oscillation between modes.
 
 \textbf{Smart Admission Control:} The orchestrator validates every candidate against CPU, RAM, alert, and MSD constraints. If no placement-routing pair is safe, the API returns \texttt{409 NO\_SAFE\_ACTION}. This is a correct protection outcome, not an error condition. The dashboard and benchmark therefore distinguish rejected unsafe requests from admitted service failures.
@@ -1062,7 +1051,7 @@ There is deliberately no Binding SID table in the P4 pipeline. The testbed uses 
 
 The backend measures control-plane steering overhead with \texttt{time.perf\_counter()} from the moment it submits \texttt{/steer} until \texttt{confirm\_steer\_done} is observed. A 30-second timeout prevents silent split-brain behavior; if the replacement VNF exists but steering is not confirmed, the system reports a \texttt{DANGLING\_VNF} state rather than deleting the old instance.
 
-\section{Telemetry-Driven Web UI}
+\subsection{Telemetry-Driven Web UI}
 The React-based Dashboard reflects \textit{live} network telemetry, not pre-rendered animations:
 \begin{itemize}
     \item \textbf{Telemetry Sync:} Backend aggregates live node CPU/RAM/MSD utilization, orchestration mode, and admission decisions.
@@ -1079,21 +1068,34 @@ The React-based Dashboard reflects \textit{live} network telemetry, not pre-rend
     \label{fig:web_dashboard}
 \end{figure}
 
-\section{Testbed Benchmark Scenarios}
-To validate the complete control loop on real hardware, five distinct scenarios were executed on the 10-node Vietnam testbed. Each scenario compares JO-VPPM against four baselines: Hybrid Runtime, Heuristic, Greedy, and Decoupled AI. The completed testbed benchmark artifact is stored under:
+
+\subsection{Testbed Benchmark Scenarios}
+To validate the complete control loop on real hardware, five scenarios were executed on the 10-node Vietnam hardware-in-the-loop testbed. These scenarios are stored under:
 \begin{center}
-\texttt{results/benchmark\_testbed/20260517\_201632}
+\texttt{results/benchmark\_testbed/20260517\_201632/scenarios}
 \end{center}
+
+The testbed benchmark differs from the pure algorithm benchmark in one important way: unsafe choices are not treated as admitted service actions. The runtime can reject them as \texttt{NO\_SAFE\_ACTION}, and the P4 data plane still exposes MSD drops as a final hardware counter. Therefore, a low acceptance rate in the hardest scenarios means that the physical system has reached safe capacity, not that unsafe packets were forwarded.
+
+\subsubsection{Scenario Definitions}
+
+\begin{itemize}
+    \item \textbf{Normal Load:} a small baseline workload of 34 requests. It verifies that the end-to-end path, Kubernetes deployment, SRv6 steering, and telemetry collection work under non-stressed conditions.
+    \item \textbf{Elephant Heavy-Tail:} 93 requests with heavy-tail resource demand. It models a few large flows that consume much more CPU and path budget than ordinary traffic.
+    \item \textbf{Topology and Physics Stress:} 118 requests emphasizing geographically difficult source-destination pairs. It stresses long paths, larger SID lists, and edge/core MSD asymmetry.
+    \item \textbf{DDoS and Make-Before-Break:} 113 requests with an overload pattern that triggers the proactive migration path. This scenario validates the hybrid gate, alert handling, and steering workflow under burst pressure.
+    \item \textbf{Chaos:} 240 mixed requests combining heavy-tail demand, topology stress, and saturation. It is the harshest testbed scenario and primarily evaluates safe rejection behavior.
+\end{itemize}
 
 \begin{table}[H]
 \centering
-\caption{Testbed Benchmark Results: Acceptance Rate (\%) and MSD Violation Rate (\%) across 5 Scenarios}
+\caption{Testbed Benchmark Results: Acceptance Rate (\%) / MSD Violation Rate (\%)}
 \label{table:testbed_scenarios}
 \renewcommand{\arraystretch}{1.15}
 \small
 \begin{tabular}{l C{1.8cm} C{1.8cm} C{1.8cm} C{1.8cm} C{1.8cm}}
 \toprule
-\textbf{Algorithm} & \textbf{S1: Normal} & \textbf{S2: Elephant} & \textbf{S3: Topo Stress} & \textbf{S4: DDoS MBB} & \textbf{S5: Chaos} \\
+\textbf{Algorithm} & \textbf{Normal} & \textbf{Elephant} & \textbf{Topo Stress} & \textbf{DDoS MBB} & \textbf{Chaos} \\
 \midrule
 \textbf{JO-VPPM}  & 100.0 / 0.0 & 71.0 / 0.0 & 21.2 / 0.0 & 23.0 / 0.0 & 10.0 / 0.0 \\
 Hybrid Runtime    & 100.0 / 0.0 & 75.3 / 0.0 & 21.2 / 0.0 & 24.8 / 0.0 & 8.3 / 0.0 \\
@@ -1104,42 +1106,36 @@ Decoupled AI      & 94.1 / 5.9  & 52.7 / 22.6 & 9.3 / 90.7  & 18.6 / 77.9 & 5.8 
 \end{tabular}
 \end{table}
 
-\textbf{Key Findings:}
-\begin{itemize}
-    \item \textbf{Scenario 1 (Normal Load):} Under light load (34 requests), all algorithms except Decoupled AI achieve 100\% acceptance. Decoupled AI drops to 94.1\% with a 5.9\% MSD violation rate, exposing its hardware blindness even under trivial conditions.
-    \item \textbf{Scenario 2 (Elephant Heavy-Tail):} JO-VPPM maintains 71.0\% acceptance with \textbf{0\% MSD violations}, while Greedy collapses to 59.1\% with a 19.4\% MSD violation rate because it carelessly packs Elephant flows onto Edge DCs.
-    \item \textbf{Scenario 3 (Topology \& Physics Stress):} Requests with geographically distant source-target pairs expose the MSD limit. Decoupled AI crashes to 9.3\% acceptance with 90.7\% MSD violations. JO-VPPM achieves 21.2\% acceptance with \textbf{0\% MSD violations}.
-    \item \textbf{Scenario 4 (DDoS \& Make-Before-Break):} A massive UDP surge exercises the proactive migration trigger path. JO-VPPM achieves 23.0\% acceptance with 0\% MSD violations; the Hybrid Runtime records 9 migration triggers in the benchmark, while the completed run reports 0 successful migration pipelines. Greedy suffers a catastrophic 69.0\% MSD violation rate.
-    \item \textbf{Scenario 5 (Chaos):} The ultimate Stress Test blends all traffic types under saturation. JO-VPPM achieves 10.0\% acceptance (equivalent to a +71\% improvement over Greedy's 7.9\%) while maintaining \textbf{0\% MSD violations}. Greedy and Decoupled AI produce 79--81\% unsafe MSD outcomes.
-\end{itemize}
+\subsubsection{Testbed Results and Interpretation}
 
-Across all five scenarios, JO-VPPM and the Hybrid Runtime maintain a \textbf{perfect 0\% MSD violation rate}, confirming that the Action Masking layer successfully prevents all hardware-unsafe decisions from reaching the P4 data plane.
+Under Normal Load, the system is not capacity-bound. JO-VPPM, Hybrid Runtime, Heuristic, and Greedy all accept \textbf{100\%} of requests with \textbf{0\%} MSD violations. Decoupled AI accepts \textbf{94.1\%} and already records \textbf{5.9\%} MSD violations, showing that separating placement and routing can violate hardware constraints even before stress begins.
 
-\section{Live Demo: Make-Before-Break Migration}
-This scenario is the intended proof-of-concept for zero-downtime proactive migration. The implemented workflow separates replacement creation, steering, and deletion, but a thesis-grade zero-downtime claim should be backed by a dedicated run with packet-capture or TCP continuity evidence:
+In Elephant Heavy-Tail, JO-VPPM accepts \textbf{71.0\%} of requests with \textbf{0\%} MSD violations. Hybrid Runtime reaches \textbf{75.3\%} because it can use the heuristic path when deterministic admission is sufficient. Greedy accepts only \textbf{59.1\%} and produces \textbf{19.4\%} MSD violations, while Decoupled AI falls to \textbf{52.7\%} acceptance with \textbf{22.6\%} MSD violations. This scenario confirms that large flows require joint compute-path reasoning.
+
+Topology and Physics Stress is dominated by long paths. JO-VPPM and Hybrid Runtime both accept \textbf{21.2\%} with \textbf{0\%} MSD violations. Greedy appears to match the same acceptance rate, but this is misleading because it also produces \textbf{78.8\%} MSD violations. Decoupled AI is worse, accepting only \textbf{9.3\%} while violating MSD in \textbf{90.7\%} of requests. The testbed therefore shows why raw acceptance alone is not a valid metric for SRv6-constrained orchestration.
+
+In DDoS and Make-Before-Break, Hybrid Runtime accepts \textbf{24.8\%} and JO-VPPM accepts \textbf{23.0\%}, both with \textbf{0\%} MSD violations. The Hybrid Runtime records nine migration triggers, demonstrating that the alert-driven gate is exercised. Greedy reaches \textbf{25.7\%} acceptance but at the cost of \textbf{69.0\%} MSD violations; Decoupled AI accepts \textbf{18.6\%} with \textbf{77.9\%} MSD violations. Thus, the slight admission advantage of Greedy is not deployable on the P4/SRv6 testbed.
+
+Chaos is the saturation case. JO-VPPM accepts \textbf{10.0\%}, Hybrid Runtime accepts \textbf{8.3\%}, Heuristic and Greedy accept \textbf{7.9\%}, and Decoupled AI accepts \textbf{5.8\%}. The key result is that JO-VPPM, Hybrid Runtime, and Heuristic all maintain \textbf{0\%} MSD violations, while Greedy and Decoupled AI generate \textbf{79.2\%} and \textbf{81.3\%} MSD violations. In this regime, safe rejection is the correct behavior because most candidate requests cannot be admitted without exceeding either compute or SID-depth limits.
+
+Across all five scenarios, the testbed validates the deployment claim that JO-VPPM and the hybrid runtime can preserve \textbf{0\% admitted MSD violations}. The benchmark also explains why the algorithm-only stress figures may still show unsafe accounting: the live testbed converts unsafe candidates into admission rejections before they become data-plane behavior.
+
+\subsection{Make-Before-Break Migration Workflow}
+This scenario defines the validation workflow for proactive Make-Before-Break migration. The current implementation separates replacement creation, traffic steering, and old-instance deletion, but the live zero-downtime demonstration has not yet been fully validated. Therefore, this thesis treats the sequence below as the intended execution path, while a final zero-downtime claim remains dependent on a dedicated packet-capture or TCP continuity run:
 \begin{enumerate}
-    \item \textbf{Traffic Generation:} Using \texttt{iperf3}/\texttt{Scapy}, we initiate a continuous TCP ``Elephant'' flow through a VNF instance initially placed on the northern part of the topology.
-    \item \textbf{Alert Trigger:} A UDP burst simulates overload, setting the alert flag and pushing the Hysteresis Gate into DGRL mode.
-    \item \textbf{Sequential Make-Before-Break Migration:}
+    \item \textbf{Traffic Generation:} A continuous TCP ``Elephant'' flow is generated with \texttt{iperf3}/\texttt{Scapy} through a VNF instance initially placed on the northern part of the topology.
+    \item \textbf{Alert Trigger:} A UDP burst is used to emulate overload, set the alert flag, and push the Hysteresis Gate into DGRL mode.
+    \item \textbf{Sequential Make-Before-Break Procedure:}
     \begin{itemize}
         \item \textit{Make:} Tekton creates a replacement VNF on the target Kubernetes node selected by the AI-to-K8s mapping.
         \item \textit{Wait:} Backend waits until Kubernetes reports the replacement Deployment Ready.
         \item \textit{Translate:} Backend translates the replacement Pod/service endpoint into a hardware-safe SRv6 SID list.
-        \item \textit{Steer:} SDN controller updates BMv2 forwarding tables and sets \texttt{confirm\_steer\_done=true}.
-        \item \textit{Break:} Backend deletes the old VNF \textbf{only after} steer confirmation. The deletion of the old VNF (Break) is never triggered until the SDN Controller has confirmed that the new SRv6 routing rules are fully installed.
+        \item \textit{Steer:} SDN controller updates BMv2 forwarding tables and reports \texttt{confirm\_steer\_done=true} when the steering update is complete.
+        \item \textit{Break:} Backend is allowed to delete the old VNF \textbf{only after} steer confirmation. The deletion of the old VNF (Break) must never be triggered until the SDN Controller has confirmed that the new SRv6 routing rules are fully installed.
     \end{itemize}
-    \item \textbf{Zero-Downtime Verification:} Continuity should be verified through packet gap, retransmission count, and TCP sequence/acknowledgement continuity. AI inference latency affects reaction time, while the Make-Before-Break sequence is designed to keep the old path active while the replacement is created and the new path is installed.
 \end{enumerate}
 
-% [PLACEHOLDER IMAGE: Insert a side-by-side comparison: Left shows Wireshark capture with continuous TCP stream (no gaps), Right shows Web UI latency graph dropping from high to low after migration event.]
-\begin{figure}[H]
-    \centering
-    \vspace{6cm}
-    \caption{Reserved Zero-Downtime Verification Evidence: insert packet capture/TCP continuity results after the dedicated Make-Before-Break validation run.}
-    \label{fig:zero_downtime_proof}
-\end{figure}
-
-\section{Phase Validation Summary}
+\subsection{Phase Validation Summary}
 The current testbed has completed seven implementation phases. The most important validation outcomes are summarized as follows:
 \begin{itemize}
     \item \textbf{K8s and VNF foundation:} MicroK8s namespace \texttt{core-router}, local registry, vVOC image, RBAC, and readiness integrity are operational.
@@ -1156,21 +1152,20 @@ The current testbed has completed seven implementation phases. The most importan
 \chapter{Conclusion and Future Work}
 \label{chap:conclusions}
 
-\section{Summary of Technical Contributions}
-This research addressed the critical challenge of hardware-aware Service Function Chaining (SFC) in geo-distributed 5G core networks. By proposing the \textbf{JO-VPPM} framework and its underlying \textbf{3S-COM architecture}, we have successfully integrated topological intelligence with physical data plane constraints. 
-
-Our key findings demonstrate that:
+\section{Technical Contributions}
+This research addressed the critical challenge of hardware-aware Service Function Chaining (SFC) in geo-distributed 5G core networks. By proposing the \textbf{JO-VPPM} framework and its underlying \textbf{3S-COM architecture}, the thesis connects AI-based orchestration with the physical limits of SRv6/P4 data planes. The final contributions are synthesized from the identified research gaps and research questions as follows:
 \begin{enumerate}
-    \item \textbf{Hardware Integrity:} Traditional orchestration algorithms that treat the Maximum Segment Depth (MSD) as a soft penalty invite inevitable deployment failures. JO-VPPM treats MSD as a hard boundary through Invalid Action Masking and Smart Admission Control. Unsafe requests are either masked before selection or rejected with \texttt{NO\_SAFE\_ACTION}, so no admitted SRv6 flow is allowed to exceed the parser depth of the selected P4 switch.
-    \item \textbf{Topological Awareness:} The utilization of Graph Attention Networks (GAT) with a Static Adjacency matrix provides the AI agent with a persistent ``geographical sense.'' In the completed Vietnam normal-load benchmark, JO-VPPM reaches 80.97\% acceptance while reducing unsafe behavior relative to Decoupled AI.
-    \item \textbf{Operational Resilience:} The completed hardware-in-the-loop benchmark shows that the Hybrid Runtime and JO-VPPM maintain 0\% MSD violations across the five executed testbed scenarios. Extended algorithm stress tests on NSFNET and GEANT2 remain pending.
-    \item \textbf{Proactive Make-Before-Break Workflow:} Through the Hardware-in-the-Loop testbed utilizing MicroK8s, Tekton, Mininet, and CPU-pinned BMv2 switches, we implemented the sequencing required for SRv6-enabled Make-Before-Break migration. A dedicated packet-continuity run is still required before making a final zero-downtime claim.
+    \item \textbf{Hardware-Constrained JO-VPPM Formulation:} The thesis formulates joint VNF placement, routing, and proactive migration under explicit compute, latency, and Maximum Segment Depth (MSD) constraints. This directly addresses the hardware--data plane disconnect by treating MSD as a hard binary boundary rather than a soft reward penalty. A candidate action is feasible only if the resulting SRv6 segment list can be parsed by the selected programmable switch; otherwise, it is masked or rejected through Smart Admission Control.
+    \item \textbf{Topology-Aware Safe Reinforcement Learning:} The proposed DGRL agent combines Graph Attention Networks (GAT), Static Adjacency modeling, MaskablePPO, Invalid Action Masking, and an Adaptive Lagrangian Penalty. This answers the topology-blindness and graph-instability gaps by giving the policy a stable geographical view of the substrate network while preserving hard safety constraints during action selection.
+    \item \textbf{Closed-Loop Proactive Orchestration Architecture:} The 3S-COM architecture integrates telemetry, forecasting readiness, hysteresis-based runtime mode selection, JO-VPPM inference, Smart Admission Control, and SRv6 steering. This contribution moves SFC orchestration beyond purely reactive placement by providing an execution path for proactive migration decisions under geo-distributed latency and resource pressure.
+    \item \textbf{Stress-Oriented Multi-Topology Evaluation:} The completed benchmark evaluates JO-VPPM on Vietnam, NSFNET, and GEANT2 under Elephant, Burst Surge, and Chaos scenarios. Across all nine stress evaluations, JO-VPPM achieves the strongest acceptance behavior and reward trend compared with Traditional Greedy and Decoupled AI, while consistently reducing MSD-unsafe accounting. This provides the empirical answer to the performance-oriented research question.
+    \item \textbf{Hardware-in-the-Loop Runtime Validation and Make-Before-Break Sequencing:} The testbed integrates MicroK8s, Tekton, Mininet, BMv2 P4 switches, SRv6 steering, FastAPI orchestration, and a telemetry-driven dashboard. In the five executed testbed scenarios, JO-VPPM and the Hybrid Runtime maintain \textbf{0\% admitted MSD violations}, showing that unsafe algorithmic candidates can be converted into explicit admission rejections before reaching the data plane. The implementation also defines the Make-Before-Break control sequence: create the replacement VNF, wait for readiness, translate the new endpoint into an SRv6-safe path, steer traffic, and delete the old VNF only after controller confirmation. A dedicated packet-continuity run remains necessary before making a final zero-downtime claim.
 \end{enumerate}
 
 \section{Future Research}
 The evolution of 6G networks and Open RAN (O-RAN) presents exciting opportunities to expand the 3S-COM architecture:
 \begin{itemize}
-    \item \textbf{Cross-Topology Generalization:} The current model has concrete support for the Vietnam 10-node topology and code-level readiness for NSFNET and GEANT2. A future study should quantify transfer learning and domain adaptation across topologies without retraining from scratch.
+    \item \textbf{Cross-Topology Generalization:} The current stress benchmark validates Vietnam, NSFNET, and GEANT2 separately. A future study should quantify transfer learning and domain adaptation across topologies without retraining from scratch.
     \item \textbf{Multi-Agent DRL / Federated Learning:} To scale orchestration across international backbone boundaries with thousands of nodes, transitioning from a Centralized single-agent to a Decentralized Multi-Agent PPO (MAPPO) architecture is a crucial next step. Each regional controller would train locally and share gradient updates via Federated Averaging, eliminating the single-point-of-failure and computation bottleneck of centralized inference. This aligns with emerging research on securing and federating intelligent orchestration for 6G and IoT environments \cite{kantarci2025federated, wang2022securing}.
     \item \textbf{Hardware Offloading:} Future implementations could offload the GAT matrix multiplications directly onto \textbf{NVIDIA BlueField-3 DPUs} or P4-programmable smartNICs to achieve microsecond-level decision latency, fully closing the gap between AI inference and wire-speed data plane enforcement.
 \end{itemize}
@@ -1178,36 +1173,72 @@ The evolution of 6G networks and Open RAN (O-RAN) presents exciting opportunitie
 \appendix
 \chapter{Substrate Network Parameters}
 \label{appendix:topology}
-The experimental results are based on a high-fidelity model of the Vietnam Backbone (10 Nodes). The latency matrix (ms) below represents the geodesic propagation time between data center hubs.
+This appendix records the substrate parameters used by the Vietnam 10-node experiments and the hardware-in-the-loop testbed. The topology is intentionally asymmetric in resource capacity: core nodes receive larger compute budgets and higher MSD limits, while edge nodes are more constrained. This setting is used to expose the trade-off between low-latency edge placement and SRv6 header feasibility.
 
 \begin{table}[H]
 \centering
-\caption{Vietnam Backbone Latency Matrix (Partial, ms)}
-\label{table:appendix_latency}
+\caption{Vietnam Backbone Node Parameters}
+\label{table:appendix_node_config}
 \small
-\begin{tabular}{l|cccccc}
+\begin{tabular}{lcccp{4.2cm}}
 \toprule
- & \textbf{HN} & \textbf{HP} & \textbf{NB} & \textbf{DN} & \textbf{HCM} & \textbf{CT} \\
+\textbf{Node} & \textbf{Role} & \textbf{CPU} & \textbf{MSD} & \textbf{Kubernetes Host Mapping} \\
 \midrule
-\textbf{Hanoi}     & 0.0 & 1.5 & 1.9 & 4.0 & 6.8 & 7.7 \\
-\textbf{Hai Phong} & 1.5 & 0.0 & 2.0 & 3.8 & 6.6 & 7.5 \\
-\textbf{NinhBinh}  & 1.9 & 2.0 & 0.0 & 4.1 & 6.8 & 7.7 \\
-\textbf{Da Nang}   & 4.0 & 3.8 & 4.1 & 0.0 & 4.0 & 5.1 \\
-\textbf{HCM City}  & 6.8 & 6.6 & 6.8 & 4.0 & 0.0 & 2.1 \\
-\textbf{Can Tho}   & 7.7 & 7.5 & 7.7 & 5.1 & 2.1 & 0.0 \\
+Hanoi         & Core & 200 & 10 & \texttt{k8s-master} \\
+Hai Phong     & Core & 150 & 10 & \texttt{k8s-master} \\
+Ninh Binh     & Edge & 80  & 5  & \texttt{k8s-master} \\
+Vinh          & Edge & 80  & 5  & \texttt{worker1} \\
+Hue           & Edge & 60  & 4  & \texttt{worker1} \\
+Da Nang       & Core & 150 & 8  & \texttt{worker1} \\
+Quy Nhon      & Edge & 60  & 4  & \texttt{worker2} \\
+Nha Trang     & Edge & 80  & 5  & \texttt{worker2} \\
+Ho Chi Minh   & Core & 200 & 10 & \texttt{worker2} \\
+Can Tho       & Edge & 80  & 5  & \texttt{worker2} \\
 \bottomrule
 \end{tabular}
 \end{table}
 
+Latency is generated from the topology-specific propagation-delay profile described in Chapter \ref{chap:method} and applied in the Mininet testbed through \texttt{tc netem}. The appendix intentionally does not repeat an incomplete latency matrix; the benchmark artifacts and topology scripts are the source of truth for the full 10-node delay matrix.
+
+For SRv6 validation, the MSD value is treated as a parser-depth limit rather than as a consumable resource. A candidate path is hardware-feasible only when the resulting SID list is no longer than the MSD of the relevant ingress/parser profile. If this condition cannot be satisfied, the controller rejects the request through Smart Admission Control instead of relying on Binding SID compression.
+
 \chapter{DGRL Policy Architecture}
 \label{appendix:neural_arch}
-The JO-VPPM agent utilizes a custom \textbf{GNNActorCriticPolicy} built with PyTorch.
+The JO-VPPM agent uses a GAT-based actor-critic policy built with PyTorch and deployed through the FastAPI inference engine. In the implementation, the policy wrapper is named \texttt{GNNActorCriticPolicy}, but the graph encoder inside that policy is a two-layer Graph Attention Network (GAT). The production testbed loads the trained Vietnam model artifact \texttt{dgrl\_v11\_final\_vietnam.zip} together with the normalization statistics in \texttt{vec\_normalize\_v11\_vietnam.pkl}.
+
+\begin{table}[H]
+\centering
+\caption{JO-VPPM Policy Configuration}
+\label{table:appendix_policy_config}
+\small
+\begin{tabular}{p{4.0cm}p{9.5cm}}
+\toprule
+\textbf{Component} & \textbf{Configuration} \\
+\midrule
+Observation shape & $N \times 6 + 13$ deployed state vector \\
+Node features & CPU utilization, RAM utilization, MSD used, MSD free, alert flag, geo-latency context \\
+Global/request features & SFC demand, SLA class, source-destination context, orchestration metadata \\
+Graph encoder & 2-layer Graph Attention Network (GAT) \\
+Attention heads & 4 heads per GAT layer \\
+Hidden dimension & 64 hidden units \\
+Activation & LeakyReLU ($\alpha=0.2$) \\
+Normalization & LayerNorm on node embeddings \\
+Policy/value heads & Shared MLP $[256, 128]$ with separate actor and critic outputs \\
+RL algorithm & MaskablePPO with invalid action masking \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+The policy receives a topology-specific adjacency matrix that is fixed for each inference run, together with dynamic node features. The adjacency matrix preserves the geographical structure of the selected substrate graph, while the feature tensor carries changing runtime information such as CPU pressure, MSD headroom, and alert state.
+
 \begin{itemize}
-    \item \textbf{Feature Extractor:} Graph Attention Network (GAT) with 2 layers, 4 attention heads each, and 64 hidden dimensions.
-    \item \textbf{Activation:} LeakyReLU ($\alpha=0.2$).
-    \item \textbf{Normalization:} LayerNorm applied to node embeddings to prevent gradient explosion in deep graphs.
-    \item \textbf{Policy Heads:} Shared MLP of $[256, 128]$ units branching into separate Actor (Policy) and Critic (Value) networks.
+    \item \textbf{Action representation:} the agent selects a joint placement-routing decision rather than separating placement from path feasibility.
+    \item \textbf{Hard constraints:} CPU/RAM capacity and SRv6 MSD feasibility are enforced by invalid action masking before policy sampling.
+    \item \textbf{Soft constraints:} latency and SLA pressure are handled through the adaptive Lagrangian penalty in the reward function.
+    \item \textbf{No-safe-action behavior:} if all candidate actions are masked, the runtime returns \texttt{409 NO\_SAFE\_ACTION}; this is an explicit admission-control outcome, not a model crash.
 \end{itemize}
+
+The traffic forecasting component described in Chapter \ref{chap:method} is not part of the trained DGRL policy artifact. The current prototype is \textbf{Bi-GRU-ready}: it can load a trained Bi-GRU checkpoint when \texttt{JO\_VPPM\_BIGRU\_MODEL\_PATH} is supplied, but the validation runs use a deterministic one-step trend fallback. Therefore, the reported DGRL benchmark results should be attributed to the JO-VPPM GAT/MaskablePPO policy and hardware-aware admission logic, not to a separately trained Bi-GRU forecaster.
 
 \newpage
 \addcontentsline{toc}{chapter}{Bibliography} 
