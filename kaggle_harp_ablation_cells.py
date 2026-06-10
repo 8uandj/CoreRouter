@@ -154,7 +154,10 @@ def ensure_sb3_model_zip(topology: str) -> None:
                 archive.write(file_path, file_path.relative_to(root))
 
 for topo in ["vietnam", "nsfnet", "geant2"]:
-    ensure_sb3_model_zip(topo)
+    try:
+        ensure_sb3_model_zip(topo)
+    except FileNotFoundError:
+        print(f"Skipping model check for {topo} (file/folder not found)")
 
 for required in [
     "src/analytics/ablation_study.py",
