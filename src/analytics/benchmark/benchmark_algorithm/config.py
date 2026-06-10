@@ -16,6 +16,7 @@ SCENARIO_CHOICES = [
     "burst_surge",
     "chaos",
     "thesis",
+    "ablation",
     "all",
 ]
 
@@ -75,6 +76,12 @@ def scenario_jobs(scenario: str, load: str) -> List[Tuple[str, str, str]]:
     if scenario == "thesis":
         return [
             ("normal_load", "uniform", "normal"),
+            ("elephant_stress", "heavy_tail", "stress"),
+            ("burst_surge", "bursty", "stress"),
+            ("chaos", "heavy_tail", "stress"),
+        ]
+    if scenario == "ablation":
+        return [
             ("elephant_stress", "heavy_tail", "stress"),
             ("burst_surge", "bursty", "stress"),
             ("chaos", "heavy_tail", "stress"),

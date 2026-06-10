@@ -46,11 +46,13 @@ class JOVDPREnv(gym.Env):
                  repository: IRepository,
                  reward_calculator: Optional[RewardCalculator] = None,
                  topology_manager: Optional[TopologyManager] = None,
-                 episode_length: int = 100):
+                 episode_length: int = 100,
+                 enforce_msd_constraint: bool = True):
         super().__init__()
         self.repo        = repository
         self.reward_calc = reward_calculator or RewardCalculator()
         self.EPISODE_LEN = episode_length
+        self.enforce_msd_constraint = enforce_msd_constraint
         
         self.topo = topology_manager if topology_manager else TopologyManager("vietnam")
         self.num_nodes   = self.topo.num_nodes
@@ -239,7 +241,8 @@ class JOVDPREnv(gym.Env):
             errors.append("CPU overflow at placement node")
 
         if self._state[v2 * 3 + 2] + msd_total > self.node_msd_limits[v2]:
-            is_valid = False
+            if self.enforce_msd_constraint:
+                is_valid = False
             has_msd_violation = True
             errors.append(f"MSD violation routing node {v2} (req:{msd_req}+hop:{hop_count})")
 
@@ -317,6 +320,7 @@ class JOVDPREnv(gym.Env):
             'is_switching':    is_switching,
             'accepted':        is_valid,
             'msd_violation':   has_msd_violation,
+            'admitted_msd_violation': bool(is_valid and has_msd_violation),
             'evacuation_hit':  (alert_v1 == 1.0 or alert_v2 == 1.0), # Tracking logic mới
             'latency_violation_rate': (sum(self._violation_window) / len(self._violation_window) if self._violation_window else 0.0),
             'cpu_util_v1':     cpu_util_v1,
