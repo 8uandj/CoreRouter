@@ -19,15 +19,15 @@ const ProvisionModal = ({
   const PROVINCES = [
     { id: 'auto', name: 'Auto Scheduler (Hybrid JO-VPPM)' },
     { id: 'hanoi-1', name: 'Hanoi Node (hanoi-1)' },
-    { id: 'hanoi-1-hp', name: 'Hai Phong Node (hanoi-1)' },
-    { id: 'hanoi-1-nb', name: 'Ninh Binh Node (hanoi-1)' },
-    { id: 'danang-1-vinh', name: 'Vinh Node (danang-1)' },
-    { id: 'danang-1-hue', name: 'Hue Node (danang-1)' },
+    { id: 'haiphong-1', name: 'Hai Phong Node (haiphong-1)' },
+    { id: 'ninhbinh-1', name: 'Ninh Binh Node (ninhbinh-1)' },
+    { id: 'vinh-1', name: 'Vinh Node (vinh-1)' },
+    { id: 'hue-1', name: 'Hue Node (hue-1)' },
     { id: 'danang-1', name: 'Da Nang Node (danang-1)' },
-    { id: 'hcm-1-qn', name: 'Quy Nhon Node (hcm-1)' },
-    { id: 'hcm-1-nt', name: 'Nha Trang Node (hcm-1)' },
+    { id: 'quynhon-1', name: 'Quy Nhon Node (quynhon-1)' },
+    { id: 'nhatrang-1', name: 'Nha Trang Node (nhatrang-1)' },
     { id: 'hcm-1', name: 'Ho Chi Minh Node (hcm-1)' },
-    { id: 'hcm-1-ct', name: 'Can Tho Node (hcm-1)' },
+    { id: 'cantho-1', name: 'Can Tho Node (cantho-1)' },
   ];
 
   const VNF_TYPES = [
@@ -43,30 +43,6 @@ const ProvisionModal = ({
     e.preventDefault();
     let finalLocation = formData.location || 'auto';
     let finalName = formData.name || `vnf-${formData.type}-${Math.floor(Math.random() * 1000)}`;
-
-    // Append identifier tags so map resolver can locate the specific city switch
-    if (formData.location === 'hanoi-1-hp') {
-      finalLocation = 'hanoi-1';
-      if (!finalName.includes('hp')) finalName = `${finalName}-hp`;
-    } else if (formData.location === 'hanoi-1-nb') {
-      finalLocation = 'hanoi-1';
-      if (!finalName.includes('nb')) finalName = `${finalName}-nb`;
-    } else if (formData.location === 'danang-1-vinh') {
-      finalLocation = 'danang-1';
-      if (!finalName.includes('vinh')) finalName = `${finalName}-vinh`;
-    } else if (formData.location === 'danang-1-hue') {
-      finalLocation = 'danang-1';
-      if (!finalName.includes('hue')) finalName = `${finalName}-hue`;
-    } else if (formData.location === 'hcm-1-qn') {
-      finalLocation = 'hcm-1';
-      if (!finalName.includes('qn')) finalName = `${finalName}-qn`;
-    } else if (formData.location === 'hcm-1-nt') {
-      finalLocation = 'hcm-1';
-      if (!finalName.includes('nt')) finalName = `${finalName}-nt`;
-    } else if (formData.location === 'hcm-1-ct') {
-      finalLocation = 'hcm-1';
-      if (!finalName.includes('ct')) finalName = `${finalName}-ct`;
-    }
 
     onSubmit({
       ...formData,

@@ -180,7 +180,7 @@ def orchestrate_sfc(request: SFCRequest):
             method = "JO-VPPM AI (Resilience Optimized)"
 
         sid_stack = _generate_srv6_sids(choice.v_place, choice.v_route, request.msd_req)
-        accepted, error = state_manager.reserve_resources(
+        accepted, error = state_manager.try_reserve(
             choice.v_place,
             choice.v_route,
             request.cpu_req,
@@ -196,7 +196,7 @@ def orchestrate_sfc(request: SFCRequest):
             branch = "drl"
             method = "JO-VPPM AI (Concurrent-State Fallback)"
             sid_stack = _generate_srv6_sids(choice.v_place, choice.v_route, request.msd_req)
-            accepted, error = state_manager.reserve_resources(
+            accepted, error = state_manager.try_reserve(
                 choice.v_place,
                 choice.v_route,
                 request.cpu_req,
@@ -273,6 +273,13 @@ def orchestrate_sfc(request: SFCRequest):
 
 @orchestration_router.get("/orchestrate/state")
 def get_hybrid_state():
+    try:
+        from src.portal.backend.app.containers.service_container import container
+        k8s_vnfs = container.orchestrator.list_vnfs()
+        get_state_manager().sync_with_kubernetes(k8s_vnfs)
+    except Exception as e:
+        import logging
+        logging.getLogger("ai_router").error(f"Failed to sync state with K8s in AI router: {e}")
     state = get_state_manager().as_public_dict()
     return {"status": "success", "message": "Hybrid state snapshot", "data": state}
 

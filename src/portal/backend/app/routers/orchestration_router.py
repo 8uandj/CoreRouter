@@ -39,22 +39,19 @@ def _location_key(node_name: str) -> str:
     """
     Map AI topology node name -> targetLocation label used by Tekton prepare-vnf task.
     Format: "<city>-<index>" matches core-router/location label in K8s manifests.
-    Nodes sharing the same physical K8s host get the same location label.
-      k8s-master  : Hanoi, HaiPhong, NinhBinh  → hanoi-1
-      worker1     : Vinh, Hue, DaNang          → danang-1
-      worker2     : QuyNhon, NhaTrang, HoChiMinh, CanTho → hcm-1
+    Option A: Logically independent city locations running on shared physical nodes.
     """
     mapping = {
         "Hanoi":      "hanoi-1",
-        "HaiPhong":   "hanoi-1",   # same k8s-master cluster
-        "NinhBinh":   "hanoi-1",   # same k8s-master cluster
-        "Vinh":       "danang-1",
-        "Hue":        "danang-1",
+        "HaiPhong":   "haiphong-1",
+        "NinhBinh":   "ninhbinh-1",
+        "Vinh":       "vinh-1",
+        "Hue":        "hue-1",
         "DaNang":     "danang-1",
-        "QuyNhon":    "hcm-1",
-        "NhaTrang":   "hcm-1",
+        "QuyNhon":    "quynhon-1",
+        "NhaTrang":   "nhatrang-1",
         "HoChiMinh":  "hcm-1",
-        "CanTho":     "hcm-1",
+        "CanTho":     "cantho-1",
     }
     return mapping.get(node_name, "auto")
 
@@ -65,6 +62,11 @@ async def orchestrate_sfc(request: SFCRequest, background_tasks: BackgroundTasks
     Adaptive Hybrid Orchestration endpoint.
     """
     state_manager = get_state_manager()
+    try:
+        k8s_vnfs = container.orchestrator.list_vnfs()
+        state_manager.sync_with_kubernetes(k8s_vnfs)
+    except Exception as e:
+        logger.error(f"Failed to sync state with K8s during orchestrate: {e}")
     forecaster = get_forecast_service()
     
     # Trigger Forecast Alert if needed
@@ -222,6 +224,11 @@ async def orchestrate_sfc(request: SFCRequest, background_tasks: BackgroundTasks
 
 @router.get("/orchestrate/state")
 def get_hybrid_state():
+    try:
+        k8s_vnfs = container.orchestrator.list_vnfs()
+        get_state_manager().sync_with_kubernetes(k8s_vnfs)
+    except Exception as e:
+        logger.error(f"Failed to sync state with K8s in get_hybrid_state: {e}")
     state = get_state_manager().as_public_dict()
     return {
         "status": "success",

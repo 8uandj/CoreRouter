@@ -1,5 +1,4 @@
-import React from 'react';
-import { MapPin, Activity, LayoutDashboard, Plus, BrainCircuit, RefreshCw } from 'lucide-react';
+import { MapPin, Activity, LayoutDashboard, Plus, BrainCircuit, RefreshCw, ChevronUp, Send } from 'lucide-react';
 
 const THEME = {
   source: { text: 'text-rose-400', bg: 'bg-rose-500/5', hover: 'hover:bg-rose-500/10' },
@@ -11,12 +10,13 @@ const ControlHeader = ({
   srcDc, setSrcDc,
   dstDc, setDstDc,
   trafficOpt, setTrafficOpt,
-  routingMode, setRoutingMode,
+  packetCount, setPacketCount,
   onOptimize, isBuffering,
   onOpenModal, activeVnfCount,
   dcs, trafficPolicies,
   hybridStatus,
-  onSimulateMbb
+  onSimulateMbb,
+  isHeaderOpen, setIsHeaderOpen
 }) => {
   const isDrl = hybridStatus?.branch === 'drl';
   const modeLabel = isDrl ? 'AI JO-VPPM ENGAGED' : 'HYBRID HEURISTIC';
@@ -73,18 +73,18 @@ const ControlHeader = ({
           </select>
         </div>
 
-        <div className="flex items-center px-4 gap-2">
-          <BrainCircuit size={14} className="text-indigo-400" />
-          <select
-            value={routingMode}
-            onChange={e => setRoutingMode(e.target.value)}
-            className="bg-transparent text-xs font-black text-indigo-300 uppercase outline-none min-w-[155px] cursor-pointer"
-          >
-            <option value="hybrid" className="bg-[#0f172a]">Dynamic Hybrid (JO-VPPM)</option>
-            <option value="security" className="bg-[#0f172a]">Static Rule: Security Chain</option>
-            <option value="voice" className="bg-[#0f172a]">Static Rule: VoIP Chain</option>
-            <option value="bypass" className="bg-[#0f172a]">Static Rule: SFC Bypass</option>
-          </select>
+        <div className="flex items-center px-4 gap-2 border-r border-white/10 hover:bg-white/5 transition-colors py-2 cursor-default">
+          <Send size={12} className="text-indigo-400 rotate-[-45deg]" />
+          <span className="text-[10px] font-black text-slate-400 uppercase tracking-[0.15em]">Packets</span>
+          <input
+            type="number"
+            min="1"
+            max="100"
+            value={packetCount}
+            onChange={e => setPacketCount(Math.max(1, parseInt(e.target.value) || 1))}
+            onClick={e => e.stopPropagation()}
+            className="w-12 bg-slate-900 border border-white/10 text-slate-100 rounded-lg py-1 text-center text-xs font-black outline-none focus:border-indigo-500/50 transition-colors [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
+          />
         </div>
 
         <button
@@ -131,6 +131,14 @@ const ControlHeader = ({
           <div className="relative flex items-center gap-2 text-white text-[11px] font-black">
             <Plus size={14} strokeWidth={3} /> PROVISION VNF
           </div>
+        </button>
+
+        <button
+          onClick={() => setIsHeaderOpen(false)}
+          className="p-2 rounded-2xl bg-white/5 border border-white/10 hover:bg-white/10 flex items-center justify-center cursor-pointer transition-colors text-slate-400 hover:text-white"
+          title="Collapse Header"
+        >
+          <ChevronUp size={16} />
         </button>
       </div>
     </header>

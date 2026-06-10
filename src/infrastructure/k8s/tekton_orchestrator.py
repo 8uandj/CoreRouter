@@ -68,9 +68,34 @@ class TektonOrchestrator(IOrchestrator):
         location: str = "auto",
         node_hostname: str = "",
     ) -> Dict[str, Any]:
-        template_file = "vnf-frr.yaml"
-        if vnf_type == "firewall": template_file = "vnf-firewall.yaml"
-        elif vnf_type == "idps": template_file = "vnf-idps.yaml"
+        # Map location to physical hostname under Option A if node_hostname is not specified
+        if not node_hostname and location:
+            location_map = {
+                "hanoi-1": "k8s-master",
+                "hanoi-2": "k8s-master",
+                "haiphong-1": "k8s-master",
+                "ninhbinh-1": "k8s-master",
+                "vinh-1": "worker1",
+                "hue-1": "worker1",
+                "danang-1": "worker1",
+                "quynhon-1": "worker2",
+                "nhatrang-1": "worker2",
+                "hcm-1": "worker2",
+                "cantho-1": "worker2",
+            }
+            node_hostname = location_map.get(location, "")
+
+        # Support all VNF types
+        type_to_template = {
+            "firewall": "vnf-firewall.yaml",
+            "idps": "vnf-idps.yaml",
+            "nat": "vnf-nat.yaml",
+            "lb": "vnf-lb.yaml",
+            "voc": "vnf-voc.yaml",
+            "frr": "vnf-frr.yaml",
+            "router": "vnf-frr.yaml",
+        }
+        template_file = type_to_template.get(vnf_type, "vnf-frr.yaml")
 
         run_name = f"deploy-{vnf_type}-{uuid.uuid4().hex[:6]}"
         

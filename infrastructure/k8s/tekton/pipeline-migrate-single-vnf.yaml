@@ -40,6 +40,9 @@ spec:
     - name: nodeHostname
       description: "kubernetes.io/hostname của K8s worker node (vd: k8s-master, worker1, worker2). Từ AI→K8s Mapping Dictionary."
       default: ""
+    - name: labelSelector
+      description: "Selector used by kubectl wait/get for the replacement pod."
+      default: ""
 
   tasks:
     - name: prepare-replacement

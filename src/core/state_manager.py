@@ -6,6 +6,8 @@ TUAN THU QUY TAC KIEN TRUC 16 (HYSTERESIS GATE)
 
 import threading
 import numpy as np
+import time
+import math
 from dataclasses import dataclass
 from typing import Dict, List, Any, Optional, Tuple
 
@@ -54,6 +56,7 @@ class NetworkStateManager:
         
         # Registry theo doi thuc the (Ho tro Phase 7 Proactive Migration)
         self._active_vnfs: Dict[str, Dict[str, Any]] = {}
+        self._pending_reservations: Dict[str, Dict[str, Any]] = {}
 
     def reset(self) -> None:
         with self._lock:
@@ -61,6 +64,7 @@ class NetworkStateManager:
             self._alert_active = False
             self._forecast_alerts.fill(False)
             self._active_vnfs.clear()
+            self._pending_reservations.clear()
             self._mode = "heuristic"
 
     def snapshot(self) -> NetworkSnapshot:
@@ -142,10 +146,29 @@ class NetworkStateManager:
                     "v_place": v_place, "v_route": v_route,
                     "cpu_req": cpu_req, "ram_req": ram_req, "msd_req": msd_req
                 }
+                self._pending_reservations[vnf_name] = {
+                    "v_place": v_place, "v_route": v_route,
+                    "cpu_req": cpu_req, "ram_req": ram_req, "msd_req": msd_req,
+                    "timestamp": time.time()
+                }
             return True, None
+
+    def reserve_resources(
+        self,
+        v_place: int,
+        v_route: int,
+        cpu_req: float,
+        ram_req: float,
+        msd_req: int,
+        vnf_name: Optional[str] = None
+    ) -> Tuple[bool, Optional[str]]:
+        """Backwards compatibility alias for try_reserve."""
+        return self.try_reserve(v_place, v_route, cpu_req, ram_req, msd_req, vnf_name)
 
     def release_resources(self, vnf_name: str) -> None:
         with self._lock:
+            if vnf_name in self._pending_reservations:
+                self._pending_reservations.pop(vnf_name)
             if vnf_name not in self._active_vnfs:
                 return
             data = self._active_vnfs.pop(vnf_name)
@@ -170,6 +193,164 @@ class NetworkStateManager:
                 self._state[node_id, 0] = max(0, self._state[node_id, 0] - cpu_req)
                 self._state[node_id, 1] = max(0, self._state[node_id, 1] - ram_req)
                 self._state[node_id, 2] = max(0, self._state[node_id, 2] - msd_req)
+
+    def resolve_node_id(self, vnf_name: str, location: str) -> int:
+        """Map a VNF name and its location label to virtual node index 0-9."""
+        name_lower = vnf_name.lower()
+        loc_lower = location.lower()
+        
+        # Check direct location mappings
+        if "hn" in loc_lower or "hanoi" in loc_lower:
+            if "-hp" in name_lower: return 1
+            if "-nb" in name_lower: return 2
+            return 0
+        if "hp" in loc_lower or "haiphong" in loc_lower:
+            return 1
+        if "nb" in loc_lower or "ninhbinh" in loc_lower:
+            return 2
+        if "vinh" in loc_lower:
+            return 3
+        if "hue" in loc_lower:
+            return 4
+        if "dn" in loc_lower or "danang" in loc_lower:
+            if "-vinh" in name_lower: return 3
+            if "-hue" in name_lower: return 4
+            return 5
+        if "qn" in loc_lower or "quynhon" in loc_lower:
+            return 6
+        if "nt" in loc_lower or "nhatrang" in loc_lower:
+            return 7
+        if "hcm" in loc_lower or "hochiminh" in loc_lower:
+            if "-qn" in name_lower: return 6
+            if "-nt" in name_lower: return 7
+            if "-ct" in name_lower: return 9
+            return 8
+        if "ct" in loc_lower or "cantho" in loc_lower:
+            return 9
+            
+        # Check fallback pattern based on names and parent cluster keys
+        if "hanoi-1" in loc_lower or "k8s-master" in loc_lower:
+            if "-hp" in name_lower: return 1
+            if "-nb" in name_lower: return 2
+            return 0
+        if "danang-1" in loc_lower or "worker1" in loc_lower:
+            if "-vinh" in name_lower: return 3
+            if "-hue" in name_lower: return 4
+            return 5
+        if "hcm-1" in loc_lower or "worker2" in loc_lower:
+            if "-qn" in name_lower: return 6
+            if "-nt" in name_lower: return 7
+            if "-ct" in name_lower: return 9
+            return 8
+            
+        # Name-based checks
+        if "-hp" in name_lower: return 1
+        if "-nb" in name_lower: return 2
+        if "-vinh" in name_lower: return 3
+        if "-hue" in name_lower: return 4
+        if "-qn" in name_lower: return 6
+        if "-nt" in name_lower: return 7
+        if "-ct" in name_lower: return 9
+        
+        # Ultimate fallback
+        return 0
+
+    def sync_with_kubernetes(self, k8s_vnfs: List[Dict[str, Any]]) -> None:
+        """Synchronize in-memory VNF list and resource states with live Kubernetes deployments.
+        Protects transient state by preserving pending reservations for up to 60 seconds.
+        """
+        with self._lock:
+            # 1. Clean up expired pending reservations (older than 60 seconds)
+            now = time.time()
+            self._pending_reservations = {
+                k: v for k, v in self._pending_reservations.items()
+                if now - v["timestamp"] < 60.0
+            }
+            
+            # 2. Check which pending reservations have appeared in k8s_vnfs
+            k8s_names = {vnf["id"] for vnf in k8s_vnfs}
+            for name in list(self._pending_reservations.keys()):
+                if name in k8s_names:
+                    self._pending_reservations.pop(name)
+            
+            # 3. Rebuild active VNFs registry
+            new_active_vnfs = {}
+            
+            # First, add the actual VNFs from Kubernetes
+            for vnf in k8s_vnfs:
+                name = vnf["id"]
+                location = vnf["data"].get("location", "auto")
+                
+                # Resolve node index for the VNF
+                node_idx = self.resolve_node_id(name, location)
+                
+                # If we had it in our old active_vnfs or pending reservations, preserve its resource requirements
+                if name in self._active_vnfs:
+                    ref = self._active_vnfs[name]
+                    cpu_req = ref.get("cpu_req", 10.0)
+                    ram_req = ref.get("ram_req", 5.0)
+                    msd_req = ref.get("msd_req", 2)
+                    v_place = ref.get("v_place", node_idx)
+                    v_route = ref.get("v_route", node_idx)
+                else:
+                    cpu_req = 10.0
+                    ram_req = 5.0
+                    msd_req = 2
+                    v_place = node_idx
+                    v_route = node_idx
+                
+                new_active_vnfs[name] = {
+                    "v_place": v_place,
+                    "v_route": v_route,
+                    "cpu_req": cpu_req,
+                    "ram_req": ram_req,
+                    "msd_req": msd_req,
+                    "is_pending": False
+                }
+            
+            # Next, add any pending reservations that haven't appeared in K8s yet
+            for name, ref in self._pending_reservations.items():
+                new_active_vnfs[name] = {
+                    "v_place": ref["v_place"],
+                    "v_route": ref["v_route"],
+                    "cpu_req": ref["cpu_req"],
+                    "ram_req": ref["ram_req"],
+                    "msd_req": ref["msd_req"],
+                    "is_pending": True
+                }
+                
+            self._active_vnfs = new_active_vnfs
+            
+            # 4. Rebuild self._state based on low/idle baseline + active VNFs
+            t = time.time()
+            for i in range(self.num_nodes):
+                self._state[i, 0] = 5.0 + 3.0 * math.sin(t / 60.0 + i)
+                self._state[i, 1] = 8.0 + 2.0 * math.cos(t / 60.0 + i)
+                self._state[i, 2] = 0.0
+                
+            for name, data in self._active_vnfs.items():
+                v_place = data["v_place"]
+                v_route = data["v_route"]
+                cpu_req = data["cpu_req"]
+                ram_req = data["ram_req"]
+                msd_req = data["msd_req"]
+                
+                # Add to placement node
+                self._state[v_place, 0] += cpu_req
+                self._state[v_place, 1] += ram_req
+                self._state[v_place, 2] += msd_req
+                
+                # Add to routing node if different
+                if v_place != v_route:
+                    self._state[v_route, 0] += cpu_req
+                    self._state[v_route, 1] += ram_req
+                    self._state[v_route, 2] += msd_req
+            
+            # Clip state to max capacity limits
+            for i in range(self.num_nodes):
+                self._state[i, 0] = np.clip(self._state[i, 0], 0.0, MAX_CPU)
+                self._state[i, 1] = np.clip(self._state[i, 1], 0.0, MAX_RAM)
+                self._state[i, 2] = np.clip(self._state[i, 2], 0.0, float(self.topology.msd_limits[i]))
 
     def as_public_dict(self) -> Dict[str, Any]:
         """Return the UI/API-safe snapshot shape used by orchestration routes."""

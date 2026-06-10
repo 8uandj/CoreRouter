@@ -1,6 +1,6 @@
 import React, { useState, useRef, useCallback, useEffect, useMemo } from 'react';
 import { AnimatePresence } from 'framer-motion';
-import { ZoomIn, ZoomOut, Brain, Play, ShieldAlert, CheckCircle, Flame, HelpCircle } from 'lucide-react';
+import { ZoomIn, ZoomOut, Brain, Play, ShieldAlert, CheckCircle, Flame, HelpCircle, ChevronDown } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 
 import Edge from '../components/topology/Edge';
@@ -62,6 +62,10 @@ const TRAFFIC_POLICY = {
   corporate: { label: 'VoIP + IDPS', roles: ['idps'] },
   ddos: { label: 'Attack Mitigation', roles: ['firewall', 'idps'] },
   deep_inspect: { label: 'Video Deep Inspect', roles: ['firewall', 'idps', 'router'] },
+  voip_quality: { label: 'VoIP Quality (NAT+VOC+LB)', roles: ['nat', 'voc', 'lb'] },
+  secure_portal: { label: 'Secure Portal (FW+NAT+IDPS)', roles: ['firewall', 'nat', 'idps'] },
+  enterprise_vpn: { label: 'Enterprise VPN (FW+NAT+IDPS+LB)', roles: ['firewall', 'nat', 'idps', 'lb'] },
+  media_streaming: { label: 'Media Streaming (VOC+LB+RTR)', roles: ['voc', 'lb', 'router'] },
 };
 
 const SID_MAP = {
@@ -79,6 +83,10 @@ const REQUEST_PROFILES = {
   corporate: { cpu_req: 16, ram_req: 8, msd_req: 2, service_type: 'VoIP', alert_flag: false },
   ddos: { cpu_req: 70, ram_req: 35, msd_req: 4, service_type: 'Attack', alert_flag: true },
   deep_inspect: { cpu_req: 35, ram_req: 18, msd_req: 5, service_type: 'Video', alert_flag: false },
+  voip_quality: { cpu_req: 20, ram_req: 10, msd_req: 4, service_type: 'VoIP', alert_flag: false },
+  secure_portal: { cpu_req: 30, ram_req: 15, msd_req: 4, service_type: 'Web', alert_flag: false },
+  enterprise_vpn: { cpu_req: 50, ram_req: 25, msd_req: 5, service_type: 'VPN', alert_flag: true },
+  media_streaming: { cpu_req: 40, ram_req: 20, msd_req: 4, service_type: 'Video', alert_flag: false },
 };
 
 const CITY_TO_SWITCH = {
@@ -175,6 +183,7 @@ export default function Topology({ vnfs, onDeploy, onDelete }) {
   const [simVnfs, setSimVnfs] = useState([]);
   const [isTelemetryOpen, setIsTelemetryOpen] = useState(true);
   const [isSidebarOpen, setIsSidebarOpen] = useState(true);
+  const [isHeaderOpen, setIsHeaderOpen] = useState(true);
   const [routingMode, setRoutingMode] = useState('hybrid');
   
   const [hybridStatus, setHybridStatus] = useState({
@@ -185,6 +194,7 @@ export default function Topology({ vnfs, onDeploy, onDelete }) {
     avgMsdUsage: 0.3,
     alertFlag: false,
     nodes: [],
+    active_vnfs: [],
   });
 
   // Make-Before-Break state
@@ -220,6 +230,7 @@ export default function Topology({ vnfs, onDeploy, onDelete }) {
   const [srcDc, setSrcDc] = useState('s1');
   const [dstDc, setDstDc] = useState('s9');
   const [trafficOpt, setTrafficOpt] = useState('clean');
+  const [packetCount, setPacketCount] = useState(1);
 
   const activeVnfs = useMemo(() => [...(vnfs?.nodes || []), ...simVnfs], [simVnfs, vnfs]);
   const sidebarVnfLocMemo = useMemo(() => ({ current: vnfLocations }), [vnfLocations]);
@@ -264,6 +275,7 @@ export default function Topology({ vnfs, onDeploy, onDelete }) {
           avgMsdUsage: data.avg_msd_usage ?? prev.avgMsdUsage,
           alertFlag: Boolean(data.alert_flag),
           nodes: data.nodes || [],
+          active_vnfs: data.active_vnfs || [],
         }));
       } catch {
         // Fallback or offline simulation
@@ -344,7 +356,14 @@ export default function Topology({ vnfs, onDeploy, onDelete }) {
       // Inject VNFs situated on this switch that are selected for this route
       const vnfsAtSw = selectedVnfs.filter(v => resolveLocationSwitch(vnfLocations[v.id] || v.data?.location, v.id) === sw);
       vnfsAtSw.forEach(v => {
-        waypoints.push(getVnfPos(v.id));
+        const pos = getVnfPos(v.id);
+        waypoints.push({
+          x: pos.x,
+          y: pos.y,
+          vnfRole: v.data?.role || v.role,
+          vnfId: v.id,
+          type: 'vnf'
+        });
       });
       
       waypoints.push(dcEgressPoint(node));
@@ -448,7 +467,7 @@ export default function Topology({ vnfs, onDeploy, onDelete }) {
   }, [activeVnfs, mbbState.active, pushLog, rememberVnfLocation]);
 
   // Main SRv6 Optimization Handler
-  const handleOptimize = useCallback(async () => {
+  const handleOptimize = useCallback(async (injectPackets = false) => {
     if (isBuffering) return;
 
     let srcSwitch = srcDc;
@@ -569,7 +588,13 @@ export default function Topology({ vnfs, onDeploy, onDelete }) {
           nextStatus.branch === 'drl' ? '#ec4899' : '#34d399'
         );
       } catch (e) {
-        pushLog(`> Hybrid brain API unavailable. Falling back to local heuristics...`, '#f97316');
+        if (e.response) {
+          const detail = e.response.data?.detail || e.response.data || {};
+          const msg = detail.message || detail.error || (typeof detail === 'string' ? detail : null) || "Hard constraints violated (409).";
+          pushLog(`> Hybrid Decision: ${msg} Falling back to local heuristics...`, '#f43f5e');
+        } else {
+          pushLog(`> Hybrid brain API unavailable. Falling back to local heuristics...`, '#f97316');
+        }
       }
 
       // Find best VNFs using Heuristics model
@@ -656,43 +681,30 @@ export default function Topology({ vnfs, onDeploy, onDelete }) {
       pushLog(`> Route path approved. SID depth ${totalSids} accepted. Waypoints registered.`, '#38bdf8');
     }
 
-    // Inject active packet
-    setPackets(prev => [
-      ...prev,
-      {
-        id: `pkt-${Date.now()}`,
-        waypoints: finalWaypoints,
-        ptype: isMsdViolation ? 'msd_drop' : (trafficOpt === 'ddos' ? 'attack' : 'normal'),
-        sids: policyRoles.map(r => SID_MAP[r] || '2001:db8::1'),
-        encapsulator: srcSwitch,
+    // Inject active packet(s) based on packetCount with staggering
+    if (injectPackets) {
+      for (let i = 0; i < packetCount; i++) {
+        setTimeout(() => {
+          setPackets(prev => [
+            ...prev,
+            {
+              id: `pkt-${Date.now()}-${i}-${Math.random()}`,
+              waypoints: finalWaypoints,
+              ptype: isMsdViolation ? 'msd_drop' : (trafficOpt === 'ddos' ? 'attack' : 'normal'),
+              sids: policyRoles.map(r => SID_MAP[r] || '2001:db8::1'),
+              encapsulator: srcSwitch,
+            }
+          ]);
+        }, i * 400);
       }
-    ]);
-  }, [activeVnfs, dstDc, isBuffering, nodePos, onDeploy, pushLog, rememberVnfLocation, routingMode, srcDc, trafficOpt, userNodes, vnfLocations, buildPhysicalWaypoints]);
+    }
+  }, [activeVnfs, dstDc, isBuffering, nodePos, onDeploy, pushLog, rememberVnfLocation, routingMode, srcDc, trafficOpt, userNodes, vnfLocations, buildPhysicalWaypoints, packetCount]);
 
-  // Keep sending packets along current trace automatically to feel interactive
+  // Auto-optimize on control parameters change
   useEffect(() => {
-    if (routeTrace.length < 2) return;
-    const interval = setInterval(() => {
-      // Determine if trace has MSD Drop (it doesn't end at the Destination node coordinates)
-      const lastWp = routeTrace[routeTrace.length - 1];
-      const reachesDest = Math.abs(lastWp.x - userNodes.dest.x) < 5 && Math.abs(lastWp.y - userNodes.dest.y) < 5;
-      
-      const finalPtype = reachesDest ? (trafficOpt === 'ddos' ? 'attack' : 'normal') : 'msd_drop';
-      const activeRoles = TRAFFIC_POLICY[trafficOpt].roles;
-
-      setPackets(prev => [
-        ...prev.slice(-15),
-        {
-          id: `pkt-${Date.now()}`,
-          waypoints: routeTrace,
-          ptype: finalPtype,
-          sids: activeRoles.map(r => SID_MAP[r] || '2001:db8::1'),
-          encapsulator: srcDc,
-        }
-      ]);
-    }, 3200);
-    return () => clearInterval(interval);
-  }, [routeTrace, trafficOpt, srcDc, userNodes.dest]);
+    handleOptimize(false);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [trafficOpt, srcDc, dstDc]);
 
   useEffect(() => {
     const el = svgRef.current;
@@ -742,18 +754,47 @@ export default function Topology({ vnfs, onDeploy, onDelete }) {
 
   return (
     <div className="flex flex-col w-full h-full bg-[#020617] text-white overflow-hidden select-none font-sans relative">
-      <ControlHeader
-        srcDc={srcDc} setSrcDc={setSrcDc}
-        dstDc={dstDc} setDstDc={setDstDc}
-        trafficOpt={trafficOpt} setTrafficOpt={setTrafficOpt}
-        routingMode={routingMode} setRoutingMode={setRoutingMode}
-        onOptimize={handleOptimize} isBuffering={isBuffering}
-        onOpenModal={() => setIsModalOpen(true)}
-        activeVnfCount={activeVnfs.length}
-        dcs={BACKBONE} trafficPolicies={TRAFFIC_POLICY}
-        hybridStatus={hybridStatus}
-        onSimulateMbb={handleSimulateMbb}
+      {/* Hover trigger zone at the top edge */}
+      <div 
+        onMouseEnter={() => setIsHeaderOpen(true)}
+        className="fixed left-0 top-0 w-full h-3 z-[39] bg-gradient-to-b from-indigo-500/5 to-transparent hover:from-indigo-500/10 transition-all duration-300 cursor-pointer"
       />
+
+      {/* Floating Menu Tab on the top edge when header is closed */}
+      {!isHeaderOpen && (
+        <div 
+          onMouseEnter={() => setIsHeaderOpen(true)}
+          onClick={() => setIsHeaderOpen(true)}
+          className="fixed left-1/2 -translate-x-1/2 top-0 w-20 h-5 bg-indigo-600/20 hover:bg-indigo-600/40 border border-t-0 border-indigo-500/30 rounded-b-2xl flex items-center justify-center cursor-pointer z-[40] transition-all duration-300 shadow-lg shadow-indigo-500/10"
+          title="Hover to expand control header"
+        >
+          <ChevronDown className="text-indigo-400 animate-pulse" size={14} />
+        </div>
+      )}
+
+      {/* Control Header with Auto Hiding */}
+      <div
+        onMouseEnter={() => setIsHeaderOpen(true)}
+        onMouseLeave={() => setIsHeaderOpen(false)}
+        className={`fixed left-0 top-0 w-full z-[42] transition-transform duration-300 ease-in-out shadow-2xl ${
+          isHeaderOpen ? 'translate-y-0' : '-translate-y-full'
+        }`}
+      >
+        <ControlHeader
+          srcDc={srcDc} setSrcDc={setSrcDc}
+          dstDc={dstDc} setDstDc={setDstDc}
+          trafficOpt={trafficOpt} setTrafficOpt={setTrafficOpt}
+          packetCount={packetCount} setPacketCount={setPacketCount}
+          onOptimize={() => handleOptimize(true)} isBuffering={isBuffering}
+          onOpenModal={() => setIsModalOpen(true)}
+          activeVnfCount={activeVnfs.length}
+          dcs={BACKBONE} trafficPolicies={TRAFFIC_POLICY}
+          hybridStatus={hybridStatus}
+          onSimulateMbb={handleSimulateMbb}
+          isHeaderOpen={isHeaderOpen}
+          setIsHeaderOpen={setIsHeaderOpen}
+        />
+      </div>
 
       {/* Floating MBB Progress HUD Overlay */}
       {mbbState.active && (

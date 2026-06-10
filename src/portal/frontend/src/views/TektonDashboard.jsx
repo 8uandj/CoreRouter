@@ -86,7 +86,7 @@ const TektonDashboard = () => {
       
       // Let's call the actual orchestrate status endpoint if possible
       const axios = (await import('axios')).default;
-      const apiBase = import.meta.env.VITE_API_BASE || "http://localhost:8000/api";
+      const apiBase = import.meta.env.VITE_API_BASE || `http://${window.location.hostname}:8000/api`;
       const statusResponse = await axios.get(`${apiBase}/orchestrate/status`).catch(() => null);
       
       if (statusResponse && statusResponse.data?.latest_pipeline) {

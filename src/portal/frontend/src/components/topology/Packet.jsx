@@ -57,9 +57,34 @@ const Packet = ({ id, waypoints, ptype, sids, encapsulator, onDone }) => {
   let pktLabel = 'IPv6';
   let showSids = false;
 
+  const currentSegmentIdx = segments > 0 ? Math.min(Math.floor(progress * segments), segments - 1) : 0;
+  const nextWp = segments > 0 ? waypoints[currentSegmentIdx + 1] : null;
+  const prevWp = segments > 0 ? waypoints[currentSegmentIdx] : null;
+
+  let activeVnf = null;
+  if (nextWp && nextWp.type === 'vnf') {
+    activeVnf = nextWp.vnfRole;
+  } else if (prevWp && prevWp.type === 'vnf' && (progress * segments - currentSegmentIdx) < 0.5) {
+    activeVnf = prevWp.vnfRole;
+  }
+
   if (isInsideTunnel) {
-    pktColor = ptype === 'attack' ? '#dc2626' : '#6366f1'; // Indigo/red inside SRv6 tunnel
-    pktLabel = 'SRv6';
+    if (activeVnf) {
+      const vnfUpper = activeVnf.toUpperCase();
+      pktLabel = vnfUpper === 'FIREWALL' ? 'FW' : vnfUpper;
+      
+      // Dynamic colors for each VNF role
+      if (activeVnf === 'firewall') pktColor = '#ef4444'; // Rose Red
+      else if (activeVnf === 'idps') pktColor = '#06b6d4'; // Cyan
+      else if (activeVnf === 'nat') pktColor = '#f59e0b'; // Amber Gold
+      else if (activeVnf === 'lb') pktColor = '#6366f1'; // Indigo
+      else if (activeVnf === 'voc') pktColor = '#a855f7'; // Purple
+      else if (activeVnf === 'router') pktColor = '#10b981'; // Emerald
+      else pktColor = '#06b6d4';
+    } else {
+      pktColor = ptype === 'attack' ? '#dc2626' : '#6366f1'; // Indigo/red inside SRv6 tunnel
+      pktLabel = 'SRv6';
+    }
     showSids = sids && sids.length > 0;
   } else if (isAfterEgress) {
     pktColor = ptype === 'attack' ? '#ef4444' : '#10b981'; // Green for delivery or red for blocked attack
