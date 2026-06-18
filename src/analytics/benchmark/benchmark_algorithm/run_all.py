@@ -71,7 +71,7 @@ def main() -> None:
     if is_ablation:
         group_keys = ["harp_full", "harp_no_gat", "harp_no_hard_mask", "harp_soft_msd", "harp_no_adaptive"]
     else:
-        group_keys = ["exhaustive_pair_search", "traditional_greedy", "decoupled_ai", "jo_vppm"]
+        group_keys = ["exhaustive_pair_search", "traditional_greedy", "saf_h", "decoupled_ai", "harp"]
 
     all_runs: List[RunMetrics] = []
     for topology in topologies:

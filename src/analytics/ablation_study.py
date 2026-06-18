@@ -3,16 +3,19 @@ HARP ablation study runner.
 
 HARP: Hardware-Aware Reinforcement Policy.
 
-The runner evaluates five variants required by the thesis defense:
+The runner evaluates six variants required by the thesis defense:
   1. HARP full
   2. HARP w/o GAT
   3. HARP w/o hard masking
-  4. HARP with soft MSD penalty
-  5. HARP w/o adaptive penalty
+  4. HARP w/o mask + unchecked admission
+  5. HARP with soft MSD penalty
+  6. HARP w/o adaptive penalty
 
 This runner intentionally fails closed: every variant must have its own model
 checkpoint and VecNormalize statistics. Silent fallback to the full HARP model
-is forbidden because it can corrupt thesis data.
+is forbidden because it can corrupt thesis data. Evaluation-only variants may
+explicitly reuse a sibling checkpoint when their purpose is to isolate a runtime
+guard rather than a separately trained policy.
 """
 
 from __future__ import annotations
@@ -59,6 +62,7 @@ class Variant:
     key: str
     name: str
     hypothesis: str
+    model_key: Optional[str] = None
     policy: str = "harp"
     use_gat_model: bool = True
     use_hard_mask: bool = True
@@ -188,6 +192,14 @@ VARIANTS: List[Variant] = [
         use_hard_mask=False,
     ),
     Variant(
+        key="harp_wo_mask_unchecked",
+        model_key="harp_wo_hard_masking",
+        name="HARP w/o mask + unchecked admission",
+        hypothesis="Two-layer safety contribution: allow unmasked policy outputs to bypass MSD admission validation.",
+        use_hard_mask=False,
+        enforce_msd_constraint=False,
+    ),
+    Variant(
         key="harp_soft_msd_penalty",
         name="HARP with soft MSD penalty",
         hypothesis="Hard constraint versus reward penalty: allow MSD-unsafe admissions and penalize them softly.",
@@ -245,30 +257,35 @@ def resolve_variant_model_paths(
     topology: str,
     variant: Variant,
 ) -> tuple[Path, Path, str]:
+    checkpoint_key = variant.model_key or variant.key
     variant_roots = [
-        model_root / "ablation" / variant.key,
-        model_root / version / "ablation" / variant.key,
-        model_root / variant.key,
+        model_root / "ablation" / checkpoint_key,
+        model_root / version / "ablation" / checkpoint_key,
+        model_root / checkpoint_key,
     ]
     model_names = [
-        f"{variant.key}_{topology}.zip",
-        f"dgrl_{version}_{variant.key}_{topology}.zip",
-        f"dgrl_{version}_final_{variant.key}_{topology}.zip",
+        f"{checkpoint_key}_{topology}.zip",
+        f"dgrl_{version}_{checkpoint_key}_{topology}.zip",
+        f"dgrl_{version}_final_{checkpoint_key}_{topology}.zip",
     ]
     norm_names = [
-        f"{variant.key}_vec_normalize_{topology}.pkl",
-        f"vec_normalize_{version}_{variant.key}_{topology}.pkl",
+        f"{checkpoint_key}_vec_normalize_{topology}.pkl",
+        f"vec_normalize_{version}_{checkpoint_key}_{topology}.pkl",
     ]
 
     for root in variant_roots:
         model = next((root / name for name in model_names if (root / name).exists()), None)
         norm = next((root / name for name in norm_names if (root / name).exists()), None)
         if model is not None and norm is not None:
-            return model, norm, f"variant_checkpoint:{model}"
+            source = f"variant_checkpoint:{model}"
+            if checkpoint_key != variant.key:
+                source += f" (reused for {variant.key})"
+            return model, norm, source
 
     searched = "\n".join(str(root) for root in variant_roots)
     raise FileNotFoundError(
         f"Missing strict ablation checkpoint for {variant.key} on topology={topology}.\n"
+        f"Checkpoint key searched: {checkpoint_key}\n"
         f"Expected one model and one variant VecNormalize file under:\n{searched}\n"
         f"Train it first with: python -m src.analytics.training.train_harp_ablation "
         f"--variant {variant.key} --topology {topology}"
@@ -349,7 +366,7 @@ def run_variant(
         if variant.use_hard_mask:
             masks = np.array([env.action_masks()])
         else:
-            masks = np.ones((1, 2 * env.num_nodes), dtype=bool)
+            masks = np.ones((1, env.action_space.n), dtype=bool)
         action, _ = model.predict(obs_norm, action_masks=masks, deterministic=True)
         action = action[0]
 
@@ -393,8 +410,16 @@ def write_outputs(
 
 
 def plot_dashboard(output_dir: Path, results: List[AblationMetrics]) -> None:
-    labels = [metric.name.replace("HARP ", "") for metric in results]
-    colors = ["#0f766e", "#2563eb", "#d97706", "#dc2626", "#7c3aed"]
+    label_map = {
+        "HARP full": "Full",
+        "HARP w/o GAT": "w/o GAT",
+        "HARP w/o hard masking": "NoMask",
+        "HARP w/o mask + unchecked admission": "NoMask\nUnchecked",
+        "HARP with soft MSD penalty": "SoftMSD",
+        "HARP w/o adaptive penalty": "NoAdapt",
+    }
+    labels = [label_map.get(metric.name, metric.name.replace("HARP ", "")) for metric in results]
+    colors = ["#0f766e", "#2563eb", "#d97706", "#ea580c", "#dc2626", "#7c3aed"]
     fig, axes = plt.subplots(2, 3, figsize=(18, 10))
     fig.suptitle("HARP Ablation Study: Hardware-Aware Reinforcement Policy", fontsize=15, fontweight="bold")
 
@@ -447,7 +472,7 @@ def plot_dashboard(output_dir: Path, results: List[AblationMetrics]) -> None:
 
 def print_summary(results: List[AblationMetrics]) -> None:
     header = (
-        f"{'Variant':<28} | {'Accept':>7} | {'Safe':>7} | {'MSD try':>7} | {'MSD admit':>9} | "
+        f"{'Variant':<36} | {'Accept':>7} | {'Safe':>7} | {'MSD try':>7} | {'MSD admit':>9} | "
         f"{'SLA':>7} | {'Latency':>8} | {'Reward':>8}"
     )
     print("\n" + "=" * len(header))
@@ -455,7 +480,7 @@ def print_summary(results: List[AblationMetrics]) -> None:
     print("=" * len(header))
     for metric in results:
         print(
-            f"{metric.name:<28} | {metric.acceptance_rate:>6.1f}% | "
+            f"{metric.name:<36} | {metric.acceptance_rate:>6.1f}% | "
             f"{metric.safe_acceptance_rate:>6.1f}% | "
             f"{metric.attempted_msd_rate:>6.1f}% | {metric.admitted_msd_rate:>8.1f}% | "
             f"{metric.sla_rate:>6.1f}% | {metric.avg_latency:>7.2f} | {metric.avg_reward:>8.1f}"

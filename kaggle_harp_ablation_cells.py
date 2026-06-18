@@ -99,6 +99,25 @@ else:
         else:
             shutil.copy2(item, dest)
 
+    # If the user attached an old notebook output, it might be in a different directory
+    # Let's search for any 'results' folder in KAGGLE_INPUT and merge it to WORK_DIR/results
+    print("\nScanning for previous results/models in Kaggle inputs...")
+    for results_dir in KAGGLE_INPUT.rglob("results"):
+        if results_dir.is_dir() and "models" in [d.name for d in results_dir.iterdir()]:
+            print(f"Found results directory at: {results_dir}")
+            # Merge contents of this results dir into WORK_DIR/results
+            def merge_dirs(src: Path, dst: Path):
+                dst.mkdir(parents=True, exist_ok=True)
+                for item in src.iterdir():
+                    s = item
+                    d = dst / item.name
+                    if s.is_dir():
+                        merge_dirs(s, d)
+                    elif not d.exists():
+                        shutil.copy2(s, d)
+            merge_dirs(results_dir, WORK_DIR / "results")
+            print(f"Merged {results_dir} into {WORK_DIR / 'results'}")
+
 os.chdir(WORK_DIR)
 sys.path.insert(0, str(WORK_DIR))
 
@@ -164,40 +183,47 @@ for required in [
     "src/analytics/training/train_harp_ablation.py",
     "src/orchestration/jo_vdpr/env.py",
     "data/real_telecom_combined.csv",
-    "results/models/v11/dgrl_v11_final_vietnam.zip",
-    "results/models/v11/vec_normalize_v11_vietnam.pkl",
 ]:
     assert Path(required).exists(), f"Missing required file: {required}"
 
 print(f"Extracted to {WORK_DIR}")
 
-# %% Cell 3 - Choose Run Configuration
+# %% Cell 3 - End-to-End Worker Configuration
 from pathlib import Path
 
-TOPOLOGY = "vietnam"       # "vietnam", "nsfnet", or "geant2"
-SCENARIO = "heavy_tail"    # "heavy_tail", "bursty", or "uniform"
-STEPS = 3000               # use 100-300 for a quick smoke run
+# =====================================================================
+# CHANGE THIS LINE FOR EACH KAGGLE ACCOUNT: "vietnam", "nsfnet", or "geant2"
+# =====================================================================
+WORKER_TOPOLOGY = "vietnam"  
+
+STEPS = 3000
 SEED = 42
 
-# Training ablation checkpoints is the scientifically clean setting.
-# Use 100_000 for a short sanity run, 500_000+ for thesis-grade runs,
-# and 3_000_000 if you want to match the original full HARP training budget.
-TRAIN_VARIANTS = True
-TRAIN_TOTAL_STEPS = 500_000
+# Define optimal steps based on topology size (action space)
+_STEPS_MAP = {
+    "vietnam": 500_000,   # 10 nodes -> 100 actions
+    "nsfnet": 2_000_000,  # 14 nodes -> 196 ac  tions
+    "geant2": 2_000_000,  # 23 nodes -> 529 actions
+}
+TRAIN_TOTAL_STEPS = _STEPS_MAP.get(WORKER_TOPOLOGY, 500_000)
 TRAIN_N_ENVS = 4
 
-OUTPUT_DIR = Path("/kaggle/working/harp_ablation") / f"{TOPOLOGY}_{SCENARIO}_{STEPS}"
-OUTPUT_DIR.mkdir(parents=True, exist_ok=True)
+# Scenarios to evaluate
+WORKER_SCENARIOS = [
+    ("uniform", "uniform"),
+    ("bursty", "bursty"),
+    ("heavyTail", "heavy_tail"),
+]
 
-print("Run config")
-print(f"  topology: {TOPOLOGY}")
-print(f"  scenario: {SCENARIO}")
-print(f"  steps:    {STEPS}")
-print(f"  train variants: {TRAIN_VARIANTS}")
-print(f"  train steps:    {TRAIN_TOTAL_STEPS}")
-print(f"  output:   {OUTPUT_DIR}")
+WORKER_ROOT = Path("/kaggle/working/harp_ablation") / f"worker_{WORKER_TOPOLOGY}"
+WORKER_ROOT.mkdir(parents=True, exist_ok=True)
 
-# %% Cell 4 - Train Variant-Specific Ablation Checkpoints
+print(f"Worker topology: {WORKER_TOPOLOGY}")
+print(f"Train steps per variant: {TRAIN_TOTAL_STEPS}")
+print(f"Eval steps per scenario: {STEPS}")
+print(f"Scenarios: {[label for label, _ in WORKER_SCENARIOS]}")
+
+# %% Cell 4 - Train All Strict Ablation Checkpoints
 import os
 import subprocess
 import sys
@@ -209,106 +235,224 @@ env["MKL_NUM_THREADS"] = "1"
 env["OPENBLAS_NUM_THREADS"] = "1"
 env["MPLCONFIGDIR"] = "/tmp/matplotlib"
 
-if TRAIN_VARIANTS:
-    train_cmd = [
-        sys.executable,
-        "-m",
-        "src.analytics.training.train_harp_ablation",
-        "--variant", "all",
-        "--topology", TOPOLOGY,
-        "--scenario", SCENARIO,
-        "--total-steps", str(TRAIN_TOTAL_STEPS),
-        "--n-envs", str(TRAIN_N_ENVS),
-        "--seed", str(SEED),
-        "--data-path", "data/real_telecom_combined.csv",
-        "--output-root", "results/models/ablation",
-    ]
-    print("Training ablation checkpoints:")
-    print(" ".join(train_cmd))
-    subprocess.check_call(train_cmd, env=env)
-else:
-    print("Skipping training. Evaluation requires existing strict variant checkpoints under results/models/ablation/<variant>/.")
-
-# %% Cell 5 - Run the Five HARP Ablation Variants
-import os
-import subprocess
-import sys
-
-cmd = [
+train_cmd = [
     sys.executable,
     "-m",
-    "src.analytics.ablation_study",
-    "--topology", TOPOLOGY,
-    "--scenario", SCENARIO,
-    "--steps", str(STEPS),
+    "src.analytics.training.train_harp_ablation",
+    "--variant", "all",
+    "--topology", WORKER_TOPOLOGY,
+    "--scenario", "heavy_tail", # Train on hardest scenario
+    "--total-steps", str(TRAIN_TOTAL_STEPS),
+    "--n-envs", str(TRAIN_N_ENVS),
     "--seed", str(SEED),
-    "--version", "v11",
+    "--data-path", "data/real_telecom_combined.csv",
+    "--output-root", "results/models/ablation",
+]
+
+# ─── Check if we already have trained models AND they are compatible ───────────
+import zipfile, io, torch
+
+def _check_model_compatible(model_zip: Path, expected_action_dim: int) -> bool:
+    """Return True only if the model's action_net output dim matches the env."""
+    if not model_zip.exists():
+        return False
+    try:
+        with zipfile.ZipFile(model_zip) as z:
+            pth_names = [n for n in z.namelist() if n.endswith("policy.pth")]
+            if not pth_names:
+                return False
+            with z.open(pth_names[0]) as f:
+                sd = torch.load(io.BytesIO(f.read()), map_location="cpu",
+                                weights_only=False)
+        w = sd.get("action_net.weight")
+        if w is None:
+            return True   # Can't determine – assume OK
+        return int(w.shape[0]) == expected_action_dim
+    except Exception as e:
+        print(f"  Warning: could not inspect model {model_zip}: {e}")
+        return False
+
+def _compute_action_dim(topology: str) -> int:
+    from src.orchestration.jo_vdpr.topology import TopologyManager
+    tm = TopologyManager(topology)
+    return tm.num_nodes * tm.num_nodes  # Discrete(N*N)
+
+
+expected_dim = _compute_action_dim(WORKER_TOPOLOGY)
+model_out = Path("results/models/ablation")
+existing_zips = list(model_out.glob("**/*.zip")) if model_out.exists() else []
+
+# Check if harp_full variant (used for load sweep) is compatible
+harp_full_zip = model_out / "harp_full" / f"dgrl_v11_harp_full_{WORKER_TOPOLOGY}.zip"
+all_compatible = (
+    len(existing_zips) >= 5
+    and _check_model_compatible(harp_full_zip, expected_dim)
+)
+
+if all_compatible:
+    print(f"✅ Ablation models exist and are compatible (action_dim={expected_dim}). Skipping training.")
+else:
+    if existing_zips and not all_compatible:
+        print(f"⚠️  Found existing models but action_dim mismatch (expected={expected_dim}). Retraining...")
+    print("======================================================")
+    print(f"Training ablation checkpoints for {WORKER_TOPOLOGY}...")
+    print("======================================================")
+    print(" ".join(train_cmd))
+    subprocess.check_call(train_cmd, env=env)
+    print("Training completed.")
+
+# %% Cell 5 - Evaluate 3 Scenarios & Generate Summary for 5 Seeds
+import pandas as pd
+import shutil
+from IPython.display import display
+
+SEEDS = [42, 100, 2024, 8888, 9999]
+summary_dfs = []
+
+for scenario_label, env_scenario in WORKER_SCENARIOS:
+    for seed in SEEDS:
+        out_dir = WORKER_ROOT / f"{WORKER_TOPOLOGY}_{scenario_label}_{STEPS}_seed_{seed}"
+        out_dir.mkdir(parents=True, exist_ok=True)
+        
+        eval_cmd = [
+            sys.executable,
+            "-m",
+            "src.analytics.ablation_study",
+            "--topology", WORKER_TOPOLOGY,
+            "--scenario", env_scenario,
+            "--steps", str(STEPS),
+            "--seed", str(seed),
+            "--version", "v11",
+            "--data-path", "data/real_telecom_combined.csv",
+            "--model-root", "results/models",
+            "--output-dir", str(out_dir),
+        ]
+        
+        print(f"\nEvaluating topology={WORKER_TOPOLOGY}, scenario={scenario_label}, seed={seed}")
+        try:
+            subprocess.check_call(eval_cmd, env=env)
+        except subprocess.CalledProcessError:
+            print(f"⚠️ Evaluation failed for {scenario_label} (seed {seed}). Check logs.")
+            continue
+
+        summary_path = out_dir / "harp_ablation_summary.csv"
+        if summary_path.exists():
+            df_tmp = pd.read_csv(summary_path)
+            df_tmp.insert(0, "Topology", WORKER_TOPOLOGY)
+            df_tmp.insert(1, "Scenario", scenario_label)
+            # Make sure seed is tracked
+            df_tmp["seed"] = seed
+            summary_dfs.append(df_tmp)
+
+if not summary_dfs:
+    raise RuntimeError("No summary files were produced!")
+
+# Merge into a single master CSV for all seeds
+raw_summary = pd.concat(summary_dfs, ignore_index=True)
+
+# Group by variant, topology, scenario and calculate mean and std
+# Only use numeric cols that actually exist in the CSV
+all_possible_numeric = ["acceptance_rate", "safe_acceptance_rate", "attempted_msd_violation_rate",
+                        "admitted_msd_violation_rate", "sla_violation_rate", "evacuation_hit_rate",
+                        "switching_rate", "avg_latency_ms", "avg_reward"]
+numeric_cols = [c for c in all_possible_numeric if c in raw_summary.columns]
+group_cols = [g for g in ["variant", "Topology", "Scenario"] if g in raw_summary.columns]
+
+print(f"Aggregating columns: {numeric_cols}")
+mean_df = raw_summary.groupby(group_cols)[numeric_cols].mean().reset_index()
+std_df  = raw_summary.groupby(group_cols)[numeric_cols].std().reset_index()
+
+# Format as "mean ± std"
+final_summary = mean_df.copy()
+for col in numeric_cols:
+    final_summary[col] = (mean_df[col].round(3).astype(str)
+                          + " \u00b1 "
+                          + std_df[col].round(3).astype(str))
+
+# Also save the raw per-seed CSV for transparency
+raw_summary.to_csv(WORKER_ROOT / f"{WORKER_TOPOLOGY}_raw_ablation_5seeds.csv", index=False)
+
+final_summary_path = WORKER_ROOT / f"{WORKER_TOPOLOGY}_master_ablation_summary_5seeds.csv"
+final_summary.to_csv(final_summary_path, index=False)
+
+print("\n======================================================")
+print("FINAL ABLATION SUMMARY (5 SEEDS)")
+print("======================================================")
+display(final_summary)
+
+# %% Cell 6 - Load Sweep
+print("\n======================================================")
+print("RUNNING LOAD SWEEP")
+print("======================================================")
+
+sweep_cmd = [
+    sys.executable, "-m", "src.analytics.benchmark.benchmark_algorithm.run_load_sweep",
+    "--topology", WORKER_TOPOLOGY,
     "--data-path", "data/real_telecom_combined.csv",
     "--model-root", "results/models",
-    "--output-dir", str(OUTPUT_DIR),
+    "--output-dir", "results/benchmark_algorithm/load_sweep",
+]
+try:
+    subprocess.check_call(sweep_cmd, env=env)
+except subprocess.CalledProcessError as e:
+    print(f"⚠️ Load sweep failed: {e}")
+
+
+# %% Cell 7 - Benchmark Algorithms (Greedy, DAI, SAF-H, HARP)
+print("\n======================================================")
+print("RUNNING BENCHMARK ALGORITHMS (FOR TABLE 7)")
+print("======================================================")
+
+benchmark_cmd = [
+    sys.executable,
+    "-m",
+    "src.analytics.benchmark.benchmark_algorithm.run_all",
+    "--topology", WORKER_TOPOLOGY,
+    "--scenario", "ablation",   # elephant_stress + burst_surge + chaos
+    "--skip-exhaustive",
+    "--data-path", "data/real_telecom_combined.csv",
+    "--model-root", "results/models",
 ]
 
-print("Running:")
-print(" ".join(cmd))
-subprocess.check_call(cmd, env=env)
+print(f"Running benchmark for {WORKER_TOPOLOGY}...")
+try:
+    subprocess.check_call(benchmark_cmd, env=env)
+    print("Benchmark completed successfully.")
+except subprocess.CalledProcessError as e:
+    print(f"⚠️ Benchmark failed for {WORKER_TOPOLOGY}. Check logs. Error: {e}")
 
-print("Ablation finished")
+# Move the benchmark results to the worker root so they get zipped
+benchmark_out = Path("results/benchmark_algorithm")
+if benchmark_out.exists():
+    dest_dir = WORKER_ROOT / "benchmark_results"
+    dest_dir.mkdir(parents=True, exist_ok=True)
+    for csv_file in benchmark_out.rglob("*.csv"):   # rglob to catch subfolders
+        shutil.copy2(csv_file, dest_dir / csv_file.name)
+    print(f"Copied {len(list(dest_dir.glob('*.csv')))} benchmark CSVs to {dest_dir}")
 
-# %% Cell 6 - Inspect Results
-import pandas as pd
-from IPython.display import display, Image
+# %% Cell 8 - Zip Results
+print("\n======================================================")
+print("ZIPPING RESULTS FOR DOWNLOAD")
+print("======================================================")
 
-summary_path = OUTPUT_DIR / "harp_ablation_summary.csv"
-json_path = OUTPUT_DIR / "harp_ablation_results.json"
-dashboard_path = OUTPUT_DIR / "harp_ablation_dashboard.png"
+# Move load sweep results to worker root
+# run_load_sweep.py saves to results/benchmark_algorithm/load_sweep/
+load_sweep_out = Path("results/benchmark_algorithm/load_sweep")
+if not load_sweep_out.exists():
+    load_sweep_out = Path("results/load_sweep")  # legacy fallback
+if load_sweep_out.exists():
+    dest_dir = WORKER_ROOT / "load_sweep_results"
+    dest_dir.mkdir(parents=True, exist_ok=True)
+    for f in load_sweep_out.rglob("*"):
+        if f.is_file():
+            shutil.copy2(f, dest_dir / f.name)
+    print(f"Copied {len(list(dest_dir.glob('*')))} load sweep files to {dest_dir}")
+else:
+    print("⚠️ Load sweep output not found — may have failed earlier.")
 
-df = pd.read_csv(summary_path)
-preferred_cols = [
-    "variant",
-    "policy_source",
-    "acceptance_rate",
-    "safe_acceptance_rate",
-    "attempted_msd_violation_rate",
-    "admitted_msd_violation_rate",
-    "sla_violation_rate",
-    "avg_latency_ms",
-    "avg_reward",
-]
-display(df[[c for c in preferred_cols if c in df.columns]])
+archive_base = Path("/kaggle/working") / f"harp_ablation_results_{WORKER_TOPOLOGY}"
+archive_path = shutil.make_archive(str(archive_base), "zip", root_dir=WORKER_ROOT)
 
-print("\nInterpretation notes:")
-print("- Use safe_acceptance_rate, not raw acceptance_rate, when comparing hard vs soft MSD.")
-print("- Evaluation is strict: every row must have policy_source=variant_checkpoint:...")
-print("- w/o GAT is a separately trained, parameter-matched flat MLP policy, not a heuristic fallback.")
-print("- Each variant uses its own VecNormalize statistics from results/models/ablation/<variant>/.")
-
-print(f"CSV:  {summary_path}")
-print(f"JSON: {json_path}")
-print(f"PNG:  {dashboard_path}")
-
-display(Image(filename=str(dashboard_path)))
-
-# %% Cell 7 - Optional: Run All Three Stress Scenarios
-import subprocess
-import sys
-
-for scenario in ["heavy_tail", "bursty", "uniform"]:
-    out_dir = Path("/kaggle/working/harp_ablation") / f"{TOPOLOGY}_{scenario}_{STEPS}"
-    out_dir.mkdir(parents=True, exist_ok=True)
-    cmd = [
-        sys.executable,
-        "-m",
-        "src.analytics.ablation_study",
-        "--topology", TOPOLOGY,
-        "--scenario", scenario,
-        "--steps", str(STEPS),
-        "--seed", str(SEED),
-        "--version", "v11",
-        "--data-path", "data/real_telecom_combined.csv",
-        "--model-root", "results/models",
-        "--output-dir", str(out_dir),
-    ]
-    print("Running", scenario)
-    subprocess.check_call(cmd, env=env)
-
-print("All selected scenarios finished")
+print(f"\n✅ All done for {WORKER_TOPOLOGY}!")
+print(f"Master CSV: {final_summary_path}")
+print(f"Download Archive: {archive_path}")

@@ -65,7 +65,7 @@ VARIANTS: Dict[str, TrainVariant] = {
 
 class NoMaskJOVDPREnv(JOVDPREnv):
     def action_masks(self) -> np.ndarray:
-        return np.ones(2 * self.num_nodes, dtype=bool)
+        return np.ones(self.action_space.n, dtype=bool)
 
 
 class FlatMLPExtractor(BaseFeaturesExtractor):
