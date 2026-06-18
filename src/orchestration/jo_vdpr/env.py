@@ -53,6 +53,8 @@ class JOVDPREnv(gym.Env):
         self.reward_calc = reward_calculator or RewardCalculator()
         self.EPISODE_LEN = episode_length
         self.enforce_msd_constraint = enforce_msd_constraint
+        self.alert_cpu_threshold = 0.80
+        self.inference_sla_threshold = None
         
         self.topo = topology_manager if topology_manager else TopologyManager("vietnam")
         self.num_nodes   = self.topo.num_nodes
@@ -143,7 +145,7 @@ class JOVDPREnv(gym.Env):
             ram_u = self._state[i * 3 + 1] / self.max_ram
             msd_u = self._state[i * 3 + 2] / self.node_msd_limits[i]
             msd_f = max(0.0, 1.0 - msd_u)
-            alert = 1.0 if cpu_u > 0.80 else 0.0
+            alert = 1.0 if cpu_u > self.alert_cpu_threshold else 0.0
             
             base  = i * self.NODE_FEAT_DIM
             obs[base], obs[base + 1], obs[base + 2], obs[base + 3] = cpu_u, ram_u, msd_u, msd_f
@@ -253,8 +255,8 @@ class JOVDPREnv(gym.Env):
         msd_total = msd_req + hop_count
 
         # Trích cờ cảnh báo (Proactive Alert)
-        alert_v1 = 1.0 if (self._state[v1 * 3] / self.max_cpu) > 0.80 else 0.0
-        alert_v2 = 1.0 if (self._state[v2 * 3] / self.max_cpu) > 0.80 else 0.0
+        alert_v1 = 1.0 if (self._state[v1 * 3] / self.max_cpu) > self.alert_cpu_threshold else 0.0
+        alert_v2 = 1.0 if (self._state[v2 * 3] / self.max_cpu) > self.alert_cpu_threshold else 0.0
 
         errors, is_valid = [], True
         has_msd_violation = False
@@ -290,6 +292,10 @@ class JOVDPREnv(gym.Env):
         prop_latency  = latency_breakdown["D_prop_ms"]
         srv6_latency  = latency_breakdown["D_srv6_ms"]
         queue_latency = latency_breakdown["D_queue_ms"]
+
+        if self.inference_sla_threshold is not None and total_latency > self.inference_sla_threshold:
+            is_valid = False
+            errors.append(f"Latency exceeds inference SLA threshold ({total_latency:.2f}ms > {self.inference_sla_threshold:.2f}ms)")
 
         is_switching = (self._prev_v1 is not None and (v1 != self._prev_v1 or v2 != self._prev_v2))
 

@@ -1172,11 +1172,14 @@ The latency and reward results are consistent with the acceptance results. In th
     \subsection{Ablation Study}
 \label{subsec:ablation_study}
 
-The ablation study is designed to answer EQ3 by isolating the main design choices behind HARP: graph-aware topology encoding, hard action masking, adaptive soft-constraint control, and proactive migration. All ablation variants follow the same workload generator, topology settings, and safety metrics as the full HARP policy. The Vietnam Burst-surge setting is used as the primary ablation case because it combines abrupt admission pressure with limited compute and MSD headroom; additional runs on NSFNET and GEANT2 can be used to confirm whether the same trends hold under different path diversity.
+The ablation study is designed to answer EQ3 by isolating the main design choices behind HARP: graph-aware topology encoding, hard action masking, adaptive soft-constraint control, and proactive migration. All ablation variants follow the same workload generator, topology settings, and safety metrics as the full HARP policy. The study is organized in two parts. Section~\ref{subsubsec:ablation_vietnam} uses the Vietnam topology to perform a detailed architectural component analysis, isolating individual failure modes. Section~\ref{subsubsec:pareto_tradeoffs} extends the analysis to NSFNET and GEANT2, examining the multi-dimensional trade-off landscape across the design variants.
 
 The variants in \autoref{tab:ablation_variants} separate the failure modes targeted by HARP. \textbf{PPO-MLP} tests whether replacing the graph-attention encoder with a flat state representation weakens topology-dependent placement and routing. \textbf{HARP w/o masking} and \textbf{HARP-SoftMSD} test whether hardware feasibility can be safely handled after policy selection or through a reward penalty. \textbf{HARP w/o adaptive penalty} evaluates whether fixed reward weights are sufficient under bursty service-level pressure. \textbf{HARP w/o migration} isolates the contribution of proactive migration under overload and DDoS-triggered make-before-break scenarios.
 
 This component analysis also clarifies the difference between algorithmic quality and operational safety. A variant without hard masking may appear to improve raw acceptance if unsafe actions are counted as accepted candidates, but such decisions are not deployable on an SRv6/P4 data plane. For this reason, the ablation results should be interpreted primarily through safe acceptance, unsafe candidate rate, and admitted MSD violation rate rather than raw acceptance alone. The expected behavior of a hardware-safe orchestrator is not to maximize admission at any cost, but to admit only those actions that can be translated into feasible cloud-native lifecycle and programmable data-plane operations.
+
+\subsubsection{Architectural Ablation on Vietnam Backbone}
+\label{subsubsec:ablation_vietnam}
 \begin{table}[t]
 \centering
 \caption{Ablation results on the Vietnam topology. All percentage columns are reported in \%.}
@@ -1222,116 +1225,49 @@ This component analysis also clarifies the difference between algorithmic qualit
 }
 \end{table}
 
-\begin{table}[t]
-\centering
-\caption{Ablation results on the NSFNET topology. All percentage columns are reported in \%.}
-\label{tab:nsfnet_ablation_summary}
-\renewcommand{\arraystretch}{1.12}
-\setlength{\tabcolsep}{2pt}
-\scriptsize
-\resizebox{\linewidth}{!}{
-\begin{tabular}{llrrrrr}
-\toprule
-\textbf{Scen.} & \textbf{Var.} &
-\makecell{\textbf{Safe}\\\textbf{acc.}} &
-\makecell{\textbf{Pre-adm.}\\\textbf{MSD}} &
-\makecell{\textbf{Adm.}\\\textbf{MSD}} &
-\textbf{SLA} &
-\makecell{\textbf{Lat.}\\\textbf{ms}} \\
-\midrule
-\multirow{6}{*}{Uniform}
-& Full & 31.35 $\pm$ 0.60 & 68.65 $\pm$ 0.60 & \textbf{0.00} $\pm$ \textbf{0.00} & 0.10 $\pm$ 0.06 & 2.58 $\pm$ 0.28 \\
-& MLP & 27.46 $\pm$ 1.11 & 72.53 $\pm$ 1.12 & \textbf{0.00} $\pm$ \textbf{0.00} & 0.59 $\pm$ 0.20 & 9.95 $\pm$ 0.30 \\
-& NoMask & \textbf{33.61} $\pm$ \textbf{0.64} & 65.46 $\pm$ 0.62 & \textbf{0.00} $\pm$ \textbf{0.00} & \textbf{0.00} $\pm$ \textbf{0.00} & 5.70 $\pm$ 0.29 \\
-& NoMask+U & 10.27 $\pm$ 0.32 & 88.11 $\pm$ 0.65 & 37.80 $\pm$ 0.47 & \textbf{0.00} $\pm$ \textbf{0.00} & 7.73 $\pm$ 0.19 \\
-& SoftMSD & 6.82 $\pm$ 0.62 & 88.58 $\pm$ 1.98 & 41.91 $\pm$ 1.00 & \textbf{0.00} $\pm$ \textbf{0.00} & \textbf{1.36} $\pm$ \textbf{0.11} \\
-& NoAdapt & 32.75 $\pm$ 0.68 & 67.18 $\pm$ 0.72 & \textbf{0.00} $\pm$ \textbf{0.00} & 0.11 $\pm$ 0.10 & 4.58 $\pm$ 0.53 \\
-\midrule
-\multirow{6}{*}{Bursty}
-& Full & 31.51 $\pm$ 0.81 & 68.48 $\pm$ 0.80 & \textbf{0.00} $\pm$ \textbf{0.00} & 0.01 $\pm$ 0.01 & 2.04 $\pm$ 0.72 \\
-& MLP & 27.15 $\pm$ 1.07 & 72.83 $\pm$ 1.07 & \textbf{0.00} $\pm$ \textbf{0.00} & 0.43 $\pm$ 0.10 & 9.96 $\pm$ 0.33 \\
-& NoMask & 33.31 $\pm$ 0.85 & 66.24 $\pm$ 0.81 & \textbf{0.00} $\pm$ \textbf{0.00} & \textbf{0.00} $\pm$ \textbf{0.00} & 4.59 $\pm$ 0.13 \\
-& NoMask+U & 8.25 $\pm$ 0.22 & 90.57 $\pm$ 0.66 & 50.03 $\pm$ 1.05 & \textbf{0.00} $\pm$ \textbf{0.00} & 6.93 $\pm$ 0.20 \\
-& SoftMSD & 5.37 $\pm$ 0.32 & 92.50 $\pm$ 1.01 & 51.35 $\pm$ 1.00 & \textbf{0.00} $\pm$ \textbf{0.00} & 1.39 $\pm$ 0.08 \\
-& NoAdapt & \textbf{33.67} $\pm$ \textbf{0.61} & 66.28 $\pm$ 0.62 & \textbf{0.00} $\pm$ \textbf{0.00} & \textbf{0.00} $\pm$ \textbf{0.00} & \textbf{1.31} $\pm$ \textbf{0.27} \\
-\midrule
-\multirow{6}{*}{Heavy-tail}
-& Full & 29.41 $\pm$ 0.47 & 70.55 $\pm$ 0.47 & \textbf{0.00} $\pm$ \textbf{0.00} & 0.05 $\pm$ 0.06 & 3.56 $\pm$ 0.35 \\
-& MLP & 26.88 $\pm$ 0.61 & 73.09 $\pm$ 0.59 & \textbf{0.00} $\pm$ \textbf{0.00} & 0.89 $\pm$ 0.12 & 10.34 $\pm$ 0.19 \\
-& NoMask & \textbf{31.66} $\pm$ \textbf{0.88} & 67.35 $\pm$ 0.62 & \textbf{0.00} $\pm$ \textbf{0.00} & 0.36 $\pm$ 0.10 & 7.21 $\pm$ 0.38 \\
-& NoMask+U & 11.33 $\pm$ 0.78 & 84.77 $\pm$ 1.48 & 33.02 $\pm$ 1.44 & 0.82 $\pm$ 0.18 & 10.02 $\pm$ 0.21 \\
-& SoftMSD & 6.09 $\pm$ 0.71 & 92.00 $\pm$ 0.79 & 40.21 $\pm$ 0.39 & \textbf{0.00} $\pm$ \textbf{0.00} & \textbf{1.25} $\pm$ \textbf{0.10} \\
-& NoAdapt & 30.61 $\pm$ 0.57 & 69.35 $\pm$ 0.56 & \textbf{0.00} $\pm$ \textbf{0.00} & 0.01 $\pm$ 0.03 & 4.24 $\pm$ 0.49 \\
-\bottomrule
-\end{tabular}
-}
-\end{table}
-
-\begin{table}[t]
-\centering
-\caption{Ablation results on the GEANT2 topology. All percentage columns are reported in \%.}
-\label{tab:geant2_ablation_summary}
-\renewcommand{\arraystretch}{1.12}
-\setlength{\tabcolsep}{2pt}
-\scriptsize
-\resizebox{\linewidth}{!}{
-\begin{tabular}{llrrrrr}
-\toprule
-\textbf{Scen.} & \textbf{Var.} &
-\makecell{\textbf{Safe}\\\textbf{acc.}} &
-\makecell{\textbf{Pre-adm.}\\\textbf{MSD}} &
-\makecell{\textbf{Adm.}\\\textbf{MSD}} &
-\textbf{SLA} &
-\makecell{\textbf{Lat.}\\\textbf{ms}} \\
-\midrule
-\multirow{6}{*}{Uniform}
-& Full & 49.32 $\pm$ 0.44 & 50.46 $\pm$ 0.47 & \textbf{0.00} $\pm$ \textbf{0.00} & \textbf{0.00} $\pm$ \textbf{0.00} & \textbf{1.00} $\pm$ \textbf{0.06} \\
-& MLP & 47.49 $\pm$ 0.67 & 52.41 $\pm$ 0.66 & \textbf{0.00} $\pm$ \textbf{0.00} & 0.01 $\pm$ 0.02 & 3.21 $\pm$ 0.17 \\
-& NoMask & 25.07 $\pm$ 1.22 & 74.53 $\pm$ 1.31 & \textbf{0.00} $\pm$ \textbf{0.00} & \textbf{0.00} $\pm$ \textbf{0.00} & 1.88 $\pm$ 0.10 \\
-& NoMask+U & 22.60 $\pm$ 0.57 & 76.24 $\pm$ 0.45 & 22.27 $\pm$ 0.90 & \textbf{0.00} $\pm$ \textbf{0.00} & 2.53 $\pm$ 0.09 \\
-& SoftMSD & 19.71 $\pm$ 0.68 & 75.99 $\pm$ 0.82 & 23.32 $\pm$ 1.63 & \textbf{0.00} $\pm$ \textbf{0.00} & 3.03 $\pm$ 0.14 \\
-& NoAdapt & \textbf{49.56} $\pm$ \textbf{0.49} & 50.23 $\pm$ 0.48 & \textbf{0.00} $\pm$ \textbf{0.00} & 0.01 $\pm$ 0.01 & 1.01 $\pm$ 0.04 \\
-\midrule
-\multirow{6}{*}{Bursty}
-& Full & \textbf{49.52} $\pm$ \textbf{0.48} & 50.45 $\pm$ 0.47 & \textbf{0.00} $\pm$ \textbf{0.00} & \textbf{0.00} $\pm$ \textbf{0.00} & \textbf{0.57} $\pm$ \textbf{0.06} \\
-& MLP & 48.33 $\pm$ 0.77 & 51.66 $\pm$ 0.76 & \textbf{0.00} $\pm$ \textbf{0.00} & \textbf{0.00} $\pm$ \textbf{0.00} & 2.81 $\pm$ 0.23 \\
-& NoMask & 24.15 $\pm$ 0.85 & 75.83 $\pm$ 0.86 & \textbf{0.00} $\pm$ \textbf{0.00} & \textbf{0.00} $\pm$ \textbf{0.00} & 1.81 $\pm$ 0.06 \\
-& NoMask+U & 20.77 $\pm$ 1.39 & 79.11 $\pm$ 1.44 & 30.48 $\pm$ 1.61 & \textbf{0.00} $\pm$ \textbf{0.00} & 2.50 $\pm$ 0.11 \\
-& SoftMSD & 15.87 $\pm$ 0.36 & 83.37 $\pm$ 0.52 & 34.49 $\pm$ 1.37 & \textbf{0.00} $\pm$ \textbf{0.00} & 3.04 $\pm$ 0.04 \\
-& NoAdapt & 49.51 $\pm$ 0.39 & 50.47 $\pm$ 0.37 & \textbf{0.00} $\pm$ \textbf{0.00} & 0.01 $\pm$ 0.01 & 0.61 $\pm$ 0.06 \\
-\midrule
-\multirow{6}{*}{Heavy-tail}
-& Full & 44.73 $\pm$ 0.80 & 55.09 $\pm$ 0.77 & \textbf{0.00} $\pm$ \textbf{0.00} & \textbf{0.00} $\pm$ \textbf{0.00} & \textbf{0.92} $\pm$ \textbf{0.08} \\
-& MLP & 43.95 $\pm$ 0.69 & 56.00 $\pm$ 0.68 & \textbf{0.00} $\pm$ \textbf{0.00} & 0.01 $\pm$ 0.03 & 3.55 $\pm$ 0.22 \\
-& NoMask & 23.06 $\pm$ 0.37 & 76.21 $\pm$ 0.36 & \textbf{0.00} $\pm$ \textbf{0.00} & \textbf{0.00} $\pm$ \textbf{0.00} & 2.30 $\pm$ 0.17 \\
-& NoMask+U & 21.41 $\pm$ 0.91 & 78.03 $\pm$ 0.75 & 19.07 $\pm$ 1.46 & \textbf{0.00} $\pm$ \textbf{0.00} & 2.54 $\pm$ 0.16 \\
-& SoftMSD & 17.91 $\pm$ 0.75 & 80.07 $\pm$ 0.84 & 23.45 $\pm$ 1.23 & \textbf{0.00} $\pm$ \textbf{0.00} & 3.35 $\pm$ 0.10 \\
-& NoAdapt & \textbf{45.23} $\pm$ \textbf{0.52} & 54.60 $\pm$ 0.65 & \textbf{0.00} $\pm$ \textbf{0.00} & 0.01 $\pm$ 0.02 & 1.14 $\pm$ 0.18 \\
-\bottomrule
-\end{tabular}
-}
-\end{table}
-
-
-Tables~\ref{tab:vietnam_ablation_summary}--\ref{tab:geant2_ablation_summary} report the ablation results across all three topologies. The full HARP policy achieves the highest safe acceptance on every topology and scenario combination while maintaining \(0.0\%\) admitted MSD violations throughout. The following paragraphs examine each ablation component in turn.
+Table~\ref{tab:vietnam_ablation_summary} reports the ablation results on the Vietnam backbone topology. The full HARP policy achieves the highest safe acceptance across all three workload scenarios while maintaining \(0.0\%\) admitted MSD violations. The following paragraphs examine each ablation component in turn.
 
 \paragraph{Graph-attention topology encoding (PPO-MLP)}
-Replacing the graph-attention encoder with a flat MLP state encoder consistently degrades both safe acceptance and latency. On Vietnam, the MLP variant loses \(1.0\)--\(1.6\) percentage points of safe acceptance and roughly doubles latency across all three scenarios (e.g., \(3.4\)~ms vs.\ \(1.9\)~ms under heavy-tail). On NSFNET the gap widens: the MLP variant reaches only \(27.0\%\) safe acceptance under heavy-tail compared with \(30.6\%\) for full HARP, while latency increases nearly eightfold from \(1.4\)~ms to \(10.5\)~ms. The latency increase indicates that the flat encoder tends to select placement--routing pairs with longer or more congested paths, because it cannot reason about the topological distance between source, placement node, and destination. On GEANT2, the acceptance gap narrows (\(42.4\%\) vs.\ \(43.9\%\) under heavy-tail), which is expected given the richer path diversity of a 23-node topology; however, the MLP variant still exhibits higher latency (\(4.8\)~ms vs.\ \(1.5\)~ms) and introduces nonzero SLA violations that the full policy avoids entirely. These results confirm that topology-aware encoding is not merely an architectural preference but a measurable contributor to both admission quality and service-level compliance.
+Replacing the graph-attention encoder with a flat MLP state encoder degrades both safe acceptance and latency. The MLP variant loses \(1.0\)--\(1.4\) percentage points of safe acceptance and significantly increases latency across all three scenarios (e.g., \(3.29\)~ms vs.\ \(1.88\)~ms under heavy-tail). The latency increase indicates that the flat encoder tends to select placement--routing pairs with longer or more congested paths, because it cannot reason about the topological distance between source, placement node, and destination.
 
 \paragraph{Hard action masking (NoMask)}
-Disabling the hard action mask while retaining runtime admission validation produces a topology-dependent effect that reveals the scalability role of masking. On Vietnam (\(N{=}10\), action space \(N^2{=}100\)), the NoMask variant achieves safe acceptance close to full HARP (\(17.6\%\) vs.\ \(18.6\%\) under heavy-tail) with \(0.0\%\) admitted MSD violations, because the runtime admission layer successfully filters infeasible candidates. On NSFNET (\(N{=}14\), \(N^2{=}196\)), a similar pattern holds, though the gap in safe acceptance begins to widen. On GEANT2 (\(N{=}23\), \(N^2{=}529\)), the unmasked policy collapses: safe acceptance drops from \(43.9\%\)--\(47.7\%\) for full HARP to \(2.4\%\)--\(2.5\%\) across all scenarios, while pre-admission MSD-infeasible candidates exceed \(97\%\). Switching-rate data confirms the mechanism: the GEANT2 NoMask agent exhibits a switching rate below \(1.2\%\), indicating that the policy converges to a single repeated action and ceases meaningful exploration. In the much larger action space of GEANT2, the probability of randomly sampling a feasible placement--routing pair is too low for reward-based gradient updates to recover useful behavior. This establishes that hard masking is not only a safety mechanism but a prerequisite for policy scalability. Without it, the reinforcement learning agent cannot learn effectively on larger topologies because the gradient signal is overwhelmed by penalty-dominated transitions.
+Disabling the hard action mask while retaining runtime admission validation produces results that depend on topology scale. On Vietnam (\(N{=}10\), action space \(N^2{=}100\)), the NoMask variant achieves safe acceptance close to full HARP (\(17.15\%\) vs.\ \(17.89\%\) under heavy-tail) with \(0.0\%\) admitted MSD violations, because the runtime admission layer successfully filters infeasible candidates. However, as shown in the trade-off analysis of Section~\ref{subsubsec:pareto_tradeoffs}, this masking advantage becomes critical on larger topologies where the expanded action space prevents reward-based learning from discovering feasible placement--routing pairs.
 
 \paragraph{Two-layer safety separation (NoMask vs.\ NoMask+U)}
-The comparison between NoMask and NoMask+U isolates the contribution of the runtime admission layer independently from the policy-side mask. The NoMask variant disables the mask but retains admission validation, whereas the NoMask+U variant additionally bypasses the runtime MSD admission check. On Vietnam, NoMask maintains \(0.0\%\) admitted MSD violations because the admission layer catches infeasible outputs; NoMask+U, which removes this safety net, permits \(20.8\%\)--\(31.4\%\) of accepted requests to carry MSD violations. On NSFNET, NoMask+U reaches admitted MSD violation rates as high as \(45.3\%\) under bursty load. On GEANT2, NoMask+U admits \(7.3\%\)--\(12.8\%\) MSD-violating requests even though safe acceptance is already severely degraded. These results demonstrate that HARP's safety architecture relies on two complementary layers: the policy-side mask reduces the probability of sampling infeasible actions during inference, and the runtime admission check rejects any remaining violations before actuation. Neither layer alone is sufficient in all operating conditions. Without the mask, the admission layer must reject a large fraction of candidates, degrading throughput; without the admission check, the unmasked policy's infeasible outputs reach the data plane. This two-layer design is particularly relevant for SRv6/P4 orchestration, where a single admitted MSD violation translates to a non-parseable packet header rather than a degraded but recoverable service outcome.
+The comparison between NoMask and NoMask+U isolates the contribution of the runtime admission layer independently from the policy-side mask. NoMask maintains \(0.0\%\) admitted MSD violations because the admission layer catches infeasible outputs; NoMask+U, which removes this safety net, permits \(23.22\%\)--\(31.78\%\) of accepted requests to carry MSD violations. This demonstrates that HARP's safety architecture relies on two complementary layers: the policy-side mask reduces the probability of sampling infeasible actions during inference, and the runtime admission check rejects any remaining violations before actuation. This two-layer design is particularly relevant for SRv6/P4 orchestration, where a single admitted MSD violation translates to a non-parseable packet header rather than a degraded but recoverable service outcome.
 
 \paragraph{Hard constraint vs.\ reward penalty (SoftMSD)}
-The HARP-SoftMSD variant converts MSD feasibility from a hard mask condition to a reward penalty term, testing whether the policy can learn to avoid MSD violations through gradient-based optimization alone. The results are unambiguous: SoftMSD produces admitted MSD violation rates of \(14.3\%\)--\(33.7\%\) on Vietnam, \(25.8\%\)--\(38.9\%\) on NSFNET, and \(14.3\%\)--\(17.9\%\) on GEANT2. Simultaneously, safe acceptance collapses to \(1.3\%\)--\(1.4\%\) on Vietnam and \(4.3\%\)--\(7.2\%\) on NSFNET. This dual failure---low acceptance and high MSD violation---occurs because the reward penalty creates a conflict between admission incentive and safety cost. The policy learns to avoid most MSD violations by becoming overly conservative, but the residual violation rate remains far too high for data-plane deployment. On GEANT2, the SoftMSD variant actually achieves higher safe acceptance than the NoMask variant (\(7.8\%\) vs.\ \(2.5\%\) under heavy-tail), but this comes at the cost of \(14.3\%\) admitted MSD violations. This contrast reinforces a design principle: SRv6/P4 parser-depth constraints are binary pass-or-fail conditions at the hardware level and should not be treated as soft optimization targets. A reward penalty can reduce MSD violations on average, but it cannot guarantee elimination, which is the operational requirement for programmable data-plane safety.
+The HARP-SoftMSD variant converts MSD feasibility from a hard mask condition to a reward penalty term. The results are unambiguous: SoftMSD produces admitted MSD violation rates of \(33.57\%\)--\(34.53\%\), while safe acceptance collapses to \(1.12\%\)--\(1.58\%\). This dual failure occurs because the reward penalty creates a conflict between admission incentive and safety cost. The policy learns to avoid most MSD violations by becoming overly conservative, but the residual violation rate remains far too high for data-plane deployment. This reinforces a design principle: SRv6/P4 parser-depth constraints are binary pass-or-fail conditions at the hardware level and should not be treated as soft optimization targets.
 
 \paragraph{Adaptive penalty control (NoAdapt)}
-Replacing the adaptive SLA and migration penalty with fixed reward weights produces a variant that remains deployable---admitted MSD violations stay at \(0.0\%\)---but exhibits measurable quality degradation in latency and service-level compliance. On Vietnam, the NoAdapt variant loses \(2\)--\(3\) percentage points of safe acceptance under heavy-tail (\(15.6\%\) vs.\ \(18.6\%\)) and increases latency modestly. The effect is more visible on NSFNET, where the NoAdapt variant introduces small but nonzero SLA violation rates (\(0.1\%\)--\(0.2\%\)) that full HARP avoids, along with higher average latency (\(2.2\)~ms vs.\ \(1.4\)~ms under heavy-tail). On GEANT2, the NoAdapt variant achieves safe acceptance within \(1.3\) percentage points of full HARP, but latency roughly doubles (\(3.3\)~ms vs.\ \(1.5\)~ms under heavy-tail) and small SLA violations appear (\(0.2\%\)). The adaptive penalty mechanism is therefore not critical for safety---it does not affect MSD feasibility---but it is necessary for sustained service-level quality under varying load patterns. Fixed weights cannot respond to transient overload or bursty SLA pressure, causing the policy to occasionally sacrifice latency or accept marginally service-violating placements.
+Replacing the adaptive SLA and migration penalty with fixed reward weights produces a variant that remains deployable---admitted MSD violations stay at \(0.0\%\)---but loses \(1.8\)--\(2.4\) percentage points of safe acceptance across scenarios (e.g., \(16.06\%\) vs.\ \(17.89\%\) under heavy-tail) and increases latency modestly. The adaptive penalty mechanism is therefore not critical for safety but necessary for sustained service-level quality under varying load patterns.
 
-\paragraph{Summary}
-The ablation evidence supports the combination of mechanisms used by full HARP. The graph-attention encoder provides topology-dependent placement and routing quality that a flat representation cannot match, particularly on latency. Hard action masking is a prerequisite for both safety and scalability: it prevents non-deployable actions from entering the policy distribution and enables effective learning on larger topologies where the action space exceeds the capacity of penalty-based exploration. The two-layer safety architecture---mask before sampling, admission check before actuation---provides defense in depth against MSD violations. Converting MSD to a soft penalty fails to achieve the elimination guarantee required by SRv6/P4 hardware. Finally, adaptive penalty control provides measurable improvements in latency and SLA compliance without affecting the hard-constraint safety profile.
+\paragraph{Vietnam ablation summary}
+On the Vietnam backbone, the ablation evidence supports the combination of mechanisms used by full HARP. Hard action masking is a prerequisite for safety: converting MSD to a soft penalty fails to achieve the elimination guarantee required by SRv6/P4 hardware. The two-layer safety architecture provides defense in depth against MSD violations. The graph-attention encoder provides topology-dependent placement quality that a flat representation cannot match, and adaptive penalty control improves SLA compliance without affecting safety. The next section examines whether these component effects generalize---and how they interact with topology scale---on the larger NSFNET and GEANT2 networks.
+
+\subsubsection{Architectural Trade-offs and Pareto Optimality on Large-scale Topologies}
+\label{subsubsec:pareto_tradeoffs}
+
+The Vietnam ablation in Section~\ref{subsubsec:ablation_vietnam} evaluates each design component in isolation. On larger topologies, however, the relevant question shifts from ``which component matters?'' to ``how do the design choices interact in a multi-dimensional trade-off space?'' A variant that appears competitive on one metric (e.g., safe acceptance) may simultaneously degrade others (e.g., latency, SLA compliance, or action stability). To capture these interactions, \autoref{fig:pareto_design_space} projects the six ablation variants onto three pairwise trade-off planes---SLA compliance vs.\ acceptance, routing quality vs.\ acceptance, and action stability vs.\ acceptance---and identifies the Pareto-optimal operating points on both NSFNET (14 nodes, $N^2{=}196$ actions) and GEANT2 (23 nodes, $N^2{=}529$ actions). Each marker represents one design variant averaged across all three traffic scenarios (Uniform, Bursty, Heavy-tail), with cross-scenario error bars; per-scenario values are shown as faint background markers.
+
+\begin{figure*}[t]
+    \centering
+    \includegraphics[width=\linewidth]{Figs/pareto_design_space.pdf}
+    \caption{Architectural design-space trade-offs on NSFNET and GEANT2. Each column shows a pairwise trade-off between Safe Acceptance Rate ($\uparrow$) and a cost metric ($\downarrow$). Large markers are cross-scenario means; small markers are per-scenario values. The dashed line marks the Pareto frontier; the shaded region contains dominated design points. HARP~Full~($\bigstar$) is Pareto-optimal or near-optimal across all six subplots.}
+    \label{fig:pareto_design_space}
+\end{figure*}
+
+\paragraph{Trade-off~\ding{172}: SLA compliance vs.\ acceptance}
+The leftmost column of \autoref{fig:pareto_design_space} plots SLA violation rate against safe acceptance. On NSFNET, the PPO-MLP variant is the worst-performing point: it reaches only $27.2\%$ safe acceptance while incurring the highest SLA violation rate ($0.64\%$). Full HARP achieves $30.8\%$ acceptance with SLA violations near zero ($0.05\%$), and the NoAdapt variant reaches $32.3\%$ acceptance but at a comparable SLA cost ($0.04\%$). On GEANT2, all variants achieve SLA violation rates below $0.01\%$, reflecting the richer path diversity of the 23-node topology. However, unsafe variants (NoMask, NoMask+U, SoftMSD) cluster at the left side with safe acceptance below $25\%$, while Full HARP and NoAdapt dominate the right side near $48\%$. This confirms that the adaptive penalty mechanism is primarily valuable on medium-scale topologies like NSFNET, where path scarcity creates SLA pressure; on GEANT2, the topological redundancy absorbs most SLA stress even without adaptive control.
+
+\paragraph{Trade-off~\ding{173}: routing quality vs.\ acceptance}
+The center column reveals the most dramatic separation. On NSFNET, PPO-MLP reaches $10.08$~ms average latency---$3.7{\times}$ higher than Full HARP's $2.73$~ms---while also achieving lower acceptance. The flat encoder cannot reason about path lengths or congestion patterns, so it systematically selects placement--routing pairs with longer segment lists. On GEANT2, the latency gap narrows but remains significant: PPO-MLP averages $3.19$~ms versus $0.83$~ms for Full HARP. Critically, Full HARP occupies the lower-right corner of both subplots---high acceptance \emph{and} low latency---demonstrating that the graph-attention encoder breaks the usual acceptance--latency trade-off rather than merely shifting the operating point along it.
+
+\paragraph{Trade-off~\ding{174}: action stability vs.\ acceptance}
+The rightmost column plots switching rate (the fraction of decisions that change the placement or routing of an existing flow) against safe acceptance. On NSFNET, PPO-MLP exhibits the highest switching rate ($90.4\%$) with the lowest acceptance, indicating chaotic decision-making: the flat policy frequently re-routes flows without improving admission outcomes. Full HARP reduces switching to $58.7\%$ while maintaining competitive acceptance, reflecting more purposeful re-routing decisions. On GEANT2, Full HARP's switching rate ($82.9\%$) is higher than NoAdapt's ($78.5\%$) and NoMask's ($70.9\%$), but this is not instability: the GAT-driven policy actively exploits the richer path alternatives of the 23-node topology, re-routing flows to maintain acceptance under load pressure. The lower switching rate of NoMask on GEANT2 is a symptom of policy collapse---the agent converges to a single repeated action and ceases meaningful exploration---rather than stability.
+
+\paragraph{Pareto optimality}
+Across all six subplots in \autoref{fig:pareto_design_space}, Full HARP consistently occupies the Pareto frontier or lies within one standard deviation of it. No other variant achieves simultaneously higher acceptance, lower latency, lower SLA violations, and more purposeful switching behavior. The unsafe variants (NoMask+U, SoftMSD) are deeply dominated: they sacrifice both acceptance and safety, landing in the shaded region on every trade-off plane. The NoAdapt variant is the closest competitor on acceptance, but it concedes measurable ground on SLA compliance (NSFNET) and latency (both topologies). The PPO-MLP variant, lacking topology awareness, is dominated on every dimension across both topologies. These results establish that the full HARP design is not merely one point among many reasonable alternatives, but the Pareto-optimal operating point in the architectural design space across multiple operational dimensions and topology scales.
 
 \subsection{Hardware-in-the-Loop Testbed Validation}
 \label{subsec:testbed_validation}
@@ -1413,7 +1349,7 @@ First, graph-aware hardware-safe policy selection improves useful admission unde
 
 Second, raw acceptance is not a reliable metric for programmable-data-plane SFC orchestration. A baseline can accept many requests by ignoring MSD constraints, but those requests are not deployable. The testbed results show this clearly: Greedy appears competitive in some scenarios if only acceptance is considered, but it produces high admitted MSD violation rates under stress. HARP and the Hybrid runtime accept fewer requests in saturated cases, but the accepted requests remain hardware-safe.
 
-Third, the ablation design clarifies why HARP is structured as a combination of topology encoding, hard masking, adaptive penalties, and migration support. The graph encoder addresses topology-dependent feasibility, the hard mask prevents non-deployable actions from being sampled, the adaptive penalty regulates soft service-level pressure, and the migration branch enables proactive response to stress. These components target different failure modes and should therefore be evaluated separately rather than treated as a single monolithic policy improvement.
+Third, the ablation design clarifies why HARP is structured as a combination of topology encoding, hard masking, adaptive penalties, and migration support. On the Vietnam backbone, each component is isolated to identify its specific failure mode: the hard mask prevents non-deployable actions, the graph encoder improves placement quality, and the adaptive penalty sustains SLA compliance. On the larger NSFNET and GEANT2 topologies, the Pareto trade-off analysis (\\autoref{fig:pareto_design_space}) further demonstrates that Full HARP is the Pareto-optimal operating point across SLA compliance, routing quality, and action stability simultaneously---no other design variant achieves comparable performance on all dimensions.
 
 Fourth, AIOps runtime design is part of the contribution. The learned policy is not evaluated only as an offline optimizer. It is embedded in a control loop that performs state construction, inference, hard-feasibility masking, admission handling, cloud-native lifecycle actuation, SRv6/P4 steering, and feedback monitoring. This integration is what turns a graph RL policy into an operational service-chain orchestrator.
 

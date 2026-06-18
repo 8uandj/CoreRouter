@@ -202,7 +202,7 @@ SEED = 42
 # Define optimal steps based on topology size (action space)
 _STEPS_MAP = {
     "vietnam": 500_000,   # 10 nodes -> 100 actions
-    "nsfnet": 2_000_000,  # 14 nodes -> 196 ac  tions
+    "nsfnet": 2_000_000,  # 14 nodes -> 196 actions
     "geant2": 2_000_000,  # 23 nodes -> 529 actions
 }
 TRAIN_TOTAL_STEPS = _STEPS_MAP.get(WORKER_TOPOLOGY, 500_000)
@@ -301,41 +301,154 @@ else:
     subprocess.check_call(train_cmd, env=env)
     print("Training completed.")
 
-# %% Cell 5 - Integrated Ablation & Parameter Sweep for 5 Seeds
+# %% Cell 5 - Evaluate 3 Scenarios & Generate Summary for 5 Seeds
 import pandas as pd
+import shutil
 from IPython.display import display
 
-eval_cmd = [
-    sys.executable,
-    "-m",
-    "src.analytics.ablation_parameter_sweep",
+SEEDS = [42, 100, 2024, 8888, 9999]
+summary_dfs = []
+
+for scenario_label, env_scenario in WORKER_SCENARIOS:
+    for seed in SEEDS:
+        out_dir = WORKER_ROOT / f"{WORKER_TOPOLOGY}_{scenario_label}_{STEPS}_seed_{seed}"
+        out_dir.mkdir(parents=True, exist_ok=True)
+        
+        eval_cmd = [
+            sys.executable,
+            "-m",
+            "src.analytics.ablation_study",
+            "--topology", WORKER_TOPOLOGY,
+            "--scenario", env_scenario,
+            "--steps", str(STEPS),
+            "--seed", str(seed),
+            "--version", "v11",
+            "--data-path", "data/real_telecom_combined.csv",
+            "--model-root", "results/models",
+            "--output-dir", str(out_dir),
+        ]
+        
+        print(f"\nEvaluating topology={WORKER_TOPOLOGY}, scenario={scenario_label}, seed={seed}")
+        try:
+            subprocess.check_call(eval_cmd, env=env)
+        except subprocess.CalledProcessError:
+            print(f"⚠️ Evaluation failed for {scenario_label} (seed {seed}). Check logs.")
+            continue
+
+        summary_path = out_dir / "harp_ablation_summary.csv"
+        if summary_path.exists():
+            df_tmp = pd.read_csv(summary_path)
+            df_tmp.insert(0, "Topology", WORKER_TOPOLOGY)
+            df_tmp.insert(1, "Scenario", scenario_label)
+            # Make sure seed is tracked
+            df_tmp["seed"] = seed
+            summary_dfs.append(df_tmp)
+
+if not summary_dfs:
+    raise RuntimeError("No summary files were produced!")
+
+# Merge into a single master CSV for all seeds
+raw_summary = pd.concat(summary_dfs, ignore_index=True)
+
+# Group by variant, topology, scenario and calculate mean and std
+# Only use numeric cols that actually exist in the CSV
+all_possible_numeric = ["acceptance_rate", "safe_acceptance_rate", "attempted_msd_violation_rate",
+                        "admitted_msd_violation_rate", "sla_violation_rate", "evacuation_hit_rate",
+                        "switching_rate", "avg_latency_ms", "avg_reward"]
+numeric_cols = [c for c in all_possible_numeric if c in raw_summary.columns]
+group_cols = [g for g in ["variant", "Topology", "Scenario"] if g in raw_summary.columns]
+
+print(f"Aggregating columns: {numeric_cols}")
+mean_df = raw_summary.groupby(group_cols)[numeric_cols].mean().reset_index()
+std_df  = raw_summary.groupby(group_cols)[numeric_cols].std().reset_index()
+
+# Format as "mean ± std"
+final_summary = mean_df.copy()
+for col in numeric_cols:
+    final_summary[col] = (mean_df[col].round(3).astype(str)
+                          + " \u00b1 "
+                          + std_df[col].round(3).astype(str))
+
+# Also save the raw per-seed CSV for transparency
+raw_summary.to_csv(WORKER_ROOT / f"{WORKER_TOPOLOGY}_raw_ablation_5seeds.csv", index=False)
+
+final_summary_path = WORKER_ROOT / f"{WORKER_TOPOLOGY}_master_ablation_summary_5seeds.csv"
+final_summary.to_csv(final_summary_path, index=False)
+
+print("\n======================================================")
+print("FINAL ABLATION SUMMARY (5 SEEDS)")
+print("======================================================")
+display(final_summary)
+
+# %% Cell 6 - Load Sweep
+print("\n======================================================")
+print("RUNNING LOAD SWEEP")
+print("======================================================")
+
+sweep_cmd = [
+    sys.executable, "-m", "src.analytics.benchmark.benchmark_algorithm.run_load_sweep",
     "--topology", WORKER_TOPOLOGY,
-    "--scenario", "heavy_tail",
-    "--steps", str(STEPS),
-    "--seeds", "42", "100", "2024", "8888", "9999",
     "--data-path", "data/real_telecom_combined.csv",
     "--model-root", "results/models",
-    "--output-dir", str(WORKER_ROOT),
-    "--workers", "4",
+    "--output-dir", "results/benchmark_algorithm/load_sweep",
+]
+try:
+    subprocess.check_call(sweep_cmd, env=env)
+except subprocess.CalledProcessError as e:
+    print(f"⚠️ Load sweep failed: {e}")
+
+
+# %% Cell 7 - Benchmark Algorithms (Greedy, DAI, SAF-H, HARP)
+print("\n======================================================")
+print("RUNNING BENCHMARK ALGORITHMS (FOR TABLE 7)")
+print("======================================================")
+
+benchmark_cmd = [
+    sys.executable,
+    "-m",
+    "src.analytics.benchmark.benchmark_algorithm.run_all",
+    "--topology", WORKER_TOPOLOGY,
+    "--scenario", "ablation",   # elephant_stress + burst_surge + chaos
+    "--skip-exhaustive",
+    "--data-path", "data/real_telecom_combined.csv",
+    "--model-root", "results/models",
 ]
 
-print(f"\nRunning Integrated Ablation and Parameter Sweeps for {WORKER_TOPOLOGY}...")
+print(f"Running benchmark for {WORKER_TOPOLOGY}...")
 try:
-    subprocess.check_call(eval_cmd, env=env)
-    print("Parameter sweep completed successfully.")
+    subprocess.check_call(benchmark_cmd, env=env)
+    print("Benchmark completed successfully.")
 except subprocess.CalledProcessError as e:
-    print(f"⚠️ Parameter sweep evaluation failed for {WORKER_TOPOLOGY}: {e}")
+    print(f"⚠️ Benchmark failed for {WORKER_TOPOLOGY}. Check logs. Error: {e}")
 
-final_summary_path = WORKER_ROOT / f"{WORKER_TOPOLOGY}_master_ablation_parameter_sweep_5seeds.csv"
-if final_summary_path.exists():
-    display(pd.read_csv(final_summary_path))
-else:
-    print("⚠️ Master summary file not found!")
+# Move the benchmark results to the worker root so they get zipped
+benchmark_out = Path("results/benchmark_algorithm")
+if benchmark_out.exists():
+    dest_dir = WORKER_ROOT / "benchmark_results"
+    dest_dir.mkdir(parents=True, exist_ok=True)
+    for csv_file in benchmark_out.rglob("*.csv"):   # rglob to catch subfolders
+        shutil.copy2(csv_file, dest_dir / csv_file.name)
+    print(f"Copied {len(list(dest_dir.glob('*.csv')))} benchmark CSVs to {dest_dir}")
 
-# %% Cell 6 - Zip Results
+# %% Cell 8 - Zip Results
 print("\n======================================================")
 print("ZIPPING RESULTS FOR DOWNLOAD")
 print("======================================================")
+
+# Move load sweep results to worker root
+# run_load_sweep.py saves to results/benchmark_algorithm/load_sweep/
+load_sweep_out = Path("results/benchmark_algorithm/load_sweep")
+if not load_sweep_out.exists():
+    load_sweep_out = Path("results/load_sweep")  # legacy fallback
+if load_sweep_out.exists():
+    dest_dir = WORKER_ROOT / "load_sweep_results"
+    dest_dir.mkdir(parents=True, exist_ok=True)
+    for f in load_sweep_out.rglob("*"):
+        if f.is_file():
+            shutil.copy2(f, dest_dir / f.name)
+    print(f"Copied {len(list(dest_dir.glob('*')))} load sweep files to {dest_dir}")
+else:
+    print("⚠️ Load sweep output not found — may have failed earlier.")
 
 archive_base = Path("/kaggle/working") / f"harp_ablation_results_{WORKER_TOPOLOGY}"
 archive_path = shutil.make_archive(str(archive_base), "zip", root_dir=WORKER_ROOT)
