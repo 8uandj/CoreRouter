@@ -74,7 +74,7 @@ class RunMetrics:
             return
         accepted = bool(info.get("accepted", False))
         self.acceptance.append(accepted)
-        self.msd_violations.append(bool(info.get("msd_violation", False)))
+        self.msd_violations.append(bool(info.get("admitted_msd_violation", False)))
         self.rewards.append(float(reward))
         self.evacuation_hits.append(bool(info.get("evacuation_hit", False)))
         if accepted:

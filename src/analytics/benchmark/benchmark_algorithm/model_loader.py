@@ -29,10 +29,13 @@ class NpzNormalizer:
         return np.clip(normalized, -self.clip_obs, self.clip_obs).astype(np.float32)
 
 
-def load_normalizer(norm_path: Path):
+def load_normalizer(norm_path: Path, venv=None):
     try:
         from stable_baselines3.common.vec_env import VecNormalize
-        return VecNormalize.load(str(norm_path), None)
+        normalizer = VecNormalize.load(str(norm_path), venv)
+        normalizer.training = False
+        normalizer.norm_reward = False
+        return normalizer
     except Exception:
         npz_path = norm_path.with_suffix(".npz")
         if npz_path.exists():
@@ -92,4 +95,3 @@ def _flatten_single_root_archive(path: Path) -> Path:
                 if name.startswith(prefix):
                     out.writestr(name[len(prefix):], source.read(name))
         return target
-

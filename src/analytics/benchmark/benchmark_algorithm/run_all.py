@@ -17,6 +17,7 @@ os.environ["VECLIB_MAXIMUM_THREADS"] = "1"
 os.environ["NUMEXPR_NUM_THREADS"] = "1"
 
 from .algorithms import run_all_algorithms
+from .ablation_algorithms import run_all_ablation_algorithms
 from .config import AlgorithmBenchmarkConfig, SCENARIO_CHOICES, load_params, scenario_jobs
 from .env_factory import make_env
 from .exporters import write_aggregate_summary, write_json, write_seed_summary
@@ -38,6 +39,7 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--output-dir", default="results/benchmark_algorithm")
     parser.add_argument("--data-path", default="data/processed/real_telecom_combined.csv")
     parser.add_argument("--model-root", default="results/models")
+    parser.add_argument("--ablation", action="store_true", help="Run HARP ablation study instead of baseline comparison.")
     return parser.parse_args()
 
 
@@ -57,24 +59,26 @@ def main() -> None:
         data_path=Path(args.data_path),
         model_root=Path(args.model_root),
     )
+    is_ablation = args.ablation
     timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
-    run_root = config.output_dir / timestamp
+    run_root = config.output_dir / (f"ablation_{timestamp}" if is_ablation else timestamp)
     run_root.mkdir(parents=True, exist_ok=True)
 
     topologies = ["vietnam", "nsfnet", "geant2"] if config.topology == "all" else [config.topology]
-    jobs = scenario_jobs(config.scenario, config.load)
+    jobs = scenario_jobs(config.scenario if not is_ablation else "ablation", config.load)
+
+    # Determine the algorithm grouping keys based on mode
+    if is_ablation:
+        group_keys = ["harp_full", "harp_no_gat", "harp_no_hard_mask", "harp_soft_msd", "harp_no_adaptive"]
+    else:
+        group_keys = ["exhaustive_pair_search", "traditional_greedy", "saf_h", "decoupled_ai", "harp"]
 
     all_runs: List[RunMetrics] = []
     for topology in topologies:
         for display_scenario, env_scenario, job_load in jobs:
             print(f"Running topology={topology} scenario={display_scenario} env={env_scenario} load={job_load}")
-            grouped: Dict[str, List[RunMetrics]] = {
-                "exhaustive_pair_search": [],
-                "traditional_greedy": [],
-                "decoupled_ai": [],
-                "jo_vppm": [],
-            }
-            include_exhaustive = not config.skip_exhaustive and not (topology == "geant2" and config.steps > 1000)
+            grouped: Dict[str, List[RunMetrics]] = {key: [] for key in group_keys}
+            include_exhaustive = not is_ablation and not config.skip_exhaustive and not (topology == "geant2" and config.steps > 1000)
 
             seed_results_list = run_seed_jobs(
                 topology=topology,
@@ -83,6 +87,7 @@ def main() -> None:
                 load=job_load,
                 config=config,
                 include_exhaustive=include_exhaustive,
+                is_ablation=is_ablation,
             )
             for seed, seed_results in seed_results_list:
                 print(f"  seed={seed}")
@@ -117,6 +122,7 @@ def run_seed_jobs(
     load: str,
     config: AlgorithmBenchmarkConfig,
     include_exhaustive: bool,
+    is_ablation: bool = False,
 ) -> List[tuple[int, Dict[str, RunMetrics]]]:
     if config.workers <= 1 or len(config.seeds) <= 1:
         return [
@@ -134,6 +140,7 @@ def run_seed_jobs(
                     config.norm_path(topology),
                     include_exhaustive,
                     config.sla_scale,
+                    is_ablation=is_ablation,
                 ),
             )
             for seed in config.seeds
@@ -155,6 +162,7 @@ def run_seed_jobs(
                 config.norm_path(topology),
                 include_exhaustive,
                 config.sla_scale,
+                is_ablation,
             ): seed
             for seed in config.seeds
         }
@@ -175,6 +183,7 @@ def run_one_seed(
     norm_path: Path,
     include_exhaustive: bool,
     sla_scale: float,
+    is_ablation: bool = False,
 ) -> Dict[str, RunMetrics]:
     arrival_rate, ttl_range = load_params(load)
 
@@ -187,6 +196,16 @@ def run_one_seed(
             ttl_range=ttl_range,
             scenario=env_scenario,
             sla_scale=sla_scale,
+        )
+
+    if is_ablation:
+        return run_all_ablation_algorithms(
+            make_env_fn=make_env_fn,
+            scenario=env_scenario,
+            steps=steps,
+            seed=seed,
+            model_path=model_path,
+            norm_path=norm_path,
         )
 
     return run_all_algorithms(

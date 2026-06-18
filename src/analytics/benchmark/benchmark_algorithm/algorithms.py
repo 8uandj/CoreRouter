@@ -70,6 +70,55 @@ def run_greedy(make_env_fn: EnvMaker, scenario: str, steps: int, seed: int) -> R
     return metrics
 
 
+def run_saf_h(make_env_fn: EnvMaker, scenario: str, steps: int, seed: int) -> RunMetrics:
+    env = make_env_fn()
+    env.traffic_scenario = scenario
+    np.random.seed(seed)
+    random.seed(seed)
+    metrics = RunMetrics("saf_h", scenario, env.topo.topology_name, seed)
+    state, _ = env.reset(seed=seed)
+    for _ in range(steps):
+        valid_actions = []
+        cpu_req = env._current_req.get('cpu', 0.0)
+        ram_req = env._current_req.get('ram', 0.0)
+        msd_req = env._current_req.get('msd', 1)
+        bw_req = cpu_req * 10.0
+        
+        for place in range(env.num_nodes):
+            cpu_curr = env._state[place * 3]
+            ram_curr = env._state[place * 3 + 1]
+            if cpu_curr + cpu_req > env.max_cpu or ram_curr + ram_req > env.max_ram:
+                continue
+            for route in range(env.num_nodes):
+                if place != route and env._link_bw[place][route] < bw_req:
+                    continue
+                hop_count = env.topo.get_hop_distance(place, route)
+                msd_curr = env._state[route * 3 + 2]
+                if msd_curr + msd_req + hop_count <= env.node_msd_limits[route]:
+                    valid_actions.append([place, route])
+        
+        if not valid_actions:
+            v_place, v_route = 0, 0
+        else:
+            best_action = None
+            best_cost = np.inf
+            for place, route in valid_actions:
+                cpu_util = (env._state[place * 3] + cpu_req) / env.max_cpu
+                latency = env.latency_matrix[place][route]
+                hop_count = env.topo.get_hop_distance(place, route)
+                cost = latency * 0.5 + cpu_util * 100.0 + hop_count * 5.0
+                if cost < best_cost:
+                    best_cost = cost
+                    best_action = [place, route]
+            v_place, v_route = best_action
+            
+        state, reward, done, _, info = env.step([v_place, v_route])
+        metrics.collect(info, reward)
+        if done:
+            state, _ = env.reset(seed=seed)
+    env.close()
+    return metrics
+
 def run_decoupled(make_env_fn: EnvMaker, scenario: str, steps: int, seed: int) -> RunMetrics:
     env = make_env_fn()
     env.traffic_scenario = scenario
@@ -108,14 +157,28 @@ def run_jo_vppm(
     raw_env.traffic_scenario = scenario
     np.random.seed(seed)
     random.seed(seed)
-    metrics = RunMetrics("jo_vppm", scenario, raw_env.topo.topology_name, seed)
+    metrics = RunMetrics("harp", scenario, raw_env.topo.topology_name, seed)
 
     if not model_path.exists() or not norm_path.exists():
         raw_env.close()
-        return metrics
+        raise FileNotFoundError(
+            f"HARP model not found.\n"
+            f"  model_path: {model_path}\n"
+            f"  norm_path:  {norm_path}\n"
+            f"Make sure Cell 4 training completed for topology={raw_env.topo.topology_name}."
+        )
 
-    normalizer = load_normalizer(norm_path)
-    model = build_model_from_policy_weights(raw_env, model_path)
+    try:
+        model = build_model_from_policy_weights(raw_env, model_path)
+    except RuntimeError as e:
+        raw_env.close()
+        raise RuntimeError(
+            f"HARP model size mismatch for topology={raw_env.topo.topology_name} "
+            f"(num_nodes={raw_env.topo.num_nodes}, action_space={raw_env.topo.num_nodes**2}).\n"
+            f"The model at {model_path} was trained with a different env. Run Cell 4 to retrain.\n"
+            f"Original error: {e}"
+        ) from e
+    normalizer = load_normalizer(norm_path, model.get_env())
     obs, _ = raw_env.reset(seed=seed)
 
     for _ in range(steps):
@@ -152,7 +215,7 @@ def run_all_algorithms(
     if include_exhaustive:
         results["exhaustive_pair_search"] = run_exhaustive(make_env_fn, scenario, steps, seed)
     results["traditional_greedy"] = run_greedy(make_env_fn, scenario, steps, seed)
+    results["saf_h"] = run_saf_h(make_env_fn, scenario, steps, seed)
     results["decoupled_ai"] = run_decoupled(make_env_fn, scenario, steps, seed)
-    results["jo_vppm"] = run_jo_vppm(make_env_fn, model_path, norm_path, scenario, steps, seed)
+    results["harp"] = run_jo_vppm(make_env_fn, model_path, norm_path, scenario, steps, seed)
     return results
-

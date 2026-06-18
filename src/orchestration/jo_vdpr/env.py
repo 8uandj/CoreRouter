@@ -46,11 +46,15 @@ class JOVDPREnv(gym.Env):
                  repository: IRepository,
                  reward_calculator: Optional[RewardCalculator] = None,
                  topology_manager: Optional[TopologyManager] = None,
-                 episode_length: int = 100):
+                 episode_length: int = 100,
+                 enforce_msd_constraint: bool = True):
         super().__init__()
         self.repo        = repository
         self.reward_calc = reward_calculator or RewardCalculator()
         self.EPISODE_LEN = episode_length
+        self.enforce_msd_constraint = enforce_msd_constraint
+        self.alert_cpu_threshold = 0.80
+        self.inference_sla_threshold = None
         
         self.topo = topology_manager if topology_manager else TopologyManager("vietnam")
         self.num_nodes   = self.topo.num_nodes
@@ -65,7 +69,7 @@ class JOVDPREnv(gym.Env):
                    + self.TRAFFIC_DIM
                    + self.GLOBAL_CTX_DIM)
         self.observation_space = spaces.Box(0.0, 1.0, shape=(obs_dim,), dtype=np.float32)
-        self.action_space      = spaces.MultiDiscrete([self.num_nodes, self.num_nodes])
+        self.action_space      = spaces.Discrete(self.num_nodes * self.num_nodes)
 
         self.current_step  = 0
         self._state        = np.zeros(self.num_nodes * 3, dtype=np.float32)
@@ -91,6 +95,45 @@ class JOVDPREnv(gym.Env):
     def update_reward_lambda(self, new_lambda: float) -> None:
         self.reward_calc.update_lambda_latency(new_lambda)
 
+    def _encode_action(self, v1: int, v2: int) -> int:
+        return int(v1) * self.num_nodes + int(v2)
+
+    def _decode_action(self, action) -> tuple[int, int]:
+        if np.isscalar(action):
+            a = int(action)
+            return a // self.num_nodes, a % self.num_nodes
+        if isinstance(action, np.ndarray) and action.ndim == 0:
+            a = int(action.item())
+            return a // self.num_nodes, a % self.num_nodes
+        return int(action[0]), int(action[1])
+
+    def _load_request_for_step(self, step: int) -> None:
+        row = self.repo.get_next_entry(step)
+
+        cpu_req = row['cpu']
+        ram_req = row['ram']
+        msd_req = row['msd']
+        svc = row.get('service_type', 'Data')
+
+        if self.traffic_scenario == 'bursty':
+            hour = (step // 500) % 24
+            peak = (8 <= hour < 10) or (17 <= hour < 20)
+            mult = 2.0 if peak else 0.7
+            cpu_req = min(self.max_cpu * 0.85, cpu_req * mult)
+        elif self.traffic_scenario == 'heavy_tail':
+            rng = self.np_random if self.np_random is not None else np.random
+            if rng.random() < 0.2:
+                cpu_req = min(self.max_cpu * 0.70, cpu_req * 3.5)
+                msd_req = min(int(self.node_msd_limits.max()) - 1, msd_req + 3)
+
+        self._current_req = {
+            'cpu': cpu_req,
+            'ram': ram_req,
+            'msd': msd_req,
+            'service_type': svc,
+            'ddos': row.get('ddos', 0),
+        }
+
     def _get_obs(self) -> np.ndarray:
         obs = np.zeros(self.observation_space.shape[0], dtype=np.float32)
 
@@ -102,7 +145,7 @@ class JOVDPREnv(gym.Env):
             ram_u = self._state[i * 3 + 1] / self.max_ram
             msd_u = self._state[i * 3 + 2] / self.node_msd_limits[i]
             msd_f = max(0.0, 1.0 - msd_u)
-            alert = 1.0 if cpu_u > 0.80 else 0.0
+            alert = 1.0 if cpu_u > self.alert_cpu_threshold else 0.0
             
             base  = i * self.NODE_FEAT_DIM
             obs[base], obs[base + 1], obs[base + 2], obs[base + 3] = cpu_u, ram_u, msd_u, msd_f
@@ -147,10 +190,11 @@ class JOVDPREnv(gym.Env):
         self._violation_window.clear()
         self.active_flows.clear()
         self._link_bw = np.full((self.num_nodes, self.num_nodes), self.MAX_LINK_BW, dtype=np.float32)
+        self._load_request_for_step(self.current_step)
         return self._get_obs(), {}
 
     def step(self, action):
-        v1, v2 = int(action[0]), int(action[1])
+        v1, v2 = self._decode_action(action)
 
         # ══ PHASE 1: SFC Lifecycle Tick (ALWAYS runs, even on skipped steps) ══
         # Đồng hồ hệ thống PHẢI trôi đi 1 tick mỗi step, bất kể có request hay không.
@@ -183,6 +227,8 @@ class JOVDPREnv(gym.Env):
             if rng.random() > self.arrival_rate:
                 self.current_step += 1
                 done = (self.current_step >= self.EPISODE_LEN)
+                if not done:
+                    self._load_request_for_step(self.current_step)
                 return self._get_obs(), 0.0, done, False, {
                     'accepted': False, 'skipped': True, 'error_log': 'no_arrival',
                     'v1': '', 'v2': '', 'total_latency_ms': 0.0,
@@ -194,31 +240,12 @@ class JOVDPREnv(gym.Env):
                     'n_sids': 0, 'service_type': 'Data',
                 }
 
-        # ══ PHASE 3: Read Request + Traffic Shaping ══
-        row    = self.repo.get_next_entry(self.current_step)
-
-        cpu_req = row['cpu']
-        ram_req = row['ram']
-        msd_req = row['msd']
-        svc     = row.get('service_type', 'Data')
-
-        # Traffic Scenario Shaping (INSIDE step, after repo read)
-        if self.traffic_scenario == 'bursty':
-            hour = (self.current_step // 500) % 24
-            peak = (8 <= hour < 10) or (17 <= hour < 20)
-            mult = 2.0 if peak else 0.7
-            cpu_req = min(self.max_cpu * 0.85, cpu_req * mult)
-        elif self.traffic_scenario == 'heavy_tail':
-            rng = self.np_random if self.np_random is not None else np.random
-            if rng.random() < 0.2:
-                # Guard: KHÔNG BAO GIỜ vượt quá 70% max_cpu để tránh
-                # Action Masking toàn False → NaN trong PPO distribution
-                cpu_req = min(self.max_cpu * 0.70, cpu_req * 3.5)
-                msd_req = min(int(self.node_msd_limits.max()) - 1, msd_req + 3)
-
-        self._current_req = {'cpu': cpu_req, 'ram': ram_req,
-                             'msd': msd_req, 'service_type': svc}
-        is_elephant = (msd_req >= 4 or row.get('ddos', 0) == 1)
+        # ══ PHASE 3: Use request already exposed in observation/mask ══
+        cpu_req = self._current_req['cpu']
+        ram_req = self._current_req['ram']
+        msd_req = self._current_req['msd']
+        svc = self._current_req.get('service_type', 'Data')
+        is_elephant = (msd_req >= 4 or self._current_req.get('ddos', 0) == 1)
         bw_req = cpu_req * 10.0  # BW demand proportional to CPU (Mbps)
 
         # ══ PHASE 4: Validation & Placement ══
@@ -228,8 +255,8 @@ class JOVDPREnv(gym.Env):
         msd_total = msd_req + hop_count
 
         # Trích cờ cảnh báo (Proactive Alert)
-        alert_v1 = 1.0 if (self._state[v1 * 3] / self.max_cpu) > 0.80 else 0.0
-        alert_v2 = 1.0 if (self._state[v2 * 3] / self.max_cpu) > 0.80 else 0.0
+        alert_v1 = 1.0 if (self._state[v1 * 3] / self.max_cpu) > self.alert_cpu_threshold else 0.0
+        alert_v2 = 1.0 if (self._state[v2 * 3] / self.max_cpu) > self.alert_cpu_threshold else 0.0
 
         errors, is_valid = [], True
         has_msd_violation = False
@@ -238,8 +265,13 @@ class JOVDPREnv(gym.Env):
             is_valid = False
             errors.append("CPU overflow at placement node")
 
-        if self._state[v2 * 3 + 2] + msd_total > self.node_msd_limits[v2]:
+        if self._state[v1 * 3 + 1] + ram_req > self.max_ram:
             is_valid = False
+            errors.append("RAM overflow at placement node")
+
+        if self._state[v2 * 3 + 2] + msd_total > self.node_msd_limits[v2]:
+            if self.enforce_msd_constraint:
+                is_valid = False
             has_msd_violation = True
             errors.append(f"MSD violation routing node {v2} (req:{msd_req}+hop:{hop_count})")
 
@@ -260,6 +292,10 @@ class JOVDPREnv(gym.Env):
         prop_latency  = latency_breakdown["D_prop_ms"]
         srv6_latency  = latency_breakdown["D_srv6_ms"]
         queue_latency = latency_breakdown["D_queue_ms"]
+
+        if self.inference_sla_threshold is not None and total_latency > self.inference_sla_threshold:
+            is_valid = False
+            errors.append(f"Latency exceeds inference SLA threshold ({total_latency:.2f}ms > {self.inference_sla_threshold:.2f}ms)")
 
         is_switching = (self._prev_v1 is not None and (v1 != self._prev_v1 or v2 != self._prev_v2))
 
@@ -304,6 +340,8 @@ class JOVDPREnv(gym.Env):
 
         self.current_step += 1
         done = (self.current_step >= self.EPISODE_LEN)
+        if not done:
+            self._load_request_for_step(self.current_step)
         info = {
             'is_elephant':     is_elephant,
             'error_log':       " | ".join(errors),
@@ -317,6 +355,7 @@ class JOVDPREnv(gym.Env):
             'is_switching':    is_switching,
             'accepted':        is_valid,
             'msd_violation':   has_msd_violation,
+            'admitted_msd_violation': bool(is_valid and has_msd_violation),
             'evacuation_hit':  (alert_v1 == 1.0 or alert_v2 == 1.0), # Tracking logic mới
             'latency_violation_rate': (sum(self._violation_window) / len(self._violation_window) if self._violation_window else 0.0),
             'cpu_util_v1':     cpu_util_v1,
@@ -328,21 +367,24 @@ class JOVDPREnv(gym.Env):
 
     def action_masks(self) -> np.ndarray:
         cpu_req = self._current_req.get('cpu', 0.0)
+        ram_req = self._current_req.get('ram', 0.0)
         msd_req = self._current_req.get('msd', 1)
-        masks   = np.ones(2 * self.num_nodes, dtype=bool)
+        bw_req = cpu_req * 10.0
+        masks = np.zeros(self.num_nodes * self.num_nodes, dtype=bool)
 
-        for i in range(self.num_nodes):
-            cpu_curr = self._state[i * 3]
-            msd_curr = self._state[i * 3 + 2]
-            feasible = (
-                (cpu_curr + cpu_req <= self.max_cpu) and
-                (msd_curr + msd_req <= self.node_msd_limits[i])
-            )
-            masks[i]                  = feasible
-            masks[self.num_nodes + i] = feasible
+        for place in range(self.num_nodes):
+            cpu_curr = self._state[place * 3]
+            ram_curr = self._state[place * 3 + 1]
+            if cpu_curr + cpu_req > self.max_cpu or ram_curr + ram_req > self.max_ram:
+                continue
+            for route in range(self.num_nodes):
+                if place != route and self._link_bw[place][route] < bw_req:
+                    continue
+                hop_count = self.topo.get_hop_distance(place, route)
+                msd_curr = self._state[route * 3 + 2]
+                if msd_curr + msd_req + hop_count <= self.node_msd_limits[route]:
+                    masks[self._encode_action(place, route)] = True
 
-        if not masks[:self.num_nodes].any():
-            masks[:self.num_nodes] = True
-        if not masks[self.num_nodes:].any():
-            masks[self.num_nodes:] = True
+        if not masks.any():
+            masks[:] = True
         return masks

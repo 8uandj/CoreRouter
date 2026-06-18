@@ -16,6 +16,7 @@ SCENARIO_CHOICES = [
     "burst_surge",
     "chaos",
     "thesis",
+    "ablation",
     "all",
 ]
 
@@ -48,9 +49,17 @@ class AlgorithmBenchmarkConfig:
         return (10, 50) if self.load == "normal" else (100, 500)
 
     def model_path(self, topology: str) -> Path:
+        """Return model path, preferring freshly-trained ablation/harp_full."""
+        ablation_path = self.model_root / "ablation" / "harp_full" / f"dgrl_{self.version}_harp_full_{topology}.zip"
+        if ablation_path.exists():
+            return ablation_path
         return self.model_root / self.version / f"dgrl_{self.version}_final_{topology}.zip"
 
     def norm_path(self, topology: str) -> Path:
+        """Return normalizer path, preferring freshly-trained ablation/harp_full."""
+        ablation_path = self.model_root / "ablation" / "harp_full" / f"vec_normalize_{self.version}_harp_full_{topology}.pkl"
+        if ablation_path.exists():
+            return ablation_path
         return self.model_root / self.version / f"vec_normalize_{self.version}_{topology}.pkl"
 
 
@@ -75,6 +84,12 @@ def scenario_jobs(scenario: str, load: str) -> List[Tuple[str, str, str]]:
     if scenario == "thesis":
         return [
             ("normal_load", "uniform", "normal"),
+            ("elephant_stress", "heavy_tail", "stress"),
+            ("burst_surge", "bursty", "stress"),
+            ("chaos", "heavy_tail", "stress"),
+        ]
+    if scenario == "ablation":
+        return [
             ("elephant_stress", "heavy_tail", "stress"),
             ("burst_surge", "bursty", "stress"),
             ("chaos", "heavy_tail", "stress"),

@@ -83,8 +83,7 @@ class RewardCalculator:
         core_b   = self.CORE_BONUS if (
             is_elephant and (node_v1 in self.CORE_NODES or node_v2 in self.CORE_NODES)
         ) else 0.0
-        # Giảm trừ Switching Cost xuống -3 như quy hoạch
-        switch_c = -3.0 if is_switching else 0.0
+        switch_c = self.SWITCHING_COST if is_switching else 0.0
 
         # ── Latency Cost ─────────────────────────────────────────
         penalty_multi = {

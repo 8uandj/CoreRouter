@@ -18,6 +18,12 @@ PALETTE = {
     "traditional_greedy": "#ff7f0e",
     "decoupled_ai": "#1f77b4",
     "jo_vppm": "#d62728",
+    # HARP ablation variants
+    "harp_full": "#d62728",
+    "harp_no_gat": "#9467bd",
+    "harp_no_hard_mask": "#e377c2",
+    "harp_soft_msd": "#bcbd22",
+    "harp_no_adaptive": "#17becf",
 }
 
 
@@ -26,7 +32,13 @@ def algorithm_label(name: str) -> str:
         "exhaustive_pair_search": "Exhaustive Pair-Search",
         "traditional_greedy": "Traditional Greedy",
         "decoupled_ai": "Decoupled AI",
-        "jo_vppm": "JO-VPPM",
+        "jo_vppm": "HARP",
+        # HARP ablation variants
+        "harp_full": "HARP Full",
+        "harp_no_gat": "HARP w/o GAT",
+        "harp_no_hard_mask": "HARP w/o Hard Masking",
+        "harp_soft_msd": "HARP w/ Soft MSD",
+        "harp_no_adaptive": "HARP w/o Adaptive Penalty",
     }.get(name, name)
 
 
