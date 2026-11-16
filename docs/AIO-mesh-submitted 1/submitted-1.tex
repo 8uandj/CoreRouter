@@ -1,0 +1,912 @@
+\documentclass[final,5p]{elsarticle}
+\usepackage{amsmath,amssymb,amsfonts}
+\usepackage{microtype,pifont}
+\usepackage{graphicx}
+\usepackage[dvipsnames]{xcolor}
+\usepackage{pgfplots}
+\usepgfplotslibrary{groupplots}
+\pgfplotsset{compat=1.18}
+\usepackage{booktabs,multirow,tabularx,array,makecell}
+\usepackage{algorithm,algorithmicx,algpseudocode}
+\usepackage{enumitem, float,placeins}
+\usepackage{caption}
+\usepackage[colorlinks,bookmarksopen,bookmarksnumbered,citecolor=blue, colorlinks=true,linkcolor=blue,urlcolor=blue,breaklinks=true]{hyperref}
+% \hypersetup{pdfstringdefDisableCommands={\def}}
+\usepackage{xurl}
+\usepackage{orcidlink}
+\usepackage{balance}
+% \setlength{\emergencystretch}{3em}
+% \Urlmuskip=0mu plus 1mu
+
+% =========================
+% Commands and styles
+% =========================
+\newcommand{\cmark}{\textcolor{ForestGreen}{\ding{51}}}
+\newcommand{\xmark}{\textcolor{BrickRed}{\ding{55}}}
+
+\newcolumntype{R}[1]{>{\raggedleft\arraybackslash}m{#1}}
+\newcolumntype{L}[1]{>{\raggedright\arraybackslash}m{#1}}
+\newcolumntype{C}[1]{>{\centering\arraybackslash}m{#1}}
+
+\renewcommand{\algorithmicrequire}{\textbf{Input:}}
+\renewcommand{\algorithmicensure}{\textbf{Output:}}
+\algrenewcommand\algorithmiccomment[1]{\hfill{\footnotesize$\triangleright$ #1}}
+
+\makeatletter
+\newcommand{\algorithmautorefname}{Algorithm}
+\renewcommand{\figureautorefname}{Figure}
+\renewcommand{\tableautorefname}{Table}
+\renewcommand{\equationautorefname}{Eq.}
+\renewcommand{\sectionautorefname}{Section}
+\makeatother
+
+\journal{Future Generation Computer Systems}
+% \journal{Computer Networks}
+
+\begin{document}
+
+\begin{frontmatter}
+
+\title{AIO-Mesh: Hardware-Safe AIOps Orchestration for Cloud-Native Distributed Services over Programmable Infrastructures}
+
+\author[add1]{Hanh P. Du\orcidlink{0000-0002-8993-1164}}
+\ead{hanhdp@vnu.edu.vn}
+
+\author[add1]{Hung D. Hoang\orcidlink{0009-0004-2310-3536}}
+\ead{22028293@vnu.edu.vn}
+
+\author[add2]{Thu H. Le\orcidlink{0009-0006-4295-850X}}
+\ead{lehthub1@gmail.com}
+
+\author[add2]{Tuan X. Le\orcidlink{0009-0004-5070-9533}}
+\ead{tuanlx.psa@gmail.com}
+
+\author[add3]{Giang L. Nguyen\orcidlink{0000-0001-6184-1469}}
+\ead{nlgiang@ioit.ac.vn}
+
+\author[add1]{Hoa N. Nguyen\orcidlink{0000-0002-2565-281X}\corref{cor1}}
+\ead{hoa.nguyen@vnu.edu.vn}
+
+\cortext[cor1]{Corresponding author}
+
+\affiliation[add1]{
+organization={Department of Information Systems, VNU University of Engineering and Technology},
+city={Hanoi},
+postcode={11314},
+country={Vietnam}
+}
+\affiliation[add2]{
+organization={National Data Center, Ministry of Public Security},
+city={Hanoi},
+postcode={11309},
+country={Vietnam}
+}
+\affiliation[add3]{
+organization={Institute of Information Technology, Vietnam Academy of Science and Technology},
+city={Hanoi},
+postcode={11355},
+country={Vietnam}
+}
+
+\begin{abstract}
+Future cloud-native distributed infrastructures increasingly combine Kubernetes-based lifecycle management, service-chain orchestration, software-defined control, and programmable data planes. In such environments, AIOps policies are expected to make online placement, steering, admission, and migration decisions from telemetry and runtime feedback. However, an AI-generated decision may be attractive in an optimization model while remaining physically non-deployable because of hard infrastructure constraints, such as compute capacity, memory capacity, and SRv6 Maximum Segment Depth (MSD) in programmable forwarding pipelines. This paper presents AIO-Mesh, a hardware-safe AIOps orchestration framework for cloud-native distributed services over programmable infrastructures. AIO-Mesh embeds a learned policy in a closed-loop runtime that connects telemetry-driven state construction, policy inference, safety validation, Kubernetes/Tekton-based VNF lifecycle control, SRv6/P4 steering, and data-plane feedback. At its core, HARP, a Hardware-Aware Reinforcement Policy, combines graph-attention topology encoding, MaskablePPO, hard action masking, adaptive operational penalties, and smart admission control to jointly optimize placement, routing, and proactive migration. The central design principle is to separate hard deployability constraints from soft operational objectives: CPU, memory, and MSD infeasibility are removed before policy sampling and admission, while latency, service-level pressure, and migration cost are optimized through the reward function. Experiments across Vietnam, NSFNET, and GEANT2 topologies show that HARP improves safe acceptance under stress workloads. A hardware-in-the-loop testbed with MicroK8s, Tekton, Mininet, BMv2 P4 switches, and SRv6 steering further demonstrates that AIO-Mesh maintains zero admitted MSD violations across normal, heavy-tail, topology-stress, DDoS make-before-break, and chaos scenarios.
+\end{abstract}
+
+\begin{keyword}
+AIOps \sep Cloud-native distributed services \sep Hardware-safe orchestration \sep Service function chaining \sep Network function virtualization \sep Programmable infrastructures \sep SRv6 \sep P4 \sep Safe reinforcement learning \sep Runtime admission control
+\end{keyword}
+
+\end{frontmatter}
+
+
+
+\section{Introduction}
+\label{sec:introduction}
+
+Future cloud-native infrastructures are becoming distributed, programmable, and operationally dynamic. Modern service platforms combine Kubernetes clusters, edge and regional compute sites, software-defined networking, telemetry pipelines, workflow engines, and programmable forwarding devices. These infrastructures no longer host only conventional microservices; they increasingly host network and security services such as firewalls, intrusion detection systems, load balancers, deep packet inspection functions, gateways, and other virtualized or containerized network functions. In security-oriented service chains, these functions may also include AI-powered traffic inspection and intrusion-detection modules; prior studies on large-scale traffic sensing, real-time intrusion detection, and hybrid signature--deep analysis pipelines show that such AI-enabled security functions are increasingly deployable as operational traffic-processing services~\cite{cSDAID22}. Such functions are composed into service chains to enforce traffic-processing policies across tenants, applications, and security domains. As a result, infrastructure operation requires continuous decisions about where to place service functions, how to steer traffic through them, when to migrate overloaded instances, and how to preserve service objectives under changing demand, heterogeneous resources, and topology-dependent latency.
+
+This problem is naturally an AIOps problem rather than a one-shot optimization problem. In a production cloud-native environment, orchestration decisions are made from telemetry, policy intent, service demand, resource state, and runtime feedback. A learned policy must also be operated as a managed artifact: it must be loaded with the correct topology and normalization state, invoked through a stable inference path, monitored during execution, constrained by safety checks, and connected to cloud-native and network-control actuators. This view is consistent with recent MLOps and AIOps literature, which emphasizes that machine-learning models must move from isolated training pipelines into monitored, versioned, trustworthy, and feedback-driven operational loops~\cite{kreuzberger2023mlops,diazdearcaya2024joint,eken2025mlops,bayram2025trustworthy,zhang2025aiopsllm,eramo2024architecture}. In infrastructure orchestration, however, the runtime faces an additional challenge: an AI decision may be valid in a logical model but non-deployable on the physical or programmable substrate.
+
+Programmable data planes make this deployability gap explicit. Segment Routing over IPv6 (SRv6) allows an ingress node to encode a list of Segment Identifiers (SIDs) in the packet header, enabling stateless traffic steering through paths and service functions~\cite{filsfils2015segment,rfc8986,rfc9352}. P4-programmable switches expose packet-processing behavior through programmable parser, match-action, and deparser stages~\cite{jeyakumar2014p4}. Together, SRv6 and P4 provide a practical substrate for steering cloud-native service chains without maintaining per-flow state at every intermediate node. Yet this flexibility is bounded by hardware. A programmable parser can inspect only a limited number of SIDs in a single pass. This limit, commonly represented by the Maximum Segment Depth (MSD), is not a tunable preference but a hard parsing boundary. If a selected service path requires a SID stack deeper than the supported MSD of the relevant forwarding profile, the action is not merely suboptimal; it is not admissible.
+
+Existing orchestration methods do not fully address this operational safety requirement. Classical ILP and heuristic formulations provide useful models for service-chain placement and routing, but they are often too expensive or too myopic for online operation. Recent deep reinforcement learning and graph-based methods improve adaptive SFC embedding and VNF placement~\cite{wang2021drl,xiao2023twostage,liu2024sfcml,taktak2024drl,wu2025drl}, and migration-oriented studies address failure prediction, load pressure, and migration budgets~\cite{zhai2023migration,addad2022ai,qin2023sfcmigrationbudget,afrasiabi2024cluster,zhang2025sfcmigration,hu2026rlpmo}. SRv6-aware approaches such as SFCPlanner show the relevance of source-routed flow steering for service-chain planning~\cite{qiu2024sfcplanner}. Nevertheless, many learned and optimization-based approaches still treat the data plane as an ideal graph, handle parser limits as post-hoc checks, or encode non-deployability as a soft reward penalty. This is insufficient for AIOps control, where unsafe actuation can convert a policy error into a data-plane failure.
+
+The core research question addressed in this paper is therefore: \emph{how can an AIOps runtime use learned policies for cloud-native distributed service orchestration while ensuring that every admitted action remains deployable on a programmable infrastructure?} This question has three coupled challenges. First, the decision policy must be topology-aware because placement, routing, SID depth, and latency depend on the structure of the substrate graph. Second, the runtime must distinguish hard deployability constraints from soft operational objectives. CPU, memory, and MSD feasibility must be enforced before actuation, whereas latency, service-level pressure, and migration overhead can be optimized through the reward function. Third, the learned policy must be embedded into a closed-loop AIOps runtime that connects telemetry, state construction, inference, safety validation, cloud-native lifecycle management, programmable steering, and feedback monitoring.
+
+To address these challenges, we propose \textbf{AIO-Mesh}, a hardware-safe AIOps orchestration framework for cloud-native distributed services over programmable infrastructures. AIO-Mesh treats the learned policy as one component of an operational control loop rather than as a standalone optimizer. Its runtime integrates telemetry-driven state construction, policy inference, hard-feasibility validation, smart admission control, Kubernetes/Tekton-based VNF lifecycle actions, SRv6/P4 steering, and data-plane feedback. At the core of AIO-Mesh, we introduce \textbf{HARP} (\textbf{H}ardware-\textbf{A}ware \textbf{R}einforcement \textbf{P}olicy), a graph-reinforcement policy for joint placement, routing, and proactive migration. HARP combines graph-attention topology encoding, MaskablePPO, invalid action masking, adaptive penalties for soft service objectives, and explicit \texttt{NO\_SAFE\_ACTION} handling under saturation.
+
+The main contributions of this paper are summarized as follows.
+
+\begin{itemize}
+    \item We formulate hardware-safe AIOps orchestration for cloud-native distributed service chains over programmable infrastructures, explicitly separating hard deployability constraints from soft operational objectives. In this formulation, SRv6 MSD feasibility is treated as an admission condition rather than a reward penalty.
+    
+    \item We design \textbf{AIO-Mesh}, a closed-loop AIOps runtime that operationalizes a learned policy through telemetry ingestion, normalized state construction, inference serving, safety validation, cloud-native lifecycle management, programmable SRv6/P4 actuation, and runtime feedback.
+    
+    \item We propose \textbf{HARP}, a hardware-aware reinforcement policy that combines graph-attention topology encoding, masked policy optimization, adaptive operational penalties, and smart admission control to jointly optimize service placement, traffic steering, and proactive migration.
+    
+    \item We introduce a hardware-safe action-masking and admission mechanism that removes CPU-, memory-, and MSD-infeasible actions before sampling or actuation, and returns explicit \texttt{NO\_SAFE\_ACTION} outcomes when the feasible set is exhausted.
+    
+    \item We evaluate AIO-Mesh through multi-topology stress simulations and a hardware-in-the-loop cloud-native testbed integrating MicroK8s, Tekton, Mininet, BMv2 P4 switches, SRv6 steering, and telemetry feedback. The evaluation distinguishes pre-admission unsafe candidates from admitted data-plane violations, which is essential for interpreting safety-preserving rejection under saturation.
+\end{itemize}
+
+% The remainder of this paper is organized as follows. Section~\ref{sec:related} reviews related work on AIOps for cloud-native infrastructure, learning-based orchestration, service function chaining, and programmable data planes. Section~\ref{sec:system_model} defines the system model, hardware-safety constraints, and orchestration objectives. Section~\ref{sec:architecture} presents the AIO-Mesh architecture and its closed-loop AIOps runtime. Section~\ref{sec:harp} details the HARP policy. Section~\ref{sec:evaluation} reports the simulation and hardware-in-the-loop evaluation. Section~\ref{sec:conclusion} concludes the paper and discusses future work.
+
+
+
+\section{Background and Related Work}
+\label{sec:related}
+
+This section positions AIO-Mesh at the intersection of AIOps, cloud-native resource orchestration, service function chaining, programmable data planes, and safe reinforcement learning. The key distinction is that AIO-Mesh is not only a placement or routing algorithm. It is an AIOps runtime in which a learned policy must be observed, constrained, admitted, actuated, and verified before it changes the state of a programmable distributed infrastructure.
+
+\subsection{AIOps and MLOps for Cloud-Native Infrastructure}
+\label{subsec:related_aiops}
+
+AIOps applies AI techniques to the operation of complex software and infrastructure systems. Typical tasks include anomaly detection, failure prediction, incident triage, capacity planning, root-cause analysis, and automated remediation. Recent AIOps and MLOps surveys emphasize that modern operational systems rely on heterogeneous telemetry and increasingly require closed-loop workflows rather than isolated predictive models~\cite{diazdearcaya2024joint,zhang2025aiopsllm}. MLOps complements this view by addressing the lifecycle of machine-learning artifacts, including model packaging, versioning, deployment, inference serving, monitoring, robustness, and rollback~\cite{kreuzberger2023mlops,eken2025mlops,bayram2025trustworthy}.
+
+For cloud-native infrastructures, this operational perspective is essential. Placement, migration, scaling, and steering decisions are not made once; they are continuously revised as traffic demand, resource pressure, and service objectives change. Recent work on intelligent DevOps automation, Kubernetes-oriented microservice placement, elastic container management, dynamic cloud resource allocation, and computing-continuum resource selection similarly argues that automation systems must connect models, runtime evidence, and deployment actions~\cite{eramo2024architecture,ding2023kubernetes,mao2023flowcon,chen2023workloadwindows,hortelano2023drlresource,chen2024crossedge,sedghani2024space4aid}. AIO-Mesh follows this direction but focuses on a harder class of actuation: the policy output directly affects VNF lifecycle, traffic steering, and programmable data-plane behavior. Therefore, the runtime must be fail-closed and safety-aware, not merely prediction-driven.
+
+
+\begin{table*}[t]
+\centering
+\caption{Positioning of AIO-Mesh against representative related work.}
+\label{tab:related_comparison}
+\renewcommand{\arraystretch}{1.15}
+\resizebox{\textwidth}{!}{
+\begin{tabular}{p{4.0cm}p{3.1cm}p{2.0cm}p{2.0cm}p{2.0cm}p{1.8cm}p{1.8cm}}
+\toprule
+\textbf{Work line} & \textbf{Primary focus} & \textbf{Cloud-native lifecycle} & \textbf{Graph-aware policy} & \textbf{Hard deployability safety} & \textbf{Program- mable actuation} & \textbf{AIOps runtime} \\
+\midrule
+Classical ILP / greedy heuristics & SFC placement and routing & No & Limited & No & No & No \\
+DRL-based SFC placement~\cite{wang2021drl,taktak2024drl,li2023qosaware} & Online SFC embedding & No & Partial & No & No & No \\
+GCN/graph-assisted SFC/VNE~\cite{xiao2023twostage,pei2025graph,liu2024sfcml} & Topology-aware embedding & No & Yes & No & No & No \\
+SFC migration studies~\cite{zhai2023migration,addad2022ai,qin2023sfcmigrationbudget,afrasiabi2024cluster,zhang2025sfcmigration,hu2026rlpmo} & Load/failure migration & Partial & Varies & No & No & Limited \\
+SRv6/P4 service-chain systems~\cite{stockmayer2020p4sfc,xiang2019p4sc,yan2024srv6int,li2024stsfc,ma2024sfcache} & Programmable steering & Limited & Partial & Partial & Yes & Limited \\
+SFCPlanner~\cite{qiu2024sfcplanner} & SRv6-aware planning & No & Partial & Partial & Yes & No \\
+AIOps/MLOps automation~\cite{kreuzberger2023mlops,diazdearcaya2024joint,eken2025mlops,bayram2025trustworthy,zhang2025aiopsllm,eramo2024architecture} & Operational ML loops & Partial & Not network-specific & No & No & Yes \\
+\textbf{AIO-Mesh / HARP} & Hardware-safe AIOps orchestration & \textbf{Yes} & \textbf{Yes} & \textbf{Yes} & \textbf{Yes} & \textbf{Yes} \\
+\bottomrule
+\end{tabular}
+}
+\end{table*}
+
+
+\subsection{Learning-Based Resource and Service-Chain Orchestration}
+\label{subsec:related_learning}
+
+Service Function Chaining (SFC) steers traffic through an ordered sequence of network functions, such as firewalls, intrusion detection systems, deep packet inspection functions, load balancers, and gateways~\cite{rfc7665}. In NFV-enabled and cloud-native infrastructures, these functions are implemented as VNFs or containerized network functions that can be instantiated, scaled, migrated, and removed by software controllers. The associated orchestration problem couples placement, routing, admission, and migration: a placement decision consumes compute and memory resources, a routing decision determines latency and path depth, and a migration decision changes both the service path and the residual resource distribution. Resource allocation and VNF embedding have also been investigated in network-slicing environments, where substrate resources, virtual links, and service-level constraints must be optimized jointly~\cite{jOptimizeSlice24}. This line of work is complementary to AIO-Mesh: while prior VNF-embedding studies optimize logical resource allocation, AIO-Mesh focuses on embedding such decisions into a hardware-safe AIOps runtime with explicit programmable-data-plane admission semantics.
+
+Classical ILP and heuristic formulations expose the structure of SFC constraints but are often unsuitable for online operation under dynamic traffic. Learning-based methods have therefore become increasingly common. DRL-SFCP formulates adaptive SFC placement as a reinforcement-learning problem~\cite{wang2021drl}; GCN-based and graph-assisted approaches exploit topology information for SFC embedding and virtualized network embedding~\cite{xiao2023twostage,pei2025graph,liu2024sfcml}; QoS-aware and reliable deployment methods address service-level objectives and robustness~\cite{taktak2024drl,li2023qosaware,qu2021reliable}; and recent work considers fast joint mapping for SFC deployment~\cite{wu2025drl}. Migration-oriented studies further address failure prediction, AI-assisted 5G/B5G migration, long-term migration budgets, cluster migration, and reinforcement-learning-based migration planning~\cite{zhai2023migration,addad2022ai,qin2023sfcmigrationbudget,afrasiabi2024cluster,zhang2025sfcmigration,hu2026rlpmo}.
+
+These methods improve adaptivity, but many still treat the data plane as an ideal forwarding graph. Feasibility is usually dominated by compute, memory, bandwidth, or latency. Hardware parser limits, header-stack depth, and target-specific programmable pipeline constraints are either ignored, treated as soft costs, or checked only after policy selection. This abstraction is problematic for AIOps orchestration because the policy is not producing recommendations; it is producing infrastructure actions.
+
+\subsection{Programmable Data Planes and Hardware-Constrained Actuation}
+\label{subsec:related_pdp}
+
+SRv6 enables source-routed forwarding by encoding a list of SIDs in the IPv6 Segment Routing Header~\cite{filsfils2015segment,rfc8986,rfc9352}. Each SID can represent a topological segment, a local behavior, or a service-processing instruction, which makes SRv6 attractive for service-chain steering without per-flow state in every intermediate device. P4 complements this model by making parser, match-action, and deparser behavior programmable~\cite{jeyakumar2014p4}. Prior work has demonstrated P4-based service chaining, SRv6 processing, runtime programmability, test generation, in-switch caching, and stateful service-function deployment~\cite{stockmayer2020p4sfc,xiang2019p4sc,yang2024p4runpro,ruffy2023p4testgen,zhao2023p4lru,ma2024sfcache,li2024stsfc}.
+
+Programmable infrastructures, however, expose hard actuation constraints. A P4 pipeline is constrained by parser states, header stacks, match-action resources, recirculation behavior, and target-specific limits. For SRv6 service chaining, a visible constraint is the Maximum Segment Depth (MSD), i.e., the maximum SID depth that the forwarding profile can parse or process. A route that is reachable and low-latency at the graph level can still be non-deployable if the resulting SID stack exceeds MSD. SRv6-aware planning methods such as SFCPlanner and SRv6-INT-driven runtime adjustment show the importance of source-routed steering and telemetry-assisted reconfiguration~\cite{qiu2024sfcplanner,yan2024srv6int}. AIO-Mesh builds on this line of work, but shifts the focus from path computation to runtime safety: a learned AIOps policy must be constrained before actuation, and unsafe saturation must result in explicit rejection rather than best-effort deployment.
+
+\subsection{Safe and Graph-Aware Reinforcement Learning for Infrastructure Control}
+\label{subsec:related_safe_rl}
+
+Reinforcement learning is attractive for infrastructure orchestration because each accepted request changes the residual capacity and future feasible action set. PPO is widely used because it balances training stability and policy improvement~\cite{schulman2017proximal}. Graph neural networks, particularly Graph Attention Networks (GATs), are suitable for networked systems because they preserve topological structure that is lost in flat state representations~\cite{velickovic2018graph}. HARP adopts this graph-aware view because placement quality depends on source--destination distance, candidate service locations, path length, SID-stack depth, and residual headroom.
+
+The main safety issue is constraint semantics. Reward penalties are appropriate for soft operational objectives, such as latency, SLA pressure, load balance, and migration overhead. They are not sufficient for constraints that define binary deployability. Safe reinforcement learning and constrained policy optimization recognize the need to separate reward optimization from safety enforcement~\cite{gu2024safe,ma2022conservative}. Invalid action masking provides a practical mechanism for discrete or structured action spaces by removing invalid actions before sampling~\cite{huang2022closer}. In AIO-Mesh, this mechanism is used not only to improve exploration but to enforce a hardware-safety contract: CPU-, memory-, and MSD-infeasible actions are excluded before they can become admitted infrastructure actions.
+
+\subsection{Research Gap Summary}
+\label{subsec:related_gap}
+\sloppy
+The literature shows substantial progress in cloud-native resource management, SFC placement, learning-based orchestration, programmable data-plane steering, and AIOps/MLOps automation. However, these streams remain only partially connected. Existing orchestration algorithms often optimize logical placement and routing without guaranteeing that the resulting SRv6/P4 action is parser-feasible. Learning-based methods improve adaptivity but often rely on reward penalties for constraints that should be enforced as hard admission conditions. Programmable data-plane systems demonstrate how to steer packets, but they rarely define how an AI policy should be guarded before actuation. AIOps/MLOps research provides principles for operational loops and model lifecycle management, but it rarely addresses the hardware-safety semantics of programmable network-service actuation.
+
+\autoref{tab:related_comparison} summarizes the positioning of AIO-Mesh. The key gap is the absence of a unified framework that combines cloud-native lifecycle management, graph-aware policy learning, hard hardware-safety enforcement, smart admission, programmable actuation, and runtime validation.
+
+Based on this gap, AIO-Mesh is designed around four principles. First, learned orchestration must be topology-aware because service-chain feasibility depends on the substrate graph. Second, hard deployability constraints must be enforced before actuation; MSD violations cannot be delegated to a soft penalty. Third, unsafe saturation should result in explicit admission rejection, not in best-effort deployment. Fourth, the learned policy must be embedded in an AIOps runtime that connects telemetry, inference, safety validation, lifecycle management, programmable steering, and feedback. These principles motivate the system model and design requirements defined in the next section.
+
+
+\section{System Model and Design Requirements}
+\label{sec:system_model}
+
+This section defines the substrate, service-chain, and hardware-safety models used by AIO-Mesh. The purpose is to separate two notions that are often conflated in learning-based orchestration: an action may be attractive under an optimization objective, but still be non-deployable on the cloud-native and programmable-data-plane substrate. We therefore model the infrastructure state, the service-chain decision, the SRv6/P4 deployability constraints, and the admission semantics that the AIOps runtime must enforce before actuation.
+
+\subsection{Cloud-Native Programmable Substrate}
+\label{subsec:infrastructure_model}
+
+We model the infrastructure as a distributed substrate graph $ \mathcal{G}=(\mathcal{V},\mathcal{E})$,
+where each node \(v\in\mathcal{V}\) represents a cloud, edge, or regional NFVI site capable of hosting virtualized or containerized network functions, and each edge \(e=(u,v)\in\mathcal{E}\) represents a physical or logical inter-site link. Each node has compute and memory capacities $\mathbf{c}_v=\left[c_v^{cpu},c_v^{mem}\right]$,
+and is associated with a programmable-data-plane profile whose SRv6 Maximum Segment Depth (MSD) is denoted by \(m_v^{msd}\). The MSD is not a consumable resource. It is a parser-depth bound that constrains whether a candidate SID stack can be processed by the corresponding SRv6/P4 forwarding profile. Each edge \(e=(u,v)\) has a latency \(l_{uv}\). Additional link-level attributes, such as bandwidth or loss, may be enforced by the controller, but are not included in the core policy interface in order to keep the deployed observation contract stable.
+
+At decision epoch \(t\), the residual compute state of node \(v\) is $\mathbf{r}_v(t)=\left[r_v^{cpu}(t),r_v^{mem}(t)\right]$.
+AIO-Mesh observes the substrate through telemetry and converts it into a policy-facing state. For a substrate with \(N=|\mathcal{V}|\) nodes, the HARP state is $s_t = \left(\mathbf{X}_t,\mathbf{g}_t,\mathcal{A}_{topo}\right)$,
+where \(\mathbf{X}_t\in\mathbb{R}^{N\times 6}\) is the node-feature matrix, \(\mathbf{g}_t\in\mathbb{R}^{13}\) contains global request and operational features, and \(\mathcal{A}_{topo}\) is the substrate adjacency matrix. The node features encode resource pressure, MSD-related headroom or warning indicators, alert state, and topology-related context. This representation keeps the inference interface fixed while allowing the graph encoder to exploit the physical substrate topology.
+
+\subsection{Service-Chain Request and Orchestration Decision}
+\label{subsec:sfc_model}
+
+An incoming service-chain request is represented as
+\begin{equation}
+    % q=\left(o_q,d_q,\mathcal{F}_q,\mathbf{d}_q,\tau_q,\kappa_q\right),
+    q=(o_q,z_q,\mathcal{F}_q,\mathbf{d}_q,\tau_q,\kappa_q),
+\end{equation}
+where \(o_q\) and \(z_q\) are the traffic origin and destination, \(\mathcal{F}_q=[f_1,f_2,\ldots,f_m]\) is the ordered service-function chain, \(\mathbf{d}_q\) denotes the per-function resource demand, \(\tau_q\) is the service-level latency target, and \(\kappa_q\) is the service class or priority. For each function \(f_i\), the compute and memory demands are denoted by \(d_{q,i}^{cpu}\) and \(d_{q,i}^{mem}\).
+
+A placement decision maps service functions to substrate nodes: $\phi_q:\mathcal{F}_q\rightarrow\mathcal{V}$,
+where \(\phi_q(f_i)=v\) means that \(f_i\) is instantiated or reused at node \(v\). Given a placement, the routing decision selects substrate paths between the origin, consecutive service-function locations, and the destination. The resulting end-to-end service path is
+\begin{equation}
+    P_q = P_{o_q,f_1}
+        \oplus P_{f_1,f_2}
+        \oplus \cdots
+        \oplus P_{f_m,z_q}.        
+\end{equation}
+The orchestration action therefore couples placement, routing, and operational mode: $a_t = \left(\phi_q,P_q,m_t\right)$,
+where \(m_t\) indicates whether the runtime admits a new chain, reuses an existing instance, scales out, or migrates one or more functions.
+
+Migration is modeled as a controlled transition from an old placement \(\phi_q^{old}\) to a new placement \(\phi_q^{new}\). Its operational cost is
+\begin{equation}
+    C_{mig}(q,t)=
+    \sum_{f_i\in\mathcal{F}_q}
+    \mathbb{I}\!\left[\phi_q^{old}(f_i)\neq \phi_q^{new}(f_i)\right]\mu_i,
+\end{equation}
+where \(\mu_i\) summarizes deployment delay, state-transfer cost when applicable, and steering-update overhead. AIO-Mesh executes migration using a make-before-break discipline: the replacement function is created and verified before traffic is steered to the new path, and the old instance is removed only after steering confirmation. This paper treats this as a safety-preserving control sequence rather than as a zero-downtime guarantee, which would require packet-level continuity evidence.
+
+\subsection{Hardware-Safety and Admission Constraints}
+\label{subsec:hardware_constraint_model}
+
+For a candidate action \(a_t\), the SRv6/P4 controller translates the selected service path into a SID list
+\begin{equation}
+    \mathcal{S}_q(a_t)=
+    \left[SID_1,SID_2,\ldots,SID_{h_q(a_t)}\right],
+\end{equation}
+where \(h_q(a_t)=|\mathcal{S}_q(a_t)|\) is the induced SID-stack depth. The action is data-plane deployable only if the resulting stack can be parsed by all relevant ingress or forwarding profiles:
+\begin{equation}
+    h_q(a_t) \leq m_v^{msd},
+    \quad
+    \forall v\in\mathcal{P}^{parse}_q(a_t),
+    \label{eq:msd_constraint}
+\end{equation}
+where \(\mathcal{P}^{parse}_q(a_t)\) denotes the set of nodes or profiles that must parse the SID stack. Equation~\eqref{eq:msd_constraint} is a hard deployability constraint. It is not a latency penalty or a degraded-service condition: if the stack exceeds the supported parser depth, the action must not be admitted.
+
+Compute and memory feasibility are also enforced before admission:
+\begin{align}
+    \sum_{q\in\mathcal{Q}_t}
+    \sum_{f_i\in\mathcal{F}_q}
+    \mathbb{I}\!\left[\phi_q(f_i)=v\right] d_{q,i}^{cpu}
+    &\leq c_v^{cpu},
+    \quad \forall v\in\mathcal{V}, \label{eq:cpu_constraint}\\
+    \sum_{q\in\mathcal{Q}_t}
+    \sum_{f_i\in\mathcal{F}_q}
+    \mathbb{I}\!\left[\phi_q(f_i)=v\right] d_{q,i}^{mem}
+    &\leq c_v^{mem},
+    \quad \forall v\in\mathcal{V}. \label{eq:mem_constraint}
+\end{align}
+Here, \(\mathcal{Q}_t\) is the set of active and newly considered requests at epoch \(t\). Constraints~\eqref{eq:msd_constraint}--\eqref{eq:mem_constraint} define hard feasibility. They are enforced by action masking and runtime admission control, not only by reward shaping.
+
+This separation gives each candidate action one of three operational outcomes. An action is \textit{admissible} if it satisfies compute, memory, and MSD feasibility and can be passed to cloud-native and data-plane actuators. It is an \textit{unsafe candidate} if it is generated or considered internally but rejected before admission because at least one hard constraint fails. It is an \textit{admitted violation} if it is accepted by the orchestrator and later produces a data-plane violation, such as an MSD drop. A hardware-safe orchestrator may observe unsafe candidates under saturation, but it should prevent them from becoming admitted violations.
+
+\subsection{Operational Objective}
+\label{subsec:objective_metrics}
+
+AIO-Mesh aims to admit as much useful service demand as possible while preserving hard deployability and controlling operational cost. Let \(A_q(t)\in\{0,1\}\) indicate whether request \(q\) is admitted at epoch \(t\), \(L_q(t)\) denote its service latency, \(C_{mig}(q,t)\) denote migration cost, and \(V_q^{sla}(t)\) denote normalized service-level violation. The generic utility objective is
+\begin{equation}
+\begin{aligned}
+\max_{\pi} \;
+\mathbb{E}_{\pi} \Bigg[
+\sum_{t} \sum_{q \in \mathcal{Q}_t}
+A_q(t) \Big(
+\alpha - \beta L_q(t) - \gamma C_{mig}(q,t) \\
+- \delta V_q^{sla}(t)
+\Big)
+\Bigg]
+\end{aligned}
+\label{eq:utility}
+\end{equation}
+subject to the hard feasibility constraints in
+Eqs.~\eqref{eq:msd_constraint}--\eqref{eq:mem_constraint}. The coefficients \(\alpha\), \(\beta\), \(\gamma\), and \(\delta\) control the relative importance of admission, latency, migration cost, and SLA pressure. Equation~\eqref{eq:utility} should be read as an operational objective rather than as an offline solver formulation: HARP learns to rank feasible actions, while AIO-Mesh enforces hard feasibility before actuation.
+
+Accordingly, the evaluation distinguishes safe acceptance from unsafe candidate pressure and admitted MSD violations. Safe acceptance measures useful admitted demand under hard feasibility. Unsafe candidate rate measures how often the workload pushes the system outside the feasible region before admission. Admitted MSD violation rate measures actual data-plane safety failure after admission. This distinction is essential for stress scenarios: rejecting an unsafe request may reduce raw acceptance, but it is the correct behavior if all remaining actions are non-deployable.
+
+\subsection{Design Requirements}
+\label{subsec:design_requirements}
+
+The above model leads to five requirements for AIO-Mesh. \textbf{R1: hardware safety by construction}. CPU, memory, and MSD feasibility must be checked before actuation; the policy must not rely on data-plane drops to discover unsafe actions. \textbf{R2: topology-aware decision making}. Placement, routing, latency, and SID depth depend on the substrate graph, motivating the graph-attention encoder used by HARP. \textbf{R3: closed-loop observability}. The orchestrator must consume telemetry and expose decisions, admission rejections, steering status, and data-plane counters for subsequent control. \textbf{R4: cloud-native lifecycle integration}. Admitted decisions must be translated into concrete deployment, readiness checking, migration, and steering operations. \textbf{R5: safe rejection under saturation}. When no feasible action exists, the correct outcome is \texttt{NO\_SAFE\_ACTION}, not best-effort deployment of an unsafe service path.
+
+These requirements define the boundary between the learning policy and the operational runtime. HARP optimizes over topology-aware and hardware-feasible actions, while AIO-Mesh remains responsible for fail-closed admission, lifecycle actuation, programmable steering, and feedback validation.
+
+
+\section{AIO-Mesh Architecture}
+\label{sec:architecture}
+
+AIO-Mesh is a closed-loop AIOps orchestration framework that connects a learned policy with cloud-native lifecycle control and programmable data-plane actuation. Its architectural principle is simple: the policy may propose placement, routing, or migration actions, but no action is allowed to reach the infrastructure until the runtime has validated compute, memory, and SRv6 MSD feasibility. This separates policy optimization from operational admission and prevents a high-scoring but non-deployable decision from being installed in the data plane.
+
+\autoref{fig:aio_mesh_architecture} shows the proposed architecture. AIO-Mesh consists of five tightly coupled functions: telemetry-driven state construction, policy inference, safety and admission control, cloud-native lifecycle actuation, and SRv6/P4 steering with feedback. HARP is the learned decision engine inside this loop. The surrounding runtime provides the operational guarantees required to use HARP safely in a programmable cloud-native environment.
+
+\begin{figure*}[t]
+    \centering
+    \includegraphics[width=\linewidth]{figs/overview.pdf}    
+    \caption{AIO-Mesh closed-loop AIOps runtime for hardware-safe orchestration of cloud-native distributed services over programmable infrastructures. HARP generates candidate orchestration actions from telemetry-derived state, while the safety and admission boundary enforces CPU, memory, and SRv6 MSD feasibility before cloud-native lifecycle operations and SRv6/P4 steering are applied.}
+    \label{fig:aio_mesh_architecture}
+\end{figure*}
+
+\subsection{Closed-Loop Runtime Organization}
+\label{subsec:architecture_overview}
+
+The AIO-Mesh runtime follows an observe--decide--admit--actuate--verify loop. The telemetry layer collects resource, service, orchestration, and data-plane signals, including CPU and memory pressure, active VNF placement, service-chain demand, alert state, SRv6 steering status, and MSD-related counters. The state manager normalizes these signals and constructs the policy-facing graph state defined in \autoref{sec:system_model}. This state is passed to the policy runtime together with the substrate topology.
+
+The policy runtime hosts two decision paths. Under stable load, AIO-Mesh may use a deterministic heuristic path to reduce overhead. Under stress, alert, or migration pressure, it invokes HARP to produce a topology-aware placement--routing--migration action. The heuristic and learned paths share the same safety boundary; neither path is allowed to actuate directly. This design makes the learned policy replaceable or retrainable without changing the admission contract of the system.
+
+The admission layer is the boundary between decision making and infrastructure modification. It validates the candidate action against residual compute and memory capacity, derives the SID stack associated with the selected service path, and checks whether the stack satisfies the MSD of the relevant programmable forwarding profile. A feasible action is admitted and passed to the actuation layer. An infeasible action is rejected before deployment or steering, and if no feasible action remains, the runtime returns \texttt{NO\_SAFE\_ACTION}.
+
+The actuation layer translates admitted decisions into cloud-native and network-control operations. Kubernetes and workflow automation are used to deploy, reuse, scale, or migrate VNFs. The SRv6/P4 interface generates steering state, installs the corresponding forwarding rules, and reports steering confirmation or data-plane anomalies. These post-actuation signals are fed back to the telemetry layer, closing the AIOps loop.
+
+\subsection{Policy Runtime and State Management}
+\label{subsec:policy_runtime}
+
+AIO-Mesh treats HARP as an operational policy artifact rather than as an isolated model file. The runtime therefore manages the trained policy, topology descriptor, normalization state, safety configuration, and controller endpoints as a consistent deployment unit. This is necessary because an otherwise valid policy can become unsafe if it is executed with stale topology information, inconsistent preprocessing, or an incompatible data-plane profile.
+
+The state manager maintains the deployed observation contract. It maps heterogeneous telemetry into a fixed graph-structured state containing node features, global request features, and the substrate adjacency matrix. The same contract is used for HARP inference and for runtime admission logging. For each decision, AIO-Mesh records the request context, selected action, feasibility outcome, rejection reason if applicable, and post-actuation feedback. These logs allow operators to distinguish policy unavailability, lack of feasible actions, controller failure, and data-plane violation.
+
+This runtime organization follows an MLOps discipline but is specialized for network operations. Model versioning, preprocessing consistency, and observability are not sufficient by themselves; the policy also needs a fail-closed safety boundary because its output changes infrastructure state. AIO-Mesh therefore does not silently push a learned decision when the model, topology descriptor, normalization state, or controller endpoint is unavailable or inconsistent. In such cases, the runtime either falls back to a verified safety-preserving heuristic path or returns an explicit rejection.
+
+\subsection{Safety Boundary and Admission Semantics}
+\label{subsec:safety_boundary}
+
+The safety boundary enforces the distinction between candidate decisions and admitted infrastructure actions. A candidate action may be generated by HARP or by the heuristic path, but it becomes operational only after passing the hard feasibility checks. CPU and memory feasibility are checked against residual node capacity. SRv6 feasibility is checked by translating the selected service path into a SID stack and comparing its depth with the MSD supported by the relevant programmable forwarding profile.
+
+This design gives the runtime fail-closed behavior. If the feasible action set is empty, the result is \texttt{NO\_SAFE\_ACTION}, not best-effort deployment. If steering confirmation is not received, the previous service path is preserved. If a replacement VNF cannot be verified during migration, the old instance is not removed. If an unexpected MSD-drop counter is observed after actuation, the decision context is logged and subsequent requests can be forced through the conservative admission path until the controller state and topology metadata are reconciled.
+
+The distinction between an unsafe candidate and an admitted violation is central to AIO-Mesh. Under overload, many candidate decisions may be infeasible because the infrastructure has exhausted safe compute or SID-depth headroom. This is not itself a safety failure. The failure occurs only when such a candidate is admitted and installed in the data plane. AIO-Mesh is therefore designed to convert unsafe candidates into explicit admission rejections before they become data-plane behavior.
+
+\subsection{Cloud-Native Lifecycle Actuation}
+\label{subsec:cloud_native_actuation}
+
+For admitted actions, AIO-Mesh invokes cloud-native lifecycle operations. A new service-chain request may require creating one or more VNFs, reusing existing instances, exposing service endpoints, and preparing steering state. A migration action follows a stricter make-before-break sequence. The replacement VNF is created first, Kubernetes readiness is verified, the new endpoint is translated into an SRv6-safe service path, and the controller installs the new steering state. Only after steering confirmation can the old instance be removed.
+
+This separation keeps responsibilities clear. The policy selects an admissible orchestration intent; the lifecycle layer executes deployment and migration workflows; and the SRv6/P4 controller realizes the forwarding behavior. The architecture does not rely on an unqualified zero-downtime claim. Make-before-break sequencing is a safety-preserving control mechanism, while strict zero-downtime migration would require packet-level evidence such as TCP continuity or packet-capture validation.
+
+\subsection{Programmable Data-Plane Interface}
+\label{subsec:data_plane_interface}
+
+The programmable data-plane interface maps admitted service-chain actions to SRv6/P4 forwarding behavior. Given the selected placement and routing descriptor, the controller derives the concrete service path, generates the SID list, installs the corresponding steering state, and monitors forwarding counters. The data plane is therefore both an actuator and a verifier: it applies admitted SRv6 paths and reports whether steering has been installed consistently or whether MSD-related drops occur.
+
+AIO-Mesh deliberately avoids relying on post-hoc repair, such as Binding SID compression, to make unsafe paths deployable after policy selection. Such mechanisms can be useful in operational networks, but they weaken the learning and admission semantics. In this work, an action must be directly admissible under the configured SRv6/P4 profile before actuation. HARP selects a compact orchestration action, while the controller realizes it through a concrete feasible path and SID list. This keeps the policy action space tractable while preserving data-plane deployability through controller-side realization and runtime admission validation.
+
+\subsection{End-to-End Request Lifecycle}
+\label{subsec:request_lifecycle}
+
+Algorithm~\ref{alg:aio_mesh_lifecycle} summarizes the lifecycle of a service-chain request. The runtime first constructs the telemetry-derived state, selects a candidate action using either the heuristic path or HARP, validates hard constraints, and then actuates only admitted decisions. Rejected requests return \texttt{NO\_SAFE\_ACTION} with a reason. Accepted requests trigger VNF deployment, reuse, or make-before-break migration, followed by SRv6/P4 steering and feedback collection.
+
+\begin{algorithm}[t]
+\caption{AIO-Mesh request lifecycle}
+\label{alg:aio_mesh_lifecycle}
+\begin{algorithmic}[1]
+\Require SFC request \(q\), substrate graph \(\mathcal{G}\), telemetry \(T_t\)
+\Ensure Admission outcome and optional actuation result
+\State \(s_t \gets \textsc{BuildState}(q,\mathcal{G},T_t)\)
+\If{\(\textsc{IsStable}(T_t)\)}
+    \State \(a_t \gets \textsc{HeuristicDecision}(s_t)\)
+\Else
+    \State \(a_t \gets \textsc{HARPDecision}(s_t,\mathcal{G})\)
+\EndIf
+\State \((ok, reason) \gets \textsc{ValidateHardConstraints}(a_t,q,\mathcal{G})\)
+\If{\(ok=\textbf{false}\)}
+    \State \Return \(\texttt{NO\_SAFE\_ACTION}(reason)\)
+\EndIf
+\If{\(\textsc{RequiresMigration}(a_t)\)}
+    \State \(\textsc{CreateReplacementVNF}(a_t)\)
+    \State \(\textsc{WaitUntilReady}(a_t)\)
+    \State \(\textsc{InstallSRv6Steering}(a_t)\)
+    \State \(\textsc{RemoveOldVNFAfterConfirmation}(a_t)\)
+\Else
+    \State \(\textsc{DeployOrReuseVNF}(a_t)\)
+    \State \(\textsc{InstallSRv6Steering}(a_t)\)
+\EndIf
+\State \(\textsc{CollectFeedback}()\)
+\State \Return \(\texttt{ADMITTED}\)
+\end{algorithmic}
+\end{algorithm}
+
+This lifecycle defines the operational contract used by the rest of the paper. HARP is responsible for selecting high-quality topology-aware actions. AIO-Mesh is responsible for fail-closed admission, lifecycle execution, programmable steering, and feedback validation. The next section details how HARP constructs and optimizes the hardware-aware policy used inside this runtime.
+
+
+\section{HARP: Hardware-Aware Reinforcement Policy}
+\label{sec:harp}
+
+HARP is the learned decision engine inside AIO-Mesh. Its objective is to select high-quality orchestration actions while preserving the hard deployability constraints defined in \autoref{sec:system_model}. The key design principle is to separate \emph{hard feasibility} from \emph{soft optimization}. CPU, memory, and SRv6 MSD feasibility are enforced through action masking and admission control before actuation. Latency, SLA pressure, load balance, and migration overhead are optimized through the reward function. HARP therefore does not learn to ``tolerate'' data-plane-infeasible actions; it removes them from the admissible action space before sampling.
+
+HARP combines three mechanisms: a graph-attention encoder for topology-aware state representation, masked policy optimization for hard constraints, and adaptive penalties for soft operational objectives. The selected action is not applied directly to the infrastructure. It is returned to the AIO-Mesh runtime, which performs final admission validation, lifecycle actuation, and SRv6/P4 steering.
+
+\subsection{MDP Formulation}
+\label{subsec:harp_mdp}
+
+We formulate online service-chain orchestration as a Markov Decision Process
+\begin{equation}
+    \mathcal{M}=(\mathcal{S},\mathcal{A},\mathcal{P},\mathcal{R},\gamma),
+\end{equation}
+where \(\mathcal{S}\) is the state space, \(\mathcal{A}\) is the action space, \(\mathcal{P}\) denotes the transition dynamics induced by traffic arrivals and infrastructure updates, \(\mathcal{R}\) is the reward function, and \(\gamma\) is the discount factor.
+
+At decision epoch \(t\), the state is
+\begin{equation}
+    s_t=(\mathbf{X}_t,\mathbf{g}_t,\mathcal{A}_{topo}),
+\end{equation}
+where \(\mathbf{X}_t\in\mathbb{R}^{N\times 6}\) is the node-feature matrix, \(\mathbf{g}_t\in\mathbb{R}^{13}\) contains request-level and global operational features, and \(\mathcal{A}_{topo}\) is the substrate adjacency matrix. This state representation follows the system model in Section~\ref{sec:system_model}: runtime dynamics are encoded in the node and global features, while the physical topology is preserved as a graph prior.
+
+The abstract orchestration action in Section~\ref{sec:system_model} couples placement, routing, and operational mode. In the implemented policy, HARP uses the compact parameterization
+\begin{equation}
+    a_t=(v_t^{place},v_t^{anchor},m_t),
+\end{equation}
+where \(v_t^{place}\in\mathcal{V}\) is the target node for placement or migration, \(v_t^{anchor}\in\mathcal{V}\) is a routing anchor used by the controller to derive a concrete service path, and \(m_t\in\mathcal{M}\) is the operation mode, such as admission, reuse, scale-out, or migration. The action-space size is therefore
+\begin{equation}
+    |\mathcal{A}|=|\mathcal{V}|\times|\mathcal{V}|\times|\mathcal{M}|.
+\end{equation}
+
+HARP does not enumerate packet-level forwarding rules. Instead, for each compact action, AIO-Mesh derives candidate service paths from a cached \(K\)-shortest-path table and recomputes feasibility using the current request demand, residual compute and memory, and SRv6 MSD profile. This keeps the policy action space tractable while ensuring that each admitted action has at least one concrete deployable realization.
+
+\subsection{Graph-Attention State Encoder}
+\label{subsec:harp_gat}
+
+A flat state encoder is insufficient for service-chain orchestration because feasibility depends on topological relations among source, destination, candidate service locations, and routing anchors. HARP therefore uses a graph-attention encoder to represent the substrate topology and runtime node state~\cite{velickovic2018graph}.
+
+Let \(\mathbf{H}^{(0)}=\mathbf{X}_t\). For attention head \(k\), the unnormalized attention coefficient from node \(j\) to node \(i\) is
+\begin{equation}
+    e_{ij}^{(k)}
+    =
+    \mathrm{LeakyReLU}
+    \left(
+    \mathbf{a}_{k}^{\top}
+    [\mathbf{W}_{k}\mathbf{h}_i \Vert \mathbf{W}_{k}\mathbf{h}_j]
+    \right),
+    \quad j\in\mathcal{N}(i),
+\end{equation}
+and the normalized attention weight is
+\begin{equation}
+    \alpha_{ij}^{(k)}
+    =
+    \frac{\exp(e_{ij}^{(k)})}
+    {\sum_{r\in\mathcal{N}(i)}\exp(e_{ir}^{(k)})}.
+\end{equation}
+The updated node representation is
+\begin{equation}
+    \mathbf{h}'_i
+    =
+    \mathop{\Vert}_{k=1}^{K}
+    \sigma
+    \left(
+    \sum_{j\in\mathcal{N}(i)}
+    \alpha_{ij}^{(k)}\mathbf{W}_{k}\mathbf{h}_j
+    \right),
+\end{equation}
+where \(K\) is the number of attention heads and \(\sigma(\cdot)\) is a nonlinear activation. After \(L\) graph-attention layers, the graph embedding is pooled and concatenated with global request features:
+\begin{equation}
+    \mathbf{z}_t=
+    [\mathrm{Pool}(\mathbf{H}^{(L)})\Vert \mathbf{g}_t].
+\end{equation}
+The vector \(\mathbf{z}_t\) is passed to the actor and critic heads. This design allows the policy to reason about residual capacity, source--destination context, path length, SID-depth pressure, and future placement headroom in a topology-aware manner.
+
+\subsection{Hard-Feasibility Action Mask}
+\label{subsec:harp_masking}
+
+The central safety mechanism in HARP is the hard-feasibility mask. Let \(\mathcal{F}(s_t)\subseteq\mathcal{A}\) denote the feasible action set at state \(s_t\):
+\begin{equation}
+\begin{aligned}
+\mathcal{F}(s_t)=
+\{a\in\mathcal{A}\mid
+& C_{cpu}(a,s_t)=0,\;
+  C_{mem}(a,s_t)=0, \\
+& C_{msd}(a,s_t)=0
+\}.
+\end{aligned}
+\label{eq:feasible_set}
+\end{equation}
+Here \(C_{cpu}\), \(C_{mem}\), and \(C_{msd}\) are hard-infeasibility indicators. In particular,
+\begin{equation}
+    C_{msd}(a,s_t)=1
+    \Longleftrightarrow
+    h_q(a)>m_v^{msd}
+\end{equation}
+for at least one relevant parser profile, where \(h_q(a)\) is the SID-stack depth induced by action \(a\), and \(m_v^{msd}\) is the supported SRv6 MSD of profile \(v\).
+
+The feasible set is constructed by filtering candidate placement nodes by residual CPU and memory, deriving candidate service paths for each remaining placement--anchor pair, translating each path into a SID list, and removing actions whose SID depth exceeds the relevant MSD profile. If multiple feasible paths remain for the same compact action, the controller selects the lowest-cost feasible path. With cached candidate paths and SID-depth metadata, mask construction reduces to checking current resource demand and header-depth feasibility over the candidate action set.
+
+The actor produces a logit \(z_a\) for each action \(a\in\mathcal{A}\). HARP applies the binary mask
+\begin{equation}
+    M_t(a)=
+    \begin{cases}
+        1, & a\in\mathcal{F}(s_t),\\
+        0, & a\notin\mathcal{F}(s_t),
+    \end{cases}
+\end{equation}
+and replaces infeasible logits by \(-\infty\):
+\begin{equation}
+    \tilde{z}_a=
+    \begin{cases}
+        z_a, & M_t(a)=1,\\
+        -\infty, & M_t(a)=0.
+    \end{cases}
+\end{equation}
+The masked policy is then
+\begin{equation}
+    \pi_\theta^{M}(a\mid s_t)
+    =
+    \frac{\exp(\tilde{z}_a)}
+    {\sum_{b\in\mathcal{A}}\exp(\tilde{z}_b)}.
+\end{equation}
+
+HARP optimizes this masked policy using PPO~\cite{schulman2017proximal}. With
+\begin{equation}
+    \rho_t(\theta)=
+    \frac{\pi_\theta^{M}(a_t\mid s_t)}
+    {\pi_{\theta_{old}}^{M}(a_t\mid s_t)},
+\end{equation}
+the clipped objective is
+\begin{equation}
+    \mathcal{L}^{CLIP}(\theta)
+    =
+    \mathbb{E}_t
+    \left[
+    \min
+    \left(
+    \rho_t(\theta)\hat{A}_t,
+    \mathrm{clip}(\rho_t(\theta),1-\epsilon,1+\epsilon)\hat{A}_t
+    \right)
+    \right],
+\end{equation}
+with standard value and entropy terms added during training. This masking mechanism is related to invalid action masking in policy-gradient methods~\cite{huang2022closer}, but its role here is stronger: it enforces a deployability boundary before action sampling.
+
+\subsection{Reward for Soft Operational Objectives}
+\label{subsec:harp_penalty}
+
+HARP uses the reward function only for objectives that admit trade-offs. Latency, migration cost, SLA pressure, and load balance affect service quality, but they do not by themselves determine whether an action is physically deployable. The immediate reward is
+\begin{equation}
+    r_t
+    =
+    r_t^{adm}
+    -\beta_L \bar{L}_t
+    -\beta_M \bar{C}_{mig,t}
+    -\lambda_t \bar{V}^{sla}_t
+    +r_t^{bal},
+    \label{eq:harp_reward}
+\end{equation}
+where \(r_t^{adm}\) rewards useful admission, \(\bar{L}_t\) is normalized latency, \(\bar{C}_{mig,t}\) is normalized migration cost, \(\bar{V}^{sla}_t\) is normalized SLA violation, and \(r_t^{bal}\) rewards balanced residual capacity.
+
+The SLA penalty multiplier is adapted from recent violation behavior:
+\begin{equation}
+    \lambda_{t+1}
+    =
+    \mathrm{clip}
+    \left(
+    \lambda_t+\eta_\lambda(\hat{V}^{sla}_t-\tau_{sla}),
+    \lambda_{\min},
+    \lambda_{\max}
+    \right),
+    \label{eq:lambda_update}
+\end{equation}
+where \(\hat{V}^{sla}_t\) is the violation rate over a sliding window, \(\tau_{sla}\) is the target violation tolerance, and \(\eta_\lambda\) is the update rate. This adaptive penalty regulates soft service-level pressure without weakening hard deployability constraints. In particular, MSD feasibility is never delegated to the reward; it is handled by the mask in Eq.~\eqref{eq:feasible_set}.
+
+\subsection{Admission and Migration Semantics}
+\label{subsec:harp_admission}
+
+The masked policy must define behavior when no feasible action exists. Under severe load, long service chains, or insufficient SID-depth headroom, \(\mathcal{F}(s_t)\) may be empty. HARP then returns an explicit no-safe-action outcome:
+\begin{equation}
+    \mathrm{Decision}(s_t)=
+    \begin{cases}
+        \arg\max_{a\in\mathcal{F}(s_t)}\pi_\theta^{M}(a\mid s_t),
+        & \mathcal{F}(s_t)\neq\varnothing,\\
+        \texttt{NO\_SAFE\_ACTION},
+        & \mathcal{F}(s_t)=\varnothing.
+    \end{cases}
+\end{equation}
+This behavior is operationally important. In a saturated infrastructure, rejection is not necessarily failure; it is the correct outcome when every candidate action violates compute, memory, or MSD feasibility. The admission layer can then log the reason, expose it to the dashboard, and use it for capacity planning or retraining.
+
+Migration is treated as one operation mode inside the same action space. A migration action is admissible only if the new placement and the resulting service path remain compute-, memory-, and MSD-feasible:
+\begin{equation}
+    \phi_q^{new}\in\mathcal{F}_{place}(s_t)
+    \quad\text{and}\quad
+    \mathcal{S}_q(\phi_q^{new})\in\mathcal{F}_{msd}(s_t).
+\end{equation}
+The reward discourages unnecessary migration through \(C_{mig}\), while latency and SLA terms encourage migration when the current placement degrades service quality. HARP therefore decides when migration is useful and where it should move the function; AIO-Mesh executes the migration through the make-before-break lifecycle described in \autoref{sec:architecture}.
+
+\subsection{Decision Procedure}
+\label{subsec:harp_decision_procedure}
+
+Algorithm~\ref{alg:harp_decision} summarizes the HARP decision procedure. The algorithm builds the graph-aware state representation, constructs the hard-feasibility mask, selects an action only from the feasible set, and returns the selected action together with a concrete feasible path descriptor. If no feasible action exists, it returns \texttt{NO\_SAFE\_ACTION}.
+
+\begin{algorithm}[t]
+\caption{HARP decision procedure}
+\label{alg:harp_decision}
+\begin{algorithmic}[1]
+\Require Request \(q\), telemetry \(T_t\), substrate graph \(\mathcal{G}\), topology matrix \(\mathcal{A}_{topo}\), cached path table \(\mathcal{C}_K\)
+\Ensure Candidate action with feasible path descriptor, or \(\texttt{NO\_SAFE\_ACTION}\)
+\State \(\mathbf{X}_t,\mathbf{g}_t \gets \textsc{BuildFeatures}(q,T_t,\mathcal{G})\)
+\State \(\mathbf{H}^{(L)} \gets \textsc{GATEncode}(\mathbf{X}_t,\mathcal{A}_{topo})\)
+\State \(\mathbf{z}_t \gets [\mathrm{Pool}(\mathbf{H}^{(L)})\Vert \mathbf{g}_t]\)
+\State \((\mathcal{F}(s_t),\mathcal{P}^{safe}_t) \gets \textsc{BuildFeasibleSet}(q,T_t,\mathcal{G},\mathcal{C}_K)\)
+\If{\(\mathcal{F}(s_t)=\varnothing\)}
+    \State \Return \(\texttt{NO\_SAFE\_ACTION}\)
+\EndIf
+\State \(\pi_\theta^M(\cdot\mid s_t) \gets \textsc{MaskedPolicy}(\mathbf{z}_t,\mathcal{F}(s_t))\)
+\State \(a_t \gets \textsc{SelectAction}(\pi_\theta^M)\)
+\State \(p_t \gets \textsc{SelectLowestCostPath}(\mathcal{P}^{safe}_t(a_t))\)
+\State \Return \((a_t,p_t)\)
+\end{algorithmic}
+\end{algorithm}
+
+HARP is therefore not a packet-level path-programming algorithm. It is a topology-aware, hardware-constrained policy that ranks feasible orchestration actions. The controller realizes the chosen action through a concrete SRv6/P4 path, and the AIO-Mesh admission layer remains responsible for final validation before actuation.
+
+
+\section{Experiments and Evaluation}
+\label{sec:evaluation}
+
+This section evaluates whether AIO-Mesh improves useful service-chain admission while preventing hardware-infeasible decisions from becoming admitted SRv6/P4 data-plane actions. We distinguish \textit{unsafe candidates}, which fail hard feasibility checks before admission, from \textit{admitted violations}, which are accepted actions that later violate data-plane constraints such as MSD. The evaluation is organized around five questions:
+\begin{itemize}
+    \item \textbf{EQ1: Safe admission under stress.} Does HARP improve admission under heavy-tail, burst, and chaotic workloads while preserving hard feasibility?
+    \item \textbf{EQ2: Topology sensitivity.} Does the policy remain effective across the Vietnam backbone, NSFNET, and GEANT2?
+    \item \textbf{EQ3: Component contribution.} How do graph encoding, hard masking, adaptive penalties, and migration affect safe admission?
+    \item \textbf{EQ4: Runtime deployability.} Can the AIOps runtime enforce admission before Kubernetes-based lifecycle control and SRv6/P4 steering?
+    \item \textbf{EQ5: Operational interpretation.} Under saturation, does lower acceptance reflect weaker orchestration or correct safety-preserving rejection?
+\end{itemize}
+
+\subsection{Experimental Setup}
+\label{subsec:experimental_setup}
+
+The algorithmic evaluation uses three substrate topologies: a 10-node Vietnam backbone, NSFNET, and GEANT2. The Vietnam topology represents a constrained national backbone with core and edge sites, while NSFNET and GEANT2 test whether the policy remains effective under different connectivity and path-diversity profiles. Core nodes are assigned higher compute capacity and larger MSD limits, whereas edge nodes have lower resource and parser-depth headroom.
+
+The workload consists of SFC requests with source--destination pairs, ordered VNF chains, resource demands, service classes, latency targets, and SRv6 path constraints. The chains include functions such as firewalling, intrusion detection, deep inspection, load balancing, and routing; AI-enabled traffic-analysis functions are motivated by prior operational security-function studies~\cite{jSAID23,jAPELID24,cCSFS25}. We use three stress profiles. \textbf{Elephant stress} contains large requests that consume disproportionate compute and path-depth resources. \textbf{Burst surge} compresses many arrivals into a short interval. \textbf{Chaos stress} combines heavy-tail demand, heterogeneous service classes, and diverse source--destination pairs. The workloads intentionally exceed comfortable capacity, so low raw acceptance is expected in the hardest cases. 
+Each simulation result is averaged over \(5\) independent runs with different random seeds, and the reported deviations are standard deviations. 
+Unless otherwise stated, the candidate-path cache uses \(K=5\) shortest simple paths per source--anchor--destination tuple. This value provides multiple SRv6-realizable alternatives for each compact orchestration action while keeping feasibility-mask construction lightweight for the evaluated Vietnam, NSFNET, and GEANT2 topologies.
+The load-sweep experiment normalizes arrival intensity against the nominal workload rate and varies the offered-load multiplier from \(0.2\times\) to \(1.5\times\). All baselines are evaluated under the same topology, workload generator, resource-capacity settings, and MSD-admission accounting.
+
+The hardware-in-the-loop evaluation uses the 10-node Vietnam backbone implemented with MicroK8s, Tekton, Mininet, BMv2 P4 switches, SRv6 steering, FastAPI-based orchestration, and a telemetry-driven dashboard. The testbed evaluates whether unsafe candidates are rejected before data-plane actuation rather than merely visualizing policy decisions.
+
+\subsection{Baselines, Ablation Variants, and Metrics}
+\label{subsec:baselines_metrics}
+We compare HARP with heuristic, learning-based, and runtime variants following recent DRL, GCN-based, and migration-aware SFC orchestration studies~\cite{xiao2023twostage,liu2024sfcml,addad2022ai,tariq2023fipam,afrasiabi2024cluster}. \textbf{Greedy} is a short-horizon placement--routing baseline that uses local feasibility and immediate cost, but does not account for future fragmentation, SID-stack pressure, or migration effects. \textbf{Decoupled AI (DAI)} uses learned placement or routing behavior without the joint graph-aware masking structure used by HARP. \textbf{SRv6-aware feasible heuristic (SAF-H)} filters candidate placements and paths by CPU, memory, and SRv6 MSD feasibility before admission, then selects the feasible action with the lowest weighted cost. SAF-H is a stronger deterministic baseline than Greedy, but remains myopic and non-adaptive. In the hardware-in-the-loop testbed, we additionally evaluate a safety-protected \textbf{Heuristic runtime} and a \textbf{Hybrid runtime}; the latter uses the heuristic path under stable load and invokes HARP under stress, alert, or migration pressure.
+
+We use two comparison modes. In the simulation study, Greedy, DAI, SAF-H, and HARP are evaluated under the same topology, workload generator, resource-capacity settings, MSD profile, and metric definitions, so that safe acceptance and pre-admission infeasible pressure are measured consistently. In the hardware-in-the-loop testbed, HARP, Hybrid runtime, and Heuristic runtime are evaluated as safety-protected runtime variants because their decisions pass through the AIO-Mesh admission boundary before actuation. Greedy and DAI are evaluated as unprotected stress baselines; their role is to expose the data-plane consequence of bypassing hardware-safe admission checks, rather than to represent protected AIO-Mesh runtime behavior.
+
+For ablation, \textbf{PPO-MLP} replaces the graph-attention encoder with a flat MLP. \textbf{HARP w/o masking} disables policy-side hard masking while retaining runtime admission. \textbf{HARP w/o mask + unchecked} removes both policy-side masking and runtime admission checks, and is used only as a diagnostic unsafe variant. \textbf{HARP-SoftMSD} treats MSD feasibility as a reward penalty. \textbf{HARP w/o adaptive penalty} uses fixed soft-constraint weights, and \textbf{HARP w/o migration} disables proactive migration actions. These variants isolate topology awareness, hard deployability enforcement, runtime safety validation, adaptive soft-constraint control, and migration behavior.
+
+We report acceptance rate, safe acceptance rate, pre-admission hard-infeasible candidate rate, admitted MSD violation rate, average latency, SLA violation rate, queueing delay, and reward. Safe acceptance is the primary admission metric because it counts only requests satisfying compute, memory, and MSD feasibility. Pre-admission hard-infeasible candidate rate measures how strongly the workload pushes the system outside the feasible region before admission, while admitted MSD violation rate measures actual data-plane safety failure after admission.
+
+\subsection{Hardware-Safe Admission under Workload Saturation}
+\label{subsec:hardware_safe_admission}
+To test behavior under progressive saturation, we vary the request arrival rate on the Vietnam topology. As shown in \autoref{fig:vn_load_sweep}, safe acceptance decreases as the offered load increases, while simulation-side hard-admission filtering prevents infeasible candidates from becoming admitted MSD violations.
+
+\begin{figure}[t]
+    \centering
+    \includegraphics[width=\linewidth]{figs/VN_load_sweep.pdf}
+    \caption{Load-sweep simulation on the Vietnam backbone under varying offered-load multipliers. The figure reports safe acceptance and admitted MSD violation behavior under simulation-side hard-admission filtering. Unsafe candidates are rejected before actuation, resulting in zero admitted MSD violations across the tested load range.}
+    \label{fig:vn_load_sweep}
+\end{figure}
+
+\subsection{Simulation Results across Distributed Topologies}
+\label{subsec:simulation_results}
+
+\autoref{tab:simulation_acceptance_summary} summarizes safe acceptance across topologies and stress workloads. HARP consistently improves over Greedy and DAI. SAF-H is competitive because it also enforces CPU, memory, and MSD feasibility before admission; however, it remains myopic and lacks the topology-aware adaptation and migration behavior of HARP. On Vietnam, HARP reaches \(17.89\%{-}18.74\%\) safe acceptance, compared with approximately \(4\%\) for Greedy and DAI. On NSFNET, HARP reaches \(29.41\%{-}31.51\%\), roughly four times the Greedy rate. GEANT2 provides richer path diversity, where HARP reaches \(44.73\%{-}49.52\%\).
+
+\begin{table}[t]
+\centering
+\caption{Stress simulation summary: safe acceptance rate across topologies and workloads (\%).}
+\label{tab:simulation_acceptance_summary}
+\renewcommand{\arraystretch}{1.15}
+\scriptsize
+\resizebox{\linewidth}{!}{
+\begin{tabular}{lcccc}
+\toprule
+\textbf{Scenario} & \textbf{Greedy} & \textbf{DAI} & \textbf{SAF-H} & \textbf{HARP} \\
+\midrule
+\multicolumn{5}{c}{\textit{Vietnam backbone topology}} \\
+\midrule
+Elephant & 4.07 $\pm$ 0.20 & 4.40 $\pm$ 0.20 & 16.27 $\pm$ 0.59 & \textbf{17.89} $\pm$ \textbf{0.67} \\
+Burst surge & 4.29 $\pm$ 0.15 & 4.43 $\pm$ 0.80 & 17.47 $\pm$ 0.43 & \textbf{18.74} $\pm$ \textbf{0.51} \\
+Chaos & 4.07 $\pm$ 0.20 & 4.40 $\pm$ 0.20 & 16.27 $\pm$ 0.59 & \textbf{17.89} $\pm$ \textbf{0.67} \\
+\midrule
+\multicolumn{5}{c}{\textit{NSFNET topology}} \\
+\midrule
+Elephant & 6.81 $\pm$ 0.67 & 6.41 $\pm$ 0.46 & \textbf{29.61} $\pm$ \textbf{0.36} & 29.41 $\pm$ 0.47 \\
+Burst surge & 7.66 $\pm$ 0.45 & 6.45 $\pm$ 1.69 & \textbf{32.32} $\pm$ \textbf{0.50} & 31.51 $\pm$ 0.81 \\
+Chaos & 6.81 $\pm$ 0.67 & 6.41 $\pm$ 0.46 & \textbf{29.61} $\pm$ \textbf{0.36} & 29.41 $\pm$ 0.47 \\
+\midrule
+\multicolumn{5}{c}{\textit{GEANT2 topology}} \\
+\midrule
+Elephant & 8.47 $\pm$ 0.91 & 8.14 $\pm$ 1.72 & 43.82 $\pm$ 0.86 & \textbf{44.73} $\pm$ \textbf{0.80} \\
+Burst surge & 8.67 $\pm$ 0.61 & 9.21 $\pm$ 1.59 & 48.26 $\pm$ 0.64 & \textbf{49.52} $\pm$ \textbf{0.48} \\
+Chaos & 8.47 $\pm$ 0.91 & 8.14 $\pm$ 1.72 & 43.82 $\pm$ 0.86 & \textbf{44.73} $\pm$ \textbf{0.80} \\
+\bottomrule
+\end{tabular}
+}
+\end{table}
+
+\autoref{tab:burst_results} provides a more detailed comparison for the Burst-surge workload on Vietnam and GEANT2. On the constrained Vietnam backbone, HARP improves admission and latency over all baselines while preserving zero SLA violations. On GEANT2, HARP achieves the highest admission and reward. SAF-H shows lower pre-admission MSD-infeasible pressure on GEANT2 because it is more conservative, but it admits fewer useful requests. This confirms that unsafe-candidate pressure should be interpreted together with safe acceptance: the goal is not merely to avoid considering infeasible candidates, but to admit more deployable requests without creating admitted data-plane violations.
+
+\begin{table}[t]
+\centering
+\caption{Burst-surge simulation results on the Vietnam backbone and GEANT2 topologies.}
+\label{tab:burst_results}
+\resizebox{\columnwidth}{!}{
+\scriptsize
+\begin{tabularx}{\columnwidth}{lXXXXXX}
+\toprule
+Method & Adm. & Pre-adm. MSD & SLA & Lat. & Queue & Reward \\
+\midrule
+\multicolumn{7}{c}{\textit{Vietnam backbone simulation}} \\
+\midrule
+Traditional Greedy & 4.3 & 95.7 & 0.0 & 2.5 & 0.07 & $-14.0$ \\
+Decoupled AI       & 4.4 & 95.6 & 0.0 & 1.2 & 0.06 & $-14.4$ \\
+SAF-H              & 17.5 & 82.5 & 0.0 & 0.4 & 0.08 & 0.0 \\
+HARP               & 18.7 & 84.5 & 0.0 & 0.2 & 0.10 & 1.4 \\
+\midrule
+\multicolumn{7}{c}{\textit{GEANT2 simulation}} \\
+\midrule
+Traditional Greedy & 8.7 & 91.3 & 0.0 & 3.6 & 0.07 & $-8.2$ \\
+Decoupled AI       & 9.2 & 90.8 & 0.2 & 2.1 & 0.06 & $-8.4$ \\
+SAF-H              & 48.3 & 51.7 & 0.2 & 1.0 & 0.10 & 35.6 \\
+HARP               & 49.5 & 64.5 & 0.0 & 0.6 & 0.16 & 35.8 \\
+\bottomrule
+\end{tabularx}
+}
+\end{table}
+
+Overall, the simulation results show that HARP is not simply rejecting more aggressively. It selects more useful actions from the feasible region, especially when topology diversity provides alternative placement--routing combinations. Latency should be interpreted jointly with acceptance: a baseline may appear fast by admitting only a small and easy subset of requests, whereas HARP admits a larger deployable set under stress.
+
+\subsection{Ablation Study}
+\label{subsec:ablation_study}
+
+The ablation study isolates the main HARP design choices on the Vietnam topology, where compute and MSD headroom are limited. \autoref{tab:vietnam_ablation_summary} shows that full HARP obtains the highest safe acceptance across Uniform, Bursty, and Heavy-tail workloads while maintaining \(0.0\%\) admitted MSD violations.
+
+\begin{table}[t]
+\centering
+\caption{Ablation results on the Vietnam topology (\%).}
+\label{tab:vietnam_ablation_summary}
+\renewcommand{\arraystretch}{1.12}
+\setlength{\tabcolsep}{2pt}
+\scriptsize
+\resizebox{\linewidth}{!}{
+\begin{tabular}{lrrrrr}
+\toprule
+\textbf{Var.} &
+\makecell{\textbf{Safe}\\\textbf{acc.}} &
+\makecell{\textbf{Pre-adm.}\\\textbf{MSD}} &
+\makecell{\textbf{Adm.}\\\textbf{MSD}} &
+\textbf{SLA} &
+\makecell{\textbf{Lat.}\\\textbf{ms}} \\
+\midrule
+\multicolumn{6}{c}{\textbf{\textit{Uniform}}} \\
+\midrule
+Full & \textbf{18.90} $\pm$ \textbf{0.45} & 81.05 $\pm$ 0.52 & \textbf{0.00} $\pm$ \textbf{0.00} & \textbf{0.00} $\pm$ \textbf{0.00} & 1.44 $\pm$ 0.09 \\
+MLP & 17.47 $\pm$ 0.51 & 82.51 $\pm$ 0.50 & \textbf{0.00} $\pm$ \textbf{0.00} & \textbf{0.00} $\pm$ \textbf{0.00} & 3.43 $\pm$ 0.15 \\
+NoMask & 18.59 $\pm$ 0.50 & 81.11 $\pm$ 0.62 & \textbf{0.00} $\pm$ \textbf{0.00} & \textbf{0.00} $\pm$ \textbf{0.00} & \textbf{0.78} $\pm$ \textbf{0.06} \\
+NoMask+U & 4.99 $\pm$ 0.54 & 91.01 $\pm$ 4.33 & 23.56 $\pm$ 1.56 & \textbf{0.00} $\pm$ \textbf{0.00} & 4.37 $\pm$ 0.12 \\
+SoftMSD & 1.39 $\pm$ 0.22 & 97.39 $\pm$ 0.73 & 34.53 $\pm$ 0.80 & 0.03 $\pm$ 0.04 & 2.53 $\pm$ 0.16 \\
+NoAdapt & 16.48 $\pm$ 0.40 & 83.48 $\pm$ 0.42 & \textbf{0.00} $\pm$ \textbf{0.00} & \textbf{0.00} $\pm$ \textbf{0.00} & 1.73 $\pm$ 0.43 \\
+\midrule
+\multicolumn{6}{c}{\textbf{\textit{Bursty}}} \\
+\midrule
+Full & \textbf{18.74} $\pm$ \textbf{0.51} & 81.25 $\pm$ 0.53 & \textbf{0.00} $\pm$ \textbf{0.00} & \textbf{0.00} $\pm$ \textbf{0.00} & 0.87 $\pm$ 0.13 \\
+MLP & 17.72 $\pm$ 0.38 & 82.28 $\pm$ 0.38 & \textbf{0.00} $\pm$ \textbf{0.00} & \textbf{0.00} $\pm$ \textbf{0.00} & 3.74 $\pm$ 0.08 \\
+NoMask & 13.77 $\pm$ 1.47 & 86.19 $\pm$ 1.46 & \textbf{0.00} $\pm$ \textbf{0.00} & \textbf{0.00} $\pm$ \textbf{0.00} & \textbf{0.26} $\pm$ \textbf{0.05} \\
+NoMask+U & 4.41 $\pm$ 0.34 & 93.59 $\pm$ 1.17 & 31.78 $\pm$ 1.06 & 0.01 $\pm$ 0.01 & 4.08 $\pm$ 0.10 \\
+SoftMSD & 1.58 $\pm$ 0.14 & 98.29 $\pm$ 0.23 & 34.38 $\pm$ 1.06 & \textbf{0.00} $\pm$ \textbf{0.00} & 2.84 $\pm$ 0.10 \\
+NoAdapt & 16.51 $\pm$ 0.75 & 83.49 $\pm$ 0.75 & \textbf{0.00} $\pm$ \textbf{0.00} & \textbf{0.00} $\pm$ \textbf{0.00} & 0.93 $\pm$ 0.18 \\
+\midrule
+\multicolumn{6}{c}{\textbf{\textit{Heavy-Tail}}} \\
+\midrule
+Full & \textbf{17.89} $\pm$ \textbf{0.67} & 81.97 $\pm$ 0.65 & \textbf{0.00} $\pm$ \textbf{0.00} & \textbf{0.00} $\pm$ \textbf{0.00} & 1.88 $\pm$ 0.16 \\
+MLP & 16.57 $\pm$ 0.53 & 83.43 $\pm$ 0.53 & \textbf{0.00} $\pm$ \textbf{0.00} & \textbf{0.00} $\pm$ \textbf{0.00} & 3.29 $\pm$ 0.19 \\
+NoMask & 17.15 $\pm$ 0.74 & 82.26 $\pm$ 0.70 & \textbf{0.00} $\pm$ \textbf{0.00} & \textbf{0.00} $\pm$ \textbf{0.00} & \textbf{1.04} $\pm$ \textbf{0.11} \\
+NoMask+U & 3.89 $\pm$ 0.31 & 94.04 $\pm$ 1.25 & 23.22 $\pm$ 0.62 & 0.07 $\pm$ 0.05 & 4.68 $\pm$ 0.17 \\
+SoftMSD & 1.12 $\pm$ 0.15 & 98.19 $\pm$ 0.77 & 33.57 $\pm$ 0.41 & 0.03 $\pm$ 0.03 & 2.25 $\pm$ 0.03 \\
+NoAdapt & 16.06 $\pm$ 0.43 & 83.93 $\pm$ 0.43 & \textbf{0.00} $\pm$ \textbf{0.00} & \textbf{0.00} $\pm$ \textbf{0.00} & 1.71 $\pm$ 0.26 \\
+\bottomrule
+\end{tabular}
+}
+\end{table}
+
+
+The ablation confirms four points. First, replacing graph attention with a flat MLP reduces safe acceptance and increases latency, showing that topology information is important for placement--routing decisions. Second, disabling policy-side masking while keeping runtime admission can remain safe on the small Vietnam topology, but it loses admission quality under bursty load; the unchecked variant exposes the true risk by producing \(23.22\%{-}31.78\%\) admitted MSD violations. Third, treating MSD as a reward penalty is ineffective: SoftMSD collapses safe acceptance to about \(1\%{-}2\%\) and still admits many MSD-violating requests. Fourth, removing adaptive penalties remains safe but reduces safe acceptance, indicating that adaptive soft-constraint control improves service quality without weakening hardware safety.
+
+\begin{figure*}[t]
+    \centering
+    \includegraphics[width=\linewidth]{AIO-Mesh/figs/pareto_design_space.png}
+    \caption{Architectural design-space trade-offs on NSFNET and GEANT2. Each column shows a pairwise trade-off between safe acceptance rate (\(\uparrow\)) and a cost metric (\(\downarrow\)). Large markers denote cross-scenario means, while small markers denote per-scenario values. The dashed line marks the Pareto frontier, and the shaded region contains dominated design points. Full HARP is Pareto-optimal or near-optimal across the six trade-off views.}
+    \label{fig:pareto_design_space}
+\end{figure*}
+
+\autoref{fig:pareto_design_space} extends this component analysis to NSFNET and GEANT2. The figure shows that full HARP remains on or near the Pareto frontier when safe acceptance is evaluated jointly with SLA violation, latency, and switching behavior. This is important because a variant may appear competitive on acceptance alone while being dominated once routing quality or action stability is considered. The large-topology results therefore support the same conclusion as the Vietnam ablation: HARP's full design is not only safer than unchecked variants, but also provides a better multi-objective operating point than flat, unmasked, or fixed-penalty alternatives.
+
+
+\subsection{Hardware-in-the-Loop Testbed Validation}
+\label{subsec:testbed_validation}
+
+The hardware-in-the-loop testbed evaluates whether the AIO-Mesh runtime can prevent unsafe policy outputs from becoming admitted SRv6/P4 actions. As shown in \autoref{fig:testbed_architecture_eval}, the testbed integrates the AIO-Mesh FastAPI backend, HARP policy engine, smart admission controller, MicroK8s/Tekton-based VNF lifecycle control, a Mininet-based Vietnam topology, BMv2 P4 switches, SRv6 steering, and MSD-drop counters. We evaluate five scenarios: Normal load, Elephant heavy-tail, Topology and physics stress, DDoS with make-before-break triggering, and Chaos.
+
+\begin{figure*}[t]
+    \centering
+    \includegraphics[width=\linewidth]{figs/testbed.pdf}
+    \caption{Hardware-in-the-loop testbed used to validate the AIO-Mesh control loop with MicroK8s, Tekton, Mininet, BMv2 P4 switches, SRv6 steering, and runtime admission control.}
+    \label{fig:testbed_architecture_eval}
+\end{figure*}
+
+The comparison separates protected runtime behavior from unprotected decision making. HARP, Hybrid runtime, and Heuristic runtime pass all candidate actions through the AIO-Mesh safety and admission boundary; infeasible decisions are converted into explicit \texttt{NO\_SAFE\_ACTION} outcomes before actuation. Greedy and DAI are executed as unprotected stress baselines to expose the consequence of bypassing hardware-safe admission checks.
+
+\autoref{tab:testbed_results} reports acceptance rate and admitted MSD violation rate. HARP and the Hybrid runtime maintain \(0.0\%\) admitted MSD violations in all scenarios. Greedy and DAI can appear competitive in raw acceptance, but they produce high admitted MSD violation rates under stress. For example, in the DDoS make-before-break scenario, Greedy accepts \(25.7\%\) of requests but incurs \(69.0\%\) admitted MSD violations, whereas HARP accepts \(23.0\%\) with zero admitted violations. Under Chaos, HARP accepts only \(10.0\%\), but this reflects correct safety-preserving rejection under saturation rather than orchestration failure.
+
+\begin{table}[t]
+\centering
+\caption{Hardware-in-the-loop testbed results: acceptance rate / admitted MSD violation rate.}
+\label{tab:testbed_results}
+\renewcommand{\arraystretch}{1.08}
+\setlength{\tabcolsep}{2pt}
+\scriptsize
+\resizebox{\linewidth}{!}{
+\begin{tabular}{@{}lccccc@{}}
+\toprule
+\textbf{Algorithm} &
+\makecell{\textbf{Normal}} &
+\makecell{\textbf{Elephant}} &
+\makecell{\textbf{Topo}\\\textbf{stress}} &
+\makecell{\textbf{DDoS}\\\textbf{MBB}} &
+\textbf{Chaos} \\
+\midrule
+\textbf{HARP}  & 100.0 / 0.0 & 71.0 / 0.0 & 21.2 / 0.0 & 23.0 / 0.0 & 10.0 / 0.0 \\
+Hybrid runtime & 100.0 / 0.0 & 75.3 / 0.0 & 21.2 / 0.0 & 24.8 / 0.0 & 8.3 / 0.0 \\
+Heuristic      & 100.0 / 0.0 & 65.6 / 0.0 & 20.3 / 0.0 & 22.1 / 0.0 & 7.9 / 0.0 \\
+Greedy         & 100.0 / 0.0 & 59.1 / 19.4 & 21.2 / 78.8 & 25.7 / 69.0 & 7.9 / 79.2 \\
+DAI            & 94.1 / 5.9  & 52.7 / 22.6 & 9.3 / 90.7  & 18.6 / 77.9 & 5.8 / 81.3 \\
+\bottomrule
+\end{tabular}
+}
+\end{table}
+
+These results confirm the separation between simulation-side unsafe candidate pressure and runtime data-plane safety. Simulation quantifies how often workloads push the policy toward infeasible regions, while the hardware-in-the-loop testbed verifies that protected AIO-Mesh variants reject such candidates before they become admitted SRv6/P4 data-plane actions.
+
+\subsection{Operational Interpretation, Overhead, and Limitations}
+\label{subsec:operational_interpretation}
+
+The evaluation supports three operational conclusions. First, safe acceptance is more informative than raw acceptance for SRv6/P4 service-chain orchestration. A request accepted with an MSD violation is not deployable. HARP and the Hybrid runtime sometimes accept fewer requests than Greedy, but their accepted actions remain hardware-safe. Second, the runtime architecture is part of the contribution: AIO-Mesh converts a graph RL policy into an operational control loop by combining telemetry, inference, hard-feasibility masking, admission, lifecycle actuation, programmable steering, and feedback. Third, make-before-break migration is validated as a safety-preserving control sequence rather than as a packet-level zero-downtime guarantee. In the DDoS make-before-break scenario, the runtime creates and verifies the replacement VNF, installs SRv6-safe steering, and preserves zero admitted MSD violations; strict zero-downtime would require TCP or packet-capture continuity evidence.
+
+The policy-side overhead is practical for the evaluated topologies. For a substrate with \(N\) nodes, \(E\) edges, \(K\) attention heads, and hidden dimension \(F\), one graph-attention layer costs
+\begin{equation}
+    \mathcal{O}(NF^2K + EFK).
+\end{equation}
+Because \(N\) and \(E\) describe infrastructure sites and links rather than individual flows, this cost is modest for backbone-scale substrates. Cached candidate paths and SID-depth metadata further reduce feasibility-mask construction to current resource and header-depth checks over the candidate action set. Larger delays are expected from actuation rather than policy inference: Kubernetes/Tekton deployment, readiness checks, SRv6/P4 rule installation, and controller confirmation depend on the runtime backend and programmable target.
+
+The current prototype has three limitations. BMv2 validates parser-depth logic and control-plane behavior, but not ASIC line-rate forwarding. The workloads are synthetic and stress-oriented; production traces would strengthen external validity. Finally, the forecasting adapter is used as an operational trigger rather than as a separately evaluated prediction model. These limitations do not weaken the central result: AIO-Mesh embeds a learned AIOps policy into a cloud-native SRv6/P4 orchestration loop while preventing hardware-infeasible actions from becoming admitted data-plane behavior.
+
+
+\section{Conclusion}
+\label{sec:conclusion}
+This paper presented \textbf{AIO-Mesh}, a hardware-safe AIOps orchestration framework for cloud-native service function chains over programmable SRv6/P4 data planes. The central motivation is that learned orchestration policies cannot be treated as offline optimizers when their outputs directly affect service placement, traffic steering, migration, and programmable forwarding behavior. In such environments, a logically efficient service path may still be non-deployable if its SID stack exceeds the parser-depth capability of the forwarding profile.
+
+At the core of AIO-Mesh, we introduced \textbf{HARP}, a hardware-aware reinforcement policy that combines graph-attention topology encoding, masked policy optimization, adaptive penalties, and smart admission control. The key design principle is to separate hard deployability constraints from soft operational objectives. CPU, memory, and SRv6 MSD feasibility are enforced through action masking and admission control before actuation, whereas latency, SLA pressure, load balance, and migration cost are optimized through the reward function.
+
+The evaluation shows that HARP improves safe admission under stress-oriented workloads across the Vietnam backbone, NSFNET, and GEANT2. The hardware-in-the-loop testbed further demonstrates that AIO-Mesh can embed the learned policy into an operational control loop with telemetry-driven state construction, Kubernetes/Tekton-based VNF lifecycle control, SRv6/P4 steering, and runtime feedback, while maintaining zero admitted MSD violations. Under saturation, AIO-Mesh converts infeasible candidates into explicit \texttt{NO\_SAFE\_ACTION} outcomes rather than allowing them to become data-plane failures.
+
+The current prototype has several limitations. The programmable data plane is validated with BMv2 rather than production ASIC or smartNIC/DPU targets, and the workloads are synthetic stress scenarios rather than production traces. Make-before-break migration is implemented as a safety-preserving control sequence, but strict zero-downtime validation requires packet-level continuity evidence. Future work will extend AIO-Mesh toward production programmable hardware, fuller MLOps lifecycle management, cross-topology transfer, and packet-level validation of migration continuity.
+
+
+\section*{Declaration of Competing Interest}
+\noindent The authors declare that they have no known competing financial interests or personal relationships that could have appeared to influence the work reported in this paper.
+
+
+\section*{Funding}
+This work was supported by the Ministry of Science and Technology of Vietnam under the National Science and Technology Program, project code KC-4.0-56/19-30.
+
+\section*{Data and Code Availability}
+The simulation scenarios, topology descriptions, workload configurations, testbed scripts, Mininet/BMv2 setups, SRv6/P4 steering scripts, Tekton pipeline definitions, and evaluation logs used in this study are publicly available at:
+\url{https://github.com/uet-dis/AIO-Mesh/}.
+
+\section*{Declaration of Generative AI and AI-Assisted Technologies in the Writing Process}
+During the preparation of this work, the authors used generative AI and AI-assisted technologies to refine the scientific prose, improve readability, and polish LaTeX formatting. After using these technologies, the authors thoroughly reviewed and edited the content as needed and take full responsibility for the content of the published article.
+
+\section*{CRediT Authorship Contribution Statement}
+\textbf{Hanh P. Du}: Conceptualization, Methodology, Formal analysis, Validation, Writing -- original draft.
+\textbf{Hung D. Hoang}: Software, Investigation, Testbed implementation, Visualization, Validation, Writing -- original draft.
+\textbf{Thu H. Le}: Software, Data curation, Experimental evaluation, Visualization, Writing -- review \& editing.
+\textbf{Tuan X. Le}: Software, Testbed integration, Programmable data-plane configuration, Validation, Writing -- review \& editing.
+\textbf{Giang L. Nguyen}: Formal analysis, Methodology, Validation, Writing -- review \& editing.
+\textbf{Hoa N. Nguyen}: Conceptualization, Methodology, Supervision, Project administration, Funding acquisition, Writing -- review \& editing.
+
+
+\bibliographystyle{elsarticle-num}
+\bibliography{refs}
+
+\end{document}

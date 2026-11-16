@@ -1,0 +1,59 @@
+=============================================================================
+TỔNG HỢP LÝ LUẬN BẢO VỆ DỰ ÁN JO-VPPM (BẢN CHUẨN KHOA HỌC CUỐI CÙNG)
+=============================================================================
+
+1. BẢN CHẤT CỦA BÀI TOÁN VÀ ĐỊNH VỊ THUẬT TOÁN
+- Khẳng định: JO-VPPM là bài toán Online Routing và Placement (Mỗi request đến và được xử lý theo thời gian thực).
+- Baseline 1 (Exhaustive Pair-Search): 
+  + Không gọi là Optimal ILP vì ILP giải offline bài toán NP-Hard.
+  + Ở cấp độ từng time-step, Baseline 1 vét cạn toàn bộ không gian N x N (Greedy N^2) để tìm ra cặp [v1, v2] cho Reward cao nhất. Đây là Cận trên Cục bộ (Local Upper Bound).
+- Baseline 2 (Decoupled AI - Chia để trị):
+  + Tách biệt Placement (Min-CPU) và Routing (Min-RAM 1-hop).
+  + Yếu điểm: Dễ đâm vào ngõ cụt, tăng vọt độ trễ do bị mù cấu trúc đồ thị.
+
+2. LOGIC VẬT LÝ VÀ ĐỘ TRỄ (DATA PLANE)
+Mô phỏng mạng xương sống xuyên quốc gia, không dùng hằng số giả định.
+- Propagation Delay (D_prop): Khoảng cách cong Trái đất chia tốc độ ánh sáng (Công thức Haversine). Ngưỡng vật lý của WAN tối thiểu là 7.5ms (cho khoảng cách Bắc-Nam VN).
+- Ngưỡng SLA thực tế (WAN SLA):
+  + URLLC (tại Edge DC): < 10ms
+  + Video: < 30ms
+  + VoIP: < 50ms
+  + Data: < 100ms
+- Heavy Tail & M/G/1 Queueing:
+  + Lưu lượng mạng là Bursty (Heavy Tail, Pareto). Hàng đợi Poisson M/M/1 sẽ đánh giá thấp độ trễ.
+  + Áp dụng xấp xỉ M/G/1 bằng công thức Pollaczek–Khinchine với hệ số phương sai lớn (Cv^2 ≈ 3.0). Khi CPU > 80%, độ trễ M/G/1 vọt lên dữ dội gấp đôi M/M/1, phản ánh đúng tắc nghẽn của luồng bùng nổ.
+
+3. "STATELESS FLOW MIGRATION" & CHỮ "PROACTIVE"
+Hội đồng bắt bẻ: "Cấm đặt VNF mới vào node chết là Admission Control, không phải Migration!"
+- Đỡ đòn bằng khái niệm "Stateless Flow Migration" (Make-Before-Break).
+- Quy trình toán học trong hệ thống RL:
+  + Khi Bi-GRU bật Alert = 1 tại Node A đang chứa các luồng Elephant Flows.
+  + DRL Agent quyết định đặt Action vào Node B.
+  + Hành động này khởi phát quy trình 3 bước: 
+    1. Scale-out (Sinh bản sao tại B).
+    2. Flow Steering (SDN bẻ luồng từ A sang B).
+    3. Terminate (Hủy bỏ tại A).
+- Tracking bằng Code: Hệ thống ghi nhận đây là sự kiện `is_switching = True` và thu phí `SWITCHING_COST = -3.0`. Hành động này tốn chi phí nhỏ (Make-Before-Break overhead) nhưng né được thảm họa sập node (`EVACUATION_PENALTY = -50.0`).
+- Kết luận: Chữ "Migration" hoàn toàn hợp lệ trong môi trường Cloud-Native Stateless VNF.
+
+4. NHẬN THỨC ĐỊA LÝ (GAT) VÀ AN TOÀN PHẦN CỨNG (MASKING)
+- GAT (Graph Attention Network): Nhúng Ma trận Kề để AI phân biệt được trạm nào là láng giềng gần, tránh việc điều hướng ziczac.
+- Action Masking (MaskablePPO): Chặn ngay từ cửa mọi quyết định làm tràn CPU, RAM hoặc vượt quá khả năng dán nhãn SRv6 (MSD) của thiết bị vật lý. Cam kết 0% vi phạm giới hạn phần cứng.
+
+5. KIẾN TRÚC ĐIỀU PHỐI PHÂN CẤP (HIERARCHICAL ORCHESTRATION)
+- AI Orchestrator (Lớp trên): Quyết định Placement và Ingress/Egress dựa trên CPU, RAM, MSD, Geo-Latency.
+- SDN Controller (Lớp dưới - Internal State): Xử lý Bandwidth Admission Control. Nếu cáp quang hết băng thông → Reject request.
+- Biện luận: Bandwidth không đưa vào Observation Space là thiết kế có chủ đích (Intentional Design) nhằm giảm Curse of Dimensionality. AI tập trung giải Placement + MSD, Bandwidth là Hard Constraint ở lớp SDN.
+
+6. VÒNG ĐỜI SFC (SFC LIFECYCLE - TTL)
+- Mỗi SFC accepted được gắn TTL ngẫu nhiên (100-500 steps).
+- Khi TTL = 0: Hoàn trả CPU, RAM, MSD cho Node VÀ Bandwidth cho Link.
+- Chỉ flow Accepted mới đăng ký vào active_flows. Flow bị Reject không chiếm tài nguyên.
+- Cơ chế này cho phép Stress Test 10,000+ steps mà mạng không bị Deadlock.
+
+7. QUY TRÌNH ĐÁNH GIÁ THỰC NGHIỆM CHUẨN Q1
+- 5 Random Seeds độc lập (42, 100, 2024, 8888, 9999) để loại bỏ Cherry-picking.
+- Kết quả báo cáo dạng Mean ± 95% Confidence Interval (CI = 1.96 * std / sqrt(5)).
+- 4 Baselines: Exhaustive Pair-Search, Traditional Greedy (Max-CPU + Shortest Path), Decoupled AI, JO-VPPM v10.
+- 10,000 Timesteps cho mỗi Episode (Stress Test cực hạn).
+- Checkpoint JSON sau mỗi Seed để chống tràn bộ nhớ / crash giữa chừng.
