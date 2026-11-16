@@ -10,3 +10,17 @@ scratch/
 .claude/
 .ai/
 *.log
+
+# Development environments, generated output and reversible cleanup backups
+.venv/
+node_modules/
+dist/
+.workspace-sync/
+.pytest_cache/
+.ruff_cache/
+.coverage
+*.egg-info/
+.env
+.env.*
+!.env.example
+gcp-key.json

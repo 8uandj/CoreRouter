@@ -1,11 +1,12 @@
-# JO-VPPM Algorithm Benchmark
+# HARP Algorithm Benchmark
 
 Offline algorithm benchmark split from `src/analytics/benchmark_v10_final.py`.
 
 It evaluates algorithms inside the Gym environment, without hitting the live
 testbed:
 
-- `jo_vppm`
+- `harp` (legacy runner name `run_jo_vppm`)
+- `saf_h`
 - `traditional_greedy`
 - `decoupled_ai`
 - `exhaustive_pair_search` as an upper-bound search when enabled
@@ -69,3 +70,7 @@ Outputs are stored under `results/benchmark_algorithm/<timestamp>/`:
 - `dashboard.pdf`
 - `latency_cdf.pdf`
 - `rolling_acceptance_ci.pdf` for multi-seed runs
+
+## Revision caveat
+
+The current `scenario_jobs()` maps both `chaos` and `elephant_stress` to `heavy_tail`. They are not independent generators. Retain historical outputs for provenance; fix the protocol and rerun before using distinct-profile claims in the revision.
