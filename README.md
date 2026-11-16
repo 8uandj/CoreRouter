@@ -1,12 +1,8 @@
-# 3S-COM Orchestrator (CoreRouter)
+# AIO-Mesh / HARP (CoreRouter)
 
-**CoreRouter** is the implementation repository for **3S-COM** (Smart, Scalable, Secure), a closed-loop orchestration platform for Service Function Chaining (SFC) in geo-distributed SDN/NFV networks.
+CoreRouter implements **AIO-Mesh**, a cloud-native orchestration runtime for SRv6/P4 infrastructures, and **HARP**, its graph-aware learning policy. HARP extends the graduation-thesis method **JO-VPPM**. Historical module names (`jo_vdpr`), checkpoint filenames and `JO_VPPM_*` environment variables are retained for compatibility.
 
-The project supports the bachelor thesis:
-
-**Joint Optimization of VNF Placement and Proactive Migration under Data-Plane Hardware Constraints**
-
-CoreRouter focuses on the **Joint Optimization of VNF Placement and Proactive Migration (JO-VPPM)** problem under real data-plane hardware constraints, especially **Maximum Segment Depth (MSD)** limits in **SRv6/P4** programmable networks. The orchestrator combines rule-based control, graph-aware reinforcement learning, Kubernetes-based VNF lifecycle management, and P4/SRv6 traffic steering.
+The authoritative code baseline is GitHub branch `HARP`; server refactoring lives on `HARP-server`. The runtime's local admission checks cover controller-visible CPU, RAM and MSD state for a placement–routing pair. They do not establish complete multi-VNF chain safety or an atomic transaction with external actuation.
 
 ## Why This Project Exists
 
@@ -23,9 +19,9 @@ This is an intentional **Smart Admission Control** decision, not a runtime failu
 ## Key Features
 
 - **Hybrid Orchestration:** Uses lightweight heuristics under stable load and switches to Deep Graph Reinforcement Learning under stress or forecast alerts.
-- **Hardware-Aware RL:** Enforces SRv6 MSD limits through invalid action masking.
+- **Hardware-Aware RL:** Filters policy candidates using invalid action masking; runtime admission separately checks CPU, RAM and MSD.
 - **Graph-Aware Policy:** Uses Graph Attention Networks (GAT) with a static adjacency matrix so the agent can reason about network topology.
-- **Atomic Placement and Routing:** The RL action is a joint `[v_place, v_route]` decision instead of a fragile two-stage placement-then-routing pipeline.
+- **Joint Placement and Routing:** The simulation action encodes a placement–routing pair in `Discrete(N²)`. It does not emit a complete multi-VNF chain.
 - **Proactive Migration:** Implements Make-Before-Break migration: create the new VNF, steer traffic to it, then remove the old instance.
 - **Hardware-in-the-Loop Testbed:** Integrates MicroK8s, Tekton, Mininet, BMv2 P4 switches, SRv6 steering, and FastAPI.
 - **Portal UI:** Provides a React/Vite web interface for topology, VNF registry, telemetry, orchestration, and Tekton pipeline visibility.
@@ -33,13 +29,15 @@ This is an intentional **Smart Admission Control** decision, not a runtime failu
 ## Repository Layout
 
 ```text
-.ai/                         Project knowledge base and engineering rules
 data/                        Telecom traces and generated datasets
 docs/                        Thesis, reports, design notes, and evaluation docs
 infrastructure/k8s/          MicroK8s manifests and Tekton pipelines
 infrastructure/sdn/          Mininet topologies, P4 program, and SDN controller
 results/                     Trained models, benchmark outputs, and artifacts
 scripts/                     Validation and safety helper scripts
+src/shared/config.py         Shared runtime settings
+src/portal/backend/app/services/hybrid_decision.py
+                             Action selection and local admission
 src/ai/                      Heuristic and DGRL agent adapters
 src/analytics/               Training, forecasting, benchmarks, visualization
 src/core/                    State manager, domain models, and interfaces
@@ -105,7 +103,6 @@ From the repository root:
 python3 -m venv .venv
 . .venv/bin/activate
 pip install --upgrade pip
-pip install -r requirements.txt
 pip install -r src/portal/backend/requirements.txt
 ```
 
@@ -212,8 +209,10 @@ python3 -m src.analytics.benchmark.benchmark_testbed.run_all_scenarios \
 Python unit tests:
 
 ```bash
-pytest tests
+python -m unittest discover -s tests -v
 ```
+
+Install `requirements-dev.txt` to include the HTTP regression checks. They use mocked infrastructure; tests do not deploy VNFs.
 
 Phase smoke tests:
 
@@ -308,16 +307,16 @@ Key project documents:
 
 ```text
 docs/thesis_latex/myThesis.tex
-docs/JO_VPPM_MASTER_HANDOVER.md
-docs/JO_VDPR_Orchestrator_Mechanism.md
-docs/evaluation_synthesis.md
-3s_com_testbed_status.md
-3s_com_testbed_v11_context.md
+docs/note/JO_VPPM_MASTER_HANDOVER.md
+docs/note/JO_VDPR_Orchestrator_Mechanism.md
+docs/note/evaluation_synthesis.md
+docs/note/3s_com_testbed_status.md
+docs/note/3s_com_testbed_v11_context.md
 ```
 
 ## Development Guidelines
 
-Before making architectural changes, read the project context under `.ai/`. These files capture the current research scope, invariants, and deployment constraints.
+Before architectural changes, read `docs/AIO-mesh-rev1/WORKSPACE_CONTEXT.md` and the review/checklists. Historical notes in `docs/note/` describe earlier source states and require verification against current code.
 
 Important boundaries:
 
@@ -326,6 +325,15 @@ Important boundaries:
 - Keep placement and routing as an atomic decision where the RL path is involved.
 - Keep Make-Before-Break ordering intact.
 - Do not add implementation work for MORL, Pareto Front, Curriculum Learning, Federated Learning, or Multi-Agent RL unless the project roadmap is explicitly changed.
+
+## Paper sources and reproducibility
+
+- Graduation thesis: `docs/thesis_latex/` (JO-VPPM).
+- Submitted paper: `docs/AIO-mesh-submitted 1/submitted-1.tex` (HARP).
+- Major revision: `docs/AIO-mesh-rev1/`; start with `WORKSPACE_CONTEXT.md`.
+- Refactor inventory and checks: `docs/REFACTOR_HARP_SERVER.md`.
+
+Historical training/evaluation scripts and thesis versions remain available for result provenance. Current offline benchmark entry point is `src.analytics.benchmark.benchmark_algorithm.run_all`. Its `chaos` profile currently aliases `heavy_tail`; do not report those profiles as independent experiments until the revision work fixes and reruns them. Refactoring alone does not validate historical metrics.
 
 ## License
 

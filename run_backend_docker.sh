@@ -16,7 +16,7 @@ PROJECT_ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 build() {
     echo "🔨 Building Python 3.11 backend image..."
     docker build \
-        -f "$PROJECT_ROOT/src/portal/backend/Dockerfile.py311" \
+        -f "$PROJECT_ROOT/src/portal/backend/Dockerfile" \
         -t "$IMAGE" \
         "$PROJECT_ROOT"
     echo "✅ Build complete: $IMAGE"

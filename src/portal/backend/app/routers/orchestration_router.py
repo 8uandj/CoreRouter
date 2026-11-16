@@ -1,17 +1,20 @@
 from fastapi import APIRouter, HTTPException, BackgroundTasks
 import asyncio
 import logging
-from typing import Dict, List, Optional
+import uuid
 
 from src.ai.dgrl_agent import get_dgrl_agent
-from src.ai.heuristic import HardConstraintError, get_decoupled_action
+from src.ai.heuristic import HardConstraintError
 from src.analytics.ai_forecasting import get_forecast_service
 from src.core.state_manager import get_state_manager
 from src.portal.backend.app.containers.service_container import container
+from src.portal.backend.app.services.hybrid_decision import (
+    select_and_reserve,
+    node_label,
+    location_key,
+)
 from src.portal.backend.app.models.schemas import (
     SFCRequest,
-    MigrateSingleRequest,
-    BreakOldVnfRequest,
     FreeResourceRequest,
     TelemetryIngestRequest,
 )
@@ -20,41 +23,6 @@ logger = logging.getLogger("OrchestrationRouter")
 router = APIRouter(tags=["Hybrid Orchestration"])
 
 MIGRATION_LOCK = asyncio.Lock()
-
-def _generate_srv6_sids(v_place: int, v_route: int, msd_req: int) -> List[str]:
-    """Generate a bounded SRv6 segment list for the selected action."""
-    sid_count = max(1, int(msd_req))
-    nodes = [int(v_place)]
-    if sid_count > 1:
-        nodes.extend([int(v_route)] * (sid_count - 1))
-    return [
-        f"2001:db8:{node_id:02x}:{idx + 1:02x}::1"
-        for idx, node_id in enumerate(nodes[:sid_count])
-    ]
-
-def _node_label(node_id: int, node_names: List[str]) -> Dict[str, object]:
-    return {"id": int(node_id), "name": node_names[int(node_id)]}
-
-def _location_key(node_name: str) -> str:
-    """
-    Map AI topology node name -> targetLocation label used by Tekton prepare-vnf task.
-    Format: "<city>-<index>" matches core-router/location label in K8s manifests.
-    Option A: Logically independent city locations running on shared physical nodes.
-    """
-    mapping = {
-        "Hanoi":      "hanoi-1",
-        "HaiPhong":   "haiphong-1",
-        "NinhBinh":   "ninhbinh-1",
-        "Vinh":       "vinh-1",
-        "Hue":        "hue-1",
-        "DaNang":     "danang-1",
-        "QuyNhon":    "quynhon-1",
-        "NhaTrang":   "nhatrang-1",
-        "HoChiMinh":  "hcm-1",
-        "CanTho":     "cantho-1",
-    }
-    return mapping.get(node_name, "auto")
-
 
 @router.post("/orchestrate")
 async def orchestrate_sfc(request: SFCRequest, background_tasks: BackgroundTasks):
@@ -89,65 +57,31 @@ async def orchestrate_sfc(request: SFCRequest, background_tasks: BackgroundTasks
     if forecast_alert:
         state_manager.set_forecast_alert(True)
 
-    gate = state_manager.choose_mode()
-    method = "Hybrid:Heuristic"
-    branch = "heuristic"
-
+    vnf_name = f"vnf-{request.service_type.lower()}-{str(uuid.uuid4())[:8]}"
     try:
-        if gate.mode == "heuristic":
-            try:
-                choice = get_decoupled_action(state_manager.snapshot(), request)
-            except HardConstraintError:
-                dgrl_decision = get_dgrl_agent().get_action(state_manager, request)
-                choice = dgrl_decision.choice
-                branch = "drl"
-                method = "Hybrid:DRL (Heuristic Fallback)"
-        else:
-            dgrl_decision = get_dgrl_agent().get_action(state_manager, request)
-            choice = dgrl_decision.choice
-            branch = "drl"
-            method = "Hybrid:DRL"
-
-        sid_stack = _generate_srv6_sids(choice.v_place, choice.v_route, request.msd_req)
-        
-        # Phase 7: Generate unique VNF name for tracking
-        import uuid
-        vnf_id = str(uuid.uuid4())[:8]
-        vnf_name = f"vnf-{request.service_type.lower()}-{vnf_id}"
-
-        # Admission Control with Tracking
-        accepted, error = state_manager.try_reserve(
-            choice.v_place, choice.v_route, request.cpu_req, request.ram_req, len(sid_stack),
-            vnf_name=vnf_name
+        decision = select_and_reserve(
+            state_manager, request,
+            lambda manager, req: get_dgrl_agent().get_action(manager, req),
+            vnf_name=vnf_name,
         )
+    except HardConstraintError as exc:
+        raise HTTPException(
+            status_code=409,
+            detail={"status": "error", "code": "NO_SAFE_ACTION", "message": str(exc)},
+        ) from exc
+    except Exception as exc:
+        logger.exception("Orchestration internal error")
+        raise HTTPException(status_code=500, detail=str(exc)) from exc
 
-        if not accepted and branch == "heuristic":
-            dgrl_decision = get_dgrl_agent().get_action(state_manager, request)
-            choice = dgrl_decision.choice
-            sid_stack = _generate_srv6_sids(choice.v_place, choice.v_route, request.msd_req)
-            accepted, error = state_manager.try_reserve(
-                choice.v_place, choice.v_route, request.cpu_req, request.ram_req, len(sid_stack),
-                vnf_name=vnf_name
-            )
-            if accepted:
-                branch = "drl"
-                method = "Hybrid:DRL (Capacity Fallback)"
-
-        if not accepted:
-            raise HTTPException(
-                status_code=409,
-                detail={"status": "error", "code": "NO_SAFE_ACTION", "message": error or "Hardware constraints violated."}
-            )
-
-    except Exception as e:
-        if isinstance(e, HTTPException): raise e
-        logger.error(f"Orchestration internal error: {e}")
-        raise HTTPException(status_code=500, detail=str(e))
+    choice = decision.choice
+    branch = decision.branch
+    method = decision.method
+    sid_stack = decision.sid_stack
 
     public_state = state_manager.as_public_dict()
     node_names = [n["name"] for n in public_state["nodes"]]
-    placement = _node_label(choice.v_place, node_names)
-    route = _node_label(choice.v_route, node_names)
+    placement = node_label(choice.v_place, node_names)
+    route = node_label(choice.v_route, node_names)
     
     # Luồng MBB Proactive nếu có Alert và có VNF đăng ký trong state_manager
     migration_result = None
@@ -166,7 +100,7 @@ async def orchestrate_sfc(request: SFCRequest, background_tasks: BackgroundTasks
                         old_name=old_vnf,
                         new_name=vnf_name,
                         file_name="vnf-firewall.yaml" if request.service_type.lower() == "attack" else "vnf-frr.yaml",
-                        target_location=_location_key(str(placement["name"])),
+                        target_location=location_key(str(placement["name"])),
                         request=request,
                         ai_node_id=choice.v_place
                     )
@@ -179,7 +113,7 @@ async def orchestrate_sfc(request: SFCRequest, background_tasks: BackgroundTasks
                     name=vnf_name,
                     vnf_type="router",
                     profile="standard",
-                    location=_location_key(str(placement["name"])),
+                    location=location_key(str(placement["name"])),
                     node_hostname=container.orchestration_service.get_k8s_hostname(choice.v_place)
                     if hasattr(container.orchestration_service, "get_k8s_hostname") else "",
                 )
@@ -313,7 +247,7 @@ async def set_alert(alert: bool, background_tasks: BackgroundTasks):
                                 old_name=vnf["name"],
                                 new_name=f"{vnf['name']}-mig",
                                 file_name="vnf-frr.yaml",
-                                target_location=_location_key(target_name),
+                                target_location=location_key(target_name),
                                 request=fake_req,
                                 ai_node_id=target_node_id
                             )
