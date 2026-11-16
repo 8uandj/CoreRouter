@@ -1,0 +1,45 @@
+# Trạng thái dự án (Current State)
+
+## 1. Các hạng mục đã hoàn thành (Done)
+- **Mô hình hóa toán học:** Đã định nghĩa hoàn chỉnh bài toán JO-VPPM dưới dạng MDP, tích hợp mô hình độ trễ 4 thành phần thực tế với hàng đợi M/G/1.
+- **Hybrid Orchestration:** Chế độ RuleDRL linh hoạt kết hợp Heuristic (cho tải < 40%) và AI (cho bão tải > 60%).
+- **Backend API Integration:** Đã tích hợp thành công logic Hybrid Orchestration vào Backend API (`/orchestrate`). API hỗ trợ tự động fallback từ Heuristic sang DGRL khi vi phạm Hard Constraints, và tự động kích hoạt tiến trình Make-Before-Break migration khi nhận cờ cảnh báo (Alert Flag) từ dự báo.
+- **Tích hợp Model v11:** Đã nén và tích hợp thành công model v11 (`dgrl_v11_final_vietnam.zip` và bộ chuẩn hóa `vec_normalize_v11_vietnam.pkl`) vào backend agent logic. Làm giàu endpoint `/api/ai/status` trả về thông tin version, trạng thái loaded và các đường dẫn model. Vượt qua 8/8 test cases của Phase 7 E2E (`test_phases.sh phase7`).
+- **Nâng cấp toàn diện Portal Frontend:**
+  - Thiết kế thanh công cụ bên trái tự động ẩn/hiện khi di chuột sát lề, đảm bảo không chiếm dụng khung hình.
+  - Phân chia bố cục làm 4 trang chính: Mạng Topology, Quản lý VNF registry (CPU, RAM, MSD, manifest), Chi tiết Telemetry (Acceptance, SLA, forecast PPS), và Tekton Dashboard (Theo dõi PipelineRun dạng DAG và log terminal trực tiếp).
+  - Tích hợp giải thuật BFS pathfinding trên ma trận kề thực tế của mạng Vietnam Backbone 10 nút (Hà Nội, Hải Phòng, HCM, Cần Thơ, Đà Nẵng, v.v.), giải quyết triệt để lỗi packet nhảy xuyên không gian.
+  - Sửa lỗi định tuyến Heuristic do sai lệch map node Hà Nội - Hải Phòng, đảm bảo chi phí di chuyển VNF được tính toán đúng switch của thành phố.
+  - Triển khai kịch bản động Make-Before-Break (Make -> Wait -> Steer -> Break), kịch bản drop gói tin do tràn MSD, và các preset định tuyến cứng (Security Chain, VoIP Chain, SFC Bypass).
+- **Môi trường RL:** Đã xây dựng `JOVDPREnv` hỗ trợ nhận thức mạng dạng đồ thị và ràng buộc phần cứng MSD.
+- **Thuật toán AI cốt lõi:**
+  - Hoàn thành cơ chế Invalid Action Masking để ép AI không bao giờ vi phạm giới hạn MSD.
+  - Tích hợp GAT (Graph Attention Network) với Static Adjacency Matrix để giữ ổn định ma trận phổ.
+  - Tích hợp Adaptive Lagrangian Penalty để cân bằng tự động giữa Latency SLA và Reward.
+- **Hạ tầng mô phỏng & Kết quả Benchmark:** 
+  - Khởi tạo thành công 3 topologies: Vietnam Backbone (10-node), NSFNET (14-node), GÉANT2 (22-node).
+  - Hoàn thành benchmark trên 900,000 steps. Tại kịch bản Stress Test trên GEANT2, JO-VPPM đạt Acceptance Rate **16.4%** (Tăng +121% so với Greedy), giảm 60% vi phạm MSD. Việc Reject 83.6% request là "Smart Admission Control" dựa trên Định lý Little (Little's Law) để bảo vệ mạng khỏi sụp đổ.
+- **Đồng bộ hóa & Triển khai Docker:** Đã đồng bộ mã nguồn lên server production `112.137.129.246`, build và deploy backend dưới dạng Docker container `3s-com-backend:py311` chạy trên port 8000, frontend dev chạy trên port 5173.
+
+## 2. Các hạng mục đang thực hiện (WIP)
+- **Định hướng triển khai chính thức hiện tại: Hybrid Orchestration (RuleDRL).** Mọi WIP code phải bám theo trục Heuristic + DGRL (MaskablePPO) + Make-Before-Break đã có.
+- Tinh chỉnh ổn định training PPO: chuẩn hóa reward kết hợp `VecNormalize` với cấu hình rollout cố định (xem mục 3 — Known Issues).
+- **Ràng buộc hạ tầng server:** Server runtime `112.137.129.246` có cài ONAP. CoreRouter chỉ được thao tác trong namespace/resource của CoreRouter; tuyệt đối không chỉnh, scale, delete, redeploy, label/taint phục vụ ONAP, hay đụng manifest/chart/namespace ONAP. Worker `k8s-cluster` là worker của CoreRouter và KHÔNG được để pod ONAP chạy trên node này.
+
+> ⛔ **Đã HỦY khỏi roadmap code và TODO list hiện tại (KHÔNG được sinh code, KHÔNG đưa vào WIP):**
+> - Multi-Objective RL (MORL) / Pareto Front.
+> - Curriculum Learning.
+>
+> Các hạng mục trên CHỈ được phép xuất hiện trong **luận văn — Chương 6 Future Work** dưới dạng định hướng nghiên cứu, KHÔNG được implement vào branch code hiện tại.
+> Federated Learning cho 6G cũng chỉ thuộc Chương 6 Future Work.
+
+## 3. Các vấn đề đang theo dõi (Known Bugs/Issues)
+- **Gradient explode / Explained Variance thấp khi train GAT+PPO:** KHÔNG được nêu `VecNormalize` như giải pháp đơn lẻ. `VecNormalize` BẮT BUỘC phải đi kèm bộ siêu tham số PPO sau (đã được kiểm chứng ổn định cho dự án):
+  - `n_steps = 512`
+  - `10` parallel environments (vectorized envs)
+  - tổng rollout batch = `10 × 512 = 5120` steps
+  - `batch_size = 128` hoặc `256`
+  Nếu chỉ bật `VecNormalize` mà không đi kèm cấu hình rollout/batch ở trên thì KHÔNG được coi là fix hợp lệ — agent phải từ chối và yêu cầu áp dụng đồng thời cả gói cấu hình.
+- **HTTP 409 / `NO_SAFE_ACTION` KHÔNG PHẢI BUG:** Đây là hành vi đúng của **Smart Admission Control**. Khi không tồn tại cặp placement/routing nào thỏa Hard Constraints (MSD, CPU, Alert), hệ thống PHẢI từ chối request thay vì ép đặt VNF. Tuyệt đối **không "fix"** bằng cách bỏ Action Masking, hạ ngưỡng MSD, hay ép placement vào node không an toàn.
+- **Smart Admission Control hợp lệ theo Định lý Little (Little's Law):** Trong Stress Test trên GEANT2, việc reject **83.6%** request để bảo toàn **16.4%** request được chấp nhận an toàn (tránh tràn MSD và sụp đổ mạng) là hành vi mong muốn, KHÔNG phải lỗi cần sửa.
+- Cần chú ý cẩn thận khi kết nối P4Runtime với Mininet ở môi trường thật, dễ gặp lỗi timeout nếu Controller gửi rule quá nhanh.

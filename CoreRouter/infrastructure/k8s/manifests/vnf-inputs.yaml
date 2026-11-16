@@ -1,0 +1,299 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: vnf-inputs
+  namespace: core-router
+  labels:
+    core-router/component: vnf-templates
+  annotations:
+    core-router/usage: |
+      ConfigMap này chứa các YAML template cho VNF (Virtual Network Functions).
+      KHÔNG apply các template này trực tiếp — chúng chứa PLACEHOLDER_NAME.
+      Tekton task `prepare-vnf` sẽ:
+        1. Đọc template từ ConfigMap này
+        2. Thay PLACEHOLDER_NAME → tên deployment thật
+        3. Gắn label core-router/location
+        4. kubectl apply manifest đã xử lý
+data:
+  vnf-firewall.yaml: |
+    apiVersion: apps/v1
+    kind: Deployment
+    metadata:
+      labels:
+        core-router/role: firewall
+      name: PLACEHOLDER_NAME
+      namespace: core-router
+    spec:
+      replicas: 1
+      selector:
+        matchLabels:
+          app: PLACEHOLDER_NAME
+      template:
+        metadata:
+          labels:
+            app: PLACEHOLDER_NAME
+            core-router/role: firewall
+        spec:
+          containers:
+          - name: firewall
+            image: localhost:32000/alpine:latest
+            imagePullPolicy: IfNotPresent
+            command: ["/bin/sh", "-c", "echo 'Firewall Running'; sleep infinity"]
+    ---
+    apiVersion: v1
+    kind: Service
+    metadata:
+      name: PLACEHOLDER_NAME-svc
+      namespace: core-router
+      labels:
+        core-router/role: firewall
+    spec:
+      selector:
+        app: PLACEHOLDER_NAME
+      ports:
+      - port: 80
+        targetPort: 80
+      type: ClusterIP
+
+  vnf-frr.yaml: |
+    apiVersion: apps/v1
+    kind: Deployment
+    metadata:
+      labels:
+        core-router/role: router
+      name: PLACEHOLDER_NAME
+      namespace: core-router
+    spec:
+      replicas: 1
+      selector:
+        matchLabels:
+          app: PLACEHOLDER_NAME
+      template:
+        metadata:
+          labels:
+            app: PLACEHOLDER_NAME
+            core-router/role: router
+        spec:
+          containers:
+          - name: frr
+            image: localhost:32000/frr:9.1.1
+            imagePullPolicy: IfNotPresent
+            ports:
+            - containerPort: 2601
+            securityContext:
+              capabilities:
+                add: [NET_ADMIN, SYS_ADMIN]
+    ---
+    apiVersion: v1
+    kind: Service
+    metadata:
+      name: PLACEHOLDER_NAME-svc
+      namespace: core-router
+      labels:
+        core-router/role: router
+    spec:
+      selector:
+        app: PLACEHOLDER_NAME
+      ports:
+      - name: bgp
+        port: 2601
+        targetPort: 2601
+      type: ClusterIP
+
+  vnf-idps.yaml: |
+    apiVersion: apps/v1
+    kind: Deployment
+    metadata:
+      labels:
+        core-router/role: idps
+      name: PLACEHOLDER_NAME
+      namespace: core-router
+    spec:
+      replicas: 1
+      selector:
+        matchLabels:
+          app: PLACEHOLDER_NAME
+      template:
+        metadata:
+          labels:
+            app: PLACEHOLDER_NAME
+            core-router/role: idps
+        spec:
+          containers:
+          - name: idps
+            image: localhost:32000/alpine:latest
+            imagePullPolicy: IfNotPresent
+            command: ["/bin/sh", "-c", "echo 'IDPS Running'; sleep infinity"]
+    ---
+    apiVersion: v1
+    kind: Service
+    metadata:
+      name: PLACEHOLDER_NAME-svc
+      namespace: core-router
+      labels:
+        core-router/role: idps
+    spec:
+      selector:
+        app: PLACEHOLDER_NAME
+      ports:
+      - port: 80
+        targetPort: 80
+      type: ClusterIP
+
+  vnf-lb.yaml: |
+    apiVersion: apps/v1
+    kind: Deployment
+    metadata:
+      labels:
+        core-router/role: lb
+      name: PLACEHOLDER_NAME
+      namespace: core-router
+    spec:
+      replicas: 1
+      selector:
+        matchLabels:
+          app: PLACEHOLDER_NAME
+      template:
+        metadata:
+          labels:
+            app: PLACEHOLDER_NAME
+            core-router/role: lb
+        spec:
+          containers:
+          - name: lb
+            image: localhost:32000/nginx:1.27-alpine
+            imagePullPolicy: IfNotPresent
+            ports:
+            - containerPort: 80
+    ---
+    apiVersion: v1
+    kind: Service
+    metadata:
+      name: PLACEHOLDER_NAME-svc
+      namespace: core-router
+      labels:
+        core-router/role: lb
+    spec:
+      selector:
+        app: PLACEHOLDER_NAME
+      ports:
+      - port: 80
+        targetPort: 80
+      type: NodePort
+
+  vnf-nat.yaml: |
+    apiVersion: apps/v1
+    kind: Deployment
+    metadata:
+      labels:
+        core-router/role: nat
+      name: PLACEHOLDER_NAME
+      namespace: core-router
+    spec:
+      replicas: 1
+      selector:
+        matchLabels:
+          app: PLACEHOLDER_NAME
+      template:
+        metadata:
+          labels:
+            app: PLACEHOLDER_NAME
+            core-router/role: nat
+        spec:
+          containers:
+          - name: nat
+            image: localhost:32000/alpine:latest
+            imagePullPolicy: IfNotPresent
+            command: ["/bin/sh", "-c", "echo 'NAT Running'; sleep infinity"]
+            securityContext:
+              capabilities:
+                add: [NET_ADMIN]
+    ---
+    apiVersion: v1
+    kind: Service
+    metadata:
+      name: PLACEHOLDER_NAME-svc
+      namespace: core-router
+      labels:
+        core-router/role: nat
+    spec:
+      selector:
+        app: PLACEHOLDER_NAME
+      ports:
+      - port: 80
+        targetPort: 80
+      type: ClusterIP
+
+  vnf-voc.yaml: |
+    apiVersion: apps/v1
+    kind: Deployment
+    metadata:
+      labels:
+        core-router/role: voc
+      name: PLACEHOLDER_NAME
+      namespace: core-router
+    spec:
+      replicas: 1
+      selector:
+        matchLabels:
+          app: PLACEHOLDER_NAME
+      template:
+        metadata:
+          labels:
+            app: PLACEHOLDER_NAME
+            core-router/role: voc
+        spec:
+          containers:
+          - name: vvoc
+            image: localhost:32000/python:3.11-alpine
+            imagePullPolicy: IfNotPresent
+            command: ["python3", "/app/vvoc.py"]
+            ports:
+            - containerPort: 8000
+            env:
+            - name: VVOC_PORT
+              value: "8000"
+            resources:
+              requests:
+                cpu: "50m"
+                memory: "64Mi"
+              limits:
+                cpu: "300m"
+                memory: "192Mi"
+            readinessProbe:
+              httpGet:
+                path: /healthz
+                port: 8000
+              initialDelaySeconds: 3
+              periodSeconds: 5
+              failureThreshold: 3
+            livenessProbe:
+              httpGet:
+                path: /healthz
+                port: 8000
+              initialDelaySeconds: 10
+              periodSeconds: 15
+              failureThreshold: 3
+            volumeMounts:
+            - name: vvoc-app
+              mountPath: /app
+          volumes:
+          - name: vvoc-app
+            configMap:
+              name: vvoc-app
+    ---
+    apiVersion: v1
+    kind: Service
+    metadata:
+      name: PLACEHOLDER_NAME-svc
+      namespace: core-router
+      labels:
+        core-router/role: voc
+    spec:
+      selector:
+        app: PLACEHOLDER_NAME
+      ports:
+      - name: http
+        port: 80
+        targetPort: 8000
+      type: ClusterIP

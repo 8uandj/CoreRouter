@@ -1,0 +1,36 @@
+# 3S-COM Docker Ignore Configuration
+# Prevent massive context transfer (7.8GB -> <100MB)
+
+# Virtual Environments
+venv/
+.venv/
+env/
+
+# Node modules
+node_modules/
+src/portal/frontend/node_modules/
+
+# Python cache
+__pycache__/
+*.pyc
+*.pyo
+
+# Large data and results
+# Keep only the models directory
+results/*
+!results/models/
+
+# Logs
+*.log
+results/logs/
+
+# Git and Metadata
+.git/
+.gitignore
+.gemini/
+.vscode/
+
+# Build artifacts
+dist/
+build/
+*.egg-info/

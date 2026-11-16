@@ -1,0 +1,6 @@
+algorithm,scenario,title,generated_requests,accepted,rejected,acceptance_rate,no_safe_rate,constraint_reject_rate,msd_violation_rate,mean_decision_latency_ms,p95_decision_latency_ms,timeout_count,mean_service_latency_ms,migration_triggers,successful_migration_pipelines,msd_drop_delta,mean_sid_count,final_active_vnfs,notes
+hybrid_runtime,elephant_heavytail,Scenario 2 - Elephant Heavy-Tail,93,70,23,75.26881720430107,24.731182795698924,24.731182795698924,0.0,2011.398677419355,3129.316,0,2.143628571428571,0,0,0,1.6571428571428573,70,
+jo_vppm,elephant_heavytail,Scenario 2 - Elephant Heavy-Tail,93,66,27,70.96774193548387,29.03225806451613,29.03225806451613,0.0,1823.9460322580644,2589.566,0,2.685,0,0,0,1.6515151515151516,66,
+heuristic,elephant_heavytail,Scenario 2 - Elephant Heavy-Tail,93,61,32,65.59139784946237,34.40860215053764,34.40860215053764,0.0,5.947376344086021,24.407,0,2.395049180327869,0,0,0,1.639344262295082,61,
+greedy,elephant_heavytail,Scenario 2 - Elephant Heavy-Tail,93,55,38,59.13978494623656,21.50537634408602,21.50537634408602,19.35483870967742,0.6013440860215054,1.0,0,0.6950909090909091,0,0,0,1.6363636363636365,55,
+decoupled,elephant_heavytail,Scenario 2 - Elephant Heavy-Tail,93,49,44,52.68817204301075,0.0,0.0,22.58064516129032,0.3827956989247312,0.859,0,4.633285714285714,0,0,0,1.510204081632653,49,

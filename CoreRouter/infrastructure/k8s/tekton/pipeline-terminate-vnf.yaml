@@ -1,0 +1,22 @@
+apiVersion: tekton.dev/v1
+kind: Pipeline
+metadata:
+  name: vnf-terminate
+  namespace: core-router
+spec:
+  params:
+    - name: deployName
+      description: "Name of the Deployment to terminate"
+  tasks:
+    - name: delete-vnf
+      taskRef:
+        name: kubectl-run
+      params:
+        - name: args
+          value:
+            - "-n"
+            - "core-router"
+            - "delete"
+            - "deploy"
+            - "$(params.deployName)"
+            - "--ignore-not-found=true"

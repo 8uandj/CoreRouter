@@ -1,0 +1,37 @@
+*Note để xử lý bài toán
+1. Giải quyết MSD bằng BMSD (Binding MSD)
+- Bạn hoàn toàn có thể chia đường đi từ Hà Nội đến Hồ Chí Minh thành các chặng nhỏ. Thay vì cố gắng nhồi 12 địa chỉ SID vào một gói tin (vượt quá MSD = 5), chúng ta sử dụng BSID.
+- Cách hoạt động: BSID giống như một "tấm vé trung chuyển". Gói tin xuất phát từ Hà Nội chỉ mang một cái header ngắn gọn gồm 5 SID, trong đó SID cuối cùng chỉ đến con Switch tại Đà Nẵng.
+- Điểm bùng nổ: SID của Đà Nẵng này không phải là một trạm bình thường, nó là một BSID. Khi con Switch tại Đà Nẵng đọc được địa chỉ BSID này, nó hiểu lệnh là: "Hãy vứt cái header cũ đi, và đính kèm một cái header SRH hoàn toàn mới chứa 7 SID còn lại để đi tới Hồ Chí Minh".
+- Lợi ích: Bằng cách "thay máu" header giữa đường, không có trạm nào phải xử lý một gói tin vượt quá giới hạn phần cứng của nó.
+
+2. Làm sao Control Plane biết gói tin cần đi qua VNF nào?
+Về thắc mắc "nếu muốn nhanh thì đi thẳng 1 lèo", bạn rất có lý. Trong mạng, chỉ những luồng dữ liệu thực sự cần thiết mới bị ép đi qua SFC. Việc này được quyết định ngay tại cổng ngõ (Ingress Switch) thông qua cơ chế Traffic Classification (Phân loại lưu lượng).
+SDN Controller sẽ đẩy các luật (Rules) xuống bộ nhớ tốc độ cao (TCAM) của Ingress Switch. Khi một gói tin đi vào, Switch sẽ quét 5-Tuple (5 thông số cốt lõi trong header của gói tin gốc) để gán mác:
+- Source IP (IP Nguồn)
+- Destination IP (IP Đích)
+- Source Port (Cổng Nguồn)
+- Destination Port (Cổng Đích - ví dụ Port 80/443 là Web, Port 22 là SSH)
+- Protocol (Giao thức - TCP/UDP)
+
+Ví dụ 
+- Luật 1: Nếu gói tin từ ngoài Internet (Nguồn bất kỳ) truy cập vào Port 80 của Server (Web) $\rightarrow$ Gán SFC: [Anti-DDoS -> WAF -> Load Balancer].
+- Luật 2: Nếu gói tin là luồng sao lưu cơ sở dữ liệu nội bộ giữa 2 Server trong cùng một Data Center $\rightarrow$ Không gán SFC, định tuyến đi thẳng (Shortest Path) để tối đa hóa tốc độ.
+
+3. Nâng cấp bài toán MDP (JOVDPR) của bạn
+Hiện tại, thuật toán MDP của đang cân bằng giữa Chi phí tạo VNF mới (Instantiation Cost) và Độ trễ khi chuyển hướng (Routing Delay). Để mô hình này sát với thực tế hơn, bạn có thể đưa khái niệm Phân loại lưu lượng (Traffic Classes) vào không gian trạng thái (State Space) của mình.
+- Khi đó, hàm phần thưởng/chi phí $R(s, a)$ của có thể động thay đổi dựa trên $C_{traffic}$. Nếu là gói tin Video (đòi hỏi độ trễ thấp), hình phạt cho hành động "chuyển hướng sang DC khác" sẽ rất nặng, buộc thuật toán phải ưu tiên hành động "tạo VNF mới tại DC hiện tại".
+
+4. Về vấn đề tạo testbed với các cụm DC trên thế giới
+- Không nên tạo nhiều Mininet độc lập: Chạy nhiều máy ảo hoặc nhiều instance Mininet sẽ làm cạn kiệt tài nguyên. Thay vào đó, bạn nên lập trình một Custom Topology duy nhất trong Mininet. Trong đó, cụm 3-4 switch ở góc này đại diện cho DC Hà Nội, cụm góc kia đại diện cho New York.
+- Mô phỏng khoảng cách địa lý: Trong Mininet, bạn sử dụng TCLink (Traffic Control Link). Bạn không cần cáp quang thực tế chạy qua biển; bạn chỉ cần khai báo link = TCLink(node1, node2, bw=1000, delay='200ms') để tạo ra độ trễ y hệt như gói tin đang bơi từ Việt Nam sang Mỹ.
+- Giới hạn phần cứng máy Local (Nút thắt cổ chai): Các switch lập trình P4 (BMv2) chạy bằng phần mềm nên cực kỳ "ngốn" CPU. Nếu bạn dựng 20-30 switch BMv2 trên một laptop, CPU sẽ chạy 100%. Lúc này, độ trễ (latency) mà thuật toán DRL của bạn ghi nhận được sẽ là độ trễ do... máy tính bạn bị lag, chứ không phải độ trễ mạng thực tế, làm hỏng quá trình học của AI.
+
+*a. Nguồn dữ liệu kết nối toàn cầu:
+- Có thể sử dụng các bộ dữ liệu mở như WonderNetwork Global Ping Statistics (cung cấp ping trực tiếp giữa hàng trăm thành phố) hoặc tham khảo bảng độ trễ mạng (Network Latency Map) công khai của các nhà cung cấp đám mây như AWS hay GCP. Những số liệu này rất phù hợp để khai báo biến delay trong Mininet.
+
+5. Vấn đề của MSD: Chip ASIC có một giới hạn vật lý về việc nó có thể "đ    ọc sâu" bao nhiêu byte vào phần đầu (header) của một gói tin trong tích tắc (line-rate). Vì mỗi địa chỉ IPv6 (SID) dài tới 16 byte, nếu chuỗi SFC của bạn quá dài (ví dụ cần đi qua 10 cái VNF, tương đương 10 SIDs), cái header SRH sẽ phình to ra. Nếu kích thước này vượt quá MSD của chip ASIC, con Switch sẽ không xử lý bằng phần cứng được nữa mà phải đẩy lên CPU xử lý chậm chạp, gây ra giật lag toàn mạng.
+
+6. Vấn đề của BSID: BSID là một địa chỉ "ảo" hoặc "trung gian". Khi gói tin đến Switch chứa BSID, Switch phải thực hiện một thao tác gọi là "Update Header" (Cập nhật tiêu đề). Nó phải xóa cái header cũ (chứa BSID) và ghi một cái header mới (chứa các SID tiếp theo) vào gói tin. Thao tác ghi/xóa này tốn thời gian xử lý (processing delay). Nếu bạn có quá nhiều BSID liên tiếp nhau, gói tin sẽ liên tục bị "mổ xẻ" và đóng gói lại, làm tăng độ trễ.
+
+7. Vấn đề của VNF: VNF (Virtual Network Function) là các phần mềm chạy trên CPU (hoặc FPGA). Khi gói tin đi vào VNF, nó phải được chuyển từ miền mạng (Network Plane) vào miền tính toán (Compute Plane), xử lý bởi CPU, rồi lại chuyển ngược ra miền mạng. Quá trình này gọi là "VNF Overhead". Nếu bạn nhồi quá nhiều VNF vào một gói tin, độ trễ do "chuyển qua lại giữa CPU và Switch" sẽ tăng lên rất nhanh, đôi khi còn chậm hơn cả việc đi đường vòng (detour) qua một DC khác có đường truyền tốt hơn.

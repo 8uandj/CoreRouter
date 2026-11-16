@@ -1,0 +1,6 @@
+algorithm,scenario,title,generated_requests,accepted,rejected,acceptance_rate,no_safe_rate,constraint_reject_rate,msd_violation_rate,mean_decision_latency_ms,p95_decision_latency_ms,timeout_count,mean_service_latency_ms,migration_triggers,successful_migration_pipelines,msd_drop_delta,mean_sid_count,final_active_vnfs,notes
+hybrid_runtime,normal_load,Scenario 1 - Normal Load,34,34,0,100.0,0.0,0.0,0.0,259.22417647058825,1858.956,0,2.595823529411765,0,0,0,1.7647058823529411,34,
+jo_vppm,normal_load,Scenario 1 - Normal Load,34,34,0,100.0,0.0,0.0,0.0,1587.9723235294118,1867.643,0,4.721147058823529,0,0,0,1.7647058823529411,34,
+heuristic,normal_load,Scenario 1 - Normal Load,34,34,0,100.0,0.0,0.0,0.0,27.512117647058822,93.371,0,1.319794117647059,0,0,0,1.7647058823529411,34,
+greedy,normal_load,Scenario 1 - Normal Load,34,34,0,100.0,0.0,0.0,0.0,0.623764705882353,1.465,0,0.15855882352941175,0,0,0,1.7647058823529411,34,
+decoupled,normal_load,Scenario 1 - Normal Load,34,32,2,94.11764705882352,0.0,0.0,5.88235294117647,0.2989411764705882,0.449,0,3.649375,0,0,0,1.75,32,

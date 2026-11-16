@@ -1,0 +1,15 @@
+apiVersion: tekton.dev/v1
+kind: Task
+metadata:
+  name: kubectl-scale
+  namespace: core-router
+spec:
+  params:
+  - name: namespace
+  - name: deployName
+  - name: replicas
+  steps:
+  - name: scale
+    image: localhost:32000/kubectl:1.30  # local registry — no internet dependency
+    command: ["kubectl"]
+    args: ["-n","$(params.namespace)","scale","deploy","$(params.deployName)","--replicas=$(params.replicas)"]

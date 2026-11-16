@@ -1,0 +1,11 @@
+apiVersion: tekton.dev/v1
+kind: Task
+metadata:
+  name: kubectl-get-all
+  namespace: core-router
+spec:
+  steps:
+  - name: get-all
+    image: localhost:32000/kubectl:1.30  # local registry — no internet dependency
+    command: ["kubectl"]
+    args: ["get","pods","-A","-o","wide"]

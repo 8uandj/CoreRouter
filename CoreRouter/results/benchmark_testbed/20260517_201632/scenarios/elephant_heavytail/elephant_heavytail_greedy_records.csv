@@ -1,0 +1,94 @@
+algorithm,scenario,step,accepted,status_code,decision_latency_ms,service_latency_ms,service_type,cpu_req,ram_req,msd_req,source_node,destination_node,alert_flag,method_used,hybrid_branch,vnf_name,placement_node_id,placement_node_name,routing_node_id,routing_node_name,sid_count,msd_violation,reject_reason,migration_status,migration_old_vnf,migration_new_vnf,migration_wait_s,latest_pipeline_name,latest_pipeline_status,tags
+greedy,elephant_heavytail,7,True,200,0.533,0.175,Video,20.0,10.0,2,9,5,False,Greedy,,greedy-elephant_heavytail-7,0,,0,,2,False,,,,,0.0,,,{}
+greedy,elephant_heavytail,10,True,200,8.312,6.15,Video,100.0,90.0,3,8,5,False,Greedy,,greedy-elephant_heavytail-10,1,,1,,3,False,,,,,0.0,,,"{""elephant"": true}"
+greedy,elephant_heavytail,12,True,200,0.302,0.175,Video,20.0,10.0,2,7,9,False,Greedy,,greedy-elephant_heavytail-12,2,,2,,2,False,,,,,0.0,,,{}
+greedy,elephant_heavytail,14,True,200,0.33,0.176,Video,21.0,10.5,2,1,5,False,Greedy,,greedy-elephant_heavytail-14,3,,3,,2,False,,,,,0.0,,,{}
+greedy,elephant_heavytail,16,True,200,4.941,0.113,URLLC,4.0,2.0,1,1,9,False,Greedy,,greedy-elephant_heavytail-16,4,,4,,1,False,,,,,0.0,,,{}
+greedy,elephant_heavytail,18,True,200,0.292,6.15,Video,100.0,76.0,3,8,9,False,Greedy,,greedy-elephant_heavytail-18,5,,5,,3,False,,,,,0.0,,,"{""elephant"": true}"
+greedy,elephant_heavytail,21,True,200,0.221,0.114,VoIP,6.0,3.0,1,9,7,False,Greedy,,greedy-elephant_heavytail-21,6,,6,,1,False,,,,,0.0,,,{}
+greedy,elephant_heavytail,24,True,200,0.228,6.15,Video,100.0,70.0,3,1,7,False,Greedy,,greedy-elephant_heavytail-24,7,,7,,3,False,,,,,0.0,,,"{""elephant"": true}"
+greedy,elephant_heavytail,26,True,200,0.454,6.15,Video,100.0,52.5,3,0,4,False,Greedy,,greedy-elephant_heavytail-26,8,,8,,3,False,,,,,0.0,,,"{""elephant"": true}"
+greedy,elephant_heavytail,27,True,200,0.253,6.15,Video,100.0,60.0,3,4,5,False,Greedy,,greedy-elephant_heavytail-27,9,,9,,3,False,,,,,0.0,,,"{""elephant"": true}"
+greedy,elephant_heavytail,28,False,409,0.205,0.0,Video,100.0,80.0,3,4,7,False,greedy,,,,,,,0,False,greedy_no_feasible_node,,,,0.0,,,"{""elephant"": true}"
+greedy,elephant_heavytail,29,False,409,0.186,0.0,Video,100.0,70.0,3,9,4,False,greedy,,,,,,,0,False,greedy_no_feasible_node,,,,0.0,,,"{""elephant"": true}"
+greedy,elephant_heavytail,30,True,200,0.216,0.117,VoIP,6.0,3.0,1,6,3,False,Greedy,,greedy-elephant_heavytail-30,4,,4,,1,False,,,,,0.0,,,{}
+greedy,elephant_heavytail,32,True,200,1.099,0.181,Video,20.0,10.0,2,7,1,False,Greedy,,greedy-elephant_heavytail-32,6,,6,,2,False,,,,,0.0,,,{}
+greedy,elephant_heavytail,34,True,200,0.219,0.12,URLLC,4.0,2.0,1,7,5,False,Greedy,,greedy-elephant_heavytail-34,4,,4,,1,False,,,,,0.0,,,{}
+greedy,elephant_heavytail,38,False,409,0.217,0.0,Data,10.0,5.0,2,1,8,False,Greedy,,,4,,4,,0,True,msd_violation,,,,0.0,,,{}
+greedy,elephant_heavytail,40,False,409,1.0,0.0,Data,11.0,5.5,2,8,5,False,Greedy,,,4,,4,,0,True,msd_violation,,,,0.0,,,{}
+greedy,elephant_heavytail,45,False,409,0.217,0.0,Video,19.0,9.5,2,5,4,False,Greedy,,,4,,4,,0,True,msd_violation,,,,0.0,,,{}
+greedy,elephant_heavytail,48,False,409,0.212,0.0,Data,11.0,5.5,2,0,1,False,Greedy,,,4,,4,,0,True,msd_violation,,,,0.0,,,{}
+greedy,elephant_heavytail,49,False,409,0.37,0.0,Data,10.0,5.0,2,1,3,False,Greedy,,,4,,4,,0,True,msd_violation,,,,0.0,,,{}
+greedy,elephant_heavytail,51,False,409,0.276,0.0,Video,100.0,85.5,3,0,9,False,greedy,,,,,,,0,False,greedy_no_feasible_node,,,,0.0,,,"{""elephant"": true}"
+greedy,elephant_heavytail,53,False,409,0.476,0.0,Video,100.0,57.0,3,2,4,False,greedy,,,,,,,0,False,greedy_no_feasible_node,,,,0.0,,,"{""elephant"": true}"
+greedy,elephant_heavytail,54,False,409,0.21,0.0,Data,12.0,6.0,2,2,3,False,Greedy,,,4,,4,,0,True,msd_violation,,,,0.0,,,{}
+greedy,elephant_heavytail,55,False,409,0.189,0.0,Data,11.0,5.5,2,2,6,False,Greedy,,,4,,4,,0,True,msd_violation,,,,0.0,,,{}
+greedy,elephant_heavytail,58,True,200,0.228,0.176,Video,21.0,10.5,2,2,5,False,Greedy,,greedy-elephant_heavytail-58,0,,0,,2,False,,,,,0.0,,,{}
+greedy,elephant_heavytail,60,False,409,0.23,0.0,Video,100.0,76.0,3,5,8,False,greedy,,,,,,,0,False,greedy_no_feasible_node,,,,0.0,,,"{""elephant"": true}"
+greedy,elephant_heavytail,64,False,409,0.196,0.0,Video,100.0,73.5,3,0,1,False,greedy,,,,,,,0,False,greedy_no_feasible_node,,,,0.0,,,"{""elephant"": true}"
+greedy,elephant_heavytail,65,True,200,0.251,0.126,VoIP,7.0,3.5,1,7,2,False,Greedy,,greedy-elephant_heavytail-65,4,,4,,1,False,,,,,0.0,,,{}
+greedy,elephant_heavytail,67,True,200,0.225,0.167,Data,11.0,5.5,2,6,0,False,Greedy,,greedy-elephant_heavytail-67,2,,2,,2,False,,,,,0.0,,,{}
+greedy,elephant_heavytail,69,True,200,0.627,0.121,URLLC,4.0,2.0,1,8,6,False,Greedy,,greedy-elephant_heavytail-69,2,,2,,1,False,,,,,0.0,,,{}
+greedy,elephant_heavytail,70,True,200,0.398,0.127,VoIP,7.0,3.5,1,4,7,False,Greedy,,greedy-elephant_heavytail-70,2,,2,,1,False,,,,,0.0,,,{}
+greedy,elephant_heavytail,77,False,409,0.228,0.0,Video,100.0,90.0,3,7,0,False,greedy,,,,,,,0,False,greedy_no_feasible_node,,,,0.0,,,"{""elephant"": true}"
+greedy,elephant_heavytail,80,True,200,0.404,0.131,URLLC,5.0,2.5,1,9,2,False,Greedy,,greedy-elephant_heavytail-80,0,,0,,1,False,,,,,0.0,,,{}
+greedy,elephant_heavytail,81,True,200,0.25,0.128,VoIP,6.0,3.0,1,4,3,False,Greedy,,greedy-elephant_heavytail-81,4,,4,,1,False,,,,,0.0,,,{}
+greedy,elephant_heavytail,83,False,409,0.285,0.0,Video,90,45.0,3,7,5,False,greedy,,,,,,,0,False,greedy_no_feasible_node,,,,0.0,,,"{""elephant"": true}"
+greedy,elephant_heavytail,85,False,409,0.221,0.0,Data,10.0,5.0,2,5,9,False,Greedy,,,4,,4,,0,True,msd_violation,,,,0.0,,,{}
+greedy,elephant_heavytail,87,True,200,0.327,0.114,VoIP,6.0,3.0,1,6,2,False,Greedy,,greedy-elephant_heavytail-87,3,,3,,1,False,,,,,0.0,,,{}
+greedy,elephant_heavytail,92,True,200,0.33,0.117,URLLC,5.0,2.5,1,0,3,False,Greedy,,greedy-elephant_heavytail-92,3,,3,,1,False,,,,,0.0,,,{}
+greedy,elephant_heavytail,93,True,200,0.546,0.177,Data,11.0,5.5,2,2,8,False,Greedy,,greedy-elephant_heavytail-93,3,,3,,2,False,,,,,0.0,,,{}
+greedy,elephant_heavytail,96,True,200,0.237,0.191,Video,21.0,10.5,2,6,8,False,Greedy,,greedy-elephant_heavytail-96,4,,4,,2,False,,,,,0.0,,,{}
+greedy,elephant_heavytail,98,True,200,0.683,0.167,Data,11.0,5.5,2,1,9,False,Greedy,,greedy-elephant_heavytail-98,6,,6,,2,False,,,,,0.0,,,{}
+greedy,elephant_heavytail,99,False,409,0.209,0.0,Video,100.0,60.0,3,6,4,False,greedy,,,,,,,0,False,greedy_no_feasible_node,,,,0.0,,,"{""elephant"": true}"
+greedy,elephant_heavytail,103,True,200,0.398,0.121,URLLC,5.0,2.5,1,1,3,False,Greedy,,greedy-elephant_heavytail-103,6,,6,,1,False,,,,,0.0,,,{}
+greedy,elephant_heavytail,104,True,200,0.269,0.127,VoIP,6.0,3.0,1,1,6,False,Greedy,,greedy-elephant_heavytail-104,6,,6,,1,False,,,,,0.0,,,{}
+greedy,elephant_heavytail,107,True,200,0.22,0.131,URLLC,4.0,2.0,1,2,4,False,Greedy,,greedy-elephant_heavytail-107,2,,2,,1,False,,,,,0.0,,,{}
+greedy,elephant_heavytail,108,True,200,0.727,0.133,VoIP,6.0,3.0,1,4,7,False,Greedy,,greedy-elephant_heavytail-108,3,,3,,1,False,,,,,0.0,,,{}
+greedy,elephant_heavytail,110,False,409,0.275,0.0,Data,11.0,5.5,2,7,4,False,Greedy,,,6,,6,,0,True,msd_violation,,,,0.0,,,{}
+greedy,elephant_heavytail,111,False,409,0.224,0.0,Video,19.0,9.5,2,8,7,False,Greedy,,,6,,6,,0,True,msd_violation,,,,0.0,,,{}
+greedy,elephant_heavytail,114,False,409,0.21,0.0,URLLC,4.0,2.0,1,9,0,False,Greedy,,,6,,6,,0,True,msd_violation,,,,0.0,,,{}
+greedy,elephant_heavytail,118,False,409,0.203,0.0,Data,11.0,5.5,2,4,5,False,Greedy,,,6,,6,,0,True,msd_violation,,,,0.0,,,{}
+greedy,elephant_heavytail,119,False,409,0.245,0.0,Video,100.0,84.0,3,5,0,False,greedy,,,,,,,0,False,greedy_no_feasible_node,,,,0.0,,,"{""elephant"": true}"
+greedy,elephant_heavytail,121,False,409,0.217,0.0,Video,100.0,70.0,3,2,1,False,greedy,,,,,,,0,False,greedy_no_feasible_node,,,,0.0,,,"{""elephant"": true}"
+greedy,elephant_heavytail,123,True,200,0.241,0.19,Video,18.0,9.0,2,5,6,False,Greedy,,greedy-elephant_heavytail-123,2,,2,,2,False,,,,,0.0,,,{}
+greedy,elephant_heavytail,124,False,409,0.248,0.0,Video,100.0,63.0,3,2,7,False,greedy,,,,,,,0,False,greedy_no_feasible_node,,,,0.0,,,"{""elephant"": true}"
+greedy,elephant_heavytail,125,True,200,0.223,0.117,URLLC,4.0,2.0,1,6,8,False,Greedy,,greedy-elephant_heavytail-125,4,,4,,1,False,,,,,0.0,,,{}
+greedy,elephant_heavytail,126,True,200,0.217,0.176,Data,11.0,5.5,2,0,1,False,Greedy,,greedy-elephant_heavytail-126,4,,4,,2,False,,,,,0.0,,,{}
+greedy,elephant_heavytail,129,False,409,0.19,0.0,Video,19.0,9.5,2,6,0,False,Greedy,,,4,,4,,0,True,msd_violation,,,,0.0,,,{}
+greedy,elephant_heavytail,130,False,409,0.19,0.0,Video,100.0,54.0,3,8,2,False,greedy,,,,,,,0,False,greedy_no_feasible_node,,,,0.0,,,"{""elephant"": true}"
+greedy,elephant_heavytail,131,False,409,0.189,0.0,Video,100.0,63.0,3,1,8,False,greedy,,,,,,,0,False,greedy_no_feasible_node,,,,0.0,,,"{""elephant"": true}"
+greedy,elephant_heavytail,133,True,200,0.258,0.116,URLLC,4.0,2.0,1,9,2,False,Greedy,,greedy-elephant_heavytail-133,0,,0,,1,False,,,,,0.0,,,{}
+greedy,elephant_heavytail,135,True,200,0.214,0.175,Data,11.0,5.5,2,7,4,False,Greedy,,greedy-elephant_heavytail-135,0,,0,,2,False,,,,,0.0,,,{}
+greedy,elephant_heavytail,137,True,200,0.425,0.186,Video,18.0,9.0,2,5,3,False,Greedy,,greedy-elephant_heavytail-137,3,,3,,2,False,,,,,0.0,,,{}
+greedy,elephant_heavytail,141,True,200,0.246,0.168,Data,12.0,6.0,2,5,0,False,Greedy,,greedy-elephant_heavytail-141,8,,8,,2,False,,,,,0.0,,,{}
+greedy,elephant_heavytail,143,True,200,0.255,0.121,URLLC,4.0,2.0,1,7,3,False,Greedy,,greedy-elephant_heavytail-143,8,,8,,1,False,,,,,0.0,,,{}
+greedy,elephant_heavytail,144,False,409,0.204,0.0,Data,10.0,5.0,2,1,8,False,Greedy,,,4,,4,,0,True,msd_violation,,,,0.0,,,{}
+greedy,elephant_heavytail,146,False,409,0.35,0.0,Video,100.0,54.0,3,7,4,False,greedy,,,,,,,0,False,greedy_no_feasible_node,,,,0.0,,,"{""elephant"": true}"
+greedy,elephant_heavytail,147,True,200,0.257,0.173,Data,12.0,6.0,2,6,0,False,Greedy,,greedy-elephant_heavytail-147,6,,6,,2,False,,,,,0.0,,,{}
+greedy,elephant_heavytail,149,True,200,0.442,0.125,URLLC,5.0,2.5,1,9,3,False,Greedy,,greedy-elephant_heavytail-149,0,,0,,1,False,,,,,0.0,,,{}
+greedy,elephant_heavytail,150,True,200,0.236,0.125,URLLC,5.0,2.5,1,9,6,False,Greedy,,greedy-elephant_heavytail-150,4,,4,,1,False,,,,,0.0,,,{}
+greedy,elephant_heavytail,151,True,200,0.903,0.128,VoIP,7.0,3.5,1,8,0,False,Greedy,,greedy-elephant_heavytail-151,8,,8,,1,False,,,,,0.0,,,{}
+greedy,elephant_heavytail,153,True,200,0.264,0.195,Video,19.0,9.5,2,1,6,False,Greedy,,greedy-elephant_heavytail-153,2,,2,,2,False,,,,,0.0,,,{}
+greedy,elephant_heavytail,154,False,409,0.468,0.0,Video,100.0,72.0,3,1,3,False,greedy,,,,,,,0,False,greedy_no_feasible_node,,,,0.0,,,"{""elephant"": true}"
+greedy,elephant_heavytail,158,False,409,0.265,0.0,Data,10.0,5.0,2,7,9,False,Greedy,,,6,,6,,0,True,msd_violation,,,,0.0,,,{}
+greedy,elephant_heavytail,160,True,200,0.279,0.113,URLLC,5.0,2.5,1,4,0,False,Greedy,,greedy-elephant_heavytail-160,1,,1,,1,False,,,,,0.0,,,{}
+greedy,elephant_heavytail,166,True,200,0.282,0.117,URLLC,5.0,2.5,1,0,9,False,Greedy,,greedy-elephant_heavytail-166,1,,1,,1,False,,,,,0.0,,,{}
+greedy,elephant_heavytail,169,True,200,0.358,0.175,Data,10.0,5.0,2,4,2,False,Greedy,,greedy-elephant_heavytail-169,1,,1,,2,False,,,,,0.0,,,{}
+greedy,elephant_heavytail,170,True,200,0.265,0.181,Data,10.0,5.0,2,7,8,False,Greedy,,greedy-elephant_heavytail-170,0,,0,,2,False,,,,,0.0,,,{}
+greedy,elephant_heavytail,173,False,409,0.254,0.0,Data,11.0,5.5,2,2,9,False,Greedy,,,6,,6,,0,True,msd_violation,,,,0.0,,,{}
+greedy,elephant_heavytail,174,True,200,0.369,0.178,Data,11.0,5.5,2,1,6,False,Greedy,,greedy-elephant_heavytail-174,6,,6,,2,False,,,,,0.0,,,{}
+greedy,elephant_heavytail,175,False,409,0.226,0.0,Data,12.0,6.0,2,2,3,False,Greedy,,,4,,4,,0,True,msd_violation,,,,0.0,,,{}
+greedy,elephant_heavytail,176,False,409,0.224,0.0,Video,19.0,9.5,2,2,3,False,Greedy,,,4,,4,,0,True,msd_violation,,,,0.0,,,{}
+greedy,elephant_heavytail,177,True,200,0.347,0.177,Data,11.0,5.5,2,5,1,False,Greedy,,greedy-elephant_heavytail-177,8,,8,,2,False,,,,,0.0,,,{}
+greedy,elephant_heavytail,179,True,200,0.359,0.125,URLLC,5.0,2.5,1,7,6,False,Greedy,,greedy-elephant_heavytail-179,4,,4,,1,False,,,,,0.0,,,{}
+greedy,elephant_heavytail,182,True,200,0.288,0.168,Data,12.0,6.0,2,0,1,False,Greedy,,greedy-elephant_heavytail-182,7,,7,,2,False,,,,,0.0,,,{}
+greedy,elephant_heavytail,184,True,200,0.276,0.174,Video,19.0,9.5,2,4,5,False,Greedy,,greedy-elephant_heavytail-184,9,,9,,2,False,,,,,0.0,,,{}
+greedy,elephant_heavytail,185,False,409,0.277,0.0,Video,100.0,52.5,3,7,8,False,greedy,,,,,,,0,False,greedy_no_feasible_node,,,,0.0,,,"{""elephant"": true}"
+greedy,elephant_heavytail,186,True,200,0.266,0.122,URLLC,5.0,2.5,1,8,5,False,Greedy,,greedy-elephant_heavytail-186,7,,7,,1,False,,,,,0.0,,,{}
+greedy,elephant_heavytail,187,True,200,0.263,0.18,Data,10.0,5.0,2,1,5,False,Greedy,,greedy-elephant_heavytail-187,0,,0,,2,False,,,,,0.0,,,{}
+greedy,elephant_heavytail,188,False,409,0.249,0.0,Video,100.0,63.0,3,2,8,False,greedy,,,,,,,0,False,greedy_no_feasible_node,,,,0.0,,,"{""elephant"": true}"
+greedy,elephant_heavytail,189,True,200,0.261,0.182,Video,18.0,9.0,2,9,6,False,Greedy,,greedy-elephant_heavytail-189,4,,4,,2,False,,,,,0.0,,,{}
+greedy,elephant_heavytail,190,False,409,2.761,0.0,Video,100.0,50.0,3,2,7,False,greedy,,,,,,,0,False,greedy_no_feasible_node,,,,0.0,,,"{""elephant"": true}"
+greedy,elephant_heavytail,197,True,200,11.98,0.168,Data,12.0,6.0,2,4,1,False,Greedy,,greedy-elephant_heavytail-197,5,,5,,2,False,,,,,0.0,,,{}
+greedy,elephant_heavytail,198,False,409,0.235,0.0,Video,100.0,84.0,3,4,5,False,greedy,,,,,,,0,False,greedy_no_feasible_node,,,,0.0,,,"{""elephant"": true}"

@@ -1,0 +1,6 @@
+algorithm,scenario,title,generated_requests,accepted,rejected,acceptance_rate,no_safe_rate,constraint_reject_rate,msd_violation_rate,mean_decision_latency_ms,p95_decision_latency_ms,timeout_count,mean_service_latency_ms,migration_triggers,successful_migration_pipelines,msd_drop_delta,mean_sid_count,final_active_vnfs,notes
+hybrid_runtime,ddos_mbb,Scenario 4 - DDoS and Make-Before-Break,113,28,85,24.778761061946902,75.22123893805309,75.22123893805309,0.0,4632.398530973452,32501.313,0,2.3345357142857144,9,0,0,2.25,28,
+jo_vppm,ddos_mbb,Scenario 4 - DDoS and Make-Before-Break,113,26,87,23.008849557522122,76.99115044247787,76.99115044247787,0.0,1671.3306371681417,2311.239,0,3.593923076923077,0,0,0,2.1538461538461537,26,
+heuristic,ddos_mbb,Scenario 4 - DDoS and Make-Before-Break,113,25,88,22.123893805309734,77.87610619469027,77.87610619469027,0.0,4.670433628318584,16.98,0,2.34296,0,0,0,2.08,25,
+greedy,ddos_mbb,Scenario 4 - DDoS and Make-Before-Break,113,29,84,25.663716814159294,5.3097345132743365,5.3097345132743365,69.02654867256636,2.9661592920353983,1.167,0,0.22793103448275862,0,0,0,2.413793103448276,29,
+decoupled,ddos_mbb,Scenario 4 - DDoS and Make-Before-Break,113,21,92,18.58407079646018,0.0,0.0,77.87610619469027,0.44083185840707967,1.081,0,3.6705238095238095,0,0,0,2,21,
