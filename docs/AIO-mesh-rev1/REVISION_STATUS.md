@@ -229,6 +229,12 @@ Only short smoke runs were performed. No research-scale revision experiment, Kag
 - RED→GREEN focused verification: realization contract/admission 15 passed; migration lifecycle regression 10 passed; unresolved-realization HTTP rejection 1 passed outside sandbox; phase driver, dataset input and lifecycle subset 24 passed; freeze verifier 2 passed. Existing matplotlib/pyparsing deprecation warnings remain. No training, benchmark, simulation data collection, server provisioning or HIL was run.
 - Code freeze now uses fail-closed restrictions for unsupported physical operations. Positive forwarding-profile support and deployed P4 teardown/readback remain unavailable and must stay disabled.
 
+## Continuation: BMv2 canary stopped at topology gate — 2026-11-17
+
+- With the user's approval, restarted s1 only using the reviewed offline MSD 10 P4 build. The canary verified End.DX4/readback counters, all four ports UP, and restored the local SID bootstrap. The original container remains stopped as a rollback copy.
+- After the user stopped `corerouter-p4`, tmux was unavailable and controller REST `:8765` refused connections. Read-only port inspection found port 1 DOWN on s1–s9, the Mininet host attachments missing/down, and s10 exited with code 137 (not OOM). The guarded s2 preflight failed on `s2-eth1 DOWN`; no switches after s1 were changed.
+- Do not run the remaining reload, VNF smoke, migration or long HIL until Mininet host links/controller are restored. The existing `topo_p4.py` startup also changes host bridge/routes/firewall, so it is not authorized under the current constraints. Current P4 state is partial; full HIL remains blocked.
+
 ### Final code-only check for this continuation
 
 - `venv/bin/python -m pytest tests/rev1 tests/test_state_manager.py tests/test_hybrid_decision.py tests/test_orchestration_api.py -q` → 196 passed, 14 matplotlib/pyparsing deprecation warnings.
@@ -249,3 +255,10 @@ Only short smoke runs were performed. No research-scale revision experiment, Kag
 - The focused artifact/package tests pass (20 passed), and artifact preflight reports `ready` (18 artifacts, 0 issues). All 15 unique ablation checkpoint/normalizer pairs loaded through the exact ablation preflight path; the three main checkpoints also loaded and produced mask-valid pair actions. These checks do not call `env.step` or collect results.
 - Created an evaluation bundle at `results/rev1/inputs/rev1-evaluation-inputs.zip` with the extracted resolved protocol alongside it. The archive SHA-256 is `086d6ab67ad714de60bb9ec67a03dd2a255c53d0be92b878f55dba0ffc43deb0`; package CLI verification and exact protocol matching pass. Plan-only driver commands for Vietnam, NSFNET, and GEANT2 each produced 11 commands with `execute=false`.
 - Full regression caveat remains: 188 tests pass without `tests/test_orchestration_api.py`; the first HTTP test stalls in this runtime, and a minimal FastAPI/TestClient request reproduces the stall. No training, ablation results, benchmark results, or HIL were run.
+
+## Continuation: server 246 HIL baseline and live P4 gate — 2026-11-17
+
+- Reconciled the requested baseline on `3s-com`: exactly the seven retained VNF Deployments are Ready; all 43 named old Deployments are absent. The live admission API reports durable persistence, seven known/Ready records, zero `accounting_unknown`, and no unaccounted VNF. No active PipelineRun, Job, migration, or HIL process was present.
+- Compiled the revised SRv6 P4 source offline for MSD 4/5/8/10. An isolated two-switch BMv2 test forwarded one RFC 8754 packet through End.DX4 with advance/terminal counter deltas and dropped an over-MSD packet with the violation counter incremented. This is isolated dataplane evidence only.
+- Read back all ten live switches. A per-container inspection confirmed the expected topology MSD selection (s1/s2/s9=10; s3/s4/s8/s10=5; s5/s7=4; s6=8); all of those loaded JSONs are older builds exposing only `routing_v6` and `srv6_local_sid`, without the new End.DX4 table or forwarding counters. The shared dataplane was not changed in Phase 8. Gate 3 therefore failed; create/readiness, steering, migration, packet smoke, and long HIL had not started at that checkpoint. Result at that checkpoint: **baseline rebuilt; full HIL blocked**.
+- Added exact controller table-dump parsing/readback checks and pair-path tests; 13 focused tests pass and `git diff --check` passes. E1/E6 remain open until per-switch MSD selection and live switch/port/VNF endpoint mappings are reconciled and verified.

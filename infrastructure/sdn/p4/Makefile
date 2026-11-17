@@ -16,7 +16,8 @@ all: msd_4 msd_5 msd_8 msd_10
 # BUILD: Custom MSD Profiles for 10-node Topology
 # ──────────────────────────────────────────────────────────────
 
-msd_%: $(P4_SRC)
+# Use a static pattern rule because these concrete profile targets are PHONY.
+msd_4 msd_5 msd_8 msd_10: msd_%: $(P4_SRC)
 	@echo "🔨 Compiling Switch Profile (MSD=$*)..."
 	@mkdir -p $(BUILD_DIR)/msd_$*
 	docker run --rm --entrypoint p4c-bm2-ss \

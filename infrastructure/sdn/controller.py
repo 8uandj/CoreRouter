@@ -17,6 +17,8 @@ import struct
 import socket
 import threading
 import logging
+import ipaddress
+import re
 from dataclasses import dataclass, field
 from typing import Dict, List, Optional, Tuple
 from enum import Enum
@@ -62,7 +64,7 @@ class SwitchConn:
 
 @dataclass
 class ForwardingRule:
-    """Một entry trong bảng routing_v6 hoặc srv6_local_sid."""
+    """Một entry trong routing_v6, srv6_local_sid hoặc srv6_end_dx4_table."""
     table_name:  str
     match_field: str      # tên field match (e.g. "hdr.ipv6.dstAddr")
     match_value: str      # giá trị (IPv6 prefix hoặc địa chỉ)
@@ -93,6 +95,106 @@ def _mac_to_bytes(mac: str) -> bytes:
     return bytes(int(x, 16) for x in mac.split(":"))
 
 
+def _canonical_ipv6(value: str) -> str:
+    """Normalize IPv6 text or the compact hexadecimal form printed by BMv2."""
+    value = value.strip()
+    if re.fullmatch(r"[0-9a-fA-F]{32}", value):
+        value = str(ipaddress.IPv6Address(bytes.fromhex(value)))
+    return str(ipaddress.IPv6Address(value))
+
+
+def _canonical_param(value, from_cli=False):
+    if isinstance(value, int) and not isinstance(value, bool):
+        return str(value)
+    value = str(value).strip().lower()
+    if re.fullmatch(r"[0-9a-f]{12}", value):
+        return value
+    if re.fullmatch(r"(?:[0-9a-f]{2}:){5}[0-9a-f]{2}", value):
+        return value.replace(":", "")
+    if from_cli and re.fullmatch(r"[0-9a-f]+", value):
+        return str(int(value, 16))
+    return value
+
+
+def parse_table_dump(output: str) -> List[Dict]:
+    """Parse BMv2 simple_switch_CLI table_dump output; ignore default entries."""
+    if "TABLE ENTRIES" not in output:
+        raise ValueError("unrecognized table dump: missing TABLE ENTRIES")
+    blocks = re.findall(
+        r"Dumping entry\s+(0x[0-9a-fA-F]+)(.*?)(?=\n\s*(?:={3,}|Dumping entry|Dumping default entry)|\Z)",
+        output, re.S,
+    )
+    if not blocks and re.search(r"Dumping entry\s+0x", output):
+        raise ValueError("unrecognized table dump entry block")
+    entries = []
+    for index, body in blocks:
+        match = re.search(
+            r"\*\s*([\w.]+)\s*:\s*(EXACT|LPM)\s+([^\s]+)", body, re.I
+        )
+        action = re.search(r"Action entry:\s*[\w.]+\.([\w]+)\s*-\s*(.*)", body)
+        if not match or not action:
+            raise ValueError("unrecognized table dump entry block")
+        match_value = match.group(3)
+        prefix_len = None
+        if match.group(2).lower() == "lpm":
+            if "/" not in match_value:
+                raise ValueError("unrecognized LPM match in table dump")
+            addr, length = match_value.rsplit("/", 1)
+            match_value = f"{_canonical_ipv6(addr)}/{int(length)}"
+            prefix_len = int(length)
+        elif re.fullmatch(r"[0-9a-fA-F]{32}", match_value):
+            match_value = _canonical_ipv6(match_value)
+        params_text = action.group(2).strip()
+        params = [] if not params_text else [
+            _canonical_param(p, from_cli=True) for p in params_text.split(",")
+        ]
+        entries.append({
+            "index": index,
+            "match_field": match.group(1),
+            "match_type": match.group(2).lower(),
+            "match_value": match_value,
+            "prefix_len": prefix_len,
+            "action_name": action.group(1),
+            "action_params": params,
+        })
+    return entries
+
+
+def table_entry_matches(entry: Dict, match_value: str, match_type: str,
+                        action_name: str, action_params: List) -> bool:
+    try:
+        requested_prefix_len = None
+        if "/" in match_value:
+            requested_addr, requested_prefix_len = match_value.rsplit("/", 1)
+            expected = f"{_canonical_ipv6(requested_addr)}/{int(requested_prefix_len)}"
+        else:
+            expected = _canonical_ipv6(match_value)
+        if match_type.lower() == "lpm":
+            if requested_prefix_len is None:
+                expected = f"{expected}/{entry.get('prefix_len') or 128}"
+        params = []
+        for expected_param, observed_param in zip(action_params, entry["action_params"]):
+            expected_canonical = _canonical_param(expected_param)
+            if (isinstance(expected_param, str)
+                    and (re.fullmatch(r"(?:[0-9a-f]{2}:){5}[0-9a-f]{2}", expected_param.lower())
+                         or re.fullmatch(r"[0-9a-f]{12}", expected_param.lower()))):
+                observed_hex = str(observed_param).lower().replace(":", "")
+                if not re.fullmatch(r"[0-9a-f]{1,12}", observed_hex):
+                    return False
+                observed_canonical = observed_hex.zfill(12)
+            else:
+                observed_canonical = _canonical_param(observed_param)
+            params.append((expected_canonical, observed_canonical))
+        return (entry["match_type"] == match_type.lower()
+                and entry["match_value"] == expected
+                and entry["action_name"] == action_name
+                and len(entry["action_params"]) == len(action_params)
+                and all(expected_value == observed_value
+                        for expected_value, observed_value in params))
+    except (KeyError, ValueError, TypeError):
+        return False
+
+
 # ══════════════════════════════════════════════════════════════
 #  ThriftController — fallback khi không có P4Runtime proto
 #  Dùng simple_switch_CLI qua Thrift port
@@ -119,21 +221,36 @@ class ThriftController:
         Gửi lệnh vào simple_switch_CLI bên TRONG Docker container.
         CLI chỉ có trong p4lang/p4app image, không cài trên host.
         """
-        cmd_str = "\n".join(commands)
-        if self._container:
-            # Chạy CLI trong container qua docker exec
-            full_cmd = (
-                f"echo '{cmd_str}' | "
-                f"docker exec -i {self._container} "
-                f"simple_switch_CLI --thrift-port {self.thrift_port} 2>&1"
-            )
-        else:
-            # Fallback: CLI trực tiếp trên host (nếu cài BMv2 trực tiếp)
-            full_cmd = (
-                f"echo '{cmd_str}' | "
-                f"simple_switch_CLI --thrift-port {self.thrift_port} 2>&1"
-            )
-        return _run(full_cmd)
+        import subprocess
+        cli = ["simple_switch_CLI", "--thrift-port", str(self.thrift_port)]
+        cmd = (["docker", "exec", "-i", self._container] + cli
+               if self._container else cli)
+        try:
+            result = subprocess.run(cmd, input="\n".join(commands) + "\n",
+                                    capture_output=True, text=True, timeout=15)
+            return result.returncode, (result.stdout + result.stderr).strip()
+        except (OSError, subprocess.TimeoutExpired) as exc:
+            return 127, str(exc)
+
+    def read_table_entries(self, table_name: str) -> List[Dict]:
+        if not re.fullmatch(r"[A-Za-z_][A-Za-z0-9_]*", table_name):
+            raise ValueError("invalid table name")
+        rc, output = self._cli([f"table_dump {table_name}"])
+        if rc != 0:
+            raise RuntimeError(f"table_dump failed for {table_name}: {output}")
+        return parse_table_dump(output)
+
+    def verify_table_entry(self, table_name: str, match_value: str,
+                           match_type: str, action_name: str,
+                           action_params: List) -> bool:
+        try:
+            entries = self.read_table_entries(table_name)
+        except (RuntimeError, ValueError):
+            log.exception("[%s] table readback failed: %s", self.switch_name, table_name)
+            return False
+        matches = [e for e in entries if table_entry_matches(
+            e, match_value, match_type, action_name, action_params)]
+        return len(matches) == 1
 
     def add_ipv6_route(
         self, prefix: str, prefix_len: int,
@@ -154,10 +271,12 @@ class ThriftController:
             f"{prefix}/{prefix_len} => {dst_mac} {src_mac} {out_port}"
         )
         rc, out = self._cli([cmd])
-        if rc == 0 and "error" not in out.lower():
+        params = [dst_mac, src_mac, out_port]
+        if self.verify_table_entry("routing_v6", f"{prefix}/{prefix_len}",
+                                   "lpm", "ipv6_forward", params):
             log.info(f"[{self.switch_name}] route +{prefix}/{prefix_len} → port{out_port}")
             return True
-        log.error(f"[{self.switch_name}] table_add failed: {out}")
+        log.error(f"[{self.switch_name}] route readback mismatch (CLI rc=%s): %s", rc, out)
         return False
 
     def add_srv6_local_sid(self, sid: str, action: str = "srv6_advance_segment") -> bool:
@@ -170,10 +289,22 @@ class ThriftController:
         """
         cmd = f"table_add srv6_local_sid {action} {sid} =>"
         rc, out = self._cli([cmd])
-        if rc == 0 and "error" not in out.lower():
+        if self.verify_table_entry("srv6_local_sid", sid, "exact", action, []):
             log.info(f"[{self.switch_name}] SID +{sid}")
             return True
-        log.error(f"[{self.switch_name}] SID add failed: {out}")
+        log.error(f"[{self.switch_name}] SID readback mismatch (CLI rc=%s): %s", rc, out)
+        return False
+
+    def add_srv6_end_dx4(self, sid: str, dst_mac: str, src_mac: str,
+                         out_port: int) -> bool:
+        cmd = (f"table_add srv6_end_dx4_table srv6_end_dx4 {sid} => "
+               f"{dst_mac} {src_mac} {out_port}")
+        rc, out = self._cli([cmd])
+        if self.verify_table_entry("srv6_end_dx4_table", sid, "exact",
+                                   "srv6_end_dx4", [dst_mac, src_mac, out_port]):
+            return True
+        log.error("[%s] End.DX4 readback mismatch (CLI rc=%s): %s",
+                  self.switch_name, rc, out)
         return False
 
     def del_ipv6_route(self, prefix: str, prefix_len: int) -> bool:
@@ -259,7 +390,7 @@ class SDNController:
             routing_plan: list of rule dicts:
               {
                 "switch": "s1",
-                "type":   "ipv6_route" | "srv6_sid",
+                "type":   "ipv6_route" | "srv6_sid" | "srv6_end_dx4",
                 # nếu ipv6_route:
                 "prefix":     "fc00:1::/64",
                 "prefix_len": 64,
@@ -268,6 +399,7 @@ class SDNController:
                 "out_port":   1,
                 # nếu srv6_sid:
                 "sid":        "fc00:1::100",
+                # nếu srv6_end_dx4: sid, dst_mac, src_mac, out_port
               }
         """
         log.info("[Controller] Bootstrap: populating forwarding tables...")
@@ -290,6 +422,11 @@ class SDNController:
                 )
             elif rule["type"] == "srv6_sid":
                 success = ctl.add_srv6_local_sid(rule["sid"])
+            elif rule["type"] == "srv6_end_dx4":
+                success = ctl.add_srv6_end_dx4(
+                    sid=rule["sid"], dst_mac=rule["dst_mac"],
+                    src_mac=rule["src_mac"], out_port=rule["out_port"],
+                )
             else:
                 log.warning(f"  Unknown rule type: {rule['type']}")
                 success = False

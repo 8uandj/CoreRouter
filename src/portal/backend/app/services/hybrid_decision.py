@@ -12,6 +12,7 @@ from typing import Callable, List
 
 from src.ai.heuristic import ActionChoice, HardConstraintError, get_decoupled_action
 from .realization import AdmittedRealization
+from .p4_pair_realization import compile_pair_path
 
 
 @dataclass(frozen=True)
@@ -90,8 +91,31 @@ def select_and_reserve(
         branch = "drl"
         method = "Hybrid:DRL"
 
+    source_node = getattr(request, "source_node", None)
+    if source_node is None:
+        source_node = getattr(request, "ingress_node", None)
+
     def reserve(selected):
-        sids = generate_srv6_sids(selected.v_place, selected.v_route, request.msd_req)
+        path = None
+        if source_node is None:
+            sids = generate_srv6_sids(selected.v_place, selected.v_route, request.msd_req)
+        else:
+            try:
+                if isinstance(source_node, str):
+                    if source_node not in snapshot.node_names:
+                        raise ValueError("source node name is not in the runtime topology")
+                    source_id = snapshot.node_names.index(source_node)
+                else:
+                    source_id = source_node
+                path = compile_pair_path(
+                    source_id, selected.v_place, selected.v_route,
+                    requested_depth=request.msd_req,
+                    route_msd_limit=float(snapshot.msd_limits[selected.v_route]),
+                    physical_msd_limits=snapshot.msd_limits.tolist(),
+                )
+                sids = list(path.sid_stack)
+            except (IndexError, TypeError, ValueError) as exc:
+                return [], False, str(exc), None
         admission_start = time.perf_counter()
         accepted, error = state_manager.try_reserve(
             selected.v_place, selected.v_route, request.cpu_req, request.ram_req,
@@ -101,16 +125,16 @@ def select_and_reserve(
         timings["admission_validation_ms"] = timings.get("admission_validation_ms", 0.0) + (
             time.perf_counter() - admission_start
         ) * 1000.0
-        return sids, accepted, error
+        return sids, accepted, error, path
 
-    sid_stack, accepted, error = reserve(choice)
+    sid_stack, accepted, error, path = reserve(choice)
     if not accepted and branch == "heuristic" and error != "stale_state_version":
         policy_start = time.perf_counter()
         drl_decision = drl_action(state_manager, request)
         choice = drl_decision.choice
         timings.update(getattr(drl_decision, "timings_ms", {}))
         timings.setdefault("policy_inference_ms", (time.perf_counter() - policy_start) * 1000.0)
-        sid_stack, accepted, error = reserve(choice)
+        sid_stack, accepted, error, path = reserve(choice)
         branch = "drl"
         method = "Hybrid:DRL (Capacity Fallback)"
     if not accepted:
@@ -125,10 +149,10 @@ def select_and_reserve(
             request_id=vnf_name,
             operation_id=str(uuid.uuid4()),
             topology_hash=state_manager._topology_identity(),
-            profile_id="pair-admission-v1",
+            profile_id="p4-path-candidate-v1" if path is not None else "pair-admission-v1",
             sid_stack=tuple(sid_stack),
-            # The current pair-level SID helper has no verified forwarding
-            # profile mapping. Keep the admission valid but non-actuatable.
+            # Path compilation alone is not exact controller rule readback or
+            # packet evidence. Keep actuation fail-closed until those gates pass.
             forwarding_sid=None,
         ),
     )

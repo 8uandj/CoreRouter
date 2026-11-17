@@ -33,6 +33,8 @@ from mininet.link import TCLink
 # ── Phase 4/7: P4 components ────────────────────────────────────
 _P4_SDN_DIR = os.path.dirname(os.path.abspath(__file__))
 _REPO_ROOT  = os.path.dirname(os.path.dirname(_P4_SDN_DIR))
+sys.path.insert(0, _P4_SDN_DIR)
+from p4_topology import P4_EDGES
 
 # Inlined TOPOLOGIES and _haversine_km to remove numpy dependency in sudo
 FIBER_SPEED_KM_PER_MS = 200.0
@@ -101,12 +103,8 @@ def _build_cpu_pinning() -> dict:
 CPU_PINNING = _build_cpu_pinning()
 
 # Backbone Edges
-EDGES = [
-    ("s1", "s2"), ("s1", "s3"), ("s3", "s4"), ("s4", "s5"),
-    ("s5", "s6"), ("s6", "s7"), ("s7", "s8"), ("s8", "s9"),
-    ("s9", "s10"),
-    ("s1", "s6"), ("s6", "s9") # Đường trục Bắc-Trung-Nam nhanh
-]
+EDGES = [("s{}".format(left + 1), "s{}".format(right + 1))
+         for left, right in P4_EDGES]
 
 # ══════════════════════════════════════════════════════════════
 
