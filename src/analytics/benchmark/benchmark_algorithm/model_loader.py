@@ -13,6 +13,30 @@ from stable_baselines3.common.vec_env import DummyVecEnv
 from src.orchestration.jo_vdpr.gnn_policy import GNNActorCriticPolicy
 
 
+def factorized_action_head_to_flat(weight: torch.Tensor, bias: torch.Tensor, *, num_nodes: int):
+    """Convert two independent N-way logits into additive N² pair logits.
+
+    The source checkpoint was trained with a MultiDiscrete([N, N]) action.
+    Its first N logits score placement and its second N logits score routing.
+    Summing those scores for each ordered pair preserves the unmasked joint
+    policy while allowing the runtime's pair-level N² action mask.
+    """
+    if num_nodes <= 0 or weight.ndim != 2 or bias.ndim != 1:
+        raise ValueError("factorized action head must have a positive node count and linear weights/bias")
+    if weight.shape[0] != 2 * num_nodes or bias.shape[0] != 2 * num_nodes:
+        raise ValueError(
+            f"factorized action head must contain 2N={2 * num_nodes} logits, "
+            f"got weight={weight.shape[0]} bias={bias.shape[0]}"
+        )
+    place_weight, route_weight = weight[:num_nodes], weight[num_nodes:]
+    place_bias, route_bias = bias[:num_nodes], bias[num_nodes:]
+    flat_weight = (place_weight[:, None, :] + route_weight[None, :, :]).reshape(
+        num_nodes * num_nodes, weight.shape[1]
+    )
+    flat_bias = (place_bias[:, None] + route_bias[None, :]).reshape(num_nodes * num_nodes)
+    return flat_weight, flat_bias
+
+
 class NpzNormalizer:
     def __init__(self, path: Path) -> None:
         stats = np.load(path)
@@ -69,9 +93,22 @@ def build_model_from_policy_weights(raw_env, model_path: Path) -> MaskablePPO:
     zip_path = _flatten_single_root_archive(model_path)
     with zipfile.ZipFile(zip_path, "r") as archive:
         with archive.open("policy.pth") as handle:
-            model.policy.load_state_dict(
-                torch.load(io.BytesIO(handle.read()), map_location="cpu", weights_only=False)
+            state = torch.load(io.BytesIO(handle.read()), map_location="cpu", weights_only=False)
+    action_weight = state.get("action_net.weight")
+    action_bias = state.get("action_net.bias")
+    expected_actions = raw_env.num_nodes * raw_env.num_nodes
+    if action_weight is not None and action_bias is not None:
+        if action_weight.shape[0] == 2 * raw_env.num_nodes and action_bias.shape[0] == 2 * raw_env.num_nodes:
+            state["action_net.weight"], state["action_net.bias"] = factorized_action_head_to_flat(
+                action_weight, action_bias, num_nodes=raw_env.num_nodes
             )
+        elif action_weight.shape[0] != expected_actions or action_bias.shape[0] != expected_actions:
+            raise ValueError(
+                f"unsupported action head for {raw_env.num_nodes} nodes: "
+                f"weight={action_weight.shape[0]}, bias={action_bias.shape[0]}; "
+                f"expected flat N²={expected_actions} or factorized 2N={2 * raw_env.num_nodes}"
+            )
+    model.policy.load_state_dict(state)
     return model
 
 

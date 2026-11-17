@@ -35,6 +35,7 @@ def inspect_model_artifact(
     expected_nodes: int,
     expected_architecture: str,
     expected_observation_dim: int | None = None,
+    action_encoding: str = "flat_n2",
 ) -> dict[str, Any]:
     if expected_architecture not in {"gat", "mlp"}:
         raise ValueError(f"Unsupported expected architecture: {expected_architecture}")
@@ -93,9 +94,16 @@ def inspect_model_artifact(
             f"observation dimension mismatch for {model_path}: expected {expected_obs}, got {observation_dim}"
         )
     expected_actions = expected_nodes * expected_nodes
-    if action_dim != expected_actions:
+    allowed_actions = {
+        "flat_n2": expected_actions,
+        "factorized_2n": 2 * expected_nodes,
+    }
+    if action_encoding not in allowed_actions:
+        raise ValueError(f"unsupported action encoding in protocol: {action_encoding}")
+    if action_dim != allowed_actions[action_encoding]:
         raise ValueError(
-            f"action head mismatch for {model_path}: expected flat Discrete({expected_actions}), got {action_dim} logits"
+            f"action head mismatch for {model_path}: expected {action_encoding} "
+            f"({allowed_actions[action_encoding]} logits), got {action_dim} logits"
         )
 
     return {
@@ -105,6 +113,7 @@ def inspect_model_artifact(
         "observation_dim": observation_dim,
         "action_space": f"Discrete({expected_actions})",
         "action_dim": action_dim,
+        "action_encoding": action_encoding,
         "architecture": architecture,
     }
 
@@ -199,6 +208,7 @@ def run_protocol(protocol_path: Path, output_path: Path, root: Path) -> dict[str
                 expected_nodes=nodes,
                 expected_architecture=item["architecture"],
                 expected_observation_dim=obs_dim,
+                action_encoding=item.get("action_encoding", "flat_n2"),
             )
             record["model"] = model
         except Exception as exc:

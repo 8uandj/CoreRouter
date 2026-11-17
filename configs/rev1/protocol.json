@@ -44,7 +44,7 @@
     "heavy_tail",
     "chaos"
   ],
-  "action_contract": "Discrete(N*N), flat index v_place*N + v_route",
+  "action_contract": "Ablation checkpoints use Discrete(N*N), flat index v_place*N + v_route. Main v11 checkpoints use factorized MultiDiscrete([N,N]) and are converted to additive N*N pair logits before pair masking.",
   "observation_contract": "6*N + 13",
   "artifacts": [
     {
@@ -52,6 +52,7 @@
       "variant": "main_v11",
       "node_count": 10,
       "architecture": "gat",
+      "action_encoding": "factorized_2n",
       "model_path": "results/models/v11/dgrl_v11_final_vietnam.zip",
       "normalizer_path": "results/models/v11/vec_normalize_v11_vietnam.pkl",
       "model_sha256": null,
@@ -112,6 +113,7 @@
       "variant": "main_v11",
       "node_count": 14,
       "architecture": "gat",
+      "action_encoding": "factorized_2n",
       "model_path": "results/models/v11/dgrl_v11_final_nsfnet.zip",
       "normalizer_path": "results/models/v11/vec_normalize_v11_nsfnet.pkl",
       "model_sha256": null,
@@ -172,6 +174,7 @@
       "variant": "main_v11",
       "node_count": 23,
       "architecture": "gat",
+      "action_encoding": "factorized_2n",
       "model_path": "results/models/v11/dgrl_v11_final_geant2.zip",
       "normalizer_path": "results/models/v11/vec_normalize_v11_geant2.pkl",
       "model_sha256": null,
