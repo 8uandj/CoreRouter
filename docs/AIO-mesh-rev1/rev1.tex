@@ -462,7 +462,7 @@ The abstract orchestration action in Section~\ref{sec:system_model} couples plac
 \rev{\hat a_t=v_t^{place}N+v_t^{route},\quad \hat a_t\in\{0,\ldots,N^2-1\}.}
 \label{eq:harp_action_encoding}
 \end{equation}
-\rev{The pair is recovered as \(v_t^{place}=\lfloor\hat a_t/N\rfloor\) and \(v_t^{route}=\hat a_t\bmod N\), giving \(|\mathcal A|=N^2\). It does not enumerate every function placement or encode a migration mode. The runtime realizes the pair using the request and deployment context.}
+\rev{The pair is recovered as \(v_t^{place}=\lfloor\hat a_t/N\rfloor\) and \(v_t^{route}=\hat a_t\bmod N\), giving \(|\mathcal A|=N^2\). It does not enumerate every function placement or encode a migration mode. The runtime realizes the pair using the request and deployment context. The recovered main v11 checkpoints were trained with a factorized \(\mathrm{MultiDiscrete}([N,N])\) head, not a flat \(N^2\)-logit head. At inference, the adapter forms pair logits \(z_{p,r}=z^{place}_{p}+z^{route}_{r}\), then applies the flat pair mask. This conversion preserves the unmasked factorized action distribution; it is not a new training run or evidence that the historical training used pair-level masking.}
 
 HARP does not enumerate packet-level forwarding rules. Instead, \rev{the policy evaluates local placement--routing feasibility and passes its proposal to the runtime for admission. The complete realized path and SID-list feasibility are not certified by the pair-level policy alone.}
 
@@ -526,7 +526,7 @@ The central \rev{policy-side feasibility mechanism} in HARP is the hard-feasibil
 \end{aligned}}
 \label{eq:feasible_set}
 \end{equation}
-Here \(C_{cpu}^{loc}\), \(C_{mem}^{loc}\), and \(C_{msd}^{loc}\) denote implementation-level checks, rather than a proof of the full-chain constraints. The historical simulation declares a flat \(N^2\) action space, but the inspected runtime state manager returns two node-wise masks of total length \(2N\), and its agent decodes two action components. These interfaces must not be treated as identical.
+Here \(C_{cpu}^{loc}\), \(C_{mem}^{loc}\), and \(C_{msd}^{loc}\) denote implementation-level checks, rather than a proof of the full-chain constraints. The current simulator and runtime use a flat \(N^2\) pair mask. The recovered main checkpoint has a factorized \(2N\)-logit output head, which is converted to pair logits before runtime masking. Historical result files do not establish that this adapter was used in their original runs.
 
 \newrev{The runtime's local node predicate currently checks CPU and memory increments and an accumulated MSD accounting value. For node \(u\), its implemented check includes}
 \begin{equation}
@@ -612,28 +612,28 @@ Migration is orchestrated by the lifecycle layer rather than emitted as a separa
 \subsection{Decision Procedure}
 \label{subsec:harp_decision_procedure}
 \begin{algorithm}[t]
-\caption{Inspected runtime agent path; distinct from the flat simulation policy}
+\caption{Runtime inference path for the recovered factorized policy}
 \label{alg:harp_decision}
 \small
 \begin{algorithmic}[1]
 \Require Request, local state, model configuration and saved normalizer
 \Ensure Proposal with inference/fallback status; not a deployment outcome
-\State Attempt model loading under the configured mode
+\State Load checkpoint and matching normalizer; convert a legacy \(2N\) action head to additive \(N^2\) pair logits
 \If{shadow mode}
     \State Return simulated proposal; this is not learned-policy evidence
 \ElsIf{model unavailable}
     \State Return safe-search fallback or propagate hard-constraint failure
 \EndIf
 \State Build observation and apply the available saved normalizer
-\State Build the runtime component mask of length \(2N\)
-\State Attempt prediction and decode two action components
+\State Build the runtime pair mask of length \(N^2\)
+\State Predict a masked flat action and decode the placement--routing pair
 \State On inference exception, use the guarded fallback path
 \State Pass the proposal to independent local admission in Algorithm~\ref{alg:aiomesh_lifecycle}
 \end{algorithmic}
 \end{algorithm}
 
 \paragraph{Computational complexity}\label{subsec:harp_complexity}
-For the flat simulation policy, the actor produces \(N^2\) logits and the pair mask requires \(\Theta(N^2)\) storage. The graph-encoding term depends on the actual encoder, adjacency representation and attention implementation. The runtime's two-component mask has different dimensions and must be analyzed separately. No measured latency, throughput or end-to-end scalability follows from these dimensional bounds.
+The recovered main actor produces \(2N\) logits; its runtime adapter expands them into \(N^2\) additive pair scores, and the pair mask requires \(\Theta(N^2)\) storage and score construction. The current flat simulator actor produces \(N^2\) logits directly. The graph-encoding term depends on the actual encoder, adjacency representation and attention implementation. No measured latency, throughput or end-to-end scalability follows from these dimensional bounds.
 %NNH: cần hoàn thiện sau khi thực nghiệm [E4]: Measure state/mask/inference/admission and controller handoff separately; audit dense versus sparse attention before assigning an edge-linear cost bound.
 
 \section{Experiments and Evaluation}

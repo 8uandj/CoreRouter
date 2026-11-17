@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import logging
+import io
 import os
 import tempfile
 from dataclasses import dataclass
@@ -63,7 +64,7 @@ def _infer_scaler_path(model_path: str) -> str:
 
 
 def decode_flat_action(action: Any, num_nodes: int) -> tuple[int, int]:
-    """Decode the training environment's Discrete(N*N) pair action."""
+    """Decode a Discrete(N*N) inference action into a placement/route pair."""
     try:
         values = np.asarray(action).reshape(-1)
         if values.size != 1:
@@ -148,6 +149,7 @@ class DGRLAgent:
         self._scaler: Any = None
         self._load_error: Optional[str] = None
         self._load_attempted = False
+        self.action_encoding: Optional[str] = None
 
     @property
     def load_error(self) -> Optional[str]:
@@ -155,6 +157,8 @@ class DGRLAgent:
 
     def _load_model(self) -> Any:
         if self._load_attempted:
+            if self._load_error and REQUIRE_REAL_MODEL:
+                raise RuntimeError(self._load_error)
             return self._model
         self._load_attempted = True
 
@@ -174,11 +178,14 @@ class DGRLAgent:
 
         try:
             from sb3_contrib import MaskablePPO
+            import torch
             import stable_baselines3.common.utils as sb3_utils
             import gymnasium as gym
+            from stable_baselines3.common.vec_env import DummyVecEnv
 
             from src.orchestration.jo_vdpr.gnn_policy import GNNActorCriticPolicy
             from src.orchestration.jo_vdpr.topology import DEFAULT_TOPO
+            from src.ai.action_adapter import factorized_action_head_to_flat
             
             # Khắc phục lỗi thiếu thuộc tính do sai khác phiên bản SB3
             if not hasattr(sb3_utils, 'FloatSchedule'):
@@ -206,33 +213,41 @@ class DGRLAgent:
                 gat_heads=4,
                 features_dim=256,
             )
-            custom_objects = {
-                "policy_class": GNNActorCriticPolicy,
-                "policy_kwargs": policy_kwargs,
-                "observation_space": obs_space,
-                "action_space": action_space,
-                "learning_rate": 0.0003,
-                "lr_schedule": lambda _: 0.0003,
-                "clip_range": lambda _: 0.2,
-                "_last_obs": None,
-                "_last_episode_starts": None,
-                "_last_original_obs": None,
-                "ep_info_buffer": [],
-            }
-            self._model = MaskablePPO.load(load_path, device="cpu", custom_objects=custom_objects)
+            class DummyEnv(gym.Env):
+                def __init__(self):
+                    self.observation_space = obs_space
+                    self.action_space = action_space
+                def reset(self, seed=None, options=None):
+                    return np.zeros(73, dtype=np.float32), {}
+                def step(self, action):
+                    return np.zeros(73, dtype=np.float32), 0.0, False, False, {}
+
+            with ZipFile(load_path) as archive:
+                with archive.open("policy.pth") as handle:
+                    state = torch.load(io.BytesIO(handle.read()), map_location="cpu", weights_only=False)
+            weight = state["action_net.weight"]
+            bias = state["action_net.bias"]
+            if weight.shape[0] == 2 * DEFAULT_TOPO.num_nodes and bias.shape[0] == 2 * DEFAULT_TOPO.num_nodes:
+                state["action_net.weight"], state["action_net.bias"] = factorized_action_head_to_flat(
+                    weight, bias, num_nodes=DEFAULT_TOPO.num_nodes
+                )
+                self.action_encoding = "factorized_2n_to_flat_n2"
+            elif weight.shape[0] == DEFAULT_TOPO.num_nodes ** 2 and bias.shape[0] == DEFAULT_TOPO.num_nodes ** 2:
+                self.action_encoding = "flat_n2"
+            else:
+                raise ValueError(f"unsupported action head: weight={weight.shape}, bias={bias.shape}")
+            self._model = MaskablePPO(
+                GNNActorCriticPolicy,
+                DummyVecEnv([DummyEnv]),
+                policy_kwargs=policy_kwargs,
+                device="cpu",
+            )
+            self._model.policy.load_state_dict(state)
             logger.info("Loaded JO-VPPM model from %s", self.model_path)
             
             if os.path.exists(self.scaler_path):
                 try:
-                    from stable_baselines3.common.vec_env import VecNormalize, DummyVecEnv
-                    # Cần một dummy env để load scaler
-                    # Giả lập env với obs space tương ứng (N*6 + 13 = 10*6 + 13 = 73)
-                    class DummyEnv(gym.Env):
-                        def __init__(self):
-                            self.observation_space = gym.spaces.Box(low=0, high=1, shape=(73,), dtype=np.float32)
-                            self.action_space = gym.spaces.Discrete(10 * 10)
-                        def reset(self, seed=None): return np.zeros(73), {}
-                        def step(self, action): return np.zeros(73), 0, False, False, {}
+                    from stable_baselines3.common.vec_env import VecNormalize
                     
                     # Bọc trong DummyVecEnv để có num_envs và các thuộc tính SB3 cần thiết
                     venv = DummyVecEnv([lambda: DummyEnv()])
@@ -255,6 +270,9 @@ class DGRLAgent:
 
         except Exception as exc:
             self._load_error = f"incompatibility_detected:{exc}"
+            self._model = None
+            self._scaler = None
+            self.action_encoding = None
             if REQUIRE_REAL_MODEL:
                 logger.exception("DRL model is required but failed to load.")
                 raise RuntimeError(self._load_error) from exc
