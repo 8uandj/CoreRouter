@@ -332,7 +332,7 @@ async def get_orchestration_status():
     """
     RÀ SOÁT 4: Bất đồng bộ UI. 
     """
-    is_busy = MIGRATION_LOCK.locked()
+    is_busy = get_migration_lock().locked()
     return {
         "status": "success",
         "is_migrating": is_busy,
