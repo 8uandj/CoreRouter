@@ -16,6 +16,9 @@ from .metrics import RunMetrics, aggregate_runs
 PALETTE = {
     "exhaustive_pair_search": "#2ca02c",
     "traditional_greedy": "#ff7f0e",
+    "cspf": "#17becf",
+    "cspf_protected": "#17becf",
+    "cspf_unprotected": "#7bc8d0",
     "decoupled_ai": "#1f77b4",
     "jo_vppm": "#d62728",
     # HARP ablation variants
@@ -31,6 +34,9 @@ def algorithm_label(name: str) -> str:
     return {
         "exhaustive_pair_search": "Exhaustive Pair-Search",
         "traditional_greedy": "Traditional Greedy",
+        "cspf": "CSPF (constrained pair search)",
+        "cspf_protected": "CSPF (protected)",
+        "cspf_unprotected": "CSPF (unprotected)",
         "decoupled_ai": "Decoupled AI",
         "jo_vppm": "HARP",
         # HARP ablation variants

@@ -118,9 +118,10 @@ def linear_schedule(initial_value: float):
 
 def train_dgrl(topology_name: str, *, total_steps: int = TOTAL_STEPS,
                n_envs: int = N_ENVS, rollout_steps: int = N_STEPS, seed: int = 42,
-               data_path: str = None, model_dir: str = None):
-    if total_steps <= 0 or n_envs <= 0 or rollout_steps < 2:
-        raise ValueError("training budget/env count must be positive and rollout_steps >= 2")
+               data_path: str = None, model_dir: str = None,
+               batch_size: int = BATCH_SIZE):
+    if total_steps <= 0 or n_envs <= 0 or rollout_steps < 2 or batch_size <= 0:
+        raise ValueError("training budget/env count/batch size must be positive and rollout_steps >= 2")
     logger.info(f"BẮT ĐẦU HUẤN LUYỆN JO-VPPM V11 TRÊN MẠNG: {topology_name.upper()}")
     
     # ── Path Setup ───────────────────────────────────────────────
@@ -173,7 +174,7 @@ def train_dgrl(topology_name: str, *, total_steps: int = TOTAL_STEPS,
         env=train_env,
         learning_rate=linear_schedule(LEARNING_RATE),
         n_steps=rollout_steps,
-        batch_size=min(BATCH_SIZE, rollout_steps * n_envs),
+        batch_size=min(batch_size, rollout_steps * n_envs),
         n_epochs=10,
         gamma=0.99,
         gae_lambda=0.95,
@@ -240,6 +241,7 @@ if __name__ == "__main__":
     parser.add_argument("--n-envs", type=int, default=N_ENVS)
     parser.add_argument("--rollout-steps", type=int, default=N_STEPS)
     parser.add_argument("--seed", type=int, default=42)
+    parser.add_argument("--batch-size", type=int, default=BATCH_SIZE)
     parser.add_argument("--data-path", default=None)
     parser.add_argument("--model-dir", default=None)
     args = parser.parse_args()
@@ -252,4 +254,5 @@ if __name__ == "__main__":
     for topology in topologies:
         train_dgrl(topology, total_steps=args.total_steps, n_envs=args.n_envs,
                    rollout_steps=args.rollout_steps, seed=args.seed,
-                   data_path=args.data_path, model_dir=args.model_dir)
+                   data_path=args.data_path, model_dir=args.model_dir,
+                   batch_size=args.batch_size)

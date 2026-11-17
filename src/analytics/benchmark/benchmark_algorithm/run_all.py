@@ -91,7 +91,7 @@ def main() -> None:
     if is_ablation:
         group_keys = ["harp_full", "harp_no_gat", "harp_no_hard_mask", "harp_soft_msd", "harp_no_adaptive"]
     else:
-        group_keys = ["exhaustive_pair_search", "traditional_greedy", "saf_h", "decoupled_ai", "harp"]
+        group_keys = ["exhaustive_pair_search", "traditional_greedy", "cspf", "saf_h", "decoupled_ai", "harp"]
 
     all_runs: List[RunMetrics] = []
     for topology in topologies:
@@ -215,7 +215,7 @@ def validate_benchmark_coverage(seed_results, expected_seeds, expected_steps, ex
 
 
 def expected_benchmark_algorithms(include_exhaustive: bool) -> list[str]:
-    policies = ("traditional_greedy", "saf_h", "decoupled_ai", "harp")
+    policies = ("traditional_greedy", "cspf", "saf_h", "decoupled_ai", "harp")
     expected = [f"{policy}_{mode}" for mode in ("protected", "unprotected") for policy in policies]
     if include_exhaustive:
         expected.extend(f"exhaustive_pair_search_{mode}" for mode in ("protected", "unprotected"))

@@ -106,7 +106,7 @@ country={Vietnam}
 
 
 \begin{abstract}
-\newrev{Cloud-native service orchestration must select placements and routes that satisfy compute and forwarding constraints. We present AIO-Mesh, a runtime architecture that separates learned candidate selection from local admission before actuation. Its replaceable Hardware-Aware Reinforcement Policy (HARP) combines graph-attention encoding, masked policy optimization, action masking, and adaptive reward terms. The prototype connects Kubernetes/Tekton lifecycle workflows with SRv6/P4 steering, while the implemented checks operate on placement--routing pairs and do not certify arbitrary multi-function chains, telemetry freshness, or atomic execution across controllers. In a 20-seed protected-policy benchmark on Vietnam, NSFNET, and GEANT2 across three stress workloads, all evaluated methods admitted no modeled hard violations. HARP acceptance was lower than SAF-H in all six Vietnam and NSFNET conditions; on GEANT2, the paired differences varied by workload. A distinct offered-intensity sweep with shorter request lifetimes favors HARP over SAF-H by 2.408--3.312 percentage points at intensity 1.5. A separate matched-trace ablation on Vietnam, NSFNET, and GEANT2 over four workloads found that the full policy mask pruned 74.72--84.20\% of candidate actions. These simulator results do not establish successful deployment or data-plane forwarding safety.}
+\newrev{Cloud-native service orchestration must select placements and routes that satisfy compute and forwarding constraints. We present AIO-Mesh, a runtime architecture that separates learned candidate selection from local admission before actuation. Its replaceable Hardware-Aware Reinforcement Policy (HARP) combines graph-attention encoding, masked policy optimization, action masking, and adaptive reward terms. The prototype connects Kubernetes/Tekton lifecycle workflows with Segment Routing over IPv6 (SRv6) and P4 steering, while the implemented checks operate on placement--routing pairs and do not certify arbitrary multi-function chains, telemetry freshness, or atomic execution across controllers. In a 20-seed protected-policy benchmark on Vietnam, NSFNET, and GEANT2 across three stress workloads, all evaluated methods admitted no modeled hard violations. HARP acceptance was lower than the SRv6-aware feasible heuristic (SAF-H) in all six Vietnam and NSFNET conditions; on GEANT2, the paired differences varied by workload. Against a CSPF-style endpoint-pair baseline, HARP gained 0.18--0.86 percentage points, significant after correction in six of nine conditions. A distinct offered-intensity sweep with shorter request lifetimes favors HARP over SAF-H by 2.408--3.312 percentage points at intensity 1.5. A separate matched-trace ablation on Vietnam, NSFNET, and GEANT2 over four workloads found that the full policy mask pruned 74.72--84.20\% of candidate actions. In a serialized Vietnam simulator comparison, mean seed-level decision p95 was 2.13~ms for HARP and 0.49~ms for SAF-H; these timings exclude external actuation. These results do not establish successful deployment or data-plane forwarding safety.}
 
 \end{abstract}
 
@@ -125,15 +125,15 @@ Future cloud-native infrastructures are becoming distributed, programmable, and 
 
 This problem is naturally an \rev{artificial intelligence for IT operations (AIOps)} problem rather than a one-shot optimization problem. In a production cloud-native environment, orchestration decisions are made from telemetry, policy intent, service demand, resource state, and runtime feedback. A learned policy must also be operated as a managed artifact: it must be loaded with the correct topology and normalization state, invoked through a stable inference path, monitored during execution, constrained by safety checks, and connected to cloud-native and network-control actuators. This view is consistent with recent \rev{machine learning operations (MLOps)} and AIOps literature, which emphasizes that machine-learning models must move from isolated training pipelines into monitored, versioned, trustworthy, and feedback-driven operational loops~\cite{kreuzberger2023mlops,diazdearcaya2024joint,eken2025mlops,bayram2025trustworthy,zhang2025aiopsllm,eramo2024architecture}. In infrastructure orchestration, however, the runtime faces an additional challenge: an AI decision may be valid in a logical model but non-deployable on the physical or programmable substrate.
 
-Programmable data planes make this deployability gap explicit. Segment Routing over IPv6 (SRv6) allows an ingress node to encode a list of Segment Identifiers (SIDs) in the packet header, enabling stateless traffic steering through paths and service functions~\cite{filsfils2015segment,rfc8986,rfc9352}. P4-programmable switches expose packet-processing behavior through programmable parser, match-action, and deparser stages~\cite{jeyakumar2014p4}. Together, SRv6 and P4 provide a practical substrate for steering cloud-native service chains without maintaining per-flow state at every intermediate node. Yet this flexibility is bounded by hardware. A programmable parser can inspect only a limited number of SIDs in a single pass. This limit, commonly represented by the Maximum Segment Depth (MSD), is not a tunable preference but a hard parsing boundary. If a selected service path requires a SID stack deeper than the supported MSD of the relevant forwarding profile, the action is not merely suboptimal; it is not admissible. \rev{Unchecked overflow may cause installation rejection, parser errors, or packet drops, depending on the forwarding target.}
+Programmable data planes make this deployability gap explicit. \newrev{SRv6} allows an ingress node to encode a list of Segment Identifiers (SIDs) in the packet header, enabling stateless traffic steering through paths and service functions~\cite{filsfils2015segment,rfc8986,rfc9352}. P4-programmable switches expose packet-processing behavior through programmable parser, match-action, and deparser stages~\cite{jeyakumar2014p4}. Together, SRv6 and P4 provide a practical substrate for steering cloud-native service chains without maintaining per-flow state at every intermediate node. Yet this flexibility is bounded by hardware. A programmable parser can inspect only a limited number of SIDs in a single pass. This limit, commonly represented by the Maximum Segment Depth (MSD), is not a tunable preference but a hard parsing boundary. If a selected service path requires a SID stack deeper than the supported MSD of the relevant forwarding profile, the action is not merely suboptimal; it is not admissible. \rev{Unchecked overflow may cause installation rejection, parser errors, or packet drops, depending on the forwarding target.}
 
 Existing orchestration methods do not fully address this operational safety requirement. Classical \rev{integer linear programming (ILP)} and heuristic formulations provide useful models for service-chain placement and routing, but they \rev{may incur high solution cost or sacrifice global optimality in online operation}. Recent \rev{deep reinforcement learning (DRL)} and graph-based methods improve adaptive \rev{service function chaining (SFC)} embedding and \rev{virtual network function (VNF)} placement~\cite{wang2021drl,xiao2023twostage,liu2024sfcml,taktak2024drl,wu2025drl}, and migration-oriented studies address failure prediction, load pressure, and migration budgets~\cite{zhai2023migration,addad2022ai,qin2023sfcmigrationbudget,afrasiabi2024cluster,zhang2025sfcmigration,hu2026rlpmo}. SRv6-aware approaches such as SFCPlanner show the relevance of source-routed flow steering for service-chain planning~\cite{qiu2024sfcplanner}. \rev{Safe reinforcement learning, shielding, and invalid-action masking also provide established mechanisms for restricting unsafe actions~\cite{alshiekh2018shielding,gu2024safe,wachi2024constraint,huang2022closer}. However, their applicability to programmable orchestration depends on whether the checked policy action corresponds to the realized forwarding configuration.} This is \rev{important} for AIOps control, where unsafe actuation can convert a policy error into a data-plane failure.
 
-The core research question addressed in this paper is therefore: \rev{\emph{how can an AIOps runtime use learned policies for cloud-native distributed service orchestration while independently checking hardware deployability before actuation?}} This question has three coupled challenges. First, the decision policy must be topology-aware because placement, routing, SID depth, and latency depend on the structure of the substrate graph. Second, the runtime must distinguish hard deployability constraints from soft operational objectives. CPU, memory, and MSD feasibility must be enforced before actuation, whereas latency, service-level pressure, and \rev{action-switching cost} can be optimized through the reward function. Third, the learned policy must be embedded into a closed-loop AIOps runtime that connects telemetry, state construction, inference, safety validation, cloud-native lifecycle management, programmable steering, and feedback monitoring.
+The core research question addressed in this paper is therefore: \rev{\emph{how can an AIOps runtime use learned policies for cloud-native distributed service orchestration while independently checking hardware deployability before actuation?}} This question has three coupled challenges. First, the decision policy must be topology-aware because placement, routing, SID depth, and latency depend on the structure of the substrate graph. Second, the runtime must distinguish hard deployability constraints from soft operational objectives. \newrev{Central processing unit (CPU), memory, and MSD feasibility} must be enforced before actuation, whereas latency, service-level pressure, and \rev{action-switching cost} can be optimized through the reward function. Third, the learned policy must be embedded into a closed-loop AIOps runtime that connects telemetry, state construction, inference, safety validation, cloud-native lifecycle management, programmable steering, and feedback monitoring.
 
-To address these challenges, we propose \textbf{AIO-Mesh}, a hardware-safe AIOps orchestration framework for cloud-native distributed services over programmable infrastructures. AIO-Mesh treats the learned policy as one component of an operational control loop rather than as a standalone optimizer. Its runtime integrates telemetry-driven state construction, policy inference, hard-feasibility validation, smart admission control, Kubernetes/Tekton-based VNF lifecycle actions, SRv6/P4 steering, and data-plane feedback. Within AIO-Mesh, we instantiate \textbf{HARP} (\textbf{H}ardware-\textbf{A}ware \textbf{R}einforcement \textbf{P}olicy), a graph-reinforcement policy for \rev{topology-aware placement--routing selection}. HARP combines graph-attention topology encoding, \rev{masked Proximal Policy Optimization (PPO)}, invalid action masking, adaptive penalties for soft service objectives, and explicit \texttt{NO\_SAFE\_ACTION} handling under saturation. \rev{Its proposals pass through a policy-independent runtime admission boundary; migration is managed by the lifecycle workflow.}
+To address these challenges, we propose \textbf{AIO-Mesh}, a hardware-safe AIOps orchestration framework for cloud-native distributed services over programmable infrastructures. AIO-Mesh treats the learned policy as one component of an operational control loop rather than as a standalone optimizer. Its runtime integrates telemetry-driven state construction, policy inference, hard-feasibility validation, smart admission control, Kubernetes/Tekton-based VNF lifecycle actions, SRv6/P4 steering, and data-plane feedback. \newrev{Within AIO-Mesh, HARP is a graph-reinforcement policy for topology-aware placement--routing selection}. HARP combines graph-attention topology encoding, \rev{masked Proximal Policy Optimization (PPO)}, invalid action masking, adaptive penalties for soft service objectives, and explicit \texttt{NO\_SAFE\_ACTION} handling under saturation. \rev{Its proposals pass through a policy-independent runtime admission boundary; migration is managed by the lifecycle workflow.}
 
-\newrev{The contribution is an implemented runtime organization that separates candidate selection, local admission, and infrastructure actuation. HARP instantiates the candidate-selection component using established GAT, PPO, and masking techniques. We make three contributions:}
+\newrev{The contribution is an implemented runtime organization that separates candidate selection, local admission, and infrastructure actuation. HARP instantiates the candidate-selection component using established graph attention network (GAT), policy optimization, and masking techniques. We make three contributions:}
 \begin{itemize}
 \item \newrev{We specify the boundary between placement--routing proposals and local admission, distinguish modeled resource checks from full-chain realization, and describe how admitted proposals enter cloud-native lifecycle and programmable-steering services.}
 \item \newrev{We implement a replaceable policy interface and evaluate Greedy, Decoupled AI, SAF-H, and HARP through a common simulator admission boundary, with protected and unprotected configurations.}
@@ -180,7 +180,7 @@ AIOps/MLOps automation~\cite{kreuzberger2023mlops,diazdearcaya2024joint,eken2025
 
 \rev{SFC} steers traffic through an ordered sequence of network functions, such as firewalls, intrusion detection systems, deep packet inspection functions, load balancers, and gateways~\cite{rfc7665}. In \rev{network function virtualization (NFV)}-enabled and cloud-native infrastructures, these functions are implemented as VNFs or containerized network functions that can be instantiated, scaled, migrated, and removed by software controllers. The associated orchestration problem couples placement, routing, admission, and migration: a placement decision consumes compute and memory resources, a routing decision determines latency and path depth, and a migration decision changes both the service path and the residual resource distribution. Resource allocation and VNF embedding have also been investigated in network-slicing environments, where substrate resources, virtual links, and service-level constraints must be optimized jointly~\cite{jOptimizeSlice24}. This line of work is complementary to AIO-Mesh: while prior VNF-embedding studies optimize logical resource allocation, AIO-Mesh focuses on embedding such decisions into a hardware-safe AIOps runtime with explicit programmable-data-plane admission semantics.
 
-Classical ILP and heuristic formulations expose the structure of SFC constraints but are often unsuitable for online operation under dynamic traffic. Learning-based methods have therefore become increasingly common. DRL-SFCP formulates adaptive SFC placement as a reinforcement-learning problem~\cite{wang2021drl}; \rev{Graph convolutional network (GCN)}-based and graph-assisted approaches exploit topology information for SFC embedding and virtualized network embedding \rev{(VNE)}~\cite{xiao2023twostage,pei2025graph,liu2024sfcml}; \rev{quality-of-service (QoS)}-aware and reliable deployment methods address service-level objectives and robustness~\cite{taktak2024drl,li2023qosaware,qu2021reliable}; and recent work considers fast joint mapping for SFC deployment~\cite{wu2025drl}. Migration-oriented studies further address failure prediction, AI-assisted 5G/B5G migration, long-term migration budgets, cluster migration, and reinforcement-learning-based migration planning~\cite{zhai2023migration,addad2022ai,qin2023sfcmigrationbudget,afrasiabi2024cluster,zhang2025sfcmigration,hu2026rlpmo}.
+Classical ILP and heuristic formulations expose the structure of SFC constraints but are often unsuitable for online operation under dynamic traffic. Learning-based methods have therefore become increasingly common. DRL-SFCP formulates adaptive SFC placement as a reinforcement-learning problem~\cite{wang2021drl}; \rev{Graph convolutional network (GCN)}-based and graph-assisted approaches exploit topology information for SFC embedding and virtualized network embedding \rev{(VNE)}~\cite{xiao2023twostage,pei2025graph,liu2024sfcml}; \rev{quality-of-service (QoS)}-aware and reliable deployment methods address service-level objectives and robustness~\cite{taktak2024drl,li2023qosaware,qu2021reliable}; and recent work considers fast joint mapping for SFC deployment~\cite{wu2025drl}. Migration-oriented studies further address failure prediction, AI-assisted \newrev{fifth-generation (5G) and beyond-5G (B5G)} migration, long-term migration budgets, cluster migration, and reinforcement-learning-based migration planning~\cite{zhai2023migration,addad2022ai,qin2023sfcmigrationbudget,afrasiabi2024cluster,zhang2025sfcmigration,hu2026rlpmo}.
 
 These methods improve adaptivity, but \rev{the cited studies primarily evaluate logical resource feasibility, latency, service reliability, or migration cost. Explicit validation of realized SRv6 SID lists against forwarding-profile MSD receives less attention.} This abstraction is problematic for AIOps orchestration because the policy is not producing recommendations; it is producing infrastructure actions.
 
@@ -194,7 +194,7 @@ Programmable infrastructures, however, expose hard actuation constraints. A P4 p
 \subsection{Safe and Graph-Aware Reinforcement Learning for Infrastructure Control}
 \label{subsec:related_safe_rl}
 
-Reinforcement learning is attractive for infrastructure orchestration because each accepted request changes the residual capacity and future feasible action set. PPO is widely used because it balances training stability and policy improvement~\cite{schulman2017proximal}. Graph neural networks, particularly Graph Attention Networks (GATs), are suitable for networked systems because they preserve topological structure that is lost in flat state representations~\cite{velickovic2018graph}. HARP adopts this graph-aware view because placement quality depends on source--destination distance, candidate service locations, path length, SID-stack depth, and residual headroom.
+Reinforcement learning is attractive for infrastructure orchestration because each accepted request changes the residual capacity and future feasible action set. PPO is widely used because it balances training stability and policy improvement~\cite{schulman2017proximal}. Graph neural networks, particularly \newrev{GATs}, are suitable for networked systems because they preserve topological structure that is lost in flat state representations~\cite{velickovic2018graph}. HARP adopts this graph-aware view because placement quality depends on source--destination distance, candidate service locations, path length, SID-stack depth, and residual headroom.
 
 The main safety issue is constraint semantics. Reward penalties are appropriate for soft operational objectives, such as latency, \rev{service-level agreement (SLA)} pressure, load balance, and migration overhead. They are not sufficient for constraints that define binary deployability. Safe reinforcement learning and constrained policy optimization recognize the need to separate reward optimization from safety enforcement~\cite{gu2024safe,ma2022conservative,wachi2024constraint}. Invalid action masking provides a practical mechanism for discrete or structured action spaces by removing invalid actions before sampling~\cite{huang2022closer}. \rev{Shielding provides an additional established approach to enforcing action restrictions outside a learned policy~\cite{alshiekh2018shielding}. Hence, neither graph attention nor masking is new in itself. The distinctive issue addressed here is the integration of independent admission with cloud-native lifecycle control and SRv6/P4 actuation, subject to the accuracy of the checked constraints.}
 
@@ -215,7 +215,7 @@ This section defines the substrate, service-chain, and hardware-safety models us
 \subsection{Cloud-Native Programmable Substrate}
 \label{subsec:infrastructure_model}
 
-We model the infrastructure as a distributed substrate graph $\mathcal{G}=(\mathcal{V},\mathcal{E})$, where each node \(v\in\mathcal{V}\) represents a cloud, edge, or regional \rev{NFV infrastructure (NFVI)} site capable of hosting virtualized or containerized network functions, and each edge \(e=(u,v)\in\mathcal{E}\) represents a physical or logical inter-site link. Each node has compute and memory capacities $\mathbf{c}_v=\left[c_v^{cpu},c_v^{mem}\right]$, and is associated with a programmable-data-plane profile whose SRv6 \rev{MSD} is denoted by \(m_v^{msd}\). The MSD is not a consumable resource. It is a parser-depth bound that constrains whether a candidate SID stack can be processed by the corresponding SRv6/P4 forwarding profile. Each edge \(e=(u,v)\) has a latency \(l_{uv}\). Additional link-level attributes, such as bandwidth or loss, may be enforced by the controller, but are not included in the core policy interface in order to keep the deployed observation contract stable.
+We model the infrastructure as a distributed substrate graph $\mathcal{G}=(\mathcal{V},\mathcal{E})$, where each node \(v\in\mathcal{V}\) represents a cloud, edge, or regional \rev{NFV infrastructure (NFVI)} site capable of hosting virtualized or containerized network functions, and each edge \(e=(u,v)\in\mathcal{E}\) represents a physical or logical inter-site link. Each node has compute and \newrev{random-access memory (RAM)} capacities $\mathbf{c}_v=\left[c_v^{cpu},c_v^{mem}\right]$, and is associated with a programmable-data-plane profile whose SRv6 \rev{MSD} is denoted by \(m_v^{msd}\). The MSD is not a consumable resource. It is a parser-depth bound that constrains whether a candidate SID stack can be processed by the corresponding SRv6/P4 forwarding profile. Each edge \(e=(u,v)\) has a latency \(l_{uv}\). Additional link-level attributes, such as bandwidth or loss, may be enforced by the controller, but are not included in the core policy interface in order to keep the deployed observation contract stable.
 
 At decision epoch \(t\), the residual compute state of node \(v\) is $\mathbf{r}_v(t)=\left[r_v^{cpu}(t),r_v^{mem}(t)\right]$. AIO-Mesh observes the substrate through telemetry and converts it into a policy-facing state. For a substrate with \(N=|\mathcal{V}|\) nodes, the HARP state is $s_t=(\mathbf{X}_t,\mathbf{g}_t,\mathcal{A}_{topo})$, where \(\mathbf{X}_t\in\mathbb{R}^{N\times 6}\) is the node-feature matrix, \(\mathbf{g}_t\in\mathbb{R}^{13}\) contains global request and operational features, and \(\mathcal{A}_{topo}\) is the substrate adjacency matrix. The node features encode resource pressure, MSD-related headroom or warning indicators, alert state, and topology-related context. This representation keeps the inference interface fixed while allowing the graph encoder to exploit the physical substrate topology.
 
@@ -376,7 +376,7 @@ The distinction between an unsafe candidate and an admitted violation is central
 \sloppy
 \rev{The logical decision record distinguishes \texttt{REJECTED}, \texttt{ADMITTED}, \texttt{DEPLOYED}, and \texttt{FAILED}. Admission and reservation authorize execution; they do not establish successful deployment or steering.}
 
-\newrev{The orchestration service constructs a bounded SID list using the placement node, repeated routing anchor, and requested SID count before calling the local pair-reservation predicate. It does not separately realize a complete chain, reconcile per-function resources, or validate the full forwarding path. Admission success therefore does not establish deployment or forwarding success.}
+\newrev{Requests with an explicit source or ingress use a shortest-path compiler over the configured ten-switch P4 topology. The compiler reverses the switch SID sequence for SRv6 wire order and requires the materialized depth to equal the requested depth and fit both route and traversed-switch profiles. Requests without an ingress use the bounded synthetic SID helper. Neither representation expands an ordered sequence of multiple VNF placements.}
 
 \subsection{Cloud-Native Lifecycle Actuation}
 \label{subsec:cloud_native_actuation}
@@ -387,15 +387,15 @@ This separation keeps responsibilities clear. The policy selects an \rev{orchest
 
 \subsection{Programmable Data-Plane Interface}
 \label{subsec:data_plane_interface}
-The request helper creates a bounded list with \(\max(1,\mathrm{msd\_req})\) entries derived from the selected placement and routing anchor. This is not an expansion of every VNF placement and every inter-function substrate path. The lifecycle and SDN adapters provide deployment and steering operations, but the implemented interface does not establish a per-request mapping from the formal chain to the packet path.
+\newrev{The physical pair-path compiler maps an ingress and placement to a switch sequence using the configured P4 links. The routing node selects a profile for the depth check; it is not a mandatory waypoint in the compiled path. This pair-path contract is narrower than arbitrary service-chain embedding.}
 
-\newrev{The orchestration API returns the admitted synthetic list, but the migration steering service does not consume it. That service independently constructs an endpoint SID and fixed steering rules, so the checked SID list is not linked to the installed packet path. The orchestration endpoint schedules lifecycle work only on the DRL branch with a forecast alert; a separate direct P4-rule endpoint bypasses pair admission. The local admission result therefore does not apply to every actuation interface.}
+\newrev{The admitted handle binds request and operation identities, topology hash, profile, and SID stack. The pair-selection service leaves its forwarding SID unset until a supported actuation mapping is established. The alert-driven DRL actuation branch rejects such a handle and releases the unused reservation before controller handoff. Successful path compilation and local reservation therefore remain separate from authorization for physical forwarding. Controller rule readback and packet observations provide subsequent validation stages.}
 
-\newrev{A local reservation does not establish successful Kubernetes deployment, steering installation, or packet forwarding. Those outcomes require request-correlated controller logs and packet or counter observations. Binding SID compression, general path reconstruction, and a candidate-path cache are not implemented features of the prototype.}
+\newrev{A general multi-function chain additionally requires a placement for each function, paths between successive functions, and a SID realization matching installed forwarding behavior. Those steps are outside the current pair compiler. Binding SID compression and a candidate-path cache are also outside the implemented interface.}
 
 \subsection{End-to-End Request Lifecycle}
 \label{subsec:request_lifecycle}
-Algorithm~\ref{alg:aiomesh_lifecycle} summarizes the pair-selection service. The HTTP router handles telemetry and forecast inputs and schedules lifecycle work separately. Returning a selected and reserved pair does not establish that deployment or steering completed.
+Algorithm~\ref{alg:aiomesh_lifecycle} summarizes the pair-selection service. The \newrev{Hypertext Transfer Protocol (HTTP)} router handles telemetry and forecast inputs and schedules lifecycle work separately. Returning a selected and reserved pair does not establish that deployment or steering completed.
 
 \begin{algorithm}[t]
 \caption{Local pair-selection and reservation service}
@@ -432,10 +432,10 @@ HARP is the learned decision engine inside AIO-Mesh. Its objective is to select 
 
 HARP combines three mechanisms: a graph-attention encoder for topology-aware state representation, masked policy optimization for hard constraints, and adaptive penalties for soft operational objectives. The selected action is not applied directly to the infrastructure. It is returned to the AIO-Mesh runtime, which performs final admission validation, lifecycle actuation, and SRv6/P4 steering.
 
-\subsection{MDP Formulation}
+\subsection{\newrev{Markov Decision Process (MDP) Formulation}}
 \label{subsec:harp_mdp}
 
-We formulate online service-chain orchestration as a Markov Decision Process
+We formulate online service-chain orchestration as an \newrev{MDP}
 $ \rev{\mathcal{M}=(\mathcal{S},\mathcal{A},\mathcal{P},r,\gamma),}$
 where \(\mathcal{S}\) is the state space, \(\mathcal{A}\) is the action space, \(\mathcal{P}\) denotes the transition dynamics induced by traffic arrivals and infrastructure updates, \rev{\(r\)} is the reward function, and \(\gamma\) is the discount factor.
 
@@ -513,18 +513,19 @@ The central \rev{policy-side feasibility mechanism} in HARP is the hard-feasibil
 \end{equation}
 Here \(C_{cpu}^{loc}\), \(C_{mem}^{loc}\), and \(C_{msd}^{loc}\) denote implementation-level checks, rather than a proof of the full-chain constraints. The current simulator and runtime use a flat \(N^2\) pair mask. Main checkpoints have a factorized \(2N\)-logit output head, which is converted to pair logits before runtime masking. \newrev{The revised algorithm benchmark evaluates the retained main checkpoints through this adapter; the ablation uses separate flat-action checkpoints.}
 
-\newrev{The runtime's local node predicate currently checks CPU and memory increments and an accumulated MSD accounting value. For node \(u\), its implemented check includes}
+\newrev{For placement node \(p\), routing-profile node \(r\), and proposed SID-list depth \(d_q\), runtime reservation checks}
 \begin{equation}
+\color{ForestGreen}
 \begin{aligned}
-M^{node}_t(u)=\mathbb I[&b^{cpu}_{u,t}+d_q^{cpu}\le c_u^{cpu}\\
-&\land b^{mem}_{u,t}+d_q^{mem}\le c_u^{mem}\\
-&\land b^{msd}_{u,t}+\mathrm{msd\_req}\le m_u^{msd}].
+M^{pair}_t(p,r)=\mathbb I[&b^{cpu}_{p,t}+d_q^{cpu}\le c_p^{cpu}\\
+&\land b^{mem}_{p,t}+d_q^{mem}\le c_p^{mem}\\
+&\land d_q\le m_r^{msd}].
 \end{aligned}
 \label{eq:runtime_pair_mask}
 \end{equation}
-\newrev{Admission applies this predicate to both touched nodes and increments their accounting state, counting a coincident placement/route node once. This differs from per-list parser-depth feasibility: MSD is not a resource consumed across flows. The simulation additionally uses a hop-dependent MSD estimate. Neither representation by itself establishes the formal per-profile SID-depth condition in Eq.~\eqref{eq:msd_constraint}. Our safety conclusions are limited to the implemented checks.}
+\newrev{Reservation increments CPU and RAM only at the placement node. The route-node MSD observation records the greatest active list depth for policy input; it is not an additive capacity consumed by concurrent flows. With an explicit ingress, path compilation additionally checks materialized SID depth against every switch profile on the compiled path. The simulator uses a hop-dependent depth estimate and a separate bandwidth predicate. These checks apply to their respective realization models.}
 
-The policy mask is built at inference time from the locally observed state; there is no verified telemetry-version or freshness-TTL contract spanning masking, reservation and actuation.
+The policy mask is built at inference time from the locally observed state; there is no verified telemetry-version or freshness \newrev{time-to-live (TTL)} contract spanning masking, reservation and actuation.
 
 The actor produces a logit \(z_a\) for each action \(a\in\mathcal{A}\). HARP applies the binary mask
 \begin{equation}
@@ -624,9 +625,9 @@ The main actor produces \(2N\) logits; its runtime adapter expands them into \(N
 
 \subsection{\newrev{Experimental Setup}}
 \label{subsec:experimental_setup}
-\newrev{The algorithm benchmark evaluates fixed, topology-specific main-policy checkpoints and their observation normalizers; no model is retrained during evaluation. It covers the 10-node Vietnam, 14-node NSFNET, and 23-node GEANT2 topologies under the stress load (arrival rate 1.0; request TTL 100--500). The three tested workloads are Elephant stress (mapped to Heavy-tail), Burst surge (mapped to Bursty), and a separately configured Chaos workload. Each algorithm--topology--workload condition uses 20 evaluation seeds, \{42, 100, 2024, 8888, 9999, 7, 17, 73, 314, 2718, 11, 23, 47, 89, 101, 211, 512, 1024, 4096, 8192\}, and 3,000 simulator steps per seed. Algorithms share the offered-request trace within each seed; for the Bursty workload, the generator repeats the same trace across seeds.}
+\newrev{The algorithm benchmark evaluates fixed, topology-specific main-policy checkpoints and their observation normalizers; no model is retrained during evaluation. It covers the 10-node Vietnam, 14-node NSFNET, and 23-node GEANT2 topologies under the stress load (arrival rate 1.0; request time-to-live (TTL) 100--500). The three tested workloads are Elephant stress (mapped to Heavy-tail), Burst surge (mapped to Bursty), and a separately configured Chaos workload. Each algorithm--topology--workload condition uses 20 evaluation seeds, \{42, 100, 2024, 8888, 9999, 7, 17, 73, 314, 2718, 11, 23, 47, 89, 101, 211, 512, 1024, 4096, 8192\}, and 3,000 simulator steps per seed. Algorithms share the offered-request trace within each seed; for the Bursty workload, the generator repeats the same trace across seeds.}
 
-\newrev{The Greedy baseline selects the node with the most residual CPU capacity, then the routing node with minimum latency among nodes distinct from the placement node. Decoupled AI selects the least-loaded-CPU placement and then a neighboring node with the least RAM load. SAF-H filters placement--routing pairs using CPU, memory, bandwidth, and MSD checks, then selects the pair minimizing a weighted sum of latency, CPU utilization, and hop count (weights 0.5, 100, and 5, respectively). Each algorithm is evaluated with protected and unprotected admission; the acceptance results below report the protected mode. The matched-trace ablation separately evaluates variant-specific checkpoints on Vietnam, NSFNET, and GEANT2 using 20 seeds and 3,000 simulator steps per seed--workload cell.}
+\newrev{The Greedy baseline selects the node with the most residual CPU capacity, then the routing node with minimum latency among nodes distinct from the placement node. Decoupled AI selects the least-loaded-CPU placement and then a neighboring node with the least RAM load. SAF-H filters placement--routing pairs using CPU, memory, bandwidth, and MSD checks, then selects the pair minimizing a weighted sum of latency, CPU utilization, and hop count (weights 0.5, 100, and 5, respectively). The constrained shortest-path first (CSPF) baseline enumerates feasible, distinct placement--routing endpoint pairs and minimizes topology latency; hop count and residual placement CPU break ties in that order. Because the simulator action specifies only this endpoint pair and has no ingress/egress request, this is a CSPF-style pair baseline rather than a complete ingress-to-egress path computation. The paired CSPF comparison uses the protected admission mode; the other baselines also have unprotected runs, while Table~\ref{tab:simulation_acceptance_summary} reports protected results. The matched-trace ablation separately evaluates variant-specific checkpoints on Vietnam, NSFNET, and GEANT2 using 20 seeds and 3,000 simulator steps per seed--workload cell.}
 
 \newrev{The named substrates use the node locations and configured resource profiles associated with Vietnam, NSFNET, and GEANT2. Simulator adjacency is derived by thresholding coordinate-based pair latencies rather than importing the physical backbone edge lists. The evaluated adjacency has 45, 91, and 253 undirected edges, respectively: all three are complete graphs at these settings. Consequently, these experiments vary node count and geographic/resource profiles, but do not establish generalization across the physical connectivity of the corresponding operational backbones.}
 
@@ -634,7 +635,7 @@ The main actor produces \(2N\) logits; its runtime adapter expands them into \(N
 \centering
 \caption{\newrev{Protocols supporting the simulation evaluation. All use 20 evaluation seeds and 3,000 simulator steps per seed and condition. Main-policy and ablation checkpoints are distinct.}}
 \label{tab:evaluation_protocols}
-{\color{ForestGreen}
+\color{ForestGreen}
 \scriptsize
 \begin{tabular}{p{0.18\textwidth}p{0.19\textwidth}p{0.25\textwidth}p{0.28\textwidth}}
 \toprule
@@ -646,21 +647,21 @@ Timed ablation & Variant-specific flat-action policies & Ten topology--workload 
 Background chains & Main with pair adapter & Bursty; arrival 1.0; 0/25/50/100 persistent chains; topology-scaled TTL & Occupancy sensitivity under a separate resource-pressure protocol \\
 Load-sweep protocol & Main with pair adapter & Seven multipliers 0.2--1.5; arrival capped at 1.0; demand/TTL scaled above 1.0 & Combined offered-intensity stress across three substrates \\
 \bottomrule
-\end{tabular}}
+\end{tabular}
 \end{table*}
 
 \subsection{\newrev{Baselines, Ablation Variants, and Metrics}}
 \label{subsec:baselines_metrics}
 \newrev{Decoupled AI is the benchmark name for a sequential CPU/RAM heuristic. SAF-H searches feasible placement--routing pairs using the cost defined above. The main benchmark evaluates factorized-action HARP checkpoints through the pair adapter, while ablation evaluates separately trained flat-action variants. Comparisons are therefore made within each experiment, with checkpoint and action interface held to the corresponding protocol.}
 
-\newrev{The algorithm benchmark reports acceptance per offered, non-skipped request and aggregates 20 seed-level rates with population standard deviation. For HARP versus SAF-H, paired seed-level acceptance differences are tested using the two-sided Wilcoxon signed-rank test; percentile bootstrap 95\% confidence intervals use 10,000 resamples, and Holm correction is applied across the nine topology--workload comparisons. The paired rank-biserial effect is positive when HARP tends to have higher acceptance; it describes the signed rank balance, not the magnitude in percentage points. The timing-instrumented ablation reports safe acceptance and policy-decision p95 over 20 evaluation seeds using mean and sample standard deviation. The matched-trace ablation reports sample standard deviation across seed--workload evaluation cells. These deviations describe evaluation variation conditional on the evaluated checkpoints, not variation across independently trained policies.}
+\newrev{The algorithm benchmark reports acceptance per offered, non-skipped request and aggregates 20 seed-level rates with population standard deviation (SD). For each protected HARP--SAF-H and HARP--CSPF contrast, paired seed-level acceptance differences are tested using the two-sided Wilcoxon signed-rank test; percentile-bootstrap 95\% confidence intervals (CIs) use 10,000 resamples, and Holm correction is applied separately across the nine topology--workload comparisons in each family. The paired rank-biserial effect is positive when HARP tends to have higher acceptance; it describes the signed rank balance, not the magnitude in percentage points. The timing-instrumented ablation reports safe acceptance and policy-decision p95 over 20 evaluation seeds using mean and sample SD. The matched-trace ablation reports sample SD across seed--workload evaluation cells. These deviations describe evaluation variation conditional on the evaluated checkpoints, not variation across independently trained policies.}
 
 \newrev{For the timing-instrumented and matched-trace ablations, safe acceptance is accepted requests minus the unique admitted requests violating any modeled hard CPU, memory, bandwidth, or MSD constraint, divided by offered non-skipped requests. Proposed CPU, memory, bandwidth, and MSD violation rates may overlap; the union rate is reported separately. Candidate pruning is computed over the flat $N^2$ action set.}
 
 \newrev{All simulation rates use offered, non-skipped requests as the request denominator unless stated otherwise. Runtime rejection and admitted violation are separate outcomes; neither is a measure of successful physical deployment. Algorithm-benchmark comparisons pair policies by topology, workload, and seed and verify identical offered-trace hashes. The matched-trace ablation likewise reuses the offered trace across variants, although policy-dependent admissions can cause simulated state trajectories to diverge.}
 
 \subsection{\newrev{Hardware-Safe Admission under Workload Saturation}}
-\newrev{All four algorithms use the same simulator admission checks in protected mode. Across nine topology--workload conditions, each policy is evaluated for 540,000 simulator steps and records zero admitted modeled hard violations. The common result demonstrates the role of admission across candidate-selection methods. Policy effectiveness is assessed separately through acceptance and the paired HARP--SAF-H differences in Figure~\ref{fig:benchmark_effects}.}
+\newrev{All five algorithms use the same simulator admission checks in protected mode. Across nine topology--workload conditions, each policy is evaluated for 540,000 simulator steps and records zero admitted modeled hard violations. The common result demonstrates the role of admission across candidate-selection methods. Policy effectiveness is assessed separately through acceptance and the paired HARP--SAF-H differences in Figure~\ref{fig:benchmark_effects} and HARP--CSPF differences in Table~\ref{tab:cspf_paired_statistics}.}
 
 \begin{figure*}[t]
 \centering
@@ -671,36 +672,35 @@ Load-sweep protocol & Main with pair adapter & Seven multipliers 0.2--1.5; arriv
 
 \subsection{\newrev{Simulation Results across Distributed Topologies}}
 \label{subsec:simulation_results}
-\newrev{Table~\ref{tab:simulation_acceptance_summary} reports mean acceptance over 20 evaluation seeds for the protected versions of four algorithms. Each topology--workload cell contains 20 paired seed-level trials of 3,000 simulator steps; policies share offered traces within each seed, while the Bursty generator repeats the same offered trace across seeds. Acceptance is not a full-chain safety metric.}
+\newrev{Table~\ref{tab:simulation_acceptance_summary} reports mean acceptance over 20 evaluation seeds for the protected versions of five algorithms, including the CSPF-style pair baseline. Each topology--workload cell contains 20 paired seed-level trials of 3,000 simulator steps; policies share offered traces within each seed, while the Bursty generator repeats the same offered trace across seeds. Acceptance is not a full-chain safety metric.}
 
 \begin{table}[t]
 \centering
 \caption{\newrev{Protected-policy acceptance (\%; 20 seeds, mean $\pm$ population SD). Profiles: E = Elephant stress, B = Burst surge, C = Chaos; DAI = Decoupled AI.}}
 \label{tab:simulation_acceptance_summary}
 \scriptsize
-{\color{ForestGreen}
+\color{ForestGreen}
 \setlength{\tabcolsep}{3pt}
 \resizebox{\columnwidth}{!}{%
-\begin{tabular}{llrrrr}
+\begin{tabular}{llrrrrr}
 \toprule
-Network & Profile & Greedy & DAI & SAF-H & HARP \\
+Network & Profile & Greedy & DAI & SAF-H & CSPF & HARP \\
 \midrule
-Vietnam & E & 44.07 $\pm$ 0.56 & 44.30 $\pm$ 0.60 & 44.34 $\pm$ 0.67 & 42.97 $\pm$ 0.63 \\
-Vietnam & B & 58.78 $\pm$ 0.41 & 58.78 $\pm$ 0.46 & 58.84 $\pm$ 0.61 & 57.65 $\pm$ 0.52 \\
-Vietnam & C & 45.04 $\pm$ 0.53 & 45.03 $\pm$ 0.64 & 45.08 $\pm$ 0.63 & 43.63 $\pm$ 0.47 \\
-NSFNET & E & 52.64 $\pm$ 0.53 & 52.64 $\pm$ 0.53 & 52.66 $\pm$ 0.42 & 51.73 $\pm$ 0.54 \\
-NSFNET & B & 68.27 $\pm$ 0.31 & 68.27 $\pm$ 0.31 & 68.28 $\pm$ 0.33 & 66.85 $\pm$ 0.55 \\
-NSFNET & C & 53.73 $\pm$ 0.68 & 53.73 $\pm$ 0.68 & 53.82 $\pm$ 0.65 & 52.59 $\pm$ 0.72 \\
-GEANT2 & E & 64.73 $\pm$ 0.46 & 64.71 $\pm$ 0.46 & 64.67 $\pm$ 0.39 & 64.61 $\pm$ 0.48 \\
-GEANT2 & B & 79.64 $\pm$ 0.24 & 79.64 $\pm$ 0.24 & 79.68 $\pm$ 0.26 & 80.64 $\pm$ 0.39 \\
-GEANT2 & C & 66.60 $\pm$ 0.47 & 66.60 $\pm$ 0.47 & 66.70 $\pm$ 0.49 & 66.50 $\pm$ 0.60 \\
+Vietnam & E & 44.07 $\pm$ 0.56 & 44.30 $\pm$ 0.60 & 44.34 $\pm$ 0.67 & 42.61 $\pm$ 0.72 & 42.97 $\pm$ 0.63 \\
+Vietnam & B & 58.78 $\pm$ 0.41 & 58.78 $\pm$ 0.46 & 58.84 $\pm$ 0.61 & 56.78 $\pm$ 0.94 & 57.65 $\pm$ 0.52 \\
+Vietnam & C & 45.04 $\pm$ 0.53 & 45.03 $\pm$ 0.64 & 45.08 $\pm$ 0.63 & 43.32 $\pm$ 0.63 & 43.63 $\pm$ 0.47 \\
+NSFNET & E & 52.64 $\pm$ 0.53 & 52.64 $\pm$ 0.53 & 52.66 $\pm$ 0.42 & 51.45 $\pm$ 0.52 & 51.73 $\pm$ 0.54 \\
+NSFNET & B & 68.27 $\pm$ 0.31 & 68.27 $\pm$ 0.31 & 68.28 $\pm$ 0.33 & 66.67 $\pm$ 0.59 & 66.85 $\pm$ 0.55 \\
+NSFNET & C & 53.73 $\pm$ 0.68 & 53.73 $\pm$ 0.68 & 53.82 $\pm$ 0.65 & 52.07 $\pm$ 0.71 & 52.59 $\pm$ 0.72 \\
+GEANT2 & E & 64.73 $\pm$ 0.46 & 64.71 $\pm$ 0.46 & 64.67 $\pm$ 0.39 & 64.25 $\pm$ 0.52 & 64.61 $\pm$ 0.48 \\
+GEANT2 & B & 79.64 $\pm$ 0.24 & 79.64 $\pm$ 0.24 & 79.68 $\pm$ 0.26 & 80.30 $\pm$ 0.47 & 80.64 $\pm$ 0.39 \\
+GEANT2 & C & 66.60 $\pm$ 0.47 & 66.60 $\pm$ 0.47 & 66.70 $\pm$ 0.49 & 65.84 $\pm$ 0.67 & 66.50 $\pm$ 0.60 \\
 \bottomrule
 \end{tabular}%
 }
-}
 \end{table}
 
-\newrev{All four protected algorithms recorded zero admitted hard violations in all nine reported simulator conditions. HARP had lower mean acceptance than Greedy, Decoupled AI, and SAF-H in every Vietnam and NSFNET workload. On GEANT2, HARP exceeded SAF-H in Burst surge, was lower in Elephant stress and Chaos, and the Elephant-stress difference was not statistically significant after correction. Table~\ref{tab:benchmark_paired_statistics} reports all nine paired HARP--SAF-H comparisons with Holm correction. These results show that the protected HARP checkpoint did not consistently improve acceptance over the baselines across topologies and workloads. The matched-trace ablation below separately evaluates candidate masking and local admission.}
+\newrev{All five protected algorithms recorded zero admitted hard violations in the nine simulator conditions. HARP exceeded CSPF in mean acceptance in each condition, although the paired difference was not significant after Holm correction in three conditions. It remained below SAF-H in the Vietnam and NSFNET workloads; on GEANT2 it exceeded SAF-H in Burst surge, was lower in Chaos, and the Elephant-stress difference was inconclusive after correction. Tables~\ref{tab:benchmark_paired_statistics} and~\ref{tab:cspf_paired_statistics} report the paired HARP comparisons with Holm correction. The matched-trace ablation below separately evaluates candidate masking and local admission.}
 
 \begin{table}[t]
 \color{ForestGreen}
@@ -728,7 +728,33 @@ GEANT2 & C & $-0.207$ & [$-0.332$, $-0.083$] & $0.0148$  & $-0.700$ \\
 }
 \end{table}
 
-\newrev{The paired comparison is conditional on the fixed checkpoints and simulator configuration. It estimates variation across evaluation seeds and does not quantify uncertainty across independently trained policies. Although each seed uses a shared offered trace, policy-dependent decisions can lead to different subsequent simulator states; the paired test therefore compares seed-level outcomes rather than request-level counterfactuals.}
+\newrev{The HARP--SAF-H paired comparison is conditional on the fixed checkpoints and simulator configuration. It estimates variation across evaluation seeds and does not quantify uncertainty across independently trained policies. Although each seed uses a shared offered trace, policy-dependent decisions can lead to different subsequent simulator states; the paired test therefore compares seed-level outcomes rather than request-level counterfactuals.}
+
+\begin{table}[t]
+\centering
+\color{ForestGreen}
+\caption{\newrev{Paired protected HARP--CSPF safe-acceptance differences (percentage points; 20 matched seeds). CIs are percentile-bootstrap 95\%; $p_H$ is the two-sided Wilcoxon $p$-value with Holm correction across nine conditions; $r$ is the paired rank-biserial effect.}}
+\label{tab:cspf_paired_statistics}
+\scriptsize
+\setlength{\tabcolsep}{2.5pt}
+\resizebox{\columnwidth}{!}{%
+\begin{tabular}{llrrrr}
+\toprule
+Network & Profile & $\Delta$ & 95\% CI & $p_H$ & $r$ \\
+\midrule
+Vietnam & E & 0.353 & [0.095, 0.638] & 0.117 & 0.490 \\
+Vietnam & B & 0.863 & [0.555, 1.175] & 0.000839 & 0.900 \\
+Vietnam & C & 0.312 & [0.073, 0.555] & 0.0719 & 0.571 \\
+NSFNET & E & 0.283 & [0.100, 0.482] & 0.0428 & 0.643 \\
+NSFNET & B & 0.183 & [0.022, 0.343] & 0.117 & 0.468 \\
+NSFNET & C & 0.515 & [0.275, 0.742] & 0.00688 & 0.837 \\
+GEANT2 & E & 0.357 & [0.195, 0.507] & 0.00510 & 0.800 \\
+GEANT2 & B & 0.338 & [0.197, 0.483] & 0.00183 & 0.862 \\
+GEANT2 & C & 0.658 & [0.462, 0.872] & $5.15\times10^{-5}$ & 0.981 \\
+\bottomrule
+\end{tabular}%
+}
+\end{table}
 
 \subsection{\newrev{Ablation Study}}
 \label{subsec:ablation_study}
@@ -736,7 +762,7 @@ GEANT2 & C & $-0.207$ & [$-0.332$, $-0.083$] & $0.0148$  & $-0.700$ \\
 
 \begin{table}[t]
 \centering
-\caption{\newrev{Vietnam ablation (20 seeds; mean $\pm$ sample SD). Safe: safe acceptance; Viol.: admitted hard violations. MSD off disables MSD admission only; other resource checks remain active.}}
+\caption{\newrev{Vietnam ablation (20 seeds; mean $\pm$ sample standard deviation). Safe: safe acceptance; Viol.: admitted hard violations. MSD off disables MSD admission only; other resource checks remain active. The MLP variant uses a multilayer perceptron policy.}}
 \label{tab:vietnam_ablation_summary}
 \scriptsize
 {\color{ForestGreen}
@@ -849,7 +875,7 @@ GEANT2 & Soft MSD + admission & 0.00 $\pm$ 0.00 & 73.40 $\pm$ 2.36 & 0.00 $\pm$ 
 {\color{ForestGreen}
 \begin{table}[t]
 \centering
-\caption{\newrev{Proposed and admitted hard violations (\%; 720,000 simulator steps per variant across topologies, workloads, and seeds). CPU/RAM/BW/MSD proposal rates overlap; Union counts requests with any proposed hard violation, and Admitted reports admitted hard violations.}}
+\caption{\newrev{Proposed and admitted hard violations (\%; 720,000 simulator steps per variant across topologies, workloads, and seeds). CPU/RAM/bandwidth (BW)/MSD proposal rates overlap; Union counts requests with any proposed hard violation, and Admitted reports admitted hard violations.}}
 \label{tab:proposal_violations}
 \scriptsize
 \setlength{\tabcolsep}{3pt}
@@ -893,7 +919,7 @@ NoAdapt & 41.798 & 5.685 & 0.000 & 0.000 & 41.799 & 0.000 \\
 
 \newrev{Testbed validation distinguishes local admission, successful deployment, and observed forwarding. Deployment is established by lifecycle and controller confirmations; forwarding requires request-correlated packet or counter observations. The simulator acceptance and violation rates above measure local admission only. Extended stability and over-depth forwarding measurements are outside the quantitative results presented here.}
 
-\newrev{Make-before-break ordering does not by itself establish zero packet loss or service continuity. Any result from BMv2 would characterize that software-forwarding target and should not be generalized to production ASIC performance.}
+\newrev{Make-before-break ordering does not by itself establish zero packet loss or service continuity. Any result from BMv2 would characterize that software-forwarding target and should not be generalized to production application-specific integrated circuit (ASIC) performance.}
 
 \subsection{\newrev{Scalability and Online Processing Overhead}}
 \label{subsec:hardware_safe_admission}
@@ -951,6 +977,27 @@ GEANT2 & 1.5 & 82.96 $\pm$ 0.26 & 83.39 $\pm$ 0.31 & 85.01 $\pm$ 0.22 & 88.32 $\
 
 \newrev{Acceptance is substantially higher under the shorter, topology-scaled TTL protocol than in the three-workload stress benchmark. The favorable sweep results therefore identify a workload regime in which HARP improves safe acceptance relative to SAF-H; they do not establish an advantage under long-lived stress traffic or explain individual rejections as globally infeasible.}
 
+\newrev{To quantify rejected choices with feasible alternatives, we exhaustively evaluated the simulator's complete 10-node pair-action space at sampled decision states. For each of 10 seeds, 120 states were sampled at a stride of 25 from a 3,000-step Bursty run. Every one of the 100 placement--routing pairs was replayed from the same pre-decision snapshot through the simulator step, including its TTL-expiration phase before admission. HARP selected a rejected action at 596/1,200 sampled states; 30 of those had at least one alternative accepted by the same simulator predicate. The per-seed rate of such alternatives among HARP's selected rejections averaged 5.02\% (sample SD 2.66\%). SAF-H had 579/1,200 selected rejections, of which 33 had an accepted alternative; the corresponding per-seed mean was 5.70\% (sample SD 2.32\%). These descriptive rates do not use sampled decisions as independent replicates; policy trajectories also differ. They identify avoidable choices in the simulator's pair space, not live-network or full-chain feasibility.}
+
+\begin{table}[t]
+\centering
+\caption{\newrev{Sampled exhaustive pair-action oracle on Vietnam (10 seeds; 120 states per seed). Conditional rates are seed-level means with sample SD.}}
+\label{tab:missed_feasible_oracle}
+\scriptsize
+{\color{ForestGreen}
+\setlength{\tabcolsep}{3pt}
+\resizebox{\columnwidth}{!}{%
+\begin{tabular}{lrrrr}
+\toprule
+Policy & Sampled states & Selected rejections & With accepted alternative & Conditional rate (\%; mean $\pm$ SD) \\
+\midrule
+HARP & 1,200 & 596 & 30 & 5.02 $\pm$ 2.66 \\
+SAF-H & 1,200 & 579 & 33 & 5.70 $\pm$ 2.32 \\
+\bottomrule
+\end{tabular}%
+}}
+\end{table}
+
 \newrev{A separate active-chain experiment initializes 0, 25, 50, or 100 long-lived background chains before each 3,000-step Bursty evaluation. Each chain reserves 2 CPU units, 2 RAM units, and 20 bandwidth units, with round-robin placement. The run covers 20 seeds and all four protected algorithms on Vietnam, NSFNET, and GEANT2. Table~\ref{tab:active_chain_stress} compares protected HARP and SAF-H; the reported values are mean safe acceptance with sample standard deviation across seeds. Admitted modeled hard violations were zero for all protected algorithms in every tested condition. HARP's safe acceptance declined as background occupancy increased, while remaining above SAF-H in these simulator conditions.}
 
 {\color{ForestGreen}
@@ -983,21 +1030,54 @@ GEANT2 & 100 & 99.80 $\pm$ 0.08 & 97.69 $\pm$ 0.18 \\
 \end{table}
 }
 
-\newrev{Decision latency and actuation latency are distinct quantities. The active-chain experiment varies pre-existing simulated occupancy, but it does not isolate live request concurrency or measure a complete per-request interval from state construction to controller handoff. Accordingly, we make no quantitative end-to-end latency or scalability claim. Component averages cannot be interpreted as end-to-end tail latency or completed throughput.}
+\newrev{We measured policy-decision cost in a serialized, same-process Vietnam comparison using the Bursty workload, 10 matched seeds, and 3,000 steps per seed. Per-seed offered-trace hashes matched exactly between HARP and SAF-H. After one excluded warm-up run per policy, execution order alternated across seeds. Mean seed-level decision p50/p95/p99 was 1.925/2.131/2.481~ms for HARP and 0.339/0.494/0.527~ms for SAF-H; HARP's p95 was 1.637~ms higher (4.3$\times$). HARP's mean seed-level policy-inference p95 was 1.617~ms. For SAF-H, feasible-set construction and heuristic selection had mean seed-level p95 values of 0.062 and 0.133~ms. The measured simulator runners processed 537 and 3,282 offered decisions per second, respectively, calculated as completed simulator decisions divided by measured run wall time; this is not live application programming interface (API) throughput. The decision intervals include the simulator step and exclude live telemetry transport, controller handoff, deployment, readiness, and steering.}
+
+\newrev{Topology-size timing was measured for SAF-H on deterministic synthetic grids with 25, 50, and 100 nodes, 10 seeds, and 300 decisions per seed; the complete pair-action space contains $N^2$ candidates. Mean per-seed feasible-set p50/p95/p99 time was 0.315/0.368/0.390~ms, 1.355/1.488/1.649~ms, and 5.534/70.175/76.377~ms, respectively. Mean per-seed decision p95/p99 was 1.554/1.620, 5.297/5.728, and 83.562/89.829~ms. The 100-node p95 tail is materially larger than its median and is retained in the report. These measurements characterize SAF-H's simulator-side scaling only: no size-matched HARP checkpoints were available for the synthetic topologies, so learned-inference scaling is not established. The runs were serial with no pre-seeded background chains; no candidate-path cache ($K$) was used. Live API concurrency and actuation latency were not measured.}
+
+\begin{table}[t]
+\centering
+\caption{\newrev{SAF-H timing versus synthetic topology size (10 seeds; 300 decisions per seed). Values are means of seed-level percentiles.}}
+\label{tab:synthetic_scalability}
+\scriptsize
+{\color{ForestGreen}
+\setlength{\tabcolsep}{3pt}
+\resizebox{\columnwidth}{!}{%
+\begin{tabular}{rrrrrr}
+\toprule
+Nodes & Links & Pair actions ($N^2$) & Feasible-set p50 (ms) & Feasible-set p95 (ms) & Decision p95 (ms) \\
+\midrule
+25 & 40 & 625 & 0.315 & 0.368 & 1.554 \\
+50 & 85 & 2,500 & 1.355 & 1.488 & 5.297 \\
+100 & 180 & 10,000 & 5.534 & 70.175 & 83.562 \\
+\bottomrule
+\end{tabular}%
+}}
+\end{table}
+
+\begin{figure*}[t]
+    \centering
+    \includegraphics[width=0.92\textwidth]{figs/policy_cost_scalability.pdf}
+    \caption{\newrev{Measured simulator decision latency and SAF-H topology-size cost. Left: mean per-seed decision p50 and p95 for HARP and SAF-H on Vietnam (10 seeds, 3,000 steps per seed). Right: mean per-seed feasible-set p50 and p95 for SAF-H on synthetic 25-, 50-, and 100-node grids (10 seeds, 300 decisions per seed). Axes use a logarithmic scale. Measurements ran serially on an Intel Xeon Platinum 8160 CPU at 2.10~GHz with Python 3.9.25 and NumPy 2.0.2; no live actuation or concurrent API load was included.}}
+    \label{fig:policy_cost_scalability}
+\end{figure*}
+
+\newrev{Decision latency and actuation latency remain distinct. The measured intervals end at the simulator step and do not extend to controller handoff or completed deployment. The topology-size results therefore quantify the current SAF-H simulator path rather than end-to-end system capacity; they do not provide a throughput estimate for the live API.}
 
 \subsection{\newrev{Operational Interpretation, Overhead, and Limitations}}
 \label{subsec:operational_interpretation}
 \newrev{The policy comparison depends on the resource-pressure regime. SAF-H achieves higher acceptance in all six Vietnam and NSFNET stress conditions, and in GEANT2 Chaos; HARP improves GEANT2 Burst-surge acceptance by 0.963 percentage points, while the Elephant-stress difference is inconclusive. Under the shorter-lifetime load-sweep protocol, HARP instead exceeds SAF-H on all three substrates at intensities 1.0--1.5, reaching gains of 2.408--3.312 points at 1.5. The background-occupancy experiment also favors HARP within its protocol. Together, these findings support workload-specific policy selection within a common admission interface.}
 
-\newrev{Acceptance gains must also be weighed against computation. In the Vietnam ablation, the MLP variant achieves slightly higher mean safe acceptance and lower mean seed-level decision p95 than the full GAT policy under both Uniform and Bursty traffic (Figure~\ref{fig:ablation_cost}). This comparison provides no evidence that graph encoding improves the measured acceptance--cost tradeoff in those conditions. A direct HARP--SAF-H cost comparison under the same execution conditions is needed to determine whether the load-sweep acceptance gains justify learned inference. The common admission boundary permits either policy to be selected without assigning the enforcement outcome to that policy.}
+\newrev{Acceptance gains must also be weighed against computation. In the Vietnam ablation, the MLP variant achieves slightly higher mean safe acceptance and lower mean seed-level decision p95 than the full GAT policy under both Uniform and Bursty traffic (Figure~\ref{fig:ablation_cost}). In the controlled HARP--SAF-H comparison, HARP's mean decision p95 was 4.3 times SAF-H's, while the HARP policy-inference component alone averaged 1.617~ms at p95. Thus the load-sweep acceptance gains have a measurable local computation cost, and the evidence supports a workload-dependent acceptance--cost tradeoff rather than a general efficiency advantage. The common admission boundary permits either policy to be selected without assigning the enforcement outcome to that policy.}
 
-\newrev{Several limitations bound these findings. The evaluated substrates use complete latency-derived graphs, and fixed-checkpoint seed variation does not measure training uncertainty or convergence. An exhaustive feasibility oracle is absent, so rejection rates combine genuine resource pressure with any missed feasible alternatives. Simulator timing excludes external actuation and live controller concurrency. Finally, pair-level resource and MSD checks do not certify a complete service-chain realization: telemetry validity, installed SID-path correspondence, cross-controller consistency, and packet-level migration continuity require separate operational evidence.}
+\newrev{Acceptance gains also require a service-quality assessment. Across the nine stress conditions, mean seed-level simulated service latency is 5.85--12.17~ms for HARP and 0.32--0.62~ms for SAF-H; mean seed-level SLA-violation rates are approximately 0.20--4.75\% and zero, respectively. These quantities describe the requests admitted by each policy, whose composition may differ. They provide no evidence of a HARP service-latency advantage in these conditions and are distinct from policy-computation timing.}
+
+\newrev{Several limitations bound these findings. The evaluated substrates use complete latency-derived graphs, and fixed-checkpoint seed variation does not measure training uncertainty or convergence. The sampled oracle exhausts the 10-node simulator's pair-action space at selected Vietnam states, but it does not evaluate full-chain placement, alternative cached paths, or live-network feasibility; rejection rates outside those sampled states may include missed alternatives. Synthetic-size timing covers SAF-H only because size-matched HARP checkpoints are unavailable. Simulator timing excludes external actuation and live controller concurrency. Finally, pair-level resource and MSD checks do not certify a complete service-chain realization: telemetry validity, installed SID-path correspondence, cross-controller consistency, and packet-level migration continuity require separate operational evidence.}
 
 \section{Conclusion}
 \label{sec:conclusion}
-\newrev{AIO-Mesh organizes candidate selection, local admission, lifecycle control, and programmable steering around a replaceable policy interface. Across the evaluated simulator conditions, all protected policies admit zero modeled hard violations. The ablation distinguishes this enforcement outcome from candidate quality: the full mask prunes 74.72--84.20\% of candidate actions, while disabling MSD admission permits violations that a soft reward penalty alone does not eliminate.}
+\newrev{AIO-Mesh separates candidate selection from local admission and infrastructure actuation. Across the evaluated simulator conditions, protected policies admitted no modeled hard violations; the ablation also shows that disabling MSD admission can admit violations that a soft reward penalty alone does not prevent. These outcomes characterize the implemented simulator checks, not the safety of a realized service chain or deployed forwarding path.}
 
-\newrev{HARP's acceptance advantage is workload-dependent. SAF-H leads in seven of nine stress conditions, HARP leads in GEANT2 Burst surge, and one comparison is inconclusive after Holm correction. In the separate load sweep, HARP gains 2.408--3.312 percentage points at intensity 1.5 across the three substrates. These results motivate selecting policies by workload and computational cost while retaining independent admission. Extending the demonstrated pair-level checks to deployed service chains requires validation of realization, actuation, and forwarding.}
+\newrev{Policy effectiveness depended on workload: HARP exceeded the CSPF-style pair baseline by 0.18--0.86 percentage points across the nine conditions, with six paired differences remaining significant after Holm correction; SAF-H led in seven of nine conditions, while HARP led in GEANT2 Burst surge. Under the separately configured load sweep, HARP gained 2.408--3.312 percentage points at the highest intensity across the three substrates. The evidence supports workload-specific policy choice under a shared admission boundary; realization, actuation, and forwarding require separate validation.}
 
 
 \section*{Declaration of Competing Interest}
