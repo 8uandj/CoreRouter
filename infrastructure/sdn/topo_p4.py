@@ -22,6 +22,7 @@ import sys
 import subprocess
 import time
 import math
+import hashlib
 
 from mininet.topo import Topo
 from mininet.net import Mininet
@@ -34,7 +35,12 @@ from mininet.link import TCLink
 _P4_SDN_DIR = os.path.dirname(os.path.abspath(__file__))
 _REPO_ROOT  = os.path.dirname(os.path.dirname(_P4_SDN_DIR))
 sys.path.insert(0, _P4_SDN_DIR)
-from p4_topology import P4_EDGES
+from p4_topology import (
+    P4_EDGES,
+    collect_live_p4_port_map,
+    detach_mininet_switch_bridges,
+    install_k8s_route_via_gateway,
+)
 
 # Inlined TOPOLOGIES and _haversine_km to remove numpy dependency in sudo
 FIBER_SPEED_KM_PER_MS = 200.0
@@ -229,7 +235,7 @@ def setup_bridge(net, k8s_bridge: str, k8s_ip: str, mode: str):
         host.cmd(f"sysctl -w net.ipv4.conf.default.rp_filter=0")
         host.cmd(f"ip addr add {ip}/{prefix} dev {veth_mn}")
         host.cmd(f"ip link set {veth_mn} up")
-        host.cmd(f"ip route add {subnet} via {gw} dev {veth_mn}")
+        install_k8s_route_via_gateway(host, subnet, gw, veth_mn)
 
         # L2 Transparent: set src IP
         host.cmd(f"ip route replace default via {gw} dev {veth_mn} src {mn_ip}")
@@ -289,6 +295,11 @@ def run_p4(k8s_bridge: str, k8s_ip: str, mode: str, args):
     net  = Mininet(topo=topo, switch=OVSBridge, controller=None, link=TCLink)
     net.start()
 
+    # BMv2 owns the data-plane ports in P4 mode. Leaving Mininet's learning
+    # OVS bridges active on those same interfaces duplicates and loops frames.
+    # Stop only the bridge processes and retain each link interface for BMv2.
+    detach_mininet_switch_bridges(net, [f"s{i}" for i in range(1, 11)])
+
     manager = SwitchManager(cpu_base=2)
     topo_data = TOPOLOGIES["vietnam"]["nodes"]
     thrift_map = {}
@@ -316,7 +327,18 @@ def run_p4(k8s_bridge: str, k8s_ip: str, mode: str, args):
     warm_up(net, k8s_ip)
 
     if not args.no_controller:
-        controller = SDNController(thrift_map)
+        live_port_map = collect_live_p4_port_map(
+            net, [f"s{i}" for i in range(1, 11)])
+        loaded_profile_hashes = {}
+        for switch_id, node_data in enumerate(topo_data, 1):
+            with open(get_json_path(node_data[4]), "rb") as profile_file:
+                loaded_profile_hashes[f"s{switch_id}"] = hashlib.sha256(
+                    profile_file.read()).hexdigest()
+        controller = SDNController(
+            thrift_map,
+            live_port_map=live_port_map,
+            loaded_profile_hashes=loaded_profile_hashes,
+        )
         info("*** [Phase 7] Waiting for 10 BMv2 switches to stabilize (10s)...\n")
         time.sleep(10) # Tăng lên 10s cho 10-node topo 
 

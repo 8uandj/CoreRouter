@@ -6,6 +6,7 @@ import logging
 from typing import Dict, Any, List, Optional
 from src.core.state_manager import get_state_manager
 from .migration_journal import MigrationJournal
+from .vnf_service_type import resolve_vnf_service
 from .realization import AdmittedRealization, validate_realization_payload
 
 logger = logging.getLogger("OrchestrationService")
@@ -158,13 +159,19 @@ class OrchestrationService:
 
         # 1. Kích hoạt K8s: Gọi Tekton để tạo Pod mới (MAKE phase)
         logger.info(f"PHASE: MAKE - Triggering Tekton for replacement VNF: {new_name} at {target_location}")
-        make_result = self.orchestrator.trigger_migrate_single(
-            old_deploy_name=old_name,
-            new_deploy_name=new_name,
-            file_name=file_name,
-            target_location=target_location,
-            node_hostname=k8s_hostname  # PHASE 6: pass nodeSelector target
-        )
+        if old_name is None:
+            vnf_type, _ = resolve_vnf_service(getattr(request, "service_type", "data"))
+            make_result = self.orchestrator.trigger_deploy(
+                name=new_name, vnf_type=vnf_type, profile="standard",
+                location=target_location, node_hostname=k8s_hostname)
+        else:
+            make_result = self.orchestrator.trigger_migrate_single(
+                old_deploy_name=old_name,
+                new_deploy_name=new_name,
+                file_name=file_name,
+                target_location=target_location,
+                node_hostname=k8s_hostname  # PHASE 6: pass nodeSelector target
+            )
         if make_result.get("status") != "success":
             logger.error(f"MAKE phase failed: {make_result.get('message')}")
             if await self._wait_for_replacement_absence(new_name):
@@ -183,7 +190,8 @@ class OrchestrationService:
             status = self.orchestrator.get_replacement_endpoint(new_name)
             if status.get("isReady"):
                 endpoint_info = status
-                logger.info(f"VNF {new_name} is READY. IP: {status.get('clusterIP')}")
+                logger.info("VNF %s is READY. Pod IP: %s on %s",
+                            new_name, status.get("podIP"), status.get("nodeName"))
                 break
             await asyncio.sleep(2)
             attempts += 1
@@ -195,23 +203,18 @@ class OrchestrationService:
             return {"status": "error", "message": "VNF_PROVISION_TIMEOUT"}
 
         # RÀ SOÁT 2: Trích xuất IP Động (Pod IP / ClusterIP)
-        dynamic_ip = endpoint_info.get("clusterIP")
+        dynamic_ip = endpoint_info.get("podIP")
         node_port = next((p["nodePort"] for p in endpoint_info.get("ports", []) if p.get("nodePort")), 0)
-        
-        # 3. Dịch ra SRv6 (Translate): Chuyển IP động thành chuỗi SID
-        # Sửa đổi: Sử dụng dynamic_ip nếu node_port không có (cho trong-cluster)
-        suffix = f"{node_port:04x}" if node_port else dynamic_ip.split(":")[-1]
-        target_sid = f"2001:db8:ffff:1::{suffix}"
-        logger.info(f"PHASE: TRANSLATE - Dynamic Endpoint {dynamic_ip}:{node_port} -> SID: {target_sid}")
-
-        if target_sid != admitted_realization.forwarding_sid:
-            await self.rollback(new_name, "realized endpoint differs from admitted forwarding SID")
-            return {"status": "error", "code": "REALIZATION_MISMATCH",
-                    "message": "Resolved endpoint SID differs from the admitted forwarding SID.",
+        if not dynamic_ip:
+            logger.error("VNF %s is marked Ready without a Pod IP; retaining both endpoints", new_name)
+            return {"status": "warning", "message": "VNF_ENDPOINT_UNRESOLVED",
                     "data": {"old_vnf": old_name, "new_vnf": new_name,
-                             "admitted_forwarding_sid": admitted_realization.forwarding_sid,
-                             "resolved_endpoint_sid": target_sid,
-                             "recovery_state": "REALIZATION_REJECTED"}}
+                             "recovery_state": "VNF_ENDPOINT_UNRESOLVED"}}
+        
+        # The admitted SID is the terminal switch SID; the Pod IP remains the
+        # inner IPv4 destination and is never fabricated into a SID.
+        logger.info("PHASE: TRANSLATE - Ready endpoint %s:%s via terminal SID %s",
+                    dynamic_ip, node_port, admitted_realization.forwarding_sid)
 
         # 4. Bắn lệnh Steer: Gọi API /steer của SDN Controller Phase 4
         # PHASE 6: Bắt đầu đồng hồ đo "Control-plane Steering Overhead"
@@ -226,23 +229,10 @@ class OrchestrationService:
             "operation_id": steer_operation_id,
             "topology_hash": admitted_realization.topology_hash,
             "profile_id": admitted_realization.profile_id,
+            "p4_topology_hash": admitted_realization.p4_topology_hash,
             "new_deploy": new_name,
-            "new_rules": [
-                {
-                    "switch": "s1",
-                    "type": "ipv6_route",
-                    "prefix": "fc00:beef::1", 
-                    "prefix_len": 128,
-                    "dst_mac": "00:00:00:00:00:01",
-                    "src_mac": "00:00:00:00:00:02",
-                    "out_port": 1
-                },
-                *[{
-                    "switch": "s1",
-                    "type": "srv6_sid",
-                    "sid": sid
-                } for sid in admitted_realization.sid_stack]
-            ]
+            "switch_path": list(admitted_realization.switch_path),
+            "sid_stack": list(admitted_realization.sid_stack),
         }
         try:
             validate_realization_payload(admitted_realization, steer_payload)
@@ -282,7 +272,11 @@ class OrchestrationService:
                 if (s_resp.status_code == 200
                         and status.get("confirm_steer_done") is True
                         and status.get("new_deploy") == new_name
-                        and status.get("operation_id") == steer_operation_id):
+                        and status.get("operation_id") == steer_operation_id
+                        and status.get("request_id") == admitted_realization.request_id
+                        and status.get("topology_hash") == admitted_realization.topology_hash
+                        and status.get("profile_id") == admitted_realization.profile_id
+                        and status.get("p4_topology_hash") == admitted_realization.p4_topology_hash):
                     steer_confirmed = True
                     break
             except Exception: pass
@@ -320,8 +314,21 @@ class OrchestrationService:
         recovery_data = {
             "old_vnf": old_name, "new_vnf": new_name,
             "steer_operation_id": steer_operation_id, "steer_status": "CONFIRMED",
-            "recovery_state": "BREAK_REQUESTING",
+            "recovery_state": "STEERED" if old_name is None else "BREAK_REQUESTING",
         }
+        if old_name is None:
+            return {
+                "status": "success",
+                "message": "VNF created, ready, and steered; no old VNF required BREAK.",
+                "data": {
+                    **recovery_data,
+                    "dynamic_endpoint": {"ip": dynamic_ip, "port": node_port},
+                    "sid_list": list(admitted_realization.sid_stack),
+                    "switch_path": list(admitted_realization.switch_path),
+                    "cp_steering_overhead_ms": cp_steering_overhead_ms,
+                    "k8s_node_hostname": k8s_hostname or "auto",
+                },
+            }
         self.migration_journal.record(new_name, {"status": "running", "data": recovery_data})
         try:
             break_result = self.orchestrator.break_old_vnf(old_name)
@@ -344,7 +351,8 @@ class OrchestrationService:
                 "old_vnf": old_name, "new_vnf": new_name,
                 "recovery_state": "COMPLETED",
                 "dynamic_endpoint": {"ip": dynamic_ip, "port": node_port},
-                "sid_list": [target_sid],
+                "sid_list": list(admitted_realization.sid_stack),
+                "switch_path": list(admitted_realization.switch_path),
                 "steer_status": "CONFIRMED",
                 "steer_operation_id": steer_operation_id,
                 "break_result": break_result,

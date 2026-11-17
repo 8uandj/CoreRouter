@@ -50,9 +50,10 @@ class MigrationSteeringConfirmationTests(unittest.TestCase):
     def admitted_realization(operation_id="current"):
         return AdmittedRealization(
             request_id="request-1", operation_id=operation_id,
-            topology_hash="a" * 64, profile_id="profile-1",
-            sid_stack=("2001:db8:ffff:1::7531",),
-            forwarding_sid="2001:db8:ffff:1::7531")
+            topology_hash="a" * 64, profile_id="p4-path-candidate-v1",
+            sid_stack=("fc00:2::1", "fc00:1::1"),
+            forwarding_sid="fc00:2::1", switch_path=(1, 2),
+            p4_topology_hash="b" * 64)
 
     def test_missing_admitted_realization_fails_before_make(self):
         from types import SimpleNamespace
@@ -78,7 +79,8 @@ class MigrationSteeringConfirmationTests(unittest.TestCase):
         orchestrator.break_old_vnf.return_value = {'status': 'success'}
         orchestrator.deployment_presence.return_value = False
         orchestrator.get_replacement_endpoint.return_value = {
-            'isReady': True, 'clusterIP': 'fd00::1', 'ports': [{'nodePort': 30001}]}
+            'isReady': True, 'clusterIP': '10.152.183.200', 'podIP': '10.1.189.200',
+            'ports': [{'nodePort': 30001}]}
         service = OrchestrationService(orchestrator, None, 'http://controller',
                                        state_manager=FakeStateManager())
         http = Mock()
@@ -87,8 +89,12 @@ class MigrationSteeringConfirmationTests(unittest.TestCase):
         responses = [
             {'confirm_steer_done': True},  # legacy/global flag
             {'confirm_steer_done': True, 'new_deploy': 'other', 'operation_id': 'current'},
-            {'confirm_steer_done': True, 'new_deploy': 'new', 'operation_id': 'old'},
-            {'confirm_steer_done': True, 'new_deploy': 'new', 'operation_id': 'current'},
+            {'confirm_steer_done': True, 'new_deploy': 'new', 'operation_id': 'old',
+             'request_id': 'request-1', 'topology_hash': 'a' * 64,
+             'profile_id': 'p4-path-candidate-v1', 'p4_topology_hash': 'b' * 64},
+            {'confirm_steer_done': True, 'new_deploy': 'new', 'operation_id': 'current',
+             'request_id': 'request-1', 'topology_hash': 'a' * 64,
+             'profile_id': 'p4-path-candidate-v1', 'p4_topology_hash': 'b' * 64},
         ]
         http.get.return_value.json.side_effect = responses
         async def sleep(_):
@@ -105,6 +111,48 @@ class MigrationSteeringConfirmationTests(unittest.TestCase):
         orchestrator.break_old_vnf.assert_called_once_with('old')
         self.assertEqual(result['status'], 'success')
 
+    def test_create_and_steer_without_old_vnf_does_not_break_a_baseline_vnf(self):
+        import sys
+        from types import SimpleNamespace
+        from unittest.mock import AsyncMock, Mock, patch
+
+        orchestrator = Mock()
+        orchestrator.trigger_deploy.return_value = {'status': 'success'}
+        orchestrator.get_replacement_endpoint.return_value = {
+            'isReady': True, 'clusterIP': '10.152.183.200', 'podIP': '10.1.189.200',
+            'ports': [{'nodePort': 31656}]}
+        state = FakeStateManager()
+        service = OrchestrationService(orchestrator, None, 'http://controller',
+                                       state_manager=state)
+        http = Mock()
+        http.post.return_value.status_code = 202
+        http.get.return_value.status_code = 200
+        http.get.return_value.json.return_value = {
+            'new_deploy': 'vnf-voc-smoke', 'operation_id': 'operation',
+            'request_id': 'request', 'topology_hash': 'a' * 64,
+            'profile_id': 'p4-path-candidate-v1', 'p4_topology_hash': 'b' * 64,
+            'confirm_steer_done': True}
+        request = SimpleNamespace(service_type='voc')
+        admitted = AdmittedRealization(
+            request_id='request', operation_id='operation', topology_hash='a' * 64,
+            profile_id='p4-path-candidate-v1',
+            sid_stack=('fc00:9::1', 'fc00:6::1', 'fc00:1::1'),
+            forwarding_sid='fc00:9::1', switch_path=(1, 6, 9),
+            p4_topology_hash='b' * 64)
+
+        with patch.dict(sys.modules, {'requests': http}), \
+             patch('src.portal.backend.app.services.orchestration_service.asyncio.sleep',
+                   new_callable=AsyncMock):
+            result = asyncio.run(service.make_before_break_sequence(
+                None, 'vnf-voc-smoke', 'vnf-voc.yaml', 'hcm-1', request,
+                ai_node_id=8, admitted_realization=admitted))
+
+        self.assertEqual(result['status'], 'success')
+        orchestrator.trigger_deploy.assert_called_once()
+        self.assertEqual(orchestrator.trigger_deploy.call_args.kwargs['vnf_type'], 'voc')
+        orchestrator.break_old_vnf.assert_not_called()
+        self.assertEqual(state.released, [])
+
 
 class UncertainSteeringTests(unittest.TestCase):
     @staticmethod
@@ -120,7 +168,8 @@ class UncertainSteeringTests(unittest.TestCase):
         orchestrator.break_old_vnf.return_value = {'status': 'success'}
         orchestrator.deployment_presence.return_value = False
         orchestrator.get_replacement_endpoint.return_value = {
-            'isReady': True, 'clusterIP': 'fd00::1', 'ports': [{'nodePort': 30001}]}
+            'isReady': True, 'clusterIP': '10.152.183.200', 'podIP': '10.1.189.200',
+            'ports': [{'nodePort': 30001}]}
         orchestrator.break_old_vnf.return_value = {'status': 'error' if break_fails else 'success'}
         orchestrator.deployment_presence.return_value = old_present
         state = FakeStateManager()
@@ -133,7 +182,9 @@ class UncertainSteeringTests(unittest.TestCase):
             http.post.return_value.status_code = 500
         http.get.return_value.status_code = 200
         http.get.return_value.json.return_value = {
-            'new_deploy': 'new', 'operation_id': 'current', 'confirm_steer_done': confirmed}
+            'new_deploy': 'new', 'operation_id': 'current', 'confirm_steer_done': confirmed,
+            'request_id': 'request-1', 'topology_hash': 'a' * 64,
+            'profile_id': 'p4-path-candidate-v1', 'p4_topology_hash': 'b' * 64}
         with patch.dict(sys.modules, {'requests': http}), \
              patch('src.portal.backend.app.services.orchestration_service.asyncio.sleep', new_callable=AsyncMock), \
              patch('uuid.uuid4', return_value='current'):

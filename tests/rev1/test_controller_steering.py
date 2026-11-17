@@ -7,6 +7,97 @@ from infrastructure.sdn.controller import SteerState, SDNController
 
 
 class SteeringAdmissionTests(unittest.TestCase):
+    def test_compiles_only_admitted_path_using_observed_live_ports(self):
+        live_ports = {
+            ("s1", "s6"): {"out_port": 4, "dst_mac": "b6:7f:a3:fc:d3:32",
+                            "src_mac": "02:60:73:7f:01:05"},
+            ("s6", "s9"): {"out_port": 5, "dst_mac": "7e:30:a5:ff:c7:c0",
+                            "src_mac": "da:3d:45:6b:fe:6f"},
+            ("s9", "host"): {"out_port": 1, "dst_mac": "00:00:00:00:00:09",
+                               "src_mac": "e2:39:34:f0:74:7e"},
+        }
+        profile_hashes = {"s1": "1" * 64, "s6": "6" * 64, "s9": "9" * 64}
+        controller = SDNController({"s1": 9091, "s6": 9096, "s9": 9099},
+                                   live_port_map=live_ports,
+                                   loaded_profile_hashes=profile_hashes)
+        p4_hash = controller.get_topology_status()["p4_topology_hash"]
+
+        rules = controller.compile_realization_rules(
+            (1, 6, 9), ("fc00:9::1", "fc00:6::1", "fc00:1::1"))
+
+        self.assertEqual([rule["type"] for rule in rules],
+                         ["ipv6_route", "ipv6_route", "srv6_end_dx4"])
+        self.assertEqual([(rule["switch"], rule.get("out_port")) for rule in rules],
+                         [("s1", 4), ("s6", 5), ("s9", 1)])
+
+    def test_steer_installs_compiled_rules_not_caller_supplied_port_values(self):
+        live_ports = {
+            ("s1", "s6"): {"out_port": 4, "dst_mac": "b6:7f:a3:fc:d3:32",
+                            "src_mac": "02:60:73:7f:01:05"},
+            ("s6", "s9"): {"out_port": 5, "dst_mac": "7e:30:a5:ff:c7:c0",
+                            "src_mac": "da:3d:45:6b:fe:6f"},
+            ("s9", "host"): {"out_port": 1, "dst_mac": "00:00:00:00:00:09",
+                               "src_mac": "e2:39:34:f0:74:7e"},
+        }
+        profile_hashes = {"s1": "1" * 64, "s6": "6" * 64, "s9": "9" * 64}
+        controller = SDNController({"s1": 9091, "s6": 9096, "s9": 9099},
+                                   live_port_map=live_ports,
+                                   loaded_profile_hashes=profile_hashes)
+        p4_hash = controller.get_topology_status()["p4_topology_hash"]
+        for switch in controller.controllers:
+            controller.controllers[switch] = Mock()
+        self.assertTrue(controller.steer(
+            "vnf-voc-smoke", [], [], operation_id="operation-1",
+            request_id="request-1", topology_hash="a" * 64,
+            profile_id="p4-path-candidate-v1",
+            p4_topology_hash=p4_hash,
+            switch_path=(1, 6, 9),
+            sid_stack=("fc00:9::1", "fc00:6::1", "fc00:1::1")))
+        controller.controllers["s1"].add_ipv6_route.assert_called_once_with(
+            prefix="fc00:6::1", prefix_len=128, dst_mac="b6:7f:a3:fc:d3:32",
+            src_mac="02:60:73:7f:01:05", out_port=4)
+        controller.controllers["s6"].add_ipv6_route.assert_called_once_with(
+            prefix="fc00:9::1", prefix_len=128, dst_mac="7e:30:a5:ff:c7:c0",
+            src_mac="da:3d:45:6b:fe:6f", out_port=5)
+        controller.controllers["s9"].add_srv6_end_dx4.assert_called_once_with(
+            sid="fc00:9::1", dst_mac="00:00:00:00:00:09",
+            src_mac="e2:39:34:f0:74:7e", out_port=1)
+        status = controller.get_steer_status()
+        self.assertEqual(status["request_id"], "request-1")
+        self.assertEqual(status["topology_hash"], "a" * 64)
+        self.assertEqual(status["profile_id"], "p4-path-candidate-v1")
+        self.assertEqual(status["p4_topology_hash"], p4_hash)
+
+    def test_path_steering_without_admission_identity_fails_before_install(self):
+        known = Mock()
+        controller = SDNController({"s1": 9091}, live_port_map={})
+        controller.controllers["s1"] = known
+
+        self.assertFalse(controller.steer(
+            "vnf-voc-smoke", [], [], operation_id="operation-1",
+            switch_path=(1, 2), sid_stack=("fc00:2::1", "fc00:1::1")))
+        known.add_ipv6_route.assert_not_called()
+
+    def test_path_steering_rejects_topology_hash_mismatch_before_install(self):
+        live_ports = {
+            ("s1", "s2"): {"out_port": 2, "dst_mac": "02:00:00:00:00:02",
+                            "src_mac": "02:00:00:00:00:01"},
+            ("s2", "host"): {"out_port": 1, "dst_mac": "00:00:00:00:00:02",
+                               "src_mac": "02:00:00:00:02:01"},
+        }
+        controller = SDNController({"s1": 9091, "s2": 9092},
+                                   live_port_map=live_ports,
+                                   loaded_profile_hashes={"s1": "a" * 64})
+        for switch in controller.controllers:
+            controller.controllers[switch] = Mock()
+
+        self.assertFalse(controller.steer(
+            "vnf-voc-smoke", [], [], operation_id="operation-1",
+            request_id="request-1", topology_hash="b" * 64,
+            profile_id="p4-path-candidate-v1", p4_topology_hash="0" * 64,
+            switch_path=(1, 2), sid_stack=("fc00:2::1", "fc00:1::1")))
+        controller.controllers["s1"].add_ipv6_route.assert_not_called()
+
     def test_unknown_switch_never_confirms_or_deletes_old_rules(self):
         controller = SDNController.__new__(SDNController)
         known = Mock()

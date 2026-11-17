@@ -14,6 +14,8 @@ class AdmittedRealization:
     profile_id: str
     sid_stack: Tuple[str, ...]
     forwarding_sid: Optional[str]
+    switch_path: Tuple[int, ...] = ()
+    p4_topology_hash: Optional[str] = None
 
     def __post_init__(self):
         for key in ("request_id", "operation_id", "profile_id"):
@@ -39,6 +41,20 @@ class AdmittedRealization:
             raise ValueError("admitted realization forwarding_sid must be IPv6") from None
         if self.forwarding_sid not in self.sid_stack:
             raise ValueError("forwarding_sid is absent from admitted sid_stack")
+        if self.profile_id == "p4-path-candidate-v1":
+            if (not isinstance(self.switch_path, tuple)
+                    or len(self.switch_path) != len(self.sid_stack)
+                    or len(self.switch_path) < 2
+                    or any(not isinstance(node, int) or isinstance(node, bool)
+                           or not 1 <= node <= 10 for node in self.switch_path)):
+                raise ValueError("P4 realization requires a complete immutable switch_path")
+            expected_sids = tuple("fc00:{}::1".format(node)
+                                  for node in reversed(self.switch_path))
+            if self.sid_stack != expected_sids or self.forwarding_sid != expected_sids[0]:
+                raise ValueError("P4 realization forwarding path is inconsistent")
+            if not isinstance(self.p4_topology_hash, str) or not re.fullmatch(
+                    r"[0-9a-f]{64}", self.p4_topology_hash):
+                raise ValueError("P4 realization requires the live P4 topology hash")
 
 
 def validate_realization_payload(admitted: AdmittedRealization, payload: Mapping[str, Any]) -> None:
@@ -50,9 +66,15 @@ def validate_realization_payload(admitted: AdmittedRealization, payload: Mapping
     for key in ("request_id", "operation_id", "topology_hash", "profile_id"):
         if payload.get(key) != getattr(admitted, key):
             raise ValueError("controller payload does not match admitted realization: " + key)
-    rules = payload.get("new_rules")
-    if not isinstance(rules, list) or any(not isinstance(rule, Mapping) for rule in rules):
-        raise ValueError("controller payload does not match admitted realization: new_rules")
-    payload_sids = tuple(rule.get("sid") for rule in rules if rule.get("type") == "srv6_sid")
-    if payload_sids != admitted.sid_stack:
+    if payload.get("p4_topology_hash") != admitted.p4_topology_hash:
+        raise ValueError("controller payload does not match admitted realization: p4_topology_hash")
+    payload_path = payload.get("switch_path")
+    payload_sids = payload.get("sid_stack")
+    if not isinstance(payload_path, (list, tuple)):
+        raise ValueError("controller payload does not match admitted realization: switch_path")
+    if not isinstance(payload_sids, (list, tuple)):
+        raise ValueError("controller payload does not match admitted realization: sid_stack")
+    if tuple(payload_path) != admitted.switch_path:
+        raise ValueError("controller payload does not match admitted realization: switch_path")
+    if tuple(payload_sids) != admitted.sid_stack:
         raise ValueError("controller payload does not match admitted realization: sid_stack")
