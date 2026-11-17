@@ -44,6 +44,11 @@ The first 10 preserve the prior revision proposal; the added 10 are fixed in
 `configs/rev1/protocol.json`. Do not alter this list after result collection
 starts. Plan each topology separately (default is plan-only):
 
+The current training bundle records 20 missing ablation checkpoint files for
+Vietnam and GEANT2. Evaluation packaging/preflight must remain blocked until
+compatible checkpoints and normalizers are produced and pinned; this freeze
+does not fabricate or substitute model artifacts.
+
 ```sh
 python scripts/rev1/phase_driver.py --stage evaluate --topology vietnam \
   --protocol configs/rev1/protocol.resolved.json --output-dir results/rev1/vietnam \
