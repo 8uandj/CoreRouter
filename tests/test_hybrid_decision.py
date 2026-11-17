@@ -19,9 +19,10 @@ class TestHybridDecision(unittest.TestCase):
         self.drl_choice = ActionChoice(1, 1, "test_drl")
         self.drl = Mock(return_value=SimpleNamespace(choice=self.drl_choice))
 
-    def decide(self):
+    def decide(self, p4_topology_hash=None):
         return select_and_reserve(
-            self.manager, self.request, self.drl, vnf_name="vnf-test"
+            self.manager, self.request, self.drl, vnf_name="vnf-test",
+            p4_topology_hash=p4_topology_hash,
         )
 
     def test_normal_load_reserves_without_loading_drl(self):
@@ -101,11 +102,13 @@ class TestHybridDecision(unittest.TestCase):
         heuristic.return_value = ActionChoice(0, 0, "test")
         self.request.source_node = 5
         self.request.msd_req = 2
-        result = self.decide()
+        result = self.decide("a" * 64)
 
         self.assertEqual(result.sid_stack, ["fc00:1::1", "fc00:6::1"])
         self.assertEqual(result.realization.profile_id, "p4-path-candidate-v1")
-        self.assertIsNone(result.realization.forwarding_sid)
+        self.assertEqual(result.realization.forwarding_sid, "fc00:1::1")
+        self.assertEqual(result.realization.switch_path, (6, 1))
+        self.assertEqual(result.realization.p4_topology_hash, "a" * 64)
         self.assertEqual(self.manager._pending_reservations["vnf-test"]["msd_req"], 2)
 
     @patch("src.portal.backend.app.services.hybrid_decision.get_decoupled_action")

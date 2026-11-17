@@ -385,6 +385,10 @@ class TektonOrchestrator(IOrchestrator):
         ports: List[Dict[str, Any]] = []
         cluster_ip = None
         svc_type = None
+        pod_ip = None
+        pod_name = None
+        node_name = None
+        ready_pods = []
         try:
             svc = self.core_api.read_namespaced_service(svc_name, namespace)
             cluster_ip = svc.spec.cluster_ip
@@ -400,6 +404,31 @@ class TektonOrchestrator(IOrchestrator):
         except Exception as e:
             logger.warning(f"Service lookup failed for {svc_name}: {e}")
 
+        try:
+            pods = self.core_api.list_namespaced_pod(
+                namespace, label_selector=f"app={deploy_name}")
+            for pod in pods.items or []:
+                status = getattr(pod, "status", None)
+                conditions = getattr(status, "conditions", None) or []
+                pod_ready = any(
+                    getattr(condition, "type", None) == "Ready"
+                    and str(getattr(condition, "status", "")).lower() == "true"
+                    for condition in conditions
+                )
+                if (getattr(status, "phase", None) == "Running" and pod_ready
+                        and getattr(status, "pod_ip", None)):
+                    ready_pods.append(pod)
+        except Exception as e:
+            logger.warning(f"Ready Pod lookup failed for {deploy_name}: {e}")
+
+        if ready_pods:
+            ready_pods.sort(key=lambda pod: pod.metadata.name)
+            selected = ready_pods[0]
+            pod_ip = selected.status.pod_ip
+            pod_name = selected.metadata.name
+            node_name = getattr(selected.spec, "node_name", None)
+        endpoint_ready = ready >= desired and desired > 0 and len(ready_pods) >= desired
+
         return {
             "status": "success",
             "deployName": deploy_name,
@@ -407,9 +436,12 @@ class TektonOrchestrator(IOrchestrator):
             "namespace": namespace,
             "ready": ready,
             "desired": desired,
-            "isReady": ready >= desired and ready > 0,
+            "isReady": endpoint_ready,
             "serviceType": svc_type,
             "clusterIP": cluster_ip,
+            "podIP": pod_ip,
+            "podName": pod_name,
+            "nodeName": node_name,
             "ports": ports,
         }
 

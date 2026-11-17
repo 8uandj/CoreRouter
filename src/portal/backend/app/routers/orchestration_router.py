@@ -15,6 +15,8 @@ from src.portal.backend.app.services.hybrid_decision import (
     node_label,
     location_key,
 )
+from src.portal.backend.app.services.vnf_service_type import resolve_vnf_service
+from src.portal.backend.app.services.controller_topology import fetch_live_p4_topology_hash
 from src.portal.backend.app.models.schemas import (
     SFCRequest,
     FreeResourceRequest,
@@ -73,11 +75,26 @@ async def orchestrate_sfc(request: SFCRequest, background_tasks: BackgroundTasks
         state_manager.set_forecast_alert(True)
 
     vnf_name = f"vnf-{request.service_type.lower()}-{str(uuid.uuid4())[:8]}"
+    p4_topology_hash = None
+    if request.source_node is not None or request.ingress_node is not None:
+        controller_url = getattr(
+            getattr(container, "orchestration_service", None),
+            "sdn_controller_url", "")
+        try:
+            p4_topology_hash = fetch_live_p4_topology_hash(controller_url)
+        except Exception as exc:
+            raise HTTPException(status_code=409, detail={
+                "status": "error",
+                "code": "UNSUPPORTED_ADMITTED_REALIZATION",
+                "message": "Live P4 topology and loaded profile could not be verified before admission.",
+                "reason": str(exc),
+            }) from exc
     try:
         decision = select_and_reserve(
             state_manager, request,
             lambda manager, req: get_dgrl_agent().get_action(manager, req),
             vnf_name=vnf_name,
+            p4_topology_hash=p4_topology_hash,
         )
     except HardConstraintError as exc:
         message = str(exc)
@@ -108,6 +125,7 @@ async def orchestrate_sfc(request: SFCRequest, background_tasks: BackgroundTasks
     branch = decision.branch
     method = decision.method
     sid_stack = decision.sid_stack
+    _, deploy_manifest = resolve_vnf_service(request.service_type)
 
     public_state = state_manager.as_public_dict()
     node_names = [n["name"] for n in public_state["nodes"]]
@@ -132,7 +150,8 @@ async def orchestrate_sfc(request: SFCRequest, background_tasks: BackgroundTasks
         # Tìm VNF cũ tốn CPU nhất trên node được chọn để migrate
         existing_vnfs = [
             vnf for vnf in state_manager.get_vnfs_on_node(choice.v_place)
-            if vnf.get("name") != vnf_name
+            if vnf.get("name", "").startswith(
+                "vnf-{}-".format(request.service_type.lower()))
         ]
         old_vnf = existing_vnfs[0]["name"] if existing_vnfs else None
 
@@ -143,7 +162,7 @@ async def orchestrate_sfc(request: SFCRequest, background_tasks: BackgroundTasks
                     await container.orchestration_service.make_before_break_sequence(
                         old_name=old_vnf,
                         new_name=vnf_name,
-                        file_name="vnf-firewall.yaml" if request.service_type.lower() == "attack" else "vnf-frr.yaml",
+                        file_name=deploy_manifest,
                         target_location=location_key(str(placement["name"])),
                         request=request,
                         ai_node_id=choice.v_place,
@@ -155,19 +174,27 @@ async def orchestrate_sfc(request: SFCRequest, background_tasks: BackgroundTasks
                                 "status_path": f"/orchestrate/migrations/{vnf_name}"}
         else:
             handoff_start = time.perf_counter()
-            # Không có VNF cũ → chỉ deploy VNF mới thông thường qua Tekton
-            async def background_deploy():
-                container.orchestrator.trigger_deploy(
-                    name=vnf_name,
-                    vnf_type="router",
-                    profile="standard",
-                    location=location_key(str(placement["name"])),
-                    node_hostname=container.orchestration_service.get_k8s_hostname(choice.v_place)
-                    if hasattr(container.orchestration_service, "get_k8s_hostname") else "",
-                )
-            background_tasks.add_task(background_deploy)
+            # New service: create, verify its Ready Pod, then install the
+            # admitted path. With no matching old service there is no BREAK.
+            async def background_deploy_and_steer():
+                async with get_migration_lock():
+                    await container.orchestration_service.make_before_break_sequence(
+                        old_name=None,
+                        new_name=vnf_name,
+                        file_name=deploy_manifest,
+                        target_location=location_key(str(placement["name"])),
+                        request=request,
+                        ai_node_id=choice.v_place,
+                        admitted_realization=decision.realization,
+                    )
+            background_tasks.add_task(background_deploy_and_steer)
             controller_handoff_ms = (time.perf_counter() - handoff_start) * 1000.0
-            migration_result = {"status": "deploying", "vnf_name": vnf_name}
+            migration_result = {
+                "status": "creating_and_steering",
+                "vnf_name": vnf_name,
+                "operation_id": decision.realization.operation_id,
+                "status_path": f"/orchestrate/migrations/{vnf_name}",
+            }
 
     timings_ms = {
         "state_sync_ms": state_sync_ms,
@@ -181,6 +208,15 @@ async def orchestrate_sfc(request: SFCRequest, background_tasks: BackgroundTasks
         "placement_node": placement,
         "routing_node": route,
         "srv6_segment_list": sid_stack,
+        "admitted_realization": {
+            "request_id": decision.realization.request_id,
+            "operation_id": decision.realization.operation_id,
+            "topology_hash": decision.realization.topology_hash,
+            "p4_topology_hash": decision.realization.p4_topology_hash,
+            "profile_id": decision.realization.profile_id,
+            "switch_path": list(decision.realization.switch_path),
+            "sid_stack": list(decision.realization.sid_stack),
+        },
         "method_used": method,
         "hybrid_branch": branch,
         "decision_state_version": decision.decision_state_version,

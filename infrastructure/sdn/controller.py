@@ -23,6 +23,14 @@ from dataclasses import dataclass, field
 from typing import Dict, List, Optional, Tuple
 from enum import Enum
 
+try:
+    from infrastructure.sdn.p4_topology import (
+        compile_p4_forwarding_rules,
+        compute_p4_topology_hash,
+    )
+except ImportError:
+    from p4_topology import compile_p4_forwarding_rules, compute_p4_topology_hash
+
 # P4Runtime protobuf — optional, chỉ cần nếu dùng gRPC P4Runtime trực tiếp
 # ThriftController (mode mặc định) KHÔNG cần grpc hay proto
 try:
@@ -252,6 +260,39 @@ class ThriftController:
             e, match_value, match_type, action_name, action_params)]
         return len(matches) == 1
 
+    def ensure_table_entry(self, table_name: str, match_value: str,
+                           match_type: str, action_name: str,
+                           action_params: List, command: str) -> bool:
+        """Install a rule only when its exact key is absent; reject conflicts."""
+        try:
+            entries = self.read_table_entries(table_name)
+        except (RuntimeError, ValueError):
+            log.exception("[%s] table readback failed: %s", self.switch_name, table_name)
+            return False
+
+        if match_type.lower() == "lpm":
+            if "/" in match_value:
+                address, prefix_len = match_value.rsplit("/", 1)
+                key_value = "{}/{}".format(_canonical_ipv6(address), int(prefix_len))
+            else:
+                key_value = "{}/128".format(_canonical_ipv6(match_value))
+        else:
+            key_value = _canonical_ipv6(match_value)
+        keyed_entries = [entry for entry in entries
+                         if entry.get("match_type") == match_type.lower()
+                         and entry.get("match_value") == key_value]
+        if keyed_entries:
+            return (len(keyed_entries) == 1 and table_entry_matches(
+                keyed_entries[0], match_value, match_type, action_name, action_params))
+
+        rc, output = self._cli([command])
+        if self.verify_table_entry(table_name, match_value, match_type,
+                                   action_name, action_params):
+            return True
+        log.error("[%s] table entry readback mismatch (CLI rc=%s): %s",
+                  self.switch_name, rc, output)
+        return False
+
     def add_ipv6_route(
         self, prefix: str, prefix_len: int,
         dst_mac: str, src_mac: str, out_port: int
@@ -270,13 +311,11 @@ class ThriftController:
             f"table_add routing_v6 ipv6_forward "
             f"{prefix}/{prefix_len} => {dst_mac} {src_mac} {out_port}"
         )
-        rc, out = self._cli([cmd])
         params = [dst_mac, src_mac, out_port]
-        if self.verify_table_entry("routing_v6", f"{prefix}/{prefix_len}",
-                                   "lpm", "ipv6_forward", params):
+        if self.ensure_table_entry("routing_v6", f"{prefix}/{prefix_len}",
+                                   "lpm", "ipv6_forward", params, cmd):
             log.info(f"[{self.switch_name}] route +{prefix}/{prefix_len} → port{out_port}")
             return True
-        log.error(f"[{self.switch_name}] route readback mismatch (CLI rc=%s): %s", rc, out)
         return False
 
     def add_srv6_local_sid(self, sid: str, action: str = "srv6_advance_segment") -> bool:
@@ -288,23 +327,18 @@ class ThriftController:
             action: "srv6_advance_segment" | "drop"
         """
         cmd = f"table_add srv6_local_sid {action} {sid} =>"
-        rc, out = self._cli([cmd])
-        if self.verify_table_entry("srv6_local_sid", sid, "exact", action, []):
+        if self.ensure_table_entry("srv6_local_sid", sid, "exact", action, [], cmd):
             log.info(f"[{self.switch_name}] SID +{sid}")
             return True
-        log.error(f"[{self.switch_name}] SID readback mismatch (CLI rc=%s): %s", rc, out)
         return False
 
     def add_srv6_end_dx4(self, sid: str, dst_mac: str, src_mac: str,
                          out_port: int) -> bool:
         cmd = (f"table_add srv6_end_dx4_table srv6_end_dx4 {sid} => "
                f"{dst_mac} {src_mac} {out_port}")
-        rc, out = self._cli([cmd])
-        if self.verify_table_entry("srv6_end_dx4_table", sid, "exact",
-                                   "srv6_end_dx4", [dst_mac, src_mac, out_port]):
+        if self.ensure_table_entry("srv6_end_dx4_table", sid, "exact",
+                                   "srv6_end_dx4", [dst_mac, src_mac, out_port], cmd):
             return True
-        log.error("[%s] End.DX4 readback mismatch (CLI rc=%s): %s",
-                  self.switch_name, rc, out)
         return False
 
     def del_ipv6_route(self, prefix: str, prefix_len: int) -> bool:
@@ -359,7 +393,8 @@ class SDNController:
       confirm_steer_done = True chỉ set sau khi gRPC update thành công.
     """
 
-    def __init__(self, switch_thrift_map: Dict[str, int]):
+    def __init__(self, switch_thrift_map: Dict[str, int], live_port_map=None,
+                 loaded_profile_hashes=None):
         """
         Args:
             switch_thrift_map: {switch_name: thrift_port}
@@ -369,6 +404,14 @@ class SDNController:
             name: ThriftController(port, name)
             for name, port in switch_thrift_map.items()
         }
+        self.live_port_map = dict(live_port_map or {})
+        self.loaded_profile_hashes = dict(loaded_profile_hashes or {})
+        self.profile_id = "p4-path-candidate-v1"
+        try:
+            self.p4_topology_hash = compute_p4_topology_hash(
+                self.live_port_map, self.loaded_profile_hashes)
+        except ValueError:
+            self.p4_topology_hash = None
         self._steer_lock   = threading.Lock()
         self._steer_execution_lock = threading.Lock()
         self._steer_state  = SteerState.IDLE
@@ -377,6 +420,26 @@ class SDNController:
         self.confirm_steer_done: bool = False
         self._steer_deploy: Optional[str] = None
         self._steer_operation_id: Optional[str] = None
+        self._steer_request_id: Optional[str] = None
+        self._steer_topology_hash: Optional[str] = None
+        self._steer_profile_id: Optional[str] = None
+        self._steer_p4_topology_hash: Optional[str] = None
+
+    def compile_realization_rules(self, switch_path, sid_stack):
+        """Compile a logical path against this controller's observed ports."""
+        rules = compile_p4_forwarding_rules(switch_path, sid_stack, self.live_port_map)
+        for rule in rules:
+            if rule["switch"] not in self.controllers:
+                raise ValueError("compiled P4 path references an unavailable switch")
+        return rules
+
+    def get_topology_status(self):
+        return {
+            "ready": self.p4_topology_hash is not None,
+            "p4_topology_hash": self.p4_topology_hash,
+            "profile_id": self.profile_id,
+            "loaded_profile_hashes": dict(self.loaded_profile_hashes),
+        }
 
     # ──────────────────────────────────────────────────────────
     #  Bootstrap: populate initial routing tables
@@ -446,10 +509,45 @@ class SDNController:
 
     def steer(self, new_deploy: str, new_rules: List[Dict],
               old_rules: List[Dict], namespace: str = "core-router",
-              operation_id: Optional[str] = None) -> bool:
+              operation_id: Optional[str] = None,
+              switch_path=None, sid_stack=None, request_id=None,
+              topology_hash=None, profile_id=None,
+              p4_topology_hash=None) -> bool:
         # Keep status readable during I/O, but serialize complete rule updates.
         with self._steer_execution_lock:
+            with self._steer_lock:
+                self.confirm_steer_done = False
+                self._steer_state = SteerState.STEERING
+                self._steer_deploy = new_deploy
+                self._steer_operation_id = operation_id
+                self._steer_request_id = request_id
+                self._steer_topology_hash = topology_hash
+                self._steer_profile_id = profile_id
+                self._steer_p4_topology_hash = p4_topology_hash
             try:
+                if switch_path is not None or sid_stack is not None:
+                    if new_rules:
+                        raise ValueError(
+                            "use either an admitted path or explicit controller rules")
+                    if (not isinstance(request_id, str) or not request_id.strip()
+                            or not isinstance(operation_id, str) or not operation_id.strip()
+                            or not isinstance(topology_hash, str)
+                            or not re.fullmatch(r"[0-9a-f]{64}", topology_hash)
+                            or profile_id != self.profile_id
+                            or not isinstance(p4_topology_hash, str)
+                            or p4_topology_hash != self.p4_topology_hash):
+                        raise ValueError("admitted path identity is incomplete or unsupported")
+                    with self._steer_lock:
+                        self._steer_request_id = request_id
+                        self._steer_topology_hash = topology_hash
+                        self._steer_profile_id = profile_id
+                        self._steer_p4_topology_hash = p4_topology_hash
+                    new_rules = self.compile_realization_rules(switch_path, sid_stack)
+                else:
+                    with self._steer_lock:
+                        self._steer_request_id = request_id
+                        self._steer_topology_hash = topology_hash
+                        self._steer_profile_id = profile_id
                 return self._steer_once(new_deploy, new_rules, old_rules,
                                         namespace, operation_id)
             except Exception:
@@ -525,6 +623,10 @@ class SDNController:
                 "steer_state":         self._steer_state.value,
                 "new_deploy": self._steer_deploy,
                 "operation_id": self._steer_operation_id,
+                "request_id": self._steer_request_id,
+                "topology_hash": self._steer_topology_hash,
+                "profile_id": self._steer_profile_id,
+                "p4_topology_hash": self._steer_p4_topology_hash,
                 "confirm_steer_done":  self.confirm_steer_done,
             }
 
@@ -598,6 +700,9 @@ def start_rest_api(controller: SDNController, port: int = 8765):
             def do_GET(self):
                 if self.path == "/health":
                     self._respond(200, ctrl.health())
+                elif self.path == "/topology":
+                    topology = ctrl.get_topology_status()
+                    self._respond(200 if topology["ready"] else 503, topology)
                 elif self.path == "/steer/status":
                     self._respond(200, ctrl.get_steer_status())
                 elif self.path == "/stats/msd_drops":
@@ -616,10 +721,16 @@ def start_rest_api(controller: SDNController, port: int = 8765):
                     def _run_steer():
                         ctrl.steer(
                             new_deploy = body["new_deploy"],
-                            new_rules  = body["new_rules"],
+                            new_rules  = body.get("new_rules", []),
                             old_rules  = body.get("old_rules", []),
                             namespace  = body.get("namespace", "core-router"),
                             operation_id = body.get("operation_id"),
+                            switch_path = body.get("switch_path"),
+                            sid_stack = body.get("sid_stack"),
+                            request_id = body.get("request_id"),
+                            topology_hash = body.get("topology_hash"),
+                            profile_id = body.get("profile_id"),
+                            p4_topology_hash = body.get("p4_topology_hash"),
                         )
                     threading.Thread(target=_run_steer, daemon=True).start()
                     self._respond(202, {"message": "steer initiated",

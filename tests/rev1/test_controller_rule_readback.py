@@ -1,6 +1,10 @@
 import unittest
 
-from infrastructure.sdn.controller import parse_table_dump, table_entry_matches
+from infrastructure.sdn.controller import (
+    ThriftController,
+    parse_table_dump,
+    table_entry_matches,
+)
 
 
 ROUTE_DUMP = """Obtaining JSON from switch...
@@ -46,6 +50,22 @@ ROUTE_PORT_TEN_DUMP = ROUTE_DUMP.replace(
 
 
 class ControllerRuleReadbackTests(unittest.TestCase):
+    def test_reapplying_identical_route_reuses_its_exact_readback(self):
+        controller = ThriftController(9091, "s1")
+        controller.read_table_entries = lambda _: parse_table_dump(ROUTE_DUMP)
+        controller._cli = lambda _: self.fail("identical installed route must not be added twice")
+
+        self.assertTrue(controller.add_ipv6_route(
+            "fc00:6::1", 128, "02:00:00:00:00:21", "02:00:00:00:00:12", 2))
+
+    def test_conflicting_route_fails_closed_without_adding_another_entry(self):
+        controller = ThriftController(9091, "s1")
+        controller.read_table_entries = lambda _: parse_table_dump(ROUTE_DUMP)
+        controller._cli = lambda _: self.fail("a conflicting key must not be duplicated")
+
+        self.assertFalse(controller.add_ipv6_route(
+            "fc00:6::1", 128, "02:00:00:00:00:21", "02:00:00:00:00:12", 3))
+
     def test_parser_canonicalizes_ipv6_macs_and_port(self):
         entries = parse_table_dump(ROUTE_DUMP)
         self.assertEqual(entries, [{

@@ -6,7 +6,11 @@ import math
 from numbers import Real
 from typing import Tuple
 
-from infrastructure.sdn.p4_topology import P4_NODE_COUNT, neighbors
+from infrastructure.sdn.p4_topology import (
+    P4_NODE_COUNT,
+    compile_p4_forwarding_rules,
+    neighbors,
+)
 
 
 @dataclass(frozen=True)
@@ -88,3 +92,14 @@ def compile_pair_path(source_node, placement_node, route_node,
         realized_depth=depth,
         route_profile_node=route,
     )
+
+
+def compile_switch_rules(path, live_ports):
+    if not isinstance(path, PairPath):
+        raise ValueError("a compiled P4 path is required")
+    expected_switches = tuple(node_id + 1 for node_id in path.node_path)
+    if (path.switch_path != expected_switches
+            or len(path.switch_path) != len(path.sid_stack)
+            or len(path.switch_path) < 2):
+        raise ValueError("compiled P4 path is internally inconsistent")
+    return compile_p4_forwarding_rules(path.switch_path, path.sid_stack, live_ports)

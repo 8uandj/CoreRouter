@@ -8,7 +8,7 @@ returning a decision. These are pair-level checks, not full-chain validation.
 from dataclasses import dataclass
 import time
 import uuid
-from typing import Callable, List
+from typing import Callable, Dict, List
 
 from src.ai.heuristic import ActionChoice, HardConstraintError, get_decoupled_action
 from .realization import AdmittedRealization
@@ -23,7 +23,7 @@ class HybridDecision:
     sid_stack: List[str]
     decision_state_version: int
     admission_state_version: int
-    timings_ms: dict[str, float]
+    timings_ms: Dict[str, float]
     realization: AdmittedRealization
 
 
@@ -53,7 +53,8 @@ def location_key(node_name: str) -> str:
 
 
 def select_and_reserve(
-    state_manager, request, drl_action: Callable, *, vnf_name: str
+    state_manager, request, drl_action: Callable, *, vnf_name: str,
+    p4_topology_hash: str = None,
 ) -> HybridDecision:
     """Choose a pair and reserve it, retrying a rejected heuristic once via DRL.
 
@@ -151,8 +152,9 @@ def select_and_reserve(
             topology_hash=state_manager._topology_identity(),
             profile_id="p4-path-candidate-v1" if path is not None else "pair-admission-v1",
             sid_stack=tuple(sid_stack),
-            # Path compilation alone is not exact controller rule readback or
-            # packet evidence. Keep actuation fail-closed until those gates pass.
-            forwarding_sid=None,
+            forwarding_sid=(path.sid_stack[0]
+                            if path is not None and p4_topology_hash else None),
+            switch_path=tuple(path.switch_path) if path is not None else (),
+            p4_topology_hash=p4_topology_hash if path is not None else None,
         ),
     )

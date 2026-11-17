@@ -6,8 +6,9 @@ from src.portal.backend.app.services.realization import AdmittedRealization
 
 
 def supported_realization():
-    return AdmittedRealization('request', 'operation', 'a' * 64, 'profile',
-                               ('2001:db8::1',), '2001:db8::1')
+    return AdmittedRealization(
+        'request', 'operation', 'a' * 64, 'p4-path-candidate-v1',
+        ('fc00:2::1', 'fc00:1::1'), 'fc00:2::1', (1, 2), 'b' * 64)
 
 
 def test_records_survive_reopening_and_are_returned_as_copies():

@@ -1,9 +1,59 @@
 import unittest
 
-from src.portal.backend.app.services.p4_pair_realization import compile_pair_path
+from src.portal.backend.app.services.p4_pair_realization import (
+    compile_pair_path,
+    compile_switch_rules,
+)
 
 
 class TestP4PairRealization(unittest.TestCase):
+    def test_compiles_observed_live_ports_into_each_hop_and_terminal_rule(self):
+        path = compile_pair_path(
+            source_node=0,
+            placement_node=8,
+            route_node=8,
+            requested_depth=3,
+            route_msd_limit=10,
+            physical_msd_limits=[10, 10, 5, 5, 4, 8, 4, 5, 10, 5],
+        )
+        live_ports = {
+            ("s1", "s6"): {
+                "out_port": 4,
+                "dst_mac": "b6:7f:a3:fc:d3:32",
+                "src_mac": "02:60:73:7f:01:05",
+            },
+            ("s6", "s9"): {
+                "out_port": 5,
+                "dst_mac": "7e:30:a5:ff:c7:c0",
+                "src_mac": "da:3d:45:6b:fe:6f",
+            },
+            ("s9", "host"): {
+                "out_port": 1,
+                "dst_mac": "00:00:00:00:00:09",
+                "src_mac": "e2:39:34:f0:74:7e",
+            },
+        }
+
+        self.assertEqual(path.sid_stack, ("fc00:9::1", "fc00:6::1", "fc00:1::1"))
+        self.assertEqual(compile_switch_rules(path, live_ports), [
+            {"switch": "s1", "type": "ipv6_route", "prefix": "fc00:6::1",
+             "prefix_len": 128, "dst_mac": "b6:7f:a3:fc:d3:32",
+             "src_mac": "02:60:73:7f:01:05", "out_port": 4},
+            {"switch": "s6", "type": "ipv6_route", "prefix": "fc00:9::1",
+             "prefix_len": 128, "dst_mac": "7e:30:a5:ff:c7:c0",
+             "src_mac": "da:3d:45:6b:fe:6f", "out_port": 5},
+            {"switch": "s9", "type": "srv6_end_dx4", "sid": "fc00:9::1",
+             "dst_mac": "00:00:00:00:00:09", "src_mac": "e2:39:34:f0:74:7e",
+             "out_port": 1},
+        ])
+
+    def test_rule_compilation_fails_closed_when_any_live_port_is_missing(self):
+        path = compile_pair_path(0, 8, 8, requested_depth=3, route_msd_limit=10,
+                                 physical_msd_limits=[10, 10, 5, 5, 4, 8, 4, 5, 10, 5])
+
+        with self.assertRaisesRegex(ValueError, "live P4 port mapping"):
+            compile_switch_rules(path, {})
+
     def test_compiles_shortest_verified_p4_path_into_observed_switch_sids(self):
         path = compile_pair_path(
             source_node=0,
