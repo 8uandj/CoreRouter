@@ -100,9 +100,23 @@ def main() -> None:
             grouped: Dict[str, List[RunMetrics]] = {key: [] for key in group_keys}
             include_exhaustive = (
                 not is_ablation and not config.skip_exhaustive
-                and not (topology == "geant2" and config.steps > 1000)
+                # Exhaustive placement/routing evaluates N^2 candidates by
+                # stepping and restoring the environment at every request.
+                # Keep long-horizon (>1000 step) benchmarks comparable across
+                # topologies by omitting this upper-bound policy everywhere.
+                and config.steps <= 1000
                 and not topology.startswith("synthetic_")
             )
+
+            completed_seeds = 0
+
+            def report_seed_progress(seed: int) -> None:
+                nonlocal completed_seeds
+                completed_seeds += 1
+                print(
+                    f"  completed seed={seed} ({completed_seeds}/{len(config.seeds)})",
+                    flush=True,
+                )
 
             seed_results_list = run_seed_jobs(
                 topology=topology,
@@ -112,6 +126,7 @@ def main() -> None:
                 config=config,
                 include_exhaustive=include_exhaustive,
                 is_ablation=is_ablation,
+                on_seed_complete=report_seed_progress,
             )
             expected_algorithms = expected_benchmark_algorithms(include_exhaustive)
             validate_benchmark_coverage(seed_results_list, config.seeds, config.steps, expected_algorithms)
@@ -266,28 +281,29 @@ def run_seed_jobs(
     config: AlgorithmBenchmarkConfig,
     include_exhaustive: bool,
     is_ablation: bool = False,
+    on_seed_complete=None,
 ) -> List[tuple[int, Dict[str, RunMetrics]]]:
     if config.workers <= 1 or len(config.seeds) <= 1:
-        return [
-            (
+        results = []
+        for seed in config.seeds:
+            seed_results = run_one_seed(
+                topology,
+                display_scenario,
+                env_scenario,
+                load,
+                config.steps,
                 seed,
-                run_one_seed(
-                    topology,
-                    display_scenario,
-                    env_scenario,
-                    load,
-                    config.steps,
-                    seed,
-                    config.data_path,
-                    config.model_path(topology),
-                    config.norm_path(topology),
-                    include_exhaustive,
-                    config.sla_scale,
-                    is_ablation=is_ablation,
-                ),
+                config.data_path,
+                config.model_path(topology),
+                config.norm_path(topology),
+                include_exhaustive,
+                config.sla_scale,
+                is_ablation=is_ablation,
             )
-            for seed in config.seeds
-        ]
+            results.append((seed, seed_results))
+            if on_seed_complete is not None:
+                on_seed_complete(seed)
+        return results
 
     results: List[tuple[int, Dict[str, RunMetrics]]] = []
     with ProcessPoolExecutor(max_workers=config.workers) as executor:
@@ -310,7 +326,10 @@ def run_seed_jobs(
             for seed in config.seeds
         }
         for future in as_completed(futures):
-            results.append((futures[future], future.result()))
+            seed = futures[future]
+            results.append((seed, future.result()))
+            if on_seed_complete is not None:
+                on_seed_complete(seed)
     return sorted(results, key=lambda item: item[0])
 
 

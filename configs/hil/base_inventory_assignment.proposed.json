@@ -1,0 +1,24 @@
+{
+  "schema_version": 1,
+  "status": "proposed_not_applied",
+  "source_profiles": "configs/hil/recovered_hil_profiles.json",
+  "assignment_note": "The seven recovered request profiles came from separate benchmark runs. This proposed placement spreads CPU/RAM reservations across seven virtual nodes while retaining the historical route node for each request. Placement changes are test-fixture choices, not recovered historical placements.",
+  "per_virtual_node_capacity": {"cpu_req_max": 100.0, "ram_req_max": 100.0},
+  "assignments": [
+    {"vnf_name": "vnf-attack-004e219d", "v_place": 8, "placement": "HoChiMinh", "k8s_node": "worker2", "v_route": 8, "route": "HoChiMinh"},
+    {"vnf_name": "vnf-attack-0faeed9f", "v_place": 0, "placement": "Hanoi", "k8s_node": "k8s-master", "v_route": 8, "route": "HoChiMinh"},
+    {"vnf_name": "vnf-attack-228edabf", "v_place": 1, "placement": "HaiPhong", "k8s_node": "k8s-master", "v_route": 8, "route": "HoChiMinh"},
+    {"vnf_name": "vnf-attack-2f0aa313", "v_place": 2, "placement": "NinhBinh", "k8s_node": "k8s-master", "v_route": 8, "route": "HoChiMinh"},
+    {"vnf_name": "vnf-attack-57b6f205", "v_place": 3, "placement": "Vinh", "k8s_node": "worker1", "v_route": 3, "route": "Vinh"},
+    {"vnf_name": "vnf-attack-8bf0425e", "v_place": 5, "placement": "DaNang", "k8s_node": "worker1", "v_route": 8, "route": "HoChiMinh"},
+    {"vnf_name": "vnf-attack-af13f6df", "v_place": 9, "placement": "CanTho", "k8s_node": "worker2", "v_route": 5, "route": "DaNang"}
+  ],
+  "capacity_check": {
+    "cpu_req_by_node": {"0": 63.0, "1": 57.0, "2": 64.0, "3": 58.0, "5": 64.0, "8": 64.0, "9": 56.0},
+    "ram_req_by_node": {"0": 32.0, "1": 29.0, "2": 32.5, "3": 29.5, "5": 32.5, "8": 32.5, "9": 28.5},
+    "msd_req_by_route_node": {"3": 4, "5": 8, "8": 6},
+    "interpretation": "All seven CPU/RAM placement charges are below the 100-unit per-node model limits. MSD is checked per request against the selected route node's capability, not summed across requests.",
+    "requires_runtime_topology_validation": true
+  },
+  "provenance": "Admission profiles are recovered from accepted historical rows. Placement assignments are synthetic rebalancing choices for a new baseline and require review before deployment."
+}

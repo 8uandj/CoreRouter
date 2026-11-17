@@ -1,0 +1,166 @@
+{
+  "schema_version": 1,
+  "status": "recovered_profiles_not_live_inventory",
+  "purpose": "Source-backed admission profiles for constructing a new HIL baseline inventory.",
+  "provenance_note": "Each row is an accepted admission request from a separate historical benchmark run. These records are not a simultaneous inventory snapshot. The historical placement is recorded for provenance only; a new placement assignment must be capacity-checked before deployment.",
+  "resource_units": {
+    "cpu_req": "CoreRouter modeled CPU units, bounded 0..100 per virtual node",
+    "ram_req": "CoreRouter modeled RAM units, bounded 0..100 per virtual node",
+    "msd_req": "Per-request SRv6 SID-list depth"
+  },
+  "profiles": [
+    {
+      "vnf_name": "vnf-attack-004e219d",
+      "service_type": "Attack",
+      "role": "firewall",
+      "cpu_req": 64.0,
+      "ram_req": 32.5,
+      "msd_req": 6,
+      "historical_placement": {"node_id": 8, "node_name": "HoChiMinh"},
+      "historical_route": {"node_id": 8, "node_name": "HoChiMinh"},
+      "source": {
+        "path": "results/benchmark_testbed/20260517_193630/all_records.csv",
+        "line": 707,
+        "run_id": "20260517_193630",
+        "scenario": "topology_physics",
+        "step": 110,
+        "accepted": true,
+        "http_status": 200,
+        "migration_status_at_capture": "triggered",
+        "pipeline_status_at_capture": "Running"
+      }
+    },
+    {
+      "vnf_name": "vnf-attack-0faeed9f",
+      "service_type": "Attack",
+      "role": "firewall",
+      "cpu_req": 63.0,
+      "ram_req": 32.0,
+      "msd_req": 4,
+      "historical_placement": {"node_id": 8, "node_name": "HoChiMinh"},
+      "historical_route": {"node_id": 8, "node_name": "HoChiMinh"},
+      "source": {
+        "path": "results/benchmark_testbed/20260517_165745/ddos_mbb_records.csv",
+        "line": 82,
+        "run_id": "20260517_165745",
+        "scenario": "ddos_mbb",
+        "step": 120,
+        "accepted": true,
+        "http_status": 200,
+        "migration_status_at_capture": "triggered",
+        "pipeline_status_at_capture": "Running"
+      }
+    },
+    {
+      "vnf_name": "vnf-attack-228edabf",
+      "service_type": "Attack",
+      "role": "firewall",
+      "cpu_req": 57.0,
+      "ram_req": 29.0,
+      "msd_req": 6,
+      "historical_placement": {"node_id": 8, "node_name": "HoChiMinh"},
+      "historical_route": {"node_id": 8, "node_name": "HoChiMinh"},
+      "source": {
+        "path": "results/benchmark_testbed/20260517_155916/topology_physics_records.csv",
+        "line": 34,
+        "run_id": "20260517_155916",
+        "scenario": "topology_physics",
+        "step": 52,
+        "accepted": true,
+        "http_status": 200,
+        "migration_status_at_capture": "triggered",
+        "pipeline_status_at_capture": "Running"
+      }
+    },
+    {
+      "vnf_name": "vnf-attack-2f0aa313",
+      "service_type": "Attack",
+      "role": "firewall",
+      "cpu_req": 64.0,
+      "ram_req": 32.5,
+      "msd_req": 6,
+      "historical_placement": {"node_id": 8, "node_name": "HoChiMinh"},
+      "historical_route": {"node_id": 8, "node_name": "HoChiMinh"},
+      "source": {
+        "path": "results/benchmark_testbed/20260517_185145/topology_physics_records.csv",
+        "line": 72,
+        "run_id": "20260517_185145",
+        "scenario": "topology_physics",
+        "step": 110,
+        "accepted": true,
+        "http_status": 200,
+        "migration_status_at_capture": "triggered",
+        "pipeline_status_at_capture": "Running"
+      }
+    },
+    {
+      "vnf_name": "vnf-attack-57b6f205",
+      "service_type": "Attack",
+      "role": "firewall",
+      "cpu_req": 58.0,
+      "ram_req": 29.5,
+      "msd_req": 4,
+      "historical_placement": {"node_id": 3, "node_name": "Vinh"},
+      "historical_route": {"node_id": 3, "node_name": "Vinh"},
+      "source": {
+        "path": "results/benchmark_testbed/20260517_161148/ddos_mbb_records.csv",
+        "line": 97,
+        "run_id": "20260517_161148",
+        "scenario": "ddos_mbb",
+        "step": 138,
+        "accepted": true,
+        "http_status": 200,
+        "migration_status_at_capture": "triggered",
+        "pipeline_status_at_capture": "Running",
+        "current_inventory_location_needs_reconciliation": true
+      }
+    },
+    {
+      "vnf_name": "vnf-attack-8bf0425e",
+      "service_type": "Attack",
+      "role": "firewall",
+      "cpu_req": 64.0,
+      "ram_req": 32.5,
+      "msd_req": 6,
+      "historical_placement": {"node_id": 8, "node_name": "HoChiMinh"},
+      "historical_route": {"node_id": 8, "node_name": "HoChiMinh"},
+      "source": {
+        "path": "results/benchmark_testbed/20260517_161148/topology_physics_records.csv",
+        "line": 72,
+        "run_id": "20260517_161148",
+        "scenario": "topology_physics",
+        "step": 110,
+        "accepted": true,
+        "http_status": 200,
+        "migration_status_at_capture": "triggered",
+        "pipeline_status_at_capture": "Running"
+      }
+    },
+    {
+      "vnf_name": "vnf-attack-af13f6df",
+      "service_type": "Attack",
+      "role": "firewall",
+      "cpu_req": 56.0,
+      "ram_req": 28.5,
+      "msd_req": 8,
+      "historical_placement": {"node_id": 5, "node_name": "DaNang"},
+      "historical_route": {"node_id": 5, "node_name": "DaNang"},
+      "source": {
+        "path": "results/benchmark_testbed/20260517_161148/topology_physics_records.csv",
+        "line": 115,
+        "run_id": "20260517_161148",
+        "scenario": "topology_physics",
+        "step": 173,
+        "accepted": true,
+        "http_status": 200,
+        "migration_status_at_capture": "triggered",
+        "pipeline_status_at_capture": "Running"
+      }
+    }
+  ],
+  "initialization_constraints": [
+    "Do not apply the historical placements as one concurrent inventory: five profiles share HoChiMinh and sum to 312 CPU units and 158.5 RAM units, exceeding the modeled per-node limit of 100.",
+    "Assign new placement nodes in a separate, explicit testbed-assignment file and validate each node's CPU/RAM limits and route-node MSD before creating Deployments.",
+    "The captured benchmark rows prove accepted admission requests, not successful or Ready Kubernetes migrations; deployment/readiness must be verified independently."
+  ]
+}
