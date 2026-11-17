@@ -28,6 +28,7 @@ import json
 import logging
 import os
 import random
+import time
 from dataclasses import asdict, dataclass, field
 from pathlib import Path
 from typing import Dict, Iterable, List, Optional
@@ -108,6 +109,11 @@ class AblationMetrics:
     mask_candidate_counts: List[int] = field(default_factory=list)
     mask_total_candidates: List[int] = field(default_factory=list)
     mask_empty_steps: int = 0
+    action_mask_setup_ms: List[float] = field(default_factory=list)
+    normalization_ms: List[float] = field(default_factory=list)
+    inference_ms: List[float] = field(default_factory=list)
+    env_step_ms: List[float] = field(default_factory=list)
+    policy_decision_ms: List[float] = field(default_factory=list)
     runtime_rejections: int = 0
     primary_cpu_rejections: int = 0
     primary_ram_rejections: int = 0
@@ -213,6 +219,9 @@ class AblationMetrics:
         return hashlib.sha256(serialized).hexdigest()
 
     def row(self) -> Dict[str, object]:
+        def timing(values: List[float], percentile: float) -> float:
+            return float(np.percentile(values, percentile)) if values else 0.0
+
         return {
             "variant": self.name,
             "key": self.key,
@@ -247,6 +256,17 @@ class AblationMetrics:
                 sum(self.mask_total_candidates),
             ),
             "mask_empty_steps": self.mask_empty_steps,
+            "action_mask_setup_ms_mean": mean(self.action_mask_setup_ms),
+            "action_mask_setup_ms_p95": timing(self.action_mask_setup_ms, 95),
+            "normalization_ms_mean": mean(self.normalization_ms),
+            "inference_ms_mean": mean(self.inference_ms),
+            "inference_ms_p95": timing(self.inference_ms, 95),
+            "env_step_ms_mean": mean(self.env_step_ms),
+            "env_step_ms_p95": timing(self.env_step_ms, 95),
+            "policy_decision_ms_mean": mean(self.policy_decision_ms),
+            "policy_decision_ms_p50": timing(self.policy_decision_ms, 50),
+            "policy_decision_ms_p95": timing(self.policy_decision_ms, 95),
+            "policy_decision_ms_p99": timing(self.policy_decision_ms, 99),
             "runtime_rejections": self.runtime_rejections,
             "runtime_rejection_rate": pct(self.runtime_rejections, self.steps),
             "primary_cpu_rejection_rate": pct(self.primary_cpu_rejections, self.steps),
@@ -496,25 +516,51 @@ def run_variant(
     normalizer = load_normalizer(norm_path, model.get_env())
 
     obs, _ = env.reset(seed=seed)
+    # Warm the policy path once, then reset to the registered seed so timing
+    # excludes first-call initialization without changing the offered trace.
+    warm_norm = normalized_obs(normalizer, obs)
+    if variant.use_hard_mask:
+        warm_mask = env.action_masks()
+    else:
+        warm_mask = np.ones(env.action_space.n, dtype=bool)
+    warm_prediction_mask = warm_mask if int(warm_mask.sum()) else np.ones(env.action_space.n, dtype=bool)
+    model.predict(warm_norm, action_masks=np.array([warm_prediction_mask]), deterministic=True)
+    obs, _ = env.reset(seed=seed)
     for _ in range(steps):
+        decision_start = time.perf_counter()
+        normalization_start = time.perf_counter()
         obs_norm = normalized_obs(normalizer, obs)
+        normalization_ms = (time.perf_counter() - normalization_start) * 1000.0
+        mask_start = time.perf_counter()
         if variant.use_hard_mask:
             mask = env.action_masks()
         else:
             mask = np.ones(env.action_space.n, dtype=bool)
+        mask_ms = (time.perf_counter() - mask_start) * 1000.0
         mask_count = int(mask.sum())
         prediction_mask = mask if mask_count else np.ones(env.action_space.n, dtype=bool)
         masks = np.array([prediction_mask])
+        inference_start = time.perf_counter()
         action, _ = model.predict(obs_norm, action_masks=masks, deterministic=True)
+        inference_ms = (time.perf_counter() - inference_start) * 1000.0
         action = action[0]
 
+        step_start = time.perf_counter()
         obs, reward, done, _, info = env.step(action)
+        env_step_ms = (time.perf_counter() - step_start) * 1000.0
+        decision_ms = (time.perf_counter() - decision_start) * 1000.0
         info.update({
             "mask_candidate_count": mask_count,
             "mask_total_candidates": int(env.action_space.n),
             "mask_empty": mask_count == 0,
         })
         metrics.collect(info, reward)
+        if not info.get("skipped", False):
+            metrics.action_mask_setup_ms.append(mask_ms)
+            metrics.normalization_ms.append(normalization_ms)
+            metrics.inference_ms.append(inference_ms)
+            metrics.env_step_ms.append(env_step_ms)
+            metrics.policy_decision_ms.append(decision_ms)
         if done:
             obs, _ = env.reset(seed=seed)
 
@@ -720,7 +766,7 @@ def main() -> None:
     write_outputs(output_path, results, VARIANTS, model_path, norm_path)
     resolved_data = resolve_data_path(data_path)
     manifest = {
-        "protocol": "ablation-v3", "topology": args.topology,
+        "protocol": "ablation-v4", "topology": args.topology,
         "scenario": args.scenario, "seeds": seeds, "steps": args.steps,
         "arrival_rate": args.arrival_rate, "ttl_range": list(ttl_range),
         "data_path": str(resolved_data), "data_sha256": sha256_file(resolved_data),
@@ -733,6 +779,17 @@ def main() -> None:
             "safe_acceptance_rate": "accepted requests minus unique admitted hard-violating requests, divided by offered requests",
             "primary_rejection_rates": "one non-overlapping rejection cause per rejected offered request",
             "matched_trace_requirement": "one trace SHA-256 per evaluation seed across all variants",
+        },
+        "timing": {
+            "warmup": "one unrecorded normalized observation, action-mask setup and deterministic policy prediction before a seeded reset",
+            "policy_decision_interval": "normalization start through simulator env.step completion; excludes CSV/metric collection and external controller or deployment actuation",
+            "components": {
+                "action_mask_setup_ms": "action_masks() for masked variants; all-true mask allocation for unmasked variants",
+                "normalization_ms": "VecNormalize observation transform",
+                "inference_ms": "deterministic model.predict call including action-mask processing",
+                "env_step_ms": "Gym simulator step including modeled admission and state update; not a live controller handoff",
+            },
+            "percentiles": "per offered non-skipped step after warm-up; p50/p95/p99 for policy_decision_ms, p95 for selected components",
         },
         "source_sha256": {
             str(Path(__file__)): sha256_file(Path(__file__)),

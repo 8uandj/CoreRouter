@@ -18,10 +18,10 @@
 - [ ] Đo missed-feasible rejections bằng oracle trên topology nhỏ, phân biệt bão hòa thật với lỗi tìm kiếm; so sánh gain–cost HARP/SAF-H.
 
 ## E3 — Ablation, masking và safety attribution (P0)
-- [ ] Đối chứng Full/MLP/NoMask/NoMask+U/NoAdapt trên cùng trace; đo candidate pruning, admission rejection, convergence và overhead.
-- [ ] Kiểm tra dấu reward MSD và chạy SoftMSD với admission **on/off** riêng; không gọi một cấu hình Protected nếu còn admitted violations chưa giải thích.
-- [ ] Báo tỷ lệ đề xuất không khả thi theo CPU, RAM, MSD (cho phép chồng lấn) và tỷ lệ hợp; đo violations theo đúng mẫu số.
-- [ ] Phân biệt **masking cải thiện candidate quality** với **runtime admission chịu trách nhiệm enforcement**; không suy rộng từ các baseline được thử tới mọi SOTA RL.
+- [ ] Đối chứng Full/MLP/NoMask/NoMask+U/NoAdapt trên cùng trace; đo candidate pruning, admission rejection, convergence và overhead. **Đã có:** matched traces, pruning/rejection, proposal/admitted violations cho đủ 7 variants và 3 topology; timing overhead đang chạy (`tmux e3-ablation-timed`). **Giới hạn:** không tìm thấy retained training-convergence logs; không tuyên bố convergence nếu không có đường cong huấn luyện hợp lệ.
+- [x] Kiểm tra dấu reward MSD và chạy SoftMSD với admission **on/off** riêng; reward coefficient $-50$, cùng checkpoint cho cặp on/off; số violation admitted và giới hạn paired-state đã ghi tại §E3 và evidence.
+- [x] Báo tỷ lệ đề xuất không khả thi theo CPU, RAM, BW, MSD (cho phép chồng lấn), hard-invalid union và admitted unique violations trên mẫu số offered requests; bảng pooled ở §E3.
+- [x] Phân biệt mask/candidate quality với independent runtime admission/enforcement; giới hạn so sánh Full–NoMask và phạm vi simulator được nêu tại §E3.
 
 ## E4 — Scalability, latency và concurrency (P0)
 - [ ] Đo topology 10/25/50/100 nodes; tách ảnh hưởng topology, active chains, arrival rate và concurrency.

@@ -7,6 +7,13 @@ Updated: 2026-11-17
 - Removed unsupported invented manuscript results and rebuilt descriptive historical Vietnam/NSFNET summaries from available per-seed files. Historical lineage checks remain incomplete; see `INTEGRITY_RECOVERY.md` and `EVIDENCE_LEDGER.csv`.
 - Captured HARP-model source/artifact audit records. The HARP-model runtime model interface is not established as compatible with the flat-action benchmark environment.
 
+## E3 matched-trace ablation results
+
+- Completed the registered 20-seed, 3,000-step-per-seed ablation evaluation for Vietnam, NSFNET, and GEANT2 across Uniform, Bursty, Heavy-tail, and distinct Chaos workloads. Each topology/workload contains 20 seeds × 7 variants, and trace hashes match across variants within each seed.
+- Recomputed candidate-mask pruning, runtime rejection, admitted hard-violation, and safe-acceptance metrics. The aggregated table uses 80 seed/workload cells per topology (mean ± sample SD); this is evaluation variation, not independent training uncertainty.
+- Updated `rev1.tex` with all seven registered variants, per-topology admission outcomes, and pooled CPU/RAM/BW/MSD proposal violation rates with overlap semantics. Reproducible aggregates and source/checkpoint/normalizer/trace hashes are in `evidence/e3/manifest.json` and `ablation_admission_summary.csv`. Admission outcomes are simulator evidence for modeled predicates, not full-chain deployment or forwarding evidence. The retained training artifacts contain no convergence history, so no convergence result is claimed; the timing rerun measures local simulator policy-decision components, not external controller/deployment latency.
+- The 20-seed algorithm benchmark reruns for Vietnam and NSFNET completed at 19:43 and 19:45 on 2026-11-17; logs are `/tmp/rev1-benchfix-vietnam.log` and `/tmp/rev1-benchfix-nsfnet.log`. The E3 compute-overhead rerun is now running sequentially in tmux (`e3-ablation-timed`) so timing is not collected concurrently with those benchmarks.
+
 ## Code work in progress: E1 admission contract
 
 - `NetworkStateManager` now charges CPU/RAM to placement only, checks each list's SID depth against the routing node limit, tracks anonymous TTL reservations, rejects malformed or duplicate named reservations, and reconstructs per-node MSD state as maximum active depth.
@@ -249,3 +256,11 @@ Only short smoke runs were performed. No research-scale revision experiment, Kag
 - The focused artifact/package tests pass (20 passed), and artifact preflight reports `ready` (18 artifacts, 0 issues). All 15 unique ablation checkpoint/normalizer pairs loaded through the exact ablation preflight path; the three main checkpoints also loaded and produced mask-valid pair actions. These checks do not call `env.step` or collect results.
 - Created an evaluation bundle at `results/rev1/inputs/rev1-evaluation-inputs.zip` with the extracted resolved protocol alongside it. The archive SHA-256 is `086d6ab67ad714de60bb9ec67a03dd2a255c53d0be92b878f55dba0ffc43deb0`; package CLI verification and exact protocol matching pass. Plan-only driver commands for Vietnam, NSFNET, and GEANT2 each produced 11 commands with `execute=false`.
 - Full regression caveat remains: 188 tests pass without `tests/test_orchestration_api.py`; the first HTTP test stalls in this runtime, and a minimal FastAPI/TestClient request reproduces the stall. No training, ablation results, benchmark results, or HIL were run.
+
+## Completed current-code load sweep — 2026-11-17
+
+Vietnam, NSFNET and GEANT2 completed in separate tmux sessions. Validated 1,120 rows per topology, all 7 intensities and 8 policy modes, 20 seeds per group, paired trace hashes and current source hashes. Updated rev1.tex with a three-topology figure, all 21 protected-policy summary rows, family-wide Holm statistics and scoped Abstract/Conclusion findings. Reproducible scripts: scripts/rev1/plot_manuscript_load_sweeps.py and summarize_manuscript_load_sweeps.py. All-mode evidence: evidence/load_sweep/. No LaTeX compilation performed.
+
+## Editorial refinement after load sweep
+
+Rewrote evaluation framing, policy-regime interpretation, computation discussion and two-paragraph conclusion; consolidated limitations and removed audit-style completion/archive wording. Preserved numerical tables, the four single-column table layouts, and existing Overleaf overview/testbed paths. HARP–SAF-H timing benefit remains unestablished under controlled matched execution; no favorable cost claim added. Static TeX reference/environment checks and git diff --check passed; no PDF compilation performed.
