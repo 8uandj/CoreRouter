@@ -193,7 +193,7 @@ def audit_revision_runs(protocol, package_manifest, run_paths, *, steps):
                 raise ValueError(f'benchmark run directory missing or ambiguous: {topology}/{scenario}')
             benchmark = candidates[0]
             policies = list(BASE_POLICIES)
-            if not (topology == 'geant2' and steps > 1000):
+            if steps <= 1000:
                 policies.extend(['exhaustive_pair_search_protected', 'exhaustive_pair_search_unprotected'])
             for directory, required in ((ablation, ABLATION_SOURCE), (benchmark, BENCHMARK_SOURCE)):
                 manifest = json.loads((directory / 'run_manifest.json').read_text())

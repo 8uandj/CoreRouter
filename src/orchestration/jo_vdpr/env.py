@@ -1,3 +1,4 @@
+from __future__ import annotations
 """
 env.py — JO-VDPR RL Environment v6 (Phase 10 — Joint Proactive Evacuation)
 
