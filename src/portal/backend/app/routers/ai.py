@@ -84,9 +84,9 @@ def get_ai_status():
     model = agent._load_model()
     
     status_dict = dict(AI_STATE)
-    model_loaded = (model is not None and model != "SHADOW_MODE_ACTIVE")
-    
-    dgrl_status = "loaded" if model_loaded else ("shadow_mode" if model == "SHADOW_MODE_ACTIVE" else "error")
+    model_loaded = model is not None
+
+    dgrl_status = "loaded" if model_loaded else "error"
     if agent.load_error:
         dgrl_status = "error"
         

@@ -24,7 +24,7 @@ from src.infrastructure.persistence.csv_repository import CSVRepository
 from src.orchestration.jo_vdpr.env     import JOVDPREnv
 from src.orchestration.jo_vdpr.rewards import RewardCalculator
 from src.orchestration.jo_vdpr.gnn_policy import GNNActorCriticPolicy
-from src.orchestration.jo_vdpr.topology import TopologyManager
+from src.orchestration.jo_vdpr.topology import TopologyManager, SYNTHETIC_TOPOLOGY_SIZES
 
 
 logging.basicConfig(level=logging.INFO,
@@ -116,15 +116,21 @@ def linear_schedule(initial_value: float):
         return progress_remaining * initial_value
     return func
 
-def train_dgrl(topology_name: str):
+def train_dgrl(topology_name: str, *, total_steps: int = TOTAL_STEPS,
+               n_envs: int = N_ENVS, rollout_steps: int = N_STEPS, seed: int = 42,
+               data_path: str = None, model_dir: str = None):
+    if total_steps <= 0 or n_envs <= 0 or rollout_steps < 2:
+        raise ValueError("training budget/env count must be positive and rollout_steps >= 2")
     logger.info(f"BẮT ĐẦU HUẤN LUYỆN JO-VPPM V11 TRÊN MẠNG: {topology_name.upper()}")
     
     # ── Path Setup ───────────────────────────────────────────────
     BASE_DIR     = os.path.dirname(os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))))
-    DATA_PATH    = os.path.join(BASE_DIR, 'data', 'telecom_trace.csv') # Dùng file trace gốc hoặc combined tùy ý
+    DATA_PATH    = data_path or os.path.join(BASE_DIR, 'data', 'real_telecom_combined.csv')
     RES_DIR      = os.path.join(BASE_DIR, 'results')
-    MODEL_DIR    = os.path.join(RES_DIR, 'models', 'v11')
-    TENSORBOARD  = os.path.join(RES_DIR, 'logs', f'dgrl_v11_tb_{topology_name}')
+    MODEL_DIR    = model_dir or os.path.join(RES_DIR, 'models', 'v11')
+    TENSORBOARD  = os.path.join(MODEL_DIR, 'logs', f'dgrl_v11_tb_{topology_name}')
+    if not os.path.isfile(DATA_PATH):
+        raise FileNotFoundError(f'training dataset missing: {DATA_PATH}')
     
     os.makedirs(MODEL_DIR, exist_ok=True)
     os.makedirs(TENSORBOARD, exist_ok=True)
@@ -137,9 +143,10 @@ def train_dgrl(topology_name: str):
     logger.info(f"Topology: {topology_name} ({num_nodes} nodes). Load DATA: {DATA_PATH}")
 
     # ── Vectorized Env ───────────────────────────────────────────
-    train_env = SubprocVecEnv([
-        make_env(i, seed=42, data_path=DATA_PATH, topology_name=topology_name, lambda_ref=-100.0)
-        for i in range(N_ENVS)
+    vector_env = SubprocVecEnv if n_envs > 1 else DummyVecEnv
+    train_env = vector_env([
+        make_env(i, seed=seed, data_path=DATA_PATH, topology_name=topology_name, lambda_ref=-100.0)
+        for i in range(n_envs)
     ])
     train_env = VecMonitor(train_env)
     train_env = VecNormalize(train_env, norm_obs=True, norm_reward=True, clip_obs=10.0, gamma=0.99)
@@ -165,8 +172,8 @@ def train_dgrl(topology_name: str):
         policy=GNNActorCriticPolicy,
         env=train_env,
         learning_rate=linear_schedule(LEARNING_RATE),
-        n_steps=N_STEPS,
-        batch_size=BATCH_SIZE,
+        n_steps=rollout_steps,
+        batch_size=min(BATCH_SIZE, rollout_steps * n_envs),
         n_epochs=10,
         gamma=0.99,
         gae_lambda=0.95,
@@ -177,24 +184,24 @@ def train_dgrl(topology_name: str):
         policy_kwargs=policy_kwargs,
         tensorboard_log=TENSORBOARD,
         verbose=1,
-        seed=42
+        seed=seed
     )
 
     # ── Callbacks ────────────────────────────────────────────────
     base_reward_calc = RewardCalculator(lambda_latency=-100.0)
-    cb_adaptive = AdaptivePenaltyCallback(base_reward_calc, target_rate=0.015, update_freq=N_STEPS*N_ENVS)
-    cb_entropy  = EntropyDecayCallback(initial=0.05, final=0.00005, total_steps=TOTAL_STEPS)
+    cb_adaptive = AdaptivePenaltyCallback(base_reward_calc, target_rate=0.015, update_freq=rollout_steps*n_envs)
+    cb_entropy  = EntropyDecayCallback(initial=0.05, final=0.00005, total_steps=total_steps)
 
     eval_callback = MaskableEvalCallback(
         eval_env,
-        best_model_save_path=MODEL_DIR,
+        best_model_save_path=os.path.join(MODEL_DIR, "best", topology_name),
         log_path=TENSORBOARD,
-        eval_freq=max(10_000 // N_ENVS, 1),
+        eval_freq=max(10_000 // n_envs, 1),
         deterministic=True,
         render=False
     )
     checkpoint_callback = CheckpointCallback(
-        save_freq=max(500_000 // N_ENVS, 1),
+        save_freq=max(500_000 // n_envs, 1),
         save_path=MODEL_DIR,
         name_prefix=f'dgrl_v11_ckpt_{topology_name}'
     )
@@ -204,10 +211,10 @@ def train_dgrl(topology_name: str):
     # ── Training ─────────────────────────────────────────────────
     logger.info("Khởi động quá trình Huấn Luyện (Level 0)...")
     try:
-        model.learn(total_timesteps=TOTAL_STEPS, callback=callbacks,
+        model.learn(total_timesteps=total_steps, callback=callbacks,
                     tb_log_name=f"run_v11_{topology_name}")
         
-        final_model_path = os.path.join(MODEL_DIR, f'dgrl_v11_{topology_name}.zip')
+        final_model_path = os.path.join(MODEL_DIR, f'dgrl_v11_final_{topology_name}.zip')
         model.save(final_model_path)
         logger.info(f"Huấn luyện thành công! Đã lưu: {final_model_path}")
         
@@ -218,10 +225,31 @@ def train_dgrl(topology_name: str):
     except KeyboardInterrupt:
         logger.warning("Bị hủy bởi user! Lưu checkpoint khẩn...")
         model.save(os.path.join(MODEL_DIR, f'dgrl_v11_interrupted_{topology_name}.zip'))
+        train_env.save(os.path.join(MODEL_DIR, f'vec_normalize_v11_interrupted_{topology_name}.pkl'))
+        raise
+    finally:
+        train_env.close()
+        eval_env.close()
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="JO-VPPM v11 Trainer")
-    parser.add_argument("--topology", type=str, default="vietnam", choices=["vietnam", "nsfnet", "geant2"])
+    parser.add_argument("--topology", type=str, default="vietnam",
+                        choices=["vietnam", "nsfnet", "geant2", "all", "scalability"] +
+                                [f"synthetic_{n}" for n in SYNTHETIC_TOPOLOGY_SIZES])
+    parser.add_argument("--total-steps", type=int, default=TOTAL_STEPS)
+    parser.add_argument("--n-envs", type=int, default=N_ENVS)
+    parser.add_argument("--rollout-steps", type=int, default=N_STEPS)
+    parser.add_argument("--seed", type=int, default=42)
+    parser.add_argument("--data-path", default=None)
+    parser.add_argument("--model-dir", default=None)
     args = parser.parse_args()
-    
-    train_dgrl(args.topology)
+    if args.topology == "all":
+        topologies = ["vietnam", "nsfnet", "geant2"]
+    elif args.topology == "scalability":
+        topologies = ["vietnam"] + [f"synthetic_{n}" for n in SYNTHETIC_TOPOLOGY_SIZES]
+    else:
+        topologies = [args.topology]
+    for topology in topologies:
+        train_dgrl(topology, total_steps=args.total_steps, n_envs=args.n_envs,
+                   rollout_steps=args.rollout_steps, seed=args.seed,
+                   data_path=args.data_path, model_dir=args.model_dir)

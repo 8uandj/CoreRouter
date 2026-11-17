@@ -60,6 +60,13 @@ class RequestRecord:
     source_node: Optional[int]
     destination_node: Optional[int]
     alert_flag: bool
+    admitted: bool = False
+    safe_admitted: bool = False
+    deployed: bool = False
+    actuation_requested: bool = False
+    deployment_status: str = "not_requested"
+    deployment_wait_s: float = 0.0
+    readiness_status: str = "not_checked"
     method_used: str = ""
     hybrid_branch: str = ""
     vnf_name: str = ""
@@ -73,9 +80,16 @@ class RequestRecord:
     migration_status: str = ""
     migration_old_vnf: str = ""
     migration_new_vnf: str = ""
+    migration_completed: bool = False
+    migration_operation_id: str = ""
+    migration_recovery_state: str = ""
     migration_wait_s: float = 0.0
     latest_pipeline_name: str = ""
     latest_pipeline_status: str = ""
+    timing_ms: Dict[str, float] = field(default_factory=dict)
+    elapsed_s: float = 0.0
+    hour_index: int = 0
+    timestamp_utc: str = ""
     tags: Dict[str, Any] = field(default_factory=dict)
 
 
@@ -86,6 +100,10 @@ class ScenarioSummary:
     title: str
     generated_requests: int
     accepted: int
+    admitted: int
+    safe_admitted: int
+    deployed: int
+    actuation_requested: int
     rejected: int
     acceptance_rate: float
     no_safe_rate: float
@@ -100,6 +118,15 @@ class ScenarioSummary:
     msd_drop_delta: int
     mean_sid_count: float
     final_active_vnfs: int
+    p50_decision_latency_ms: float = 0.0
+    p99_decision_latency_ms: float = 0.0
+    wall_clock_s: float = 0.0
+    completed_ops_per_s: float = 0.0
+    component_latency_percentiles_ms: Dict[str, Dict[str, float]] = field(default_factory=dict)
+    mean_migration_wait_s: float = 0.0
+    mean_deployment_readiness_wait_s: float = 0.0
+    hourly_summaries: List[Dict[str, Any]] = field(default_factory=list)
+    completed_migrations: int = 0
     notes: str = ""
 
 

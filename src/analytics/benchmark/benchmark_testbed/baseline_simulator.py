@@ -55,6 +55,7 @@ class BaselineSimulator:
         records: List[RequestRecord] = []
         active: List[Dict[str, object]] = []
         steps = self.steps or scenario.default_steps
+        run_start = time.perf_counter()
 
         for step in range(steps):
             remaining: List[Dict[str, object]] = []
@@ -178,6 +179,11 @@ class BaselineSimulator:
                     source_node=spec.source_node,
                     destination_node=spec.destination_node,
                     alert_flag=spec.alert_flag or spec.is_ddos_spike,
+                    admitted=accepted,
+                    safe_admitted=accepted,
+                    deployed=False,
+                    actuation_requested=False,
+                    deployment_status="not_applicable_to_local_baseline",
                     method_used=method_used,
                     hybrid_branch="",
                     vnf_name=f"{algorithm}-{scenario.name}-{step}" if accepted else "",
@@ -190,6 +196,7 @@ class BaselineSimulator:
                 )
             )
 
+        wall_clock_s = max(0.0, time.perf_counter() - run_start)
         summary = summarize_records(
             algorithm=algorithm,
             scenario=scenario.name,
@@ -197,6 +204,7 @@ class BaselineSimulator:
             records=records,
             msd_drop_delta=0,
             final_active_vnfs=len(state_manager.as_public_dict().get("active_vnfs") or []),
+            wall_clock_s=wall_clock_s,
         )
         write_records_csv(output_dir / f"{scenario.name}_{algorithm}_records.csv", records)
         return records, summary
@@ -241,12 +249,13 @@ class BaselineSimulator:
     @staticmethod
     def _constraint_failure(snapshot, v_place: int, v_route: int, spec) -> str:
         state = snapshot.state
-        for node in {int(v_place), int(v_route)}:
-            if float(state[node, 2]) + spec.msd_req > float(snapshot.msd_limits[node]):
-                return "msd_violation"
-        for node in {int(v_place), int(v_route)}:
-            if float(state[node, 0]) + spec.cpu_req > 100.0:
-                return "cpu_capacity"
-            if float(state[node, 1]) + spec.ram_req > 100.0:
-                return "ram_capacity"
+        n = len(snapshot.node_names)
+        if not (0 <= int(v_place) < n and 0 <= int(v_route) < n):
+            return "invalid_node"
+        if int(spec.msd_req) > float(snapshot.msd_limits[int(v_route)]):
+            return "msd_violation"
+        if float(state[int(v_place), 0]) + spec.cpu_req > 100.0:
+            return "cpu_capacity"
+        if float(state[int(v_place), 1]) + spec.ram_req > 100.0:
+            return "ram_capacity"
         return ""

@@ -1,0 +1,13 @@
+{
+  "audit_date": "2026-11-16",
+  "kind": "static_source_audit",
+  "live_execution": false,
+  "sources": {
+    "src/portal/backend/app/services/hybrid_decision.py": "1b6801e9d03c32639cc0767caf001b497dee6032237c74913498e7ceed4a82f7",
+    "src/portal/backend/app/routers/orchestration_router.py": "8febd9534768c6ebf4c0ef2237a708c645d67a834e1f59d028a9d8fc40868cf8",
+    "src/portal/backend/app/services/orchestration_service.py": "0575d416cf37a19fa7bf48449e56bcdd88cdd7b45c6aa6753fa29f5f5fedc17e",
+    "src/portal/backend/app/routers/api_v1.py": "2bd45a7763ad7f8062ef943d52a1aa167510dc15a22397631fdb206b81de58f9",
+    "src/infrastructure/sdn/p4_controller.py": "e2b89e8f83e48661b2629372c47d71b1c1bb5311e3a112ac6cb6f2cca395a748",
+    "infrastructure/sdn/controller.py": "13da38419e44ffb0b2feecb35b156adbe8b22002cac6d3cf72e7dd88012f9105"
+  }
+}

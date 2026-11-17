@@ -67,7 +67,13 @@ class RewardCalculator:
                   has_msd_violation: bool = False) -> float:
 
         if not is_valid:
-            return float(self.CPU_OVERFLOW)
+            # Preserve the hard-admission rejection reward while still applying
+            # the configured MSD shaping penalty. This lets the SoftMSD
+            # ablation test the penalty with admission both enabled and disabled.
+            rejected_reward = self.CPU_OVERFLOW
+            if has_msd_violation:
+                rejected_reward += self.MSD_VIOLATION_PENALTY
+            return float(rejected_reward)
 
         # ── [UPDATED] Headroom Bonus ─────────────────────────────
         # Thay thế việc trừ điểm request lớn bằng việc cộng điểm khi node còn dư dả.

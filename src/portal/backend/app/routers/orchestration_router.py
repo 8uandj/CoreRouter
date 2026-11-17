@@ -2,6 +2,8 @@ from fastapi import APIRouter, HTTPException, BackgroundTasks
 import asyncio
 import logging
 import uuid
+import time
+from weakref import WeakKeyDictionary
 
 from src.ai.dgrl_agent import get_dgrl_agent
 from src.ai.heuristic import HardConstraintError
@@ -22,7 +24,17 @@ from src.portal.backend.app.models.schemas import (
 logger = logging.getLogger("OrchestrationRouter")
 router = APIRouter(tags=["Hybrid Orchestration"])
 
-MIGRATION_LOCK = asyncio.Lock()
+_migration_locks = WeakKeyDictionary()
+
+
+def get_migration_lock():
+    """Create the migration lock in the serving loop, never during import."""
+    loop = asyncio.get_running_loop()
+    lock = _migration_locks.get(loop)
+    if lock is None:
+        lock = asyncio.Lock()
+        _migration_locks[loop] = lock
+    return lock
 
 @router.post("/orchestrate")
 async def orchestrate_sfc(request: SFCRequest, background_tasks: BackgroundTasks):
@@ -30,11 +42,14 @@ async def orchestrate_sfc(request: SFCRequest, background_tasks: BackgroundTasks
     Adaptive Hybrid Orchestration endpoint.
     """
     state_manager = get_state_manager()
+    request_start = time.perf_counter()
+    state_sync_start = time.perf_counter()
     try:
         k8s_vnfs = container.orchestrator.list_vnfs()
         state_manager.sync_with_kubernetes(k8s_vnfs)
     except Exception as e:
         logger.error(f"Failed to sync state with K8s during orchestrate: {e}")
+    state_sync_ms = (time.perf_counter() - state_sync_start) * 1000.0
     forecaster = get_forecast_service()
     
     # Trigger Forecast Alert if needed
@@ -65,9 +80,25 @@ async def orchestrate_sfc(request: SFCRequest, background_tasks: BackgroundTasks
             vnf_name=vnf_name,
         )
     except HardConstraintError as exc:
+        message = str(exc)
+        lowered = message.lower()
+        if "msd" in lowered:
+            reason_key = "msd_violation"
+        elif "cpu" in lowered:
+            reason_key = "cpu_capacity"
+        elif "ram" in lowered:
+            reason_key = "ram_capacity"
+        elif "telemetry" in lowered:
+            reason_key = "stale_telemetry"
+        elif "version" in lowered or "stale" in lowered:
+            reason_key = "stale_state"
+        elif "capacity" in lowered or "full" in lowered:
+            reason_key = "placement_capacity"
+        else:
+            reason_key = "no_safe_action"
         raise HTTPException(
             status_code=409,
-            detail={"status": "error", "code": "NO_SAFE_ACTION", "message": str(exc)},
+            detail={"status": "error", "code": "NO_SAFE_ACTION", "reason_key": reason_key, "message": message},
         ) from exc
     except Exception as exc:
         logger.exception("Orchestration internal error")
@@ -85,7 +116,19 @@ async def orchestrate_sfc(request: SFCRequest, background_tasks: BackgroundTasks
     
     # Luồng MBB Proactive nếu có Alert và có VNF đăng ký trong state_manager
     migration_result = None
+    controller_handoff_ms = 0.0
     if branch == "drl" and forecast_alert:
+        if decision.realization.forwarding_sid is None:
+            released, release_reason = state_manager.release_unactuated_reservation(vnf_name)
+            raise HTTPException(status_code=409, detail={
+                "status": "error",
+                "code": "UNSUPPORTED_ADMITTED_REALIZATION",
+                "message": "No verified mapping exists from the admitted SID stack to a forwarding profile.",
+                "reservation_released": released,
+                "reservation_release_reason": release_reason,
+            })
+        # Mark intent before queuing, so a concurrent TTL cannot release it.
+        state_manager.mark_actuation_requested(vnf_name)
         # Tìm VNF cũ tốn CPU nhất trên node được chọn để migrate
         existing_vnfs = [
             vnf for vnf in state_manager.get_vnfs_on_node(choice.v_place)
@@ -94,19 +137,24 @@ async def orchestrate_sfc(request: SFCRequest, background_tasks: BackgroundTasks
         old_vnf = existing_vnfs[0]["name"] if existing_vnfs else None
 
         if old_vnf:
+            handoff_start = time.perf_counter()
             async def background_mbb():
-                async with MIGRATION_LOCK:
+                async with get_migration_lock():
                     await container.orchestration_service.make_before_break_sequence(
                         old_name=old_vnf,
                         new_name=vnf_name,
                         file_name="vnf-firewall.yaml" if request.service_type.lower() == "attack" else "vnf-frr.yaml",
                         target_location=location_key(str(placement["name"])),
                         request=request,
-                        ai_node_id=choice.v_place
+                        ai_node_id=choice.v_place,
+                        admitted_realization=decision.realization,
                     )
             background_tasks.add_task(background_mbb)
-            migration_result = {"status": "triggered", "old_vnf": old_vnf, "new_vnf": vnf_name}
+            controller_handoff_ms = (time.perf_counter() - handoff_start) * 1000.0
+            migration_result = {"status": "triggered", "old_vnf": old_vnf, "new_vnf": vnf_name,
+                                "status_path": f"/orchestrate/migrations/{vnf_name}"}
         else:
+            handoff_start = time.perf_counter()
             # Không có VNF cũ → chỉ deploy VNF mới thông thường qua Tekton
             async def background_deploy():
                 container.orchestrator.trigger_deploy(
@@ -118,7 +166,15 @@ async def orchestrate_sfc(request: SFCRequest, background_tasks: BackgroundTasks
                     if hasattr(container.orchestration_service, "get_k8s_hostname") else "",
                 )
             background_tasks.add_task(background_deploy)
+            controller_handoff_ms = (time.perf_counter() - handoff_start) * 1000.0
             migration_result = {"status": "deploying", "vnf_name": vnf_name}
+
+    timings_ms = {
+        "state_sync_ms": state_sync_ms,
+        **decision.timings_ms,
+        "controller_handoff_ms": controller_handoff_ms,
+        "server_decision_ms": (time.perf_counter() - request_start) * 1000.0,
+    }
 
     data = {
         "vnf_name": vnf_name,
@@ -127,6 +183,9 @@ async def orchestrate_sfc(request: SFCRequest, background_tasks: BackgroundTasks
         "srv6_segment_list": sid_stack,
         "method_used": method,
         "hybrid_branch": branch,
+        "decision_state_version": decision.decision_state_version,
+        "admission_state_version": decision.admission_state_version,
+        "timings_ms": timings_ms,
         "global_utilization": public_state["global_utilization"],
         "avg_cpu": public_state["avg_cpu"],
         "avg_msd_usage": public_state["avg_msd_usage"],
@@ -153,8 +212,19 @@ async def orchestrate_sfc(request: SFCRequest, background_tasks: BackgroundTasks
         "srv6_segment_list": sid_stack,
         "method_used": method,
         "hybrid_branch": branch,
+        "decision_state_version": decision.decision_state_version,
+        "admission_state_version": decision.admission_state_version,
+        "timings_ms": timings_ms,
         "migration_result": migration_result
     }
+
+@router.get("/orchestrate/migrations/{replacement}")
+def get_migration_status(replacement: str):
+    record = container.orchestration_service.get_migration_status(replacement)
+    if record is None:
+        raise HTTPException(status_code=404, detail="Migration record not found")
+    return record
+
 
 @router.get("/orchestrate/state")
 def get_hybrid_state():
@@ -223,7 +293,7 @@ async def set_alert(alert: bool, background_tasks: BackgroundTasks):
             logger.info(f"PHASE 7 ALERT: Hot nodes {hot_nodes}. Sequential migration starting...")
             
             async def sequential_proactive_migration():
-                async with MIGRATION_LOCK:
+                async with get_migration_lock():
                     for node_id in hot_nodes:
                         vnfs = sm.get_vnfs_on_node(node_id)
                         # Sắp xếp ngốn CPU giảm dần
@@ -279,7 +349,10 @@ def reset_network_state():
     CANH BAO: Chi dung cho Benchmark/Testing, KHONG dung trong Production.
     """
     sm = get_state_manager()
-    sm.reset()
+    try:
+        sm.reset()
+    except ValueError as exc:
+        raise HTTPException(status_code=409, detail={"reason_key": str(exc)}) from exc
     state = sm.as_public_dict()
     logger.info("[BENCHMARK] Network state reset by /orchestrate/reset")
     return {
@@ -294,5 +367,12 @@ def free_network_resources(req: FreeResourceRequest):
     Giai phong tai nguyen khi SFC het han (TTL expire)
     """
     sm = get_state_manager()
-    sm.free_resources(req.v_place, req.v_route, req.cpu_req, req.ram_req, req.msd_req)
+    if req.vnf_name is not None:
+        accepted, reason = sm.release_unactuated_reservation(req.vnf_name)
+        if not accepted:
+            code = ("DEPLOYED_TTL_TEARDOWN_REQUIRED"
+                    if reason == "deployed_teardown_required" else "RESERVATION_RELEASE_BLOCKED")
+            raise HTTPException(status_code=409, detail={"code": code, "reason_key": reason})
+    else:
+        sm.free_resources(req.v_place, req.v_route, req.cpu_req, req.ram_req, req.msd_req)
     return {"status": "success", "message": "Resources freed"}

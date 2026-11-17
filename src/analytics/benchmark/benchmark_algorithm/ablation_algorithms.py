@@ -51,7 +51,7 @@ def run_harp_full(
 
     if not model_path.exists() or not norm_path.exists():
         raw_env.close()
-        return metrics
+        raise FileNotFoundError(f"Missing HARP full model/normalizer: {model_path}, {norm_path}")
 
     model = build_model_from_policy_weights(raw_env, model_path)
     normalizer = load_normalizer(norm_path, model.get_env())
@@ -74,48 +74,13 @@ def run_harp_full(
 # ═══════════════════════════════════════════════════════════════
 
 def _build_mlp_model(raw_env, model_path: Path) -> MaskablePPO:
-    """Build a MaskablePPO with a flat MLP instead of GNN feature extractor.
-
-    The policy/value MLP heads have the same architecture [256, 128]
-    but the feature extractor is a simple feedforward network that
-    treats the observation as a flat vector — no graph structure.
-    """
-    from stable_baselines3.common.torch_layers import BaseFeaturesExtractor
-    from gymnasium import spaces
-    import torch.nn as nn
-
-    class FlatMLPExtractor(BaseFeaturesExtractor):
-        """Topology-blind MLP that processes the same obs vector without GAT."""
-        def __init__(self, observation_space: spaces.Box, features_dim: int = 256):
-            super().__init__(observation_space, features_dim=features_dim)
-            obs_dim = observation_space.shape[0]
-            self.net = nn.Sequential(
-                nn.Linear(obs_dim, 512),
-                nn.LayerNorm(512),
-                nn.ReLU(),
-                nn.Dropout(0.05),
-                nn.Linear(512, features_dim),
-                nn.ReLU(),
-            )
-
-        def forward(self, obs: torch.Tensor) -> torch.Tensor:
-            return self.net(obs)
-
-    vec_env = DummyVecEnv([lambda: raw_env])
-    model = MaskablePPO(
-        "MlpPolicy",
-        vec_env,
-        policy_kwargs=dict(
-            features_extractor_class=FlatMLPExtractor,
-            features_extractor_kwargs=dict(features_dim=256),
-            net_arch=dict(pi=[256, 128], vf=[256, 128]),
-        ),
-        device="cpu",
+    """Load a trained no-GAT policy; never evaluate random initialization."""
+    if not model_path.exists():
+        raise FileNotFoundError(f"Missing trained no-GAT checkpoint: {model_path}")
+    raise RuntimeError(
+        "The legacy ablation loader cannot reconstruct the trained no-GAT extractor. "
+        "Use `python -m src.analytics.ablation_study` with the matching variant checkpoint."
     )
-    # Note: We do NOT load pre-trained GAT weights since the architecture
-    # is fundamentally different. The MLP runs with random initialization
-    # to show what a topology-blind policy looks like.
-    return model
 
 
 def run_harp_no_gat(
@@ -134,12 +99,11 @@ def run_harp_no_gat(
     random.seed(seed)
     metrics = RunMetrics("harp_no_gat", scenario, raw_env.topo.topology_name, seed)
 
+    if not norm_path.exists():
+        raw_env.close()
+        raise FileNotFoundError(f"Missing no-GAT normalizer: {norm_path}")
     model = _build_mlp_model(raw_env, model_path)
-    # Use normalizer if available for fair comparison
-    try:
-        normalizer = load_normalizer(norm_path, model.get_env())
-    except Exception:
-        normalizer = None
+    normalizer = load_normalizer(norm_path, model.get_env())
 
     obs, _ = raw_env.reset(seed=seed)
 
@@ -177,7 +141,7 @@ def run_harp_no_hard_masking(
 
     if not model_path.exists() or not norm_path.exists():
         raw_env.close()
-        return metrics
+        raise FileNotFoundError(f"Missing no-mask model/normalizer: {model_path}, {norm_path}")
 
     model = build_model_from_policy_weights(raw_env, model_path)
     normalizer = load_normalizer(norm_path, model.get_env())
@@ -224,7 +188,7 @@ def run_harp_soft_msd_penalty(
 
     if not model_path.exists() or not norm_path.exists():
         raw_env.close()
-        return metrics
+        raise FileNotFoundError(f"Missing soft-MSD model/normalizer: {model_path}, {norm_path}")
 
     model = build_model_from_policy_weights(raw_env, model_path)
     normalizer = load_normalizer(norm_path, model.get_env())
@@ -272,7 +236,7 @@ def run_harp_no_adaptive_penalty(
 
     if not model_path.exists() or not norm_path.exists():
         raw_env.close()
-        return metrics
+        raise FileNotFoundError(f"Missing no-adaptive model/normalizer: {model_path}, {norm_path}")
 
     model = build_model_from_policy_weights(raw_env, model_path)
     normalizer = load_normalizer(norm_path, model.get_env())

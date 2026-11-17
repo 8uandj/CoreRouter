@@ -6,6 +6,35 @@ import numpy as np
 from typing import Optional, Dict, Any, List, Tuple
 from math import radians, sin, cos, sqrt, atan2
 
+
+SYNTHETIC_TOPOLOGY_SIZES = (25, 50, 100)
+
+
+def _synthetic_grid_topology(size: int) -> Dict[str, Any]:
+    """Build a deterministic square-grid substrate for controlled size sweeps.
+
+    Synthetic nodes have uniform CPU/RAM/MSD profiles.  Grid edges define the
+    GNN adjacency; coordinates are a fixed 25 km grid used only by the existing
+    propagation-delay approximation.  This is a scalability fixture, not a
+    claim that the graph represents a deployed operator network.
+    """
+    if size not in SYNTHETIC_TOPOLOGY_SIZES:
+        raise ValueError(f"Unsupported synthetic topology size: {size}")
+    width = int(np.ceil(np.sqrt(size)))
+    nodes = []
+    for index in range(size):
+        row, col = divmod(index, width)
+        lat = row * 25.0 / 111.0
+        lon = col * 25.0 / (111.0 * max(0.2, cos(radians(lat))))
+        # Keep names stable across invocations and independent of RNG state.
+        nodes.append((f"S{index:03d}", lat, lon, "core" if index % 4 == 0 else "edge", 10, 1))
+    return {
+        "description": f"Synthetic {size}-node grid (25 km spacing)",
+        "p99_latency_threshold": 1e9,
+        "nodes": nodes,
+        "synthetic_grid": {"width": width, "spacing_km": 25.0},
+    }
+
 # ══════════════════════════════════════════════════════════════
 #  Network Physical Constants
 # ══════════════════════════════════════════════════════════════
@@ -91,9 +120,21 @@ def _haversine_km(lat1: float, lon1: float, lat2: float, lon2: float) -> float:
 
 class TopologyManager:
     def __init__(self, topology_name: str = "vietnam"):
-        data = TOPOLOGIES[topology_name]
+        if topology_name.startswith("synthetic_"):
+            try:
+                synthetic_size = int(topology_name.removeprefix("synthetic_"))
+            except ValueError as exc:
+                raise ValueError(f"Invalid synthetic topology name: {topology_name}") from exc
+            data = _synthetic_grid_topology(synthetic_size)
+        else:
+            try:
+                data = TOPOLOGIES[topology_name]
+            except KeyError as exc:
+                raise ValueError(f"Unknown topology: {topology_name}") from exc
         self.topology_name = topology_name
         self.num_nodes = len(data["nodes"])
+        self.description = data["description"]
+        self.is_synthetic = "synthetic_grid" in data
         self.names = [n[0] for n in data["nodes"]]
         self.lats = [n[1] for n in data["nodes"]]
         self.lons = [n[2] for n in data["nodes"]]
@@ -115,6 +156,17 @@ class TopologyManager:
         return L
 
     def _build_adj_matrix(self) -> np.ndarray:
+        if self.is_synthetic:
+            width = int(np.ceil(np.sqrt(self.num_nodes)))
+            adj = np.zeros((self.num_nodes, self.num_nodes), dtype=np.float32)
+            for node in range(self.num_nodes):
+                row, col = divmod(node, width)
+                for other in range(self.num_nodes):
+                    other_row, other_col = divmod(other, width)
+                    if abs(row - other_row) + abs(col - other_col) == 1:
+                        adj[node, other] = 1.0
+            np.fill_diagonal(adj, 1.0)
+            return adj
         adj = (self.latency_matrix < self.gat_threshold).astype(np.float32)
         np.fill_diagonal(adj, 1.0)
         return adj

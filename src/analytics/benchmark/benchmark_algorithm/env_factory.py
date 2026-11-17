@@ -12,8 +12,7 @@ from src.orchestration.jo_vdpr.topology import TopologyManager
 def resolve_data_path(path: Path) -> Path:
     if path.exists():
         return path
-    fallback = Path("data/real_telecom_combined.csv")
-    return fallback if fallback.exists() else path
+    raise FileNotFoundError(f"Cannot find pinned benchmark dataset: {path}")
 
 
 def make_env(
