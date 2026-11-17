@@ -1,6 +1,6 @@
 import unittest
 
-from src.analytics.benchmark.benchmark_algorithm.algorithms import _restore_env, _snapshot_env
+from src.analytics.benchmark.benchmark_algorithm.algorithms import _restore_env, _snapshot_env, run_exhaustive
 from src.analytics.benchmark.benchmark_algorithm.env_factory import make_env
 from src.analytics.benchmark.benchmark_algorithm.config import load_params
 from src.analytics.benchmark.benchmark_algorithm.env_factory import resolve_data_path
@@ -8,6 +8,16 @@ from pathlib import Path
 
 
 class ExhaustiveSnapshotTests(unittest.TestCase):
+    def test_exhaustive_benchmark_collects_one_step(self):
+        data = resolve_data_path(Path("data/real_telecom_combined.csv"))
+        arrival, ttl = load_params("stress")
+
+        def make_env_fn():
+            return make_env("vietnam", data, 1, arrival, ttl, "uniform")
+
+        metrics = run_exhaustive(make_env_fn, "uniform", steps=1, seed=42)
+        self.assertEqual(metrics.requests, 1)
+
     def test_counterfactual_candidate_rolls_back_lifecycle_and_workload_state(self):
         data = resolve_data_path(Path("data/real_telecom_combined.csv"))
         arrival, ttl = load_params("stress")

@@ -12,13 +12,15 @@ one routing node per request. They do not realize a general multi VNF chain.
 | Release | Remove only a tracked named or anonymous reservation. Recompute the maximum remaining per-list depth when a reservation is removed. |
 | Mask exhaustion | An all-false mask stays all false. It means no candidate passed the current feasibility predicate and must not be turned into unrestricted actions. |
 
-The learned policy action is flat `Discrete(N²)`, encoded as
-`v_place * N + v_route`. The Gym environment, training runs, benchmarks and
-runtime inference must all use this same action and mask shape. The runtime
-mask has N² entries and marks a pair only when placement CPU/RAM and route MSD
-pass; atomic admission rechecks those constraints before reservation. Historical
-MultiDiscrete checkpoints are incompatible with this interface and must be
-retrained or independently validated before inference.
+The current Gym environment and runtime inference use flat `Discrete(N²)`
+actions, encoded as `v_place * N + v_route`. The runtime mask has N² entries
+and marks a pair only when placement CPU/RAM and route MSD pass; atomic
+admission rechecks those constraints before reservation. Recovered main v11
+checkpoints were trained with `MultiDiscrete([N,N])` and a `2N`-logit head.
+The inference adapter sums placement and route logits for each pair before
+applying the N² mask. This preserves the unmasked factorized distribution;
+the original training mask and any revised pair-mask outcome are separate
+provenance questions. The checkpoint and normalizer are not changed.
 
 The in-process lock makes local admission and release updates atomic within one
 `NetworkStateManager`; it does not provide a transaction across Kubernetes,

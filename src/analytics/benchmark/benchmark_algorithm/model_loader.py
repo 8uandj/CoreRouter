@@ -11,6 +11,7 @@ from sb3_contrib import MaskablePPO
 from stable_baselines3.common.vec_env import DummyVecEnv
 
 from src.orchestration.jo_vdpr.gnn_policy import GNNActorCriticPolicy
+from src.ai.action_adapter import factorized_action_head_to_flat
 
 
 class NpzNormalizer:
@@ -69,9 +70,22 @@ def build_model_from_policy_weights(raw_env, model_path: Path) -> MaskablePPO:
     zip_path = _flatten_single_root_archive(model_path)
     with zipfile.ZipFile(zip_path, "r") as archive:
         with archive.open("policy.pth") as handle:
-            model.policy.load_state_dict(
-                torch.load(io.BytesIO(handle.read()), map_location="cpu", weights_only=False)
+            state = torch.load(io.BytesIO(handle.read()), map_location="cpu", weights_only=False)
+    action_weight = state.get("action_net.weight")
+    action_bias = state.get("action_net.bias")
+    expected_actions = raw_env.num_nodes * raw_env.num_nodes
+    if action_weight is not None and action_bias is not None:
+        if action_weight.shape[0] == 2 * raw_env.num_nodes and action_bias.shape[0] == 2 * raw_env.num_nodes:
+            state["action_net.weight"], state["action_net.bias"] = factorized_action_head_to_flat(
+                action_weight, action_bias, num_nodes=raw_env.num_nodes
             )
+        elif action_weight.shape[0] != expected_actions or action_bias.shape[0] != expected_actions:
+            raise ValueError(
+                f"unsupported action head for {raw_env.num_nodes} nodes: "
+                f"weight={action_weight.shape[0]}, bias={action_bias.shape[0]}; "
+                f"expected flat N²={expected_actions} or factorized 2N={2 * raw_env.num_nodes}"
+            )
+    model.policy.load_state_dict(state)
     return model
 
 

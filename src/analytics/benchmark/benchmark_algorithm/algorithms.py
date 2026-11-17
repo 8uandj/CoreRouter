@@ -41,7 +41,7 @@ def run_exhaustive(make_env_fn: EnvMaker, scenario: str, steps: int, seed: int, 
                     best_action = [v_place, v_route]
 
         _restore_env(env, snapshot)
-        _, reward, done, _, info = _step_and_collect(
+        _, reward, done, info = _step_and_collect(
             env, best_action, metrics, decision_start,
             {"candidate_search_ms": (time.perf_counter() - decision_start) * 1000.0},
         )

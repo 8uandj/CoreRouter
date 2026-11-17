@@ -13,6 +13,7 @@ from scripts.rev1.check_artifacts import (
     inspect_normalizer_artifact,
     run_protocol,
 )
+from src.analytics.benchmark.benchmark_algorithm.model_loader import factorized_action_head_to_flat
 
 
 def write_model(path: Path, *, nodes=3, architecture="gat", action_dim=None, observation_dim=None):
@@ -67,6 +68,25 @@ class ArtifactContractTests(unittest.TestCase):
             write_model(model, nodes=3, action_dim=6)
             with self.assertRaisesRegex(ValueError, "action head"):
                 inspect_model_artifact(model, expected_nodes=3, expected_architecture="gat")
+
+    def test_factorized_2n_action_head_is_explicitly_accepted_for_main_checkpoint(self):
+        with tempfile.TemporaryDirectory() as temp:
+            model = Path(temp) / "model.zip"
+            write_model(model, nodes=3, action_dim=6)
+            info = inspect_model_artifact(
+                model, expected_nodes=3, expected_architecture="gat", action_encoding="factorized_2n"
+            )
+            self.assertEqual(info["action_dim"], 6)
+            self.assertEqual(info["action_encoding"], "factorized_2n")
+
+    def test_factorized_action_head_preserves_pairwise_additive_scores(self):
+        weight = torch.arange(6 * 2, dtype=torch.float32).reshape(6, 2)
+        bias = torch.arange(6, dtype=torch.float32)
+        flat_weight, flat_bias = factorized_action_head_to_flat(weight, bias, num_nodes=3)
+        self.assertTrue(torch.equal(flat_weight[1], weight[0] + weight[4]))
+        self.assertTrue(torch.equal(flat_weight[5], weight[1] + weight[5]))
+        self.assertTrue(torch.equal(flat_bias[1], bias[0] + bias[4]))
+        self.assertTrue(torch.equal(flat_bias[5], bias[1] + bias[5]))
 
     def test_missing_normalizer_fails(self):
         with self.assertRaisesRegex(FileNotFoundError, "normalizer"):

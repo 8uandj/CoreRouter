@@ -44,10 +44,14 @@ The first 10 preserve the prior revision proposal; the added 10 are fixed in
 `configs/rev1/protocol.json`. Do not alter this list after result collection
 starts. Plan each topology separately (default is plan-only):
 
-The current training bundle records 20 missing ablation checkpoint files for
-Vietnam and GEANT2. Evaluation packaging/preflight must remain blocked until
-compatible checkpoints and normalizers are produced and pinned; this freeze
-does not fabricate or substitute model artifacts.
+The workspace contains the full v11 checkpoint and all five final ablation
+checkpoints, each with a matching normalizer, for Vietnam, NSFNET, and GEANT2.
+The main v11 checkpoints use a legacy factorized `MultiDiscrete([N,N])` action
+head; the evaluator converts its two N-logit heads to additive N² pair logits
+before applying the pair mask. Ablation checkpoints use flat `Discrete(N²)`.
+Preflight checks this distinction explicitly and rejects any other action-head
+shape. Evaluation artifacts still need to be packaged and pinned against the
+final reviewed source tree before an evaluation phase can start.
 
 ```sh
 python scripts/rev1/phase_driver.py --stage evaluate --topology vietnam \

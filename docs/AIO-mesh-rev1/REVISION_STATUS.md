@@ -1,6 +1,6 @@
 # Revision status
 
-Updated: 2026-11-16
+Updated: 2026-11-17
 
 ## Integrity recovery
 
@@ -11,7 +11,7 @@ Updated: 2026-11-16
 
 - `NetworkStateManager` now charges CPU/RAM to placement only, checks each list's SID depth against the routing node limit, tracks anonymous TTL reservations, rejects malformed or duplicate named reservations, and reconstructs per-node MSD state as maximum active depth.
 - Heuristic feasibility, Gym policies, SAF-H candidate generation, and the testbed baseline predicate now use the same per-list MSD interpretation. Environment action decoding rejects malformed/out-of-range values and an empty action mask stays empty.
-- The production DRL adapter now matches the current trainer's flat `Discrete(N²)` action space: it builds an N² pair mask and decodes scalar policy output as `v_place * N + v_route`. Recovered historical MultiDiscrete checkpoints remain incompatible and must be retrained.
+- The production DRL runtime now accepts the recovered main v11 `MultiDiscrete([N,N])` checkpoints by converting their factorized `2N` action heads into additive `N²` pair logits before applying the runtime pair mask. The current trainer still declares flat `Discrete(N²)`. Historical training provenance and revised runtime results must be reported separately.
 - DRL inference no longer reports a heuristic shadow choice as a loaded model. Missing or unreadable normalizer statistics fail model loading, and checkpoint space mismatches use an explicit safe-search fallback.
 - Chaos is now an independently seeded two-state Markov demand profile with documented transition and demand parameters; historical records remain untouched.
 - The Gym simulator now checks exactly the SID-list depth emitted by the runtime pair-level realization; it no longer adds an unmaterialized hop count. The implementation and evidence explicitly remain pair-level and do not claim full multi-VNF-chain validation.
@@ -30,17 +30,16 @@ Updated: 2026-11-16
 - The load-sweep runner can now seed fixed-profile active background chains after every matched reset, independently from offered arrival rate and live API concurrency. It supports repeatable 0/25/50/100 chain conditions, records the seeded population/profile, and rejects populations that exceed per-node CPU/RAM capacity. This is a simulation workload control; no active-chain sweep has been run yet.
 - Replaced the old P4 MSD script, which only compared SID counts in Python while claiming switch enforcement, with an actual BMv2 packet harness. It injects an over-depth packet and a boundary-depth packet, checks egress capture and the existing violation counter, and writes PCAPs plus a JSON record including compiled JSON/source hashes and verifies the compiled SID-stack size matches the requested MSD. It states that runtime admission is outside this data-plane test. The harness syntax/profile were checked, but no live BMv2 packet run has occurred. Run instructions and evidence limits are in `infrastructure/sdn/p4/README.md`.
 - Migration rollback now releases a replacement's local resource reservation only after the terminate request is followed by an explicit Kubernetes observation that both its Deployment and matching Pods are absent. Failed/unavailable termination or inconclusive Kubernetes state retains the reservation. A MAKE-start failure uses the same absence check. Unit tests cover confirmed deletion and inconclusive presence.
-- Current checks: all 57 revision tests pass; 15 additional repository tests pass and 4 HTTP tests skip because FastAPI/httpx are absent from this venv; `py_compile` and `git diff --check` pass. Regression coverage confirms the production DRL mask/action matches flat `Discrete(N²)`, high per-node CPU alert alone does not engage DRL at low global utilization, and benchmark runs fail closed when trace records are absent. Runtime and Gym pair masks also matched across four varied CPU/RAM/MSD states. A direct Vietnam benchmark preflight rejected the recovered main checkpoint at the policy state-dict/action-head shape; retraining is required. The seven-variant evaluator and benchmark/load-sweep code have short NSFNET smoke runs using existing compatible ablation checkpoints; these are code smokes, not experimental results. Vietnam and GEANT2 ablation checkpoints are missing.
+- Earlier checks (before the legacy adapter): 57 revision tests passed; the old Vietnam preflight rejected the recovered main checkpoint because the `2N` and `N²` heads differed. The later offline loader and current runtime adapter resolve that shape mismatch. These earlier test counts and missing-artifact observations are historical and do not describe the current checkout. The short NSFNET smokes were code checks, not experimental results.
 
 ## Still open before E1 can close
 
 - Measure MBB peak occupancy and verify deployment failure/rollback against a live Kubernetes testbed; local tests now check reservation release only after confirmed absence and retention when state is inconclusive.
 - Audit full pair → SID generation → P4/controller realization and topology-specific MSD meaning; current contract is pair-level and does not claim full chain realization.
-- Retrain all three main v11 checkpoints with the current flat `N²` action interface. The `train_v11 --topology all` option now emits names resolved by the benchmark loader.
-- Retrain ablation variants on Vietnam and GEANT2; although NSFNET checkpoint spaces pass, rerun/retrain all topology-variant checkpoints under corrected MSD semantics before research evaluation.
-- Confirm full three-topology benchmark/ablation preflight after retraining; two main v11 checkpoints and twelve topology-variant ablation checkpoints are absent or incompatible in this workspace.
-- Pass the ten-seed primary protocol end-to-end after checkpoint retraining.
-- Retrain all v11 policies after the pair-level MSD semantics correction, then run full matched multi-seed benchmarks and ablations on all three topologies.
+- Evaluate the three retained main v11 checkpoints through the validated factorized-to-pair adapter, with pinned model and normalizer hashes. The `train_v11 --topology all` option remains available but is not part of the chosen no-retraining path.
+- Pin and preflight the retained ablation checkpoints for Vietnam, NSFNET and GEANT2; distinguish any absent variant from a compatible retained artifact.
+- Run the matched evaluation protocol with retained checkpoints under the corrected evaluator and label results as legacy-policy evaluation. The changed MSD semantics mean these runs cannot be described as training under the corrected semantics.
+- Pass the ten-seed primary protocol end-to-end without a training stage, then decide which manuscript claims the resulting evidence actually supports.
 - Run the topology-size (10/25/50/100 nodes) sweeps after training size-matched checkpoints; verify normalized offered load and report node/edge count, memory and timing. Run the active-chain-count sweep on matched traces separately from live concurrent API load. The live concurrency harness covers simultaneous API requests, while decision-stage timing instrumentation exists for the current supported topology/policy runners.
 - Add a K-sensitivity runner only if a candidate-path cache is introduced; no such cache exists in the current runtime.
 - Complete controlled over-MSD/P4 evidence, MBB steering confirmation/rollback checks, and run the multi-hour/24-hour HIL protocol. Harness support is present, but these require the deployment/testbed and cannot be replaced by Gym smoke runs.
@@ -236,3 +235,17 @@ Only short smoke runs were performed. No research-scale revision experiment, Kag
 - Changed Python sources compile; `git diff --check` passes; phase, package and freeze-verifier `--help` command contracts return successfully.
 - Committed all workspace changes as a code-freeze snapshot. Built a fresh training package and ran `verify_freeze.py`; result `ready`, clean tree, package/source/data/config and CLI checks passed. Training package mode intentionally omits missing model checkpoints; no evaluation package or research evidence is claimed.
 - No simulation data collection, training, benchmark, server provisioning, controller actuation, or HIL was run. Positive physical steering and deployed TTL teardown remain disabled pending a verified profile and readback workflow.
+
+## Continuation: legacy main-checkpoint action compatibility
+
+- The three retained `main_v11` checkpoints have factorized `2N` action heads, while the current benchmark environment uses flat `N²` placement/route pair actions. The benchmark loader now converts the two N-way linear heads into additive pair logits (`place[p] + route[r]`) before loading, so the existing weights and matching normalizers can be evaluated without retraining. Pair-level action masks still apply after conversion.
+- `configs/rev1/protocol.json` declares `factorized_2n` only for `main_v11`; the 15 ablation checkpoints remain explicitly `flat_n2`. Artifact preflight checks the declared encoding and rejects any other dimension. `FREEZE_MANIFEST.md` now lists the present full and ablation artifacts accurately.
+- Verification: focused artifact-contract suite 8 passed; 188 tests passed when excluding the HTTP API module. The full 198-test command stalls on the first `TestClient` request; a minimal FastAPI/TestClient request also stalls in this environment, so the 10 HTTP tests could not be verified here. Evaluation package assembled with all 18 model/normalizer pairs and no missing artifacts; artifact preflight reported `ready` with 0 issues; one masked inference from each of the three actual main checkpoints loaded and returned an action inside the N² mask. After commit `42f1c1427397b0731924dadaf11ad404c6c04df4`, `verify_freeze.py` reported `ready`, clean worktree, and passed all CLI contracts.
+- No training, ablation run, benchmark collection, simulation result collection, or HIL was run. Evaluation package SHA-256 from this dirty draft is temporary and must be regenerated after the final reviewed commit.
+
+## Continuation: evaluation package verify CLI and phase plans
+
+- Fixed `package_inputs.py --verify`: it now resolves the requested workspace root before validating package inputs. Added a regression for the CLI path that previously raised `UnboundLocalError`.
+- The focused artifact/package tests pass (20 passed), and artifact preflight reports `ready` (18 artifacts, 0 issues). All 15 unique ablation checkpoint/normalizer pairs loaded through the exact ablation preflight path; the three main checkpoints also loaded and produced mask-valid pair actions. These checks do not call `env.step` or collect results.
+- Created an evaluation bundle at `results/rev1/inputs/rev1-evaluation-inputs.zip` with the extracted resolved protocol alongside it. The archive SHA-256 is `086d6ab67ad714de60bb9ec67a03dd2a255c53d0be92b878f55dba0ffc43deb0`; package CLI verification and exact protocol matching pass. Plan-only driver commands for Vietnam, NSFNET, and GEANT2 each produced 11 commands with `execute=false`.
+- Full regression caveat remains: 188 tests pass without `tests/test_orchestration_api.py`; the first HTTP test stalls in this runtime, and a minimal FastAPI/TestClient request reproduces the stall. No training, ablation results, benchmark results, or HIL were run.

@@ -1,8 +1,10 @@
 import json
+import hashlib
+import sys
 import zipfile
 from pathlib import Path
 import pytest
-from scripts.rev1.package_inputs import build_package, verify_package
+from scripts.rev1.package_inputs import build_package, main, verify_package
 
 
 def fixture_root(root):
@@ -188,3 +190,15 @@ def test_package_source_manifest_must_match_current_workspace(tmp_path):
     (tmp_path / 'src/main.py').write_text('changed after packaging\n')
     with pytest.raises(ValueError, match='workspace source hash mismatch'):
         verify_workspace_inputs(target, manifest, tmp_path)
+
+
+def test_verify_cli_uses_the_requested_workspace_root(tmp_path, monkeypatch):
+    protocol = fixture_root(tmp_path)
+    target = tmp_path / 'training.zip'
+    build_package(tmp_path, protocol, target, mode='training')
+    digest = hashlib.sha256(target.read_bytes()).hexdigest()
+    monkeypatch.setattr(sys, 'argv', [
+        'package_inputs.py', '--root', str(tmp_path), '--protocol', 'configs/rev1/protocol.json',
+        '--verify', str(target), '--expected-sha256', digest, '--expected-mode', 'training',
+    ])
+    assert main() == 0

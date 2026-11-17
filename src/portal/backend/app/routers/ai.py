@@ -93,6 +93,7 @@ def get_ai_status():
     status_dict.update({
         "model_loaded": model_loaded,
         "model_version": "v11",
+        "action_encoding": agent.action_encoding,
         "dgrl_status": dgrl_status,
         "model_path": agent.model_path,
         "scaler_path": agent.scaler_path,
