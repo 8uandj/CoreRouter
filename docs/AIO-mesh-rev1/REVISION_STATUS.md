@@ -236,6 +236,12 @@ Only short smoke runs were performed. No research-scale revision experiment, Kag
 - RED→GREEN focused verification: realization contract/admission 15 passed; migration lifecycle regression 10 passed; unresolved-realization HTTP rejection 1 passed outside sandbox; phase driver, dataset input and lifecycle subset 24 passed; freeze verifier 2 passed. Existing matplotlib/pyparsing deprecation warnings remain. No training, benchmark, simulation data collection, server provisioning or HIL was run.
 - Code freeze now uses fail-closed restrictions for unsupported physical operations. Positive forwarding-profile support and deployed P4 teardown/readback remain unavailable and must stay disabled.
 
+## Continuation: BMv2 canary stopped at topology gate — 2026-11-17
+
+- With the user's approval, restarted s1 only using the reviewed offline MSD 10 P4 build. The canary verified End.DX4/readback counters, all four ports UP, and restored the local SID bootstrap. The original container remains stopped as a rollback copy.
+- After the user stopped `corerouter-p4`, tmux was unavailable and controller REST `:8765` refused connections. Read-only port inspection found port 1 DOWN on s1–s9, the Mininet host attachments missing/down, and s10 exited with code 137 (not OOM). The guarded s2 preflight failed on `s2-eth1 DOWN`; no switches after s1 were changed.
+- Do not run the remaining reload, VNF smoke, migration or long HIL until Mininet host links/controller are restored. The existing `topo_p4.py` startup also changes host bridge/routes/firewall, so it is not authorized under the current constraints. Current P4 state is partial; full HIL remains blocked.
+
 ### Final code-only check for this continuation
 
 - `venv/bin/python -m pytest tests/rev1 tests/test_state_manager.py tests/test_hybrid_decision.py tests/test_orchestration_api.py -q` → 196 passed, 14 matplotlib/pyparsing deprecation warnings.

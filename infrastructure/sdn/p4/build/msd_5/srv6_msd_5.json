@@ -6,12 +6,16 @@
       "fields" : [
         ["tmp", 1, false],
         ["tmp_0", 1, false],
-        ["remaining_0", 8, false],
+        ["tmp_1", 1, false],
+        ["tmp_2", 1, false],
+        ["tmp_3", 1, false],
+        ["tmp_4", 1, false],
+        ["remaining_0", 9, false],
         ["hasReturned", 1, false],
         ["userMetadata.sid_count", 8, false],
         ["userMetadata.is_srv6", 1, false],
         ["userMetadata.msd_exceeded", 1, false],
-        ["_padding_0", 3, false]
+        ["_padding_0", 6, false]
       ]
     },
     {
@@ -175,7 +179,8 @@
     ["ParserTimeout", 6],
     ["ParserInvalidArgument", 7],
     ["IPv6IncorrectVersion", 8],
-    ["SRv6SegmentDepthExceeded", 9]
+    ["SRv6SegmentDepthExceeded", 9],
+    ["SRv6Malformed", 10]
   ],
   "enums" : [],
   "parsers" : [
@@ -419,18 +424,28 @@
                         "value" : {
                           "op" : "+",
                           "left" : {
-                            "type" : "field",
-                            "value" : ["srv6", "lastEntry"]
+                            "type" : "expression",
+                            "value" : {
+                              "op" : "&",
+                              "left" : {
+                                "type" : "field",
+                                "value" : ["srv6", "lastEntry"]
+                              },
+                              "right" : {
+                                "type" : "hexstr",
+                                "value" : "0x01ff"
+                              }
+                            }
                           },
                           "right" : {
                             "type" : "hexstr",
-                            "value" : "0x01"
+                            "value" : "0x0001"
                           }
                         }
                       },
                       "right" : {
                         "type" : "hexstr",
-                        "value" : "0xff"
+                        "value" : "0x01ff"
                       }
                     }
                   }
@@ -464,24 +479,34 @@
                                 "value" : {
                                   "op" : "+",
                                   "left" : {
-                                    "type" : "field",
-                                    "value" : ["srv6", "lastEntry"]
+                                    "type" : "expression",
+                                    "value" : {
+                                      "op" : "&",
+                                      "left" : {
+                                        "type" : "field",
+                                        "value" : ["srv6", "lastEntry"]
+                                      },
+                                      "right" : {
+                                        "type" : "hexstr",
+                                        "value" : "0x01ff"
+                                      }
+                                    }
                                   },
                                   "right" : {
                                     "type" : "hexstr",
-                                    "value" : "0x01"
+                                    "value" : "0x0001"
                                   }
                                 }
                               },
                               "right" : {
                                 "type" : "hexstr",
-                                "value" : "0xff"
+                                "value" : "0x01ff"
                               }
                             }
                           },
                           "right" : {
                             "type" : "hexstr",
-                            "value" : "0x05"
+                            "value" : "0x0005"
                           }
                         }
                       }
@@ -510,6 +535,278 @@
                 }
               ],
               "op" : "verify"
+            },
+            {
+              "parameters" : [
+                {
+                  "type" : "field",
+                  "value" : ["scalars", "tmp_1"]
+                },
+                {
+                  "type" : "expression",
+                  "value" : {
+                    "type" : "expression",
+                    "value" : {
+                      "op" : "b2d",
+                      "left" : null,
+                      "right" : {
+                        "type" : "expression",
+                        "value" : {
+                          "op" : "==",
+                          "left" : {
+                            "type" : "field",
+                            "value" : ["srv6", "routingType"]
+                          },
+                          "right" : {
+                            "type" : "hexstr",
+                            "value" : "0x04"
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              ],
+              "op" : "set"
+            },
+            {
+              "parameters" : [
+                {
+                  "type" : "expression",
+                  "value" : {
+                    "op" : "d2b",
+                    "left" : null,
+                    "right" : {
+                      "type" : "field",
+                      "value" : ["scalars", "tmp_1"]
+                    }
+                  }
+                },
+                {
+                  "type" : "hexstr",
+                  "value" : "0xa"
+                }
+              ],
+              "op" : "verify"
+            },
+            {
+              "parameters" : [
+                {
+                  "type" : "field",
+                  "value" : ["scalars", "tmp_2"]
+                },
+                {
+                  "type" : "expression",
+                  "value" : {
+                    "type" : "expression",
+                    "value" : {
+                      "op" : "b2d",
+                      "left" : null,
+                      "right" : {
+                        "type" : "expression",
+                        "value" : {
+                          "op" : "<=",
+                          "left" : {
+                            "type" : "field",
+                            "value" : ["srv6", "segmentsLeft"]
+                          },
+                          "right" : {
+                            "type" : "field",
+                            "value" : ["srv6", "lastEntry"]
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              ],
+              "op" : "set"
+            },
+            {
+              "parameters" : [
+                {
+                  "type" : "expression",
+                  "value" : {
+                    "op" : "d2b",
+                    "left" : null,
+                    "right" : {
+                      "type" : "field",
+                      "value" : ["scalars", "tmp_2"]
+                    }
+                  }
+                },
+                {
+                  "type" : "hexstr",
+                  "value" : "0xa"
+                }
+              ],
+              "op" : "verify"
+            },
+            {
+              "parameters" : [
+                {
+                  "type" : "field",
+                  "value" : ["scalars", "tmp_3"]
+                },
+                {
+                  "type" : "expression",
+                  "value" : {
+                    "type" : "expression",
+                    "value" : {
+                      "op" : "b2d",
+                      "left" : null,
+                      "right" : {
+                        "type" : "expression",
+                        "value" : {
+                          "op" : "==",
+                          "left" : {
+                            "type" : "field",
+                            "value" : ["srv6", "hdrExtLen"]
+                          },
+                          "right" : {
+                            "type" : "expression",
+                            "value" : {
+                              "op" : "&",
+                              "left" : {
+                                "type" : "expression",
+                                "value" : {
+                                  "op" : "&",
+                                  "left" : {
+                                    "type" : "expression",
+                                    "value" : {
+                                      "op" : "<<",
+                                      "left" : {
+                                        "type" : "expression",
+                                        "value" : {
+                                          "op" : "&",
+                                          "left" : {
+                                            "type" : "expression",
+                                            "value" : {
+                                              "op" : "+",
+                                              "left" : {
+                                                "type" : "expression",
+                                                "value" : {
+                                                  "op" : "&",
+                                                  "left" : {
+                                                    "type" : "field",
+                                                    "value" : ["srv6", "lastEntry"]
+                                                  },
+                                                  "right" : {
+                                                    "type" : "hexstr",
+                                                    "value" : "0x01ff"
+                                                  }
+                                                }
+                                              },
+                                              "right" : {
+                                                "type" : "hexstr",
+                                                "value" : "0x0001"
+                                              }
+                                            }
+                                          },
+                                          "right" : {
+                                            "type" : "hexstr",
+                                            "value" : "0x01ff"
+                                          }
+                                        }
+                                      },
+                                      "right" : {
+                                        "type" : "hexstr",
+                                        "value" : "0x1"
+                                      }
+                                    }
+                                  },
+                                  "right" : {
+                                    "type" : "hexstr",
+                                    "value" : "0x01ff"
+                                  }
+                                }
+                              },
+                              "right" : {
+                                "type" : "hexstr",
+                                "value" : "0xff"
+                              }
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              ],
+              "op" : "set"
+            },
+            {
+              "parameters" : [
+                {
+                  "type" : "expression",
+                  "value" : {
+                    "op" : "d2b",
+                    "left" : null,
+                    "right" : {
+                      "type" : "field",
+                      "value" : ["scalars", "tmp_3"]
+                    }
+                  }
+                },
+                {
+                  "type" : "hexstr",
+                  "value" : "0xa"
+                }
+              ],
+              "op" : "verify"
+            },
+            {
+              "parameters" : [
+                {
+                  "type" : "field",
+                  "value" : ["scalars", "tmp_4"]
+                },
+                {
+                  "type" : "expression",
+                  "value" : {
+                    "type" : "expression",
+                    "value" : {
+                      "op" : "b2d",
+                      "left" : null,
+                      "right" : {
+                        "type" : "expression",
+                        "value" : {
+                          "op" : "==",
+                          "left" : {
+                            "type" : "field",
+                            "value" : ["srv6", "nextHdr"]
+                          },
+                          "right" : {
+                            "type" : "hexstr",
+                            "value" : "0x04"
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              ],
+              "op" : "set"
+            },
+            {
+              "parameters" : [
+                {
+                  "type" : "expression",
+                  "value" : {
+                    "op" : "d2b",
+                    "left" : null,
+                    "right" : {
+                      "type" : "field",
+                      "value" : ["scalars", "tmp_4"]
+                    }
+                  }
+                },
+                {
+                  "type" : "hexstr",
+                  "value" : "0xa"
+                }
+              ],
+              "op" : "verify"
             }
           ],
           "transitions" : [
@@ -529,7 +826,7 @@
           "transitions" : [
             {
               "type" : "hexstr",
-              "value" : "0x00",
+              "value" : "0x0000",
               "mask" : null,
               "next_state" : null
             },
@@ -582,13 +879,13 @@
                           },
                           "right" : {
                             "type" : "hexstr",
-                            "value" : "0xff"
+                            "value" : "0x01ff"
                           }
                         }
                       },
                       "right" : {
                         "type" : "hexstr",
-                        "value" : "0xff"
+                        "value" : "0x01ff"
                       }
                     }
                   }
@@ -653,7 +950,7 @@
       "id" : 0,
       "source_info" : {
         "filename" : "/p4/srv6_basic.p4",
-        "line" : 317,
+        "line" : 368,
         "column" : 8,
         "source_fragment" : "SRv6Deparser"
       },
@@ -668,9 +965,33 @@
       "id" : 0,
       "source_info" : {
         "filename" : "/p4/srv6_basic.p4",
-        "line" : 270,
+        "line" : 208,
         "column" : 36,
         "source_fragment" : "msd_violation_counter"
+      },
+      "size" : 1,
+      "is_direct" : false
+    },
+    {
+      "name" : "SRv6Ingress.srv6_advance_counter",
+      "id" : 1,
+      "source_info" : {
+        "filename" : "/p4/srv6_basic.p4",
+        "line" : 209,
+        "column" : 36,
+        "source_fragment" : "srv6_advance_counter"
+      },
+      "size" : 1,
+      "is_direct" : false
+    },
+    {
+      "name" : "SRv6Ingress.srv6_terminal_counter",
+      "id" : 2,
+      "source_info" : {
+        "filename" : "/p4/srv6_basic.p4",
+        "line" : 210,
+        "column" : 36,
+        "source_fragment" : "srv6_terminal_counter"
       },
       "size" : 1,
       "is_direct" : false
@@ -687,10 +1008,26 @@
       "primitives" : []
     },
     {
-      "name" : "NoAction",
+      "name" : "SRv6Ingress.drop",
       "id" : 1,
       "runtime_data" : [],
-      "primitives" : []
+      "primitives" : [
+        {
+          "op" : "mark_to_drop",
+          "parameters" : [
+            {
+              "type" : "header",
+              "value" : "standard_metadata"
+            }
+          ],
+          "source_info" : {
+            "filename" : "/p4/srv6_basic.p4",
+            "line" : 216,
+            "column" : 8,
+            "source_fragment" : "mark_to_drop(smeta)"
+          }
+        }
+      ]
     },
     {
       "name" : "SRv6Ingress.drop",
@@ -707,7 +1044,7 @@
           ],
           "source_info" : {
             "filename" : "/p4/srv6_basic.p4",
-            "line" : 208,
+            "line" : 216,
             "column" : 8,
             "source_fragment" : "mark_to_drop(smeta)"
           }
@@ -729,7 +1066,7 @@
           ],
           "source_info" : {
             "filename" : "/p4/srv6_basic.p4",
-            "line" : 208,
+            "line" : 216,
             "column" : 8,
             "source_fragment" : "mark_to_drop(smeta)"
           }
@@ -751,7 +1088,7 @@
           ],
           "source_info" : {
             "filename" : "/p4/srv6_basic.p4",
-            "line" : 208,
+            "line" : 216,
             "column" : 8,
             "source_fragment" : "mark_to_drop(smeta)"
           }
@@ -773,7 +1110,7 @@
           ],
           "source_info" : {
             "filename" : "/p4/srv6_basic.p4",
-            "line" : 208,
+            "line" : 216,
             "column" : 8,
             "source_fragment" : "mark_to_drop(smeta)"
           }
@@ -812,7 +1149,7 @@
           ],
           "source_info" : {
             "filename" : "/p4/srv6_basic.p4",
-            "line" : 215,
+            "line" : 223,
             "column" : 8,
             "source_fragment" : "smeta.egress_spec = port"
           }
@@ -831,7 +1168,7 @@
           ],
           "source_info" : {
             "filename" : "/p4/srv6_basic.p4",
-            "line" : 216,
+            "line" : 224,
             "column" : 8,
             "source_fragment" : "hdr.ethernet.dstAddr = dstMac"
           }
@@ -850,7 +1187,7 @@
           ],
           "source_info" : {
             "filename" : "/p4/srv6_basic.p4",
-            "line" : 217,
+            "line" : 225,
             "column" : 8,
             "source_fragment" : "hdr.ethernet.srcAddr = srcMac"
           }
@@ -892,7 +1229,7 @@
           ],
           "source_info" : {
             "filename" : "/p4/srv6_basic.p4",
-            "line" : 218,
+            "line" : 226,
             "column" : 8,
             "source_fragment" : "hdr.ipv6.hopLimit = hdr.ipv6.hopLimit - 1"
           }
@@ -941,16 +1278,294 @@
           ],
           "source_info" : {
             "filename" : "/p4/srv6_basic.p4",
-            "line" : 227,
+            "line" : 234,
             "column" : 8,
             "source_fragment" : "hdr.srv6.segmentsLeft = hdr.srv6.segmentsLeft - 1"
+          }
+        },
+        {
+          "op" : "assign",
+          "parameters" : [
+            {
+              "type" : "field",
+              "value" : ["ipv6", "dstAddr"]
+            },
+            {
+              "type" : "expression",
+              "value" : {
+                "type" : "expression",
+                "value" : {
+                  "op" : "access_field",
+                  "left" : {
+                    "type" : "expression",
+                    "value" : {
+                      "op" : "dereference_header_stack",
+                      "left" : {
+                        "type" : "header_stack",
+                        "value" : "sid_list"
+                      },
+                      "right" : {
+                        "type" : "field",
+                        "value" : ["srv6", "segmentsLeft"]
+                      }
+                    }
+                  },
+                  "right" : 0
+                }
+              }
+            }
+          ],
+          "source_info" : {
+            "filename" : "/p4/srv6_basic.p4",
+            "line" : 235,
+            "column" : 8,
+            "source_fragment" : "hdr.ipv6.dstAddr = hdr.sid_list[hdr.srv6.segmentsLeft].segmentId"
+          }
+        },
+        {
+          "op" : "count",
+          "parameters" : [
+            {
+              "type" : "counter_array",
+              "value" : "SRv6Ingress.srv6_advance_counter"
+            },
+            {
+              "type" : "hexstr",
+              "value" : "0x00000000"
+            }
+          ],
+          "source_info" : {
+            "filename" : "/p4/srv6_basic.p4",
+            "line" : 236,
+            "column" : 8,
+            "source_fragment" : "srv6_advance_counter.count(0)"
           }
         }
       ]
     },
     {
-      "name" : "srv6_basic277",
+      "name" : "SRv6Ingress.srv6_end_dx4",
       "id" : 8,
+      "runtime_data" : [
+        {
+          "name" : "dstMac",
+          "bitwidth" : 48
+        },
+        {
+          "name" : "srcMac",
+          "bitwidth" : 48
+        },
+        {
+          "name" : "port",
+          "bitwidth" : 9
+        }
+      ],
+      "primitives" : [
+        {
+          "op" : "assign",
+          "parameters" : [
+            {
+              "type" : "field",
+              "value" : ["ethernet", "dstAddr"]
+            },
+            {
+              "type" : "runtime_data",
+              "value" : 0
+            }
+          ],
+          "source_info" : {
+            "filename" : "/p4/srv6_basic.p4",
+            "line" : 242,
+            "column" : 8,
+            "source_fragment" : "hdr.ethernet.dstAddr = dstMac"
+          }
+        },
+        {
+          "op" : "assign",
+          "parameters" : [
+            {
+              "type" : "field",
+              "value" : ["ethernet", "srcAddr"]
+            },
+            {
+              "type" : "runtime_data",
+              "value" : 1
+            }
+          ],
+          "source_info" : {
+            "filename" : "/p4/srv6_basic.p4",
+            "line" : 243,
+            "column" : 8,
+            "source_fragment" : "hdr.ethernet.srcAddr = srcMac"
+          }
+        },
+        {
+          "op" : "assign",
+          "parameters" : [
+            {
+              "type" : "field",
+              "value" : ["ethernet", "etherType"]
+            },
+            {
+              "type" : "hexstr",
+              "value" : "0x0800"
+            }
+          ],
+          "source_info" : {
+            "filename" : "/p4/srv6_basic.p4",
+            "line" : 244,
+            "column" : 8,
+            "source_fragment" : "hdr.ethernet.etherType = 0x0800"
+          }
+        },
+        {
+          "op" : "remove_header",
+          "parameters" : [
+            {
+              "type" : "header",
+              "value" : "ipv6"
+            }
+          ],
+          "source_info" : {
+            "filename" : "/p4/srv6_basic.p4",
+            "line" : 245,
+            "column" : 8,
+            "source_fragment" : "hdr.ipv6.setInvalid()"
+          }
+        },
+        {
+          "op" : "remove_header",
+          "parameters" : [
+            {
+              "type" : "header",
+              "value" : "srv6"
+            }
+          ],
+          "source_info" : {
+            "filename" : "/p4/srv6_basic.p4",
+            "line" : 246,
+            "column" : 8,
+            "source_fragment" : "hdr.srv6.setInvalid()"
+          }
+        },
+        {
+          "op" : "remove_header",
+          "parameters" : [
+            {
+              "type" : "header",
+              "value" : "sid_list[0]"
+            }
+          ],
+          "source_info" : {
+            "filename" : "/p4/srv6_basic.p4",
+            "line" : 247,
+            "column" : 8,
+            "source_fragment" : "hdr.sid_list[0].setInvalid()"
+          }
+        },
+        {
+          "op" : "remove_header",
+          "parameters" : [
+            {
+              "type" : "header",
+              "value" : "sid_list[1]"
+            }
+          ],
+          "source_info" : {
+            "filename" : "/p4/srv6_basic.p4",
+            "line" : 249,
+            "column" : 8,
+            "source_fragment" : "hdr.sid_list[1].setInvalid()"
+          }
+        },
+        {
+          "op" : "remove_header",
+          "parameters" : [
+            {
+              "type" : "header",
+              "value" : "sid_list[2]"
+            }
+          ],
+          "source_info" : {
+            "filename" : "/p4/srv6_basic.p4",
+            "line" : 252,
+            "column" : 8,
+            "source_fragment" : "hdr.sid_list[2].setInvalid()"
+          }
+        },
+        {
+          "op" : "remove_header",
+          "parameters" : [
+            {
+              "type" : "header",
+              "value" : "sid_list[3]"
+            }
+          ],
+          "source_info" : {
+            "filename" : "/p4/srv6_basic.p4",
+            "line" : 255,
+            "column" : 8,
+            "source_fragment" : "hdr.sid_list[3].setInvalid()"
+          }
+        },
+        {
+          "op" : "remove_header",
+          "parameters" : [
+            {
+              "type" : "header",
+              "value" : "sid_list[4]"
+            }
+          ],
+          "source_info" : {
+            "filename" : "/p4/srv6_basic.p4",
+            "line" : 273,
+            "column" : 8,
+            "source_fragment" : "hdr.sid_list[4].setInvalid()"
+          }
+        },
+        {
+          "op" : "assign",
+          "parameters" : [
+            {
+              "type" : "field",
+              "value" : ["standard_metadata", "egress_spec"]
+            },
+            {
+              "type" : "runtime_data",
+              "value" : 2
+            }
+          ],
+          "source_info" : {
+            "filename" : "/p4/srv6_basic.p4",
+            "line" : 275,
+            "column" : 8,
+            "source_fragment" : "smeta.egress_spec = port"
+          }
+        },
+        {
+          "op" : "count",
+          "parameters" : [
+            {
+              "type" : "counter_array",
+              "value" : "SRv6Ingress.srv6_terminal_counter"
+            },
+            {
+              "type" : "hexstr",
+              "value" : "0x00000000"
+            }
+          ],
+          "source_info" : {
+            "filename" : "/p4/srv6_basic.p4",
+            "line" : 276,
+            "column" : 8,
+            "source_fragment" : "srv6_terminal_counter.count(0)"
+          }
+        }
+      ]
+    },
+    {
+      "name" : "srv6_basic330",
+      "id" : 9,
       "runtime_data" : [],
       "primitives" : [
         {
@@ -967,7 +1582,7 @@
           ],
           "source_info" : {
             "filename" : "/p4/srv6_basic.p4",
-            "line" : 277,
+            "line" : 330,
             "column" : 12,
             "source_fragment" : "msd_violation_counter.count(0)"
           }
@@ -975,8 +1590,8 @@
       ]
     },
     {
-      "name" : "srv6_basic279",
-      "id" : 9,
+      "name" : "srv6_basic332",
+      "id" : 10,
       "runtime_data" : [],
       "primitives" : [
         {
@@ -1003,7 +1618,7 @@
           ],
           "source_info" : {
             "filename" : "/p4/srv6_basic.p4",
-            "line" : 279,
+            "line" : 332,
             "column" : 12,
             "source_fragment" : "return"
           }
@@ -1012,7 +1627,7 @@
     },
     {
       "name" : "act",
-      "id" : 10,
+      "id" : 11,
       "runtime_data" : [],
       "primitives" : [
         {
@@ -1047,7 +1662,7 @@
       "id" : 0,
       "source_info" : {
         "filename" : "/p4/srv6_basic.p4",
-        "line" : 199,
+        "line" : 203,
         "column" : 8,
         "source_fragment" : "SRv6Ingress"
       },
@@ -1063,25 +1678,25 @@
           "with_counters" : false,
           "support_timeout" : false,
           "direct_meters" : null,
-          "action_ids" : [10],
+          "action_ids" : [11],
           "actions" : ["act"],
           "base_default_next" : "node_3",
           "next_tables" : {
             "act" : "node_3"
           },
           "default_entry" : {
-            "action_id" : 10,
+            "action_id" : 11,
             "action_const" : true,
             "action_data" : [],
             "action_entry_const" : true
           }
         },
         {
-          "name" : "tbl_srv6_basic277",
+          "name" : "tbl_srv6_basic330",
           "id" : 1,
           "source_info" : {
             "filename" : "/p4/srv6_basic.p4",
-            "line" : 277,
+            "line" : 330,
             "column" : 12,
             "source_fragment" : "msd_violation_counter.count(0)"
           },
@@ -1092,14 +1707,14 @@
           "with_counters" : false,
           "support_timeout" : false,
           "direct_meters" : null,
-          "action_ids" : [8],
-          "actions" : ["srv6_basic277"],
+          "action_ids" : [9],
+          "actions" : ["srv6_basic330"],
           "base_default_next" : "tbl_drop",
           "next_tables" : {
-            "srv6_basic277" : "tbl_drop"
+            "srv6_basic330" : "tbl_drop"
           },
           "default_entry" : {
-            "action_id" : 8,
+            "action_id" : 9,
             "action_const" : true,
             "action_data" : [],
             "action_entry_const" : true
@@ -1110,7 +1725,7 @@
           "id" : 2,
           "source_info" : {
             "filename" : "/p4/srv6_basic.p4",
-            "line" : 278,
+            "line" : 331,
             "column" : 12,
             "source_fragment" : "drop()"
           },
@@ -1123,9 +1738,9 @@
           "direct_meters" : null,
           "action_ids" : [4],
           "actions" : ["SRv6Ingress.drop"],
-          "base_default_next" : "tbl_srv6_basic279",
+          "base_default_next" : "tbl_srv6_basic332",
           "next_tables" : {
-            "SRv6Ingress.drop" : "tbl_srv6_basic279"
+            "SRv6Ingress.drop" : "tbl_srv6_basic332"
           },
           "default_entry" : {
             "action_id" : 4,
@@ -1135,11 +1750,11 @@
           }
         },
         {
-          "name" : "tbl_srv6_basic279",
+          "name" : "tbl_srv6_basic332",
           "id" : 3,
           "source_info" : {
             "filename" : "/p4/srv6_basic.p4",
-            "line" : 279,
+            "line" : 332,
             "column" : 12,
             "source_fragment" : "return"
           },
@@ -1150,63 +1765,25 @@
           "with_counters" : false,
           "support_timeout" : false,
           "direct_meters" : null,
-          "action_ids" : [9],
-          "actions" : ["srv6_basic279"],
+          "action_ids" : [10],
+          "actions" : ["srv6_basic332"],
           "base_default_next" : "node_7",
           "next_tables" : {
-            "srv6_basic279" : "node_7"
+            "srv6_basic332" : "node_7"
           },
           "default_entry" : {
-            "action_id" : 9,
+            "action_id" : 10,
             "action_const" : true,
             "action_data" : [],
             "action_entry_const" : true
           }
         },
         {
-          "name" : "SRv6Ingress.srv6_local_sid",
+          "name" : "tbl_drop_0",
           "id" : 4,
           "source_info" : {
             "filename" : "/p4/srv6_basic.p4",
-            "line" : 256,
-            "column" : 10,
-            "source_fragment" : "srv6_local_sid"
-          },
-          "key" : [
-            {
-              "match_type" : "exact",
-              "name" : "hdr.ipv6.dstAddr",
-              "target" : ["ipv6", "dstAddr"],
-              "mask" : null
-            }
-          ],
-          "match_type" : "exact",
-          "type" : "simple",
-          "max_size" : 256,
-          "with_counters" : false,
-          "support_timeout" : false,
-          "direct_meters" : null,
-          "action_ids" : [7, 3, 1],
-          "actions" : ["SRv6Ingress.srv6_advance_segment", "SRv6Ingress.drop", "NoAction"],
-          "base_default_next" : "node_12",
-          "next_tables" : {
-            "SRv6Ingress.srv6_advance_segment" : "node_12",
-            "SRv6Ingress.drop" : "node_12",
-            "NoAction" : "node_12"
-          },
-          "default_entry" : {
-            "action_id" : 1,
-            "action_const" : false,
-            "action_data" : [],
-            "action_entry_const" : false
-          }
-        },
-        {
-          "name" : "tbl_drop_0",
-          "id" : 5,
-          "source_info" : {
-            "filename" : "/p4/srv6_basic.p4",
-            "line" : 295,
+            "line" : 338,
             "column" : 16,
             "source_fragment" : "drop()"
           },
@@ -1231,11 +1808,48 @@
           }
         },
         {
+          "name" : "SRv6Ingress.srv6_local_sid",
+          "id" : 5,
+          "source_info" : {
+            "filename" : "/p4/srv6_basic.p4",
+            "line" : 301,
+            "column" : 10,
+            "source_fragment" : "srv6_local_sid"
+          },
+          "key" : [
+            {
+              "match_type" : "exact",
+              "name" : "hdr.ipv6.dstAddr",
+              "target" : ["ipv6", "dstAddr"],
+              "mask" : null
+            }
+          ],
+          "match_type" : "exact",
+          "type" : "simple",
+          "max_size" : 256,
+          "with_counters" : false,
+          "support_timeout" : false,
+          "direct_meters" : null,
+          "action_ids" : [7, 2],
+          "actions" : ["SRv6Ingress.srv6_advance_segment", "SRv6Ingress.drop"],
+          "base_default_next" : null,
+          "next_tables" : {
+            "__MISS__" : null,
+            "__HIT__" : "SRv6Ingress.routing_v6"
+          },
+          "default_entry" : {
+            "action_id" : 2,
+            "action_const" : false,
+            "action_data" : [],
+            "action_entry_const" : false
+          }
+        },
+        {
           "name" : "SRv6Ingress.routing_v6",
           "id" : 6,
           "source_info" : {
             "filename" : "/p4/srv6_basic.p4",
-            "line" : 238,
+            "line" : 283,
             "column" : 10,
             "source_fragment" : "routing_v6"
           },
@@ -1253,7 +1867,7 @@
           "with_counters" : false,
           "support_timeout" : false,
           "direct_meters" : null,
-          "action_ids" : [6, 2, 0],
+          "action_ids" : [6, 1, 0],
           "actions" : ["SRv6Ingress.ipv6_forward", "SRv6Ingress.drop", "NoAction"],
           "base_default_next" : null,
           "next_tables" : {
@@ -1262,7 +1876,44 @@
             "NoAction" : null
           },
           "default_entry" : {
-            "action_id" : 2,
+            "action_id" : 1,
+            "action_const" : false,
+            "action_data" : [],
+            "action_entry_const" : false
+          }
+        },
+        {
+          "name" : "SRv6Ingress.srv6_end_dx4_table",
+          "id" : 7,
+          "source_info" : {
+            "filename" : "/p4/srv6_basic.p4",
+            "line" : 313,
+            "column" : 10,
+            "source_fragment" : "srv6_end_dx4_table"
+          },
+          "key" : [
+            {
+              "match_type" : "exact",
+              "name" : "hdr.ipv6.dstAddr",
+              "target" : ["ipv6", "dstAddr"],
+              "mask" : null
+            }
+          ],
+          "match_type" : "exact",
+          "type" : "simple",
+          "max_size" : 256,
+          "with_counters" : false,
+          "support_timeout" : false,
+          "direct_meters" : null,
+          "action_ids" : [8, 3],
+          "actions" : ["SRv6Ingress.srv6_end_dx4", "SRv6Ingress.drop"],
+          "base_default_next" : null,
+          "next_tables" : {
+            "SRv6Ingress.srv6_end_dx4" : null,
+            "SRv6Ingress.drop" : null
+          },
+          "default_entry" : {
+            "action_id" : 3,
             "action_const" : false,
             "action_data" : [],
             "action_entry_const" : false
@@ -1276,7 +1927,7 @@
           "id" : 0,
           "source_info" : {
             "filename" : "/p4/srv6_basic.p4",
-            "line" : 275,
+            "line" : 328,
             "column" : 12,
             "source_fragment" : "smeta.parser_error != error.NoError"
           },
@@ -1294,7 +1945,7 @@
               }
             }
           },
-          "true_next" : "tbl_srv6_basic277",
+          "true_next" : "tbl_srv6_basic330",
           "false_next" : "node_7"
         },
         {
@@ -1326,7 +1977,7 @@
           "id" : 2,
           "source_info" : {
             "filename" : "/p4/srv6_basic.p4",
-            "line" : 283,
+            "line" : 336,
             "column" : 12,
             "source_fragment" : "hdr.ipv6.isValid()"
           },
@@ -1349,8 +2000,34 @@
           "id" : 3,
           "source_info" : {
             "filename" : "/p4/srv6_basic.p4",
-            "line" : 284,
+            "line" : 337,
             "column" : 16,
+            "source_fragment" : "hdr.ipv6.hopLimit <= 1"
+          },
+          "expression" : {
+            "type" : "expression",
+            "value" : {
+              "op" : "<=",
+              "left" : {
+                "type" : "field",
+                "value" : ["ipv6", "hopLimit"]
+              },
+              "right" : {
+                "type" : "hexstr",
+                "value" : "0x01"
+              }
+            }
+          },
+          "true_next" : "tbl_drop_0",
+          "false_next" : "node_11"
+        },
+        {
+          "name" : "node_11",
+          "id" : 4,
+          "source_info" : {
+            "filename" : "/p4/srv6_basic.p4",
+            "line" : 339,
+            "column" : 23,
             "source_fragment" : "hdr.srv6.isValid()"
           },
           "expression" : {
@@ -1364,15 +2041,15 @@
               }
             }
           },
-          "true_next" : "node_10",
-          "false_next" : "node_12"
+          "true_next" : "node_12",
+          "false_next" : "SRv6Ingress.routing_v6"
         },
         {
-          "name" : "node_10",
-          "id" : 4,
+          "name" : "node_12",
+          "id" : 5,
           "source_info" : {
             "filename" : "/p4/srv6_basic.p4",
-            "line" : 285,
+            "line" : 340,
             "column" : 20,
             "source_fragment" : "hdr.srv6.segmentsLeft > 0"
           },
@@ -1391,33 +2068,7 @@
             }
           },
           "true_next" : "SRv6Ingress.srv6_local_sid",
-          "false_next" : "node_12"
-        },
-        {
-          "name" : "node_12",
-          "id" : 5,
-          "source_info" : {
-            "filename" : "/p4/srv6_basic.p4",
-            "line" : 294,
-            "column" : 16,
-            "source_fragment" : "hdr.ipv6.hopLimit == 0"
-          },
-          "expression" : {
-            "type" : "expression",
-            "value" : {
-              "op" : "==",
-              "left" : {
-                "type" : "field",
-                "value" : ["ipv6", "hopLimit"]
-              },
-              "right" : {
-                "type" : "hexstr",
-                "value" : "0x00"
-              }
-            }
-          },
-          "true_next" : "tbl_drop_0",
-          "false_next" : "SRv6Ingress.routing_v6"
+          "false_next" : "SRv6Ingress.srv6_end_dx4_table"
         }
       ]
     },
@@ -1426,7 +2077,7 @@
       "id" : 1,
       "source_info" : {
         "filename" : "/p4/srv6_basic.p4",
-        "line" : 306,
+        "line" : 357,
         "column" : 8,
         "source_fragment" : "SRv6Egress"
       },

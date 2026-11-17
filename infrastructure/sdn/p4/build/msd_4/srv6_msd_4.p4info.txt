@@ -42,8 +42,25 @@ tables {
   action_refs {
     id: 28335198
   }
+  size: 256
+}
+tables {
+  preamble {
+    id: 40568179
+    name: "SRv6Ingress.srv6_end_dx4_table"
+    alias: "srv6_end_dx4_table"
+  }
+  match_fields {
+    id: 1
+    name: "hdr.ipv6.dstAddr"
+    bitwidth: 128
+    match_type: EXACT
+  }
   action_refs {
-    id: 21257015
+    id: 20065379
+  }
+  action_refs {
+    id: 28335198
   }
   size: 256
 }
@@ -91,11 +108,55 @@ actions {
     alias: "srv6_advance_segment"
   }
 }
+actions {
+  preamble {
+    id: 20065379
+    name: "SRv6Ingress.srv6_end_dx4"
+    alias: "srv6_end_dx4"
+  }
+  params {
+    id: 1
+    name: "dstMac"
+    bitwidth: 48
+  }
+  params {
+    id: 2
+    name: "srcMac"
+    bitwidth: 48
+  }
+  params {
+    id: 3
+    name: "port"
+    bitwidth: 9
+  }
+}
 counters {
   preamble {
     id: 310183229
     name: "SRv6Ingress.msd_violation_counter"
     alias: "msd_violation_counter"
+  }
+  spec {
+    unit: PACKETS
+  }
+  size: 1
+}
+counters {
+  preamble {
+    id: 307697202
+    name: "SRv6Ingress.srv6_advance_counter"
+    alias: "srv6_advance_counter"
+  }
+  spec {
+    unit: PACKETS
+  }
+  size: 1
+}
+counters {
+  preamble {
+    id: 308208765
+    name: "SRv6Ingress.srv6_terminal_counter"
+    alias: "srv6_terminal_counter"
   }
   spec {
     unit: PACKETS

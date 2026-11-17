@@ -26,12 +26,18 @@ run_container() {
     # Dừng container cũ nếu đang chạy
     docker rm -f "$CONTAINER" 2>/dev/null || true
 
+    # Keep admission and migration state on the host across container replacement.
+    mkdir -p "$PROJECT_ROOT/results/rev1/runtime"
+
     echo "🚀 Starting backend container (Python 3.11 + Real AI Model)..."
     docker run -d \
         --name "$CONTAINER" \
         --network host \
         --restart unless-stopped \
         -v /var/snap/microk8s/current/credentials/client.config:/root/.kube/config:ro \
+        -v "$PROJECT_ROOT/results/rev1/runtime:/app/results/rev1/runtime" \
+        -e CORE_ROUTER_RESERVATION_DB=results/rev1/runtime/reservations.sqlite3 \
+        -e CORE_ROUTER_MIGRATION_JOURNAL=results/rev1/runtime/migrations.sqlite3 \
         -e JO_VPPM_ENABLE_MODEL=1 \
         -e JO_VPPM_REQUIRE_MODEL=1 \
         -e JO_VPPM_MODEL_PATH=results/models/v11/dgrl_v11_final_vietnam.zip \

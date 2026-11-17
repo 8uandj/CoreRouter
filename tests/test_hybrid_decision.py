@@ -96,6 +96,39 @@ class TestHybridDecision(unittest.TestCase):
         ])
         self.assertEqual(len(generate_srv6_sids(2, 3, 1)), 1)
 
+    @patch("src.portal.backend.app.services.hybrid_decision.get_decoupled_action")
+    def test_explicit_ingress_uses_materialized_p4_path_and_exact_depth(self, heuristic):
+        heuristic.return_value = ActionChoice(0, 0, "test")
+        self.request.source_node = 5
+        self.request.msd_req = 2
+        result = self.decide()
+
+        self.assertEqual(result.sid_stack, ["fc00:1::1", "fc00:6::1"])
+        self.assertEqual(result.realization.profile_id, "p4-path-candidate-v1")
+        self.assertIsNone(result.realization.forwarding_sid)
+        self.assertEqual(self.manager._pending_reservations["vnf-test"]["msd_req"], 2)
+
+    @patch("src.portal.backend.app.services.hybrid_decision.get_decoupled_action")
+    def test_explicit_ingress_with_unmatched_path_depth_fails_before_reservation(self, heuristic):
+        heuristic.return_value = ActionChoice(0, 0, "test")
+        self.drl.return_value = SimpleNamespace(choice=ActionChoice(0, 0, "test-drl"))
+        self.request.source_node = 5
+        self.request.msd_req = 3
+
+        with self.assertRaisesRegex(HardConstraintError, "requested MSD depth"):
+            self.decide()
+        self.assertEqual(self.manager._active_vnfs, {})
+        self.assertEqual(self.manager.snapshot().state.sum(), 0)
+
+    @patch("src.portal.backend.app.services.hybrid_decision.get_decoupled_action")
+    def test_named_ingress_resolves_against_runtime_topology(self, heuristic):
+        heuristic.return_value = ActionChoice(0, 0, "test")
+        self.request.source_node = "HoChiMinh"
+        self.request.msd_req = 3
+
+        result = self.decide()
+        self.assertEqual(result.sid_stack, ["fc00:1::1", "fc00:6::1", "fc00:9::1"])
+
     def test_flat_model_action_decodes_to_placement_route_pair(self):
         self.assertEqual(decode_flat_action([27], num_nodes=10), (2, 7))
         with self.assertRaises(ValueError):

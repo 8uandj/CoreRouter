@@ -44,7 +44,7 @@
 #endif
 
 // Error code khi gói tin vi phạm MSD
-error { IPv6IncorrectVersion, SRv6SegmentDepthExceeded }
+error { IPv6IncorrectVersion, SRv6SegmentDepthExceeded, SRv6Malformed }
 
 // ══════════════════════════════════════════════════════════════
 //  TYPE DEFINITIONS
@@ -120,7 +120,7 @@ parser SRv6Parser(
     inout standard_metadata_t smeta)
 {
     // Biến đếm số SID đã bóc tách (chỉ dùng trong parser)
-    bit<8> remaining;
+    bit<9> remaining;
 
     state start {
         meta.sid_count    = 0;
@@ -151,7 +151,7 @@ parser SRv6Parser(
         packet.extract(hdr.srv6);
         meta.is_srv6 = true;
         // Số SID cần parse = lastEntry + 1
-        remaining = hdr.srv6.lastEntry + 1;
+        remaining = (bit<9>)hdr.srv6.lastEntry + 9w1;
 
         // ──────────────────────────────────────────────────────
         // HARDWARE-AWARENESS CHECK:
@@ -160,7 +160,11 @@ parser SRv6Parser(
         // Đây là "bức tường thứ 2" sau Action Masking của AI.
         // Gói tin vi phạm không được phép đi xa hơn Parser.
         // ──────────────────────────────────────────────────────
-        verify(remaining <= (bit<8>)MAX_SID_DEPTH, error.SRv6SegmentDepthExceeded);
+        verify(remaining <= (bit<9>)MAX_SID_DEPTH, error.SRv6SegmentDepthExceeded);
+        verify(hdr.srv6.routingType == 4, error.SRv6Malformed);
+        verify(hdr.srv6.segmentsLeft <= hdr.srv6.lastEntry, error.SRv6Malformed);
+        verify(hdr.srv6.hdrExtLen == (bit<8>)(remaining << 1), error.SRv6Malformed);
+        verify(hdr.srv6.nextHdr == 4, error.SRv6Malformed);
 
         transition parse_sid_list;
     }
@@ -180,7 +184,7 @@ parser SRv6Parser(
     state parse_one_sid {
         // Giới hạn index tránh out-of-bound (safety check bổ sung)
         packet.extract(hdr.sid_list.next);
-        remaining = remaining - 1;
+        remaining = remaining - 9w1;
         meta.sid_count = meta.sid_count + 1;
         transition parse_sid_list;
     }
@@ -201,6 +205,10 @@ control SRv6Ingress(
     inout metadata_t      meta,
     inout standard_metadata_t smeta)
 {
+    counter(1, CounterType.packets) msd_violation_counter;
+    counter(1, CounterType.packets) srv6_advance_counter;
+    counter(1, CounterType.packets) srv6_terminal_counter;
+
     // ──────────────────────────────────────────────────────────
     // Action: Drop không điều kiện
     // ──────────────────────────────────────────────────────────
@@ -223,12 +231,49 @@ control SRv6Ingress(
     // Bóc SID hiện tại ra, đặt SID tiếp theo làm IPv6 destination.
     // ──────────────────────────────────────────────────────────
     action srv6_advance_segment() {
-        // Giảm segmentsLeft — tiêu thụ SID hiện tại
         hdr.srv6.segmentsLeft = hdr.srv6.segmentsLeft - 1;
+        hdr.ipv6.dstAddr = hdr.sid_list[hdr.srv6.segmentsLeft].segmentId;
+        srv6_advance_counter.count(0);
+    }
 
-        // Update IPv6 dstAddr = SID tại vị trí segmentsLeft mới
-        // (Đây là logic "pseudo" — BMv2 sẽ cần bảng mapping index → SID)
-        // Controller sẽ populate bảng sid_index bên dưới.
+    // Decapsulate an IPv4 inner packet at the terminal SID and send it to
+    // the Mininet host attached to the VNF's logical placement switch.
+    action srv6_end_dx4(macAddr_t dstMac, macAddr_t srcMac, egressPort_t port) {
+        hdr.ethernet.dstAddr = dstMac;
+        hdr.ethernet.srcAddr = srcMac;
+        hdr.ethernet.etherType = 0x0800;
+        hdr.ipv6.setInvalid();
+        hdr.srv6.setInvalid();
+        hdr.sid_list[0].setInvalid();
+#if MAX_SID_DEPTH > 1
+        hdr.sid_list[1].setInvalid();
+#endif
+#if MAX_SID_DEPTH > 2
+        hdr.sid_list[2].setInvalid();
+#endif
+#if MAX_SID_DEPTH > 3
+        hdr.sid_list[3].setInvalid();
+#endif
+#if MAX_SID_DEPTH > 4
+        hdr.sid_list[4].setInvalid();
+#endif
+#if MAX_SID_DEPTH > 5
+        hdr.sid_list[5].setInvalid();
+#endif
+#if MAX_SID_DEPTH > 6
+        hdr.sid_list[6].setInvalid();
+#endif
+#if MAX_SID_DEPTH > 7
+        hdr.sid_list[7].setInvalid();
+#endif
+#if MAX_SID_DEPTH > 8
+        hdr.sid_list[8].setInvalid();
+#endif
+#if MAX_SID_DEPTH > 9
+        hdr.sid_list[9].setInvalid();
+#endif
+        smeta.egress_spec = port;
+        srv6_terminal_counter.count(0);
     }
 
     // ──────────────────────────────────────────────────────────
@@ -260,14 +305,22 @@ control SRv6Ingress(
         actions = {
             srv6_advance_segment;
             drop;
-            NoAction;
         }
         size           = 256;
-        default_action = NoAction();
+        default_action = drop();
     }
 
-    // Bộ đếm cho vi phạm MSD (Show-off counter cho Demo)
-    counter(1, CounterType.packets) msd_violation_counter;
+    table srv6_end_dx4_table {
+        key = {
+            hdr.ipv6.dstAddr: exact;
+        }
+        actions = {
+            srv6_end_dx4;
+            drop;
+        }
+        size = 256;
+        default_action = drop();
+    }
 
     apply {
         // ── BƯỚC 1: Xử lý gói tin lỗi từ Parser ──────────────
@@ -281,18 +334,16 @@ control SRv6Ingress(
 
         // ── BƯỚC 2: Xử lý SRv6 ───────────────────────────────
         if (hdr.ipv6.isValid()) {
-            if (hdr.srv6.isValid()) {
-                if (hdr.srv6.segmentsLeft > 0) {
-                    // Còn SID cần xử lý: tra bảng local SID
-                    srv6_local_sid.apply();
-                }
-                // segmentsLeft == 0: SRv6 journey ended,
-                // forward theo dstAddr IPv6 bình thường
-            }
-
-            // ── BƯỚC 3: Định tuyến IPv6 thông thường ─────────
-            if (hdr.ipv6.hopLimit == 0) {
+            if (hdr.ipv6.hopLimit <= 1) {
                 drop();
+            } else if (hdr.srv6.isValid()) {
+                if (hdr.srv6.segmentsLeft > 0) {
+                    if (srv6_local_sid.apply().hit) {
+                        routing_v6.apply();
+                    }
+                } else {
+                    srv6_end_dx4_table.apply();
+                }
             } else {
                 routing_v6.apply();
             }
