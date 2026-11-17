@@ -1,0 +1,77 @@
+{
+  "scope": "historical CSV arithmetic and seed coverage only",
+  "files": [
+    {
+      "raw_path": "results/ablation/HARP-model/harp_ablation_vietnam/worker_vietnam/vietnam_raw_ablation_5seeds.csv",
+      "raw_sha256": "3caa19e337da97bd805467f607235ab7f914136a99744332bdc4793b9a8b4702",
+      "rows": 90,
+      "groups": 18,
+      "seeds": [
+        42,
+        100,
+        2024,
+        8888,
+        9999
+      ],
+      "ddof": 1,
+      "output_path": "docs/AIO-mesh-rev1/evidence/historical/vietnam_ablation_recomputed.csv",
+      "output_sha256": "cad5da0e42f7c4027d9eb6ab691f1b362049f9a57b9c8dc4b72b05f7a43504fe",
+      "matched_traces_verified": false,
+      "checkpoint_lineage_verified": false
+    },
+    {
+      "raw_path": "results/ablation/HARP-model/harp_ablation_vietnam/worker_vietnam/benchmark_results/all_seed_summary.csv",
+      "raw_sha256": "5cfda66e04e1f00242022d18aadfb5f6b07a01adc4883e49947fdd4602143567",
+      "rows": 60,
+      "groups": 12,
+      "seeds": [
+        42,
+        100,
+        2024,
+        8888,
+        9999
+      ],
+      "ddof": 0,
+      "output_path": "docs/AIO-mesh-rev1/evidence/historical/vietnam_benchmark_recomputed.csv",
+      "output_sha256": "88f7f68af370ed454d21dad81a9f0963e4a0980ebda4358b7c52722dadddbc77",
+      "matched_traces_verified": false,
+      "checkpoint_lineage_verified": false
+    },
+    {
+      "raw_path": "results/ablation/HARP-model/harp_ablation_results_nsfnet/nsfnet_raw_ablation_5seeds.csv",
+      "raw_sha256": "fdc9b064c007ed6c67a40954c60786776ccf0e7e9845bf621be6a29c3b2ecc9f",
+      "rows": 90,
+      "groups": 18,
+      "seeds": [
+        42,
+        100,
+        2024,
+        8888,
+        9999
+      ],
+      "ddof": 1,
+      "output_path": "docs/AIO-mesh-rev1/evidence/historical/nsfnet_ablation_recomputed.csv",
+      "output_sha256": "f03820aea89a791518cd1112fa215eb43f0fc62192a44feb42e88a8db0ee4430",
+      "matched_traces_verified": false,
+      "checkpoint_lineage_verified": false
+    },
+    {
+      "raw_path": "results/ablation/HARP-model/harp_ablation_results_nsfnet/benchmark_results/all_seed_summary.csv",
+      "raw_sha256": "771199678c2351bcc22a6fc3cc0302eda4743eea6ef8db3ff7174e91f62e5a1e",
+      "rows": 60,
+      "groups": 12,
+      "seeds": [
+        42,
+        100,
+        2024,
+        8888,
+        9999
+      ],
+      "ddof": 0,
+      "output_path": "docs/AIO-mesh-rev1/evidence/historical/nsfnet_benchmark_recomputed.csv",
+      "output_sha256": "90b36862fb8a4174b3ee2ca18ae49116f78ecbb85b6a9e00f4d8979e459150ab",
+      "matched_traces_verified": false,
+      "checkpoint_lineage_verified": false
+    }
+  ]
+}

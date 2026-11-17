@@ -33,7 +33,7 @@ from src.infrastructure.persistence.csv_repository import CSVRepository
 from src.orchestration.jo_vdpr.env import JOVDPREnv
 from src.orchestration.jo_vdpr.gnn_policy import GNNActorCriticPolicy
 from src.orchestration.jo_vdpr.rewards import RewardCalculator
-from src.orchestration.jo_vdpr.topology import TopologyManager
+from src.orchestration.jo_vdpr.topology import TopologyManager, SYNTHETIC_TOPOLOGY_SIZES
 
 
 LOGGER = logging.getLogger("harp-ablation-train")
@@ -282,8 +282,10 @@ def train_variant(args: argparse.Namespace, variant: TrainVariant) -> None:
 def parse_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser(description="Train HARP ablation checkpoints.")
     parser.add_argument("--variant", default="all", choices=["all"] + sorted(VARIANTS.keys()))
-    parser.add_argument("--topology", default="vietnam", choices=["vietnam", "nsfnet", "geant2"])
-    parser.add_argument("--scenario", default="heavy_tail", choices=["uniform", "bursty", "heavy_tail"])
+    parser.add_argument("--topology", default="vietnam",
+                        choices=["vietnam", "nsfnet", "geant2", "all"] +
+                                [f"synthetic_{n}" for n in SYNTHETIC_TOPOLOGY_SIZES])
+    parser.add_argument("--scenario", default="heavy_tail", choices=["uniform", "bursty", "heavy_tail", "chaos"])
     parser.add_argument("--total-steps", type=int, default=500_000)
     parser.add_argument("--n-envs", type=int, default=4)
     parser.add_argument("--episode-length", type=int, default=100)
@@ -299,8 +301,11 @@ def main() -> None:
     logging.basicConfig(level=logging.INFO, format="%(asctime)s [%(levelname)s] %(message)s")
     args = parse_args()
     selected = list(VARIANTS.values()) if args.variant == "all" else [VARIANTS[args.variant]]
-    for variant in selected:
-        train_variant(args, variant)
+    topologies = ["vietnam", "nsfnet", "geant2"] if args.topology == "all" else [args.topology]
+    for topology in topologies:
+        args.topology = topology
+        for variant in selected:
+            train_variant(args, variant)
 
 
 if __name__ == "__main__":

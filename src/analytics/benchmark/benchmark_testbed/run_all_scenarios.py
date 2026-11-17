@@ -1,7 +1,12 @@
 from __future__ import annotations
 
 import argparse
-from datetime import datetime
+import importlib.metadata
+import json
+import os
+import platform
+import sys
+from datetime import datetime, timezone
 from pathlib import Path
 from typing import List
 
@@ -14,6 +19,8 @@ from .preflight import run_preflight
 from .report_pdf import write_pdf_report
 from .runner import ScenarioRunner
 from .scenarios import ALL_SCENARIOS
+from src.analytics.benchmark.revision.provenance import sha256_file
+from src.orchestration.jo_vdpr.topology import TopologyManager
 
 
 def parse_args() -> argparse.Namespace:
@@ -22,6 +29,8 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--sdn-base-url", default="http://127.0.0.1:8765")
     parser.add_argument("--output-dir", default="results/benchmark_testbed")
     parser.add_argument("--steps", type=int, default=0, help="Override steps for every scenario.")
+    parser.add_argument("--duration-hours", type=float, default=0.0, help="Run each live scenario until this wall-clock duration; 0 uses --steps/default steps.")
+    parser.add_argument("--request-interval-s", type=float, default=0.0, help="Minimum spacing between sent requests; 0 sends as fast as requests complete.")
     parser.add_argument("--seed", type=int, default=42)
     parser.add_argument("--request-timeout-s", type=float, default=60.0)
     parser.add_argument("--sdn-timeout-s", type=float, default=15.0)
@@ -60,6 +69,8 @@ def main() -> None:
         sdn_base_url=args.sdn_base_url,
         output_dir=run_dir,
         steps=args.steps,
+        duration_hours=max(0.0, args.duration_hours),
+        request_interval_s=max(0.0, args.request_interval_s),
         seed=args.seed,
         request_timeout_s=args.request_timeout_s,
         sdn_timeout_s=args.sdn_timeout_s,
@@ -84,6 +95,54 @@ def main() -> None:
             raise SystemExit(f"Preflight failed. See {run_dir / 'preflight.json'}")
 
     selected = [s for s in ALL_SCENARIOS if not args.scenario or s.name in args.scenario]
+    topology = TopologyManager("vietnam")
+    package_versions = {}
+    for package in ("fastapi", "uvicorn", "numpy", "torch", "stable-baselines3", "sb3-contrib", "gymnasium"):
+        try:
+            package_versions[package] = importlib.metadata.version(package)
+        except importlib.metadata.PackageNotFoundError:
+            package_versions[package] = None
+    mem_total_kib = None
+    try:
+        for line in Path("/proc/meminfo").read_text(encoding="utf-8").splitlines():
+            if line.startswith("MemTotal:"):
+                mem_total_kib = int(line.split()[1])
+                break
+    except OSError:
+        pass
+    source_files = [
+        Path(__file__), Path(__file__).with_name("runner.py"),
+        Path(__file__).with_name("metrics.py"), Path(__file__).with_name("baseline_simulator.py"),
+        Path(__file__).parents[3] / "orchestration/jo_vdpr/env.py",
+        Path(__file__).parents[3] / "core/state_manager.py",
+    ]
+    manifest = {
+        "protocol": "live-testbed-v2",
+        "created_at_utc": datetime.now(timezone.utc).isoformat(),
+        "seed": config.seed,
+        "scenarios": [{"name": scenario.name, "default_steps": scenario.default_steps} for scenario in selected],
+        "steps_override": config.steps,
+        "duration_hours": config.duration_hours,
+        "request_interval_s": config.request_interval_s,
+        "workers": 1,
+        "queue_policy": "sequential client; no client-side concurrency",
+        "wait_for_migration": config.wait_for_migration,
+        "reset_before_scenario": config.reset_before_scenario,
+        "cleanup_after_scenario": config.cleanup_after_scenario,
+        "include_local_baselines": not args.no_baselines,
+        "baseline_algorithms": args.baseline or BASELINE_ALGORITHMS,
+        "api_base_url": config.api_base_url,
+        "sdn_base_url": config.sdn_base_url,
+        "topology": topology.topology_name,
+        "nodes": topology.num_nodes,
+        "edges": int(topology.adj_matrix.sum() // 2),
+        "msd_limits": topology.msd_limits.tolist(),
+        "telemetry_ttl_s": os.getenv("CORE_ROUTER_TELEMETRY_TTL_S"),
+        "hardware": {"platform": platform.platform(), "cpu_count": os.cpu_count(), "memory_total_kib": mem_total_kib},
+        "software": {"python": sys.version, "packages": package_versions},
+        "source_sha256": {str(path): sha256_file(path) for path in source_files if path.is_file()},
+    }
+    (run_dir / "run_manifest.json").write_text(json.dumps(manifest, indent=2, sort_keys=True), encoding="utf-8")
     runner = ScenarioRunner(config, client)
     baseline_runner = BaselineSimulator(seed=config.seed, steps=config.steps)
     all_records: List[RequestRecord] = []

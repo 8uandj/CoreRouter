@@ -1,0 +1,249 @@
+{
+  "protocol_id": "aio-mesh-rev1-primary",
+  "dataset": {
+    "path": "data/real_telecom_combined.csv",
+    "sha256": null
+  },
+  "source_paths": [
+    "src",
+    "scripts/rev1",
+    "notebook/vietnam.ipynb",
+    "infrastructure/sdn",
+    "tests/rev1",
+    "tests/test_state_manager.py",
+    "tests/test_hybrid_decision.py",
+    "tests/test_orchestration_api.py",
+    "notebook/rev1-benchmark-ablation-kaggle.ipynb"
+  ],
+  "source_sha256": null,
+  "eval_seeds": [
+    42,
+    100,
+    2024,
+    8888,
+    9999,
+    7,
+    17,
+    73,
+    314,
+    2718,
+    11,
+    23,
+    47,
+    89,
+    101,
+    211,
+    512,
+    1024,
+    4096,
+    8192
+  ],
+  "scenarios": [
+    "uniform",
+    "bursty",
+    "heavy_tail",
+    "chaos"
+  ],
+  "action_contract": "Discrete(N*N), flat index v_place*N + v_route",
+  "observation_contract": "6*N + 13",
+  "artifacts": [
+    {
+      "topology": "vietnam",
+      "variant": "main_v11",
+      "node_count": 10,
+      "architecture": "gat",
+      "model_path": "results/models/v11/dgrl_v11_final_vietnam.zip",
+      "normalizer_path": "results/models/v11/vec_normalize_v11_vietnam.pkl",
+      "model_sha256": null,
+      "normalizer_sha256": null
+    },
+    {
+      "topology": "vietnam",
+      "variant": "harp_full",
+      "node_count": 10,
+      "architecture": "gat",
+      "model_path": "results/models/ablation/harp_full/dgrl_v11_harp_full_vietnam.zip",
+      "normalizer_path": "results/models/ablation/harp_full/vec_normalize_v11_harp_full_vietnam.pkl",
+      "model_sha256": null,
+      "normalizer_sha256": null
+    },
+    {
+      "topology": "vietnam",
+      "variant": "harp_wo_gat",
+      "node_count": 10,
+      "architecture": "mlp",
+      "model_path": "results/models/ablation/harp_wo_gat/dgrl_v11_harp_wo_gat_vietnam.zip",
+      "normalizer_path": "results/models/ablation/harp_wo_gat/vec_normalize_v11_harp_wo_gat_vietnam.pkl",
+      "model_sha256": null,
+      "normalizer_sha256": null
+    },
+    {
+      "topology": "vietnam",
+      "variant": "harp_wo_hard_masking",
+      "node_count": 10,
+      "architecture": "gat",
+      "model_path": "results/models/ablation/harp_wo_hard_masking/dgrl_v11_harp_wo_hard_masking_vietnam.zip",
+      "normalizer_path": "results/models/ablation/harp_wo_hard_masking/vec_normalize_v11_harp_wo_hard_masking_vietnam.pkl",
+      "model_sha256": null,
+      "normalizer_sha256": null
+    },
+    {
+      "topology": "vietnam",
+      "variant": "harp_soft_msd_penalty",
+      "node_count": 10,
+      "architecture": "gat",
+      "model_path": "results/models/ablation/harp_soft_msd_penalty/dgrl_v11_harp_soft_msd_penalty_vietnam.zip",
+      "normalizer_path": "results/models/ablation/harp_soft_msd_penalty/vec_normalize_v11_harp_soft_msd_penalty_vietnam.pkl",
+      "model_sha256": null,
+      "normalizer_sha256": null
+    },
+    {
+      "topology": "vietnam",
+      "variant": "harp_wo_adaptive_penalty",
+      "node_count": 10,
+      "architecture": "gat",
+      "model_path": "results/models/ablation/harp_wo_adaptive_penalty/dgrl_v11_harp_wo_adaptive_penalty_vietnam.zip",
+      "normalizer_path": "results/models/ablation/harp_wo_adaptive_penalty/vec_normalize_v11_harp_wo_adaptive_penalty_vietnam.pkl",
+      "model_sha256": null,
+      "normalizer_sha256": null
+    },
+    {
+      "topology": "nsfnet",
+      "variant": "main_v11",
+      "node_count": 14,
+      "architecture": "gat",
+      "model_path": "results/models/v11/dgrl_v11_final_nsfnet.zip",
+      "normalizer_path": "results/models/v11/vec_normalize_v11_nsfnet.pkl",
+      "model_sha256": null,
+      "normalizer_sha256": null
+    },
+    {
+      "topology": "nsfnet",
+      "variant": "harp_full",
+      "node_count": 14,
+      "architecture": "gat",
+      "model_path": "results/models/ablation/harp_full/dgrl_v11_harp_full_nsfnet.zip",
+      "normalizer_path": "results/models/ablation/harp_full/vec_normalize_v11_harp_full_nsfnet.pkl",
+      "model_sha256": null,
+      "normalizer_sha256": null
+    },
+    {
+      "topology": "nsfnet",
+      "variant": "harp_wo_gat",
+      "node_count": 14,
+      "architecture": "mlp",
+      "model_path": "results/models/ablation/harp_wo_gat/dgrl_v11_harp_wo_gat_nsfnet.zip",
+      "normalizer_path": "results/models/ablation/harp_wo_gat/vec_normalize_v11_harp_wo_gat_nsfnet.pkl",
+      "model_sha256": null,
+      "normalizer_sha256": null
+    },
+    {
+      "topology": "nsfnet",
+      "variant": "harp_wo_hard_masking",
+      "node_count": 14,
+      "architecture": "gat",
+      "model_path": "results/models/ablation/harp_wo_hard_masking/dgrl_v11_harp_wo_hard_masking_nsfnet.zip",
+      "normalizer_path": "results/models/ablation/harp_wo_hard_masking/vec_normalize_v11_harp_wo_hard_masking_nsfnet.pkl",
+      "model_sha256": null,
+      "normalizer_sha256": null
+    },
+    {
+      "topology": "nsfnet",
+      "variant": "harp_soft_msd_penalty",
+      "node_count": 14,
+      "architecture": "gat",
+      "model_path": "results/models/ablation/harp_soft_msd_penalty/dgrl_v11_harp_soft_msd_penalty_nsfnet.zip",
+      "normalizer_path": "results/models/ablation/harp_soft_msd_penalty/vec_normalize_v11_harp_soft_msd_penalty_nsfnet.pkl",
+      "model_sha256": null,
+      "normalizer_sha256": null
+    },
+    {
+      "topology": "nsfnet",
+      "variant": "harp_wo_adaptive_penalty",
+      "node_count": 14,
+      "architecture": "gat",
+      "model_path": "results/models/ablation/harp_wo_adaptive_penalty/dgrl_v11_harp_wo_adaptive_penalty_nsfnet.zip",
+      "normalizer_path": "results/models/ablation/harp_wo_adaptive_penalty/vec_normalize_v11_harp_wo_adaptive_penalty_nsfnet.pkl",
+      "model_sha256": null,
+      "normalizer_sha256": null
+    },
+    {
+      "topology": "geant2",
+      "variant": "main_v11",
+      "node_count": 23,
+      "architecture": "gat",
+      "model_path": "results/models/v11/dgrl_v11_final_geant2.zip",
+      "normalizer_path": "results/models/v11/vec_normalize_v11_geant2.pkl",
+      "model_sha256": null,
+      "normalizer_sha256": null,
+      "observation_dim": 151
+    },
+    {
+      "topology": "geant2",
+      "variant": "harp_full",
+      "node_count": 23,
+      "architecture": "gat",
+      "model_path": "results/models/ablation/harp_full/dgrl_v11_harp_full_geant2.zip",
+      "normalizer_path": "results/models/ablation/harp_full/vec_normalize_v11_harp_full_geant2.pkl",
+      "model_sha256": null,
+      "normalizer_sha256": null,
+      "observation_dim": 151
+    },
+    {
+      "topology": "geant2",
+      "variant": "harp_wo_gat",
+      "node_count": 23,
+      "architecture": "mlp",
+      "model_path": "results/models/ablation/harp_wo_gat/dgrl_v11_harp_wo_gat_geant2.zip",
+      "normalizer_path": "results/models/ablation/harp_wo_gat/vec_normalize_v11_harp_wo_gat_geant2.pkl",
+      "model_sha256": null,
+      "normalizer_sha256": null,
+      "observation_dim": 151
+    },
+    {
+      "topology": "geant2",
+      "variant": "harp_wo_hard_masking",
+      "node_count": 23,
+      "architecture": "gat",
+      "model_path": "results/models/ablation/harp_wo_hard_masking/dgrl_v11_harp_wo_hard_masking_geant2.zip",
+      "normalizer_path": "results/models/ablation/harp_wo_hard_masking/vec_normalize_v11_harp_wo_hard_masking_geant2.pkl",
+      "model_sha256": null,
+      "normalizer_sha256": null,
+      "observation_dim": 151
+    },
+    {
+      "topology": "geant2",
+      "variant": "harp_soft_msd_penalty",
+      "node_count": 23,
+      "architecture": "gat",
+      "model_path": "results/models/ablation/harp_soft_msd_penalty/dgrl_v11_harp_soft_msd_penalty_geant2.zip",
+      "normalizer_path": "results/models/ablation/harp_soft_msd_penalty/vec_normalize_v11_harp_soft_msd_penalty_geant2.pkl",
+      "model_sha256": null,
+      "normalizer_sha256": null,
+      "observation_dim": 151
+    },
+    {
+      "topology": "geant2",
+      "variant": "harp_wo_adaptive_penalty",
+      "node_count": 23,
+      "architecture": "gat",
+      "model_path": "results/models/ablation/harp_wo_adaptive_penalty/dgrl_v11_harp_wo_adaptive_penalty_geant2.zip",
+      "normalizer_path": "results/models/ablation/harp_wo_adaptive_penalty/vec_normalize_v11_harp_wo_adaptive_penalty_geant2.pkl",
+      "model_sha256": null,
+      "normalizer_sha256": null,
+      "observation_dim": 151
+    }
+  ],
+  "runtime_versions": {
+    "gymnasium": "1.1.1",
+    "stable-baselines3": "2.7.1",
+    "sb3-contrib": "2.7.1",
+    "shimmy": "2.0.0",
+    "matplotlib": "3.9.4",
+    "pandas": "2.3.3",
+    "networkx": "3.2.1",
+    "scipy": "1.13.1",
+    "numpy": "2.0.2",
+    "torch": "2.7.1+cu118"
+  }
+}

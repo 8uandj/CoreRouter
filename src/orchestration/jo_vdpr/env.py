@@ -13,6 +13,7 @@ import gymnasium as gym
 from gymnasium import spaces
 import numpy as np
 import random as _stdlib_random
+import time
 from collections import deque
 from typing import List, Optional, Union, Dict, Any
 
@@ -47,12 +48,14 @@ class JOVDPREnv(gym.Env):
                  reward_calculator: Optional[RewardCalculator] = None,
                  topology_manager: Optional[TopologyManager] = None,
                  episode_length: int = 100,
-                 enforce_msd_constraint: bool = True):
+                 enforce_msd_constraint: bool = True,
+                 enforce_resource_constraints: bool = True):
         super().__init__()
         self.repo        = repository
         self.reward_calc = reward_calculator or RewardCalculator()
         self.EPISODE_LEN = episode_length
         self.enforce_msd_constraint = enforce_msd_constraint
+        self.enforce_resource_constraints = enforce_resource_constraints
         self.alert_cpu_threshold = 0.80
         self.inference_sla_threshold = None
         
@@ -84,7 +87,9 @@ class JOVDPREnv(gym.Env):
         self._link_bw = np.full((self.num_nodes, self.num_nodes), self.MAX_LINK_BW, dtype=np.float32)
 
         # ── Benchmark-configurable parameters ──
-        self.traffic_scenario: str = 'uniform'   # 'uniform' | 'bursty' | 'heavy_tail'
+        self.traffic_scenario: str = 'uniform'   # uniform | bursty | heavy_tail | chaos
+        self._chaos_stress_state = False
+        self._traffic_rng = np.random.default_rng(0)
         self.arrival_rate: float = 1.0            # 1.0 = Stress (every step), 0.2 = Normal
         self.ttl_range: tuple = (100, 500)        # SFC lifetime range (steps)
 
@@ -99,13 +104,24 @@ class JOVDPREnv(gym.Env):
         return int(v1) * self.num_nodes + int(v2)
 
     def _decode_action(self, action) -> tuple[int, int]:
-        if np.isscalar(action):
-            a = int(action)
-            return a // self.num_nodes, a % self.num_nodes
-        if isinstance(action, np.ndarray) and action.ndim == 0:
-            a = int(action.item())
-            return a // self.num_nodes, a % self.num_nodes
-        return int(action[0]), int(action[1])
+        try:
+            if np.isscalar(action):
+                raw = np.asarray(action).item()
+                a = int(raw)
+                if a != raw or not 0 <= a < self.num_nodes * self.num_nodes:
+                    raise ValueError
+                return a // self.num_nodes, a % self.num_nodes
+            values = np.asarray(action).reshape(-1)
+            if values.size != 2:
+                raise ValueError
+            pair = tuple(int(value) for value in values)
+            if any(float(value) != integer for value, integer in zip(values, pair)):
+                raise ValueError
+            if any(node < 0 or node >= self.num_nodes for node in pair):
+                raise ValueError
+            return pair
+        except (TypeError, ValueError, OverflowError) as exc:
+            raise ValueError(f"Invalid placement/routing action: {action!r}") from exc
 
     def _load_request_for_step(self, step: int) -> None:
         row = self.repo.get_next_entry(step)
@@ -121,10 +137,23 @@ class JOVDPREnv(gym.Env):
             mult = 2.0 if peak else 0.7
             cpu_req = min(self.max_cpu * 0.85, cpu_req * mult)
         elif self.traffic_scenario == 'heavy_tail':
-            rng = self.np_random if self.np_random is not None else np.random
-            if rng.random() < 0.2:
+            if self._traffic_rng.random() < 0.2:
                 cpu_req = min(self.max_cpu * 0.70, cpu_req * 3.5)
                 msd_req = min(int(self.node_msd_limits.max()) - 1, msd_req + 3)
+        elif self.traffic_scenario == 'chaos':
+            # Two-state Markov workload: calm -> stress with p=.08; stress
+            # -> calm with p=.35. Stress scales CPU/RAM and increases SID depth.
+            # The seeded Gym RNG makes each trace replayable.
+            transition = float(self._traffic_rng.random())
+            if self._chaos_stress_state:
+                self._chaos_stress_state = transition >= 0.35
+            else:
+                self._chaos_stress_state = transition < 0.08
+            if self._chaos_stress_state:
+                cpu_req = min(self.max_cpu * 0.85, cpu_req * 2.5)
+                ram_req = min(self.max_ram * 0.85, ram_req * 1.75)
+                msd_req = min(int(self.node_msd_limits.max()) - 1, msd_req + 2)
+                svc = 'Attack'
 
         self._current_req = {
             'cpu': cpu_req,
@@ -182,19 +211,35 @@ class JOVDPREnv(gym.Env):
 
     def reset(self, seed=None, options=None):
         super().reset(seed=seed)
+        traffic_seed = 0 if seed is None else int(seed)
+        self._traffic_rng = np.random.default_rng(traffic_seed ^ 0x48415250)
         self.current_step  = 0
         self._state        = np.zeros(self.num_nodes * 3, dtype=np.float32)
         self._current_req  = {'cpu': 0.0, 'ram': 0.0, 'msd': 1, 'service_type': 'Data'}
         self._prev_v1      = None
         self._prev_v2      = None
+        self._chaos_stress_state = False
         self._violation_window.clear()
         self.active_flows.clear()
         self._link_bw = np.full((self.num_nodes, self.num_nodes), self.MAX_LINK_BW, dtype=np.float32)
         self._load_request_for_step(self.current_step)
-        return self._get_obs(), {}
+        observation_start = time.perf_counter()
+        observation = self._get_obs()
+        self._current_state_construction_ms = (time.perf_counter() - observation_start) * 1000.0
+        return observation, {}
 
     def step(self, action):
+        step_start = time.perf_counter()
+        input_state_construction_ms = float(getattr(self, "_current_state_construction_ms", 0.0))
         v1, v2 = self._decode_action(action)
+        trace_request = {
+            "step": int(self.current_step),
+            "cpu": float(self._current_req.get("cpu", 0.0)),
+            "ram": float(self._current_req.get("ram", 0.0)),
+            "msd": int(self._current_req.get("msd", 1)),
+            "service_type": str(self._current_req.get("service_type", "Data")),
+            "scenario": str(self.traffic_scenario),
+        }
 
         # ══ PHASE 1: SFC Lifecycle Tick (ALWAYS runs, even on skipped steps) ══
         # Đồng hồ hệ thống PHẢI trôi đi 1 tick mỗi step, bất kể có request hay không.
@@ -214,22 +259,33 @@ class JOVDPREnv(gym.Env):
             
             self._state[fv1 * 3]     = max(0.0, self._state[fv1 * 3]     - cpu_alloc)
             self._state[fv1 * 3 + 1] = max(0.0, self._state[fv1 * 3 + 1] - ram_alloc)
-            self._state[fv2 * 3 + 2] = max(0.0, self._state[fv2 * 3 + 2] - msd_alloc)
             # Hoàn trả Link Bandwidth (SDN Controller Layer)
             if fv1 != fv2:
                 self._link_bw[fv1][fv2] += flow["bw"]
                 self._link_bw[fv2][fv1] += flow["bw"]
 
+        # MSD state is the greatest individual list depth using each route,
+        # not a sum of all active flows. Rebuild after expiry so removing the
+        # largest list leaves the next largest list represented.
+        self._state[2::3] = 0.0
+        for flow in self.active_flows:
+            route = flow.get("routing_node", flow.get("v2"))
+            depth = flow.get("msd_allocated", flow.get("msd", 0))
+            self._state[route * 3 + 2] = max(self._state[route * 3 + 2], depth)
+
         # ══ PHASE 2: Arrival Rate Control (Normal Load: skip request) ══
         # Dù skip, đồng hồ đã tick ở Phase 1 → tài nguyên được giải phóng đúng.
         if self.arrival_rate < 1.0:
-            rng = self.np_random if self.np_random is not None else np.random
-            if rng.random() > self.arrival_rate:
+            if self._traffic_rng.random() > self.arrival_rate:
                 self.current_step += 1
                 done = (self.current_step >= self.EPISODE_LEN)
                 if not done:
                     self._load_request_for_step(self.current_step)
-                return self._get_obs(), 0.0, done, False, {
+                observation_start = time.perf_counter()
+                next_obs = self._get_obs()
+                next_state_construction_ms = (time.perf_counter() - observation_start) * 1000.0
+                self._current_state_construction_ms = next_state_construction_ms
+                return next_obs, 0.0, done, False, {
                     'accepted': False, 'skipped': True, 'error_log': 'no_arrival',
                     'v1': '', 'v2': '', 'total_latency_ms': 0.0,
                     'prop_latency_ms': 0.0, 'srv6_latency_ms': 0.0,
@@ -238,6 +294,10 @@ class JOVDPREnv(gym.Env):
                     'evacuation_hit': False, 'latency_violation_rate': 0.0,
                     'cpu_util_v1': 0.0, 'cpu_util_v2': 0.0,
                     'n_sids': 0, 'service_type': 'Data',
+                    'trace_request': trace_request,
+                    'state_construction_ms': input_state_construction_ms,
+                    'next_state_construction_ms': next_state_construction_ms,
+                    'environment_step_ms': (time.perf_counter() - step_start) * 1000.0,
                 }
 
         # ══ PHASE 3: Use request already exposed in observation/mask ══
@@ -250,35 +310,45 @@ class JOVDPREnv(gym.Env):
 
         # ══ PHASE 4: Validation & Placement ══
 
-        # [NEW] Path-aware MSD (Hop count included)
-        hop_count = self.topo.get_hop_distance(v1, v2)
-        msd_total = msd_req + hop_count
+        # The current runtime realizes one request-level SID list with exactly
+        # `msd_req` entries (see hybrid_decision.generate_srv6_sids). This
+        # environment is pair-level and does not materialize transit paths or
+        # multi-VNF chains, so do not add a synthetic hop count to MSD.
+        msd_total = int(msd_req)
 
         # Trích cờ cảnh báo (Proactive Alert)
         alert_v1 = 1.0 if (self._state[v1 * 3] / self.max_cpu) > self.alert_cpu_threshold else 0.0
         alert_v2 = 1.0 if (self._state[v2 * 3] / self.max_cpu) > self.alert_cpu_threshold else 0.0
 
         errors, is_valid = [], True
-        has_msd_violation = False
+        has_msd_violation = has_cpu_violation = has_ram_violation = has_bw_violation = False
+        admission_start = time.perf_counter()
 
         if self._state[v1 * 3] + cpu_req > self.max_cpu:
-            is_valid = False
+            has_cpu_violation = True
+            if self.enforce_resource_constraints:
+                is_valid = False
             errors.append("CPU overflow at placement node")
 
         if self._state[v1 * 3 + 1] + ram_req > self.max_ram:
-            is_valid = False
+            has_ram_violation = True
+            if self.enforce_resource_constraints:
+                is_valid = False
             errors.append("RAM overflow at placement node")
 
-        if self._state[v2 * 3 + 2] + msd_total > self.node_msd_limits[v2]:
-            if self.enforce_msd_constraint:
-                is_valid = False
+        if msd_total > self.node_msd_limits[v2]:
             has_msd_violation = True
-            errors.append(f"MSD violation routing node {v2} (req:{msd_req}+hop:{hop_count})")
+            if self.enforce_resource_constraints and self.enforce_msd_constraint:
+                is_valid = False
+            errors.append(f"MSD violation routing node {v2} (sid_depth:{msd_total})")
 
         # Bandwidth check (SDN Controller — Admission Control)
         if v1 != v2 and self._link_bw[v1][v2] < bw_req:
-            is_valid = False
+            has_bw_violation = True
+            if self.enforce_resource_constraints:
+                is_valid = False
             errors.append(f"Link BW exhausted ({v1}->{v2})")
+        admission_validation_ms = (time.perf_counter() - admission_start) * 1000.0
 
         cpu_util_v1 = min(1.0, self._state[v1 * 3] / self.max_cpu)
         cpu_util_v2 = min(1.0, self._state[v2 * 3] / self.max_cpu)
@@ -315,7 +385,7 @@ class JOVDPREnv(gym.Env):
         if is_valid:
             self._state[v1 * 3]     += cpu_req
             self._state[v1 * 3 + 1] += ram_req
-            self._state[v2 * 3 + 2] += msd_total
+            self._state[v2 * 3 + 2] = max(self._state[v2 * 3 + 2], msd_total)
             # SFC Lifecycle: Đăng ký flow với TTL ngẫu nhiên
             ttl = int(self.np_random.integers(self.ttl_range[0], self.ttl_range[1])) if self.np_random is not None else np.random.randint(self.ttl_range[0], self.ttl_range[1])
             self.active_flows.append({
@@ -342,6 +412,10 @@ class JOVDPREnv(gym.Env):
         done = (self.current_step >= self.EPISODE_LEN)
         if not done:
             self._load_request_for_step(self.current_step)
+        observation_start = time.perf_counter()
+        next_obs = self._get_obs()
+        state_construction_ms = (time.perf_counter() - observation_start) * 1000.0
+        self._current_state_construction_ms = state_construction_ms
         info = {
             'is_elephant':     is_elephant,
             'error_log':       " | ".join(errors),
@@ -356,14 +430,41 @@ class JOVDPREnv(gym.Env):
             'accepted':        is_valid,
             'msd_violation':   has_msd_violation,
             'admitted_msd_violation': bool(is_valid and has_msd_violation),
+            'cpu_violation': has_cpu_violation,
+            'ram_violation': has_ram_violation,
+            'bw_violation': has_bw_violation,
+            'admitted_cpu_violation': bool(is_valid and has_cpu_violation),
+            'admitted_ram_violation': bool(is_valid and has_ram_violation),
+            'admitted_bw_violation': bool(is_valid and has_bw_violation),
             'evacuation_hit':  (alert_v1 == 1.0 or alert_v2 == 1.0), # Tracking logic mới
             'latency_violation_rate': (sum(self._violation_window) / len(self._violation_window) if self._violation_window else 0.0),
             'cpu_util_v1':     cpu_util_v1,
             'cpu_util_v2':     cpu_util_v2,
             'n_sids':          msd_total,
             'service_type':    svc,
+            'trace_request':   trace_request,
+            'admission_validation_ms': admission_validation_ms,
+            'state_construction_ms': input_state_construction_ms,
+            'next_state_construction_ms': state_construction_ms,
+            'environment_step_ms': (time.perf_counter() - step_start) * 1000.0,
         }
-        return self._get_obs(), float(reward), done, False, info
+        rejected_for = None
+        if not is_valid:
+            # Candidate violation flags may overlap, but accounting assigns one
+            # deterministic primary cause per rejected request.
+            for key, violated, enforced in (
+                ("cpu", has_cpu_violation, self.enforce_resource_constraints),
+                ("ram", has_ram_violation, self.enforce_resource_constraints),
+                ("msd", has_msd_violation, self.enforce_resource_constraints and self.enforce_msd_constraint),
+                ("bw", has_bw_violation, self.enforce_resource_constraints),
+            ):
+                if violated and enforced:
+                    rejected_for = key
+                    break
+            if rejected_for is None:
+                rejected_for = "latency_or_other"
+        info["rejection_reason"] = rejected_for
+        return next_obs, float(reward), done, False, info
 
     def action_masks(self) -> np.ndarray:
         cpu_req = self._current_req.get('cpu', 0.0)
@@ -380,11 +481,7 @@ class JOVDPREnv(gym.Env):
             for route in range(self.num_nodes):
                 if place != route and self._link_bw[place][route] < bw_req:
                     continue
-                hop_count = self.topo.get_hop_distance(place, route)
-                msd_curr = self._state[route * 3 + 2]
-                if msd_curr + msd_req + hop_count <= self.node_msd_limits[route]:
+                if msd_req <= self.node_msd_limits[route]:
                     masks[self._encode_action(place, route)] = True
 
-        if not masks.any():
-            masks[:] = True
         return masks

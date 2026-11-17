@@ -222,6 +222,30 @@ class TektonOrchestrator(IOrchestrator):
             logger.error(f"Error listing VNFs: {e}")
             return []
 
+    def deployment_presence(self, deploy_name: str, namespace: str = DEFAULT_NAMESPACE) -> Optional[bool]:
+        """Return True/False only when Deployment and matching Pods are observable.
+
+        None means the API could not establish absence; callers must keep any
+        associated resource reservation in that case.
+        """
+        if not self.apps_api or not self.core_api:
+            return None
+        try:
+            self.apps_api.read_namespaced_deployment(deploy_name, namespace)
+            return True
+        except Exception as exc:
+            if getattr(exc, "status", None) != 404:
+                logger.warning("Deployment presence check failed for %s: %s", deploy_name, exc)
+                return None
+        try:
+            pods = self.core_api.list_namespaced_pod(
+                namespace=namespace, label_selector=f"app={deploy_name}"
+            )
+        except Exception as exc:
+            logger.warning("Pod presence check failed for %s: %s", deploy_name, exc)
+            return None
+        return bool(pods.items)
+
     # --- Phase 2.2: Make-Before-Break single-VNF migration -------------------
 
     def trigger_migrate_single(

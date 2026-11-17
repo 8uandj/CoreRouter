@@ -6,9 +6,12 @@ returning a decision. These are pair-level checks, not full-chain validation.
 """
 
 from dataclasses import dataclass
+import time
+import uuid
 from typing import Callable, List
 
 from src.ai.heuristic import ActionChoice, HardConstraintError, get_decoupled_action
+from .realization import AdmittedRealization
 
 
 @dataclass(frozen=True)
@@ -17,6 +20,10 @@ class HybridDecision:
     branch: str
     method: str
     sid_stack: List[str]
+    decision_state_version: int
+    admission_state_version: int
+    timings_ms: dict[str, float]
+    realization: AdmittedRealization
 
 
 def generate_srv6_sids(v_place: int, v_route: int, msd_req: int) -> List[str]:
@@ -52,34 +59,76 @@ def select_and_reserve(
     The injected DRL callable has the runtime adapter's get_action signature.
     Only hard-constraint failures select a fallback; unexpected errors propagate.
     """
+    decision_start = time.perf_counter()
     branch = "heuristic"
     method = "Hybrid:Heuristic"
-    if state_manager.choose_mode().mode == "heuristic":
+    timings: dict[str, float] = {}
+    state_start = time.perf_counter()
+    mode = state_manager.choose_mode().mode
+    snapshot = state_manager.snapshot()
+    timings["state_snapshot_ms"] = (time.perf_counter() - state_start) * 1000.0
+    expected_state_version = snapshot.state_version
+    if mode == "heuristic":
         try:
-            choice = get_decoupled_action(state_manager.snapshot(), request)
+            policy_start = time.perf_counter()
+            choice = get_decoupled_action(snapshot, request)
+            timings["heuristic_inference_ms"] = (time.perf_counter() - policy_start) * 1000.0
         except HardConstraintError:
-            choice = drl_action(state_manager, request).choice
+            policy_start = time.perf_counter()
+            drl_decision = drl_action(state_manager, request)
+            choice = drl_decision.choice
+            timings.update(getattr(drl_decision, "timings_ms", {}))
+            timings.setdefault("policy_inference_ms", (time.perf_counter() - policy_start) * 1000.0)
             branch = "drl"
             method = "Hybrid:DRL (Heuristic Fallback)"
     else:
-        choice = drl_action(state_manager, request).choice
+        policy_start = time.perf_counter()
+        drl_decision = drl_action(state_manager, request)
+        choice = drl_decision.choice
+        timings.update(getattr(drl_decision, "timings_ms", {}))
+        timings.setdefault("policy_inference_ms", (time.perf_counter() - policy_start) * 1000.0)
         branch = "drl"
         method = "Hybrid:DRL"
 
     def reserve(selected):
         sids = generate_srv6_sids(selected.v_place, selected.v_route, request.msd_req)
+        admission_start = time.perf_counter()
         accepted, error = state_manager.try_reserve(
             selected.v_place, selected.v_route, request.cpu_req, request.ram_req,
             len(sids), vnf_name=vnf_name,
+            expected_state_version=expected_state_version,
         )
+        timings["admission_validation_ms"] = timings.get("admission_validation_ms", 0.0) + (
+            time.perf_counter() - admission_start
+        ) * 1000.0
         return sids, accepted, error
 
     sid_stack, accepted, error = reserve(choice)
-    if not accepted and branch == "heuristic":
-        choice = drl_action(state_manager, request).choice
+    if not accepted and branch == "heuristic" and error != "stale_state_version":
+        policy_start = time.perf_counter()
+        drl_decision = drl_action(state_manager, request)
+        choice = drl_decision.choice
+        timings.update(getattr(drl_decision, "timings_ms", {}))
+        timings.setdefault("policy_inference_ms", (time.perf_counter() - policy_start) * 1000.0)
         sid_stack, accepted, error = reserve(choice)
         branch = "drl"
         method = "Hybrid:DRL (Capacity Fallback)"
     if not accepted:
         raise HardConstraintError(error or "Hardware constraints violated.")
-    return HybridDecision(choice, branch, method, sid_stack)
+    timings["decision_policy_and_admission_ms"] = (time.perf_counter() - decision_start) * 1000.0
+    return HybridDecision(
+        choice, branch, method, sid_stack,
+        decision_state_version=expected_state_version,
+        admission_state_version=expected_state_version + 1,
+        timings_ms=timings,
+        realization=AdmittedRealization(
+            request_id=vnf_name,
+            operation_id=str(uuid.uuid4()),
+            topology_hash=state_manager._topology_identity(),
+            profile_id="pair-admission-v1",
+            sid_stack=tuple(sid_stack),
+            # The current pair-level SID helper has no verified forwarding
+            # profile mapping. Keep the admission valid but non-actuatable.
+            forwarding_sid=None,
+        ),
+    )

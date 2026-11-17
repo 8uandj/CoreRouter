@@ -187,21 +187,21 @@ class ThriftController:
         rc, out = self._cli([f"table_clear {table_name}"])
         return rc == 0
 
-    def read_counter(self, counter_name: str, index: int = 0) -> int:
+    def read_counter(self, counter_name: str, index: int = 0) -> Optional[int]:
         """
         Đọc giá trị bộ đếm (counter) từ switch.
         Lệnh CLI: counter_read <counter_name> <index>
         """
         cmd = f"counter_read {counter_name} {index}"
         rc, out = self._cli([cmd])
-        if rc == 0:
+        if rc == 0 and "error" not in out.lower():
             # Output format: counter_name[index]= packets: X, bytes: Y
             # Ta chỉ cần lấy phần packets
             import re
-            match = re.search(r"packets: (\d+)", out)
+            match = re.search(r"\bpackets\s*[:=]\s*(\d+)", out)
             if match:
                 return int(match.group(1))
-        return 0
+        return None
 
     def is_reachable(self) -> bool:
         """Kiểm tra Thrift port có mở không."""
@@ -239,10 +239,13 @@ class SDNController:
             for name, port in switch_thrift_map.items()
         }
         self._steer_lock   = threading.Lock()
+        self._steer_execution_lock = threading.Lock()
         self._steer_state  = SteerState.IDLE
         self._steer_result: Optional[bool] = None
         # confirm_steer_done: flag Backend AI và Tekton đọc
         self.confirm_steer_done: bool = False
+        self._steer_deploy: Optional[str] = None
+        self._steer_operation_id: Optional[str] = None
 
     # ──────────────────────────────────────────────────────────
     #  Bootstrap: populate initial routing tables
@@ -273,7 +276,8 @@ class SDNController:
             sw_name = rule.get("switch")
             ctl     = self.controllers.get(sw_name)
             if not ctl:
-                log.warning(f"  Unknown switch: {sw_name}, skip")
+                log.error(f"  Unknown switch: {sw_name}; refusing confirmation")
+                ok = False
                 continue
 
             if rule["type"] == "ipv6_route":
@@ -303,12 +307,28 @@ class SDNController:
     #  Make-Before-Break Steer (QUY TẮC THÉP SỐ 3)
     # ──────────────────────────────────────────────────────────
 
-    def steer(
+    def steer(self, new_deploy: str, new_rules: List[Dict],
+              old_rules: List[Dict], namespace: str = "core-router",
+              operation_id: Optional[str] = None) -> bool:
+        # Keep status readable during I/O, but serialize complete rule updates.
+        with self._steer_execution_lock:
+            try:
+                return self._steer_once(new_deploy, new_rules, old_rules,
+                                        namespace, operation_id)
+            except Exception:
+                log.exception("Steering failed for %s", new_deploy)
+                with self._steer_lock:
+                    self.confirm_steer_done = False
+                    self._steer_state = SteerState.FAILED
+                return False
+
+    def _steer_once(
         self,
         new_deploy:    str,
         new_rules:     List[Dict],
         old_rules:     List[Dict],
         namespace:     str = "core-router",
+        operation_id: Optional[str] = None,
     ) -> bool:
         """
         Thực hiện Make-Before-Break Steer — CHỈ XỬ LÝ SWITCH PLANE.
@@ -332,10 +352,12 @@ class SDNController:
         with self._steer_lock:
             self.confirm_steer_done = False
             self._steer_state       = SteerState.STEERING
+            self._steer_deploy = new_deploy
+            self._steer_operation_id = operation_id
 
         log.info(f"[MBB-Steer] START: Installing rules for {new_deploy}")
 
-        ok = self.bootstrap(new_rules)
+        ok = bool(new_rules) and self.bootstrap(new_rules)
 
         if not ok:
             log.error("[MBB-Steer] ABORT: Failed to install new rules")
@@ -364,6 +386,8 @@ class SDNController:
         with self._steer_lock:
             return {
                 "steer_state":         self._steer_state.value,
+                "new_deploy": self._steer_deploy,
+                "operation_id": self._steer_operation_id,
                 "confirm_steer_done":  self.confirm_steer_done,
             }
 
@@ -381,7 +405,7 @@ class SDNController:
             }
         return result
 
-    def get_msd_drops(self) -> Dict[str, int]:
+    def get_msd_drops(self) -> Dict[str, Optional[int]]:
         """Đọc msd_violation_counter từ tất cả các switch."""
         return {
             name: ctl.read_counter("msd_violation_counter", 0)
@@ -458,6 +482,7 @@ def start_rest_api(controller: SDNController, port: int = 8765):
                             new_rules  = body["new_rules"],
                             old_rules  = body.get("old_rules", []),
                             namespace  = body.get("namespace", "core-router"),
+                            operation_id = body.get("operation_id"),
                         )
                     threading.Thread(target=_run_steer, daemon=True).start()
                     self._respond(202, {"message": "steer initiated",

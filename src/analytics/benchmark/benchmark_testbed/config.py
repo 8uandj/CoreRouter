@@ -10,6 +10,8 @@ class BenchmarkConfig:
     sdn_base_url: str = "http://127.0.0.1:8765"
     output_dir: Path = Path("results/benchmark_testbed")
     steps: int = 100
+    duration_hours: float = 0.0
+    request_interval_s: float = 0.0
     seed: int = 42
     request_timeout_s: float = 20.0
     sdn_timeout_s: float = 10.0

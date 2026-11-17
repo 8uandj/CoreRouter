@@ -49,6 +49,27 @@ class TestStateManagerHysteresis(unittest.TestCase):
         decision = self.mgr.choose_mode()
         self.assertEqual(decision.mode, "heuristic")
 
+    def test_high_cpu_node_alert_does_not_engage_drl_by_itself(self):
+        # Node snapshot alerts include the >80% CPU threshold, but the
+        # hysteresis gate responds to forecast alerts and global utilization.
+        self.set_utilization(30.0)
+        self.mgr.update_node_telemetry(0, cpu_util=81.0)
+
+        snapshot = self.mgr.snapshot()
+        self.assertTrue(snapshot.nodes[0]["alert"])
+        self.assertFalse(snapshot.alert_flag)
+        self.assertEqual(self.mgr.choose_mode().mode, "heuristic")
+
+    def test_hysteresis_uses_strict_engage_and_release_boundaries(self):
+        self.set_utilization(45.0)
+        self.assertEqual(self.mgr.choose_mode().mode, "heuristic")
+        self.set_utilization(46.0)
+        self.assertEqual(self.mgr.choose_mode().mode, "drl")
+        self.set_utilization(35.0)
+        self.assertEqual(self.mgr.choose_mode().mode, "drl")
+        self.set_utilization(34.0)
+        self.assertEqual(self.mgr.choose_mode().mode, "heuristic")
+
 class TestStateManagerSync(unittest.TestCase):
     def setUp(self):
         self.mgr = NetworkStateManager(topology_name="vietnam")
@@ -70,8 +91,8 @@ class TestStateManagerSync(unittest.TestCase):
         self.mgr.sync_with_kubernetes([])
         snap = self.mgr.snapshot()
         for node in snap.nodes:
-            self.assertTrue(2.0 <= node["cpu_util"] <= 8.0)
-            self.assertTrue(6.0 <= node["ram_util"] <= 10.0)
+            self.assertEqual(node["cpu_util"], 0.0)
+            self.assertEqual(node["ram_util"], 0.0)
             self.assertEqual(node["msd_util"], 0.0)
 
         accepted, error = self.mgr.try_reserve(
@@ -82,14 +103,14 @@ class TestStateManagerSync(unittest.TestCase):
         self.mgr.sync_with_kubernetes([])
         snap = self.mgr.snapshot()
         node_0 = snap.nodes[0]
-        self.assertTrue(17.0 <= node_0["cpu_util"] <= 23.0)
+        self.assertAlmostEqual(node_0["cpu_util"], 15.0, delta=1e-4)
 
         k8s_vnfs = [{"id": "vnf-test", "data": {"location": "hn"}}]
         self.mgr.sync_with_kubernetes(k8s_vnfs)
         self.assertEqual(len(self.mgr._pending_reservations), 0)
         snap = self.mgr.snapshot()
         node_0 = snap.nodes[0]
-        self.assertTrue(17.0 <= node_0["cpu_util"] <= 23.0)
+        self.assertAlmostEqual(node_0["cpu_util"], 15.0, delta=1e-4)
 
 if __name__ == "__main__":
     unittest.main()

@@ -1,23 +1,24 @@
 # %% [markdown]
 # # HARP Ablation Study on Kaggle
-#
+# #
 # Upload `kaggle_harp_ablation.zip` as a Kaggle Dataset, attach it to this
 # notebook, then run the cells below. The zip already contains the source code,
 # dataset CSVs, and final model artifacts needed by `src.analytics.ablation_study`.
 
-# %% Cell 1 - Install Dependencies
+# %% Cell 2
 import sys
 import subprocess
 
 packages = [
-    "gymnasium",
-    "stable-baselines3[extra]",
-    "sb3-contrib",
-    "shimmy>=0.2.1",
-    "matplotlib",
-    "pandas",
-    "networkx",
-    "scipy",
+    "gymnasium==1.1.1",
+    "stable-baselines3[extra]==2.7.1",
+    "sb3-contrib==2.7.1",
+    "shimmy==2.0.0",
+    "matplotlib==3.9.4",
+    "pandas==2.3.3",
+    "networkx==3.2.1",
+    "scipy==1.13.1",
+    "numpy==2.0.2",
 ]
 
 for package in packages:
@@ -25,7 +26,7 @@ for package in packages:
 
 print("Dependencies installed")
 
-# %% Cell 2 - Locate and Prepare Package
+# %% Cell 3
 import os
 import shutil
 import zipfile
@@ -188,158 +189,110 @@ for required in [
 
 print(f"Extracted to {WORK_DIR}")
 
-# %% Cell 3 - End-to-End Worker Configuration
+# %% Cell 4
 from pathlib import Path
 
-# =====================================================================
-# CHANGE THIS LINE FOR EACH KAGGLE ACCOUNT: "vietnam", "nsfnet", or "geant2"
-# =====================================================================
-WORKER_TOPOLOGY = "vietnam"  
-
+# Set to one topology per Kaggle execution: vietnam, nsfnet, or geant2.
+WORKER_TOPOLOGY = "vietnam"
 STEPS = 3000
-SEED = 42
-
-# Define optimal steps based on topology size (action space)
-_STEPS_MAP = {
-    "vietnam": 500_000,   # 10 nodes -> 100 actions
-    "nsfnet": 2_000_000,  # 14 nodes -> 196 ac  tions
-    "geant2": 2_000_000,  # 23 nodes -> 529 actions
-}
-TRAIN_TOTAL_STEPS = _STEPS_MAP.get(WORKER_TOPOLOGY, 500_000)
+SEEDS = [42, 100, 2024, 8888, 9999, 7, 17, 73, 314, 2718]
+TRAIN_TOTAL_STEPS = {"vietnam": 500_000, "nsfnet": 2_000_000, "geant2": 2_000_000}[WORKER_TOPOLOGY]
 TRAIN_N_ENVS = 4
-
-# Scenarios to evaluate
-WORKER_SCENARIOS = [
-    ("uniform", "uniform"),
-    ("bursty", "bursty"),
-    ("heavyTail", "heavy_tail"),
-]
-
-WORKER_ROOT = Path("/kaggle/working/harp_ablation") / f"worker_{WORKER_TOPOLOGY}"
+WORKER_SCENARIOS = [("elephant_stress", "heavy_tail"), ("chaos", "chaos")]
+WORKER_ROOT = Path("/kaggle/working/harp_revision") / WORKER_TOPOLOGY
 WORKER_ROOT.mkdir(parents=True, exist_ok=True)
+print("Topology:", WORKER_TOPOLOGY, "Seeds:", SEEDS, "Scenarios:", WORKER_SCENARIOS)
 
-print(f"Worker topology: {WORKER_TOPOLOGY}")
-print(f"Train steps per variant: {TRAIN_TOTAL_STEPS}")
-print(f"Eval steps per scenario: {STEPS}")
-print(f"Scenarios: {[label for label, _ in WORKER_SCENARIOS]}")
-
-# %% Cell 4 - Train All Strict Ablation Checkpoints
-import os
-import subprocess
-import sys
+# %% Cell 5
+import os, subprocess, sys
+from pathlib import Path
+from src.analytics.ablation_study import VARIANTS, resolve_variant_model_paths, preflight_variant
+from src.analytics.benchmark.benchmark_algorithm.config import AlgorithmBenchmarkConfig
+from src.analytics.benchmark.benchmark_algorithm.run_all import preflight_algorithm_inputs
 
 env = os.environ.copy()
 env["PYTHONPATH"] = f"{WORK_DIR}:{env.get('PYTHONPATH', '')}"
-env["OMP_NUM_THREADS"] = "1"
-env["MKL_NUM_THREADS"] = "1"
-env["OPENBLAS_NUM_THREADS"] = "1"
+env["OMP_NUM_THREADS"] = env["MKL_NUM_THREADS"] = env["OPENBLAS_NUM_THREADS"] = "1"
 env["MPLCONFIGDIR"] = "/tmp/matplotlib"
+DATA = Path("data/real_telecom_combined.csv")
+MODEL_ROOT = Path("results/models")
 
-train_cmd = [
-    sys.executable,
-    "-m",
-    "src.analytics.training.train_harp_ablation",
-    "--variant", "all",
-    "--topology", WORKER_TOPOLOGY,
-    "--scenario", "heavy_tail", # Train on hardest scenario
-    "--total-steps", str(TRAIN_TOTAL_STEPS),
-    "--n-envs", str(TRAIN_N_ENVS),
-    "--seed", str(SEED),
-    "--data-path", "data/real_telecom_combined.csv",
-    "--output-root", "results/models/ablation",
-]
-
-# ─── Check if we already have trained models AND they are compatible ───────────
-import zipfile, io, torch
-
-def _check_model_compatible(model_zip: Path, expected_action_dim: int) -> bool:
-    """Return True only if the model's action_net output dim matches the env."""
-    if not model_zip.exists():
-        return False
+def ablation_artifacts_ready():
     try:
-        with zipfile.ZipFile(model_zip) as z:
-            pth_names = [n for n in z.namelist() if n.endswith("policy.pth")]
-            if not pth_names:
-                return False
-            with z.open(pth_names[0]) as f:
-                sd = torch.load(io.BytesIO(f.read()), map_location="cpu",
-                                weights_only=False)
-        w = sd.get("action_net.weight")
-        if w is None:
-            return True   # Can't determine – assume OK
-        return int(w.shape[0]) == expected_action_dim
-    except Exception as e:
-        print(f"  Warning: could not inspect model {model_zip}: {e}")
+        artifacts = [resolve_variant_model_paths(MODEL_ROOT, "v11", WORKER_TOPOLOGY, v) for v in VARIANTS]
+        for variant, (model, norm, _) in zip(VARIANTS, artifacts):
+            preflight_variant(variant, WORKER_TOPOLOGY, "chaos", 2, DATA, model, norm, 1.0, (3, 5))
+        return True
+    except Exception as exc:
+        print("Ablation preflight requires training:", exc)
         return False
 
-def _compute_action_dim(topology: str) -> int:
-    from src.orchestration.jo_vdpr.topology import TopologyManager
-    tm = TopologyManager(topology)
-    return tm.num_nodes * tm.num_nodes  # Discrete(N*N)
+if not ablation_artifacts_ready():
+    subprocess.check_call([
+        sys.executable, "-m", "src.analytics.training.train_harp_ablation",
+        "--variant", "all", "--topology", WORKER_TOPOLOGY,
+        "--scenario", "heavy_tail", "--total-steps", str(TRAIN_TOTAL_STEPS),
+        "--n-envs", str(TRAIN_N_ENVS), "--seed", "42",
+        "--data-path", str(DATA), "--output-root", str(MODEL_ROOT / "ablation"),
+    ], env=env)
 
+benchmark_config = AlgorithmBenchmarkConfig(topology=WORKER_TOPOLOGY, data_path=DATA, model_root=MODEL_ROOT)
+try:
+    preflight_algorithm_inputs(benchmark_config, [WORKER_TOPOLOGY], "chaos", "stress")
+except Exception as exc:
+    print("Main benchmark checkpoint requires training:", exc)
+    subprocess.check_call([sys.executable, "-m", "src.analytics.training.train_v11",
+                           "--topology", WORKER_TOPOLOGY], env=env)
+    preflight_algorithm_inputs(benchmark_config, [WORKER_TOPOLOGY], "chaos", "stress")
+print("Model/normalizer/topology/action/observation preflights passed.")
 
-expected_dim = _compute_action_dim(WORKER_TOPOLOGY)
-model_out = Path("results/models/ablation")
-existing_zips = list(model_out.glob("**/*.zip")) if model_out.exists() else []
-
-# Check if harp_full variant (used for load sweep) is compatible
-harp_full_zip = model_out / "harp_full" / f"dgrl_v11_harp_full_{WORKER_TOPOLOGY}.zip"
-all_compatible = (
-    len(existing_zips) >= 5
-    and _check_model_compatible(harp_full_zip, expected_dim)
-)
-
-if all_compatible:
-    print(f"✅ Ablation models exist and are compatible (action_dim={expected_dim}). Skipping training.")
-else:
-    if existing_zips and not all_compatible:
-        print(f"⚠️  Found existing models but action_dim mismatch (expected={expected_dim}). Retraining...")
-    print("======================================================")
-    print(f"Training ablation checkpoints for {WORKER_TOPOLOGY}...")
-    print("======================================================")
-    print(" ".join(train_cmd))
-    subprocess.check_call(train_cmd, env=env)
-    print("Training completed.")
-
-# %% Cell 5 - Integrated Ablation & Parameter Sweep for 5 Seeds
+# %% Cell 6
 import pandas as pd
 from IPython.display import display
+summary_frames = []
+for scenario_label, env_scenario in WORKER_SCENARIOS:
+    out_dir = WORKER_ROOT / scenario_label
+    command = [sys.executable, "-m", "src.analytics.ablation_study",
+        "--topology", WORKER_TOPOLOGY, "--scenario", env_scenario,
+        "--steps", str(STEPS), "--seeds", *map(str, SEEDS),
+        "--version", "v11", "--data-path", str(DATA),
+        "--model-root", str(MODEL_ROOT), "--output-dir", str(out_dir)]
+    print("Running strict ablation:", scenario_label)
+    subprocess.check_call(command, env=env)
+    summary_path = out_dir / WORKER_TOPOLOGY / env_scenario / "harp_ablation_summary.csv"
+    frame = pd.read_csv(summary_path)
+    expected_rows = len(SEEDS) * len(VARIANTS)
+    if len(frame) != expected_rows or frame["seed"].nunique() != len(SEEDS):
+        raise RuntimeError(f"Ablation coverage failed: {summary_path}, rows={len(frame)}")
+    if frame.groupby("seed")["trace_sha256"].nunique().max() != 1:
+        raise RuntimeError(f"Variant workload traces differ for a shared seed: {summary_path}")
+    frame.insert(0, "scenario_label", scenario_label)
+    summary_frames.append(frame)
+raw = pd.concat(summary_frames, ignore_index=True)
+raw.to_csv(WORKER_ROOT / f"{WORKER_TOPOLOGY}_ablation_per_seed.csv", index=False)
+display(raw.groupby(["scenario_label", "key"])[[
+    "safe_acceptance_rate", "proposed_cpu_violation_rate", "proposed_ram_violation_rate",
+    "attempted_msd_violation_rate", "admitted_hard_violation_rate",
+    "runtime_rejection_rate", "primary_cpu_rejection_rate", "primary_ram_rejection_rate",
+    "primary_msd_rejection_rate", "primary_bw_rejection_rate",
+]].agg(["mean", "std"]))
 
-eval_cmd = [
-    sys.executable,
-    "-m",
-    "src.analytics.ablation_parameter_sweep",
-    "--topology", WORKER_TOPOLOGY,
-    "--scenario", "heavy_tail",
-    "--steps", str(STEPS),
-    "--seeds", "42", "100", "2024", "8888", "9999",
-    "--data-path", "data/real_telecom_combined.csv",
-    "--model-root", "results/models",
-    "--output-dir", str(WORKER_ROOT),
-    "--workers", "4",
-]
+# %% Cell 7
+print("Running matched protected load sweep")
+subprocess.check_call([sys.executable, "-m", "src.analytics.benchmark.benchmark_algorithm.run_load_sweep",
+    "--topology", WORKER_TOPOLOGY, "--steps", str(STEPS), "--seeds", *map(str, SEEDS),
+    "--data-path", str(DATA), "--model-root", str(MODEL_ROOT),
+    "--output-dir", str(WORKER_ROOT / "load_sweep")], env=env)
 
-print(f"\nRunning Integrated Ablation and Parameter Sweeps for {WORKER_TOPOLOGY}...")
-try:
-    subprocess.check_call(eval_cmd, env=env)
-    print("Parameter sweep completed successfully.")
-except subprocess.CalledProcessError as e:
-    print(f"⚠️ Parameter sweep evaluation failed for {WORKER_TOPOLOGY}: {e}")
+# %% Cell 8
+print("Running matched protected benchmark scenarios")
+subprocess.check_call([sys.executable, "-m", "src.analytics.benchmark.benchmark_algorithm.run_all",
+    "--topology", WORKER_TOPOLOGY, "--scenario", "thesis", "--steps", str(STEPS),
+    "--workers", "1", "--skip-exhaustive", "--data-path", str(DATA),
+    "--model-root", str(MODEL_ROOT), "--output-dir", str(WORKER_ROOT / "benchmark")], env=env)
 
-final_summary_path = WORKER_ROOT / f"{WORKER_TOPOLOGY}_master_ablation_parameter_sweep_5seeds.csv"
-if final_summary_path.exists():
-    display(pd.read_csv(final_summary_path))
-else:
-    print("⚠️ Master summary file not found!")
-
-# %% Cell 6 - Zip Results
-print("\n======================================================")
-print("ZIPPING RESULTS FOR DOWNLOAD")
-print("======================================================")
-
-archive_base = Path("/kaggle/working") / f"harp_ablation_results_{WORKER_TOPOLOGY}"
-archive_path = shutil.make_archive(str(archive_base), "zip", root_dir=WORKER_ROOT)
-
-print(f"\n✅ All done for {WORKER_TOPOLOGY}!")
-print(f"Master CSV: {final_summary_path}")
-print(f"Download Archive: {archive_path}")
+# %% Cell 9
+import shutil
+archive = shutil.make_archive(str(Path("/kaggle/working") / f"harp_revision_{WORKER_TOPOLOGY}"),
+                              "zip", root_dir=WORKER_ROOT)
+print("Revision artifacts:", archive)

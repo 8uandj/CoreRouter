@@ -1,6 +1,8 @@
 from __future__ import annotations
 
 import random
+import copy
+import time
 from pathlib import Path
 from typing import Callable, Dict, List
 
@@ -14,70 +16,83 @@ from .model_loader import build_model_from_policy_weights, load_normalizer, norm
 EnvMaker = Callable[[], object]
 
 
-def run_exhaustive(make_env_fn: EnvMaker, scenario: str, steps: int, seed: int) -> RunMetrics:
+def run_exhaustive(make_env_fn: EnvMaker, scenario: str, steps: int, seed: int, protected: bool = True) -> RunMetrics:
     env = make_env_fn()
+    env.enforce_resource_constraints = protected
     env.traffic_scenario = scenario
     np.random.seed(seed)
     random.seed(seed)
-    metrics = RunMetrics("exhaustive_pair_search", scenario, env.topo.topology_name, seed)
+    metrics = RunMetrics(f"exhaustive_pair_search_{'protected' if protected else 'unprotected'}", scenario, env.topo.topology_name, seed)
     env.reset(seed=seed)
+    metrics.start_clock()
 
     for _ in range(steps):
-        snap_state = env._state.copy()
-        snap_req = dict(env._current_req)
-        snap_step = env.current_step
-        snap_active = list(env.active_flows)
-        snap_bw = env._link_bw.copy()
+        decision_start = time.perf_counter()
+        snapshot = _snapshot_env(env)
 
         best_reward = -np.inf
         best_action = [0, 0]
         for v_place in range(env.num_nodes):
             for v_route in range(env.num_nodes):
-                _restore_env(env, snap_state, snap_req, snap_step, snap_active, snap_bw)
+                _restore_env(env, snapshot)
                 _, reward, _, _, _ = env.step([v_place, v_route])
                 if reward > best_reward:
                     best_reward = reward
                     best_action = [v_place, v_route]
 
-        _restore_env(env, snap_state, snap_req, snap_step, snap_active, snap_bw)
-        _, reward, done, _, info = env.step(best_action)
-        metrics.collect(info, reward)
+        _restore_env(env, snapshot)
+        _, reward, done, _, info = _step_and_collect(
+            env, best_action, metrics, decision_start,
+            {"candidate_search_ms": (time.perf_counter() - decision_start) * 1000.0},
+        )
         if done:
             env.reset(seed=seed)
+    metrics.stop_clock()
     env.close()
     return metrics
 
 
-def run_greedy(make_env_fn: EnvMaker, scenario: str, steps: int, seed: int) -> RunMetrics:
+def run_greedy(make_env_fn: EnvMaker, scenario: str, steps: int, seed: int, protected: bool = True) -> RunMetrics:
     env = make_env_fn()
+    env.enforce_resource_constraints = protected
     env.traffic_scenario = scenario
     np.random.seed(seed)
     random.seed(seed)
-    metrics = RunMetrics("traditional_greedy", scenario, env.topo.topology_name, seed)
+    metrics = RunMetrics(f"traditional_greedy_{'protected' if protected else 'unprotected'}", scenario, env.topo.topology_name, seed)
     state, _ = env.reset(seed=seed)
+    metrics.start_clock()
     for _ in range(steps):
+        decision_start = time.perf_counter()
         free_cpu = [env.max_cpu - env._state[i * 3] for i in range(env.num_nodes)]
         v_place = int(np.argmax(free_cpu))
         v_route = int(np.argmin([
             np.inf if node == v_place else env.latency_matrix[v_place][node]
             for node in range(env.num_nodes)
         ]))
-        state, reward, done, _, info = env.step([v_place, v_route])
-        metrics.collect(info, reward)
+        selection_ms = (time.perf_counter() - decision_start) * 1000.0
+        state, reward, done, info = _step_and_collect(
+            env, [v_place, v_route], metrics, decision_start,
+            {"heuristic_selection_ms": selection_ms},
+        )
         if done:
             state, _ = env.reset(seed=seed)
+    metrics.stop_clock()
     env.close()
     return metrics
 
 
-def run_saf_h(make_env_fn: EnvMaker, scenario: str, steps: int, seed: int) -> RunMetrics:
+def run_saf_h(make_env_fn: EnvMaker, scenario: str, steps: int, seed: int, protected: bool = True) -> RunMetrics:
     env = make_env_fn()
+    env.enforce_resource_constraints = protected
     env.traffic_scenario = scenario
     np.random.seed(seed)
     random.seed(seed)
-    metrics = RunMetrics("saf_h", scenario, env.topo.topology_name, seed)
+    metrics = RunMetrics(f"saf_h_{'protected' if protected else 'unprotected'}", scenario, env.topo.topology_name, seed)
     state, _ = env.reset(seed=seed)
+    metrics.start_clock()
     for _ in range(steps):
+        decision_start = time.perf_counter()
+        candidate_start = time.perf_counter()
         valid_actions = []
         cpu_req = env._current_req.get('cpu', 0.0)
         ram_req = env._current_req.get('ram', 0.0)
@@ -87,16 +102,16 @@ def run_saf_h(make_env_fn: EnvMaker, scenario: str, steps: int, seed: int) -> Ru
         for place in range(env.num_nodes):
             cpu_curr = env._state[place * 3]
             ram_curr = env._state[place * 3 + 1]
-            if cpu_curr + cpu_req > env.max_cpu or ram_curr + ram_req > env.max_ram:
+            if protected and (cpu_curr + cpu_req > env.max_cpu or ram_curr + ram_req > env.max_ram):
                 continue
             for route in range(env.num_nodes):
-                if place != route and env._link_bw[place][route] < bw_req:
+                if protected and place != route and env._link_bw[place][route] < bw_req:
                     continue
-                hop_count = env.topo.get_hop_distance(place, route)
-                msd_curr = env._state[route * 3 + 2]
-                if msd_curr + msd_req + hop_count <= env.node_msd_limits[route]:
+                if not protected or msd_req <= env.node_msd_limits[route]:
                     valid_actions.append([place, route])
         
+        feasible_set_ms = (time.perf_counter() - candidate_start) * 1000.0
+        selection_start = time.perf_counter()
         if not valid_actions:
             v_place, v_route = 0, 0
         else:
@@ -112,21 +127,28 @@ def run_saf_h(make_env_fn: EnvMaker, scenario: str, steps: int, seed: int) -> Ru
                     best_action = [place, route]
             v_place, v_route = best_action
             
-        state, reward, done, _, info = env.step([v_place, v_route])
-        metrics.collect(info, reward)
+        heuristic_selection_ms = (time.perf_counter() - selection_start) * 1000.0
+        state, reward, done, info = _step_and_collect(
+            env, [v_place, v_route], metrics, decision_start,
+            {"feasible_set_ms": feasible_set_ms, "heuristic_selection_ms": heuristic_selection_ms},
+        )
         if done:
             state, _ = env.reset(seed=seed)
+    metrics.stop_clock()
     env.close()
     return metrics
 
-def run_decoupled(make_env_fn: EnvMaker, scenario: str, steps: int, seed: int) -> RunMetrics:
+def run_decoupled(make_env_fn: EnvMaker, scenario: str, steps: int, seed: int, protected: bool = True) -> RunMetrics:
     env = make_env_fn()
+    env.enforce_resource_constraints = protected
     env.traffic_scenario = scenario
     np.random.seed(seed)
     random.seed(seed)
-    metrics = RunMetrics("decoupled_ai", scenario, env.topo.topology_name, seed)
+    metrics = RunMetrics(f"decoupled_ai_{'protected' if protected else 'unprotected'}", scenario, env.topo.topology_name, seed)
     state, _ = env.reset(seed=seed)
+    metrics.start_clock()
     for _ in range(steps):
+        decision_start = time.perf_counter()
         cpu_loads = [state[i * env.NODE_FEAT_DIM] for i in range(env.num_nodes)]
         v_place = int(np.argmin(cpu_loads))
         neighbors = np.where(env.topo.adj_matrix[v_place] > 0)[0]
@@ -137,10 +159,14 @@ def run_decoupled(make_env_fn: EnvMaker, scenario: str, steps: int, seed: int) -
             cpu_copy = cpu_loads.copy()
             cpu_copy[v_place] = np.inf
             v_route = int(np.argmin(cpu_copy))
-        state, reward, done, _, info = env.step([v_place, v_route])
-        metrics.collect(info, reward)
+        selection_ms = (time.perf_counter() - decision_start) * 1000.0
+        state, reward, done, info = _step_and_collect(
+            env, [v_place, v_route], metrics, decision_start,
+            {"heuristic_selection_ms": selection_ms},
+        )
         if done:
             state, _ = env.reset(seed=seed)
+    metrics.stop_clock()
     env.close()
     return metrics
 
@@ -152,12 +178,14 @@ def run_jo_vppm(
     scenario: str,
     steps: int,
     seed: int,
+    protected: bool = True,
 ) -> RunMetrics:
     raw_env = make_env_fn()
+    raw_env.enforce_resource_constraints = protected
     raw_env.traffic_scenario = scenario
     np.random.seed(seed)
     random.seed(seed)
-    metrics = RunMetrics("harp", scenario, raw_env.topo.topology_name, seed)
+    metrics = RunMetrics(f"harp_{'protected' if protected else 'unprotected'}", scenario, raw_env.topo.topology_name, seed)
 
     if not model_path.exists() or not norm_path.exists():
         raw_env.close()
@@ -180,26 +208,84 @@ def run_jo_vppm(
         ) from e
     normalizer = load_normalizer(norm_path, model.get_env())
     obs, _ = raw_env.reset(seed=seed)
+    metrics.start_clock()
 
     for _ in range(steps):
-        masks = np.array([raw_env.action_masks()])
+        decision_start = time.perf_counter()
+        mask_start = time.perf_counter()
+        mask = raw_env.action_masks() if protected else np.ones(raw_env.action_space.n, dtype=bool)
+        mask_ms = (time.perf_counter() - mask_start) * 1000.0
+        mask_count = int(mask.sum())
+        # MaskablePPO cannot form a valid distribution from an all-false mask.
+        # Still query the policy on the same state, then let the shared runtime
+        # admission boundary reject the selected pair and record mask exhaustion.
+        prediction_mask = mask if mask_count else np.ones(raw_env.action_space.n, dtype=bool)
+        masks = np.array([prediction_mask])
+        normalization_start = time.perf_counter()
         obs_norm = normalized_obs(normalizer, obs)
+        normalization_ms = (time.perf_counter() - normalization_start) * 1000.0
+        inference_start = time.perf_counter()
         action, _ = model.predict(obs_norm, action_masks=masks, deterministic=True)
+        inference_ms = (time.perf_counter() - inference_start) * 1000.0
         obs, reward, done, _, info = raw_env.step(action[0])
+        info.update({
+            "mask_candidate_count": mask_count,
+            "mask_total_candidates": int(raw_env.action_space.n),
+            "mask_empty": mask_count == 0,
+            "decision_latency_ms": (time.perf_counter() - decision_start) * 1000.0 + float(info.get("state_construction_ms", 0.0)),
+            "decision_components_ms": {
+                "mask_construction_ms": mask_ms,
+                "policy_inference_ms": inference_ms,
+                "normalization_ms": normalization_ms,
+            },
+        })
         metrics.collect(info, reward)
         if done:
             obs, _ = raw_env.reset(seed=seed)
+    metrics.stop_clock()
     raw_env.close()
     return metrics
 
 
-def _restore_env(env, state, req, step, active, bw) -> None:
-    env._state = state.copy()
-    env._current_req = dict(req)
-    env.current_step = step
+def _snapshot_env(env) -> dict:
+    return {
+        "state": env._state.copy(),
+        "request": copy.deepcopy(env._current_req),
+        "step": env.current_step,
+        "active": copy.deepcopy(list(env.active_flows)),
+        "bandwidth": env._link_bw.copy(),
+        "previous_place": env._prev_v1,
+        "previous_route": env._prev_v2,
+        "violation_window": copy.deepcopy(env._violation_window),
+        "lifecycle_rng": copy.deepcopy(env.np_random.bit_generator.state),
+        "traffic_rng": copy.deepcopy(env._traffic_rng.bit_generator.state),
+        "chaos_stress": env._chaos_stress_state,
+    }
+
+
+def _step_and_collect(env, action, metrics, decision_start, components):
+    state, reward, done, _, info = env.step(action)
+    info["decision_latency_ms"] = (
+        time.perf_counter() - decision_start
+    ) * 1000.0 + float(info.get("state_construction_ms", 0.0))
+    info["decision_components_ms"] = dict(components)
+    metrics.collect(info, reward)
+    return state, reward, done, info
+
+
+def _restore_env(env, snapshot: dict) -> None:
+    env._state = snapshot["state"].copy()
+    env._current_req = copy.deepcopy(snapshot["request"])
+    env.current_step = snapshot["step"]
     env.active_flows.clear()
-    env.active_flows.extend([dict(flow) for flow in active])
-    env._link_bw = bw.copy()
+    env.active_flows.extend(copy.deepcopy(snapshot["active"]))
+    env._link_bw = snapshot["bandwidth"].copy()
+    env._prev_v1 = snapshot["previous_place"]
+    env._prev_v2 = snapshot["previous_route"]
+    env._violation_window = copy.deepcopy(snapshot["violation_window"])
+    env.np_random.bit_generator.state = copy.deepcopy(snapshot["lifecycle_rng"])
+    env._traffic_rng.bit_generator.state = copy.deepcopy(snapshot["traffic_rng"])
+    env._chaos_stress_state = snapshot["chaos_stress"]
 
 
 def run_all_algorithms(
@@ -210,12 +296,16 @@ def run_all_algorithms(
     model_path: Path,
     norm_path: Path,
     include_exhaustive: bool,
+    include_unprotected: bool = True,
 ) -> Dict[str, RunMetrics]:
     results: Dict[str, RunMetrics] = {}
-    if include_exhaustive:
-        results["exhaustive_pair_search"] = run_exhaustive(make_env_fn, scenario, steps, seed)
-    results["traditional_greedy"] = run_greedy(make_env_fn, scenario, steps, seed)
-    results["saf_h"] = run_saf_h(make_env_fn, scenario, steps, seed)
-    results["decoupled_ai"] = run_decoupled(make_env_fn, scenario, steps, seed)
-    results["harp"] = run_jo_vppm(make_env_fn, model_path, norm_path, scenario, steps, seed)
+    protection_modes = [True, False] if include_unprotected else [True]
+    for protected in protection_modes:
+        suffix = "protected" if protected else "unprotected"
+        if include_exhaustive:
+            results[f"exhaustive_pair_search_{suffix}"] = run_exhaustive(make_env_fn, scenario, steps, seed, protected)
+        results[f"traditional_greedy_{suffix}"] = run_greedy(make_env_fn, scenario, steps, seed, protected)
+        results[f"saf_h_{suffix}"] = run_saf_h(make_env_fn, scenario, steps, seed, protected)
+        results[f"decoupled_ai_{suffix}"] = run_decoupled(make_env_fn, scenario, steps, seed, protected)
+        results[f"harp_{suffix}"] = run_jo_vppm(make_env_fn, model_path, norm_path, scenario, steps, seed, protected)
     return results

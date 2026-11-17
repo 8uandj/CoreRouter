@@ -1,9 +1,12 @@
+from __future__ import annotations
+
 import asyncio
 import time
-import requests
 import logging
 from typing import Dict, Any, List, Optional
-from src.portal.backend.app.models.schemas import SFCRequest
+from src.core.state_manager import get_state_manager
+from .migration_journal import MigrationJournal
+from .realization import AdmittedRealization, validate_realization_payload
 
 logger = logging.getLogger("OrchestrationService")
 
@@ -46,31 +49,104 @@ def get_k8s_hostname(ai_node_id: int) -> str:
     return hostname
 
 class OrchestrationService:
-    def __init__(self, orchestrator, controller, sdn_controller_url: str):
+    def __init__(self, orchestrator, controller, sdn_controller_url: str,
+                 state_manager=None, rollback_timeout_s: float = 30.0,
+                 rollback_poll_s: float = 1.0, migration_journal=None):
         self.orchestrator = orchestrator
         self.controller = controller
         self.sdn_controller_url = sdn_controller_url
+        self.state_manager = state_manager or get_state_manager()
+        self.migration_journal = migration_journal or MigrationJournal()
+        self.rollback_timeout_s = float(rollback_timeout_s)
+        self.rollback_poll_s = float(rollback_poll_s)
+        if self.rollback_timeout_s <= 0 or self.rollback_poll_s <= 0:
+            raise ValueError("rollback wait durations must be positive")
+
+    async def _wait_for_replacement_absence(self, new_name: str) -> bool:
+        """Only release a failed replacement reservation after deletion is observed."""
+        check_presence = getattr(self.orchestrator, "deployment_presence", None)
+        if not callable(check_presence):
+            logger.warning("Cannot confirm replacement absence; retaining reservation for %s", new_name)
+            return False
+        deadline = time.monotonic() + self.rollback_timeout_s
+        while time.monotonic() < deadline:
+            try:
+                present = check_presence(new_name)
+            except Exception:
+                logger.exception("Could not verify replacement presence for %s", new_name)
+                present = None
+            if present is False:
+                return True
+            await asyncio.sleep(min(self.rollback_poll_s, max(0.0, deadline - time.monotonic())))
+        return False
 
     async def rollback(self, new_name: str, reason: str):
         """Cleanup failed migration attempt."""
         logger.warning(f"PHASE: ROLLBACK - Cleaning up {new_name} due to: {reason}")
         try:
-            self.orchestrator.trigger_terminate(new_name)
+            result = self.orchestrator.trigger_terminate(new_name)
+            if not isinstance(result, dict) or result.get("status") != "success":
+                logger.error("Termination was not accepted for %s: %s", new_name, result)
+            absent = await self._wait_for_replacement_absence(new_name)
+            if absent:
+                self.state_manager.release_resources(new_name)
+            else:
+                logger.error("Replacement %s still present/unverified; retaining its reservation", new_name)
         except Exception as e:
             logger.error(f"Rollback termination failed: {e}")
 
-    async def make_before_break_sequence(
+    def get_migration_status(self, replacement: str):
+        return self.migration_journal.get(replacement)
+
+    async def make_before_break_sequence(self, old_name, new_name, file_name,
+                                         target_location, request, ai_node_id=None,
+                                         admitted_realization=None):
+        if (not isinstance(admitted_realization, AdmittedRealization)
+                or admitted_realization.forwarding_sid is None):
+            return {"status": "error", "code": "UNSUPPORTED_ADMITTED_REALIZATION",
+                    "message": "No verified admission-to-forwarding realization is available.",
+                    "data": {"old_vnf": old_name, "new_vnf": new_name,
+                             "recovery_state": "REALIZATION_REJECTED"}}
+        # Persist before any infrastructure mutation. A journal failure here
+        # stops execution rather than create an untracked background migration.
+        started = self.migration_journal.start(new_name, {
+            "status": "running", "data": {"old_vnf": old_name, "new_vnf": new_name,
+                                            "recovery_state": "MAKE_STARTED"}})
+        if not started:
+            return {"status": "error", "message": "MIGRATION_ALREADY_EXISTS",
+                    "data": {"new_vnf": new_name}}
+        try:
+            result = await self._execute_make_before_break(
+                old_name, new_name, file_name, target_location, request, ai_node_id,
+                admitted_realization)
+        except Exception:
+            logger.exception("Migration failed; retaining allocations pending reconciliation")
+            previous = self.get_migration_status(new_name) or {}
+            result = {"status": "warning", "message": "MIGRATION_UNCERTAIN",
+                      "data": {**previous.get("data", {}),
+                               "recovery_state": "MIGRATION_UNCERTAIN"}}
+        except asyncio.CancelledError:
+            previous = self.get_migration_status(new_name) or {}
+            self.migration_journal.record(new_name, {
+                "status": "warning", "message": "MIGRATION_CANCELLED",
+                "data": {**previous.get("data", {}), "recovery_state": "MIGRATION_UNCERTAIN"}})
+            raise
+        result["data"] = {**result.get("data", {}), "old_vnf": old_name, "new_vnf": new_name}
+        self.migration_journal.record(new_name, result)
+        return result
+
+    async def _execute_make_before_break(
             self, old_name: str, new_name: str, file_name: str,
             target_location: str, request: SFCRequest,
-            ai_node_id: Optional[int] = None) -> Dict[str, Any]:
+            ai_node_id: Optional[int] = None,
+            admitted_realization: Optional[AdmittedRealization] = None) -> Dict[str, Any]:
         """
         Full Phase 5/6 Orchestration: Decision → K8s → Polling → Translate → Steer.
         Phase 6 extensions:
           - nodeSelector injection via ai_node_id→K8s mapping
           - Control-plane Steering Overhead measurement
             (Thời gian Backend REST→Controller→P4 push rule.
-             KHÔNG phải Data-plane latency — data-plane xảy ra ở tốc độ nano-giây
-             khi rule được nạp xong. MBB đảm bảo Packet Loss = 0 trong suốt thời gian này.)
+             Không đo data-plane latency hoặc packet loss.)
         Includes Timeout and Rollback protection.
         """
         # PHASE 6: Resolve K8s hostname from AI decision
@@ -91,6 +167,10 @@ class OrchestrationService:
         )
         if make_result.get("status") != "success":
             logger.error(f"MAKE phase failed: {make_result.get('message')}")
+            if await self._wait_for_replacement_absence(new_name):
+                self.state_manager.release_resources(new_name)
+            else:
+                logger.error("MAKE failure left replacement state uncertain; retaining reservation for %s", new_name)
             return make_result
 
         # 2. Lấy Endpoint Động: Polling với Timeout (QUY TẮC THÉP SỐ 3)
@@ -124,15 +204,28 @@ class OrchestrationService:
         target_sid = f"2001:db8:ffff:1::{suffix}"
         logger.info(f"PHASE: TRANSLATE - Dynamic Endpoint {dynamic_ip}:{node_port} -> SID: {target_sid}")
 
+        if target_sid != admitted_realization.forwarding_sid:
+            await self.rollback(new_name, "realized endpoint differs from admitted forwarding SID")
+            return {"status": "error", "code": "REALIZATION_MISMATCH",
+                    "message": "Resolved endpoint SID differs from the admitted forwarding SID.",
+                    "data": {"old_vnf": old_name, "new_vnf": new_name,
+                             "admitted_forwarding_sid": admitted_realization.forwarding_sid,
+                             "resolved_endpoint_sid": target_sid,
+                             "recovery_state": "REALIZATION_REJECTED"}}
+
         # 4. Bắn lệnh Steer: Gọi API /steer của SDN Controller Phase 4
         # PHASE 6: Bắt đầu đồng hồ đo "Control-plane Steering Overhead"
         # ⚠️  LƯU Ý THUẬT NGỮ (quan trọng cho luận văn):
         #   Metric này đo thời gian REST request → Controller xử lý → P4 rule nạp xong.
-        #   ĐÂY KHÔNG PHẢI Data-plane latency (data-plane forward ở tốc độ nano-giây).
-        #   Trong suốt thời gian này, MBB đảm bảo old VNF vẫn phục vụ → Packet Loss = 0.
+        #   Đây là control-plane overhead; packet loss cần đo bằng packet traces.
         steer_start_ts = time.perf_counter()
         logger.info(f"PHASE: STEER - Sending command to SDN Controller at {self.sdn_controller_url}")
+        steer_operation_id = admitted_realization.operation_id
         steer_payload = {
+            "request_id": admitted_realization.request_id,
+            "operation_id": steer_operation_id,
+            "topology_hash": admitted_realization.topology_hash,
+            "profile_id": admitted_realization.profile_id,
             "new_deploy": new_name,
             "new_rules": [
                 {
@@ -144,32 +237,52 @@ class OrchestrationService:
                     "src_mac": "00:00:00:00:00:02",
                     "out_port": 1
                 },
-                {
+                *[{
                     "switch": "s1",
                     "type": "srv6_sid",
-                    "sid": target_sid
-                }
+                    "sid": sid
+                } for sid in admitted_realization.sid_stack]
             ]
         }
-        
         try:
+            validate_realization_payload(admitted_realization, steer_payload)
+        except ValueError as exc:
+            return {"status": "error", "code": "REALIZATION_REJECTED",
+                    "message": str(exc),
+                    "data": {"old_vnf": old_name, "new_vnf": new_name,
+                             "recovery_state": "REALIZATION_REJECTED"}}
+        
+        self.migration_journal.record(new_name, {
+            "status": "running", "data": {"old_vnf": old_name, "new_vnf": new_name,
+                "steer_operation_id": steer_operation_id, "steer_payload": steer_payload,
+                "recovery_state": "STEERING_SUBMITTING"}})
+        submission_state = "accepted"
+        try:
+            import requests
+
             resp = requests.post(f"{self.sdn_controller_url}/steer", json=steer_payload, timeout=5)
             if resp.status_code != 202:
-                logger.error(f"STEER initiation failed. Triggering ROLLBACK.")
-                await self.rollback(new_name, "SDN_CONTROLLER_REJECTED")
-                return {"status": "error", "message": "SDN_CONTROLLER_REJECTED"}
-        except Exception as e:
-            logger.error(f"STEER connection error: {e}. Triggering ROLLBACK.")
-            await self.rollback(new_name, "SDN_CONTROLLER_UNREACHABLE")
-            return {"status": "error", "message": "SDN_CONTROLLER_UNREACHABLE"}
+                submission_state = f"http_{resp.status_code}"
+                logger.error("STEER submission returned %s; installation outcome uncertain", resp.status_code)
+        except Exception:
+            submission_state = "response_unavailable"
+            logger.exception("STEER submission response unavailable; retaining both VNFs while checking status")
 
+        # A lost response or error does not prove that no forwarding rules changed.
+        # Poll the same operation; never terminate either endpoint on uncertainty.
         # RÀ SOÁT 2: Deadlock tại bước chờ STEER.
         # Chờ xác nhận từ Controller với Timeout nghiêm ngặt.
         steer_confirmed = False
         for _ in range(15): # 15 * 2s = 30s Timeout
             try:
+                import requests
+
                 s_resp = requests.get(f"{self.sdn_controller_url}/steer/status", timeout=2)
-                if s_resp.json().get("confirm_steer_done"):
+                status = s_resp.json()
+                if (s_resp.status_code == 200
+                        and status.get("confirm_steer_done") is True
+                        and status.get("new_deploy") == new_name
+                        and status.get("operation_id") == steer_operation_id):
                     steer_confirmed = True
                     break
             except Exception: pass
@@ -181,37 +294,64 @@ class OrchestrationService:
 
         if not steer_confirmed:
             # CHỈ THỊ 2: Kích hoạt trạng thái "Dangling VNF"
-            logger.error(f"STEER confirmation TIMEOUT after {cp_steering_overhead_ms}ms. System in DANGLING_VNF state.")
+            logger.error(
+                "STEERING_UNCERTAIN operation_id=%s old_vnf=%s new_vnf=%s submission=%s elapsed_ms=%s; retaining both endpoints",
+                steer_operation_id, old_name, new_name, submission_state, cp_steering_overhead_ms,
+            )
             # KHÔNG gọi break_old_vnf, KHÔNG rollback (vì có thể switch đang update dở)
             return {
                 "status": "warning", 
                 "message": "DANGLING_VNF: Steer confirmation missing. Connectivity might be split.",
                 "data": {
                     "new_vnf": new_name, "old_vnf": old_name,
-                    "cp_steering_overhead_ms": cp_steering_overhead_ms
+                    "cp_steering_overhead_ms": cp_steering_overhead_ms,
+                    "steer_operation_id": steer_operation_id,
+                    "steer_submission_state": submission_state,
+                    "recovery_state": "STEERING_UNCERTAIN",
                 }
             }
 
-        # 5. BREAK: Xóa VNF cũ sau khi đã steer thành công (Zero-Downtime)
+        # 5. BREAK: Xóa VNF cũ sau confirmation đúng operation.
         logger.info(
             f"PHASE 6: Control-plane Steering Overhead = {cp_steering_overhead_ms} ms "
-            f"(REST→Controller→P4 rule push). Data-plane forward ≈ nanoseconds. Packet Loss = 0 via MBB."
+            f"(REST→Controller confirmation). Packet loss and data-plane latency are not measured."
         )
         logger.info(f"PHASE: BREAK - confirm_steer_done=True. Deleting old VNF: {old_name}")
-        break_result = self.orchestrator.break_old_vnf(old_name)
-        
+        recovery_data = {
+            "old_vnf": old_name, "new_vnf": new_name,
+            "steer_operation_id": steer_operation_id, "steer_status": "CONFIRMED",
+            "recovery_state": "BREAK_REQUESTING",
+        }
+        self.migration_journal.record(new_name, {"status": "running", "data": recovery_data})
+        try:
+            break_result = self.orchestrator.break_old_vnf(old_name)
+        except Exception as exc:
+            logger.exception("BREAK request failed for %s", old_name)
+            break_result = {"status": "error", "message": str(exc)}
+        if not isinstance(break_result, dict) or break_result.get("status") != "success":
+            return {"status": "warning", "message": "BREAK_FAILED",
+                    "data": {**recovery_data, "recovery_state": "BREAK_FAILED"}}
+        if not await self._wait_for_replacement_absence(old_name):
+            return {"status": "warning", "message": "BREAK_UNCONFIRMED",
+                    "data": {**recovery_data, "recovery_state": "BREAK_UNCONFIRMED",
+                             "break_result": break_result}}
+        self.state_manager.release_resources(old_name)
+
         return {
             "status": "success",
             "message": "Hybrid Orchestration Phase 5/6 sequence COMPLETED",
             "data": {
+                "old_vnf": old_name, "new_vnf": new_name,
+                "recovery_state": "COMPLETED",
                 "dynamic_endpoint": {"ip": dynamic_ip, "port": node_port},
                 "sid_list": [target_sid],
                 "steer_status": "CONFIRMED",
+                "steer_operation_id": steer_operation_id,
                 "break_result": break_result,
                 # PHASE 6 metrics — đúng thuật ngữ cho luận văn
                 "cp_steering_overhead_ms": cp_steering_overhead_ms,  # Control-plane overhead
                 "k8s_node_hostname": k8s_hostname or "auto",
-                # Note: Data-plane forwarding latency ≈ ns (P4 hardware speed, không đo được ở đây)
+                # Data-plane forwarding latency and packet loss require separate measurement.
             }
         }
 

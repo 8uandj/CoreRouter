@@ -69,6 +69,7 @@ VARIANTS: List[Variant] = [
         key="harp_wo_gat",
         name="HARP w/o GAT",
         hypothesis="Topology encoder contribution: replace GAT with a flat MLP policy.",
+        use_gat_model=False,
     ),
     Variant(
         key="harp_wo_hard_masking",
@@ -173,12 +174,22 @@ def make_env(
     return env
 
 
-def load_policy_model(env: JOVDPREnv, model_path: Path):
+def load_policy_model(env: JOVDPREnv, model_path: Path, variant: Variant):
     vec_env = DummyVecEnv([lambda: env])
-    try:
-        return MaskablePPO.load(str(model_path), env=vec_env, device="cpu")
-    except Exception:
-        return build_model_from_policy_weights(env, model_path)
+    custom_objects = None
+    if not variant.use_gat_model:
+        from src.analytics.training.train_harp_ablation import FlatMLPExtractor
+        custom_objects = {"policy_kwargs": {
+            "features_extractor_class": FlatMLPExtractor,
+            "features_extractor_kwargs": {"features_dim": 256},
+            "net_arch": {"pi": [256, 128], "vf": [256, 128]},
+        }}
+    model = MaskablePPO.load(
+        str(model_path), env=vec_env, device="cpu", custom_objects=custom_objects
+    )
+    if model.observation_space != env.observation_space or model.action_space != env.action_space:
+        raise ValueError(f"Checkpoint spaces do not match environment: {model_path}")
+    return model
 
 
 def run_single_sweep_task(task: dict) -> dict:
@@ -209,7 +220,9 @@ def run_single_sweep_task(task: dict) -> dict:
         env.inference_sla_threshold = None
         env.alert_cpu_threshold = float(param_val)
 
-    model = load_policy_model(env, model_path)
+    if not model_path.is_file() or not norm_path.is_file():
+        raise FileNotFoundError(f"Missing sweep artifacts: {model_path}, {norm_path}")
+    model = load_policy_model(env, model_path, variant)
     normalizer = load_normalizer(norm_path, model.get_env())
 
     obs, _ = env.reset(seed=seed)

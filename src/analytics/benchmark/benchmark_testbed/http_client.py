@@ -6,6 +6,7 @@ import time
 from typing import Any, Dict, Optional, Tuple
 from urllib.error import HTTPError, URLError
 from urllib.request import Request, urlopen
+from urllib.parse import quote
 
 
 class TestbedClient:
@@ -73,6 +74,9 @@ class TestbedClient:
 
     def status(self) -> Tuple[int, Dict[str, Any], float]:
         return self._request_json("GET", f"{self.api_base_url}/orchestrate/status")
+
+    def migration_status(self, replacement: str) -> Tuple[int, Dict[str, Any], float]:
+        return self._request_json("GET", f"{self.api_base_url}/orchestrate/migrations/{quote(replacement, safe='')}")
 
     def free(self, payload: Dict[str, Any]) -> Tuple[int, Dict[str, Any], float]:
         return self._request_json("POST", f"{self.api_base_url}/orchestrate/free", payload)

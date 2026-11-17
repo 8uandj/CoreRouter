@@ -12,6 +12,8 @@ from zipfile import ZipFile
 
 import numpy as np
 import sys
+import time
+from dataclasses import field
 
 # RÀ SOÁT: Sửa lỗi "No module named 'numpy._core'" do mô hình được lưu bằng NumPy 2.0+
 # nhưng hệ thống đang chạy NumPy 1.x (Python 3.8).
@@ -58,6 +60,21 @@ def _infer_scaler_path(model_path: str) -> str:
             return str(path.with_name(f"vec_normalize_{version}_{topology}.pkl"))
 
     return str(path.with_name("vec_normalize_v11_vietnam.pkl"))
+
+
+def decode_flat_action(action: Any, num_nodes: int) -> tuple[int, int]:
+    """Decode the training environment's Discrete(N*N) pair action."""
+    try:
+        values = np.asarray(action).reshape(-1)
+        if values.size != 1:
+            raise ValueError
+        raw = values[0].item() if hasattr(values[0], "item") else values[0]
+        flat = int(raw)
+        if flat != raw or num_nodes <= 0 or not 0 <= flat < num_nodes * num_nodes:
+            raise ValueError
+        return flat // num_nodes, flat % num_nodes
+    except (TypeError, ValueError, OverflowError) as exc:
+        raise ValueError(f"Invalid flat placement/routing action: {action!r}") from exc
 
 
 class NpzVecNormalize:
@@ -118,6 +135,7 @@ class DGRLDecision:
     choice: ActionChoice
     model_loaded: bool
     fallback_reason: Optional[str] = None
+    timings_ms: dict[str, float] = field(default_factory=dict)
 
 
 class DGRLAgent:
@@ -180,7 +198,7 @@ class DGRLAgent:
 
             load_path = _strip_single_root_zip(self.model_path)
             obs_space = gym.spaces.Box(low=0, high=1, shape=(73,), dtype=np.float32)
-            action_space = gym.spaces.MultiDiscrete([10, 10])
+            action_space = gym.spaces.Discrete(10 * 10)
             policy_kwargs = dict(
                 num_nodes=DEFAULT_TOPO.num_nodes,
                 adj_matrix=DEFAULT_TOPO.adj_matrix,
@@ -212,7 +230,7 @@ class DGRLAgent:
                     class DummyEnv(gym.Env):
                         def __init__(self):
                             self.observation_space = gym.spaces.Box(low=0, high=1, shape=(73,), dtype=np.float32)
-                            self.action_space = gym.spaces.MultiDiscrete([10, 10])
+                            self.action_space = gym.spaces.Discrete(10 * 10)
                         def reset(self, seed=None): return np.zeros(73), {}
                         def step(self, action): return np.zeros(73), 0, False, False, {}
                     
@@ -229,47 +247,25 @@ class DGRLAgent:
                         logger.info("Loaded VecNormalize stats from %s after pickle failure: %s", npz_path, exc)
                     else:
                         self._scaler = None
-                        logger.warning("VecNormalize scaler load failed; running raw observations: %s", exc)
+                        logger.warning("VecNormalize scaler load failed: %s", exc)
             else:
-                logger.warning("VecNormalize scaler NOT found at %s. AI may be unstable.", self.scaler_path)
+                raise FileNotFoundError(f"normalizer_not_found:{self.scaler_path}")
+            if self._scaler is None:
+                raise RuntimeError("normalizer_unavailable: checkpoint requires its matching observation statistics")
 
         except Exception as exc:
             self._load_error = f"incompatibility_detected:{exc}"
             if REQUIRE_REAL_MODEL:
                 logger.exception("DRL model is required but failed to load.")
                 raise RuntimeError(self._load_error) from exc
-            logger.warning("DRL Model Incompatible: %s. Activating SHADOW MODE.", exc)
-            self._model = "SHADOW_MODE_ACTIVE" # Sentinel for simulation
+            logger.warning("DRL Model Unavailable: %s", exc)
+            self._model = None
         return self._model
 
     def get_action(self, state_manager: NetworkStateManager, request: Any) -> DGRLDecision:
-        """Return a DRL action, falling back to shadow simulation if needed."""
+        """Return a checkpoint action or an explicit safe-search fallback."""
+        total_start = time.perf_counter()
         model = self._load_model()
-        
-        # Nếu ở Shadow Mode, giả lập quyết định DRL để chạy tiếp luồng MBB
-        if model == "SHADOW_MODE_ACTIVE":
-            # Logic giả lập DRL: Ưu tiên node có tài nguyên trống nhiều nhất
-            snap = state_manager.snapshot()
-            state_array = snap.state # Mảng (N, 3)
-            num_nodes = state_array.shape[0]
-            
-            best_node = 0
-            max_free = -1.0
-            for i in range(num_nodes):
-                cpu_used = float(state_array[i, 0])
-                free = 100.0 - cpu_used
-                if free > max_free:
-                    max_free = free
-                    best_node = i
-            
-            return DGRLDecision(
-                choice=ActionChoice(
-                    v_place=best_node,
-                    v_route=best_node,
-                    reason="drl_shadow_policy_simulation",
-                ),
-                model_loaded=True, 
-            )
 
         if model is None:
             snap = state_manager.snapshot()
@@ -277,33 +273,67 @@ class DGRLAgent:
                 choice=get_resilience_safe_action(snap, request),
                 model_loaded=False,
                 fallback_reason=self._load_error or "model_unavailable",
+                timings_ms={"total_policy_ms": (time.perf_counter() - total_start) * 1000.0},
             )
 
         try:
+            state_start = time.perf_counter()
             obs = state_manager.to_observation(request)
+            state_ms = (time.perf_counter() - state_start) * 1000.0
+
+            mask_start = time.perf_counter()
+            masks = np.asarray(state_manager.action_mask(request), dtype=bool)
+            mask_ms = (time.perf_counter() - mask_start) * 1000.0
+            n = state_manager.num_nodes
+            if masks.size != n * n or not masks.any():
+                snap = state_manager.snapshot()
+                return DGRLDecision(
+                    choice=get_resilience_safe_action(snap, request),
+                    model_loaded=False,
+                    fallback_reason="empty_action_mask",
+                    timings_ms={"state_construction_ms": state_ms, "mask_construction_ms": mask_ms},
+                )
+
+            if n != 10 or obs.size != 73:
+                snap = state_manager.snapshot()
+                return DGRLDecision(
+                    choice=get_resilience_safe_action(snap, request),
+                    model_loaded=False,
+                    fallback_reason=f"checkpoint_space_mismatch:nodes={n},obs={obs.size}",
+                    timings_ms={"state_construction_ms": state_ms, "mask_construction_ms": mask_ms},
+                )
             
             # PHASE 6: Fix Tử Huyệt 3 — Đảm bảo Input của VecNormalize là 2D (1, N)
             obs_2d = obs.reshape(1, -1)
             
+            normalization_start = time.perf_counter()
             if self._scaler is not None:
                 obs_normalized = self._scaler.normalize_obs(obs_2d)
             else:
                 obs_normalized = obs_2d
+            normalization_ms = (time.perf_counter() - normalization_start) * 1000.0
 
             # PHASE 6: Fix Tử Huyệt 1 — Action Masking
-            masks = state_manager.action_mask(request)
-            
             # MaskablePPO.predict yêu cầu masks có cùng batch size với obs
+            inference_start = time.perf_counter()
             action, _ = model.predict(obs_normalized, action_masks=masks[None, :], deterministic=True)
+            inference_ms = (time.perf_counter() - inference_start) * 1000.0
             
-            action_arr = np.asarray(action).reshape(-1)
+            v_place, v_route = decode_flat_action(action, n)
             return DGRLDecision(
                 choice=ActionChoice(
-                    v_place=int(action_arr[0]),
-                    v_route=int(action_arr[1]),
-                    reason="maskableppo_gnn_policy_with_masking_and_norm",
+                    v_place=v_place,
+                    v_route=v_route,
+                    reason="maskableppo_gnn_policy_with_flat_pair_mask_and_norm",
                 ),
                 model_loaded=True,
+                timings_ms={
+                    "state_construction_ms": state_ms,
+                    "mask_construction_ms": mask_ms,
+                    "normalization_ms": normalization_ms,
+                    "policy_inference_ms": inference_ms,
+                    "total_policy_ms": (time.perf_counter() - total_start) * 1000.0,
+                },
             )
         except Exception as exc:
             logger.warning("DRL prediction failed; using safe search fallback: %s", exc)
@@ -312,6 +342,7 @@ class DGRLAgent:
                 choice=get_resilience_safe_action(snap, request),
                 model_loaded=False,
                 fallback_reason=f"predict_failed:{exc}",
+                timings_ms={"total_policy_ms": (time.perf_counter() - total_start) * 1000.0},
             )
 
 

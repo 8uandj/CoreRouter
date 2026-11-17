@@ -46,6 +46,7 @@ class BreakOldVnfRequest(BaseModel):
     )
 
 class FreeResourceRequest(BaseModel):
+    vnf_name: Optional[str] = Field(default=None, min_length=1)
     v_place: int
     v_route: int
     cpu_req: float

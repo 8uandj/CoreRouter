@@ -9,6 +9,7 @@ from src.core.state_manager import NetworkStateManager
 from src.portal.backend.app.services.hybrid_decision import (
     generate_srv6_sids, select_and_reserve,
 )
+from src.ai.dgrl_agent import decode_flat_action
 
 
 class TestHybridDecision(unittest.TestCase):
@@ -26,6 +27,7 @@ class TestHybridDecision(unittest.TestCase):
     def test_normal_load_reserves_without_loading_drl(self):
         result = self.decide()
         self.assertEqual(result.branch, "heuristic")
+        self.assertEqual(result.admission_state_version, result.decision_state_version + 1)
         self.drl.assert_not_called()
         self.assertIn("vnf-test", self.manager._pending_reservations)
         self.assertGreater(self.manager.snapshot().state.sum(), 0)
@@ -38,6 +40,9 @@ class TestHybridDecision(unittest.TestCase):
         self.drl.assert_called_once_with(self.manager, self.request)
         reservation = self.manager._pending_reservations["vnf-test"]
         self.assertEqual(reservation["v_place"], self.drl_choice.v_place)
+        self.assertEqual(result.realization.request_id, "vnf-test")
+        self.assertEqual(result.realization.sid_stack, tuple(result.sid_stack))
+        self.assertIsNone(result.realization.forwarding_sid)
 
     @patch("src.portal.backend.app.services.hybrid_decision.get_decoupled_action")
     def test_heuristic_constraint_failure_falls_back(self, heuristic):
@@ -56,7 +61,18 @@ class TestHybridDecision(unittest.TestCase):
         self.assertEqual(result.method, "Hybrid:DRL (Capacity Fallback)")
         self.assertEqual(reserve.call_count, 2)
         self.assertEqual(reserve.call_args.args, (1, 1, 10.0, 5.0, 2))
-        self.assertEqual(reserve.call_args.kwargs, {"vnf_name": "vnf-test"})
+        self.assertEqual(reserve.call_args.kwargs, {
+            "vnf_name": "vnf-test", "expected_state_version": 0
+        })
+
+    @patch("src.portal.backend.app.services.hybrid_decision.get_decoupled_action")
+    def test_stale_snapshot_does_not_retry_a_different_policy_on_same_version(self, heuristic):
+        heuristic.return_value = ActionChoice(0, 0, "heuristic")
+        with patch.object(self.manager, "try_reserve", return_value=(False, "stale_state_version")) as reserve:
+            with self.assertRaisesRegex(HardConstraintError, "stale_state_version"):
+                self.decide()
+        reserve.assert_called_once()
+        self.drl.assert_not_called()
 
     def test_exhausted_drl_admission_fails_closed(self):
         self.manager.set_forecast_alert(True)
@@ -79,6 +95,11 @@ class TestHybridDecision(unittest.TestCase):
             "2001:db8:02:01::1", "2001:db8:03:02::1", "2001:db8:03:03::1"
         ])
         self.assertEqual(len(generate_srv6_sids(2, 3, 1)), 1)
+
+    def test_flat_model_action_decodes_to_placement_route_pair(self):
+        self.assertEqual(decode_flat_action([27], num_nodes=10), (2, 7))
+        with self.assertRaises(ValueError):
+            decode_flat_action([100], num_nodes=10)
 
 
 if __name__ == "__main__":

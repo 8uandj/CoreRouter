@@ -71,6 +71,43 @@ Outputs are stored under `results/benchmark_algorithm/<timestamp>/`:
 - `latency_cdf.pdf`
 - `rolling_acceptance_ci.pdf` for multi-seed runs
 
+## Synthetic topology size sweep
+
+The benchmark and v11/ablation training CLIs accept `synthetic_25`,
+`synthetic_50`, and `synthetic_100`. These deterministic square-grid fixtures
+have uniform node capacities and 25 km coordinate spacing. They are useful for
+measuring node-count effects in the current pair-level simulator; they are not
+operator network topologies and do not add full-chain path realization.
+Each size needs a checkpoint and matching normalizer trained for its `N²`
+action space before HARP benchmark runs. Exhaustive pair search is disabled on
+these topologies because its cost grows with the action space.
+
+Example checkpoint preparation and benchmark:
+
+```bash
+python -m src.analytics.training.train_v11 --topology scalability
+python -m src.analytics.benchmark.benchmark_algorithm.run_all \
+  --topology scalability --scenario chaos --steps 3000 --skip-exhaustive
+```
+
+`scalability` trains/evaluates Vietnam (10 nodes) plus synthetic 25/50/100 node
+fixtures. Training writes size-specific checkpoints and normalizers. For the
+load-sweep runner, use the same topology argument after those artifacts exist.
+Vary initial active chains independently of arrival rate/concurrent API
+requests by replaying the same load sweep with, for example,
+`--active-chains 0`, `--active-chains 25`, `--active-chains 50`, and
+`--active-chains 100`. Background chains use a fixed 2 CPU / 2 RAM / 20 Mbps
+profile, round-robin placement and a TTL longer than the measured episode; the
+manifest records this profile. The fixture rejects counts that exceed total
+per-node CPU/RAM capacity.
+
 ## Revision caveat
 
-The current `scenario_jobs()` maps both `chaos` and `elephant_stress` to `heavy_tail`. They are not independent generators. Retain historical outputs for provenance; fix the protocol and rerun before using distinct-profile claims in the revision.
+`chaos` uses a separate seeded two-state Markov demand profile. Calm-to-stress
+transition probability is 0.08 and stress-to-calm is 0.35. In the stress state,
+CPU demand is multiplied by 2.5 (capped at 85% capacity), RAM by 1.75 (same
+cap), SID depth increases by 2 (capped below the topology maximum), and service
+class is `Attack`. `elephant_stress` remains the independent heavy-tail profile
+(20% per-request shock, CPU ×3.5 and SID depth +3). Both generators use the Gym
+seeded RNG and must be rerun before comparing their results. Historical files
+retain their original labels and provenance.
