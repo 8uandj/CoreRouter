@@ -138,6 +138,65 @@ def run_saf_h(make_env_fn: EnvMaker, scenario: str, steps: int, seed: int, prote
     env.close()
     return metrics
 
+
+def run_cspf(make_env_fn: EnvMaker, scenario: str, steps: int, seed: int,
+             protected: bool = True) -> RunMetrics:
+    """Constrained shortest-path pair baseline for this simulator's N^2 action space.
+
+    The simulator exposes placement/routing endpoint pairs, not ingress/egress
+    service-chain requests. We therefore enumerate feasible distinct endpoint
+    pairs and minimize their topology latency, using hop count and residual
+    placement CPU as deterministic tie-breakers. This is a CSPF-style endpoint
+    baseline, not a full source-to-destination segment-routing implementation.
+    """
+    env = make_env_fn()
+    env.enforce_resource_constraints = protected
+    env.traffic_scenario = scenario
+    np.random.seed(seed)
+    random.seed(seed)
+    metrics = RunMetrics(f"cspf_{'protected' if protected else 'unprotected'}", scenario,
+                         env.topo.topology_name, seed)
+    state, _ = env.reset(seed=seed)
+    metrics.start_clock()
+    for _ in range(steps):
+        decision_start = time.perf_counter()
+        req = env._current_req
+        cpu_req, ram_req = float(req.get("cpu", 0.0)), float(req.get("ram", 0.0))
+        msd_req = int(req.get("msd", 1))
+        bw_req = cpu_req * 10.0
+        candidates = []
+        for place in range(env.num_nodes):
+            cpu = float(env._state[place * 3])
+            ram = float(env._state[place * 3 + 1])
+            if protected and (cpu + cpu_req > env.max_cpu or ram + ram_req > env.max_ram):
+                continue
+            for route in range(env.num_nodes):
+                if place == route:
+                    continue
+                if protected and (env._link_bw[place][route] < bw_req or
+                                  msd_req > env.node_msd_limits[route]):
+                    continue
+                hops = int(env.topo.get_hop_distance(place, route))
+                latency = float(env.latency_matrix[place][route])
+                candidates.append((latency, hops, cpu / env.max_cpu, place, route))
+        candidate_ms = (time.perf_counter() - decision_start) * 1000.0
+        selection_start = time.perf_counter()
+        if candidates:
+            _, _, _, v_place, v_route = min(candidates)
+        else:
+            v_place, v_route = 0, 0
+        selection_ms = (time.perf_counter() - selection_start) * 1000.0
+        state, _, done, _ = _step_and_collect(
+            env, [v_place, v_route], metrics, decision_start,
+            {"cspf_feasible_pair_search_ms": candidate_ms,
+             "cspf_selection_ms": selection_ms},
+        )
+        if done:
+            state, _ = env.reset(seed=seed)
+    metrics.stop_clock()
+    env.close()
+    return metrics
+
 def run_decoupled(make_env_fn: EnvMaker, scenario: str, steps: int, seed: int, protected: bool = True) -> RunMetrics:
     env = make_env_fn()
     env.enforce_resource_constraints = protected
@@ -305,6 +364,7 @@ def run_all_algorithms(
         if include_exhaustive:
             results[f"exhaustive_pair_search_{suffix}"] = run_exhaustive(make_env_fn, scenario, steps, seed, protected)
         results[f"traditional_greedy_{suffix}"] = run_greedy(make_env_fn, scenario, steps, seed, protected)
+        results[f"cspf_{suffix}"] = run_cspf(make_env_fn, scenario, steps, seed, protected)
         results[f"saf_h_{suffix}"] = run_saf_h(make_env_fn, scenario, steps, seed, protected)
         results[f"decoupled_ai_{suffix}"] = run_decoupled(make_env_fn, scenario, steps, seed, protected)
         results[f"harp_{suffix}"] = run_jo_vppm(make_env_fn, model_path, norm_path, scenario, steps, seed, protected)

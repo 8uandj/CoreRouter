@@ -13,22 +13,26 @@
 - [x] Giới hạn mô tả hiện tại ở pair-level checks và controller-visible rule-installation status; không claim chain soundness, packet delivery, forwarding stability hoặc zero downtime.
 
 ## E2 — Baselines, thống kê và acceptance accounting (P0)
-- [ ] Xác minh seed/run manifests; chạy HARP, SAF-H, Greedy, DAI trên matched traces và cùng admission boundary; chốt cấu hình/tie-break. Bổ sung CSPF reference nếu SAF-H không tương đương.
+- [x] Thêm CSPF-style pair reference và hoàn tất benchmark 20 seed × 3 workload × 3 topology. Có 180 per-seed rows; trace hashes khớp với HARP trong cả chín conditions. HARP--CSPF paired delta +0.18--+0.86 pp; sáu Holm-adjusted tests significant. Raw/manifest/statistics: `results/rev1/cspf_baseline/`. Định nghĩa baseline rõ là endpoint-pair adaptation, không phải ingress-to-egress CSPF đầy đủ vì simulator chỉ có placement/routing pair.
 - [ ] Đối soát offered/admitted/safe-admitted/deployed/violated theo request ID; định nghĩa mẫu số, phân loại rejection không trùng lặp.
 - [ ] Sửa Elephant/Chaos nếu generator trùng hoặc sai; điền GEANT2 Chaos từ dữ liệu gốc.
 - [ ] Tính paired bootstrap CI95, Wilcoxon, Holm, rank-biserial effect; tái sinh load sweep 0.2–1.5× với CI và rejection reasons.
-- [ ] Đo missed-feasible rejections bằng oracle trên topology nhỏ, phân biệt bão hòa thật với lỗi tìm kiếm; so sánh gain–cost HARP/SAF-H.
+- [x] Đo missed-feasible rejections bằng exhaustive pair-action oracle trên Vietnam; so sánh gain–cost HARP/SAF-H. Đã hoàn tất 2026-11-17: 10 seeds, 120 sampled states/seed, cùng simulator snapshot và TTL-expiry transition; HARP có 30/1,200 sampled rejections với alternative được nhận (per-seed conditional mean 5.02%, SD 2.66%), SAF-H 33/1,200 (5.70%, SD 2.32%). Controlled serialized cost: Vietnam, 10 seeds × 3,000 steps; mean seed-level decision p50/p95/p99 HARP 1.925/2.131/2.481 ms, SAF-H 0.339/0.494/0.527 ms. Bằng chứng: `results/rev1/nonhil_studies/20261117_233441/`.
 
 ## E3 — Ablation, masking và safety attribution (P0)
-- [ ] Đối chứng Full/MLP/NoMask/NoMask+U/NoAdapt trên cùng trace; đo candidate pruning, admission rejection, convergence và overhead.
-- [ ] Kiểm tra dấu reward MSD và chạy SoftMSD với admission **on/off** riêng; không gọi một cấu hình Protected nếu còn admitted violations chưa giải thích.
-- [ ] Báo tỷ lệ đề xuất không khả thi theo CPU, RAM, MSD (cho phép chồng lấn) và tỷ lệ hợp; đo violations theo đúng mẫu số.
-- [ ] Phân biệt **masking cải thiện candidate quality** với **runtime admission chịu trách nhiệm enforcement**; không suy rộng từ các baseline được thử tới mọi SOTA RL.
+- [x] Đối chứng bảy ablation variants trên cùng trace; đo candidate pruning, admission rejection và simulator timing. Đã hoàn tất 12 topology--workload groups × 20 seeds × 7 variants; trace hashes khớp trong từng seed. Raw per-seed timed records: `results/rev1/e3_timed/`. **Còn thiếu:** retained training-convergence logs; không tuyên bố convergence nếu không có đường cong huấn luyện hợp lệ. Timing không bao gồm external controller/deployment latency.
+- [x] Kiểm tra dấu reward MSD và chạy SoftMSD với admission **on/off** riêng; reward coefficient $-50$, cùng checkpoint cho cặp on/off; số violation admitted và giới hạn paired-state đã ghi tại §E3 và evidence.
+- [x] Báo tỷ lệ đề xuất không khả thi theo CPU, RAM, BW, MSD (cho phép chồng lấn), hard-invalid union và admitted unique violations trên mẫu số offered requests; bảng pooled ở §E3.
+- [x] Phân biệt mask/candidate quality với independent runtime admission/enforcement; giới hạn so sánh Full–NoMask và phạm vi simulator được nêu tại §E3.
 
 ## E4 — Scalability, latency và concurrency (P0)
-- [ ] Đo topology 10/25/50/100 nodes; tách ảnh hưởng topology, active chains, arrival rate và concurrency.
-- [ ] Thu timestamps per-request: queue/state/mask/inference/admission/deployment/readiness/steering; tính **decision P50/P95/P99** và **actuation latency** riêng.
-- [ ] Throughput = completed operations / thời gian thực; ghi workers, queue drops, CPU/RAM, hardware/software và warm-up.
+- [x] Đo topology-size simulator trên 25/50/100-node synthetic grids với SAF-H (10 seeds × 300 decisions) và HARP-vs-SAF-H local decision cost ở Vietnam (10 nodes; 10 seeds × 3,000 steps). Kết quả p50/p95/p99 cùng node/edge/action-space counts ở §Scalability và `results/rev1/nonhil_studies/20261117_235132/`. Chỉ xác nhận chi phí simulator của SAF-H theo N; không có size-matched HARP checkpoints.
+- [x] Tách active-chain occupancy ở 0/25/50/100 background chains, 20 seeds, trên ba topology; xem Table~\ref{tab:active_chain_stress} và `results/rev1/e4_active_chains/`.
+- [ ] Arrival-rate-only runner đã được viết: năm arrival probabilities, TTL cố định 100--500, Bursty demand profile giữ nguyên, 20 seed, 3 topology; supervisor chạy sau HARP synthetic training. Còn chờ raw data, aggregate, figure và manuscript insertion. Synthetic HARP 25/50/100 đang huấn luyện; supervisor sẽ đánh giá sau khi đủ final checkpoints. Live request concurrency/queueing vẫn chưa đo.
+- [x] Ghi decision P50/P95/P99 và offline runner throughput (completed simulator decisions / measured run wall time) trong cùng process cho HARP/SAF-H; actuation và end-to-end timestamps chưa có trong các lượt offline này. Không suy throughput từ p95 hoặc gán con số này cho API.
+- [ ] Thu riêng timestamps cho queue/state/admission/deployment/readiness/steering và actuation latency trên testbed/API; không thay bằng simulator timing.
+- [x] Offline throughput dùng completed simulator decisions / measured run wall time; manifests pin hardware/software, worker count, seeds, data/checkpoint hashes và warm-up.
+- [ ] Live API throughput dưới concurrent requests/queueing; không suy ra từ offline simulator throughput.
 - [ ] Không lấy tổng các component làm P95; không lấy nghịch đảo P95 làm throughput; không gán benchmark queue cho FastAPI nếu chưa đo.
 
 ## E5 — Candidate-path cache (chỉ khi có trong runtime cuối)
@@ -44,7 +48,7 @@
 **Tiến độ control-plane-only:** run `results/rev1/e6_24h_control_plane/runs/20261117_184721` bắt đầu lúc 2026-11-17 18:47 UTC với `normal_load`, 24 giờ, 3.5 giây/API call, `--no-reset`. Chỉ được dùng làm API/admission/Kubernetes/readiness/rejection evidence; không có test packet và không đóng các mục P4, forwarding, MBB hay zero-downtime ở trên.
 
 ## Hoàn thiện manuscript và response
-- [ ] Chốt novelty là **policy-independent pre-actuation admission trong AIOps SRv6/P4**, không nhận GAT/PPO/shielding là thuật toán mới; rà soát related work, abbreviations và overclaims.
+- [ ] Chốt novelty là **policy-independent pre-actuation admission trong AIOps SRv6/P4**, không nhận GAT/PPO/shielding là thuật toán mới; abbreviation first-use audit đã được cập nhật ở lượt này nhưng cần rà soát lại sau khi chèn kết quả CSPF/synthetic/arrival.
 - [ ] Chỉ giữ kết quả có raw evidence trong Abstract, §6, Conclusion và response letter; nêu limitations trung thực, không để TBC trong bản nộp.
 - [ ] Với nội dung còn phụ thuộc thực nghiệm, để comment đúng vị trí: `%NNH: cần hoàn thiện sau khi thực nghiệm [E1]: ...` (thay E1 bằng E2–E6). Xóa comment **sau khi** đối soát hoàn tất.
 

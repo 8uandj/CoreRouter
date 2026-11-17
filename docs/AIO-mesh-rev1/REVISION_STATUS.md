@@ -1,11 +1,18 @@
 # Revision status
 
-Updated: 2026-11-17
+Updated: 2026-11-18
 
 ## Integrity recovery
 
 - Removed unsupported invented manuscript results and rebuilt descriptive historical Vietnam/NSFNET summaries from available per-seed files. Historical lineage checks remain incomplete; see `INTEGRITY_RECOVERY.md` and `EVIDENCE_LEDGER.csv`.
 - Captured HARP-model source/artifact audit records. The HARP-model runtime model interface is not established as compatible with the flat-action benchmark environment.
+
+## E3 matched-trace ablation results
+
+- Completed the registered 20-seed, 3,000-step-per-seed ablation evaluation for Vietnam, NSFNET, and GEANT2 across Uniform, Bursty, Heavy-tail, and distinct Chaos workloads. Each topology/workload contains 20 seeds × 7 variants, and trace hashes match across variants within each seed.
+- Recomputed candidate-mask pruning, runtime rejection, admitted hard-violation, and safe-acceptance metrics. The aggregated table uses 80 seed/workload cells per topology (mean ± sample SD); this is evaluation variation, not independent training uncertainty.
+- Updated `rev1.tex` with all seven registered variants, per-topology admission outcomes, and pooled CPU/RAM/BW/MSD proposal violation rates with overlap semantics. Reproducible aggregates and source/checkpoint/normalizer/trace hashes are in `evidence/e3/manifest.json` and `ablation_admission_summary.csv`. Admission outcomes are simulator evidence for modeled predicates, not full-chain deployment or forwarding evidence. The retained training artifacts contain no convergence history, so no convergence result is claimed; the timing rerun measures local simulator policy-decision components, not external controller/deployment latency.
+- The 20-seed algorithm benchmark reruns for Vietnam and NSFNET completed at 19:43 and 19:45 on 2026-11-17; logs are `/tmp/rev1-benchfix-vietnam.log` and `/tmp/rev1-benchfix-nsfnet.log`. The sequential E3 compute-overhead rerun subsequently completed all 12 topology--workload groups (20 seeds × 7 variants per group); per-seed timing records are under `results/rev1/e3_timed/`. The prior tmux-running status is stale.
 
 ## Code work in progress: E1 admission contract
 
@@ -263,9 +270,31 @@ Only short smoke runs were performed. No research-scale revision experiment, Kag
 - Created an evaluation bundle at `results/rev1/inputs/rev1-evaluation-inputs.zip` with the extracted resolved protocol alongside it. The archive SHA-256 is `086d6ab67ad714de60bb9ec67a03dd2a255c53d0be92b878f55dba0ffc43deb0`; package CLI verification and exact protocol matching pass. Plan-only driver commands for Vietnam, NSFNET, and GEANT2 each produced 11 commands with `execute=false`.
 - Full regression caveat remains: 188 tests pass without `tests/test_orchestration_api.py`; the first HTTP test stalls in this runtime, and a minimal FastAPI/TestClient request reproduces the stall. No training, ablation results, benchmark results, or HIL were run.
 
-## Continuation: server 246 HIL baseline and live P4 gate — 2026-11-17
+## Completed current-code load sweep — 2026-11-17
 
-- Reconciled the requested baseline on `3s-com`: exactly the seven retained VNF Deployments are Ready; all 43 named old Deployments are absent. The live admission API reports durable persistence, seven known/Ready records, zero `accounting_unknown`, and no unaccounted VNF. No active PipelineRun, Job, migration, or HIL process was present.
-- Compiled the revised SRv6 P4 source offline for MSD 4/5/8/10. An isolated two-switch BMv2 test forwarded one RFC 8754 packet through End.DX4 with advance/terminal counter deltas and dropped an over-MSD packet with the violation counter incremented. This is isolated dataplane evidence only.
-- Read back all ten live switches. A per-container inspection confirmed the expected topology MSD selection (s1/s2/s9=10; s3/s4/s8/s10=5; s5/s7=4; s6=8); all of those loaded JSONs are older builds exposing only `routing_v6` and `srv6_local_sid`, without the new End.DX4 table or forwarding counters. The shared dataplane was not changed in Phase 8. Gate 3 therefore failed; create/readiness, steering, migration, packet smoke, and long HIL had not started at that checkpoint. Result at that checkpoint: **baseline rebuilt; full HIL blocked**.
-- Added exact controller table-dump parsing/readback checks and pair-path tests; 13 focused tests pass and `git diff --check` passes. E1/E6 remain open until per-switch MSD selection and live switch/port/VNF endpoint mappings are reconciled and verified.
+Vietnam, NSFNET and GEANT2 completed in separate tmux sessions. Validated 1,120 rows per topology, all 7 intensities and 8 policy modes, 20 seeds per group, paired trace hashes and current source hashes. Updated rev1.tex with a three-topology figure, all 21 protected-policy summary rows, family-wide Holm statistics and scoped Abstract/Conclusion findings. Reproducible scripts: scripts/rev1/plot_manuscript_load_sweeps.py and summarize_manuscript_load_sweeps.py. All-mode evidence: evidence/load_sweep/. No LaTeX compilation performed.
+
+## Editorial refinement after load sweep
+
+Rewrote evaluation framing, policy-regime interpretation, computation discussion and two-paragraph conclusion; consolidated limitations and removed audit-style completion/archive wording. Preserved numerical tables, the four single-column table layouts, and existing Overleaf overview/testbed paths. At that point HARP–SAF-H timing benefit remained unestablished under controlled matched execution. Static TeX reference/environment checks and git diff --check passed; no PDF compilation performed.
+
+## Non-HIL realization/MSD audit after HARP merge
+
+Audited dd5ff67 pair compiler, runtime reservation and forwarding gate; source-pinned offline traces in evidence/realization/. Corrected stale manuscript equation: placement-only CPU/RAM allocation and per-list route MSD; explicit-ingress P4 compiler checks full materialized depth per traversed switch, but returned forwarding_sid remains None and alert-driven actuation rejects/releases. No arbitrary multi-VNF chain expansion is implemented. See REALIZATION_MSD_REAUDIT.md. Focused offline regression: 34 passed. Added reproducible 18-group policy tradeoff summary with service latency/SLA and descriptive timing; no controlled computation benefit asserted. No HIL/controller operation or runtime behavior change performed.
+
+## Non-HIL simulator studies — 2026-11-17
+
+Completed a sampled exhaustive pair-action oracle on Vietnam: HARP and SAF-H were each evaluated on 1,200 sampled states (10 seeds, 120 per seed), testing all 100 actions from restored state snapshots while preserving the environment's TTL-expiry-before-admission behavior. An accepted alternative existed for 30/596 HARP selected rejections and 33/579 SAF-H selected rejections. These results are local simulator evidence, not full-chain or live-network feasibility.
+
+Completed serialized, same-process HARP-vs-SAF-H decision timing on Vietnam (Bursty; 10 seeds × 3,000 steps, alternating policy order after warm-up). Mean per-seed decision p50/p95/p99 was HARP 1.925/2.131/2.481 ms and SAF-H 0.339/0.494/0.527 ms. HARP's mean per-seed inference p95 was 1.617 ms. The simulator runners processed 537/3,282 offered decisions per second, computed from completed simulator decisions divided by measured run wall time; this is not live API throughput. Measurements exclude live telemetry and actuation.
+
+Measured SAF-H size scaling on synthetic 25/50/100-node grids (10 seeds × 300 decisions). Mean feasible-set p50/p95/p99 was 0.315/0.368/0.390, 1.355/1.488/1.649, and 5.534/70.175/76.377 ms; decision p95/p99 was 1.554/1.620, 5.297/5.728, and 83.562/89.829 ms. No size-matched HARP checkpoints were available. Manuscript updates are green in `rev1.tex`; generated figure: `figs/policy_cost_scalability.pdf`; reproduction scripts: `scripts/rev1/run_nonhil_studies.py` and `plot_nonhil_studies.py`. Evidence and manifests: `results/rev1/nonhil_studies/20261117_233441/` and `20261117_235132/`. No live HIL service, controller, or actuation was operated. Background-chain occupancy was separately measured at 0/25/50/100 chains on all three real topologies (`results/rev1/e4_active_chains/`). Remaining E4 work is independent arrival-rate variation, live request concurrency, and end-to-end/actuation timing.
+
+The runs used `data/real_telecom_combined.csv` (SHA-256 pinned in each manifest), retained Vietnam v11 checkpoint/normalizer hashes, Python 3.9.25, NumPy 2.0.2, PyTorch version/thread count, serial execution, and the available Xeon 8160 host profile. Example commands: `venv/bin/python scripts/rev1/run_nonhil_studies.py --study oracle --topology vietnam --steps 3000 --oracle-stride 25`; `venv/bin/python scripts/rev1/run_nonhil_studies.py --study cost --topology vietnam --steps 3000`; `venv/bin/python scripts/rev1/run_nonhil_studies.py --study scale --scale-steps 300`. The figure is regenerated with `scripts/rev1/plot_nonhil_studies.py` and the cost/scaling JSON paths. LaTeX source passed brace, environment, reference, and `git diff --check` validation; PDF compilation was unavailable because this workspace has no `pdflatex` or `latexmk` executable.
+
+## Follow-up: CSPF, synthetic HARP, arrival-rate-only, and manuscript cleanup — 2026-11-18
+
+- Added a deterministic CSPF-style constrained placement/routing pair policy to the shared benchmark runner. Its feasible-pair objective is minimum topology latency, then hop count, then placement CPU utilization. The manuscript explicitly limits this baseline to the simulator's endpoint-pair action space; it is not a complete ingress-to-egress CSPF compiler. The 20-seed × three-workload × three-topology run completed with 180 rows and exact offered-trace-hash matches to HARP in all nine conditions. HARP's paired safe-acceptance gain was +0.18--+0.86 points; six of nine Wilcoxon comparisons remained significant after Holm correction. Summary/statistics and raw rows are in `results/rev1/cspf_baseline/`.
+- HARP training for synthetic_25/50/100 runs in three separate tmux sessions, seed 42, 3M steps, 10 environments, rollout 512, minibatch 32. Batch 256 caused a GPU OOM on the 100-node graph because graph-attention pair tensors scale with node count and training minibatch; all three synthetic jobs were restarted with batch 32 to preserve a common synthetic training configuration. Current logs: `results/rev1/training_logs/synthetic_{25,50,100}_batch32.log`; checkpoints are not complete yet.
+- Added `scripts/rev1/run_arrival_rate_sweep.py`: five arrival probabilities (0.2--1.0), fixed TTL 100--500, unchanged Bursty request profile, 20 seeds, three real topologies, protected policies including CSPF. Added `scripts/rev1/run_deferred_synthetic_and_arrival.sh` in tmux session `deferred_evaluations` to wait for all final synthetic model/normalizer pairs, then evaluate each synthetic model on three stress workloads (20 seeds × 3,000 steps) and run the pure arrival-rate sweep. These evaluations have not produced results yet.
+- Revised Conclusion to two paragraphs and updated several first-use acronym expansions in green. The manuscript's CSPF result table, synthetic HARP results and arrival-rate figure/text still require their corresponding raw output before submission.

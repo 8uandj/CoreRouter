@@ -27,7 +27,7 @@ from src.analytics.benchmark.benchmark_algorithm.env_factory import make_env, re
 
 LOADS = [0.2, 0.4, 0.6, 0.8, 1.0, 1.2, 1.5]
 POLICIES = [f"{policy}_{mode}" for mode in ("protected", "unprotected")
-            for policy in ("harp", "saf_h", "traditional_greedy", "decoupled_ai")]
+            for policy in ("harp", "saf_h", "cspf", "traditional_greedy", "decoupled_ai")]
 
 
 def _seed_active_chains(env, count: int, chain_cpu: float = 2.0, chain_ram: float = 2.0,
@@ -209,8 +209,9 @@ def write_outputs(rows, out_dir: Path, topology: str, data_path: Path, model_pat
 def plot_load_sweep(aggregates, out_path: Path, topology: str):
     fig, axes = plt.subplots(1, 2, figsize=(12, 4.5))
     styles = {"harp_protected": "o-", "saf_h_protected": "s-",
+              "cspf_protected": "P-",
               "traditional_greedy_protected": "^-", "decoupled_ai_protected": "d-",
-              "harp_unprotected": "o--", "saf_h_unprotected": "s--",
+              "harp_unprotected": "o--", "saf_h_unprotected": "s--", "cspf_unprotected": "P--",
               "traditional_greedy_unprotected": "^--", "decoupled_ai_unprotected": "d--"}
     for policy in POLICIES:
         group = sorted((r for r in aggregates if r["algorithm"] == policy), key=lambda x: x["load_multiplier"])
