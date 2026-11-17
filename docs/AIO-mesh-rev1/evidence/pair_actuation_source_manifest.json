@@ -1,13 +1,16 @@
 {
-  "audit_date": "2026-11-16",
+  "audit_date": "2026-11-17",
   "kind": "static_source_audit",
   "live_execution": false,
   "sources": {
-    "src/portal/backend/app/services/hybrid_decision.py": "1b6801e9d03c32639cc0767caf001b497dee6032237c74913498e7ceed4a82f7",
-    "src/portal/backend/app/routers/orchestration_router.py": "8febd9534768c6ebf4c0ef2237a708c645d67a834e1f59d028a9d8fc40868cf8",
-    "src/portal/backend/app/services/orchestration_service.py": "0575d416cf37a19fa7bf48449e56bcdd88cdd7b45c6aa6753fa29f5f5fedc17e",
-    "src/portal/backend/app/routers/api_v1.py": "2bd45a7763ad7f8062ef943d52a1aa167510dc15a22397631fdb206b81de58f9",
-    "src/infrastructure/sdn/p4_controller.py": "e2b89e8f83e48661b2629372c47d71b1c1bb5311e3a112ac6cb6f2cca395a748",
-    "infrastructure/sdn/controller.py": "13da38419e44ffb0b2feecb35b156adbe8b22002cac6d3cf72e7dd88012f9105"
+    "src/portal/backend/app/services/hybrid_decision.py": "9464d166a072e51673859e68e819e71cd45a1b15ff27fe40c7751df057daa7c8",
+    "src/portal/backend/app/services/p4_pair_realization.py": "eabcb58f8f073b0ccf78421d7f8d2d95ae10843ebf1336fc44e612a8de9e87c2",
+    "src/portal/backend/app/services/realization.py": "6be02e500bc46c9d75b6130d8170bb50d0a258249ad74e65136153533d5c875c",
+    "src/portal/backend/app/services/controller_topology.py": "c4e8c68de853b7d3d3d1b16610540d3d858d95434d8fa7186cf55bcb939e5e4e",
+    "src/portal/backend/app/routers/orchestration_router.py": "1e696502a450ea7049405ac1e68eccc55435f002d222267623fd351d28ae36d4",
+    "src/portal/backend/app/services/orchestration_service.py": "ef3551693faf272ad72aaf4d321099cf9bc2dcad4ed9de9b2caff04cdf95cba0",
+    "src/core/state_manager.py": "1214cc4c1d63350c413b6bf237263781c4aa49aebb97ee250bb880588691da4f",
+    "infrastructure/sdn/p4_topology.py": "652aa9bc37c168f6f5d4e6fd5ccb058ec15e5782376e5a81df374326e85e64e4",
+    "infrastructure/sdn/controller.py": "daa42545fbbcee197e41c038c0f8580c40c60d6f278473a358d2347f1b5543ff"
   }
 }

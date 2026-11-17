@@ -5,10 +5,12 @@
 **Nguyên tắc:** Chỉ xử lý concerns của reviewers; kế thừa tối đa bản đã nộp. Ưu tiên kiểm tra lại source/config/log gốc, chỉ chạy lại khi cần. Không suy diễn kết quả hoặc mở rộng safety claim vượt implementation.
 
 ## E1 — Action realization và admission (P0)
-- [ ] Xuất trace từ policy pair → placement đầy đủ (chuỗi ≥3 VNF) → path/SID list → MSD từng profile → admission → forwarding; xác định rõ mapping trong code.
-- [ ] Kiểm tra CPU/RAM khi reuse, routing-only và make-before-break; MSD là giới hạn *từng SID list*, không cộng dồn nhiều flow.
-- [ ] Đối chiếu local predicate với full-chain realization; kiểm tra stale telemetry, admission đồng thời, reservation/release; cố định normalization theo checkpoint.
-- [ ] Nếu chưa chứng minh full-chain soundness, giới hạn kết luận ở **pair-level checks** và controller-visible state.
+- [x] Audit source về đơn vị action, chain, physical pair path, SID stack và MSD: hiện policy chọn một placement/route pair; path/SID vật lý chỉ compile được khi có ingress/source; không có general chain ≥3 VNFs. Xem `PAIR_ACTUATION_AUDIT.md`.
+- [x] Ghi rõ CPU/RAM tính vào placement, MSD áp dụng theo SID-list/path và route profile, cùng các physical switch trên path; đây là source contract, chưa phải bằng chứng packet.
+- [x] Ghi rõ admission version/lock, reservation/release và freshness limitation trong `SEMANTICS_CONTRACT.md`; chưa có transaction phân tán với Kubernetes/P4.
+- [ ] Xuất trace runtime cho chain ≥3 VNF và đối chiếu full-chain feasibility; implementation hiện không biểu diễn chain tổng quát.
+- [ ] Chứng minh `admitted SID list → installed rules → packet forwarding` bằng request-correlated packet capture/counter evidence. Chưa được đánh dấu forwarding hoàn tất.
+- [x] Giới hạn mô tả hiện tại ở pair-level checks và controller-visible rule-installation status; không claim chain soundness, packet delivery, forwarding stability hoặc zero downtime.
 
 ## E2 — Baselines, thống kê và acceptance accounting (P0)
 - [ ] Xác minh seed/run manifests; chạy HARP, SAF-H, Greedy, DAI trên matched traces và cùng admission boundary; chốt cấu hình/tie-break. Bổ sung CSPF reference nếu SAF-H không tương đương.
@@ -34,10 +36,12 @@
 - [ ] Nếu không có cache: **bỏ bảng/hình K-cache từ code khác**, sửa mô tả và giải thích trong response; không cần chạy E5.
 
 ## E6 — HIL 24 giờ, fault injection, migration (P0)
-- [ ] Đối soát 24h: 25,000 requests; 17,820 deployed; 5,910 CPU/RAM rejects; 1,270 MSD rejects; lưu per-hour logs, errors, migrations và latency drift.
+- [ ] Chạy 24h control-plane HIL; lưu per-hour logs, errors, admission/rejection accounting, deployment/readiness và latency drift. Các số 25,000/17,820/5,910/1,270 trong checklist là mục tiêu/claim cũ, không phải kết quả.
 - [ ] Injection SID depth 7 > MSD 4: lưu P4/BMv2 config, packet captures, parser error, counter deltas và fallback outcome.
 - [ ] Kiểm tra make-before-break qua readiness, steering confirmation và packet traces; không khẳng định zero downtime thiếu bằng chứng.
 - [ ] Giới hạn kết luận ở BMv2/software forwarding, không suy rộng sang carrier-grade ASIC.
+
+**Tiến độ control-plane-only:** run `results/rev1/e6_24h_control_plane/runs/20261117_184721` bắt đầu lúc 2026-11-17 18:47 UTC với `normal_load`, 24 giờ, 3.5 giây/API call, `--no-reset`. Chỉ được dùng làm API/admission/Kubernetes/readiness/rejection evidence; không có test packet và không đóng các mục P4, forwarding, MBB hay zero-downtime ở trên.
 
 ## Hoàn thiện manuscript và response
 - [ ] Chốt novelty là **policy-independent pre-actuation admission trong AIOps SRv6/P4**, không nhận GAT/PPO/shielding là thuật toán mới; rà soát related work, abbreviations và overclaims.

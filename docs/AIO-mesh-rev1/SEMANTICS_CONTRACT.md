@@ -53,17 +53,27 @@ or retraining and validation before using a checkpoint for new measurements.
 
 ## Realization boundary found in the source audit
 
-`generate_srv6_sids` produces a synthetic pair list for local admission and API
-output. The migration service independently creates an endpoint SID; the admitted
-list is not passed into its steering payload. Thus even pair-to-forwarding
-correspondence is not established. Only the DRL-plus-forecast-alert branch of
-`/orchestrate` schedules lifecycle work. The separate `/p4/rules` entry point
-does not invoke pair admission. Controller steering status carries the deployment and operation identifiers;
-the migration service requires both to match before removing the old VNF. See `PAIR_ACTUATION_AUDIT.md` and its source-hash manifest.
+When a request includes an ingress/source node, the runtime compiles a shortest
+source-to-placement path against the P4 topology, derives the SID stack, and
+checks that the requested MSD equals the materialized path depth and fits the
+route profile and every physical switch on that path. The immutable
+`AdmittedRealization` is passed to steering; the backend and controller validate
+the same request, operation, topology/profile hashes, switch path, and SID
+stack. The controller derives hop rules from that path and its observed port
+map. Without ingress/source information, `generate_srv6_sids` still creates a
+synthetic pair list with no forwarding SID; the alert-triggered actuation path
+rejects that handle and releases its unactuated reservation.
 
-Safety statements apply to the local selection/reservation boundary, not to all
-actuation entry points or installed packet paths. No live forwarding evidence
-was produced by this audit.
+The policy still selects one placement/route pair, not a general chain of
+three or more VNFs. Source-level binding and controller rule-installation status
+do not prove that packets traverse the admitted path. Only the DRL-plus-alert
+branch of `/orchestrate` schedules deployment/steering; the separate `/p4/rules`
+entry point does not invoke pair admission. See `PAIR_ACTUATION_AUDIT.md` and
+its source-hash manifest.
+
+Safety statements apply to the pair-level selection/reservation boundary and
+the supported controller handoff, not to general chain correctness or packet
+delivery. No request-correlated packet-forwarding evidence is claimed here.
 
 ## Uncertain migration and reservation retention
 
