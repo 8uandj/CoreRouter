@@ -233,6 +233,7 @@ def main():
     parser.add_argument('--mode', choices=['training', 'evaluation'], default='evaluation')
     parser.add_argument('--training-run', action='append', default=[], metavar='TOPOLOGY=RUN_DIR')
     args = parser.parse_args()
+    root = args.root.resolve()
     if args.verify:
         if not args.expected_sha256:
             parser.error('--verify requires --expected-sha256')
@@ -248,7 +249,6 @@ def main():
         return 0
     if not args.output:
         parser.error('--output is required when building a package')
-    root = args.root.resolve()
     protocol = args.protocol if args.protocol.is_absolute() else root / args.protocol
     training_runs = {}
     for entry in args.training_run:
