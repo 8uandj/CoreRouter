@@ -1,7 +1,12 @@
 # E1 admission and state semantics
 
-The production selector and the Gym environment select one placement node and
-one routing node per request. They do not realize a general multi VNF chain.
+The current `/orchestrate` request and Gym action select one placement node
+and one routing-profile node per service request. This describes the current
+policy-controlled request contract; it does not imply that the Kubernetes
+testbed cannot deploy multiple VNF instances or that a prior manually composed
+multi-VNF chain was never demonstrated. The available historical artifacts
+show many deployed instances and a packet probe toward one Pod, but do not
+correlate a request with ordered traversal through several service VNFs.
 
 | Quantity | Accounting rule |
 | --- | --- |
@@ -15,7 +20,12 @@ one routing node per request. They do not realize a general multi VNF chain.
 The current Gym environment and runtime inference use flat `Discrete(N²)`
 actions, encoded as `v_place * N + v_route`. The runtime mask has N² entries
 and marks a pair only when placement CPU/RAM and route MSD pass; atomic
-admission rechecks those constraints before reservation. Recovered main v11
+admission rechecks those constraints before reservation. For requests with an
+ingress/source node, the concrete source-to-placement path is compiled only
+after a candidate is selected, so the mask is a pair-level prefilter rather
+than an exact physical-path feasibility mask; path-depth/profile failures are
+rejected before reservation and may invoke the documented policy fallback.
+Recovered main v11
 checkpoints were trained with `MultiDiscrete([N,N])` and a `2N`-logit head.
 The inference adapter sums placement and route logits for each pair before
 applying the N² mask. This preserves the unmasked factorized distribution;
