@@ -1,0 +1,42 @@
+{
+  "experiment": "hil12h",
+  "scope": "File-level evidence index. Refer to run metadata for experiment provenance.",
+  "artifacts": [
+    {
+      "path": "results/rev1/e6_12h_control_plane/runs/20261117_190242/CONTROL_PLANE_SCOPE.json",
+      "kind": "file",
+      "sha256": "4c2f3e28c9f1347fd37214addd3a89d6d81c33dd6c87c7d178c69e251e130329",
+      "recorded_original_sha256": null
+    },
+    {
+      "path": "results/rev1/e6_12h_control_plane/runs/20261117_190242/all_records.csv",
+      "kind": "file",
+      "sha256": "8e8f1945a44f725b77234d1399d6bda2368c189aaa0eb6b8a43a3d53222d1601",
+      "recorded_original_sha256": null
+    },
+    {
+      "path": "results/rev1/e6_12h_control_plane/runs/20261117_190242/kubernetes_readiness.csv",
+      "kind": "file",
+      "sha256": "00b626a816e3b07f0ee68ade5dfac13643892c205543844dadbe6682b1c4a35f",
+      "recorded_original_sha256": null
+    },
+    {
+      "path": "results/rev1/e6_12h_control_plane/runs/20261117_190242/run_manifest.json",
+      "kind": "file",
+      "sha256": "6c2fb646d6ebe672375022c50b61a5e78279f294352736b2a8312b27a1b5fd83",
+      "recorded_original_sha256": null
+    },
+    {
+      "path": "results/rev1/e6_12h_control_plane/runs/20261117_190242/run_provenance.json",
+      "kind": "file",
+      "sha256": "89b3e133b99b87adf0b3eedcef885751bf38fd63165d9ebf1405d30b2898a0bc",
+      "recorded_original_sha256": null
+    },
+    {
+      "path": "results/rev1/e6_12h_control_plane/runs/20261117_190242/scenarios/normal_load/normal_load_hourly_summary.csv",
+      "kind": "file",
+      "sha256": "f640e4dfdedc3d25b3c1c01e3f7cce91e8fce08fab331aa3fd2c9892f27c73ef",
+      "recorded_original_sha256": null
+    }
+  ]
+}

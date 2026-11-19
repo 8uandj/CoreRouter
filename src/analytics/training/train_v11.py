@@ -11,6 +11,7 @@ import sys
 import logging
 import argparse
 import numpy as np
+import torch
 
 sys.path.append(os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', '..', '..'))
 
@@ -119,9 +120,12 @@ def linear_schedule(initial_value: float):
 def train_dgrl(topology_name: str, *, total_steps: int = TOTAL_STEPS,
                n_envs: int = N_ENVS, rollout_steps: int = N_STEPS, seed: int = 42,
                data_path: str = None, model_dir: str = None,
-               batch_size: int = BATCH_SIZE):
-    if total_steps <= 0 or n_envs <= 0 or rollout_steps < 2 or batch_size <= 0:
-        raise ValueError("training budget/env count/batch size must be positive and rollout_steps >= 2")
+               batch_size: int = BATCH_SIZE, device: str = "auto",
+               checkpoint_freq: int = 500_000):
+    if total_steps <= 0 or n_envs <= 0 or rollout_steps < 2 or batch_size <= 0 or checkpoint_freq <= 0:
+        raise ValueError("training budget, env count, batch size and checkpoint frequency must be positive; rollout_steps >= 2")
+    if device == "cuda" and not torch.cuda.is_available():
+        raise RuntimeError("CUDA was requested but PyTorch cannot see a CUDA device")
     logger.info(f"BẮT ĐẦU HUẤN LUYỆN JO-VPPM V11 TRÊN MẠNG: {topology_name.upper()}")
     
     # ── Path Setup ───────────────────────────────────────────────
@@ -185,7 +189,8 @@ def train_dgrl(topology_name: str, *, total_steps: int = TOTAL_STEPS,
         policy_kwargs=policy_kwargs,
         tensorboard_log=TENSORBOARD,
         verbose=1,
-        seed=seed
+        seed=seed,
+        device=device,
     )
 
     # ── Callbacks ────────────────────────────────────────────────
@@ -202,9 +207,10 @@ def train_dgrl(topology_name: str, *, total_steps: int = TOTAL_STEPS,
         render=False
     )
     checkpoint_callback = CheckpointCallback(
-        save_freq=max(500_000 // n_envs, 1),
+        save_freq=max((checkpoint_freq + n_envs - 1) // n_envs, 1),
         save_path=MODEL_DIR,
-        name_prefix=f'dgrl_v11_ckpt_{topology_name}'
+        name_prefix=f'dgrl_v11_ckpt_{topology_name}',
+        save_vecnormalize=True,
     )
 
     callbacks = CallbackList([cb_adaptive, cb_entropy, eval_callback, checkpoint_callback])
@@ -244,6 +250,9 @@ if __name__ == "__main__":
     parser.add_argument("--batch-size", type=int, default=BATCH_SIZE)
     parser.add_argument("--data-path", default=None)
     parser.add_argument("--model-dir", default=None)
+    parser.add_argument("--device", choices=["auto", "cpu", "cuda"], default="auto")
+    parser.add_argument("--checkpoint-freq", type=int, default=500_000,
+                        help="Number of environment transitions between checkpoint pairs (model and VecNormalize).")
     args = parser.parse_args()
     if args.topology == "all":
         topologies = ["vietnam", "nsfnet", "geant2"]
@@ -255,4 +264,5 @@ if __name__ == "__main__":
         train_dgrl(topology, total_steps=args.total_steps, n_envs=args.n_envs,
                    rollout_steps=args.rollout_steps, seed=args.seed,
                    data_path=args.data_path, model_dir=args.model_dir,
-                   batch_size=args.batch_size)
+                   batch_size=args.batch_size, device=args.device,
+                   checkpoint_freq=args.checkpoint_freq)

@@ -27,8 +27,8 @@ def main() -> None:
     fig, axes = plt.subplots(1, 2, figsize=(7.15, 3.15))
     ax = axes[0]
     positions = np.arange(len(labels))
-    ax.plot(positions, p50, "o-", color="#176B87", linewidth=1.7, markersize=5, label="Per-seed p50")
-    ax.plot(positions, p95, "s--", color="#B34A36", linewidth=1.7, markersize=5, label="Per-seed p95")
+    ax.bar(positions - .18, p50, width=.36, color="#176B87", label="Per-seed P50")
+    ax.bar(positions + .18, p95, width=.36, color="#B34A36", label="Per-seed P95")
     ax.set_xticks(positions, labels)
     ax.set_title("Vietnam (10 nodes)")
     ax.set_ylabel("Decision latency (ms; log scale)")
@@ -38,12 +38,14 @@ def main() -> None:
 
     ax = axes[1]
     scale_rows = scale["measurements"]
-    positions = np.arange(len(scale_rows))
+    positions = [row["nodes"] for row in scale_rows]
     medians = [row["feasible_set_p50_ms_mean"] for row in scale_rows]
     tails = [row["feasible_set_p95_ms_mean"] for row in scale_rows]
     ax.plot(positions, medians, "o-", color="#176B87", linewidth=1.7, markersize=5, label="Feasible-set p50")
     ax.plot(positions, tails, "s--", color="#B34A36", linewidth=1.7, markersize=5, label="Feasible-set p95")
-    ax.set_xticks(positions, [f"{r['nodes']} nodes" for r in scale_rows])
+    ax.plot(positions, [row["decision_p95_ms_mean"] for row in scale_rows], "^-.", color="#3F7653", label="Decision P95")
+    ax.set_xticks(positions)
+    ax.set_xlabel("Grid size (nodes)")
     ax.set_title("SAF-H on synthetic grids")
     ax.set_yscale("log")
     ax.grid(True, which="both", axis="y", alpha=.25)

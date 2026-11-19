@@ -1,0 +1,33 @@
+\begin{table*}[p]
+\centering
+\color{revisiongreen}\small
+\begin{tabular}{llrrrrrr}
+\toprule
+Topology & Intensity & $\Delta$ (pp) & 95\% CI & $p$ & $r_{rb}$ & $n_{eff}$ & $p_{\mathrm{Holm}}$ \\
+\midrule
+VIETNAM & 0.2 & 0.000 & [0.000, 0.000] & 1 & -- & 0 & 1 \\
+VIETNAM & 0.4 & 0.004 & [0.000, 0.012] & 1 & 1.000 & 1 & 1 \\
+VIETNAM & 0.6 & 0.019 & [0.006, 0.038] & 0.0625 & 1.000 & 5 & 0.562 \\
+VIETNAM & 0.8 & 0.403 & [0.351, 0.454] & 1.91e-06 & 1.000 & 20 & 4.01e-05 \\
+VIETNAM & 1.0 & 1.160 & [1.078, 1.240] & 1.91e-06 & 1.000 & 20 & 4.01e-05 \\
+VIETNAM & 1.2 & 2.577 & [2.483, 2.668] & 1.91e-06 & 1.000 & 20 & 4.01e-05 \\
+VIETNAM & 1.5 & 2.408 & [2.308, 2.512] & 1.91e-06 & 1.000 & 20 & 4.01e-05 \\
+NSFNET & 0.2 & 0.000 & [0.000, 0.000] & 1 & -- & 0 & 1 \\
+NSFNET & 0.4 & 0.000 & [0.000, 0.000] & 1 & -- & 0 & 1 \\
+NSFNET & 0.6 & 0.014 & [0.003, 0.028] & 0.125 & 1.000 & 4 & 1 \\
+NSFNET & 0.8 & 0.249 & [0.197, 0.304] & 1.91e-06 & 1.000 & 20 & 4.01e-05 \\
+NSFNET & 1.0 & 1.127 & [1.067, 1.185] & 1.91e-06 & 1.000 & 20 & 4.01e-05 \\
+NSFNET & 1.2 & 3.158 & [3.000, 3.310] & 1.91e-06 & 1.000 & 20 & 4.01e-05 \\
+NSFNET & 1.5 & 2.757 & [2.665, 2.848] & 1.91e-06 & 1.000 & 20 & 4.01e-05 \\
+GEANT2 & 0.2 & 0.000 & [0.000, 0.000] & 1 & -- & 0 & 1 \\
+GEANT2 & 0.4 & 0.000 & [0.000, 0.000] & 1 & -- & 0 & 1 \\
+GEANT2 & 0.6 & 0.006 & [0.000, 0.014] & 0.5 & 1.000 & 2 & 1 \\
+GEANT2 & 0.8 & 0.120 & [0.089, 0.154] & 3.81e-06 & 1.000 & 19 & 4.01e-05 \\
+GEANT2 & 1.0 & 0.985 & [0.928, 1.040] & 1.91e-06 & 1.000 & 20 & 4.01e-05 \\
+GEANT2 & 1.2 & 3.803 & [3.688, 3.915] & 1.91e-06 & 1.000 & 20 & 4.01e-05 \\
+GEANT2 & 1.5 & 3.312 & [3.208, 3.412] & 1.91e-06 & 1.000 & 20 & 4.01e-05 \\
+\bottomrule
+\end{tabular}
+\caption{Paired HARP--SAF-H safe-acceptance differences in the load sweep. $\Delta$ is the mean over matched seeds; CI is the 20,000-resample paired percentile-bootstrap 95\% interval. $p$ is the exact two-sided Wilcoxon signed-rank p-value with zero differences dropped and tied absolute ranks averaged. All-zero comparisons use $p_H=1$, $n_{eff}=0$, and undefined $r_{rb}$, and remain in the 21-test Holm family.}
+\label{tab:load_sweep_paired_statistics}
+\end{table*}
