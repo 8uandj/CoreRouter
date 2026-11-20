@@ -1,0 +1,118 @@
+[
+  {
+    "all_zero_differences": false,
+    "ci95_high": -0.6216666666666633,
+    "ci95_low": -1.0533333333333321,
+    "comparison": "harp_vs_saf_h_protected",
+    "control": "saf_h_protected",
+    "holm_p": 9.5367431640625e-06,
+    "mean_delta": -0.8416666666666643,
+    "metric": "acceptance_rate",
+    "n": 20,
+    "paired_keys": [
+      [
+        "nsfnet",
+        "chaos",
+        7
+      ],
+      [
+        "nsfnet",
+        "chaos",
+        11
+      ],
+      [
+        "nsfnet",
+        "chaos",
+        17
+      ],
+      [
+        "nsfnet",
+        "chaos",
+        23
+      ],
+      [
+        "nsfnet",
+        "chaos",
+        42
+      ],
+      [
+        "nsfnet",
+        "chaos",
+        47
+      ],
+      [
+        "nsfnet",
+        "chaos",
+        73
+      ],
+      [
+        "nsfnet",
+        "chaos",
+        89
+      ],
+      [
+        "nsfnet",
+        "chaos",
+        100
+      ],
+      [
+        "nsfnet",
+        "chaos",
+        101
+      ],
+      [
+        "nsfnet",
+        "chaos",
+        211
+      ],
+      [
+        "nsfnet",
+        "chaos",
+        314
+      ],
+      [
+        "nsfnet",
+        "chaos",
+        512
+      ],
+      [
+        "nsfnet",
+        "chaos",
+        1024
+      ],
+      [
+        "nsfnet",
+        "chaos",
+        2024
+      ],
+      [
+        "nsfnet",
+        "chaos",
+        2718
+      ],
+      [
+        "nsfnet",
+        "chaos",
+        4096
+      ],
+      [
+        "nsfnet",
+        "chaos",
+        8192
+      ],
+      [
+        "nsfnet",
+        "chaos",
+        8888
+      ],
+      [
+        "nsfnet",
+        "chaos",
+        9999
+      ]
+    ],
+    "paired_rank_biserial": -0.9714285714285714,
+    "treatment": "harp_protected",
+    "wilcoxon_p": 9.5367431640625e-06
+  }
+]

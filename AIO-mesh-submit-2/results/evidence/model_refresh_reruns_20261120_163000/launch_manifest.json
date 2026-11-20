@@ -1,0 +1,257 @@
+{
+  "created_utc": "2026-11-20T09:31:30.474049+00:00",
+  "source_commit": "4f6b36549a14564f3220c57619b5bd2690035fe1",
+  "working_tree_dirty_at_launch": true,
+  "launcher_sha256": "a1abedea19a455cb389fb542d7498e9494698423ef5865248ba774cd67c88c5b",
+  "source_sha256": {
+    "src/analytics/benchmark/benchmark_algorithm/run_load_sweep.py": "a0a229de14df50f67933cec9e54a888c5494b05323e171d07a02a571708f4ad7",
+    "src/analytics/benchmark/benchmark_algorithm/algorithms.py": "3549c20f6e27dee65ba9755437cfb979dae662608c55fba5b421e07ae7a28abd",
+    "src/analytics/benchmark/benchmark_algorithm/config.py": "e683a6f173cc88095928bd53f8950ffbd1b5902de47c8417135cb1f1270864fd",
+    "scripts/rev1/run_nonhil_studies.py": "97806498703a4136b41b7982b1024e9209bb78309b10b4309f8b00570210eed1",
+    "src/orchestration/jo_vdpr/env.py": "bc06f22067c22b6a80e8985e0cbc3b5490ac309e0b07bc7573e8393e607b4d48",
+    "src/orchestration/jo_vdpr/topology.py": "2b91b72673be8dfb66dc929edc58d80e5f44148ff495a4d0c576077d17ca19f7"
+  },
+  "dataset_path": "data/real_telecom_combined.csv",
+  "dataset_sha256": "5370da1bb55cd679422150c5c4073175109cc7b831eff9c74491b30a17dcdd2a",
+  "models": {
+    "vietnam": {
+      "model_path": "results/models/retrain_v11_20261119_corrected/vietnam/dgrl_v11_final_vietnam.zip",
+      "model_sha256": "ea215985d1ad5d8ccc8e900da82d3e50e5ff51417c05bb96930dfc10ab9e86da",
+      "normalizer_path": "results/models/retrain_v11_20261119_corrected/vietnam/vec_normalize_v11_vietnam.pkl",
+      "normalizer_sha256": "87385923e8099d3b56096eeaa9a43f75a4e0a670c972a77e667d7e160229d646"
+    },
+    "nsfnet": {
+      "model_path": "results/models/retrain_v11_20261119_corrected/nsfnet/dgrl_v11_final_nsfnet.zip",
+      "model_sha256": "84422beca614c96b110aee4d6ea44eda04e66c41e4a29af912b8b4d8d569c52c",
+      "normalizer_path": "results/models/retrain_v11_20261119_corrected/nsfnet/vec_normalize_v11_nsfnet.pkl",
+      "normalizer_sha256": "6bf4eccb4578f29201217ff7be59b73d79815adb63c67e6ebb12a8ccb5413596"
+    },
+    "geant2": {
+      "model_path": "results/models/retrain_v11_20261119_corrected/geant2/dgrl_v11_final_geant2.zip",
+      "model_sha256": "ae5a9eb304d4c393327a825b7e467088dcc08227d7bb6be2c5059c78d56d3748",
+      "normalizer_path": "results/models/retrain_v11_20261119_corrected/geant2/vec_normalize_v11_geant2.pkl",
+      "normalizer_sha256": "f86466cb046f0f629a3b7822aa6990d105f10141ac7b99f7887c4be200806571"
+    }
+  },
+  "load_chain_protocol": {
+    "steps_per_seed": 3000,
+    "seeds": [
+      42,
+      100,
+      2024,
+      8888,
+      9999,
+      7,
+      17,
+      73,
+      314,
+      2718,
+      11,
+      23,
+      47,
+      89,
+      101,
+      211,
+      512,
+      1024,
+      4096,
+      8192
+    ],
+    "loads": [
+      0.2,
+      0.4,
+      0.6,
+      0.8,
+      1.0,
+      1.2,
+      1.5
+    ],
+    "initial_active_chains": [
+      0,
+      25,
+      50,
+      100
+    ],
+    "scenario": "bursty",
+    "policies": [
+      "harp_protected",
+      "saf_h_protected",
+      "cspf_protected",
+      "traditional_greedy_protected",
+      "decoupled_ai_protected",
+      "harp_unprotected",
+      "saf_h_unprotected",
+      "cspf_unprotected",
+      "traditional_greedy_unprotected",
+      "decoupled_ai_unprotected"
+    ],
+    "chain_profile": {
+      "cpu": 2,
+      "ram": 2,
+      "msd": 1,
+      "bandwidth": 20,
+      "placement": "round-robin"
+    }
+  },
+  "oracle_protocol": {
+    "steps_per_seed": 3000,
+    "seeds": [
+      42,
+      100,
+      2024,
+      8888,
+      9999,
+      7,
+      17,
+      73,
+      314,
+      2718
+    ],
+    "stride": 25,
+    "policies": [
+      "harp",
+      "saf_h"
+    ],
+    "scenario": "bursty",
+    "load": 1.0
+  },
+  "tmux_socket": "harp_model_refresh_20261120_163000",
+  "sessions": [
+    {
+      "name": "load_vietnam_chains_0",
+      "command_file": "results/evidence/model_refresh_reruns_20261120_163000/commands/load_vietnam_chains_0.sh",
+      "command_sha256": "6c13cd253055fa88e4276dbe699058cb5d88f8e4af431c3defb4b691155ab21a",
+      "log_file": "results/evidence/model_refresh_reruns_20261120_163000/logs/load_vietnam_chains_0.log",
+      "output_dir": "results/evidence/model_refresh_reruns_20261120_163000/load_chain/vietnam/chains_0",
+      "status": "launched",
+      "launched_utc": "2026-11-20T09:31:30.520519+00:00"
+    },
+    {
+      "name": "load_vietnam_chains_25",
+      "command_file": "results/evidence/model_refresh_reruns_20261120_163000/commands/load_vietnam_chains_25.sh",
+      "command_sha256": "18cfbc420e4d66da3bdb1a70916b3734944bba8e913d693ac4b32f449a2a9710",
+      "log_file": "results/evidence/model_refresh_reruns_20261120_163000/logs/load_vietnam_chains_25.log",
+      "output_dir": "results/evidence/model_refresh_reruns_20261120_163000/load_chain/vietnam/chains_25",
+      "status": "launched",
+      "launched_utc": "2026-11-20T09:31:30.527787+00:00"
+    },
+    {
+      "name": "load_vietnam_chains_50",
+      "command_file": "results/evidence/model_refresh_reruns_20261120_163000/commands/load_vietnam_chains_50.sh",
+      "command_sha256": "bc5c01e0a142b5923d7ec2f5fccb16aef8e0eda8bfc0c03991f4fe3cf589423e",
+      "log_file": "results/evidence/model_refresh_reruns_20261120_163000/logs/load_vietnam_chains_50.log",
+      "output_dir": "results/evidence/model_refresh_reruns_20261120_163000/load_chain/vietnam/chains_50",
+      "status": "launched",
+      "launched_utc": "2026-11-20T09:31:30.533452+00:00"
+    },
+    {
+      "name": "load_vietnam_chains_100",
+      "command_file": "results/evidence/model_refresh_reruns_20261120_163000/commands/load_vietnam_chains_100.sh",
+      "command_sha256": "8e8fe5b9db0a1d12aaa9e7f33cca97cdfb6caad76a9eff0d04d5e472e6faeb75",
+      "log_file": "results/evidence/model_refresh_reruns_20261120_163000/logs/load_vietnam_chains_100.log",
+      "output_dir": "results/evidence/model_refresh_reruns_20261120_163000/load_chain/vietnam/chains_100",
+      "status": "launched",
+      "launched_utc": "2026-11-20T09:31:30.539918+00:00"
+    },
+    {
+      "name": "load_nsfnet_chains_0",
+      "command_file": "results/evidence/model_refresh_reruns_20261120_163000/commands/load_nsfnet_chains_0.sh",
+      "command_sha256": "29e97a2076bea600ce15c15034daf1a53ef2780f13e5c2c54b1c30769dacbb81",
+      "log_file": "results/evidence/model_refresh_reruns_20261120_163000/logs/load_nsfnet_chains_0.log",
+      "output_dir": "results/evidence/model_refresh_reruns_20261120_163000/load_chain/nsfnet/chains_0",
+      "status": "launched",
+      "launched_utc": "2026-11-20T09:31:30.546100+00:00"
+    },
+    {
+      "name": "load_nsfnet_chains_25",
+      "command_file": "results/evidence/model_refresh_reruns_20261120_163000/commands/load_nsfnet_chains_25.sh",
+      "command_sha256": "02edf3a2a2b336ab99b99a55443976de4b27b68556c0f707041a45f2326b89cb",
+      "log_file": "results/evidence/model_refresh_reruns_20261120_163000/logs/load_nsfnet_chains_25.log",
+      "output_dir": "results/evidence/model_refresh_reruns_20261120_163000/load_chain/nsfnet/chains_25",
+      "status": "launched",
+      "launched_utc": "2026-11-20T09:31:30.552222+00:00"
+    },
+    {
+      "name": "load_nsfnet_chains_50",
+      "command_file": "results/evidence/model_refresh_reruns_20261120_163000/commands/load_nsfnet_chains_50.sh",
+      "command_sha256": "bef97769ae27154cb22cd972e5c7dbc3bd6865d5bc389aea3ad56f6635ea5fb6",
+      "log_file": "results/evidence/model_refresh_reruns_20261120_163000/logs/load_nsfnet_chains_50.log",
+      "output_dir": "results/evidence/model_refresh_reruns_20261120_163000/load_chain/nsfnet/chains_50",
+      "status": "launched",
+      "launched_utc": "2026-11-20T09:31:30.558736+00:00"
+    },
+    {
+      "name": "load_nsfnet_chains_100",
+      "command_file": "results/evidence/model_refresh_reruns_20261120_163000/commands/load_nsfnet_chains_100.sh",
+      "command_sha256": "4b9d07b24d695bf809b93fc8010f23263066eed8245d36da1b5e636ff3899344",
+      "log_file": "results/evidence/model_refresh_reruns_20261120_163000/logs/load_nsfnet_chains_100.log",
+      "output_dir": "results/evidence/model_refresh_reruns_20261120_163000/load_chain/nsfnet/chains_100",
+      "status": "launched",
+      "launched_utc": "2026-11-20T09:31:30.565166+00:00"
+    },
+    {
+      "name": "load_geant2_chains_0",
+      "command_file": "results/evidence/model_refresh_reruns_20261120_163000/commands/load_geant2_chains_0.sh",
+      "command_sha256": "e6ee3bc803dd1de2cac5c0e36f021f56d41cb145c5856e50b1fc4ba460876f46",
+      "log_file": "results/evidence/model_refresh_reruns_20261120_163000/logs/load_geant2_chains_0.log",
+      "output_dir": "results/evidence/model_refresh_reruns_20261120_163000/load_chain/geant2/chains_0",
+      "status": "launched",
+      "launched_utc": "2026-11-20T09:31:30.571717+00:00"
+    },
+    {
+      "name": "load_geant2_chains_25",
+      "command_file": "results/evidence/model_refresh_reruns_20261120_163000/commands/load_geant2_chains_25.sh",
+      "command_sha256": "8526c3e312b950f87f4d487b3b7658bcd19fccea15b760de3cb8013adc3d3600",
+      "log_file": "results/evidence/model_refresh_reruns_20261120_163000/logs/load_geant2_chains_25.log",
+      "output_dir": "results/evidence/model_refresh_reruns_20261120_163000/load_chain/geant2/chains_25",
+      "status": "launched",
+      "launched_utc": "2026-11-20T09:31:30.578584+00:00"
+    },
+    {
+      "name": "load_geant2_chains_50",
+      "command_file": "results/evidence/model_refresh_reruns_20261120_163000/commands/load_geant2_chains_50.sh",
+      "command_sha256": "6551d3bcf73fb2c1bcb6d4aa46caa78391a270ea55f56fed81b1a0a146172925",
+      "log_file": "results/evidence/model_refresh_reruns_20261120_163000/logs/load_geant2_chains_50.log",
+      "output_dir": "results/evidence/model_refresh_reruns_20261120_163000/load_chain/geant2/chains_50",
+      "status": "launched",
+      "launched_utc": "2026-11-20T09:31:30.585592+00:00"
+    },
+    {
+      "name": "load_geant2_chains_100",
+      "command_file": "results/evidence/model_refresh_reruns_20261120_163000/commands/load_geant2_chains_100.sh",
+      "command_sha256": "dd67b99f7f141f5407ac30fae938c9acf052867ebfbc23c614453cd511c67ae7",
+      "log_file": "results/evidence/model_refresh_reruns_20261120_163000/logs/load_geant2_chains_100.log",
+      "output_dir": "results/evidence/model_refresh_reruns_20261120_163000/load_chain/geant2/chains_100",
+      "status": "launched",
+      "launched_utc": "2026-11-20T09:31:30.592588+00:00"
+    },
+    {
+      "name": "oracle_vietnam",
+      "command_file": "results/evidence/model_refresh_reruns_20261120_163000/commands/oracle_vietnam.sh",
+      "command_sha256": "9ef40ae94ab55e3382e709ca96e68ed105ae354ba3f455c7e225bb209d63e679",
+      "log_file": "results/evidence/model_refresh_reruns_20261120_163000/logs/oracle_vietnam.log",
+      "output_dir": "results/evidence/model_refresh_reruns_20261120_163000/oracle/vietnam",
+      "status": "launched",
+      "launched_utc": "2026-11-20T09:31:30.599340+00:00"
+    },
+    {
+      "name": "oracle_nsfnet",
+      "command_file": "results/evidence/model_refresh_reruns_20261120_163000/commands/oracle_nsfnet.sh",
+      "command_sha256": "6dc26a9b50007da0f52690474c13f1e71e47dcc549ac2a660a9b63c0d033d933",
+      "log_file": "results/evidence/model_refresh_reruns_20261120_163000/logs/oracle_nsfnet.log",
+      "output_dir": "results/evidence/model_refresh_reruns_20261120_163000/oracle/nsfnet",
+      "status": "launched",
+      "launched_utc": "2026-11-20T09:31:30.608687+00:00"
+    },
+    {
+      "name": "oracle_geant2",
+      "command_file": "results/evidence/model_refresh_reruns_20261120_163000/commands/oracle_geant2.sh",
+      "command_sha256": "6f1a20610dd700f6c23f15c166b56dff041b9016d17e890ce4569509c111b618",
+      "log_file": "results/evidence/model_refresh_reruns_20261120_163000/logs/oracle_geant2.log",
+      "output_dir": "results/evidence/model_refresh_reruns_20261120_163000/oracle/geant2",
+      "status": "launched",
+      "launched_utc": "2026-11-20T09:31:30.616838+00:00"
+    }
+  ],
+  "resource_note": "GPU driver was unavailable at launch preflight; these evaluation runners use CPU."
+}

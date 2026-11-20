@@ -1,0 +1,38 @@
+{
+  "bundle": "AIO-mesh-submit-2",
+  "created_utc": "2026-11-20T10:39:18.801526+00:00",
+  "source_commit": "4f6b36549a14564f3220c57619b5bd2690035fe1",
+  "source_branch": "HARP-server",
+  "source_worktree_dirty": true,
+  "live_evidence_canonical_path": "results/evidence",
+  "workspace_evidence_compatibility_symlink": "../AIO-mesh-submit-2/results/evidence",
+  "mutable_paths_until_jobs_finish": [
+    "results/evidence/multinode_benchmark_20261120_084017",
+    "results/evidence/model_refresh_reruns_20261120_163000"
+  ],
+  "excluded": [
+    "legacy pre-correction main model checkpoints/training logs",
+    "HIL/testbed artifacts, which are on a separate server",
+    "venv and machine-specific caches",
+    "unrelated root utilities and historical document snapshots",
+    "generated node_modules/virtualenvs/caches",
+    "local Kaggle configuration file"
+  ],
+  "hash_inventory_status": "point-in-time; refresh again if live processes were still writing",
+  "hash_inventory_generated_utc": "2026-11-20T10:53:29.679216+00:00",
+  "hash_inventory_file": "FILE_SHA256SUMS",
+  "hash_inventory_entries": 980,
+  "source_snapshot_file_count": 293,
+  "included_source_paths": [
+    "src/",
+    "configs/rev1/",
+    "scripts/rev1/",
+    "scripts/paper/",
+    "notebook/",
+    "data/",
+    "docs/AIO-mesh-rev1/",
+    "docs/response_rev1.tex",
+    "REPRODUCE.md",
+    "requirements*.txt"
+  ]
+}

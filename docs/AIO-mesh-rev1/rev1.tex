@@ -438,11 +438,11 @@ The abstract orchestration action in Section~\ref{sec:system_model} couples plac
 \rev{\hat a_t=v_t^{place}N+v_t^{route},\quad \hat a_t\in\{0,\ldots,N^2-1\}.}
 \label{eq:harp_action_encoding}
 \end{equation}
-\rev{The pair is decoded as \(v_t^{place}=\lfloor\hat a_t/N\rfloor\) and \(v_t^{route}=\hat a_t\bmod N\), giving \(|\mathcal A|=N^2\). It does not enumerate every function placement or encode a migration mode. The runtime realizes the pair using the request and deployment context. The main policy checkpoints were trained with a factorized \(\mathrm{MultiDiscrete}([N,N])\) head, not a flat \(N^2\)-logit head. At inference, the adapter forms pair logits \(z_{p,r}=z^{place}_{p}+z^{route}_{r}\), then applies the flat pair mask. This conversion preserves the unmasked factorized action distribution; it does not imply that the original training used pair-level masking.}
+\rev{The pair is decoded as \(v_t^{place}=\lfloor\hat a_t/N\rfloor\) and \(v_t^{route}=\hat a_t\bmod N\), giving \(|\mathcal A|=N^2\). It does not enumerate every function placement or encode a migration mode. The runtime realizes the pair using the request and deployment context. The current main retrains and ablation variants use a flat \(\mathrm{Discrete}(N^2)\) action head, with one logit per placement--routing pair. The same pair-level action mask is used during masked PPO training and evaluation. Earlier archived main checkpoints used factorized \(\mathrm{MultiDiscrete}([N,N])\) heads with \(2N\) logits; those legacy checkpoints are excluded from the current primary benchmark series.}
 
 HARP does not enumerate packet-level forwarding rules. Instead, \rev{the policy evaluates local placement--routing feasibility and passes its proposal to the runtime for admission. The complete realized path and SID-list feasibility are not certified by the pair-level policy alone.}
 
-\newrev{The main checkpoint archives record the same training seed (42), 10 environments, 512 steps per rollout per environment, a minibatch of 256, and 10 optimization epochs. They record a discount of 0.99 and a generalized advantage estimation coefficient of 0.95. Vietnam records 2,001,920 training steps, while NSFNET and GEANT2 each record 3,000,320. The archives identify Stable-Baselines3 versions 2.8.0 and 2.3.2, respectively. The available metadata does not identify the full training procedure for the ablation checkpoints.}
+\newrev{The current main policy uses flat N²-action MaskablePPO training. The corrected Vietnam, NSFNET, and GEANT2 checkpoints and matching normalizers are pinned in the retraining run records; the synthetic 25-, 50-, and 100-node models are pinned in the new benchmark launch manifest. Earlier factorized 2N checkpoints and their training logs are retained as legacy provenance, not used as the current primary model set. The ablation checkpoints already use flat N² actions and are evaluated under their existing matched-trace manifests.}
 
 \subsection{Graph-Attention State Encoder}
 \label{subsec:harp_gat}
@@ -504,7 +504,7 @@ The central \rev{policy-side feasibility mechanism} in HARP is the hard-feasibil
 \end{aligned}}
 \label{eq:feasible_set}
 \end{equation}
-Here \(C_{cpu}^{loc}\), \(C_{mem}^{loc}\), and \(C_{msd}^{loc}\) denote implementation-level checks, rather than a proof of the full-chain constraints. The current simulator and runtime use a flat \(N^2\) pair mask. Main checkpoints have a factorized \(2N\)-logit output head, which is converted to pair logits before runtime masking. \newrev{The benchmark uses factorized-head HARP through this adapter in Stable-Baselines3~\cite{raffin2021sb3}. The ablation uses separately trained flat-action policies.}
+Here \(C_{cpu}^{loc}\), \(C_{mem}^{loc}\), and \(C_{msd}^{loc}\) denote implementation-level checks, rather than a proof of the full-chain constraints. The current simulator and runtime use a flat \(N^2\) pair mask. Main retrain and ablation checkpoints have a flat \(N^2\)-logit output head. \newrev{The current benchmark evaluates the corrected flat-action main checkpoints in Stable-Baselines3~\cite{raffin2021sb3}; the archived pre-retrain benchmark used factorized-head checkpoints and is not the primary evidence series.}
 
 \newrev{For placement node \(p\), routing-profile node \(r\), and proposed SID-list depth \(d_q^{msd}\), runtime reservation checks the allocated CPU \(b^{cpu}_{p,t}\) and memory \(b^{mem}_{p,t}\) plus the corresponding request demand:}
 \begin{equation}
@@ -542,7 +542,7 @@ The masked policy is then
 \end{equation}
 
 \sloppy
-\newrev{The flat-action masked training variants optimize this policy using proximal policy optimization (PPO)~\cite{schulman2017proximal}. At evaluation, factorized-head HARP selects the highest-scoring allowed pair. The original training records do not establish whether pair masking was used for its checkpoints.} With
+\newrev{The current flat-action main and ablation policies optimize this policy using proximal policy optimization (PPO)~\cite{schulman2017proximal}. At evaluation, HARP selects the highest-scoring allowed pair from the same flat N² action distribution. The archived factorized-head checkpoints belong to the superseded benchmark lineage.} With
 \begin{equation}
     \rho_t(\theta)=
     \frac{\pi_\theta^{M}(a_t\mid s_t)}
@@ -585,13 +585,13 @@ Migration is orchestrated by the lifecycle layer rather than emitted as a separa
 \subsection{Decision Procedure}
 \label{subsec:harp_decision_procedure}
 \begin{algorithm}[t]
-\caption{Runtime inference path for a factorized policy checkpoint}
+\caption{Runtime inference path for a flat N²-action policy checkpoint}
 \label{alg:harp_decision}
 \small
 \begin{algorithmic}[1]
 \Require Request, local state, model configuration and saved normalizer
 \Ensure Proposal with inference/fallback status; not a deployment outcome
-\State \newrev{Load the checkpoint and normalizer and map the factorized scores to pair scores}
+\State \newrev{Load the checkpoint and normalizer with one score for each placement--routing pair}
 \If{model unavailable}
     \State Return safe-search fallback or propagate hard-constraint failure
 \EndIf
@@ -604,7 +604,7 @@ Migration is orchestrated by the lifecycle layer rather than emitted as a separa
 \end{algorithm}
 
 \paragraph{Computational complexity}\label{subsec:harp_complexity}
-\newrev{The main actor produces \(2N\) logits; its runtime adapter expands them into \(N^2\) additive pair scores, and the pair mask requires \(\Theta(N^2)\) storage and score construction. The current flat simulator actor produces \(N^2\) logits directly. The graph-encoding term depends on the actual encoder, adjacency representation and attention implementation. The timing experiments in Section~\ref{subsec:decision_cost} report simulator decision costs and SAF-H scaling on synthetic grids.}
+\newrev{The current main and ablation actors produce \(N^2\) logits directly, and the pair mask requires \(\Theta(N^2)\) storage and processing. Archived legacy checkpoints with \(2N\) factorized outputs require an adapter and are excluded from the current primary benchmark. The graph-encoding term depends on the actual encoder, adjacency representation and attention implementation. The timing experiments in Section~\ref{subsec:decision_cost} report simulator decision costs and SAF-H scaling on synthetic grids.}
 
 \section{Experiments and Evaluation}
 \label{sec:evaluation}
@@ -613,6 +613,8 @@ Migration is orchestrated by the lifecycle layer rather than emitted as a separa
 \subsection{\newrev{Experimental Setup}}
 \label{subsec:experimental_setup}
 \newrev{The algorithm benchmark evaluates fixed, topology-specific main-policy checkpoints and their observation normalizers; no model is retrained during evaluation. It covers the 10-node Vietnam, 14-node NSFNET, and 23-node GEANT2 topologies under the stress load (arrival rate 1.0; request time-to-live (TTL) 100--500). The three tested workloads are Elephant stress (mapped to Heavy-tail), Burst surge (mapped to Bursty), and a separately configured Chaos workload. Each algorithm--topology--workload condition uses 20 evaluation seeds, \{42, 100, 2024, 8888, 9999, 7, 17, 73, 314, 2718, 11, 23, 47, 89, 101, 211, 512, 1024, 4096, 8192\}, and 3,000 simulator steps per seed. Algorithms share the offered-request trace within each seed; for the Bursty workload, the generator repeats the same trace across seeds.}
+
+\newrev{The current primary six-topology benchmark is being run with the corrected flat N² main checkpoints. The benchmark rows retained elsewhere in this draft predate that run and remain archived historical measurements; they are not treated as results from the corrected checkpoints and must be regenerated from the new seed-level outputs before final numerical claims are accepted.}
 
 \newrev{The simulator reads CPU demand, memory demand, service class, and requested SID depth from the telecom trace. Uniform uses the base demands. Bursty applies deterministic peak and off-peak CPU multipliers. Heavy-tail applies a seeded CPU and SID-depth shock. Chaos uses seeded transitions between calm and stressed states, and stress changes CPU, RAM, requested depth, and service class. Request lifetime is measured in simulator steps. For the offered-intensity study, arrival probability increases to one, after which the workload scales CPU and RAM demand, requested depth, and request lifetime.}
 
@@ -630,11 +632,11 @@ Migration is orchestrated by the lifecycle layer rather than emitted as a separa
 \toprule
 Experiment & Checkpoint/interface & Offered traffic and occupancy & Interpretation \\
 \midrule
-Algorithm benchmark & Main, factorized head with pair adapter & Three stress workloads; arrival 1.0; TTL 100--500 & Protected policy comparison; both admission modes recorded \\
+Algorithm benchmark & Corrected main retrain, flat N² head & Three stress workloads; arrival 1.0; TTL 100--500 & New six-topology benchmark; seed-level outputs pending completion \\
 Matched-trace ablation & Variant-specific flat-action policies & Four workloads; arrival 1.0; TTL 100--500 & Candidate quality, pruning, and modeled admission; distinct trained variants \\
 Timed ablation & Variant-specific flat-action policies & Ten topology--workload conditions; arrival 1.0; TTL 100--500 & Simulator normalization, inference, and stepping; external actuation excluded \\
-Background chains & Main with pair adapter & Bursty; arrival 1.0; 0/25/50/100 persistent chains; topology-scaled TTL & Occupancy sensitivity under a separate resource-pressure protocol \\
-Load-sweep protocol & Main with pair adapter & Bursty at seven multipliers from 0.2 to 1.5; above 1.0, scale demand, requested SID depth, and TTL & Combined offered-intensity stress across three substrates \\
+Background chains & Main policy, historical checkpoint lineage & Bursty; arrival 1.0; 0/25/50/100 persistent chains; topology-scaled TTL & Historical occupancy evidence; rerun with corrected retrains before treating as primary \\
+Load-sweep protocol & Main policy, historical checkpoint lineage & Bursty at seven multipliers from 0.2 to 1.5; above 1.0, scale demand, requested SID depth, and TTL & Historical intensity evidence; rerun with corrected retrains before treating as primary \\
 \bottomrule
 \end{tabular}
 \end{table*}
@@ -643,7 +645,7 @@ Load-sweep protocol & Main with pair adapter & Bursty at seven multipliers from 
 
 \subsection{\newrev{Baselines, Ablation Variants, and Metrics}}
 \label{subsec:baselines_metrics}
-\newrev{Decoupled AI is the benchmark name for a sequential CPU/RAM heuristic. SAF-H searches feasible placement--routing pairs using the cost defined above. The main benchmark evaluates factorized-action HARP checkpoints through the pair adapter, while ablation evaluates separately trained flat-action variants. Comparisons are therefore made within each experiment, with checkpoint and action interface held to the corresponding protocol.}
+\newrev{Decoupled AI is the benchmark name for a sequential CPU/RAM heuristic. SAF-H searches feasible placement--routing pairs using the cost defined above. The current benchmark evaluates the corrected flat N²-action HARP retrains, while ablation evaluates its existing separately trained flat-action variants. Archived factorized-head benchmark outputs are historical and are not pooled with the new N² runs.}
 
 \newrev{The flat-action ablation defines Full with a graph encoder, action mask, and adaptive SLA penalty. MLP changes the encoder, NoMask removes policy masking, and NoAdapt fixes the SLA coefficient. SoftMSD uses an MSD reward penalty without a policy mask. NoMask and SoftMSD each have an evaluation mode with the MSD admission check disabled, while other resource checks stay active. Each bypass uses its corresponding checkpoint.}
 

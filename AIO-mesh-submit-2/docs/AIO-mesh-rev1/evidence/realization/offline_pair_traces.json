@@ -1,0 +1,64 @@
+{
+  "commit": "dd5ff67b1d98df1489e035f7cb1db2704e4a1025",
+  "kind": "offline deterministic path compilation; no network/controller/packet execution",
+  "source_sha256": {
+    "src/portal/backend/app/services/p4_pair_realization.py": "e1739fc19f4c2f7f1a9002dd044ae747170f7f86ce46e5d02e99b1209d9663e2",
+    "src/portal/backend/app/services/hybrid_decision.py": "5c2523d070864074b1c8e0fe83712090f0c796436997b277d2f8669733bfe576",
+    "src/portal/backend/app/services/realization.py": "13d9daad5cf63594a317e5e132514250e9ef7777c0dc805252a723bd98cf892f",
+    "src/core/state_manager.py": "1214cc4c1d63350c413b6bf237263781c4aa49aebb97ee250bb880588691da4f",
+    "src/portal/backend/app/routers/orchestration_router.py": "313eb7f884940fd185b767d6126c9a0663f72fb9871ed356cf09630b0637db7b",
+    "infrastructure/sdn/p4_topology.py": "a61224d2fb7e9dd158cab9268b630d1cb3d5d7ba34f7bd1ebbb9cca8fba0916f"
+  },
+  "cases": [
+    {
+      "source": 0,
+      "placement": 3,
+      "route_profile": 8,
+      "requested_depth": 3,
+      "status": "compiled",
+      "node_path": [
+        0,
+        2,
+        3
+      ],
+      "sid_stack": [
+        "fc00:4::1",
+        "fc00:3::1",
+        "fc00:1::1"
+      ],
+      "depth": 3
+    },
+    {
+      "source": 0,
+      "placement": 5,
+      "route_profile": 8,
+      "requested_depth": 2,
+      "status": "compiled",
+      "node_path": [
+        0,
+        5
+      ],
+      "sid_stack": [
+        "fc00:6::1",
+        "fc00:1::1"
+      ],
+      "depth": 2
+    },
+    {
+      "source": 0,
+      "placement": 5,
+      "route_profile": 8,
+      "requested_depth": 1,
+      "status": "rejected",
+      "reason": "requested MSD depth does not match materialized P4 path depth"
+    },
+    {
+      "source": 8,
+      "placement": 8,
+      "route_profile": 8,
+      "requested_depth": 1,
+      "status": "rejected",
+      "reason": "forwarding requires distinct ingress and placement nodes"
+    }
+  ]
+}

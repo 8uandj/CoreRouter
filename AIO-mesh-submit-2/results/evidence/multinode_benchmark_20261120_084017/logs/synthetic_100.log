@@ -1,0 +1,39 @@
+/dis/users/dcs/CoreRouter/venv/lib64/python3.9/site-packages/networkx/utils/backends.py:135: RuntimeWarning: networkx backend defined more than once: nx-loopback
+  backends.update(_get_backends("networkx.backends"))
+Running topology=synthetic_100 scenario=elephant_stress env=heavy_tail load=stress
+Traceback (most recent call last):
+  File "/usr/lib64/python3.9/runpy.py", line 197, in _run_module_as_main
+    return _run_code(code, main_globals, None,
+  File "/usr/lib64/python3.9/runpy.py", line 87, in _run_code
+    exec(code, run_globals)
+  File "/dis/users/dcs/CoreRouter/src/analytics/benchmark/benchmark_algorithm/run_all.py", line 392, in <module>
+    main()
+  File "/dis/users/dcs/CoreRouter/src/analytics/benchmark/benchmark_algorithm/run_all.py", line 121, in main
+    seed_results_list = run_seed_jobs(
+  File "/dis/users/dcs/CoreRouter/src/analytics/benchmark/benchmark_algorithm/run_all.py", line 289, in run_seed_jobs
+    seed_results = run_one_seed(
+  File "/dis/users/dcs/CoreRouter/src/analytics/benchmark/benchmark_algorithm/run_all.py", line 373, in run_one_seed
+    return run_all_algorithms(
+  File "/dis/users/dcs/CoreRouter/src/analytics/benchmark/benchmark_algorithm/algorithms.py", line 370, in run_all_algorithms
+    results[f"harp_{suffix}"] = run_jo_vppm(make_env_fn, model_path, norm_path, scenario, steps, seed, protected)
+  File "/dis/users/dcs/CoreRouter/src/analytics/benchmark/benchmark_algorithm/algorithms.py", line 287, in run_jo_vppm
+    action, _ = model.predict(obs_norm, action_masks=masks, deterministic=True)
+  File "/dis/users/dcs/CoreRouter/venv/lib64/python3.9/site-packages/sb3_contrib/ppo_mask/ppo_mask.py", line 307, in predict
+    return self.policy.predict(observation, state, episode_start, deterministic, action_masks=action_masks)
+  File "/dis/users/dcs/CoreRouter/venv/lib64/python3.9/site-packages/sb3_contrib/common/maskable/policies.py", line 305, in predict
+    actions = self._predict(obs_tensor, deterministic=deterministic, action_masks=action_masks)
+  File "/dis/users/dcs/CoreRouter/venv/lib64/python3.9/site-packages/sb3_contrib/common/maskable/policies.py", line 266, in _predict
+    return self.get_distribution(observation, action_masks).get_actions(deterministic=deterministic)
+  File "/dis/users/dcs/CoreRouter/venv/lib64/python3.9/site-packages/sb3_contrib/common/maskable/policies.py", line 366, in get_distribution
+    distribution.apply_masking(action_masks)
+  File "/dis/users/dcs/CoreRouter/venv/lib64/python3.9/site-packages/sb3_contrib/common/maskable/distributions.py", line 167, in apply_masking
+    self.distribution.apply_masking(masks)
+  File "/dis/users/dcs/CoreRouter/venv/lib64/python3.9/site-packages/sb3_contrib/common/maskable/distributions.py", line 68, in apply_masking
+    super().__init__(logits=logits)
+  File "/dis/users/dcs/CoreRouter/venv/lib64/python3.9/site-packages/torch/distributions/categorical.py", line 73, in __init__
+    super().__init__(batch_shape, validate_args=validate_args)
+  File "/dis/users/dcs/CoreRouter/venv/lib64/python3.9/site-packages/torch/distributions/distribution.py", line 72, in __init__
+    raise ValueError(
+ValueError: Expected parameter probs (Tensor of shape (1, 10000)) of distribution MaskableCategorical(probs: torch.Size([1, 10000]), logits: torch.Size([1, 10000])) to satisfy the constraint Simplex(), but found invalid values:
+tensor([[2.6560e-08, 9.1390e-09, 8.7597e-09,  ..., 2.5657e-08, 1.0118e-07,
+         1.6077e-08]])

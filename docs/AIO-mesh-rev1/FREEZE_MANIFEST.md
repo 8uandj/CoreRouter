@@ -44,14 +44,17 @@ The first 10 preserve the prior revision proposal; the added 10 are fixed in
 `configs/rev1/protocol.json`. Do not alter this list after result collection
 starts. Plan each topology separately (default is plan-only):
 
-The workspace contains the full v11 checkpoint and all five final ablation
-checkpoints, each with a matching normalizer, for Vietnam, NSFNET, and GEANT2.
-The main v11 checkpoints use a legacy factorized `MultiDiscrete([N,N])` action
-head; the evaluator converts its two N-logit heads to additive N² pair logits
-before applying the pair mask. Ablation checkpoints use flat `Discrete(N²)`.
-Preflight checks this distinction explicitly and rejects any other action-head
-shape. Evaluation artifacts still need to be packaged and pinned against the
-final reviewed source tree before an evaluation phase can start.
+The current primary main checkpoints are the corrected retrains under
+`results/models/retrain_v11_20261119_corrected/`. They use flat
+`Discrete(N²)` action heads: Vietnam N=10, NSFNET N=14, GEANT2 N=23. The
+synthetic 25/50/100-node checkpoints used by the new benchmark also use
+`Discrete(N²)`. Existing ablation variants use the same flat action interface
+and remain valid without retraining for action-space compatibility. Archived
+pre-retrain main v10/v11 checkpoints retain their historical factorized
+`MultiDiscrete([N,N])` / `2N` heads; the legacy loader still supports them, but
+they are not the current primary model inputs. The benchmark launch manifest
+pins all six current model and normalizer hashes. The new benchmark is still
+running, so its numerical outputs are not yet complete.
 
 ```sh
 python scripts/rev1/phase_driver.py --stage evaluate --topology vietnam \

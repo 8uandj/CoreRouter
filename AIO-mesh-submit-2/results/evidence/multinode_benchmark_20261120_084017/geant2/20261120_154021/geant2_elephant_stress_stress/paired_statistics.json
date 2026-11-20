@@ -1,0 +1,118 @@
+[
+  {
+    "all_zero_differences": false,
+    "ci95_high": 0.2866666666666603,
+    "ci95_low": -0.10004166666667288,
+    "comparison": "harp_vs_saf_h_protected",
+    "control": "saf_h_protected",
+    "holm_p": 0.17119544866849434,
+    "mean_delta": 0.10333333333332817,
+    "metric": "acceptance_rate",
+    "n": 20,
+    "paired_keys": [
+      [
+        "geant2",
+        "elephant_stress",
+        7
+      ],
+      [
+        "geant2",
+        "elephant_stress",
+        11
+      ],
+      [
+        "geant2",
+        "elephant_stress",
+        17
+      ],
+      [
+        "geant2",
+        "elephant_stress",
+        23
+      ],
+      [
+        "geant2",
+        "elephant_stress",
+        42
+      ],
+      [
+        "geant2",
+        "elephant_stress",
+        47
+      ],
+      [
+        "geant2",
+        "elephant_stress",
+        73
+      ],
+      [
+        "geant2",
+        "elephant_stress",
+        89
+      ],
+      [
+        "geant2",
+        "elephant_stress",
+        100
+      ],
+      [
+        "geant2",
+        "elephant_stress",
+        101
+      ],
+      [
+        "geant2",
+        "elephant_stress",
+        211
+      ],
+      [
+        "geant2",
+        "elephant_stress",
+        314
+      ],
+      [
+        "geant2",
+        "elephant_stress",
+        512
+      ],
+      [
+        "geant2",
+        "elephant_stress",
+        1024
+      ],
+      [
+        "geant2",
+        "elephant_stress",
+        2024
+      ],
+      [
+        "geant2",
+        "elephant_stress",
+        2718
+      ],
+      [
+        "geant2",
+        "elephant_stress",
+        4096
+      ],
+      [
+        "geant2",
+        "elephant_stress",
+        8192
+      ],
+      [
+        "geant2",
+        "elephant_stress",
+        8888
+      ],
+      [
+        "geant2",
+        "elephant_stress",
+        9999
+      ]
+    ],
+    "paired_rank_biserial": 0.35789473684210527,
+    "treatment": "harp_protected",
+    "wilcoxon_p": 0.17119544866849434
+  }
+]

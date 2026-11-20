@@ -1,0 +1,118 @@
+[
+  {
+    "all_zero_differences": false,
+    "ci95_high": -0.37166666666666864,
+    "ci95_low": -0.7133333333333312,
+    "comparison": "harp_vs_saf_h_protected",
+    "control": "saf_h_protected",
+    "holm_p": 0.00015461901506827138,
+    "mean_delta": -0.5399999999999998,
+    "metric": "acceptance_rate",
+    "n": 20,
+    "paired_keys": [
+      [
+        "nsfnet",
+        "elephant_stress",
+        7
+      ],
+      [
+        "nsfnet",
+        "elephant_stress",
+        11
+      ],
+      [
+        "nsfnet",
+        "elephant_stress",
+        17
+      ],
+      [
+        "nsfnet",
+        "elephant_stress",
+        23
+      ],
+      [
+        "nsfnet",
+        "elephant_stress",
+        42
+      ],
+      [
+        "nsfnet",
+        "elephant_stress",
+        47
+      ],
+      [
+        "nsfnet",
+        "elephant_stress",
+        73
+      ],
+      [
+        "nsfnet",
+        "elephant_stress",
+        89
+      ],
+      [
+        "nsfnet",
+        "elephant_stress",
+        100
+      ],
+      [
+        "nsfnet",
+        "elephant_stress",
+        101
+      ],
+      [
+        "nsfnet",
+        "elephant_stress",
+        211
+      ],
+      [
+        "nsfnet",
+        "elephant_stress",
+        314
+      ],
+      [
+        "nsfnet",
+        "elephant_stress",
+        512
+      ],
+      [
+        "nsfnet",
+        "elephant_stress",
+        1024
+      ],
+      [
+        "nsfnet",
+        "elephant_stress",
+        2024
+      ],
+      [
+        "nsfnet",
+        "elephant_stress",
+        2718
+      ],
+      [
+        "nsfnet",
+        "elephant_stress",
+        4096
+      ],
+      [
+        "nsfnet",
+        "elephant_stress",
+        8192
+      ],
+      [
+        "nsfnet",
+        "elephant_stress",
+        8888
+      ],
+      [
+        "nsfnet",
+        "elephant_stress",
+        9999
+      ]
+    ],
+    "paired_rank_biserial": -0.9894736842105263,
+    "treatment": "harp_protected",
+    "wilcoxon_p": 0.00015461901506827138
+  }
+]

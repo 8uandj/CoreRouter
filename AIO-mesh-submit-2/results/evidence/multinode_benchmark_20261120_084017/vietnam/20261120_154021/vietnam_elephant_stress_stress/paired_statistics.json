@@ -1,0 +1,118 @@
+[
+  {
+    "all_zero_differences": false,
+    "ci95_high": -1.0400000000000023,
+    "ci95_low": -1.600041666666669,
+    "comparison": "harp_vs_saf_h_protected",
+    "control": "saf_h_protected",
+    "holm_p": 3.814697265625e-06,
+    "mean_delta": -1.3350000000000022,
+    "metric": "acceptance_rate",
+    "n": 20,
+    "paired_keys": [
+      [
+        "vietnam",
+        "elephant_stress",
+        7
+      ],
+      [
+        "vietnam",
+        "elephant_stress",
+        11
+      ],
+      [
+        "vietnam",
+        "elephant_stress",
+        17
+      ],
+      [
+        "vietnam",
+        "elephant_stress",
+        23
+      ],
+      [
+        "vietnam",
+        "elephant_stress",
+        42
+      ],
+      [
+        "vietnam",
+        "elephant_stress",
+        47
+      ],
+      [
+        "vietnam",
+        "elephant_stress",
+        73
+      ],
+      [
+        "vietnam",
+        "elephant_stress",
+        89
+      ],
+      [
+        "vietnam",
+        "elephant_stress",
+        100
+      ],
+      [
+        "vietnam",
+        "elephant_stress",
+        101
+      ],
+      [
+        "vietnam",
+        "elephant_stress",
+        211
+      ],
+      [
+        "vietnam",
+        "elephant_stress",
+        314
+      ],
+      [
+        "vietnam",
+        "elephant_stress",
+        512
+      ],
+      [
+        "vietnam",
+        "elephant_stress",
+        1024
+      ],
+      [
+        "vietnam",
+        "elephant_stress",
+        2024
+      ],
+      [
+        "vietnam",
+        "elephant_stress",
+        2718
+      ],
+      [
+        "vietnam",
+        "elephant_stress",
+        4096
+      ],
+      [
+        "vietnam",
+        "elephant_stress",
+        8192
+      ],
+      [
+        "vietnam",
+        "elephant_stress",
+        8888
+      ],
+      [
+        "vietnam",
+        "elephant_stress",
+        9999
+      ]
+    ],
+    "paired_rank_biserial": -0.9904761904761905,
+    "treatment": "harp_protected",
+    "wilcoxon_p": 3.814697265625e-06
+  }
+]

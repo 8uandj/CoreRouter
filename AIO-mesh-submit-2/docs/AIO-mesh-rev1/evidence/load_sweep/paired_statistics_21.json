@@ -1,0 +1,2501 @@
+[
+  {
+    "comparison": "harp_vs_saf_h_protected",
+    "treatment": "harp_protected",
+    "control": "saf_h_protected",
+    "metric": "safe_acceptance_rate",
+    "n": 20,
+    "mean_delta": 0.0,
+    "ci95_low": 0.0,
+    "ci95_high": 0.0,
+    "wilcoxon_p": 1.0,
+    "paired_rank_biserial": 0.0,
+    "all_zero_differences": true,
+    "paired_keys": [
+      [
+        "vietnam",
+        "load_0.2",
+        7
+      ],
+      [
+        "vietnam",
+        "load_0.2",
+        11
+      ],
+      [
+        "vietnam",
+        "load_0.2",
+        17
+      ],
+      [
+        "vietnam",
+        "load_0.2",
+        23
+      ],
+      [
+        "vietnam",
+        "load_0.2",
+        42
+      ],
+      [
+        "vietnam",
+        "load_0.2",
+        47
+      ],
+      [
+        "vietnam",
+        "load_0.2",
+        73
+      ],
+      [
+        "vietnam",
+        "load_0.2",
+        89
+      ],
+      [
+        "vietnam",
+        "load_0.2",
+        100
+      ],
+      [
+        "vietnam",
+        "load_0.2",
+        101
+      ],
+      [
+        "vietnam",
+        "load_0.2",
+        211
+      ],
+      [
+        "vietnam",
+        "load_0.2",
+        314
+      ],
+      [
+        "vietnam",
+        "load_0.2",
+        512
+      ],
+      [
+        "vietnam",
+        "load_0.2",
+        1024
+      ],
+      [
+        "vietnam",
+        "load_0.2",
+        2024
+      ],
+      [
+        "vietnam",
+        "load_0.2",
+        2718
+      ],
+      [
+        "vietnam",
+        "load_0.2",
+        4096
+      ],
+      [
+        "vietnam",
+        "load_0.2",
+        8192
+      ],
+      [
+        "vietnam",
+        "load_0.2",
+        8888
+      ],
+      [
+        "vietnam",
+        "load_0.2",
+        9999
+      ]
+    ],
+    "holm_p": 1.0,
+    "load_multiplier": 0.2,
+    "topology": "vietnam",
+    "holm_p_21": 1
+  },
+  {
+    "comparison": "harp_vs_saf_h_protected",
+    "treatment": "harp_protected",
+    "control": "saf_h_protected",
+    "metric": "safe_acceptance_rate",
+    "n": 20,
+    "mean_delta": 0.004074979625101349,
+    "ci95_low": 0.0,
+    "ci95_high": 0.012224938875304047,
+    "wilcoxon_p": 0.31731050786291415,
+    "paired_rank_biserial": 1.0,
+    "all_zero_differences": false,
+    "paired_keys": [
+      [
+        "vietnam",
+        "load_0.4",
+        7
+      ],
+      [
+        "vietnam",
+        "load_0.4",
+        11
+      ],
+      [
+        "vietnam",
+        "load_0.4",
+        17
+      ],
+      [
+        "vietnam",
+        "load_0.4",
+        23
+      ],
+      [
+        "vietnam",
+        "load_0.4",
+        42
+      ],
+      [
+        "vietnam",
+        "load_0.4",
+        47
+      ],
+      [
+        "vietnam",
+        "load_0.4",
+        73
+      ],
+      [
+        "vietnam",
+        "load_0.4",
+        89
+      ],
+      [
+        "vietnam",
+        "load_0.4",
+        100
+      ],
+      [
+        "vietnam",
+        "load_0.4",
+        101
+      ],
+      [
+        "vietnam",
+        "load_0.4",
+        211
+      ],
+      [
+        "vietnam",
+        "load_0.4",
+        314
+      ],
+      [
+        "vietnam",
+        "load_0.4",
+        512
+      ],
+      [
+        "vietnam",
+        "load_0.4",
+        1024
+      ],
+      [
+        "vietnam",
+        "load_0.4",
+        2024
+      ],
+      [
+        "vietnam",
+        "load_0.4",
+        2718
+      ],
+      [
+        "vietnam",
+        "load_0.4",
+        4096
+      ],
+      [
+        "vietnam",
+        "load_0.4",
+        8192
+      ],
+      [
+        "vietnam",
+        "load_0.4",
+        8888
+      ],
+      [
+        "vietnam",
+        "load_0.4",
+        9999
+      ]
+    ],
+    "holm_p": 0.31731050786291415,
+    "load_multiplier": 0.4,
+    "topology": "vietnam",
+    "holm_p_21": 1
+  },
+  {
+    "comparison": "harp_vs_saf_h_protected",
+    "treatment": "harp_protected",
+    "control": "saf_h_protected",
+    "metric": "safe_acceptance_rate",
+    "n": 20,
+    "mean_delta": 0.01927539936909355,
+    "ci95_low": 0.0055157198014342155,
+    "ci95_high": 0.038526161672954376,
+    "wilcoxon_p": 0.04216819709715596,
+    "paired_rank_biserial": 1.0,
+    "all_zero_differences": false,
+    "paired_keys": [
+      [
+        "vietnam",
+        "load_0.6",
+        7
+      ],
+      [
+        "vietnam",
+        "load_0.6",
+        11
+      ],
+      [
+        "vietnam",
+        "load_0.6",
+        17
+      ],
+      [
+        "vietnam",
+        "load_0.6",
+        23
+      ],
+      [
+        "vietnam",
+        "load_0.6",
+        42
+      ],
+      [
+        "vietnam",
+        "load_0.6",
+        47
+      ],
+      [
+        "vietnam",
+        "load_0.6",
+        73
+      ],
+      [
+        "vietnam",
+        "load_0.6",
+        89
+      ],
+      [
+        "vietnam",
+        "load_0.6",
+        100
+      ],
+      [
+        "vietnam",
+        "load_0.6",
+        101
+      ],
+      [
+        "vietnam",
+        "load_0.6",
+        211
+      ],
+      [
+        "vietnam",
+        "load_0.6",
+        314
+      ],
+      [
+        "vietnam",
+        "load_0.6",
+        512
+      ],
+      [
+        "vietnam",
+        "load_0.6",
+        1024
+      ],
+      [
+        "vietnam",
+        "load_0.6",
+        2024
+      ],
+      [
+        "vietnam",
+        "load_0.6",
+        2718
+      ],
+      [
+        "vietnam",
+        "load_0.6",
+        4096
+      ],
+      [
+        "vietnam",
+        "load_0.6",
+        8192
+      ],
+      [
+        "vietnam",
+        "load_0.6",
+        8888
+      ],
+      [
+        "vietnam",
+        "load_0.6",
+        9999
+      ]
+    ],
+    "holm_p": 0.04216819709715596,
+    "load_multiplier": 0.6,
+    "topology": "vietnam",
+    "holm_p_21": 0.37951377387440366
+  },
+  {
+    "comparison": "harp_vs_saf_h_protected",
+    "treatment": "harp_protected",
+    "control": "saf_h_protected",
+    "metric": "safe_acceptance_rate",
+    "n": 20,
+    "mean_delta": 0.4026835966907797,
+    "ci95_low": 0.34959162446978737,
+    "ci95_high": 0.4533232489390239,
+    "wilcoxon_p": 1.9073486328125e-06,
+    "paired_rank_biserial": 1.0,
+    "all_zero_differences": false,
+    "paired_keys": [
+      [
+        "vietnam",
+        "load_0.8",
+        7
+      ],
+      [
+        "vietnam",
+        "load_0.8",
+        11
+      ],
+      [
+        "vietnam",
+        "load_0.8",
+        17
+      ],
+      [
+        "vietnam",
+        "load_0.8",
+        23
+      ],
+      [
+        "vietnam",
+        "load_0.8",
+        42
+      ],
+      [
+        "vietnam",
+        "load_0.8",
+        47
+      ],
+      [
+        "vietnam",
+        "load_0.8",
+        73
+      ],
+      [
+        "vietnam",
+        "load_0.8",
+        89
+      ],
+      [
+        "vietnam",
+        "load_0.8",
+        100
+      ],
+      [
+        "vietnam",
+        "load_0.8",
+        101
+      ],
+      [
+        "vietnam",
+        "load_0.8",
+        211
+      ],
+      [
+        "vietnam",
+        "load_0.8",
+        314
+      ],
+      [
+        "vietnam",
+        "load_0.8",
+        512
+      ],
+      [
+        "vietnam",
+        "load_0.8",
+        1024
+      ],
+      [
+        "vietnam",
+        "load_0.8",
+        2024
+      ],
+      [
+        "vietnam",
+        "load_0.8",
+        2718
+      ],
+      [
+        "vietnam",
+        "load_0.8",
+        4096
+      ],
+      [
+        "vietnam",
+        "load_0.8",
+        8192
+      ],
+      [
+        "vietnam",
+        "load_0.8",
+        8888
+      ],
+      [
+        "vietnam",
+        "load_0.8",
+        9999
+      ]
+    ],
+    "holm_p": 1.9073486328125e-06,
+    "load_multiplier": 0.8,
+    "topology": "vietnam",
+    "holm_p_21": 4.00543212890625e-05
+  },
+  {
+    "comparison": "harp_vs_saf_h_protected",
+    "treatment": "harp_protected",
+    "control": "saf_h_protected",
+    "metric": "safe_acceptance_rate",
+    "n": 20,
+    "mean_delta": 1.1599999999999988,
+    "ci95_low": 1.0766666666666687,
+    "ci95_high": 1.239999999999997,
+    "wilcoxon_p": 1.9073486328125e-06,
+    "paired_rank_biserial": 1.0,
+    "all_zero_differences": false,
+    "paired_keys": [
+      [
+        "vietnam",
+        "load_1.0",
+        7
+      ],
+      [
+        "vietnam",
+        "load_1.0",
+        11
+      ],
+      [
+        "vietnam",
+        "load_1.0",
+        17
+      ],
+      [
+        "vietnam",
+        "load_1.0",
+        23
+      ],
+      [
+        "vietnam",
+        "load_1.0",
+        42
+      ],
+      [
+        "vietnam",
+        "load_1.0",
+        47
+      ],
+      [
+        "vietnam",
+        "load_1.0",
+        73
+      ],
+      [
+        "vietnam",
+        "load_1.0",
+        89
+      ],
+      [
+        "vietnam",
+        "load_1.0",
+        100
+      ],
+      [
+        "vietnam",
+        "load_1.0",
+        101
+      ],
+      [
+        "vietnam",
+        "load_1.0",
+        211
+      ],
+      [
+        "vietnam",
+        "load_1.0",
+        314
+      ],
+      [
+        "vietnam",
+        "load_1.0",
+        512
+      ],
+      [
+        "vietnam",
+        "load_1.0",
+        1024
+      ],
+      [
+        "vietnam",
+        "load_1.0",
+        2024
+      ],
+      [
+        "vietnam",
+        "load_1.0",
+        2718
+      ],
+      [
+        "vietnam",
+        "load_1.0",
+        4096
+      ],
+      [
+        "vietnam",
+        "load_1.0",
+        8192
+      ],
+      [
+        "vietnam",
+        "load_1.0",
+        8888
+      ],
+      [
+        "vietnam",
+        "load_1.0",
+        9999
+      ]
+    ],
+    "holm_p": 1.9073486328125e-06,
+    "load_multiplier": 1.0,
+    "topology": "vietnam",
+    "holm_p_21": 4.00543212890625e-05
+  },
+  {
+    "comparison": "harp_vs_saf_h_protected",
+    "treatment": "harp_protected",
+    "control": "saf_h_protected",
+    "metric": "safe_acceptance_rate",
+    "n": 20,
+    "mean_delta": 2.5766666666666658,
+    "ci95_low": 2.481666666666667,
+    "ci95_high": 2.669999999999998,
+    "wilcoxon_p": 1.9073486328125e-06,
+    "paired_rank_biserial": 1.0,
+    "all_zero_differences": false,
+    "paired_keys": [
+      [
+        "vietnam",
+        "load_1.2",
+        7
+      ],
+      [
+        "vietnam",
+        "load_1.2",
+        11
+      ],
+      [
+        "vietnam",
+        "load_1.2",
+        17
+      ],
+      [
+        "vietnam",
+        "load_1.2",
+        23
+      ],
+      [
+        "vietnam",
+        "load_1.2",
+        42
+      ],
+      [
+        "vietnam",
+        "load_1.2",
+        47
+      ],
+      [
+        "vietnam",
+        "load_1.2",
+        73
+      ],
+      [
+        "vietnam",
+        "load_1.2",
+        89
+      ],
+      [
+        "vietnam",
+        "load_1.2",
+        100
+      ],
+      [
+        "vietnam",
+        "load_1.2",
+        101
+      ],
+      [
+        "vietnam",
+        "load_1.2",
+        211
+      ],
+      [
+        "vietnam",
+        "load_1.2",
+        314
+      ],
+      [
+        "vietnam",
+        "load_1.2",
+        512
+      ],
+      [
+        "vietnam",
+        "load_1.2",
+        1024
+      ],
+      [
+        "vietnam",
+        "load_1.2",
+        2024
+      ],
+      [
+        "vietnam",
+        "load_1.2",
+        2718
+      ],
+      [
+        "vietnam",
+        "load_1.2",
+        4096
+      ],
+      [
+        "vietnam",
+        "load_1.2",
+        8192
+      ],
+      [
+        "vietnam",
+        "load_1.2",
+        8888
+      ],
+      [
+        "vietnam",
+        "load_1.2",
+        9999
+      ]
+    ],
+    "holm_p": 1.9073486328125e-06,
+    "load_multiplier": 1.2,
+    "topology": "vietnam",
+    "holm_p_21": 4.00543212890625e-05
+  },
+  {
+    "comparison": "harp_vs_saf_h_protected",
+    "treatment": "harp_protected",
+    "control": "saf_h_protected",
+    "metric": "safe_acceptance_rate",
+    "n": 20,
+    "mean_delta": 2.4083333333333306,
+    "ci95_low": 2.308333333333335,
+    "ci95_high": 2.5149999999999957,
+    "wilcoxon_p": 1.9073486328125e-06,
+    "paired_rank_biserial": 1.0,
+    "all_zero_differences": false,
+    "paired_keys": [
+      [
+        "vietnam",
+        "load_1.5",
+        7
+      ],
+      [
+        "vietnam",
+        "load_1.5",
+        11
+      ],
+      [
+        "vietnam",
+        "load_1.5",
+        17
+      ],
+      [
+        "vietnam",
+        "load_1.5",
+        23
+      ],
+      [
+        "vietnam",
+        "load_1.5",
+        42
+      ],
+      [
+        "vietnam",
+        "load_1.5",
+        47
+      ],
+      [
+        "vietnam",
+        "load_1.5",
+        73
+      ],
+      [
+        "vietnam",
+        "load_1.5",
+        89
+      ],
+      [
+        "vietnam",
+        "load_1.5",
+        100
+      ],
+      [
+        "vietnam",
+        "load_1.5",
+        101
+      ],
+      [
+        "vietnam",
+        "load_1.5",
+        211
+      ],
+      [
+        "vietnam",
+        "load_1.5",
+        314
+      ],
+      [
+        "vietnam",
+        "load_1.5",
+        512
+      ],
+      [
+        "vietnam",
+        "load_1.5",
+        1024
+      ],
+      [
+        "vietnam",
+        "load_1.5",
+        2024
+      ],
+      [
+        "vietnam",
+        "load_1.5",
+        2718
+      ],
+      [
+        "vietnam",
+        "load_1.5",
+        4096
+      ],
+      [
+        "vietnam",
+        "load_1.5",
+        8192
+      ],
+      [
+        "vietnam",
+        "load_1.5",
+        8888
+      ],
+      [
+        "vietnam",
+        "load_1.5",
+        9999
+      ]
+    ],
+    "holm_p": 1.9073486328125e-06,
+    "load_multiplier": 1.5,
+    "topology": "vietnam",
+    "holm_p_21": 4.00543212890625e-05
+  },
+  {
+    "comparison": "harp_vs_saf_h_protected",
+    "treatment": "harp_protected",
+    "control": "saf_h_protected",
+    "metric": "safe_acceptance_rate",
+    "n": 20,
+    "mean_delta": 0.0,
+    "ci95_low": 0.0,
+    "ci95_high": 0.0,
+    "wilcoxon_p": 1.0,
+    "paired_rank_biserial": 0.0,
+    "all_zero_differences": true,
+    "paired_keys": [
+      [
+        "nsfnet",
+        "load_0.2",
+        7
+      ],
+      [
+        "nsfnet",
+        "load_0.2",
+        11
+      ],
+      [
+        "nsfnet",
+        "load_0.2",
+        17
+      ],
+      [
+        "nsfnet",
+        "load_0.2",
+        23
+      ],
+      [
+        "nsfnet",
+        "load_0.2",
+        42
+      ],
+      [
+        "nsfnet",
+        "load_0.2",
+        47
+      ],
+      [
+        "nsfnet",
+        "load_0.2",
+        73
+      ],
+      [
+        "nsfnet",
+        "load_0.2",
+        89
+      ],
+      [
+        "nsfnet",
+        "load_0.2",
+        100
+      ],
+      [
+        "nsfnet",
+        "load_0.2",
+        101
+      ],
+      [
+        "nsfnet",
+        "load_0.2",
+        211
+      ],
+      [
+        "nsfnet",
+        "load_0.2",
+        314
+      ],
+      [
+        "nsfnet",
+        "load_0.2",
+        512
+      ],
+      [
+        "nsfnet",
+        "load_0.2",
+        1024
+      ],
+      [
+        "nsfnet",
+        "load_0.2",
+        2024
+      ],
+      [
+        "nsfnet",
+        "load_0.2",
+        2718
+      ],
+      [
+        "nsfnet",
+        "load_0.2",
+        4096
+      ],
+      [
+        "nsfnet",
+        "load_0.2",
+        8192
+      ],
+      [
+        "nsfnet",
+        "load_0.2",
+        8888
+      ],
+      [
+        "nsfnet",
+        "load_0.2",
+        9999
+      ]
+    ],
+    "holm_p": 1.0,
+    "load_multiplier": 0.2,
+    "topology": "nsfnet",
+    "holm_p_21": 1
+  },
+  {
+    "comparison": "harp_vs_saf_h_protected",
+    "treatment": "harp_protected",
+    "control": "saf_h_protected",
+    "metric": "safe_acceptance_rate",
+    "n": 20,
+    "mean_delta": 0.0,
+    "ci95_low": 0.0,
+    "ci95_high": 0.0,
+    "wilcoxon_p": 1.0,
+    "paired_rank_biserial": 0.0,
+    "all_zero_differences": true,
+    "paired_keys": [
+      [
+        "nsfnet",
+        "load_0.4",
+        7
+      ],
+      [
+        "nsfnet",
+        "load_0.4",
+        11
+      ],
+      [
+        "nsfnet",
+        "load_0.4",
+        17
+      ],
+      [
+        "nsfnet",
+        "load_0.4",
+        23
+      ],
+      [
+        "nsfnet",
+        "load_0.4",
+        42
+      ],
+      [
+        "nsfnet",
+        "load_0.4",
+        47
+      ],
+      [
+        "nsfnet",
+        "load_0.4",
+        73
+      ],
+      [
+        "nsfnet",
+        "load_0.4",
+        89
+      ],
+      [
+        "nsfnet",
+        "load_0.4",
+        100
+      ],
+      [
+        "nsfnet",
+        "load_0.4",
+        101
+      ],
+      [
+        "nsfnet",
+        "load_0.4",
+        211
+      ],
+      [
+        "nsfnet",
+        "load_0.4",
+        314
+      ],
+      [
+        "nsfnet",
+        "load_0.4",
+        512
+      ],
+      [
+        "nsfnet",
+        "load_0.4",
+        1024
+      ],
+      [
+        "nsfnet",
+        "load_0.4",
+        2024
+      ],
+      [
+        "nsfnet",
+        "load_0.4",
+        2718
+      ],
+      [
+        "nsfnet",
+        "load_0.4",
+        4096
+      ],
+      [
+        "nsfnet",
+        "load_0.4",
+        8192
+      ],
+      [
+        "nsfnet",
+        "load_0.4",
+        8888
+      ],
+      [
+        "nsfnet",
+        "load_0.4",
+        9999
+      ]
+    ],
+    "holm_p": 1.0,
+    "load_multiplier": 0.4,
+    "topology": "nsfnet",
+    "holm_p_21": 1
+  },
+  {
+    "comparison": "harp_vs_saf_h_protected",
+    "treatment": "harp_protected",
+    "control": "saf_h_protected",
+    "metric": "safe_acceptance_rate",
+    "n": 20,
+    "mean_delta": 0.01382193529982132,
+    "ci95_low": 0.0027412280701753387,
+    "ci95_high": 0.02765529286500552,
+    "wilcoxon_p": 0.06788915486182899,
+    "paired_rank_biserial": 1.0,
+    "all_zero_differences": false,
+    "paired_keys": [
+      [
+        "nsfnet",
+        "load_0.6",
+        7
+      ],
+      [
+        "nsfnet",
+        "load_0.6",
+        11
+      ],
+      [
+        "nsfnet",
+        "load_0.6",
+        17
+      ],
+      [
+        "nsfnet",
+        "load_0.6",
+        23
+      ],
+      [
+        "nsfnet",
+        "load_0.6",
+        42
+      ],
+      [
+        "nsfnet",
+        "load_0.6",
+        47
+      ],
+      [
+        "nsfnet",
+        "load_0.6",
+        73
+      ],
+      [
+        "nsfnet",
+        "load_0.6",
+        89
+      ],
+      [
+        "nsfnet",
+        "load_0.6",
+        100
+      ],
+      [
+        "nsfnet",
+        "load_0.6",
+        101
+      ],
+      [
+        "nsfnet",
+        "load_0.6",
+        211
+      ],
+      [
+        "nsfnet",
+        "load_0.6",
+        314
+      ],
+      [
+        "nsfnet",
+        "load_0.6",
+        512
+      ],
+      [
+        "nsfnet",
+        "load_0.6",
+        1024
+      ],
+      [
+        "nsfnet",
+        "load_0.6",
+        2024
+      ],
+      [
+        "nsfnet",
+        "load_0.6",
+        2718
+      ],
+      [
+        "nsfnet",
+        "load_0.6",
+        4096
+      ],
+      [
+        "nsfnet",
+        "load_0.6",
+        8192
+      ],
+      [
+        "nsfnet",
+        "load_0.6",
+        8888
+      ],
+      [
+        "nsfnet",
+        "load_0.6",
+        9999
+      ]
+    ],
+    "holm_p": 0.06788915486182899,
+    "load_multiplier": 0.6,
+    "topology": "nsfnet",
+    "holm_p_21": 0.5431132388946319
+  },
+  {
+    "comparison": "harp_vs_saf_h_protected",
+    "treatment": "harp_protected",
+    "control": "saf_h_protected",
+    "metric": "safe_acceptance_rate",
+    "n": 20,
+    "mean_delta": 0.24890831693684276,
+    "ci95_low": 0.19718842947809334,
+    "ci95_high": 0.3025564576837247,
+    "wilcoxon_p": 1.9073486328125e-06,
+    "paired_rank_biserial": 1.0,
+    "all_zero_differences": false,
+    "paired_keys": [
+      [
+        "nsfnet",
+        "load_0.8",
+        7
+      ],
+      [
+        "nsfnet",
+        "load_0.8",
+        11
+      ],
+      [
+        "nsfnet",
+        "load_0.8",
+        17
+      ],
+      [
+        "nsfnet",
+        "load_0.8",
+        23
+      ],
+      [
+        "nsfnet",
+        "load_0.8",
+        42
+      ],
+      [
+        "nsfnet",
+        "load_0.8",
+        47
+      ],
+      [
+        "nsfnet",
+        "load_0.8",
+        73
+      ],
+      [
+        "nsfnet",
+        "load_0.8",
+        89
+      ],
+      [
+        "nsfnet",
+        "load_0.8",
+        100
+      ],
+      [
+        "nsfnet",
+        "load_0.8",
+        101
+      ],
+      [
+        "nsfnet",
+        "load_0.8",
+        211
+      ],
+      [
+        "nsfnet",
+        "load_0.8",
+        314
+      ],
+      [
+        "nsfnet",
+        "load_0.8",
+        512
+      ],
+      [
+        "nsfnet",
+        "load_0.8",
+        1024
+      ],
+      [
+        "nsfnet",
+        "load_0.8",
+        2024
+      ],
+      [
+        "nsfnet",
+        "load_0.8",
+        2718
+      ],
+      [
+        "nsfnet",
+        "load_0.8",
+        4096
+      ],
+      [
+        "nsfnet",
+        "load_0.8",
+        8192
+      ],
+      [
+        "nsfnet",
+        "load_0.8",
+        8888
+      ],
+      [
+        "nsfnet",
+        "load_0.8",
+        9999
+      ]
+    ],
+    "holm_p": 1.9073486328125e-06,
+    "load_multiplier": 0.8,
+    "topology": "nsfnet",
+    "holm_p_21": 4.00543212890625e-05
+  },
+  {
+    "comparison": "harp_vs_saf_h_protected",
+    "treatment": "harp_protected",
+    "control": "saf_h_protected",
+    "metric": "safe_acceptance_rate",
+    "n": 20,
+    "mean_delta": 1.126666666666668,
+    "ci95_low": 1.065000000000002,
+    "ci95_high": 1.185000000000003,
+    "wilcoxon_p": 1.9073486328125e-06,
+    "paired_rank_biserial": 1.0,
+    "all_zero_differences": false,
+    "paired_keys": [
+      [
+        "nsfnet",
+        "load_1.0",
+        7
+      ],
+      [
+        "nsfnet",
+        "load_1.0",
+        11
+      ],
+      [
+        "nsfnet",
+        "load_1.0",
+        17
+      ],
+      [
+        "nsfnet",
+        "load_1.0",
+        23
+      ],
+      [
+        "nsfnet",
+        "load_1.0",
+        42
+      ],
+      [
+        "nsfnet",
+        "load_1.0",
+        47
+      ],
+      [
+        "nsfnet",
+        "load_1.0",
+        73
+      ],
+      [
+        "nsfnet",
+        "load_1.0",
+        89
+      ],
+      [
+        "nsfnet",
+        "load_1.0",
+        100
+      ],
+      [
+        "nsfnet",
+        "load_1.0",
+        101
+      ],
+      [
+        "nsfnet",
+        "load_1.0",
+        211
+      ],
+      [
+        "nsfnet",
+        "load_1.0",
+        314
+      ],
+      [
+        "nsfnet",
+        "load_1.0",
+        512
+      ],
+      [
+        "nsfnet",
+        "load_1.0",
+        1024
+      ],
+      [
+        "nsfnet",
+        "load_1.0",
+        2024
+      ],
+      [
+        "nsfnet",
+        "load_1.0",
+        2718
+      ],
+      [
+        "nsfnet",
+        "load_1.0",
+        4096
+      ],
+      [
+        "nsfnet",
+        "load_1.0",
+        8192
+      ],
+      [
+        "nsfnet",
+        "load_1.0",
+        8888
+      ],
+      [
+        "nsfnet",
+        "load_1.0",
+        9999
+      ]
+    ],
+    "holm_p": 1.9073486328125e-06,
+    "load_multiplier": 1.0,
+    "topology": "nsfnet",
+    "holm_p_21": 4.00543212890625e-05
+  },
+  {
+    "comparison": "harp_vs_saf_h_protected",
+    "treatment": "harp_protected",
+    "control": "saf_h_protected",
+    "metric": "safe_acceptance_rate",
+    "n": 20,
+    "mean_delta": 3.1583333333333323,
+    "ci95_low": 3.0,
+    "ci95_high": 3.3116666666666625,
+    "wilcoxon_p": 1.9073486328125e-06,
+    "paired_rank_biserial": 1.0,
+    "all_zero_differences": false,
+    "paired_keys": [
+      [
+        "nsfnet",
+        "load_1.2",
+        7
+      ],
+      [
+        "nsfnet",
+        "load_1.2",
+        11
+      ],
+      [
+        "nsfnet",
+        "load_1.2",
+        17
+      ],
+      [
+        "nsfnet",
+        "load_1.2",
+        23
+      ],
+      [
+        "nsfnet",
+        "load_1.2",
+        42
+      ],
+      [
+        "nsfnet",
+        "load_1.2",
+        47
+      ],
+      [
+        "nsfnet",
+        "load_1.2",
+        73
+      ],
+      [
+        "nsfnet",
+        "load_1.2",
+        89
+      ],
+      [
+        "nsfnet",
+        "load_1.2",
+        100
+      ],
+      [
+        "nsfnet",
+        "load_1.2",
+        101
+      ],
+      [
+        "nsfnet",
+        "load_1.2",
+        211
+      ],
+      [
+        "nsfnet",
+        "load_1.2",
+        314
+      ],
+      [
+        "nsfnet",
+        "load_1.2",
+        512
+      ],
+      [
+        "nsfnet",
+        "load_1.2",
+        1024
+      ],
+      [
+        "nsfnet",
+        "load_1.2",
+        2024
+      ],
+      [
+        "nsfnet",
+        "load_1.2",
+        2718
+      ],
+      [
+        "nsfnet",
+        "load_1.2",
+        4096
+      ],
+      [
+        "nsfnet",
+        "load_1.2",
+        8192
+      ],
+      [
+        "nsfnet",
+        "load_1.2",
+        8888
+      ],
+      [
+        "nsfnet",
+        "load_1.2",
+        9999
+      ]
+    ],
+    "holm_p": 1.9073486328125e-06,
+    "load_multiplier": 1.2,
+    "topology": "nsfnet",
+    "holm_p_21": 4.00543212890625e-05
+  },
+  {
+    "comparison": "harp_vs_saf_h_protected",
+    "treatment": "harp_protected",
+    "control": "saf_h_protected",
+    "metric": "safe_acceptance_rate",
+    "n": 20,
+    "mean_delta": 2.7566666666666633,
+    "ci95_low": 2.6649999999999983,
+    "ci95_high": 2.8483333333333314,
+    "wilcoxon_p": 1.9073486328125e-06,
+    "paired_rank_biserial": 1.0,
+    "all_zero_differences": false,
+    "paired_keys": [
+      [
+        "nsfnet",
+        "load_1.5",
+        7
+      ],
+      [
+        "nsfnet",
+        "load_1.5",
+        11
+      ],
+      [
+        "nsfnet",
+        "load_1.5",
+        17
+      ],
+      [
+        "nsfnet",
+        "load_1.5",
+        23
+      ],
+      [
+        "nsfnet",
+        "load_1.5",
+        42
+      ],
+      [
+        "nsfnet",
+        "load_1.5",
+        47
+      ],
+      [
+        "nsfnet",
+        "load_1.5",
+        73
+      ],
+      [
+        "nsfnet",
+        "load_1.5",
+        89
+      ],
+      [
+        "nsfnet",
+        "load_1.5",
+        100
+      ],
+      [
+        "nsfnet",
+        "load_1.5",
+        101
+      ],
+      [
+        "nsfnet",
+        "load_1.5",
+        211
+      ],
+      [
+        "nsfnet",
+        "load_1.5",
+        314
+      ],
+      [
+        "nsfnet",
+        "load_1.5",
+        512
+      ],
+      [
+        "nsfnet",
+        "load_1.5",
+        1024
+      ],
+      [
+        "nsfnet",
+        "load_1.5",
+        2024
+      ],
+      [
+        "nsfnet",
+        "load_1.5",
+        2718
+      ],
+      [
+        "nsfnet",
+        "load_1.5",
+        4096
+      ],
+      [
+        "nsfnet",
+        "load_1.5",
+        8192
+      ],
+      [
+        "nsfnet",
+        "load_1.5",
+        8888
+      ],
+      [
+        "nsfnet",
+        "load_1.5",
+        9999
+      ]
+    ],
+    "holm_p": 1.9073486328125e-06,
+    "load_multiplier": 1.5,
+    "topology": "nsfnet",
+    "holm_p_21": 4.00543212890625e-05
+  },
+  {
+    "comparison": "harp_vs_saf_h_protected",
+    "treatment": "harp_protected",
+    "control": "saf_h_protected",
+    "metric": "safe_acceptance_rate",
+    "n": 20,
+    "mean_delta": 0.0,
+    "ci95_low": 0.0,
+    "ci95_high": 0.0,
+    "wilcoxon_p": 1.0,
+    "paired_rank_biserial": 0.0,
+    "all_zero_differences": true,
+    "paired_keys": [
+      [
+        "geant2",
+        "load_0.2",
+        7
+      ],
+      [
+        "geant2",
+        "load_0.2",
+        11
+      ],
+      [
+        "geant2",
+        "load_0.2",
+        17
+      ],
+      [
+        "geant2",
+        "load_0.2",
+        23
+      ],
+      [
+        "geant2",
+        "load_0.2",
+        42
+      ],
+      [
+        "geant2",
+        "load_0.2",
+        47
+      ],
+      [
+        "geant2",
+        "load_0.2",
+        73
+      ],
+      [
+        "geant2",
+        "load_0.2",
+        89
+      ],
+      [
+        "geant2",
+        "load_0.2",
+        100
+      ],
+      [
+        "geant2",
+        "load_0.2",
+        101
+      ],
+      [
+        "geant2",
+        "load_0.2",
+        211
+      ],
+      [
+        "geant2",
+        "load_0.2",
+        314
+      ],
+      [
+        "geant2",
+        "load_0.2",
+        512
+      ],
+      [
+        "geant2",
+        "load_0.2",
+        1024
+      ],
+      [
+        "geant2",
+        "load_0.2",
+        2024
+      ],
+      [
+        "geant2",
+        "load_0.2",
+        2718
+      ],
+      [
+        "geant2",
+        "load_0.2",
+        4096
+      ],
+      [
+        "geant2",
+        "load_0.2",
+        8192
+      ],
+      [
+        "geant2",
+        "load_0.2",
+        8888
+      ],
+      [
+        "geant2",
+        "load_0.2",
+        9999
+      ]
+    ],
+    "holm_p": 1.0,
+    "load_multiplier": 0.2,
+    "topology": "geant2",
+    "holm_p_21": 1
+  },
+  {
+    "comparison": "harp_vs_saf_h_protected",
+    "treatment": "harp_protected",
+    "control": "saf_h_protected",
+    "metric": "safe_acceptance_rate",
+    "n": 20,
+    "mean_delta": 0.0,
+    "ci95_low": 0.0,
+    "ci95_high": 0.0,
+    "wilcoxon_p": 1.0,
+    "paired_rank_biserial": 0.0,
+    "all_zero_differences": true,
+    "paired_keys": [
+      [
+        "geant2",
+        "load_0.4",
+        7
+      ],
+      [
+        "geant2",
+        "load_0.4",
+        11
+      ],
+      [
+        "geant2",
+        "load_0.4",
+        17
+      ],
+      [
+        "geant2",
+        "load_0.4",
+        23
+      ],
+      [
+        "geant2",
+        "load_0.4",
+        42
+      ],
+      [
+        "geant2",
+        "load_0.4",
+        47
+      ],
+      [
+        "geant2",
+        "load_0.4",
+        73
+      ],
+      [
+        "geant2",
+        "load_0.4",
+        89
+      ],
+      [
+        "geant2",
+        "load_0.4",
+        100
+      ],
+      [
+        "geant2",
+        "load_0.4",
+        101
+      ],
+      [
+        "geant2",
+        "load_0.4",
+        211
+      ],
+      [
+        "geant2",
+        "load_0.4",
+        314
+      ],
+      [
+        "geant2",
+        "load_0.4",
+        512
+      ],
+      [
+        "geant2",
+        "load_0.4",
+        1024
+      ],
+      [
+        "geant2",
+        "load_0.4",
+        2024
+      ],
+      [
+        "geant2",
+        "load_0.4",
+        2718
+      ],
+      [
+        "geant2",
+        "load_0.4",
+        4096
+      ],
+      [
+        "geant2",
+        "load_0.4",
+        8192
+      ],
+      [
+        "geant2",
+        "load_0.4",
+        8888
+      ],
+      [
+        "geant2",
+        "load_0.4",
+        9999
+      ]
+    ],
+    "holm_p": 1.0,
+    "load_multiplier": 0.4,
+    "topology": "geant2",
+    "holm_p_21": 1
+  },
+  {
+    "comparison": "harp_vs_saf_h_protected",
+    "treatment": "harp_protected",
+    "control": "saf_h_protected",
+    "metric": "safe_acceptance_rate",
+    "n": 20,
+    "mean_delta": 0.005520290839943698,
+    "ci95_low": 0.0,
+    "ci95_high": 0.013803012619113986,
+    "wilcoxon_p": 0.17971249487899976,
+    "paired_rank_biserial": 1.0,
+    "all_zero_differences": false,
+    "paired_keys": [
+      [
+        "geant2",
+        "load_0.6",
+        7
+      ],
+      [
+        "geant2",
+        "load_0.6",
+        11
+      ],
+      [
+        "geant2",
+        "load_0.6",
+        17
+      ],
+      [
+        "geant2",
+        "load_0.6",
+        23
+      ],
+      [
+        "geant2",
+        "load_0.6",
+        42
+      ],
+      [
+        "geant2",
+        "load_0.6",
+        47
+      ],
+      [
+        "geant2",
+        "load_0.6",
+        73
+      ],
+      [
+        "geant2",
+        "load_0.6",
+        89
+      ],
+      [
+        "geant2",
+        "load_0.6",
+        100
+      ],
+      [
+        "geant2",
+        "load_0.6",
+        101
+      ],
+      [
+        "geant2",
+        "load_0.6",
+        211
+      ],
+      [
+        "geant2",
+        "load_0.6",
+        314
+      ],
+      [
+        "geant2",
+        "load_0.6",
+        512
+      ],
+      [
+        "geant2",
+        "load_0.6",
+        1024
+      ],
+      [
+        "geant2",
+        "load_0.6",
+        2024
+      ],
+      [
+        "geant2",
+        "load_0.6",
+        2718
+      ],
+      [
+        "geant2",
+        "load_0.6",
+        4096
+      ],
+      [
+        "geant2",
+        "load_0.6",
+        8192
+      ],
+      [
+        "geant2",
+        "load_0.6",
+        8888
+      ],
+      [
+        "geant2",
+        "load_0.6",
+        9999
+      ]
+    ],
+    "holm_p": 0.17971249487899976,
+    "load_multiplier": 0.6,
+    "topology": "geant2",
+    "holm_p_21": 1
+  },
+  {
+    "comparison": "harp_vs_saf_h_protected",
+    "treatment": "harp_protected",
+    "control": "saf_h_protected",
+    "metric": "safe_acceptance_rate",
+    "n": 20,
+    "mean_delta": 0.12048003388481661,
+    "ci95_low": 0.0874447097459125,
+    "ci95_high": 0.15386878652159056,
+    "wilcoxon_p": 0.0001318338889828333,
+    "paired_rank_biserial": 1.0,
+    "all_zero_differences": false,
+    "paired_keys": [
+      [
+        "geant2",
+        "load_0.8",
+        7
+      ],
+      [
+        "geant2",
+        "load_0.8",
+        11
+      ],
+      [
+        "geant2",
+        "load_0.8",
+        17
+      ],
+      [
+        "geant2",
+        "load_0.8",
+        23
+      ],
+      [
+        "geant2",
+        "load_0.8",
+        42
+      ],
+      [
+        "geant2",
+        "load_0.8",
+        47
+      ],
+      [
+        "geant2",
+        "load_0.8",
+        73
+      ],
+      [
+        "geant2",
+        "load_0.8",
+        89
+      ],
+      [
+        "geant2",
+        "load_0.8",
+        100
+      ],
+      [
+        "geant2",
+        "load_0.8",
+        101
+      ],
+      [
+        "geant2",
+        "load_0.8",
+        211
+      ],
+      [
+        "geant2",
+        "load_0.8",
+        314
+      ],
+      [
+        "geant2",
+        "load_0.8",
+        512
+      ],
+      [
+        "geant2",
+        "load_0.8",
+        1024
+      ],
+      [
+        "geant2",
+        "load_0.8",
+        2024
+      ],
+      [
+        "geant2",
+        "load_0.8",
+        2718
+      ],
+      [
+        "geant2",
+        "load_0.8",
+        4096
+      ],
+      [
+        "geant2",
+        "load_0.8",
+        8192
+      ],
+      [
+        "geant2",
+        "load_0.8",
+        8888
+      ],
+      [
+        "geant2",
+        "load_0.8",
+        9999
+      ]
+    ],
+    "holm_p": 0.0001318338889828333,
+    "load_multiplier": 0.8,
+    "topology": "geant2",
+    "holm_p_21": 0.001318338889828333
+  },
+  {
+    "comparison": "harp_vs_saf_h_protected",
+    "treatment": "harp_protected",
+    "control": "saf_h_protected",
+    "metric": "safe_acceptance_rate",
+    "n": 20,
+    "mean_delta": 0.9849999999999994,
+    "ci95_low": 0.9283333333333339,
+    "ci95_high": 1.0400416666666674,
+    "wilcoxon_p": 1.9073486328125e-06,
+    "paired_rank_biserial": 1.0,
+    "all_zero_differences": false,
+    "paired_keys": [
+      [
+        "geant2",
+        "load_1.0",
+        7
+      ],
+      [
+        "geant2",
+        "load_1.0",
+        11
+      ],
+      [
+        "geant2",
+        "load_1.0",
+        17
+      ],
+      [
+        "geant2",
+        "load_1.0",
+        23
+      ],
+      [
+        "geant2",
+        "load_1.0",
+        42
+      ],
+      [
+        "geant2",
+        "load_1.0",
+        47
+      ],
+      [
+        "geant2",
+        "load_1.0",
+        73
+      ],
+      [
+        "geant2",
+        "load_1.0",
+        89
+      ],
+      [
+        "geant2",
+        "load_1.0",
+        100
+      ],
+      [
+        "geant2",
+        "load_1.0",
+        101
+      ],
+      [
+        "geant2",
+        "load_1.0",
+        211
+      ],
+      [
+        "geant2",
+        "load_1.0",
+        314
+      ],
+      [
+        "geant2",
+        "load_1.0",
+        512
+      ],
+      [
+        "geant2",
+        "load_1.0",
+        1024
+      ],
+      [
+        "geant2",
+        "load_1.0",
+        2024
+      ],
+      [
+        "geant2",
+        "load_1.0",
+        2718
+      ],
+      [
+        "geant2",
+        "load_1.0",
+        4096
+      ],
+      [
+        "geant2",
+        "load_1.0",
+        8192
+      ],
+      [
+        "geant2",
+        "load_1.0",
+        8888
+      ],
+      [
+        "geant2",
+        "load_1.0",
+        9999
+      ]
+    ],
+    "holm_p": 1.9073486328125e-06,
+    "load_multiplier": 1.0,
+    "topology": "geant2",
+    "holm_p_21": 4.00543212890625e-05
+  },
+  {
+    "comparison": "harp_vs_saf_h_protected",
+    "treatment": "harp_protected",
+    "control": "saf_h_protected",
+    "metric": "safe_acceptance_rate",
+    "n": 20,
+    "mean_delta": 3.8033333333333323,
+    "ci95_low": 3.6882916666666623,
+    "ci95_high": 3.918333333333332,
+    "wilcoxon_p": 1.9073486328125e-06,
+    "paired_rank_biserial": 1.0,
+    "all_zero_differences": false,
+    "paired_keys": [
+      [
+        "geant2",
+        "load_1.2",
+        7
+      ],
+      [
+        "geant2",
+        "load_1.2",
+        11
+      ],
+      [
+        "geant2",
+        "load_1.2",
+        17
+      ],
+      [
+        "geant2",
+        "load_1.2",
+        23
+      ],
+      [
+        "geant2",
+        "load_1.2",
+        42
+      ],
+      [
+        "geant2",
+        "load_1.2",
+        47
+      ],
+      [
+        "geant2",
+        "load_1.2",
+        73
+      ],
+      [
+        "geant2",
+        "load_1.2",
+        89
+      ],
+      [
+        "geant2",
+        "load_1.2",
+        100
+      ],
+      [
+        "geant2",
+        "load_1.2",
+        101
+      ],
+      [
+        "geant2",
+        "load_1.2",
+        211
+      ],
+      [
+        "geant2",
+        "load_1.2",
+        314
+      ],
+      [
+        "geant2",
+        "load_1.2",
+        512
+      ],
+      [
+        "geant2",
+        "load_1.2",
+        1024
+      ],
+      [
+        "geant2",
+        "load_1.2",
+        2024
+      ],
+      [
+        "geant2",
+        "load_1.2",
+        2718
+      ],
+      [
+        "geant2",
+        "load_1.2",
+        4096
+      ],
+      [
+        "geant2",
+        "load_1.2",
+        8192
+      ],
+      [
+        "geant2",
+        "load_1.2",
+        8888
+      ],
+      [
+        "geant2",
+        "load_1.2",
+        9999
+      ]
+    ],
+    "holm_p": 1.9073486328125e-06,
+    "load_multiplier": 1.2,
+    "topology": "geant2",
+    "holm_p_21": 4.00543212890625e-05
+  },
+  {
+    "comparison": "harp_vs_saf_h_protected",
+    "treatment": "harp_protected",
+    "control": "saf_h_protected",
+    "metric": "safe_acceptance_rate",
+    "n": 20,
+    "mean_delta": 3.311666666666666,
+    "ci95_low": 3.21,
+    "ci95_high": 3.4116666666666666,
+    "wilcoxon_p": 1.9073486328125e-06,
+    "paired_rank_biserial": 1.0,
+    "all_zero_differences": false,
+    "paired_keys": [
+      [
+        "geant2",
+        "load_1.5",
+        7
+      ],
+      [
+        "geant2",
+        "load_1.5",
+        11
+      ],
+      [
+        "geant2",
+        "load_1.5",
+        17
+      ],
+      [
+        "geant2",
+        "load_1.5",
+        23
+      ],
+      [
+        "geant2",
+        "load_1.5",
+        42
+      ],
+      [
+        "geant2",
+        "load_1.5",
+        47
+      ],
+      [
+        "geant2",
+        "load_1.5",
+        73
+      ],
+      [
+        "geant2",
+        "load_1.5",
+        89
+      ],
+      [
+        "geant2",
+        "load_1.5",
+        100
+      ],
+      [
+        "geant2",
+        "load_1.5",
+        101
+      ],
+      [
+        "geant2",
+        "load_1.5",
+        211
+      ],
+      [
+        "geant2",
+        "load_1.5",
+        314
+      ],
+      [
+        "geant2",
+        "load_1.5",
+        512
+      ],
+      [
+        "geant2",
+        "load_1.5",
+        1024
+      ],
+      [
+        "geant2",
+        "load_1.5",
+        2024
+      ],
+      [
+        "geant2",
+        "load_1.5",
+        2718
+      ],
+      [
+        "geant2",
+        "load_1.5",
+        4096
+      ],
+      [
+        "geant2",
+        "load_1.5",
+        8192
+      ],
+      [
+        "geant2",
+        "load_1.5",
+        8888
+      ],
+      [
+        "geant2",
+        "load_1.5",
+        9999
+      ]
+    ],
+    "holm_p": 1.9073486328125e-06,
+    "load_multiplier": 1.5,
+    "topology": "geant2",
+    "holm_p_21": 4.00543212890625e-05
+  }
+]

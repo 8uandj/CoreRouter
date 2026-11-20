@@ -18,7 +18,7 @@ Xem [hướng dẫn tái lập](../../REPRODUCE.md) và [kết quả chạy lạ
 | B8–B9 | Một phần | Bảng 9 thêm tỷ lệ mask rỗng và pruning khi mask không rỗng, bỏ cột từ chối suy ra được. SD mô tả 80 ô seed × workload. Thiếu joint counts để giải thích nguyên nhân và hai ô timing để bổ sung Bảng 8. |
 | B10–B12 | Một phần | Tách P95 vòng quyết định và thời gian thành phần có dữ liệu, sửa cách mô tả phần đuôi. Chưa có phân bố timing theo seed, cùng giao thức cho đủ năm policy hoặc log SLA/λ của mọi biến thể. |
 | B13 | Đã sửa theo log | Bảng 11 và đoạn HIL báo độ sâu được yêu cầu, profile MSD, mã từ chối, nhánh của các yêu cầu được chấp nhận, RTT, timing backend, tỷ lệ nhận theo giờ và phạm vi readiness. Không suy từ mã MSD ra packet drops. |
-| C1–C5 | Một phần | Phân biệt factorized-head và flat-action, xác nhận deterministic inference, sửa GAT, bổ sung định nghĩa ablation, workload và substrate. Cần manifest gốc cho toàn bộ siêu tham số, tọa độ và lịch huấn luyện. |
+| C1–C5 | Một phần | Bộ thí nghiệm chính hiện dùng flat N²; sáu retrain mới đã xác minh trực tiếp, ablation hiện có cũng flat N² nên không cần retrain. Legacy 2N artifacts được tách khỏi bộ chính. Benchmark mới còn chạy; cần hoàn thiện seed-level outputs và provenance của ablation/training. |
 | C6–C8 | Một phần | Đối chiếu depth theo route anchor và depth của danh sách triển khai. Tách BW simulator khỏi runtime. Chưa hoàn thành bảng ký hiệu và bảng cấu hình theo từng nút. |
 | C9–C12 | Đã sửa mô tả chính | Đồng bộ ngưỡng và trọng số reward, bổ sung fallback, phạm vi Hybrid, local version check và simulator empty mask. Giá trị lịch sử của variant vẫn phụ thuộc training archive. |
 | D1 | Một phần | Có bảng unprotected theo topology/load từ 84 ô. Cần archive để lập bảng benchmark unprotected. |

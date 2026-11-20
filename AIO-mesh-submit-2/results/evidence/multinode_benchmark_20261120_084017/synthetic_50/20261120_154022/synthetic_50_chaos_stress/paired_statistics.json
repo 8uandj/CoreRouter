@@ -1,0 +1,118 @@
+[
+  {
+    "all_zero_differences": false,
+    "ci95_high": 3.751666666666665,
+    "ci95_low": 3.581666666666662,
+    "comparison": "harp_vs_saf_h_protected",
+    "control": "saf_h_protected",
+    "holm_p": 1.9073486328125e-06,
+    "mean_delta": 3.666666666666665,
+    "metric": "acceptance_rate",
+    "n": 20,
+    "paired_keys": [
+      [
+        "synthetic_50",
+        "chaos",
+        7
+      ],
+      [
+        "synthetic_50",
+        "chaos",
+        11
+      ],
+      [
+        "synthetic_50",
+        "chaos",
+        17
+      ],
+      [
+        "synthetic_50",
+        "chaos",
+        23
+      ],
+      [
+        "synthetic_50",
+        "chaos",
+        42
+      ],
+      [
+        "synthetic_50",
+        "chaos",
+        47
+      ],
+      [
+        "synthetic_50",
+        "chaos",
+        73
+      ],
+      [
+        "synthetic_50",
+        "chaos",
+        89
+      ],
+      [
+        "synthetic_50",
+        "chaos",
+        100
+      ],
+      [
+        "synthetic_50",
+        "chaos",
+        101
+      ],
+      [
+        "synthetic_50",
+        "chaos",
+        211
+      ],
+      [
+        "synthetic_50",
+        "chaos",
+        314
+      ],
+      [
+        "synthetic_50",
+        "chaos",
+        512
+      ],
+      [
+        "synthetic_50",
+        "chaos",
+        1024
+      ],
+      [
+        "synthetic_50",
+        "chaos",
+        2024
+      ],
+      [
+        "synthetic_50",
+        "chaos",
+        2718
+      ],
+      [
+        "synthetic_50",
+        "chaos",
+        4096
+      ],
+      [
+        "synthetic_50",
+        "chaos",
+        8192
+      ],
+      [
+        "synthetic_50",
+        "chaos",
+        8888
+      ],
+      [
+        "synthetic_50",
+        "chaos",
+        9999
+      ]
+    ],
+    "paired_rank_biserial": 1.0,
+    "treatment": "harp_protected",
+    "wilcoxon_p": 1.9073486328125e-06
+  }
+]

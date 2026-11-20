@@ -44,7 +44,7 @@
     "heavy_tail",
     "chaos"
   ],
-  "action_contract": "Ablation checkpoints use Discrete(N*N), flat index v_place*N + v_route. Main v11 checkpoints use factorized MultiDiscrete([N,N]) and are converted to additive N*N pair logits before pair masking.",
+  "action_contract": "Current primary training and evaluation use flat Discrete(N*N), encoded as v_place*N + v_route. Main retrain checkpoints and the existing ablation variants use this same pair-level action interface and N*N mask. Archived pre-retrain v11 main checkpoints used MultiDiscrete([N,N]) with 2N logits; they are compatibility artifacts and are not inputs to the current primary runs.",
   "observation_contract": "6*N + 13",
   "artifacts": [
     {
@@ -52,11 +52,11 @@
       "variant": "main_v11",
       "node_count": 10,
       "architecture": "gat",
-      "action_encoding": "factorized_2n",
-      "model_path": "results/models/v11/dgrl_v11_final_vietnam.zip",
-      "normalizer_path": "results/models/v11/vec_normalize_v11_vietnam.pkl",
-      "model_sha256": null,
-      "normalizer_sha256": null
+      "action_encoding": "flat_n2",
+      "model_path": "results/models/retrain_v11_20261119_corrected/vietnam/dgrl_v11_final_vietnam.zip",
+      "normalizer_path": "results/models/retrain_v11_20261119_corrected/vietnam/vec_normalize_v11_vietnam.pkl",
+      "model_sha256": "ea215985d1ad5d8ccc8e900da82d3e50e5ff51417c05bb96930dfc10ab9e86da",
+      "normalizer_sha256": "87385923e8099d3b56096eeaa9a43f75a4e0a670c972a77e667d7e160229d646"
     },
     {
       "topology": "vietnam",
@@ -65,8 +65,9 @@
       "architecture": "gat",
       "model_path": "results/models/ablation/harp_full/dgrl_v11_harp_full_vietnam.zip",
       "normalizer_path": "results/models/ablation/harp_full/vec_normalize_v11_harp_full_vietnam.pkl",
-      "model_sha256": null,
-      "normalizer_sha256": null
+      "model_sha256": "746887da355b37f33b4f27bde79ce7e27a6d3c1ca8278ca9e4797d052f7ae348",
+      "normalizer_sha256": "e0472b0d5b32eb76a4855c9adff678b092dceba478f65cde088fc07520c8acee",
+      "action_encoding": "flat_n2"
     },
     {
       "topology": "vietnam",
@@ -75,8 +76,9 @@
       "architecture": "mlp",
       "model_path": "results/models/ablation/harp_wo_gat/dgrl_v11_harp_wo_gat_vietnam.zip",
       "normalizer_path": "results/models/ablation/harp_wo_gat/vec_normalize_v11_harp_wo_gat_vietnam.pkl",
-      "model_sha256": null,
-      "normalizer_sha256": null
+      "model_sha256": "db53190a5db2d90488ce8840ee762a12bcb7d343058ee61b8a5e1aac7bc3834c",
+      "normalizer_sha256": "769694c8526c3996562273192fee3efc1da64569b07fe81be99b1d487c1a0b6a",
+      "action_encoding": "flat_n2"
     },
     {
       "topology": "vietnam",
@@ -85,8 +87,9 @@
       "architecture": "gat",
       "model_path": "results/models/ablation/harp_wo_hard_masking/dgrl_v11_harp_wo_hard_masking_vietnam.zip",
       "normalizer_path": "results/models/ablation/harp_wo_hard_masking/vec_normalize_v11_harp_wo_hard_masking_vietnam.pkl",
-      "model_sha256": null,
-      "normalizer_sha256": null
+      "model_sha256": "3949ad4cc8e9750838f2269172effef78dc7ba20c1404a2fa23d37c6ad2cc715",
+      "normalizer_sha256": "a268e55942b78e0e2e7c04a2ed3c75a206c1e236a9fe9bc9d9e85b21b9f1ae30",
+      "action_encoding": "flat_n2"
     },
     {
       "topology": "vietnam",
@@ -95,8 +98,9 @@
       "architecture": "gat",
       "model_path": "results/models/ablation/harp_soft_msd_penalty/dgrl_v11_harp_soft_msd_penalty_vietnam.zip",
       "normalizer_path": "results/models/ablation/harp_soft_msd_penalty/vec_normalize_v11_harp_soft_msd_penalty_vietnam.pkl",
-      "model_sha256": null,
-      "normalizer_sha256": null
+      "model_sha256": "da290fccb988663e06de14a62ddceba896bcb67cbf94d2e683caaecde4c62b8a",
+      "normalizer_sha256": "9098db834fcad451c0712925936ac3d305da5d697863d641cece64c2d1755ac0",
+      "action_encoding": "flat_n2"
     },
     {
       "topology": "vietnam",
@@ -105,19 +109,20 @@
       "architecture": "gat",
       "model_path": "results/models/ablation/harp_wo_adaptive_penalty/dgrl_v11_harp_wo_adaptive_penalty_vietnam.zip",
       "normalizer_path": "results/models/ablation/harp_wo_adaptive_penalty/vec_normalize_v11_harp_wo_adaptive_penalty_vietnam.pkl",
-      "model_sha256": null,
-      "normalizer_sha256": null
+      "model_sha256": "48f4f92fbd7ad5534d7912b3a9c399d80cad79dfe853c04e84f2c24e613f1e22",
+      "normalizer_sha256": "33e42c0513d857f19303f89cea199453ebb65de3670ef004adf9367dd394cd7a",
+      "action_encoding": "flat_n2"
     },
     {
       "topology": "nsfnet",
       "variant": "main_v11",
       "node_count": 14,
       "architecture": "gat",
-      "action_encoding": "factorized_2n",
-      "model_path": "results/models/v11/dgrl_v11_final_nsfnet.zip",
-      "normalizer_path": "results/models/v11/vec_normalize_v11_nsfnet.pkl",
-      "model_sha256": null,
-      "normalizer_sha256": null
+      "action_encoding": "flat_n2",
+      "model_path": "results/models/retrain_v11_20261119_corrected/nsfnet/dgrl_v11_final_nsfnet.zip",
+      "normalizer_path": "results/models/retrain_v11_20261119_corrected/nsfnet/vec_normalize_v11_nsfnet.pkl",
+      "model_sha256": "84422beca614c96b110aee4d6ea44eda04e66c41e4a29af912b8b4d8d569c52c",
+      "normalizer_sha256": "6bf4eccb4578f29201217ff7be59b73d79815adb63c67e6ebb12a8ccb5413596"
     },
     {
       "topology": "nsfnet",
@@ -126,8 +131,9 @@
       "architecture": "gat",
       "model_path": "results/models/ablation/harp_full/dgrl_v11_harp_full_nsfnet.zip",
       "normalizer_path": "results/models/ablation/harp_full/vec_normalize_v11_harp_full_nsfnet.pkl",
-      "model_sha256": null,
-      "normalizer_sha256": null
+      "model_sha256": "678b18007f04374c47d4940332cea0539f8ca9c4e03273f15fb53aa246554071",
+      "normalizer_sha256": "fea450c6d61bf265a608465f4e9a3c04472db7d8e940f1c41d85b31ce7cf32a1",
+      "action_encoding": "flat_n2"
     },
     {
       "topology": "nsfnet",
@@ -136,8 +142,9 @@
       "architecture": "mlp",
       "model_path": "results/models/ablation/harp_wo_gat/dgrl_v11_harp_wo_gat_nsfnet.zip",
       "normalizer_path": "results/models/ablation/harp_wo_gat/vec_normalize_v11_harp_wo_gat_nsfnet.pkl",
-      "model_sha256": null,
-      "normalizer_sha256": null
+      "model_sha256": "a01ef54ce516031ea72ce28b6cf89548aab2c7e8d6cd1d2af07c8ec57a4b6894",
+      "normalizer_sha256": "5d816acc6f0cc35f9560d88cf2012b3dd15e8991c953e1c1209889a81e278137",
+      "action_encoding": "flat_n2"
     },
     {
       "topology": "nsfnet",
@@ -146,8 +153,9 @@
       "architecture": "gat",
       "model_path": "results/models/ablation/harp_wo_hard_masking/dgrl_v11_harp_wo_hard_masking_nsfnet.zip",
       "normalizer_path": "results/models/ablation/harp_wo_hard_masking/vec_normalize_v11_harp_wo_hard_masking_nsfnet.pkl",
-      "model_sha256": null,
-      "normalizer_sha256": null
+      "model_sha256": "0d84aea8fcabe02e182fcde2fc7e74795d9af23a8a8199c3d3db92f419cbb99a",
+      "normalizer_sha256": "5b934e607e68433eecbd8e946ac100c0b83073219c5fdac5bb9abcb1e1190dca",
+      "action_encoding": "flat_n2"
     },
     {
       "topology": "nsfnet",
@@ -156,8 +164,9 @@
       "architecture": "gat",
       "model_path": "results/models/ablation/harp_soft_msd_penalty/dgrl_v11_harp_soft_msd_penalty_nsfnet.zip",
       "normalizer_path": "results/models/ablation/harp_soft_msd_penalty/vec_normalize_v11_harp_soft_msd_penalty_nsfnet.pkl",
-      "model_sha256": null,
-      "normalizer_sha256": null
+      "model_sha256": "48acc90928339da7a2b6016f20efb858c6f56a2cc38ccdd10ad9266ae0cbec84",
+      "normalizer_sha256": "71bce6513f9e29fbdc80cd8c42f1eb323b129614980032ab0f53c745752209f9",
+      "action_encoding": "flat_n2"
     },
     {
       "topology": "nsfnet",
@@ -166,19 +175,20 @@
       "architecture": "gat",
       "model_path": "results/models/ablation/harp_wo_adaptive_penalty/dgrl_v11_harp_wo_adaptive_penalty_nsfnet.zip",
       "normalizer_path": "results/models/ablation/harp_wo_adaptive_penalty/vec_normalize_v11_harp_wo_adaptive_penalty_nsfnet.pkl",
-      "model_sha256": null,
-      "normalizer_sha256": null
+      "model_sha256": "98b446e16832c525d7e5daac3a6ae0a0ae8858f10e6172e8290f97b131ebe543",
+      "normalizer_sha256": "ac249dc91fe31220887ea2b9618308e2829bdd6c354a58a44ff14b952d845828",
+      "action_encoding": "flat_n2"
     },
     {
       "topology": "geant2",
       "variant": "main_v11",
       "node_count": 23,
       "architecture": "gat",
-      "action_encoding": "factorized_2n",
-      "model_path": "results/models/v11/dgrl_v11_final_geant2.zip",
-      "normalizer_path": "results/models/v11/vec_normalize_v11_geant2.pkl",
-      "model_sha256": null,
-      "normalizer_sha256": null,
+      "action_encoding": "flat_n2",
+      "model_path": "results/models/retrain_v11_20261119_corrected/geant2/dgrl_v11_final_geant2.zip",
+      "normalizer_path": "results/models/retrain_v11_20261119_corrected/geant2/vec_normalize_v11_geant2.pkl",
+      "model_sha256": "ae5a9eb304d4c393327a825b7e467088dcc08227d7bb6be2c5059c78d56d3748",
+      "normalizer_sha256": "f86466cb046f0f629a3b7822aa6990d105f10141ac7b99f7887c4be200806571",
       "observation_dim": 151
     },
     {
@@ -188,9 +198,10 @@
       "architecture": "gat",
       "model_path": "results/models/ablation/harp_full/dgrl_v11_harp_full_geant2.zip",
       "normalizer_path": "results/models/ablation/harp_full/vec_normalize_v11_harp_full_geant2.pkl",
-      "model_sha256": null,
-      "normalizer_sha256": null,
-      "observation_dim": 151
+      "model_sha256": "13b6611305a31222aeb8d7c347ad248a5d36b625c7038b3f6abb05ee47831444",
+      "normalizer_sha256": "bc55d25011d2355f34c10110efba77d5f3156c29ccf1042088059fae1cbf6fc3",
+      "observation_dim": 151,
+      "action_encoding": "flat_n2"
     },
     {
       "topology": "geant2",
@@ -199,9 +210,10 @@
       "architecture": "mlp",
       "model_path": "results/models/ablation/harp_wo_gat/dgrl_v11_harp_wo_gat_geant2.zip",
       "normalizer_path": "results/models/ablation/harp_wo_gat/vec_normalize_v11_harp_wo_gat_geant2.pkl",
-      "model_sha256": null,
-      "normalizer_sha256": null,
-      "observation_dim": 151
+      "model_sha256": "f22322b9bc7374266747f186ed7f37bd8a8d9ecb8a485992ecce3e2af4c0569a",
+      "normalizer_sha256": "7c7db0225b8e344593004e469635060be8c25fae321eb66e192e84c36910ff12",
+      "observation_dim": 151,
+      "action_encoding": "flat_n2"
     },
     {
       "topology": "geant2",
@@ -210,9 +222,10 @@
       "architecture": "gat",
       "model_path": "results/models/ablation/harp_wo_hard_masking/dgrl_v11_harp_wo_hard_masking_geant2.zip",
       "normalizer_path": "results/models/ablation/harp_wo_hard_masking/vec_normalize_v11_harp_wo_hard_masking_geant2.pkl",
-      "model_sha256": null,
-      "normalizer_sha256": null,
-      "observation_dim": 151
+      "model_sha256": "98a60d836d16371f2de966203ee51ad395555c25340a5020c6425d6c65dc15f1",
+      "normalizer_sha256": "675d93b5fd55270372367eb916374fcb5653f3e77f13fd95fe698b2becbca6cd",
+      "observation_dim": 151,
+      "action_encoding": "flat_n2"
     },
     {
       "topology": "geant2",
@@ -221,9 +234,10 @@
       "architecture": "gat",
       "model_path": "results/models/ablation/harp_soft_msd_penalty/dgrl_v11_harp_soft_msd_penalty_geant2.zip",
       "normalizer_path": "results/models/ablation/harp_soft_msd_penalty/vec_normalize_v11_harp_soft_msd_penalty_geant2.pkl",
-      "model_sha256": null,
-      "normalizer_sha256": null,
-      "observation_dim": 151
+      "model_sha256": "90de4eb4d300c35372ac718615ccfaa7d4e125cceab276e99d6535c4fd44fad3",
+      "normalizer_sha256": "b90fe6368732502e2b765c9c62344c6d3de039b8a9c1d0142e5f170d6e6bfcff",
+      "observation_dim": 151,
+      "action_encoding": "flat_n2"
     },
     {
       "topology": "geant2",
@@ -232,9 +246,10 @@
       "architecture": "gat",
       "model_path": "results/models/ablation/harp_wo_adaptive_penalty/dgrl_v11_harp_wo_adaptive_penalty_geant2.zip",
       "normalizer_path": "results/models/ablation/harp_wo_adaptive_penalty/vec_normalize_v11_harp_wo_adaptive_penalty_geant2.pkl",
-      "model_sha256": null,
-      "normalizer_sha256": null,
-      "observation_dim": 151
+      "model_sha256": "b9dd21c76ce7f7776233708d3bb271e7c1f9e15768d61f72ecf01ba17745e555",
+      "normalizer_sha256": "366970815179de080c1137bb058a030a598ce8d1f2e2eae9e9a17f2883bbe499",
+      "observation_dim": 151,
+      "action_encoding": "flat_n2"
     }
   ],
   "runtime_versions": {

@@ -17,7 +17,7 @@ correlate a request with ordered traversal through several service VNFs.
 | Release | Remove only a tracked named or anonymous reservation. Recompute the maximum remaining per-list depth when a reservation is removed. |
 | Mask exhaustion | An all-false mask stays all false. It means no candidate passed the current feasibility predicate and must not be turned into unrestricted actions. |
 
-The current Gym environment and runtime inference use flat `Discrete(N²)`
+The current Gym environment, main retrain checkpoints, ablation variants, and runtime inference use flat `Discrete(N²)`
 actions, encoded as `v_place * N + v_route`. The runtime mask has N² entries
 and marks a pair only when placement CPU/RAM and route MSD pass; atomic
 admission rechecks those constraints before reservation. For requests with an
@@ -25,12 +25,16 @@ ingress/source node, the concrete source-to-placement path is compiled only
 after a candidate is selected, so the mask is a pair-level prefilter rather
 than an exact physical-path feasibility mask; path-depth/profile failures are
 rejected before reservation and may invoke the documented policy fallback.
-Recovered main v11
-checkpoints were trained with `MultiDiscrete([N,N])` and a `2N`-logit head.
-The inference adapter sums placement and route logits for each pair before
-applying the N² mask. This preserves the unmasked factorized distribution;
-the original training mask and any revised pair-mask outcome are separate
-provenance questions. The checkpoint and normalizer are not changed.
+The corrected 2026-11-19 retrain checkpoints were directly inspected in their
+SB3 ZIP metadata: Vietnam stores `Discrete(100)`, NSFNET `Discrete(196)`, and
+GEANT2 `Discrete(529)`. Their observation normalizers are the matching files
+under `results/models/retrain_v11_20261119_corrected/`. The six-topology
+benchmark also uses the flat N² checkpoints for synthetic 25/50/100. The
+existing ablation variants use the same flat action interface and do not need
+retraining for this action-space alignment. Earlier archived v10/v11 main
+checkpoints remain factorized `MultiDiscrete([N,N])` with a `2N`-logit head;
+the compatibility adapter still supports those legacy files, but they are
+not inputs to the current primary benchmark series.
 
 The in-process lock makes local admission and release updates atomic within one
 `NetworkStateManager`; it does not provide a transaction across Kubernetes,

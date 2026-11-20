@@ -1,0 +1,726 @@
+/dis/users/dcs/CoreRouter/venv/lib64/python3.9/site-packages/networkx/utils/backends.py:135: RuntimeWarning: networkx backend defined more than once: nx-loopback
+  backends.update(_get_backends("networkx.backends"))
+Running topology=synthetic_50 scenario=elephant_stress env=heavy_tail load=stress
+  completed seed=42 (1/20)
+  completed seed=100 (2/20)
+  completed seed=2024 (3/20)
+  completed seed=8888 (4/20)
+  completed seed=9999 (5/20)
+  completed seed=7 (6/20)
+  completed seed=17 (7/20)
+  completed seed=73 (8/20)
+  completed seed=314 (9/20)
+  completed seed=2718 (10/20)
+  completed seed=11 (11/20)
+  completed seed=23 (12/20)
+  completed seed=47 (13/20)
+  completed seed=89 (14/20)
+  completed seed=101 (15/20)
+  completed seed=211 (16/20)
+  completed seed=512 (17/20)
+  completed seed=1024 (18/20)
+  completed seed=4096 (19/20)
+  completed seed=8192 (20/20)
+  seed=42
+    traditional_greedy_protected: accept=79.9% msd=0.0% sla=0.0% lat=1.51ms reward=81.8
+    cspf_protected: accept=79.9% msd=0.0% sla=0.0% lat=1.50ms reward=80.8
+    saf_h_protected: accept=79.9% msd=0.0% sla=0.0% lat=0.24ms reward=79.9
+    decoupled_ai_protected: accept=79.9% msd=0.0% sla=0.0% lat=0.83ms reward=83.7
+    harp_protected: accept=83.5% msd=0.0% sla=0.0% lat=2.64ms reward=62.1
+    traditional_greedy_unprotected: accept=100.0% msd=0.0% sla=0.0% lat=6.01ms reward=84.0
+    cspf_unprotected: accept=100.0% msd=0.0% sla=0.0% lat=6.01ms reward=84.0
+    saf_h_unprotected: accept=100.0% msd=0.0% sla=0.0% lat=4.08ms reward=76.2
+    decoupled_ai_unprotected: accept=100.0% msd=0.0% sla=0.0% lat=3.15ms reward=96.4
+    harp_unprotected: accept=100.0% msd=0.0% sla=0.0% lat=4.46ms reward=101.7
+  seed=100
+    traditional_greedy_protected: accept=79.7% msd=0.0% sla=0.0% lat=1.51ms reward=81.2
+    cspf_protected: accept=79.8% msd=0.0% sla=0.0% lat=1.52ms reward=80.3
+    saf_h_protected: accept=79.8% msd=0.0% sla=0.0% lat=0.24ms reward=79.6
+    decoupled_ai_protected: accept=79.7% msd=0.0% sla=0.0% lat=0.84ms reward=83.0
+    harp_protected: accept=83.2% msd=0.0% sla=0.0% lat=2.62ms reward=61.7
+    traditional_greedy_unprotected: accept=100.0% msd=0.0% sla=0.0% lat=6.01ms reward=83.9
+    cspf_unprotected: accept=100.0% msd=0.0% sla=0.0% lat=6.01ms reward=83.9
+    saf_h_unprotected: accept=100.0% msd=0.0% sla=0.0% lat=4.04ms reward=76.8
+    decoupled_ai_unprotected: accept=100.0% msd=0.0% sla=0.0% lat=3.13ms reward=96.3
+    harp_unprotected: accept=100.0% msd=0.0% sla=0.0% lat=4.54ms reward=102.4
+  seed=2024
+    traditional_greedy_protected: accept=79.5% msd=0.0% sla=0.0% lat=1.49ms reward=81.8
+    cspf_protected: accept=79.4% msd=0.0% sla=0.0% lat=1.48ms reward=80.6
+    saf_h_protected: accept=79.4% msd=0.0% sla=0.0% lat=0.25ms reward=79.1
+    decoupled_ai_protected: accept=79.5% msd=0.0% sla=0.0% lat=0.84ms reward=82.6
+    harp_protected: accept=83.4% msd=0.0% sla=0.0% lat=2.60ms reward=61.9
+    traditional_greedy_unprotected: accept=100.0% msd=0.0% sla=0.0% lat=6.12ms reward=83.5
+    cspf_unprotected: accept=100.0% msd=0.0% sla=0.0% lat=6.12ms reward=83.5
+    saf_h_unprotected: accept=100.0% msd=0.0% sla=0.0% lat=4.28ms reward=74.8
+    decoupled_ai_unprotected: accept=100.0% msd=0.0% sla=0.0% lat=3.22ms reward=95.9
+    harp_unprotected: accept=100.0% msd=0.0% sla=0.0% lat=4.60ms reward=101.0
+  seed=8888
+    traditional_greedy_protected: accept=79.8% msd=0.0% sla=0.0% lat=1.49ms reward=82.8
+    cspf_protected: accept=80.1% msd=0.0% sla=0.0% lat=1.48ms reward=80.9
+    saf_h_protected: accept=80.1% msd=0.0% sla=0.0% lat=0.24ms reward=80.5
+    decoupled_ai_protected: accept=79.8% msd=0.0% sla=0.0% lat=0.80ms reward=83.7
+    harp_protected: accept=84.2% msd=0.0% sla=0.0% lat=2.71ms reward=62.5
+    traditional_greedy_unprotected: accept=100.0% msd=0.0% sla=0.0% lat=6.00ms reward=83.9
+    cspf_unprotected: accept=100.0% msd=0.0% sla=0.0% lat=6.00ms reward=83.9
+    saf_h_unprotected: accept=100.0% msd=0.0% sla=0.0% lat=4.03ms reward=76.6
+    decoupled_ai_unprotected: accept=100.0% msd=0.0% sla=0.0% lat=3.19ms reward=95.3
+    harp_unprotected: accept=100.0% msd=0.0% sla=0.0% lat=4.75ms reward=102.1
+  seed=9999
+    traditional_greedy_protected: accept=80.2% msd=0.0% sla=0.0% lat=1.52ms reward=82.6
+    cspf_protected: accept=79.9% msd=0.0% sla=0.0% lat=1.52ms reward=80.7
+    saf_h_protected: accept=79.9% msd=0.0% sla=0.0% lat=0.25ms reward=79.8
+    decoupled_ai_protected: accept=80.2% msd=0.0% sla=0.0% lat=0.83ms reward=83.4
+    harp_protected: accept=83.6% msd=0.0% sla=0.0% lat=2.68ms reward=61.6
+    traditional_greedy_unprotected: accept=100.0% msd=0.0% sla=0.0% lat=5.97ms reward=83.2
+    cspf_unprotected: accept=100.0% msd=0.0% sla=0.0% lat=5.97ms reward=83.2
+    saf_h_unprotected: accept=100.0% msd=0.0% sla=0.0% lat=3.96ms reward=76.5
+    decoupled_ai_unprotected: accept=100.0% msd=0.0% sla=0.0% lat=2.97ms reward=95.7
+    harp_unprotected: accept=100.0% msd=0.0% sla=0.0% lat=4.58ms reward=101.9
+  seed=7
+    traditional_greedy_protected: accept=80.1% msd=0.0% sla=0.0% lat=1.51ms reward=81.1
+    cspf_protected: accept=80.0% msd=0.0% sla=0.0% lat=1.50ms reward=79.7
+    saf_h_protected: accept=80.0% msd=0.0% sla=0.0% lat=0.24ms reward=79.4
+    decoupled_ai_protected: accept=80.1% msd=0.0% sla=0.0% lat=0.85ms reward=82.6
+    harp_protected: accept=84.1% msd=0.0% sla=0.0% lat=2.73ms reward=61.2
+    traditional_greedy_unprotected: accept=100.0% msd=0.0% sla=0.0% lat=6.02ms reward=83.0
+    cspf_unprotected: accept=100.0% msd=0.0% sla=0.0% lat=6.02ms reward=83.0
+    saf_h_unprotected: accept=100.0% msd=0.0% sla=0.0% lat=4.12ms reward=75.5
+    decoupled_ai_unprotected: accept=100.0% msd=0.0% sla=0.0% lat=3.19ms reward=94.0
+    harp_unprotected: accept=100.0% msd=0.0% sla=0.0% lat=4.87ms reward=100.3
+  seed=17
+    traditional_greedy_protected: accept=80.0% msd=0.0% sla=0.0% lat=1.49ms reward=82.9
+    cspf_protected: accept=80.1% msd=0.0% sla=0.0% lat=1.49ms reward=81.2
+    saf_h_protected: accept=80.1% msd=0.0% sla=0.0% lat=0.24ms reward=80.1
+    decoupled_ai_protected: accept=80.0% msd=0.0% sla=0.0% lat=0.84ms reward=83.4
+    harp_protected: accept=83.1% msd=0.0% sla=0.0% lat=2.69ms reward=61.2
+    traditional_greedy_unprotected: accept=100.0% msd=0.0% sla=0.0% lat=6.00ms reward=83.3
+    cspf_unprotected: accept=100.0% msd=0.0% sla=0.0% lat=6.00ms reward=83.3
+    saf_h_unprotected: accept=100.0% msd=0.0% sla=0.0% lat=4.02ms reward=76.4
+    decoupled_ai_unprotected: accept=100.0% msd=0.0% sla=0.0% lat=3.13ms reward=94.9
+    harp_unprotected: accept=100.0% msd=0.0% sla=0.0% lat=4.65ms reward=99.9
+  seed=73
+    traditional_greedy_protected: accept=79.9% msd=0.0% sla=0.0% lat=1.53ms reward=81.8
+    cspf_protected: accept=80.2% msd=0.0% sla=0.0% lat=1.51ms reward=80.4
+    saf_h_protected: accept=80.2% msd=0.0% sla=0.0% lat=0.25ms reward=80.2
+    decoupled_ai_protected: accept=79.9% msd=0.0% sla=0.0% lat=0.79ms reward=84.2
+    harp_protected: accept=83.6% msd=0.0% sla=0.0% lat=2.63ms reward=62.1
+    traditional_greedy_unprotected: accept=100.0% msd=0.0% sla=0.0% lat=6.05ms reward=83.0
+    cspf_unprotected: accept=100.0% msd=0.0% sla=0.0% lat=6.05ms reward=83.0
+    saf_h_unprotected: accept=100.0% msd=0.0% sla=0.0% lat=4.15ms reward=75.0
+    decoupled_ai_unprotected: accept=100.0% msd=0.0% sla=0.0% lat=3.23ms reward=95.2
+    harp_unprotected: accept=100.0% msd=0.0% sla=0.0% lat=4.70ms reward=100.3
+  seed=314
+    traditional_greedy_protected: accept=80.2% msd=0.0% sla=0.0% lat=1.49ms reward=83.5
+    cspf_protected: accept=80.1% msd=0.0% sla=0.0% lat=1.51ms reward=81.8
+    saf_h_protected: accept=80.1% msd=0.0% sla=0.0% lat=0.24ms reward=80.4
+    decoupled_ai_protected: accept=80.2% msd=0.0% sla=0.0% lat=0.77ms reward=84.4
+    harp_protected: accept=83.1% msd=0.0% sla=0.0% lat=2.68ms reward=61.9
+    traditional_greedy_unprotected: accept=100.0% msd=0.0% sla=0.0% lat=6.04ms reward=83.1
+    cspf_unprotected: accept=100.0% msd=0.0% sla=0.0% lat=6.04ms reward=83.1
+    saf_h_unprotected: accept=100.0% msd=0.0% sla=0.0% lat=4.15ms reward=75.0
+    decoupled_ai_unprotected: accept=100.0% msd=0.0% sla=0.0% lat=3.06ms reward=95.7
+    harp_unprotected: accept=100.0% msd=0.0% sla=0.0% lat=4.52ms reward=101.6
+  seed=2718
+    traditional_greedy_protected: accept=79.9% msd=0.0% sla=0.0% lat=1.53ms reward=82.2
+    cspf_protected: accept=79.9% msd=0.0% sla=0.0% lat=1.51ms reward=81.7
+    saf_h_protected: accept=80.1% msd=0.0% sla=0.0% lat=0.24ms reward=80.1
+    decoupled_ai_protected: accept=80.1% msd=0.0% sla=0.0% lat=0.86ms reward=83.1
+    harp_protected: accept=83.9% msd=0.0% sla=0.0% lat=2.69ms reward=62.1
+    traditional_greedy_unprotected: accept=100.0% msd=0.0% sla=0.0% lat=5.88ms reward=84.1
+    cspf_unprotected: accept=100.0% msd=0.0% sla=0.0% lat=5.92ms reward=84.1
+    saf_h_unprotected: accept=100.0% msd=0.0% sla=0.0% lat=3.84ms reward=77.4
+    decoupled_ai_unprotected: accept=100.0% msd=0.0% sla=0.0% lat=3.10ms reward=94.7
+    harp_unprotected: accept=100.0% msd=0.0% sla=0.0% lat=4.60ms reward=101.6
+  seed=11
+    traditional_greedy_protected: accept=80.3% msd=0.0% sla=0.0% lat=1.52ms reward=81.8
+    cspf_protected: accept=80.3% msd=0.0% sla=0.0% lat=1.51ms reward=80.8
+    saf_h_protected: accept=80.3% msd=0.0% sla=0.0% lat=0.24ms reward=80.5
+    decoupled_ai_protected: accept=80.3% msd=0.0% sla=0.0% lat=0.84ms reward=82.1
+    harp_protected: accept=83.9% msd=0.0% sla=0.0% lat=2.69ms reward=62.0
+    traditional_greedy_unprotected: accept=100.0% msd=0.0% sla=0.0% lat=6.02ms reward=83.4
+    cspf_unprotected: accept=100.0% msd=0.0% sla=0.0% lat=6.02ms reward=83.4
+    saf_h_unprotected: accept=100.0% msd=0.0% sla=0.0% lat=4.06ms reward=75.7
+    decoupled_ai_unprotected: accept=100.0% msd=0.0% sla=0.0% lat=3.08ms reward=95.6
+    harp_unprotected: accept=100.0% msd=0.0% sla=0.0% lat=4.60ms reward=101.1
+  seed=23
+    traditional_greedy_protected: accept=80.1% msd=0.0% sla=0.0% lat=1.51ms reward=82.5
+    cspf_protected: accept=80.1% msd=0.0% sla=0.0% lat=1.51ms reward=81.3
+    saf_h_protected: accept=80.1% msd=0.0% sla=0.0% lat=0.24ms reward=80.3
+    decoupled_ai_protected: accept=80.1% msd=0.0% sla=0.0% lat=0.81ms reward=83.8
+    harp_protected: accept=84.1% msd=0.0% sla=0.0% lat=2.61ms reward=62.7
+    traditional_greedy_unprotected: accept=100.0% msd=0.0% sla=0.0% lat=6.01ms reward=83.2
+    cspf_unprotected: accept=100.0% msd=0.0% sla=0.0% lat=6.01ms reward=83.2
+    saf_h_unprotected: accept=100.0% msd=0.0% sla=0.0% lat=4.04ms reward=76.5
+    decoupled_ai_unprotected: accept=100.0% msd=0.0% sla=0.0% lat=3.10ms reward=94.8
+    harp_unprotected: accept=100.0% msd=0.0% sla=0.0% lat=4.56ms reward=101.6
+  seed=47
+    traditional_greedy_protected: accept=79.7% msd=0.0% sla=0.0% lat=1.49ms reward=81.6
+    cspf_protected: accept=79.8% msd=0.0% sla=0.0% lat=1.51ms reward=80.9
+    saf_h_protected: accept=79.8% msd=0.0% sla=0.0% lat=0.24ms reward=79.8
+    decoupled_ai_protected: accept=79.7% msd=0.0% sla=0.0% lat=0.81ms reward=83.3
+    harp_protected: accept=83.8% msd=0.0% sla=0.0% lat=2.66ms reward=61.4
+    traditional_greedy_unprotected: accept=100.0% msd=0.0% sla=0.0% lat=6.04ms reward=83.1
+    cspf_unprotected: accept=100.0% msd=0.0% sla=0.0% lat=6.04ms reward=83.1
+    saf_h_unprotected: accept=100.0% msd=0.0% sla=0.0% lat=4.13ms reward=75.6
+    decoupled_ai_unprotected: accept=100.0% msd=0.0% sla=0.0% lat=3.08ms reward=95.2
+    harp_unprotected: accept=100.0% msd=0.0% sla=0.0% lat=4.50ms reward=102.3
+  seed=89
+    traditional_greedy_protected: accept=80.3% msd=0.0% sla=0.0% lat=1.48ms reward=84.8
+    cspf_protected: accept=80.2% msd=0.0% sla=0.0% lat=1.49ms reward=81.0
+    saf_h_protected: accept=80.1% msd=0.0% sla=0.0% lat=0.24ms reward=80.0
+    decoupled_ai_protected: accept=80.3% msd=0.0% sla=0.0% lat=0.82ms reward=84.2
+    harp_protected: accept=83.7% msd=0.0% sla=0.0% lat=2.70ms reward=61.7
+    traditional_greedy_unprotected: accept=100.0% msd=0.0% sla=0.0% lat=5.93ms reward=83.6
+    cspf_unprotected: accept=100.0% msd=0.0% sla=0.0% lat=5.97ms reward=83.3
+    saf_h_unprotected: accept=100.0% msd=0.0% sla=0.0% lat=3.98ms reward=76.4
+    decoupled_ai_unprotected: accept=100.0% msd=0.0% sla=0.0% lat=3.05ms reward=95.2
+    harp_unprotected: accept=100.0% msd=0.0% sla=0.0% lat=4.26ms reward=101.8
+  seed=101
+    traditional_greedy_protected: accept=79.7% msd=0.0% sla=0.0% lat=1.47ms reward=82.5
+    cspf_protected: accept=79.5% msd=0.0% sla=0.0% lat=1.49ms reward=80.5
+    saf_h_protected: accept=79.5% msd=0.0% sla=0.0% lat=0.24ms reward=79.6
+    decoupled_ai_protected: accept=79.7% msd=0.0% sla=0.0% lat=0.79ms reward=83.0
+    harp_protected: accept=83.7% msd=0.0% sla=0.0% lat=2.65ms reward=62.8
+    traditional_greedy_unprotected: accept=100.0% msd=0.0% sla=0.0% lat=5.95ms reward=83.7
+    cspf_unprotected: accept=100.0% msd=0.0% sla=0.0% lat=5.95ms reward=83.7
+    saf_h_unprotected: accept=100.0% msd=0.0% sla=0.0% lat=3.97ms reward=77.1
+    decoupled_ai_unprotected: accept=100.0% msd=0.0% sla=0.0% lat=3.06ms reward=95.8
+    harp_unprotected: accept=100.0% msd=0.0% sla=0.0% lat=4.57ms reward=102.6
+  seed=211
+    traditional_greedy_protected: accept=80.0% msd=0.0% sla=0.0% lat=1.54ms reward=80.2
+    cspf_protected: accept=80.2% msd=0.0% sla=0.0% lat=1.50ms reward=81.4
+    saf_h_protected: accept=80.2% msd=0.0% sla=0.0% lat=0.24ms reward=80.6
+    decoupled_ai_protected: accept=80.0% msd=0.0% sla=0.0% lat=0.81ms reward=84.1
+    harp_protected: accept=83.6% msd=0.0% sla=0.0% lat=2.69ms reward=62.2
+    traditional_greedy_unprotected: accept=100.0% msd=0.0% sla=0.0% lat=5.97ms reward=84.2
+    cspf_unprotected: accept=100.0% msd=0.0% sla=0.0% lat=5.97ms reward=84.2
+    saf_h_unprotected: accept=100.0% msd=0.0% sla=0.0% lat=4.00ms reward=77.2
+    decoupled_ai_unprotected: accept=100.0% msd=0.0% sla=0.0% lat=3.19ms reward=96.6
+    harp_unprotected: accept=100.0% msd=0.0% sla=0.0% lat=4.63ms reward=101.9
+  seed=512
+    traditional_greedy_protected: accept=80.0% msd=0.0% sla=0.0% lat=1.49ms reward=82.0
+    cspf_protected: accept=79.9% msd=0.0% sla=0.0% lat=1.49ms reward=81.4
+    saf_h_protected: accept=79.7% msd=0.0% sla=0.0% lat=0.24ms reward=79.1
+    decoupled_ai_protected: accept=80.0% msd=0.0% sla=0.0% lat=0.75ms reward=83.6
+    harp_protected: accept=83.1% msd=0.0% sla=0.0% lat=2.67ms reward=61.0
+    traditional_greedy_unprotected: accept=100.0% msd=0.0% sla=0.0% lat=6.19ms reward=82.8
+    cspf_unprotected: accept=100.0% msd=0.0% sla=0.0% lat=6.19ms reward=82.8
+    saf_h_unprotected: accept=100.0% msd=0.0% sla=0.0% lat=4.42ms reward=73.8
+    decoupled_ai_unprotected: accept=100.0% msd=0.0% sla=0.0% lat=3.15ms reward=95.2
+    harp_unprotected: accept=100.0% msd=0.0% sla=0.0% lat=4.35ms reward=100.2
+  seed=1024
+    traditional_greedy_protected: accept=79.9% msd=0.0% sla=0.0% lat=1.51ms reward=82.2
+    cspf_protected: accept=80.3% msd=0.0% sla=0.0% lat=1.48ms reward=81.3
+    saf_h_protected: accept=79.9% msd=0.0% sla=0.0% lat=0.25ms reward=80.0
+    decoupled_ai_protected: accept=80.0% msd=0.0% sla=0.0% lat=0.83ms reward=84.2
+    harp_protected: accept=84.0% msd=0.0% sla=0.0% lat=2.68ms reward=61.2
+    traditional_greedy_unprotected: accept=100.0% msd=0.0% sla=0.0% lat=5.95ms reward=83.1
+    cspf_unprotected: accept=100.0% msd=0.0% sla=0.0% lat=5.95ms reward=83.1
+    saf_h_unprotected: accept=100.0% msd=0.0% sla=0.0% lat=3.94ms reward=76.5
+    decoupled_ai_unprotected: accept=100.0% msd=0.0% sla=0.0% lat=3.13ms reward=94.9
+    harp_unprotected: accept=100.0% msd=0.0% sla=0.0% lat=4.60ms reward=100.8
+  seed=4096
+    traditional_greedy_protected: accept=80.1% msd=0.0% sla=0.0% lat=1.49ms reward=82.3
+    cspf_protected: accept=79.9% msd=0.0% sla=0.0% lat=1.49ms reward=82.0
+    saf_h_protected: accept=79.9% msd=0.0% sla=0.0% lat=0.24ms reward=80.0
+    decoupled_ai_protected: accept=80.1% msd=0.0% sla=0.0% lat=0.80ms reward=83.5
+    harp_protected: accept=83.8% msd=0.0% sla=0.0% lat=2.69ms reward=61.6
+    traditional_greedy_unprotected: accept=100.0% msd=0.0% sla=0.0% lat=5.98ms reward=83.2
+    cspf_unprotected: accept=100.0% msd=0.0% sla=0.0% lat=5.98ms reward=83.2
+    saf_h_unprotected: accept=100.0% msd=0.0% sla=0.0% lat=3.97ms reward=76.6
+    decoupled_ai_unprotected: accept=100.0% msd=0.0% sla=0.0% lat=3.24ms reward=94.9
+    harp_unprotected: accept=100.0% msd=0.0% sla=0.0% lat=4.79ms reward=102.1
+  seed=8192
+    traditional_greedy_protected: accept=80.1% msd=0.0% sla=0.0% lat=1.49ms reward=82.5
+    cspf_protected: accept=80.1% msd=0.0% sla=0.0% lat=1.49ms reward=81.3
+    saf_h_protected: accept=80.3% msd=0.0% sla=0.0% lat=0.24ms reward=80.6
+    decoupled_ai_protected: accept=80.1% msd=0.0% sla=0.0% lat=0.79ms reward=83.9
+    harp_protected: accept=84.0% msd=0.0% sla=0.0% lat=2.71ms reward=62.7
+    traditional_greedy_unprotected: accept=100.0% msd=0.0% sla=0.0% lat=5.94ms reward=83.0
+    cspf_unprotected: accept=100.0% msd=0.0% sla=0.0% lat=5.94ms reward=83.0
+    saf_h_unprotected: accept=100.0% msd=0.0% sla=0.0% lat=3.94ms reward=76.5
+    decoupled_ai_unprotected: accept=100.0% msd=0.0% sla=0.0% lat=3.08ms reward=95.1
+    harp_unprotected: accept=100.0% msd=0.0% sla=0.0% lat=4.65ms reward=100.8
+Running topology=synthetic_50 scenario=burst_surge env=bursty load=stress
+  completed seed=42 (1/20)
+  completed seed=100 (2/20)
+  completed seed=2024 (3/20)
+  completed seed=8888 (4/20)
+  completed seed=9999 (5/20)
+  completed seed=7 (6/20)
+  completed seed=17 (7/20)
+  completed seed=73 (8/20)
+  completed seed=314 (9/20)
+  completed seed=2718 (10/20)
+  completed seed=11 (11/20)
+  completed seed=23 (12/20)
+  completed seed=47 (13/20)
+  completed seed=89 (14/20)
+  completed seed=101 (15/20)
+  completed seed=211 (16/20)
+  completed seed=512 (17/20)
+  completed seed=1024 (18/20)
+  completed seed=4096 (19/20)
+  completed seed=8192 (20/20)
+  seed=42
+    traditional_greedy_protected: accept=93.6% msd=0.0% sla=0.0% lat=1.45ms reward=99.1
+    cspf_protected: accept=93.6% msd=0.0% sla=0.0% lat=1.46ms reward=97.6
+    saf_h_protected: accept=93.6% msd=0.0% sla=0.0% lat=0.22ms reward=94.4
+    decoupled_ai_protected: accept=93.6% msd=0.0% sla=0.0% lat=0.55ms reward=98.4
+    harp_protected: accept=97.6% msd=0.0% sla=0.0% lat=2.72ms reward=71.9
+    traditional_greedy_unprotected: accept=100.0% msd=0.0% sla=0.0% lat=2.40ms reward=84.3
+    cspf_unprotected: accept=100.0% msd=0.0% sla=0.0% lat=2.40ms reward=84.3
+    saf_h_unprotected: accept=100.0% msd=0.0% sla=0.0% lat=0.29ms reward=101.1
+    decoupled_ai_unprotected: accept=100.0% msd=0.0% sla=0.0% lat=0.62ms reward=100.5
+    harp_unprotected: accept=100.0% msd=0.0% sla=0.0% lat=4.43ms reward=83.7
+  seed=100
+    traditional_greedy_protected: accept=93.6% msd=0.0% sla=0.0% lat=1.44ms reward=99.5
+    cspf_protected: accept=93.4% msd=0.0% sla=0.0% lat=1.45ms reward=98.2
+    saf_h_protected: accept=93.5% msd=0.0% sla=0.0% lat=0.22ms reward=94.1
+    decoupled_ai_protected: accept=93.6% msd=0.0% sla=0.0% lat=0.56ms reward=98.3
+    harp_protected: accept=97.9% msd=0.0% sla=0.0% lat=2.80ms reward=71.6
+    traditional_greedy_unprotected: accept=100.0% msd=0.0% sla=0.0% lat=2.34ms reward=85.4
+    cspf_unprotected: accept=100.0% msd=0.0% sla=0.0% lat=2.34ms reward=85.4
+    saf_h_unprotected: accept=100.0% msd=0.0% sla=0.0% lat=0.28ms reward=103.8
+    decoupled_ai_unprotected: accept=100.0% msd=0.0% sla=0.0% lat=0.62ms reward=102.5
+    harp_unprotected: accept=100.0% msd=0.0% sla=0.0% lat=4.23ms reward=86.1
+  seed=2024
+    traditional_greedy_protected: accept=93.2% msd=0.0% sla=0.0% lat=1.43ms reward=97.8
+    cspf_protected: accept=93.1% msd=0.0% sla=0.0% lat=1.42ms reward=97.9
+    saf_h_protected: accept=93.5% msd=0.0% sla=0.0% lat=0.22ms reward=94.1
+    decoupled_ai_protected: accept=93.2% msd=0.0% sla=0.0% lat=0.59ms reward=97.8
+    harp_protected: accept=97.4% msd=0.0% sla=0.0% lat=2.86ms reward=70.8
+    traditional_greedy_unprotected: accept=100.0% msd=0.0% sla=0.0% lat=2.44ms reward=80.6
+    cspf_unprotected: accept=100.0% msd=0.0% sla=0.0% lat=2.44ms reward=80.6
+    saf_h_unprotected: accept=100.0% msd=0.0% sla=0.0% lat=0.31ms reward=97.5
+    decoupled_ai_unprotected: accept=100.0% msd=0.0% sla=0.0% lat=0.68ms reward=96.6
+    harp_unprotected: accept=100.0% msd=0.0% sla=0.0% lat=4.24ms reward=85.0
+  seed=8888
+    traditional_greedy_protected: accept=93.5% msd=0.0% sla=0.0% lat=1.43ms reward=99.4
+    cspf_protected: accept=93.5% msd=0.0% sla=0.0% lat=1.43ms reward=99.0
+    saf_h_protected: accept=93.5% msd=0.0% sla=0.0% lat=0.22ms reward=94.2
+    decoupled_ai_protected: accept=93.5% msd=0.0% sla=0.0% lat=0.55ms reward=98.2
+    harp_protected: accept=97.8% msd=0.0% sla=0.0% lat=2.74ms reward=71.3
+    traditional_greedy_unprotected: accept=100.0% msd=0.0% sla=0.0% lat=2.34ms reward=85.0
+    cspf_unprotected: accept=100.0% msd=0.0% sla=0.0% lat=2.34ms reward=85.0
+    saf_h_unprotected: accept=100.0% msd=0.0% sla=0.0% lat=0.29ms reward=101.4
+    decoupled_ai_unprotected: accept=100.0% msd=0.0% sla=0.0% lat=0.61ms reward=100.9
+    harp_unprotected: accept=100.0% msd=0.0% sla=0.0% lat=4.08ms reward=88.2
+  seed=9999
+    traditional_greedy_protected: accept=93.3% msd=0.0% sla=0.0% lat=1.44ms reward=98.6
+    cspf_protected: accept=93.5% msd=0.0% sla=0.0% lat=1.44ms reward=98.6
+    saf_h_protected: accept=93.5% msd=0.0% sla=0.0% lat=0.22ms reward=94.3
+    decoupled_ai_protected: accept=93.3% msd=0.0% sla=0.0% lat=0.55ms reward=97.9
+    harp_protected: accept=97.6% msd=0.0% sla=0.0% lat=2.72ms reward=71.5
+    traditional_greedy_unprotected: accept=100.0% msd=0.0% sla=0.0% lat=2.44ms reward=84.3
+    cspf_unprotected: accept=100.0% msd=0.0% sla=0.0% lat=2.44ms reward=84.3
+    saf_h_unprotected: accept=100.0% msd=0.0% sla=0.0% lat=0.29ms reward=101.3
+    decoupled_ai_unprotected: accept=100.0% msd=0.0% sla=0.0% lat=0.64ms reward=100.9
+    harp_unprotected: accept=100.0% msd=0.0% sla=0.0% lat=4.36ms reward=86.3
+  seed=7
+    traditional_greedy_protected: accept=92.9% msd=0.0% sla=0.0% lat=1.44ms reward=98.1
+    cspf_protected: accept=93.2% msd=0.0% sla=0.0% lat=1.44ms reward=98.3
+    saf_h_protected: accept=93.0% msd=0.0% sla=0.0% lat=0.22ms reward=93.6
+    decoupled_ai_protected: accept=92.9% msd=0.0% sla=0.0% lat=0.57ms reward=97.4
+    harp_protected: accept=97.3% msd=0.0% sla=0.0% lat=2.71ms reward=71.4
+    traditional_greedy_unprotected: accept=100.0% msd=0.0% sla=0.0% lat=2.48ms reward=82.0
+    cspf_unprotected: accept=100.0% msd=0.0% sla=0.0% lat=2.48ms reward=82.0
+    saf_h_unprotected: accept=100.0% msd=0.0% sla=0.0% lat=0.30ms reward=99.9
+    decoupled_ai_unprotected: accept=100.0% msd=0.0% sla=0.0% lat=0.64ms reward=98.8
+    harp_unprotected: accept=100.0% msd=0.0% sla=0.0% lat=4.25ms reward=86.1
+  seed=17
+    traditional_greedy_protected: accept=93.3% msd=0.0% sla=0.0% lat=1.44ms reward=99.1
+    cspf_protected: accept=93.3% msd=0.0% sla=0.0% lat=1.44ms reward=99.3
+    saf_h_protected: accept=93.4% msd=0.0% sla=0.0% lat=0.22ms reward=93.8
+    decoupled_ai_protected: accept=93.3% msd=0.0% sla=0.0% lat=0.55ms reward=97.4
+    harp_protected: accept=97.5% msd=0.0% sla=0.0% lat=2.68ms reward=71.0
+    traditional_greedy_unprotected: accept=100.0% msd=0.0% sla=0.0% lat=2.36ms reward=83.4
+    cspf_unprotected: accept=100.0% msd=0.0% sla=0.0% lat=2.36ms reward=83.4
+    saf_h_unprotected: accept=100.0% msd=0.0% sla=0.0% lat=0.29ms reward=101.1
+    decoupled_ai_unprotected: accept=100.0% msd=0.0% sla=0.0% lat=0.65ms reward=99.3
+    harp_unprotected: accept=100.0% msd=0.0% sla=0.0% lat=4.38ms reward=84.6
+  seed=73
+    traditional_greedy_protected: accept=93.4% msd=0.0% sla=0.0% lat=1.45ms reward=99.6
+    cspf_protected: accept=93.3% msd=0.0% sla=0.0% lat=1.43ms reward=99.4
+    saf_h_protected: accept=93.3% msd=0.0% sla=0.0% lat=0.22ms reward=93.9
+    decoupled_ai_protected: accept=93.4% msd=0.0% sla=0.0% lat=0.59ms reward=98.3
+    harp_protected: accept=97.6% msd=0.0% sla=0.0% lat=2.67ms reward=71.5
+    traditional_greedy_unprotected: accept=100.0% msd=0.0% sla=0.0% lat=2.44ms reward=82.8
+    cspf_unprotected: accept=100.0% msd=0.0% sla=0.0% lat=2.44ms reward=82.8
+    saf_h_unprotected: accept=100.0% msd=0.0% sla=0.0% lat=0.30ms reward=100.6
+    decoupled_ai_unprotected: accept=100.0% msd=0.0% sla=0.0% lat=0.63ms reward=99.7
+    harp_unprotected: accept=100.0% msd=0.0% sla=0.0% lat=4.09ms reward=86.2
+  seed=314
+    traditional_greedy_protected: accept=93.9% msd=0.0% sla=0.0% lat=1.46ms reward=98.0
+    cspf_protected: accept=93.5% msd=0.0% sla=0.0% lat=1.44ms reward=96.8
+    saf_h_protected: accept=93.7% msd=0.0% sla=0.0% lat=0.22ms reward=94.5
+    decoupled_ai_protected: accept=93.9% msd=0.0% sla=0.0% lat=0.57ms reward=99.1
+    harp_protected: accept=97.9% msd=0.0% sla=0.0% lat=2.72ms reward=71.8
+    traditional_greedy_unprotected: accept=100.0% msd=0.0% sla=0.0% lat=2.40ms reward=83.3
+    cspf_unprotected: accept=100.0% msd=0.0% sla=0.0% lat=2.40ms reward=83.3
+    saf_h_unprotected: accept=100.0% msd=0.0% sla=0.0% lat=0.29ms reward=101.0
+    decoupled_ai_unprotected: accept=100.0% msd=0.0% sla=0.0% lat=0.66ms reward=100.0
+    harp_unprotected: accept=100.0% msd=0.0% sla=0.0% lat=4.29ms reward=86.3
+  seed=2718
+    traditional_greedy_protected: accept=93.5% msd=0.0% sla=0.0% lat=1.45ms reward=98.2
+    cspf_protected: accept=93.4% msd=0.0% sla=0.0% lat=1.44ms reward=98.4
+    saf_h_protected: accept=93.4% msd=0.0% sla=0.0% lat=0.22ms reward=94.0
+    decoupled_ai_protected: accept=93.5% msd=0.0% sla=0.0% lat=0.54ms reward=98.0
+    harp_protected: accept=97.8% msd=0.0% sla=0.0% lat=2.69ms reward=71.5
+    traditional_greedy_unprotected: accept=100.0% msd=0.0% sla=0.0% lat=2.36ms reward=86.0
+    cspf_unprotected: accept=100.0% msd=0.0% sla=0.0% lat=2.36ms reward=86.0
+    saf_h_unprotected: accept=100.0% msd=0.0% sla=0.0% lat=0.28ms reward=103.3
+    decoupled_ai_unprotected: accept=100.0% msd=0.0% sla=0.0% lat=0.59ms reward=103.4
+    harp_unprotected: accept=100.0% msd=0.0% sla=0.0% lat=4.17ms reward=85.4
+  seed=11
+    traditional_greedy_protected: accept=93.1% msd=0.0% sla=0.0% lat=1.43ms reward=99.3
+    cspf_protected: accept=93.2% msd=0.0% sla=0.0% lat=1.44ms reward=97.8
+    saf_h_protected: accept=93.2% msd=0.0% sla=0.0% lat=0.22ms reward=93.7
+    decoupled_ai_protected: accept=93.1% msd=0.0% sla=0.0% lat=0.56ms reward=97.6
+    harp_protected: accept=97.7% msd=0.0% sla=0.0% lat=2.78ms reward=71.6
+    traditional_greedy_unprotected: accept=100.0% msd=0.0% sla=0.0% lat=2.40ms reward=83.8
+    cspf_unprotected: accept=100.0% msd=0.0% sla=0.0% lat=2.40ms reward=83.8
+    saf_h_unprotected: accept=100.0% msd=0.0% sla=0.0% lat=0.30ms reward=100.9
+    decoupled_ai_unprotected: accept=100.0% msd=0.0% sla=0.0% lat=0.66ms reward=100.5
+    harp_unprotected: accept=100.0% msd=0.0% sla=0.0% lat=4.26ms reward=83.9
+  seed=23
+    traditional_greedy_protected: accept=93.5% msd=0.0% sla=0.0% lat=1.44ms reward=100.0
+    cspf_protected: accept=93.4% msd=0.0% sla=0.0% lat=1.47ms reward=98.2
+    saf_h_protected: accept=93.4% msd=0.0% sla=0.0% lat=0.22ms reward=94.3
+    decoupled_ai_protected: accept=93.5% msd=0.0% sla=0.0% lat=0.55ms reward=98.2
+    harp_protected: accept=97.6% msd=0.0% sla=0.0% lat=2.67ms reward=71.6
+    traditional_greedy_unprotected: accept=100.0% msd=0.0% sla=0.0% lat=2.33ms reward=84.5
+    cspf_unprotected: accept=100.0% msd=0.0% sla=0.0% lat=2.33ms reward=84.5
+    saf_h_unprotected: accept=100.0% msd=0.0% sla=0.0% lat=0.28ms reward=102.6
+    decoupled_ai_unprotected: accept=100.0% msd=0.0% sla=0.0% lat=0.58ms reward=101.3
+    harp_unprotected: accept=100.0% msd=0.0% sla=0.0% lat=4.40ms reward=84.7
+  seed=47
+    traditional_greedy_protected: accept=93.0% msd=0.0% sla=0.0% lat=1.43ms reward=98.1
+    cspf_protected: accept=93.0% msd=0.0% sla=0.0% lat=1.42ms reward=98.5
+    saf_h_protected: accept=93.1% msd=0.0% sla=0.0% lat=0.22ms reward=93.5
+    decoupled_ai_protected: accept=93.0% msd=0.0% sla=0.0% lat=0.58ms reward=97.6
+    harp_protected: accept=97.1% msd=0.0% sla=0.0% lat=2.68ms reward=70.7
+    traditional_greedy_unprotected: accept=100.0% msd=0.0% sla=0.0% lat=2.43ms reward=82.2
+    cspf_unprotected: accept=100.0% msd=0.0% sla=0.0% lat=2.43ms reward=82.2
+    saf_h_unprotected: accept=100.0% msd=0.0% sla=0.0% lat=0.29ms reward=101.1
+    decoupled_ai_unprotected: accept=100.0% msd=0.0% sla=0.0% lat=0.66ms reward=99.8
+    harp_unprotected: accept=100.0% msd=0.0% sla=0.0% lat=4.19ms reward=84.9
+  seed=89
+    traditional_greedy_protected: accept=93.4% msd=0.0% sla=0.0% lat=1.44ms reward=98.8
+    cspf_protected: accept=93.4% msd=0.0% sla=0.0% lat=1.45ms reward=97.8
+    saf_h_protected: accept=93.2% msd=0.0% sla=0.0% lat=0.22ms reward=93.8
+    decoupled_ai_protected: accept=93.4% msd=0.0% sla=0.0% lat=0.56ms reward=98.0
+    harp_protected: accept=97.5% msd=0.0% sla=0.0% lat=2.62ms reward=71.6
+    traditional_greedy_unprotected: accept=100.0% msd=0.0% sla=0.0% lat=2.37ms reward=84.6
+    cspf_unprotected: accept=100.0% msd=0.0% sla=0.0% lat=2.37ms reward=84.6
+    saf_h_unprotected: accept=100.0% msd=0.0% sla=0.0% lat=0.29ms reward=102.0
+    decoupled_ai_unprotected: accept=100.0% msd=0.0% sla=0.0% lat=0.63ms reward=101.0
+    harp_unprotected: accept=100.0% msd=0.0% sla=0.0% lat=4.20ms reward=85.9
+  seed=101
+    traditional_greedy_protected: accept=93.3% msd=0.0% sla=0.0% lat=1.44ms reward=100.4
+    cspf_protected: accept=93.4% msd=0.0% sla=0.0% lat=1.44ms reward=99.8
+    saf_h_protected: accept=93.4% msd=0.0% sla=0.0% lat=0.22ms reward=94.1
+    decoupled_ai_protected: accept=93.4% msd=0.0% sla=0.0% lat=0.56ms reward=98.0
+    harp_protected: accept=97.9% msd=0.0% sla=0.0% lat=2.76ms reward=71.6
+    traditional_greedy_unprotected: accept=100.0% msd=0.0% sla=0.0% lat=2.26ms reward=87.4
+    cspf_unprotected: accept=100.0% msd=0.0% sla=0.0% lat=2.26ms reward=87.4
+    saf_h_unprotected: accept=100.0% msd=0.0% sla=0.0% lat=0.28ms reward=103.3
+    decoupled_ai_unprotected: accept=100.0% msd=0.0% sla=0.0% lat=0.61ms reward=103.2
+    harp_unprotected: accept=100.0% msd=0.0% sla=0.0% lat=4.20ms reward=85.0
+  seed=211
+    traditional_greedy_protected: accept=93.4% msd=0.0% sla=0.0% lat=1.46ms reward=97.8
+    cspf_protected: accept=93.4% msd=0.0% sla=0.0% lat=1.46ms reward=98.9
+    saf_h_protected: accept=93.4% msd=0.0% sla=0.0% lat=0.22ms reward=94.0
+    decoupled_ai_protected: accept=93.4% msd=0.0% sla=0.0% lat=0.56ms reward=98.4
+    harp_protected: accept=98.0% msd=0.0% sla=0.0% lat=2.76ms reward=71.9
+    traditional_greedy_unprotected: accept=100.0% msd=0.0% sla=0.0% lat=2.39ms reward=83.5
+    cspf_unprotected: accept=100.0% msd=0.0% sla=0.0% lat=2.39ms reward=83.5
+    saf_h_unprotected: accept=100.0% msd=0.0% sla=0.0% lat=0.28ms reward=101.3
+    decoupled_ai_unprotected: accept=100.0% msd=0.0% sla=0.0% lat=0.61ms reward=100.8
+    harp_unprotected: accept=100.0% msd=0.0% sla=0.0% lat=4.01ms reward=86.0
+  seed=512
+    traditional_greedy_protected: accept=93.0% msd=0.0% sla=0.0% lat=1.45ms reward=97.3
+    cspf_protected: accept=93.0% msd=0.0% sla=0.0% lat=1.45ms reward=97.1
+    saf_h_protected: accept=92.9% msd=0.0% sla=0.0% lat=0.22ms reward=93.1
+    decoupled_ai_protected: accept=92.5% msd=0.0% sla=0.0% lat=0.58ms reward=96.9
+    harp_protected: accept=97.4% msd=0.0% sla=0.0% lat=2.69ms reward=70.5
+    traditional_greedy_unprotected: accept=100.0% msd=0.0% sla=0.0% lat=2.63ms reward=78.6
+    cspf_unprotected: accept=100.0% msd=0.0% sla=0.0% lat=2.63ms reward=78.6
+    saf_h_unprotected: accept=100.0% msd=0.0% sla=0.0% lat=0.32ms reward=97.8
+    decoupled_ai_unprotected: accept=100.0% msd=0.0% sla=0.0% lat=0.70ms reward=96.1
+    harp_unprotected: accept=100.0% msd=0.0% sla=0.0% lat=4.27ms reward=86.8
+  seed=1024
+    traditional_greedy_protected: accept=93.8% msd=0.0% sla=0.0% lat=1.44ms reward=100.7
+    cspf_protected: accept=93.2% msd=0.0% sla=0.0% lat=1.43ms reward=98.8
+    saf_h_protected: accept=93.2% msd=0.0% sla=0.0% lat=0.22ms reward=93.7
+    decoupled_ai_protected: accept=93.8% msd=0.0% sla=0.0% lat=0.57ms reward=98.7
+    harp_protected: accept=97.6% msd=0.0% sla=0.0% lat=2.73ms reward=71.0
+    traditional_greedy_unprotected: accept=100.0% msd=0.0% sla=0.0% lat=2.33ms reward=84.7
+    cspf_unprotected: accept=100.0% msd=0.0% sla=0.0% lat=2.33ms reward=84.7
+    saf_h_unprotected: accept=100.0% msd=0.0% sla=0.0% lat=0.29ms reward=101.9
+    decoupled_ai_unprotected: accept=100.0% msd=0.0% sla=0.0% lat=0.62ms reward=100.1
+    harp_unprotected: accept=100.0% msd=0.0% sla=0.0% lat=4.11ms reward=87.9
+  seed=4096
+    traditional_greedy_protected: accept=93.3% msd=0.0% sla=0.0% lat=1.46ms reward=98.2
+    cspf_protected: accept=93.3% msd=0.0% sla=0.0% lat=1.43ms reward=99.4
+    saf_h_protected: accept=93.3% msd=0.0% sla=0.0% lat=0.22ms reward=93.7
+    decoupled_ai_protected: accept=93.3% msd=0.0% sla=0.0% lat=0.58ms reward=97.9
+    harp_protected: accept=97.8% msd=0.0% sla=0.0% lat=2.72ms reward=71.4
+    traditional_greedy_unprotected: accept=100.0% msd=0.0% sla=0.0% lat=2.37ms reward=85.5
+    cspf_unprotected: accept=100.0% msd=0.0% sla=0.0% lat=2.37ms reward=85.5
+    saf_h_unprotected: accept=100.0% msd=0.0% sla=0.0% lat=0.29ms reward=101.7
+    decoupled_ai_unprotected: accept=100.0% msd=0.0% sla=0.0% lat=0.63ms reward=101.2
+    harp_unprotected: accept=100.0% msd=0.0% sla=0.0% lat=4.22ms reward=86.2
+  seed=8192
+    traditional_greedy_protected: accept=93.5% msd=0.0% sla=0.0% lat=1.45ms reward=98.9
+    cspf_protected: accept=93.5% msd=0.0% sla=0.0% lat=1.45ms reward=98.4
+    saf_h_protected: accept=93.5% msd=0.0% sla=0.0% lat=0.22ms reward=94.1
+    decoupled_ai_protected: accept=93.5% msd=0.0% sla=0.0% lat=0.55ms reward=98.2
+    harp_protected: accept=97.8% msd=0.0% sla=0.0% lat=2.71ms reward=71.2
+    traditional_greedy_unprotected: accept=100.0% msd=0.0% sla=0.0% lat=2.31ms reward=84.4
+    cspf_unprotected: accept=100.0% msd=0.0% sla=0.0% lat=2.31ms reward=84.4
+    saf_h_unprotected: accept=100.0% msd=0.0% sla=0.0% lat=0.29ms reward=101.6
+    decoupled_ai_unprotected: accept=100.0% msd=0.0% sla=0.0% lat=0.60ms reward=101.1
+    harp_unprotected: accept=100.0% msd=0.0% sla=0.0% lat=4.18ms reward=87.1
+Running topology=synthetic_50 scenario=chaos env=chaos load=stress
+  completed seed=42 (1/20)
+  completed seed=100 (2/20)
+  completed seed=2024 (3/20)
+  completed seed=8888 (4/20)
+  completed seed=9999 (5/20)
+  completed seed=7 (6/20)
+  completed seed=17 (7/20)
+  completed seed=73 (8/20)
+  completed seed=314 (9/20)
+  completed seed=2718 (10/20)
+  completed seed=11 (11/20)
+  completed seed=23 (12/20)
+  completed seed=47 (13/20)
+  completed seed=89 (14/20)
+  completed seed=101 (15/20)
+  completed seed=211 (16/20)
+  completed seed=512 (17/20)
+  completed seed=1024 (18/20)
+  completed seed=4096 (19/20)
+  completed seed=8192 (20/20)
+  seed=42
+    traditional_greedy_protected: accept=81.8% msd=0.0% sla=0.0% lat=1.49ms reward=84.1
+    cspf_protected: accept=81.6% msd=0.0% sla=0.0% lat=1.47ms reward=83.1
+    saf_h_protected: accept=81.7% msd=0.0% sla=0.0% lat=0.24ms reward=81.0
+    decoupled_ai_protected: accept=81.8% msd=0.0% sla=0.0% lat=0.67ms reward=85.6
+    harp_protected: accept=85.4% msd=0.0% sla=0.0% lat=2.61ms reward=62.3
+    traditional_greedy_unprotected: accept=100.0% msd=0.0% sla=0.0% lat=5.89ms reward=82.2
+    cspf_unprotected: accept=100.0% msd=0.0% sla=0.0% lat=5.89ms reward=82.2
+    saf_h_unprotected: accept=100.0% msd=0.0% sla=0.0% lat=3.79ms reward=77.1
+    decoupled_ai_unprotected: accept=100.0% msd=0.0% sla=0.0% lat=2.72ms reward=95.7
+    harp_unprotected: accept=100.0% msd=0.0% sla=0.0% lat=4.42ms reward=99.7
+  seed=100
+    traditional_greedy_protected: accept=82.1% msd=0.0% sla=0.0% lat=1.46ms reward=83.0
+    cspf_protected: accept=82.1% msd=0.0% sla=0.0% lat=1.46ms reward=81.9
+    saf_h_protected: accept=82.1% msd=0.0% sla=0.0% lat=0.24ms reward=81.3
+    decoupled_ai_protected: accept=82.1% msd=0.0% sla=0.0% lat=0.69ms reward=85.6
+    harp_protected: accept=85.8% msd=0.0% sla=0.0% lat=2.68ms reward=62.1
+    traditional_greedy_unprotected: accept=100.0% msd=0.0% sla=0.0% lat=5.78ms reward=81.0
+    cspf_unprotected: accept=100.0% msd=0.0% sla=0.0% lat=5.78ms reward=81.0
+    saf_h_unprotected: accept=100.0% msd=0.0% sla=0.0% lat=3.62ms reward=77.3
+    decoupled_ai_unprotected: accept=100.0% msd=0.0% sla=0.0% lat=2.63ms reward=93.7
+    harp_unprotected: accept=100.0% msd=0.0% sla=0.0% lat=4.43ms reward=96.3
+  seed=2024
+    traditional_greedy_protected: accept=82.0% msd=0.0% sla=0.0% lat=1.49ms reward=83.5
+    cspf_protected: accept=82.1% msd=0.0% sla=0.0% lat=1.47ms reward=82.0
+    saf_h_protected: accept=82.1% msd=0.0% sla=0.0% lat=0.23ms reward=81.0
+    decoupled_ai_protected: accept=82.0% msd=0.0% sla=0.0% lat=0.69ms reward=85.1
+    harp_protected: accept=86.0% msd=0.0% sla=0.0% lat=2.66ms reward=61.6
+    traditional_greedy_unprotected: accept=100.0% msd=0.0% sla=0.0% lat=5.85ms reward=81.2
+    cspf_unprotected: accept=100.0% msd=0.0% sla=0.0% lat=5.87ms reward=81.3
+    saf_h_unprotected: accept=100.0% msd=0.0% sla=0.0% lat=3.85ms reward=75.2
+    decoupled_ai_unprotected: accept=100.0% msd=0.0% sla=0.0% lat=2.81ms reward=92.8
+    harp_unprotected: accept=100.0% msd=0.0% sla=0.0% lat=4.54ms reward=98.2
+  seed=8888
+    traditional_greedy_protected: accept=82.0% msd=0.0% sla=0.0% lat=1.48ms reward=82.9
+    cspf_protected: accept=81.9% msd=0.0% sla=0.0% lat=1.51ms reward=82.2
+    saf_h_protected: accept=81.9% msd=0.0% sla=0.0% lat=0.24ms reward=81.3
+    decoupled_ai_protected: accept=82.0% msd=0.0% sla=0.0% lat=0.67ms reward=85.5
+    harp_protected: accept=85.9% msd=0.0% sla=0.0% lat=2.67ms reward=62.2
+    traditional_greedy_unprotected: accept=100.0% msd=0.0% sla=0.0% lat=5.82ms reward=81.7
+    cspf_unprotected: accept=100.0% msd=0.0% sla=0.0% lat=5.82ms reward=81.7
+    saf_h_unprotected: accept=100.0% msd=0.0% sla=0.0% lat=3.79ms reward=76.0
+    decoupled_ai_unprotected: accept=100.0% msd=0.0% sla=0.0% lat=2.71ms reward=94.1
+    harp_unprotected: accept=100.0% msd=0.0% sla=0.0% lat=4.56ms reward=98.0
+  seed=9999
+    traditional_greedy_protected: accept=82.0% msd=0.0% sla=0.0% lat=1.47ms reward=83.9
+    cspf_protected: accept=82.0% msd=0.0% sla=0.0% lat=1.47ms reward=82.6
+    saf_h_protected: accept=82.0% msd=0.0% sla=0.0% lat=0.23ms reward=81.5
+    decoupled_ai_protected: accept=82.0% msd=0.0% sla=0.0% lat=0.67ms reward=85.9
+    harp_protected: accept=85.6% msd=0.0% sla=0.0% lat=2.69ms reward=62.1
+    traditional_greedy_unprotected: accept=100.0% msd=0.0% sla=0.0% lat=5.89ms reward=81.7
+    cspf_unprotected: accept=100.0% msd=0.0% sla=0.0% lat=5.89ms reward=81.7
+    saf_h_unprotected: accept=100.0% msd=0.0% sla=0.0% lat=3.79ms reward=76.8
+    decoupled_ai_unprotected: accept=100.0% msd=0.0% sla=0.0% lat=2.79ms reward=94.6
+    harp_unprotected: accept=100.0% msd=0.0% sla=0.0% lat=4.50ms reward=98.5
+  seed=7
+    traditional_greedy_protected: accept=82.1% msd=0.0% sla=0.0% lat=1.49ms reward=83.4
+    cspf_protected: accept=82.3% msd=0.0% sla=0.0% lat=1.49ms reward=82.2
+    saf_h_protected: accept=82.1% msd=0.0% sla=0.0% lat=0.24ms reward=81.2
+    decoupled_ai_protected: accept=82.1% msd=0.0% sla=0.0% lat=0.68ms reward=85.6
+    harp_protected: accept=85.9% msd=0.0% sla=0.0% lat=2.75ms reward=62.2
+    traditional_greedy_unprotected: accept=100.0% msd=0.0% sla=0.0% lat=5.92ms reward=80.8
+    cspf_unprotected: accept=100.0% msd=0.0% sla=0.0% lat=5.92ms reward=80.8
+    saf_h_unprotected: accept=100.0% msd=0.0% sla=0.0% lat=3.91ms reward=74.9
+    decoupled_ai_unprotected: accept=100.0% msd=0.0% sla=0.0% lat=2.84ms reward=92.4
+    harp_unprotected: accept=100.0% msd=0.0% sla=0.0% lat=4.70ms reward=95.0
+  seed=17
+    traditional_greedy_protected: accept=82.1% msd=0.0% sla=0.0% lat=1.47ms reward=85.2
+    cspf_protected: accept=81.9% msd=0.0% sla=0.0% lat=1.48ms reward=83.1
+    saf_h_protected: accept=81.9% msd=0.0% sla=0.0% lat=0.23ms reward=81.0
+    decoupled_ai_protected: accept=82.1% msd=0.0% sla=0.0% lat=0.67ms reward=85.5
+    harp_protected: accept=85.2% msd=0.0% sla=0.0% lat=2.69ms reward=61.1
+    traditional_greedy_unprotected: accept=100.0% msd=0.0% sla=0.0% lat=5.92ms reward=81.7
+    cspf_unprotected: accept=100.0% msd=0.0% sla=0.0% lat=5.92ms reward=81.7
+    saf_h_unprotected: accept=100.0% msd=0.0% sla=0.0% lat=3.88ms reward=76.1
+    decoupled_ai_unprotected: accept=100.0% msd=0.0% sla=0.0% lat=2.75ms reward=95.1
+    harp_unprotected: accept=100.0% msd=0.0% sla=0.0% lat=4.37ms reward=98.2
+  seed=73
+    traditional_greedy_protected: accept=82.0% msd=0.0% sla=0.0% lat=1.47ms reward=84.6
+    cspf_protected: accept=82.1% msd=0.0% sla=0.0% lat=1.47ms reward=84.4
+    saf_h_protected: accept=82.1% msd=0.0% sla=0.0% lat=0.23ms reward=81.0
+    decoupled_ai_protected: accept=82.0% msd=0.0% sla=0.0% lat=0.70ms reward=85.8
+    harp_protected: accept=85.7% msd=0.0% sla=0.0% lat=2.71ms reward=60.8
+    traditional_greedy_unprotected: accept=100.0% msd=0.0% sla=0.0% lat=5.82ms reward=81.2
+    cspf_unprotected: accept=100.0% msd=0.0% sla=0.0% lat=5.82ms reward=81.2
+    saf_h_unprotected: accept=100.0% msd=0.0% sla=0.0% lat=3.73ms reward=75.9
+    decoupled_ai_unprotected: accept=100.0% msd=0.0% sla=0.0% lat=2.60ms reward=93.2
+    harp_unprotected: accept=100.0% msd=0.0% sla=0.0% lat=4.49ms reward=97.4
+  seed=314
+    traditional_greedy_protected: accept=82.6% msd=0.0% sla=0.0% lat=1.50ms reward=83.9
+    cspf_protected: accept=82.5% msd=0.0% sla=0.0% lat=1.49ms reward=83.9
+    saf_h_protected: accept=82.5% msd=0.0% sla=0.0% lat=0.24ms reward=81.9
+    decoupled_ai_protected: accept=82.6% msd=0.0% sla=0.0% lat=0.68ms reward=86.3
+    harp_protected: accept=86.2% msd=0.0% sla=0.0% lat=2.73ms reward=62.4
+    traditional_greedy_unprotected: accept=100.0% msd=0.0% sla=0.0% lat=5.73ms reward=80.9
+    cspf_unprotected: accept=100.0% msd=0.0% sla=0.0% lat=5.73ms reward=80.9
+    saf_h_unprotected: accept=100.0% msd=0.0% sla=0.0% lat=3.60ms reward=76.1
+    decoupled_ai_unprotected: accept=100.0% msd=0.0% sla=0.0% lat=2.57ms reward=93.5
+    harp_unprotected: accept=100.0% msd=0.0% sla=0.0% lat=4.38ms reward=98.3
+  seed=2718
+    traditional_greedy_protected: accept=82.4% msd=0.0% sla=0.0% lat=1.47ms reward=85.0
+    cspf_protected: accept=82.1% msd=0.0% sla=0.0% lat=1.47ms reward=84.8
+    saf_h_protected: accept=82.1% msd=0.0% sla=0.0% lat=0.23ms reward=81.3
+    decoupled_ai_protected: accept=82.4% msd=0.0% sla=0.0% lat=0.70ms reward=86.0
+    harp_protected: accept=85.7% msd=0.0% sla=0.0% lat=2.57ms reward=62.3
+    traditional_greedy_unprotected: accept=100.0% msd=0.0% sla=0.0% lat=5.78ms reward=81.7
+    cspf_unprotected: accept=100.0% msd=0.0% sla=0.0% lat=5.78ms reward=81.7
+    saf_h_unprotected: accept=100.0% msd=0.0% sla=0.0% lat=3.69ms reward=77.1
+    decoupled_ai_unprotected: accept=100.0% msd=0.0% sla=0.0% lat=2.64ms reward=93.2
+    harp_unprotected: accept=100.0% msd=0.0% sla=0.0% lat=4.45ms reward=98.2
+  seed=11
+    traditional_greedy_protected: accept=82.4% msd=0.0% sla=0.0% lat=1.49ms reward=84.2
+    cspf_protected: accept=82.4% msd=0.0% sla=0.0% lat=1.48ms reward=83.8
+    saf_h_protected: accept=82.4% msd=0.0% sla=0.0% lat=0.23ms reward=81.4
+    decoupled_ai_protected: accept=82.6% msd=0.0% sla=0.0% lat=0.68ms reward=86.3
+    harp_protected: accept=85.8% msd=0.0% sla=0.0% lat=2.66ms reward=62.1
+    traditional_greedy_unprotected: accept=100.0% msd=0.0% sla=0.0% lat=5.86ms reward=81.3
+    cspf_unprotected: accept=100.0% msd=0.0% sla=0.0% lat=5.80ms reward=81.6
+    saf_h_unprotected: accept=100.0% msd=0.0% sla=0.0% lat=3.76ms reward=75.8
+    decoupled_ai_unprotected: accept=100.0% msd=0.0% sla=0.0% lat=2.59ms reward=93.5
+    harp_unprotected: accept=100.0% msd=0.0% sla=0.0% lat=4.29ms reward=97.9
+  seed=23
+    traditional_greedy_protected: accept=81.9% msd=0.0% sla=0.0% lat=1.45ms reward=84.3
+    cspf_protected: accept=82.1% msd=0.0% sla=0.0% lat=1.47ms reward=83.9
+    saf_h_protected: accept=82.1% msd=0.0% sla=0.0% lat=0.23ms reward=81.4
+    decoupled_ai_protected: accept=81.9% msd=0.0% sla=0.0% lat=0.70ms reward=85.1
+    harp_protected: accept=85.6% msd=0.0% sla=0.0% lat=2.68ms reward=62.0
+    traditional_greedy_unprotected: accept=100.0% msd=0.0% sla=0.0% lat=5.81ms reward=82.5
+    cspf_unprotected: accept=100.0% msd=0.0% sla=0.0% lat=5.81ms reward=82.5
+    saf_h_unprotected: accept=100.0% msd=0.0% sla=0.0% lat=3.73ms reward=77.6
+    decoupled_ai_unprotected: accept=100.0% msd=0.0% sla=0.0% lat=2.70ms reward=94.9
+    harp_unprotected: accept=100.0% msd=0.0% sla=0.0% lat=4.48ms reward=99.1
+  seed=47
+    traditional_greedy_protected: accept=81.9% msd=0.0% sla=0.0% lat=1.47ms reward=83.3
+    cspf_protected: accept=82.0% msd=0.0% sla=0.0% lat=1.47ms reward=82.6
+    saf_h_protected: accept=82.0% msd=0.0% sla=0.0% lat=0.24ms reward=80.9
+    decoupled_ai_protected: accept=82.1% msd=0.0% sla=0.0% lat=0.69ms reward=85.8
+    harp_protected: accept=86.0% msd=0.0% sla=0.0% lat=2.65ms reward=62.1
+    traditional_greedy_unprotected: accept=100.0% msd=0.0% sla=0.0% lat=5.76ms reward=81.5
+    cspf_unprotected: accept=100.0% msd=0.0% sla=0.0% lat=5.82ms reward=81.3
+    saf_h_unprotected: accept=100.0% msd=0.0% sla=0.0% lat=3.76ms reward=76.2
+    decoupled_ai_unprotected: accept=100.0% msd=0.0% sla=0.0% lat=2.58ms reward=94.6
+    harp_unprotected: accept=100.0% msd=0.0% sla=0.0% lat=4.40ms reward=94.7
+  seed=89
+    traditional_greedy_protected: accept=82.3% msd=0.0% sla=0.0% lat=1.50ms reward=83.7
+    cspf_protected: accept=82.3% msd=0.0% sla=0.0% lat=1.49ms reward=82.9
+    saf_h_protected: accept=81.9% msd=0.0% sla=0.0% lat=0.23ms reward=80.9
+    decoupled_ai_protected: accept=82.2% msd=0.0% sla=0.0% lat=0.70ms reward=85.3
+    harp_protected: accept=85.4% msd=0.0% sla=0.0% lat=2.70ms reward=61.2
+    traditional_greedy_unprotected: accept=100.0% msd=0.0% sla=0.0% lat=5.87ms reward=81.7
+    cspf_unprotected: accept=100.0% msd=0.0% sla=0.0% lat=5.87ms reward=81.7
+    saf_h_unprotected: accept=100.0% msd=0.0% sla=0.0% lat=3.96ms reward=75.5
+    decoupled_ai_unprotected: accept=100.0% msd=0.0% sla=0.0% lat=2.65ms reward=94.4
+    harp_unprotected: accept=100.0% msd=0.0% sla=0.0% lat=4.51ms reward=98.3
+  seed=101
+    traditional_greedy_protected: accept=82.6% msd=0.0% sla=0.0% lat=1.46ms reward=86.0
+    cspf_protected: accept=82.7% msd=0.0% sla=0.0% lat=1.46ms reward=84.8
+    saf_h_protected: accept=82.7% msd=0.0% sla=0.0% lat=0.23ms reward=82.0
+    decoupled_ai_protected: accept=82.6% msd=0.0% sla=0.0% lat=0.66ms reward=86.3
+    harp_protected: accept=86.1% msd=0.0% sla=0.0% lat=2.73ms reward=62.7
+    traditional_greedy_unprotected: accept=100.0% msd=0.0% sla=0.0% lat=5.73ms reward=81.2
+    cspf_unprotected: accept=100.0% msd=0.0% sla=0.0% lat=5.73ms reward=81.2
+    saf_h_unprotected: accept=100.0% msd=0.0% sla=0.0% lat=3.51ms reward=77.8
+    decoupled_ai_unprotected: accept=100.0% msd=0.0% sla=0.0% lat=2.56ms reward=93.2
+    harp_unprotected: accept=100.0% msd=0.0% sla=0.0% lat=4.54ms reward=96.2
+  seed=211
+    traditional_greedy_protected: accept=81.9% msd=0.0% sla=0.0% lat=1.48ms reward=84.1
+    cspf_protected: accept=81.9% msd=0.0% sla=0.0% lat=1.48ms reward=83.1
+    saf_h_protected: accept=81.9% msd=0.0% sla=0.0% lat=0.24ms reward=81.1
+    decoupled_ai_protected: accept=81.9% msd=0.0% sla=0.0% lat=0.72ms reward=85.2
+    harp_protected: accept=85.7% msd=0.0% sla=0.0% lat=2.61ms reward=62.3
+    traditional_greedy_unprotected: accept=100.0% msd=0.0% sla=0.0% lat=5.86ms reward=81.9
+    cspf_unprotected: accept=100.0% msd=0.0% sla=0.0% lat=5.86ms reward=81.9
+    saf_h_unprotected: accept=100.0% msd=0.0% sla=0.0% lat=3.80ms reward=76.3
+    decoupled_ai_unprotected: accept=100.0% msd=0.0% sla=0.0% lat=2.73ms reward=94.0
+    harp_unprotected: accept=100.0% msd=0.0% sla=0.0% lat=4.50ms reward=99.3
+  seed=512
+    traditional_greedy_protected: accept=81.7% msd=0.0% sla=0.0% lat=1.48ms reward=82.3
+    cspf_protected: accept=81.5% msd=0.0% sla=0.0% lat=1.48ms reward=81.9
+    saf_h_protected: accept=81.5% msd=0.0% sla=0.0% lat=0.23ms reward=80.3
+    decoupled_ai_protected: accept=81.7% msd=0.0% sla=0.0% lat=0.71ms reward=84.2
+    harp_protected: accept=85.2% msd=0.0% sla=0.0% lat=2.73ms reward=60.6
+    traditional_greedy_unprotected: accept=100.0% msd=0.0% sla=0.0% lat=6.04ms reward=81.2
+    cspf_unprotected: accept=100.0% msd=0.0% sla=0.0% lat=6.04ms reward=81.2
+    saf_h_unprotected: accept=100.0% msd=0.0% sla=0.0% lat=4.14ms reward=74.6
+    decoupled_ai_unprotected: accept=100.0% msd=0.0% sla=0.0% lat=2.81ms reward=94.1
+    harp_unprotected: accept=100.0% msd=0.0% sla=0.0% lat=4.67ms reward=97.8
+  seed=1024
+    traditional_greedy_protected: accept=81.6% msd=0.0% sla=0.0% lat=1.47ms reward=85.8
+    cspf_protected: accept=81.6% msd=0.0% sla=0.0% lat=1.47ms reward=84.5
+    saf_h_protected: accept=81.6% msd=0.0% sla=0.0% lat=0.23ms reward=80.6
+    decoupled_ai_protected: accept=81.6% msd=0.0% sla=0.0% lat=0.70ms reward=85.0
+    harp_protected: accept=85.5% msd=0.0% sla=0.0% lat=2.72ms reward=61.6
+    traditional_greedy_unprotected: accept=100.0% msd=0.0% sla=0.0% lat=5.87ms reward=82.4
+    cspf_unprotected: accept=100.0% msd=0.0% sla=0.0% lat=5.87ms reward=82.4
+    saf_h_unprotected: accept=100.0% msd=0.0% sla=0.0% lat=3.83ms reward=76.9
+    decoupled_ai_unprotected: accept=100.0% msd=0.0% sla=0.0% lat=2.76ms reward=94.9
+    harp_unprotected: accept=100.0% msd=0.0% sla=0.0% lat=4.40ms reward=100.8
+  seed=4096
+    traditional_greedy_protected: accept=82.0% msd=0.0% sla=0.0% lat=1.49ms reward=84.2
+    cspf_protected: accept=82.1% msd=0.0% sla=0.0% lat=1.50ms reward=82.5
+    saf_h_protected: accept=82.1% msd=0.0% sla=0.0% lat=0.23ms reward=81.2
+    decoupled_ai_protected: accept=82.0% msd=0.0% sla=0.0% lat=0.69ms reward=85.9
+    harp_protected: accept=85.5% msd=0.0% sla=0.0% lat=2.69ms reward=61.4
+    traditional_greedy_unprotected: accept=100.0% msd=0.0% sla=0.0% lat=5.88ms reward=81.1
+    cspf_unprotected: accept=100.0% msd=0.0% sla=0.0% lat=5.88ms reward=81.1
+    saf_h_unprotected: accept=100.0% msd=0.0% sla=0.0% lat=3.79ms reward=75.7
+    decoupled_ai_unprotected: accept=100.0% msd=0.0% sla=0.0% lat=2.74ms reward=93.9
+    harp_unprotected: accept=100.0% msd=0.0% sla=0.0% lat=4.59ms reward=96.0
+  seed=8192
+    traditional_greedy_protected: accept=82.0% msd=0.0% sla=0.0% lat=1.49ms reward=83.7
+    cspf_protected: accept=81.8% msd=0.0% sla=0.0% lat=1.50ms reward=82.4
+    saf_h_protected: accept=81.8% msd=0.0% sla=0.0% lat=0.24ms reward=81.2
+    decoupled_ai_protected: accept=82.0% msd=0.0% sla=0.0% lat=0.70ms reward=86.0
+    harp_protected: accept=85.6% msd=0.0% sla=0.0% lat=2.65ms reward=62.1
+    traditional_greedy_unprotected: accept=100.0% msd=0.0% sla=0.0% lat=5.78ms reward=81.9
+    cspf_unprotected: accept=100.0% msd=0.0% sla=0.0% lat=5.78ms reward=81.9
+    saf_h_unprotected: accept=100.0% msd=0.0% sla=0.0% lat=3.63ms reward=77.4
+    decoupled_ai_unprotected: accept=100.0% msd=0.0% sla=0.0% lat=2.74ms reward=94.6
+    harp_unprotected: accept=100.0% msd=0.0% sla=0.0% lat=4.43ms reward=99.5
+Saved algorithm benchmark outputs to /dis/users/dcs/CoreRouter/results/evidence/multinode_benchmark_20261120_084017/synthetic_50/20261120_154022

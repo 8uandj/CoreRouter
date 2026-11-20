@@ -1,0 +1,6 @@
+-r ../../../requirements.txt
+fastapi
+uvicorn[standard]
+kubernetes
+requests
+torch-geometric

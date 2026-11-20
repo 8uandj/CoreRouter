@@ -1,0 +1,105 @@
+{
+  "kind": "new_multinode_benchmark",
+  "run_tag": "20261120_084017",
+  "source_commit": "4f6b36549a14564f3220c57619b5bd2690035fe1",
+  "protocol": "benchmark-v2, three stress workloads (Elephant/Heavy-tail, Bursty, Chaos), 20 fixed seeds, 3000 offered steps per seed/workload, skip exhaustive policy, one seed worker per topology session",
+  "scenario_argument": "ablation (in run_all this selects exactly elephant_stress, burst_surge, chaos; it does not enable the retired ablation path)",
+  "seeds": [
+    42,
+    100,
+    2024,
+    8888,
+    9999,
+    7,
+    17,
+    73,
+    314,
+    2718,
+    11,
+    23,
+    47,
+    89,
+    101,
+    211,
+    512,
+    1024,
+    4096,
+    8192
+  ],
+  "topologies": [
+    "vietnam",
+    "nsfnet",
+    "geant2",
+    "synthetic_25",
+    "synthetic_50",
+    "synthetic_100"
+  ],
+  "models": {
+    "vietnam": {
+      "model": "results/models/retrain_v11_20261119_corrected/vietnam/dgrl_v11_final_vietnam.zip",
+      "model_sha256": "ea215985d1ad5d8ccc8e900da82d3e50e5ff51417c05bb96930dfc10ab9e86da",
+      "normalizer": "results/models/retrain_v11_20261119_corrected/vietnam/vec_normalize_v11_vietnam.pkl",
+      "normalizer_sha256": "87385923e8099d3b56096eeaa9a43f75a4e0a670c972a77e667d7e160229d646",
+      "action_space": "Discrete(100)",
+      "action_head_logits": 100
+    },
+    "nsfnet": {
+      "model": "results/models/retrain_v11_20261119_corrected/nsfnet/dgrl_v11_final_nsfnet.zip",
+      "model_sha256": "84422beca614c96b110aee4d6ea44eda04e66c41e4a29af912b8b4d8d569c52c",
+      "normalizer": "results/models/retrain_v11_20261119_corrected/nsfnet/vec_normalize_v11_nsfnet.pkl",
+      "normalizer_sha256": "6bf4eccb4578f29201217ff7be59b73d79815adb63c67e6ebb12a8ccb5413596",
+      "action_space": "Discrete(196)",
+      "action_head_logits": 196
+    },
+    "geant2": {
+      "model": "results/models/retrain_v11_20261119_corrected/geant2/dgrl_v11_final_geant2.zip",
+      "model_sha256": "ae5a9eb304d4c393327a825b7e467088dcc08227d7bb6be2c5059c78d56d3748",
+      "normalizer": "results/models/retrain_v11_20261119_corrected/geant2/vec_normalize_v11_geant2.pkl",
+      "normalizer_sha256": "f86466cb046f0f629a3b7822aa6990d105f10141ac7b99f7887c4be200806571",
+      "action_space": "Discrete(529)",
+      "action_head_logits": 529
+    },
+    "synthetic_25": {
+      "model": "results/models/v11_synthetic_25/dgrl_v11_final_synthetic_25.zip",
+      "model_sha256": "8b86d55db7238e082eb303492066522e0a5d50772489f96a2062b69b2e13c5ad",
+      "normalizer": "results/models/v11_synthetic_25/vec_normalize_v11_synthetic_25.pkl",
+      "normalizer_sha256": "721519f095dded370722c2d54c133f2affc3e8df2894f0d4dbdfef2dd959c7b9",
+      "action_space": "Discrete(625)",
+      "action_head_logits": 625
+    },
+    "synthetic_50": {
+      "model": "results/models/v11_synthetic_50/dgrl_v11_final_synthetic_50.zip",
+      "model_sha256": "6fdd0763326080afefd1697882f45a0a1587f01d42da53f8b64c5702297a6858",
+      "normalizer": "results/models/v11_synthetic_50/vec_normalize_v11_synthetic_50.pkl",
+      "normalizer_sha256": "0407807ca25f17039bc56602bdded4a50709d00dee2ab3ac2974d1fe48e3c6e4",
+      "action_space": "Discrete(2500)",
+      "action_head_logits": 2500
+    },
+    "synthetic_100": {
+      "model": "results/models/v11_synthetic_100/dgrl_v11_final_synthetic_100.zip",
+      "model_sha256": "0158e642be515fade0f6ccda899ec9b19ae2c060a596eea77ac2a0c42aab9069",
+      "normalizer": "results/models/v11_synthetic_100/vec_normalize_v11_synthetic_100.pkl",
+      "normalizer_sha256": "d6ebe065a338fcc722f41d3f844ce7f3fafa7a25897f66c6e3ef63465701dd0a",
+      "action_space": "Discrete(10000)",
+      "action_head_logits": 10000
+    }
+  },
+  "data_path": "data/real_telecom_combined.csv",
+  "data_sha256": "5370da1bb55cd679422150c5c4073175109cc7b831eff9c74491b30a17dcdd2a",
+  "python": "Python 3.9.25",
+  "tmux_socket": "harp_multinode_benchmark_20261120_084017",
+  "result_root": "results/evidence/multinode_benchmark_20261120_084017",
+  "audit_scripts": {
+    "scripts/rev1/launch_multinode_evidence_benchmarks.sh": "cb2b32f531515be5b7a3abb9cf2c7972a5eaa8da46826fe5711961c90555360c",
+    "scripts/rev1/summarize_multinode_benchmark_evidence.py": "cd77ae2845e9758e892ccace98ca7c23bd5db3bb584cc7065a5813dbb035e08d"
+  },
+  "synthetic_100_retry": {
+    "reason": "FP32 softmax of 10000 class logits sums to about 1.000005 at seed 42 step 0, exceeding PyTorch Categorical simplex validation tolerance although logits and probabilities are finite",
+    "validation": "Disabling only torch Distribution argument validation preserves deterministic action: raw-logit argmax and MaskablePPO.predict both returned 4301 for the same first state",
+    "original_failed_attempt": "synthetic_100/20261120_154021; retained with full traceback",
+    "retry_command": "commands/synthetic_100_retry.txt",
+    "retry_log": "logs/synthetic_100_retry.log",
+    "retry_output_parent": "synthetic_100/"
+  },
+  "action_contract": "Discrete(N*N), flat index v_place*N + v_route; action masks and policy action heads have N*N entries."
+}

@@ -1,0 +1,118 @@
+[
+  {
+    "all_zero_differences": false,
+    "ci95_high": -0.03333333333333355,
+    "ci95_low": -0.4566666666666663,
+    "comparison": "harp_vs_saf_h_protected",
+    "control": "saf_h_protected",
+    "holm_p": 0.026844730238778876,
+    "mean_delta": -0.24166666666666642,
+    "metric": "acceptance_rate",
+    "n": 20,
+    "paired_keys": [
+      [
+        "geant2",
+        "chaos",
+        7
+      ],
+      [
+        "geant2",
+        "chaos",
+        11
+      ],
+      [
+        "geant2",
+        "chaos",
+        17
+      ],
+      [
+        "geant2",
+        "chaos",
+        23
+      ],
+      [
+        "geant2",
+        "chaos",
+        42
+      ],
+      [
+        "geant2",
+        "chaos",
+        47
+      ],
+      [
+        "geant2",
+        "chaos",
+        73
+      ],
+      [
+        "geant2",
+        "chaos",
+        89
+      ],
+      [
+        "geant2",
+        "chaos",
+        100
+      ],
+      [
+        "geant2",
+        "chaos",
+        101
+      ],
+      [
+        "geant2",
+        "chaos",
+        211
+      ],
+      [
+        "geant2",
+        "chaos",
+        314
+      ],
+      [
+        "geant2",
+        "chaos",
+        512
+      ],
+      [
+        "geant2",
+        "chaos",
+        1024
+      ],
+      [
+        "geant2",
+        "chaos",
+        2024
+      ],
+      [
+        "geant2",
+        "chaos",
+        2718
+      ],
+      [
+        "geant2",
+        "chaos",
+        4096
+      ],
+      [
+        "geant2",
+        "chaos",
+        8192
+      ],
+      [
+        "geant2",
+        "chaos",
+        8888
+      ],
+      [
+        "geant2",
+        "chaos",
+        9999
+      ]
+    ],
+    "paired_rank_biserial": -0.5789473684210527,
+    "treatment": "harp_protected",
+    "wilcoxon_p": 0.026844730238778876
+  }
+]

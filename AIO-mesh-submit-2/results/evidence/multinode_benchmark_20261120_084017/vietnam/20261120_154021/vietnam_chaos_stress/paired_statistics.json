@@ -1,0 +1,118 @@
+[
+  {
+    "all_zero_differences": false,
+    "ci95_high": -0.9433333333333351,
+    "ci95_low": -1.2750000000000015,
+    "comparison": "harp_vs_saf_h_protected",
+    "control": "saf_h_protected",
+    "holm_p": 1.9073486328125e-06,
+    "mean_delta": -1.1083333333333338,
+    "metric": "acceptance_rate",
+    "n": 20,
+    "paired_keys": [
+      [
+        "vietnam",
+        "chaos",
+        7
+      ],
+      [
+        "vietnam",
+        "chaos",
+        11
+      ],
+      [
+        "vietnam",
+        "chaos",
+        17
+      ],
+      [
+        "vietnam",
+        "chaos",
+        23
+      ],
+      [
+        "vietnam",
+        "chaos",
+        42
+      ],
+      [
+        "vietnam",
+        "chaos",
+        47
+      ],
+      [
+        "vietnam",
+        "chaos",
+        73
+      ],
+      [
+        "vietnam",
+        "chaos",
+        89
+      ],
+      [
+        "vietnam",
+        "chaos",
+        100
+      ],
+      [
+        "vietnam",
+        "chaos",
+        101
+      ],
+      [
+        "vietnam",
+        "chaos",
+        211
+      ],
+      [
+        "vietnam",
+        "chaos",
+        314
+      ],
+      [
+        "vietnam",
+        "chaos",
+        512
+      ],
+      [
+        "vietnam",
+        "chaos",
+        1024
+      ],
+      [
+        "vietnam",
+        "chaos",
+        2024
+      ],
+      [
+        "vietnam",
+        "chaos",
+        2718
+      ],
+      [
+        "vietnam",
+        "chaos",
+        4096
+      ],
+      [
+        "vietnam",
+        "chaos",
+        8192
+      ],
+      [
+        "vietnam",
+        "chaos",
+        8888
+      ],
+      [
+        "vietnam",
+        "chaos",
+        9999
+      ]
+    ],
+    "paired_rank_biserial": -1.0,
+    "treatment": "harp_protected",
+    "wilcoxon_p": 1.9073486328125e-06
+  }
+]

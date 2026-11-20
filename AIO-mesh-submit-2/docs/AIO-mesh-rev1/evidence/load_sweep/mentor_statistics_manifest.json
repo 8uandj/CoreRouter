@@ -1,0 +1,24 @@
+{
+  "generator": "scripts/rev1/summarize_mentor_statistics.py",
+  "input": "docs/AIO-mesh-rev1/evidence/load_sweep/all_modes_per_seed.csv",
+  "input_sha256": "8d0b101498aa271f5c3ef64177b74eae83dab00151876cfa4a1de0760b47029e",
+  "input_rows": 3360,
+  "coverage": "3 topologies \u00d7 7 loads \u00d7 8 policy/protection modes \u00d7 20 seeds",
+  "paired_traces_verified_from_retained_csv": true,
+  "original_run_directory_present": false,
+  "original_run_manifests_present": [],
+  "statistical_method": {
+    "mean_difference_ci": "20,000-replicate paired percentile bootstrap; deterministic per topology/load",
+    "wilcoxon": "exact two-sided sign-flip distribution; zero differences dropped; tied absolute differences receive average ranks",
+    "all_zero_case": "n_effective=0, W+=W-=0, exact p=1, CI=[0,0], rank-biserial undefined; p=1 included in 21-test Holm family",
+    "rank_biserial": "(W+ - W-)/(W+ + W-) after zero pairs are dropped",
+    "holm_family_size": 21
+  },
+  "outputs": [
+    "docs/AIO-mesh-rev1/evidence/load_sweep/mentor_b2_load_sweep_21.csv",
+    "docs/AIO-mesh-rev1/evidence/load_sweep/mentor_b2_load_sweep_21.tex",
+    "docs/AIO-mesh-rev1/evidence/load_sweep/mentor_d1_unprotected_load_sweep.csv",
+    "docs/AIO-mesh-rev1/evidence/load_sweep/mentor_d1_unprotected_load_sweep.tex"
+  ],
+  "limitation": "The original results/rev1/load_sweep/current_code_20261117/ inputs cited by the earlier README are absent. These statistics are reproducible from the retained derived CSV, but original run hashes/manifests cannot be revalidated."
+}

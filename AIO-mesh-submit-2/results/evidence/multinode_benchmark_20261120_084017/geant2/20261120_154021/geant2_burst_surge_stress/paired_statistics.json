@@ -1,0 +1,118 @@
+[
+  {
+    "all_zero_differences": false,
+    "ci95_high": 0.984999999999998,
+    "ci95_low": 0.6432916666666649,
+    "comparison": "harp_vs_saf_h_protected",
+    "control": "saf_h_protected",
+    "holm_p": 0.0001308020996998329,
+    "mean_delta": 0.8083333333333321,
+    "metric": "acceptance_rate",
+    "n": 20,
+    "paired_keys": [
+      [
+        "geant2",
+        "burst_surge",
+        7
+      ],
+      [
+        "geant2",
+        "burst_surge",
+        11
+      ],
+      [
+        "geant2",
+        "burst_surge",
+        17
+      ],
+      [
+        "geant2",
+        "burst_surge",
+        23
+      ],
+      [
+        "geant2",
+        "burst_surge",
+        42
+      ],
+      [
+        "geant2",
+        "burst_surge",
+        47
+      ],
+      [
+        "geant2",
+        "burst_surge",
+        73
+      ],
+      [
+        "geant2",
+        "burst_surge",
+        89
+      ],
+      [
+        "geant2",
+        "burst_surge",
+        100
+      ],
+      [
+        "geant2",
+        "burst_surge",
+        101
+      ],
+      [
+        "geant2",
+        "burst_surge",
+        211
+      ],
+      [
+        "geant2",
+        "burst_surge",
+        314
+      ],
+      [
+        "geant2",
+        "burst_surge",
+        512
+      ],
+      [
+        "geant2",
+        "burst_surge",
+        1024
+      ],
+      [
+        "geant2",
+        "burst_surge",
+        2024
+      ],
+      [
+        "geant2",
+        "burst_surge",
+        2718
+      ],
+      [
+        "geant2",
+        "burst_surge",
+        4096
+      ],
+      [
+        "geant2",
+        "burst_surge",
+        8192
+      ],
+      [
+        "geant2",
+        "burst_surge",
+        8888
+      ],
+      [
+        "geant2",
+        "burst_surge",
+        9999
+      ]
+    ],
+    "paired_rank_biserial": 1.0,
+    "treatment": "harp_protected",
+    "wilcoxon_p": 0.0001308020996998329
+  }
+]

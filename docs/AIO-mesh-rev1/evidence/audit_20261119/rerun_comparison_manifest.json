@@ -1,0 +1,28 @@
+{
+  "source_commit": "4f6b36549a14564f3220c57619b5bd2690035fe1",
+  "procedure": "extract one-seed results; compare load-sweep rows only on topology, load, seed and algorithm; compare trace hashes before calling values exact",
+  "inputs": [
+    {
+      "path": "results/evidence_audit/reruns_20261119/vietnam_bursty_s42/20261119_200939/vietnam_burst_surge_stress/seed_summary.csv",
+      "sha256": "956975c940851c7b566facd08562298e9ee226d1ef4ad6d5b791acb148e5c4a0",
+      "rows": 10
+    },
+    {
+      "path": "results/evidence_audit/reruns_20261119/nsfnet_chaos_s7/nsfnet/chaos/harp_ablation_summary.csv",
+      "sha256": "7e7fe7178e3002b2203ffc2bd4f907cedd279fd0329b2a5c5b04df0b5c755643",
+      "rows": 7
+    },
+    {
+      "path": "results/evidence_audit/reruns_20261119/geant2_load12_s2024/load_geant2_1.2_2024.csv",
+      "sha256": "422290e5197de0e3428e82183cebe41dba38822e41facc8fa54952ce71b5c972",
+      "rows": 10
+    }
+  ],
+  "historical_reference": {
+    "path": "docs/AIO-mesh-rev1/evidence/load_sweep/all_modes_per_seed.csv",
+    "sha256": "8d0b101498aa271f5c3ef64177b74eae83dab00151876cfa4a1de0760b47029e"
+  },
+  "output": "docs/AIO-mesh-rev1/evidence/audit_20261119/rerun_comparison.csv",
+  "output_sha256": "a0e59536b69f7d134cebffe8016ff09f326e3c708ecfaa810e0c051afa24603f",
+  "rows": 22
+}

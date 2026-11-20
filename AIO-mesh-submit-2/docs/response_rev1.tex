@@ -1,0 +1,311 @@
+\documentclass[11pt]{article}
+\usepackage[a4paper,margin=22mm]{geometry}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{lmodern}
+\usepackage{xcolor}
+\usepackage{enumitem}
+\usepackage{microtype}
+\usepackage{parskip}
+\usepackage{hyperref}
+\usepackage{mdframed}
+\usepackage{fancyhdr}
+\usepackage{lastpage}
+\usepackage{amsmath,amssymb}
+
+\definecolor{commentblue}{RGB}{33,78,121}
+\definecolor{replyblue}{RGB}{0,70,180}
+\definecolor{commentbg}{RGB}{244,247,250}
+\definecolor{rulegray}{RGB}{205,211,218}
+\hypersetup{colorlinks=true,linkcolor=commentblue,urlcolor=commentblue}
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{5pt}
+\emergencystretch=2em
+\setlist[enumerate]{leftmargin=7mm,itemsep=2pt,topsep=3pt}
+\setlist[itemize]{leftmargin=6mm,itemsep=2pt,topsep=3pt}
+
+\setlength{\headheight}{14pt}
+\pagestyle{fancy}
+\fancyhf{}
+\lhead{Response to Reviewers}
+\rhead{AIO-Mesh}
+\cfoot{\thepage\ of \pageref{LastPage}}
+\renewcommand{\headrulewidth}{0.3pt}
+
+\newcounter{reviewer}
+\newcounter{comment}[reviewer]
+\newcommand{\reviewersection}[1]{%
+  \stepcounter{reviewer}%
+  \setcounter{comment}{0}%
+  \clearpage
+  \section*{#1}%
+  \addcontentsline{toc}{section}{#1}%
+}
+
+\newenvironment{point}{%
+  \refstepcounter{comment}%
+  \begin{mdframed}[
+    backgroundcolor=commentbg,
+    linecolor=rulegray,
+    linewidth=0.6pt,
+    roundcorner=2pt,
+    innerleftmargin=8pt,
+    innerrightmargin=8pt,
+    innertopmargin=7pt,
+    innerbottommargin=7pt,
+    skipabove=9pt,
+    skipbelow=5pt]
+  \textcolor{commentblue}{\textbf{Reviewer comment \thereviewer.\thecomment.}}\par
+  \itshape
+}{%
+  \end{mdframed}
+}
+
+\newenvironment{reply}{%
+  \color{replyblue}%
+  \noindent\textbf{Response.}\ 
+}{%
+  \par\medskip
+}
+
+\newcommand{\location}[1]{%
+  \par\smallskip{\color{replyblue}\textit{Revisions made: #1}}
+}
+
+
+\IfFileExists{AIO-mesh-rev1/generated/numbers.tex}{\input{AIO-mesh-rev1/generated/numbers.tex}}{\input{generated/numbers.tex}}
+\begin{document}
+\begin{center}
+{\LARGE\bfseries Responses to the Editor-in-Chief and Reviewers}\\[3mm]
+{\large AIO-Mesh}\\[2mm]
+Manuscript number: FGCS-D-26-03249\\[1mm]\textit{Revised manuscript}
+\end{center}
+Dear Editor-in-Chief and Reviewers,
+
+We sincerely thank you for your careful evaluation, constructive comments, and the opportunity to revise our manuscript entitled \textit{``AIO-Mesh: Hardware-Safe AIOps Orchestration for Cloud-Native Distributed Services over Programmable Infrastructures''}. Your feedback has helped us clarify the contribution, strengthen the technical formulation, and improve the presentation.
+
+\textcolor{replyblue}{In response, we revised the manuscript to foreground AIO-Mesh's policy-independent admission and orchestration runtime, while positioning HARP as a replaceable proposal policy built from established learning techniques. The revision defines the pair-level policy action and checked admission predicates, reports workload-dependent policy comparisons and their statistical analysis, and distinguishes simulation admission evidence from testbed forwarding and control-plane results.}
+
+\textcolor{replyblue}{The evaluation uses fixed, topology-specific checkpoints with matched simulator traces and a 12-hour control-plane testbed run. The results identify the conditions in which the heuristic leads and those in which HARP improves acceptance. The revision reports API outcomes and baseline readiness in Table~11 and scopes forwarding and lifecycle behavior to the implemented interfaces.}
+
+\textcolor{replyblue}{All author response text and locations of revisions are shown in blue below. Reviewer comments are reproduced in their original form.}
+
+\section*{Response to the Editor-in-Chief}
+The editorial concerns addressed in this revision include the positioning of novelty, attribution of the safety mechanism, specification of the masking and runtime checks, statistical and scalability evidence, and clarity about decision latency versus operational overhead.
+
+\begin{reply}
+The revised paper evaluates a runtime that checks proposals from several policies before actuation. The simulator comparisons use matched traces and fixed checkpoints. They identify a regime where HARP improves acceptance and stress conditions where heuristics lead. The control-plane experiment in Table~11 replaces the earlier long-run testbed account. Its measured outcomes are API response latency, admission, rejection, and Kubernetes baseline readiness.
+\location{Abstract; Sections~1, 4.3, 6.1--6.10; Tables~4--12.}
+\end{reply}
+
+\setcounter{reviewer}{0}
+\reviewersection{Reviewer 1}
+
+We sincerely thank Reviewer~1 for the favorable recommendation and encouraging assessment. The reviewer did not request specific revisions; the responses below acknowledge the substantive technical observations and clarify how their interpretation is reflected in the revised manuscript.
+
+\begin{point}
+Its core innovation is the explicit separation of hard deployability constraints (such as CPU, memory, and SRv6 Maximum Segment Depth) from soft operational objectives (like latency and migration cost) in AI-driven orchestration. The framework embeds a learned policy (HARP) into a closed-loop runtime that integrates telemetry, policy inference, safety validation, Kubernetes/Tekton-based VNF lifecycle control, SRv6/P4 steering, and data-plane feedback.\end{point}
+\begin{reply}
+Section~3 models compute capacity and SRv6 profile limits as hard constraints. Section~4.3 checks and reserves the selected placement--routing pair before lifecycle handling. The simulator measures enforcement of its pair-level checks, and Table~11 reports control-plane admission on the testbed.
+\location{Sections~3.2--3.5, 4.3--4.6, and 6.7; Algorithm~1; Tables~2 and 11.}
+\end{reply}
+
+\begin{point}
+Novelty: Existing orchestration methods often treat hardware constraints as soft penalties or post-hoc checks, which can lead to non-deployable AI decisions. AIO-Mesh enforces these constraints before policy sampling and admission, ensuring only deployable actions are considered.
+
+The use of graph-attention topology encoding and MaskablePPO with hard action masking in HARP is a significant advancement over prior approaches, which typically lack topology awareness or enforce constraints less rigorously.\end{point}
+\begin{reply}
+We appreciate this assessment. Graph attention, PPO, and invalid-action masking are established techniques, and the revised paper no longer treats them as standalone algorithmic innovations. AIO-Mesh's contribution is the operational organization of a replaceable proposal policy, independent pair admission, cloud-native lifecycle interfaces, and programmable forwarding integration. The observed safety outcomes are bounded by the implemented predicates, tested workloads, and controller-visible state.
+\location{Abstract; Sections~1, 2.4--2.5, 4.3--4.5, and 5.3.}
+\end{reply}
+
+\begin{point}
+The ablation studies and hardware-in-the-loop experiments provide actionable insights into the importance of each architectural component, such as the necessity of hard masking and topology-aware encoding.
+
+Ablation results confirm that removing hard masking or treating hardware constraints as soft penalties leads to unsafe deployments and lower performance.\end{point}
+\begin{reply}
+The revision separates policy-side candidate filtering from independent runtime admission. In the Vietnam Bursty ablation, Full and NoMask both record zero admitted modeled violations with admission enabled, while safe acceptance is 56.83\% and 13.06\%, respectively. Across the 720,000-step matched-trace ablation, disabling MSD admission yields 0.001\% admitted MSD violations for NoMask and 0.025\% for SoftMSD; restoring admission returns the observed rate to zero. The variants use distinct checkpoints and evolving simulator states, so the comparison is descriptive rather than a per-request causal estimate.
+\location{Sections~5.3--5.5 and 6.2, 6.5 (Tables~7, 9, and 10).}
+\end{reply}
+
+\begin{point}
+Example Implementation and Evidence (Table 2 and Table 3) show that HARP achieves significantly higher safe acceptance rates (e.g., 17.89\%-18.74\% on the Vietnam topology vs. ~4\% for Greedy/DAI) and maintains zero admitted MSD violations, even under stress scenarios.
+
+Hardware-in-the-loop results (Table 5) demonstrate that AIO-Mesh maintains zero admitted violations across all tested scenarios, unlike unprotected baselines.\end{point}
+\begin{reply}
+The stress benchmark uses matched evaluation seeds and one frozen checkpoint per topology. Table~4 gives the current acceptance rates and their dispersion. Table~5 gives the paired HARP--SAF-H contrasts. SAF-H leads in the six Vietnam and NSFNET cells and in GEANT2 Chaos. HARP leads SAF-H in GEANT2 Burst surge. The GEANT2 Elephant comparison is inconclusive.
+\location{Sections~6.1, 6.2, and 6.4; Tables~4--6.}
+\end{reply}
+
+\begin{point}
+The open-source release of code, scenarios, and testbed scripts further enhances reproducibility and practical impact.\end{point}
+\begin{reply}
+The Data and Code Availability statement identifies the code repository. The reproduction guide indexes retained inputs and records which original archives are needed to reconstruct each result. The HIL table is generated from the request and Kubernetes readiness records.
+\location{Sections~6.1 and 6.7; Table~11; Data and Code Availability.}
+\end{reply}
+
+\reviewersection{Reviewer 2}
+
+\textcolor{replyblue}{We thank Reviewer~2 for the detailed critique of novelty, safety attribution, comparative evidence, and the correspondence between policy decisions and deployable service chains. We have addressed the five numbered comments in their original grouping below. The responses identify the evidence and changes relevant to each concern.}
+
+\begin{point}
+First, regarding positioning, the paper announces five contributions, but most of them seem to describe integration rather than new mechanisms. Action masking and graph attention come from existing work, and filtering infeasible actions is fairly standard. What actually looks distinctive here is (for me) the runtime itself, yet the abstract and contribution list foreground the policy, which seems to be the least novel piece. I would encourage the authors to reframe around the runtime contract and treat the policy as one replaceable component inside it (which is, after all, an argument the paper itself makes elsewhere?).
+\end{point}
+\begin{reply}
+The contribution is the operational boundary shared by learned and heuristic proposals. Sections~3--5 specify the pair action, its checked resource and segment-depth predicates, local reservation, and the lifecycle interfaces. Section~6.7 reports the measured scope of the control-plane testbed run.
+\location{Abstract; Sections~1--5 and 6.7; Algorithm~1; Table~11.}
+\end{reply}
+
+\begin{point}
+Then, the headline safety result does not seem to isolate what it is meant to demonstrate. Zero admitted violations follows almost by construction from the admission layer, which is applied to the proposed method and to runtime baselines alike. The missing configuration seems obvious to me: run the heuristic baselines through the same admission boundary. If they also reach zero, then the safety guarantee belongs to the runtime and not to the policy (or did I miss something here?).
+\end{point}
+\begin{reply}
+Protected NoMask retains runtime admission. The bypass versions in Table~10 disable only the MSD admission check, preserving the CPU, memory, and bandwidth checks. Figure~3 and Table~12 compare four protected policies across offered intensities. Table~11 applies the distinction between admission and deployment to the testbed API outcomes.
+\location{Sections~5.3, 6.6--6.8; Tables~10--12; Figure~3.}
+\end{reply}
+
+\begin{point}
+Related to this, the gain from learning looks thin once the strongest heuristic baseline is taken seriously, sitting behind or even beaten by it at a fraction of the cost. Given the reported deviations, several margins may well not be significant, and no significance testing is provided. Furthermore, two of the three stress profiles produce identical numbers in every single cell, which suggests they collapse to the same generator (is that intended?) and should probably be explained.
+\end{point}
+\begin{reply}
+SAF-H leads HARP in seven stress cells, and HARP's largest measured advantage over SAF-H in the offered-intensity experiment occurs at intensity 1.2. HARP also has higher simulator decision cost in the serialized comparison. The evaluated checkpoints are fixed, so variation across retraining remains unmeasured.
+\location{Sections~6.2, 6.4, and 6.8--6.10; Tables~4--6 and 12.}
+\end{reply}
+
+\begin{point}
+The evaluation raises further questions of interpretation. Safe acceptance stays very low throughout, and the load sweep covers a single curve with no baselines in the saturated regime. The ablation also contains something the paper does not fully confront: disabling policy-side masking leaves the safety outcome untouched in all three workloads, meaning the masking mechanism is not contributing to the safety property the paper builds its claims on.
+\end{point}
+\begin{reply}
+Figure~3 and Table~12 present four protected policies across seven offered-intensity settings. Section~6 distinguishes proposed hard-invalid actions, runtime rejections, and admitted violations. Table~9 distinguishes pruning over all masks from pruning conditioned on a nonempty mask. It gives the marginal empty-mask rate. The available aggregate does not cross-tabulate mask emptiness and rejection. Enforcement is attributed to the common admission predicate. In the Vietnam Bursty ablation (Table~7), Full and NoMask have safe acceptance of \(56.83\pm0.78\%\) and \(13.06\pm0.75\%\), respectively, with runtime admission enabled. Table~10 reports nonzero admitted MSD-violation rates when MSD admission is disabled: 0.001\% for NoMask and 0.025\% for SoftMSD across the pooled simulator steps. These comparisons are descriptive and are not a fully paired causal isolation of each mechanism.
+\location{Sections~5.3--5.5, 6.5--6.6, and 6.8; Tables~7, 9, 10, and 12; Figure~3.}
+\end{reply}
+
+\begin{point}
+On the system side, a few specifications seem incomplete in ways that touch the safety claim itself. The action uses a single routing anchor, yet a chain has several functions and the stack depth follows from the whole concatenated path, so how the anchor determines placement for all of them (and therefore how depth is computed for the mask) is never really stated. Since parser depth is the central constraint here, this does not feel like a detail. The cached path table seems similarly load-bearing: feasibility can only be certified over cached paths, so a rejection may reflect the cache rather than genuine infeasibility, and no sensitivity to that parameter is reported. The complexity discussion covers the encoder but omits mask construction over an action space quadratic in the number of nodes, which I would expect to be the dominant cost (and the one an operator would care about probably). No end-to-end decision latency is measured anywhere either, although online operation is the motivating premise. I would add that the predicate deciding between the heuristic and the learned path is never defined, even though it determines what the hybrid results are actually measuring.
+\end{point}
+\begin{reply}
+The routing anchor is the second endpoint of the pair action. The simulator checks a modeled depth at that endpoint, while the runtime can compile an ingress-specific path and check the profiles along it. The evaluated implementations use no candidate-path cache. Section~5.6 reports quadratic pair-score and mask costs. Section~6.9 reports simulator timing, and Table~11 reports client-observed API latency. The workload did not invoke deployment, so deployment and steering latency remain unmeasured. Section~4.1 describes Hybrid hysteresis and the alert override. All admitted testbed requests logged the DRL branch under Hybrid. The rejected requests lack branch labels, so this experiment provides no transition comparison.
+\location{Sections~3.3, 4.1, 4.3, 5.3, 5.6, 6.7, and 6.9; Table~11.}
+\end{reply}
+
+\reviewersection{Reviewer 3}
+
+We sincerely thank Reviewer~3 for the careful reading and candid assessment. We acknowledge the concern that the contribution is limited, and respond separately to the systems-level novelty and the reuse of established learning techniques.
+
+\begin{point}
+From the reviewer's perspective the recommendation is of acceptance, but with a significant low overall manuscript rating. This is because the novelty of the exposed work is quite limited.
+
+The introduction and background sections are well presented trying to justify the intended novelty of the work by considering only hardware-safe acceptable actions within this working scenario for deploying SFCs in a distributed substrate. Nevertheless, from the reviewer's perspective, according to the present state of the art of publications in this topic in particular, the only real novelty of this work comes from considering the Maximum Segment Depth of the forwarding plane. Any other matter or strategy to solve the problem has already been considered in previous works.
+
+In summary, it is only because of considering the MSD of the data-plane that this reviewer recommends to accept this paper; otherwise, it would have to be rejected, as there is no other novelty in this work.\end{point}
+\begin{reply}
+SRv6 MSD is a bound on the realized segment list. The simulator evaluates a local approximation as part of pair admission. Table~10 reports how frequently this approximation rejects proposals and quantifies the admitted violations when the MSD check is bypassed. Table~11 reports how often the testbed API classified rejections as MSD related.
+\location{Sections~2.3, 3.3, 6.6, and 6.7; Tables~10 and 11.}
+\end{reply}
+
+\begin{point}
+The same lack of novelty applies regarding the implementation of the RL policy using the PPO technique, Graph Attention encoders or masking unfeasible actions for training or selecting the actions to be taken.\end{point}
+\begin{reply}
+We agree. PPO, graph attention, and invalid-action masking are credited as established methods. The revised text positions HARP as a replaceable topology-aware pair-action proposal policy, not a newly derived general-purpose RL algorithm.
+\location{Sections~1, 2.4--2.5, and 5.}
+\end{reply}
+
+\reviewersection{Reviewer 4}
+
+We sincerely thank Reviewer~4 for the favorable assessment of the framework and presentation, and for recommending acceptance after minor revisions. We address the two requested changes below.
+
+\begin{point}
+Please spell out the full term of each abbreviation the first time it is used (e.g., Proximal Policy Optimization (PPO)) and use only the abbreviation thereafter. For example, if Maximum Segment Depth (MSD) is introduced, there is no need to spell it out again later in the manuscript.\end{point}
+\begin{reply}
+The revision spells out principal abbreviations at first use and keeps the Abstract self-contained. We also retain the technical terms consistently in the system model, policy description, and experimental evaluation.
+\location{Abstract; Sections~1--6.}
+\end{reply}
+
+\begin{point}
+In the experimental evaluation, the authors consider network topologies with a relatively small number of nodes. I would appreciate it if the authors could also evaluate the scalability of the proposed implementation, for example by considering larger network topologies or discussing how the computational and operational overhead scales with the size of the network.\end{point}
+\begin{reply}
+Section~5.6 gives the pair-mask and score-construction costs. Table~15 reports measured SAF-H timing from 25 to 100 nodes. The measurements quantify heuristic scaling on synthetic grids, and Section~6.10 identifies size-matched HARP timing as a remaining evaluation.
+\location{Sections~5.6 and 6.9--6.10; Table~15; Figure~4.}
+\end{reply}
+
+\reviewersection{Reviewer 5}
+
+We thank Reviewer~5 for the detailed suggestions concerning physical deployability, hard-constraint modeling, methodological transparency, operational evidence, and presentation. The review opens with the following observation:
+\begin{quote}\itshape
+The manuscript identifies a critical gap between AIOps optimization outputs and real-world hardware enforceability in programmable cloud-native environments, but it would benefit from a more explicit quantitative breakdown of how frequently unconstrained RL policies produce non-deployable actions in existing state-of-the-art AIOps orchestrators. The comments are given as follows.
+\end{quote}
+\textcolor{replyblue}{Section~6 distinguishes proposals that fail a modeled constraint from requests admitted with a violation. Table~10 reports the simulator outcomes, including the two MSD bypass diagnostics. Table~11 reports 9,672 MSD-classified API rejections and 1,198 other no-safe-action outcomes in the 12-hour run. The denominators and workload conditions are stated separately for each experiment. We address the six numbered points below.}
+
+\begin{point}
+A stronger motivation around SRv6 Maximum Segment Depth (MSD) violations should be given. The authors do not sufficiently contextualize the practical operational impact of MSD overflows on production carrier-grade networks, beyond stating that decisions become non-deployable.
+\end{point}
+\begin{reply}
+Section~2.3 cites the advertised SRv6 depth limits and discusses segment-list compression. Table~10 quantifies the frequency of modeled MSD violations and the outcomes of bypassing the MSD check. Table~11 separately records the testbed API's MSD-classified rejections. The operational consequence in a deployed forwarding pipeline depends on the target.
+\location{Sections~2.3, 3.3, 6.6, and 6.7; Tables~2, 10, and 11.}
+\end{reply}
+
+\begin{point}
+The separation of hard deployability constraints from soft optimization objectives is a strong conceptual contribution. However, this manuscript lacks a formalized problem formulation that explicitly maps each hard constraint to its corresponding system-level failure mode.
+\end{point}
+\begin{reply}
+The system model specifies compute capacity, temporary make-before-break overlap, and the SRv6 limit for each relevant parsing profile. The evaluated pair interface places one request and applies a local admission predicate. The runtime section explains the boundary between that decision and subsequent lifecycle actions.
+\location{Sections~3.2--3.4 and 4.3--4.6; Table~2; Algorithm~1.}
+\end{reply}
+
+\begin{point}
+In Section Introduction, the proposed AIO-Mesh framework against existing hardware-safe reinforcement learning literature in networked systems, is not clearly positioned, making it difficult for readers to immediately distinguish the novelty of this work from prior art.
+\end{point}
+\begin{reply}
+Table~1 and Section~2.4 compare policy-independent admission to related work on safe resource allocation. The paper credits graph attention, proximal policy optimization, and action masking as established methods. The contribution is the integration of the admission boundary with lifecycle and programmable steering interfaces.
+\location{Sections~1, 2.4--2.5, and 4--5; Table~1.}
+\end{reply}
+
+\begin{point}
+The description of the HARP policy architecture is high-level, but the manuscript does not provide sufficient detail on how the graph-attention topology encoder normalizes heterogeneous node attributes (CPU, memory, MSD) into a unified embedding space. The hard action masking mechanism is a core component of the safety guarantee, yet the paper does not specify the exact update frequency of the mask set, nor how stale hardware state readings could lead to incorrect masking decisions during runtime. The paper does not explain how the framework handles transient hardware resource fluctuations that occur between the safety validation step and the actual deployment of the orchestration decision.
+\end{point}
+\begin{reply}
+Section~5.2 now lists the six node features and thirteen global features, explains scaling and clipping, and gives the frozen checkpoint-specific normalizer (Eq.~(16)); the MSD accounting features are policy proxies, not physical SID-list certification. Section~5.3 defines the local CPU/memory/MSD pair mask in Eqs.~(17)--(21) and states that it is reconstructed for each policy decision. Section~4.3 describes process-local reservation serialization and snapshot-version checking. Mask state is rebuilt for each policy decision. The revised text describes the scope of these checks and the controller-visible state on which they operate.
+\location{Sections~3.1, 4.3 (Algorithm~1), and 5.2--5.3 (Eqs.~(16)--(21), Algorithm~2).}
+\end{reply}
+
+\begin{point}
+The evaluation does not present scalability results that show how the HARP policy's inference latency and safety validation overhead scale as the number of nodes, services, and concurrent service chains in the topology increases. The paper does not include any comparison against traditional non-RL heuristic orchestration algorithms (such as constrained shortest path first and greedy hardware-aware placement) to demonstrate under which workload conditions HARP provides measurable performance gains. The evaluation section lacks a real-world production case study or long-running stability analysis that verifies the framework's ability to maintain zero constraint violations over extended multi-hour or multi-day runtime operation, rather than only under controlled short-duration stress scenarios.
+\end{point}
+\begin{reply}
+The simulator evaluation includes heuristic baselines, matched-seed comparisons, and separate decision-cost and topology-size measurements. In the 12-hour control-plane run, Table~11 records \HILRequests{} API requests, no timeouts, and all seven baseline Deployments Ready in 720 observations. This workload issued no deployment or migration requests. The manuscript treats evaluation of deployment-to-steering latency and make-before-break behavior as future work.
+\location{Sections~6.4, 6.7, and 6.9--6.10; Tables~4--6, 11, and 15.}
+\end{reply}
+
+\begin{point}
+Section Conclusion is too long and over lengthy.
+\end{point}
+\begin{reply}
+The conclusion now has two paragraphs. It summarizes the results for independent admission and the workload-dependent tradeoff between HARP and SAF-H, and gives the next evaluation steps.
+\location{Section~7.}
+\end{reply}
+
+\clearpage
+\section*{Summary of Major Revisions}
+{\color{replyblue}
+\begin{enumerate}
+\item \textbf{Contribution and positioning.} The Abstract, Section~1, and Table~1 make policy-independent runtime admission and actuation the main contribution; HARP is a replaceable graph-aware policy based on established components.
+
+\item \textbf{Hardware-feasibility semantics.} Eqs.~(5)--(9) and Table~2 define resource allocation, per-profile SRv6 MSD, and the system-level admission objective and constraints.
+\item \textbf{Action, admission, and Hybrid behavior.} Sections~4--5 and Algorithm~1 describe \(N^2\) pair proposals, process-local reservation, and lifecycle handling. They also specify Hybrid hysteresis (Eq.~(10)), rebuilt masks, and quadratic actor/mask costs.
+\item \textbf{Corrected statistics and workloads.} Section~6 uses 20 matched seeds, nonduplicated Chaos profiles, paired 95\% bootstrap intervals and Holm-adjusted tests; it reports the NSFNET cases where SAF-H outperforms HARP.
+
+\item \textbf{Safety attribution and SoftMSD.} Section~6.6 identifies SoftMSD as a penalty-only diagnostic with runtime MSD admission disabled. Tables~9--10 distinguish protected and MSD-bypass outcomes; zero observed admitted MSD violations in protected simulator runs are attributed to the checked runtime boundary, not uniquely to masking. The ablation comparisons are reported with their distinct checkpoints and admission configurations.
+\item \textbf{Operational and scalability evaluation.} The manuscript reports a 12-hour control-plane run with minute-level baseline readiness, simulator decision timing, and SAF-H topology-size measurements. Each result is described at the scope measured by its experiment.
+\item \textbf{Presentation.} Figures~1 and 2 distinguish policy-side masking from independent admission. Figure~3 reports the offered-intensity experiment. Section~7 summarizes the policy tradeoff and the control-plane measurements.
+\end{enumerate}
+}
+
+We sincerely thank the Editor-in-Chief and all reviewers again for their time and constructive feedback, which have helped us improve the rigor and clarity of the manuscript.
+
+\bigskip
+Sincerely,
+
+\vspace{2mm}
+Hoa N. Nguyen
+
+\end{document}

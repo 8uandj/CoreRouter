@@ -1,0 +1,33 @@
+{
+  "created_utc": "2026-11-20T09:31:33.791886+00:00",
+  "git_revision": "4f6b36549a14564f3220c57619b5bd2690035fe1",
+  "python": "3.9.25",
+  "platform": "Linux-5.14.0-611.36.1.el9_7.x86_64-x86_64-with-glibc2.34",
+  "data_path": "data/real_telecom_combined.csv",
+  "data_sha256": "5370da1bb55cd679422150c5c4073175109cc7b831eff9c74491b30a17dcdd2a",
+  "seeds": [
+    42,
+    100,
+    2024,
+    8888,
+    9999,
+    7,
+    17,
+    73,
+    314,
+    2718
+  ],
+  "steps": 3000,
+  "model_path": "results/models/retrain_v11_20261119_corrected/vietnam/dgrl_v11_final_vietnam.zip",
+  "model_sha256": "ea215985d1ad5d8ccc8e900da82d3e50e5ff51417c05bb96930dfc10ab9e86da",
+  "normalizer_path": "results/models/retrain_v11_20261119_corrected/vietnam/vec_normalize_v11_vietnam.pkl",
+  "normalizer_sha256": "87385923e8099d3b56096eeaa9a43f75a4e0a670c972a77e667d7e160229d646",
+  "cpu_count": 96,
+  "cpu_model": "Intel(R) Xeon(R) Platinum 8160 CPU @ 2.10GHz",
+  "memory_bytes": 269533810688,
+  "numpy_version": "2.0.2",
+  "torch_version": "2.7.1+cu118",
+  "torch_threads": 1,
+  "cuda_available": true,
+  "benchmark_workers": 1
+}

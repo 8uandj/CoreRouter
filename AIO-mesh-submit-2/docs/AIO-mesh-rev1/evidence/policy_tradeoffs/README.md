@@ -1,0 +1,3 @@
+# Benchmark policy tradeoffs
+
+18 groups = 3 substrates × 3 workloads × HARP/SAF-H, 20 seeds each. Acceptance, simulated service latency and admitted-request SLA violations describe the fixed-policy outcomes. Service latency concerns different admitted request populations under each policy, so it is not a paired latency treatment effect. Local decision p95 and elapsed throughput are descriptive: execution contention was not controlled across all archived jobs. They do not establish a controlled computation advantage. A serialized same-machine rerun with warm-up and machine/load metadata is required for that claim.

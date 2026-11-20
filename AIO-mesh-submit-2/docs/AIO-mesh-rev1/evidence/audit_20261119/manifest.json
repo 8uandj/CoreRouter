@@ -1,0 +1,14 @@
+{
+  "created_utc": "2026-11-19T13:20:30Z",
+  "host": "hanoi",
+  "branch": "HARP-server",
+  "commit": "4f6b36549a14564f3220c57619b5bd2690035fe1",
+  "worktree_porcelain": "? docs/AIO-mesh-rev1/evidence/audit_20261119/\n? scripts/rev1/build_evidence_audit.py\n? scripts/rev1/summarize_audit_reruns.py",
+  "python": "Python 3.9.25",
+  "scope": "Inventory and hashes are read-only; evaluation reruns are stored separately under results/evidence_audit/reruns_20261119/.",
+  "counts": {
+    "checkpoint_zip_files": 136,
+    "artifact_files_hashed": 293,
+    "run_index_entries_checked": 31
+  }
+}

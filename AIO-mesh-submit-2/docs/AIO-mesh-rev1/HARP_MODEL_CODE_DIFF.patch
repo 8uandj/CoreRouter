@@ -1,0 +1,1071 @@
+--- snapshot/kaggle_harp_ablation_cells.py
++++ current/kaggle_harp_ablation_cells.py
+@@ -202,7 +202,7 @@
+ # Define optimal steps based on topology size (action space)
+ _STEPS_MAP = {
+     "vietnam": 500_000,   # 10 nodes -> 100 actions
+-    "nsfnet": 2_000_000,  # 14 nodes -> 196 actions
++    "nsfnet": 2_000_000,  # 14 nodes -> 196 ac  tions
+     "geant2": 2_000_000,  # 23 nodes -> 529 actions
+ }
+ TRAIN_TOTAL_STEPS = _STEPS_MAP.get(WORKER_TOPOLOGY, 500_000)
+@@ -301,155 +301,42 @@
+     subprocess.check_call(train_cmd, env=env)
+     print("Training completed.")
+ 
+-# %% Cell 5 - Evaluate 3 Scenarios & Generate Summary for 5 Seeds
++# %% Cell 5 - Integrated Ablation & Parameter Sweep for 5 Seeds
+ import pandas as pd
+-import shutil
+ from IPython.display import display
+ 
+-SEEDS = [42, 100, 2024, 8888, 9999]
+-summary_dfs = []
+-
+-for scenario_label, env_scenario in WORKER_SCENARIOS:
+-    for seed in SEEDS:
+-        out_dir = WORKER_ROOT / f"{WORKER_TOPOLOGY}_{scenario_label}_{STEPS}_seed_{seed}"
+-        out_dir.mkdir(parents=True, exist_ok=True)
+-        
+-        eval_cmd = [
+-            sys.executable,
+-            "-m",
+-            "src.analytics.ablation_study",
+-            "--topology", WORKER_TOPOLOGY,
+-            "--scenario", env_scenario,
+-            "--steps", str(STEPS),
+-            "--seed", str(seed),
+-            "--version", "v11",
+-            "--data-path", "data/real_telecom_combined.csv",
+-            "--model-root", "results/models",
+-            "--output-dir", str(out_dir),
+-        ]
+-        
+-        print(f"\nEvaluating topology={WORKER_TOPOLOGY}, scenario={scenario_label}, seed={seed}")
+-        try:
+-            subprocess.check_call(eval_cmd, env=env)
+-        except subprocess.CalledProcessError:
+-            print(f"⚠️ Evaluation failed for {scenario_label} (seed {seed}). Check logs.")
+-            continue
+-
+-        summary_path = out_dir / "harp_ablation_summary.csv"
+-        if summary_path.exists():
+-            df_tmp = pd.read_csv(summary_path)
+-            df_tmp.insert(0, "Topology", WORKER_TOPOLOGY)
+-            df_tmp.insert(1, "Scenario", scenario_label)
+-            # Make sure seed is tracked
+-            df_tmp["seed"] = seed
+-            summary_dfs.append(df_tmp)
+-
+-if not summary_dfs:
+-    raise RuntimeError("No summary files were produced!")
+-
+-# Merge into a single master CSV for all seeds
+-raw_summary = pd.concat(summary_dfs, ignore_index=True)
+-
+-# Group by variant, topology, scenario and calculate mean and std
+-# Only use numeric cols that actually exist in the CSV
+-all_possible_numeric = ["acceptance_rate", "safe_acceptance_rate", "attempted_msd_violation_rate",
+-                        "admitted_msd_violation_rate", "sla_violation_rate", "evacuation_hit_rate",
+-                        "switching_rate", "avg_latency_ms", "avg_reward"]
+-numeric_cols = [c for c in all_possible_numeric if c in raw_summary.columns]
+-group_cols = [g for g in ["variant", "Topology", "Scenario"] if g in raw_summary.columns]
+-
+-print(f"Aggregating columns: {numeric_cols}")
+-mean_df = raw_summary.groupby(group_cols)[numeric_cols].mean().reset_index()
+-std_df  = raw_summary.groupby(group_cols)[numeric_cols].std().reset_index()
+-
+-# Format as "mean ± std"
+-final_summary = mean_df.copy()
+-for col in numeric_cols:
+-    final_summary[col] = (mean_df[col].round(3).astype(str)
+-                          + " \u00b1 "
+-                          + std_df[col].round(3).astype(str))
+-
+-# Also save the raw per-seed CSV for transparency
+-raw_summary.to_csv(WORKER_ROOT / f"{WORKER_TOPOLOGY}_raw_ablation_5seeds.csv", index=False)
+-
+-final_summary_path = WORKER_ROOT / f"{WORKER_TOPOLOGY}_master_ablation_summary_5seeds.csv"
+-final_summary.to_csv(final_summary_path, index=False)
+-
+-print("\n======================================================")
+-print("FINAL ABLATION SUMMARY (5 SEEDS)")
+-print("======================================================")
+-display(final_summary)
+-
+-# %% Cell 6 - Load Sweep
+-print("\n======================================================")
+-print("RUNNING LOAD SWEEP")
+-print("======================================================")
+-
+-sweep_cmd = [
+-    sys.executable, "-m", "src.analytics.benchmark.benchmark_algorithm.run_load_sweep",
++eval_cmd = [
++    sys.executable,
++    "-m",
++    "src.analytics.ablation_parameter_sweep",
+     "--topology", WORKER_TOPOLOGY,
++    "--scenario", "heavy_tail",
++    "--steps", str(STEPS),
++    "--seeds", "42", "100", "2024", "8888", "9999",
+     "--data-path", "data/real_telecom_combined.csv",
+     "--model-root", "results/models",
+-    "--output-dir", "results/benchmark_algorithm/load_sweep",
+-]
++    "--output-dir", str(WORKER_ROOT),
++    "--workers", "4",
++]
++
++print(f"\nRunning Integrated Ablation and Parameter Sweeps for {WORKER_TOPOLOGY}...")
+ try:
+-    subprocess.check_call(sweep_cmd, env=env)
++    subprocess.check_call(eval_cmd, env=env)
++    print("Parameter sweep completed successfully.")
+ except subprocess.CalledProcessError as e:
+-    print(f"⚠️ Load sweep failed: {e}")
+-
+-
+-# %% Cell 7 - Benchmark Algorithms (Greedy, DAI, SAF-H, HARP)
+-print("\n======================================================")
+-print("RUNNING BENCHMARK ALGORITHMS (FOR TABLE 7)")
+-print("======================================================")
+-
+-benchmark_cmd = [
+-    sys.executable,
+-    "-m",
+-    "src.analytics.benchmark.benchmark_algorithm.run_all",
+-    "--topology", WORKER_TOPOLOGY,
+-    "--scenario", "ablation",   # elephant_stress + burst_surge + chaos
+-    "--skip-exhaustive",
+-    "--data-path", "data/real_telecom_combined.csv",
+-    "--model-root", "results/models",
+-]
+-
+-print(f"Running benchmark for {WORKER_TOPOLOGY}...")
+-try:
+-    subprocess.check_call(benchmark_cmd, env=env)
+-    print("Benchmark completed successfully.")
+-except subprocess.CalledProcessError as e:
+-    print(f"⚠️ Benchmark failed for {WORKER_TOPOLOGY}. Check logs. Error: {e}")
+-
+-# Move the benchmark results to the worker root so they get zipped
+-benchmark_out = Path("results/benchmark_algorithm")
+-if benchmark_out.exists():
+-    dest_dir = WORKER_ROOT / "benchmark_results"
+-    dest_dir.mkdir(parents=True, exist_ok=True)
+-    for csv_file in benchmark_out.rglob("*.csv"):   # rglob to catch subfolders
+-        shutil.copy2(csv_file, dest_dir / csv_file.name)
+-    print(f"Copied {len(list(dest_dir.glob('*.csv')))} benchmark CSVs to {dest_dir}")
+-
+-# %% Cell 8 - Zip Results
++    print(f"⚠️ Parameter sweep evaluation failed for {WORKER_TOPOLOGY}: {e}")
++
++final_summary_path = WORKER_ROOT / f"{WORKER_TOPOLOGY}_master_ablation_parameter_sweep_5seeds.csv"
++if final_summary_path.exists():
++    display(pd.read_csv(final_summary_path))
++else:
++    print("⚠️ Master summary file not found!")
++
++# %% Cell 6 - Zip Results
+ print("\n======================================================")
+ print("ZIPPING RESULTS FOR DOWNLOAD")
+ print("======================================================")
+ 
+-# Move load sweep results to worker root
+-# run_load_sweep.py saves to results/benchmark_algorithm/load_sweep/
+-load_sweep_out = Path("results/benchmark_algorithm/load_sweep")
+-if not load_sweep_out.exists():
+-    load_sweep_out = Path("results/load_sweep")  # legacy fallback
+-if load_sweep_out.exists():
+-    dest_dir = WORKER_ROOT / "load_sweep_results"
+-    dest_dir.mkdir(parents=True, exist_ok=True)
+-    for f in load_sweep_out.rglob("*"):
+-        if f.is_file():
+-            shutil.copy2(f, dest_dir / f.name)
+-    print(f"Copied {len(list(dest_dir.glob('*')))} load sweep files to {dest_dir}")
+-else:
+-    print("⚠️ Load sweep output not found — may have failed earlier.")
+-
+ archive_base = Path("/kaggle/working") / f"harp_ablation_results_{WORKER_TOPOLOGY}"
+ archive_path = shutil.make_archive(str(archive_base), "zip", root_dir=WORKER_ROOT)
+ 
+--- snapshot/kaggle_notebook_cells.py
++++ current/kaggle_notebook_cells.py
+@@ -1,12 +1,12 @@
+ """
+ ============================================================
+-KAGGLE NOTEBOOK — Vietnam Network Benchmark Only (10K Steps)
++KAGGLE NOTEBOOK — JO-VPPM Train + Benchmark (NSFNET & GEANT2)
+ ============================================================
+-Dataset name: v11_train_nsfnet&geant22 (or custom dataset containing Vietnam model)
++Dataset name: v11_train_nsfnet&geant22
+ Kaggle auto-extracts ZIP, files available at /kaggle/input/<slug>/
+ 
+-Settings: GPU or CPU, Internet ON (for pip install)
+-Expected runtime: ~1-2 hours
++Settings: GPU T4x2 or P100, Internet ON (for pip install)
++Expected runtime: ~4-6 hours total
+ ============================================================
+ """
+ 
+@@ -20,12 +20,15 @@
+ 
+ # --- Kaggle auto-extracts ZIP — find dataset path recursively ---
+ INPUT_BASE = "/kaggle/input"
++
++# Walk the entire input tree to find the directory containing 'src/'
+ DATASET_DIR = None
+ for root, dirs, files in os.walk(INPUT_BASE):
+     if "src" in dirs and os.path.isdir(os.path.join(root, "src", "orchestration")):
+         DATASET_DIR = root
+         break
+ 
++# Debug: print what we see if not found
+ if DATASET_DIR is None:
+     print("❌ Cannot auto-detect dataset. Scanning /kaggle/input:")
+     for root, dirs, files in os.walk(INPUT_BASE):
+@@ -47,112 +50,91 @@
+ sys.path.insert(0, WORK_DIR)
+ os.environ["MPLCONFIGDIR"] = "/tmp/matplotlib"
+ 
+-# --- Set Thread Limit Env Variables in Parent Process ---
+-os.environ["OMP_NUM_THREADS"] = "1"
+-os.environ["MKL_NUM_THREADS"] = "1"
+-os.environ["OPENBLAS_NUM_THREADS"] = "1"
+-os.environ["VECLIB_MAXIMUM_THREADS"] = "1"
+-os.environ["NUMEXPR_NUM_THREADS"] = "1"
+-
+-# --- Dynamic patch to run_all.py to prevent thread contention / QR hangs ---
+-run_all_path = os.path.join(WORK_DIR, "src/analytics/benchmark/benchmark_algorithm/run_all.py")
+-if os.path.exists(run_all_path):
+-    with open(run_all_path, "r") as f:
+-        content = f.read()
+-    
+-    # Check if env variables are already set
+-    if "OMP_NUM_THREADS" not in content:
+-        print("🔧 Patching run_all.py with thread limit environment variables...")
+-        patch_code = (
+-            "import os\n"
+-            "os.environ['OMP_NUM_THREADS'] = '1'\n"
+-            "os.environ['MKL_NUM_THREADS'] = '1'\n"
+-            "os.environ['OPENBLAS_NUM_THREADS'] = '1'\n"
+-            "os.environ['VECLIB_MAXIMUM_THREADS'] = '1'\n"
+-            "os.environ['NUMEXPR_NUM_THREADS'] = '1'\n"
+-        )
+-        if "from __future__ import annotations" in content:
+-            content = content.replace(
+-                "from __future__ import annotations",
+-                "from __future__ import annotations\n\n" + patch_code
+-            )
+-        else:
+-            content = patch_code + "\n" + content
+-            
+-        with open(run_all_path, "w") as f:
+-            f.write(content)
+-        print("✅ run_all.py patched successfully!")
+-    else:
+-        print("✅ run_all.py already has thread limit patch.")
+-
+ # Create results dirs
+ os.makedirs("results/models/v11", exist_ok=True)
+ os.makedirs("results/benchmark_algorithm", exist_ok=True)
+ 
+ # Verify key files exist
+ assert os.path.exists("src/orchestration/jo_vdpr/env.py"), "❌ env.py missing!"
+-assert os.path.exists("src/analytics/benchmark/benchmark_algorithm/run_all.py"), "❌ run_all.py missing!"
+-assert os.path.exists("data/real_telecom_combined.csv"), "❌ real_telecom_combined.csv missing!"
++assert os.path.exists("src/analytics/training/train_v11.py"), "❌ train_v11.py missing!"
++assert os.path.exists("data/telecom_trace.csv"), "❌ telecom_trace.csv missing!"
+ 
+ print("✅ Setup complete! Working directory:", WORK_DIR)
++print(f"   data/telecom_trace.csv: {os.path.getsize('data/telecom_trace.csv')/1024:.0f} KB")
+ print(f"   data/real_telecom_combined.csv: {os.path.getsize('data/real_telecom_combined.csv')/1024:.0f} KB")
+ 
+ # ══════════════════════════════════════════════════════════════
+-# CELL 2: Verify Vietnam Model & Normalizer Files
+-# ══════════════════════════════════════════════════════════════
+-
+-import os, zipfile
++# CELL 2: Train NSFNET (14 nodes) — ~1.5-2 hours
++# ══════════════════════════════════════════════════════════════
++
++import os, sys
++os.chdir("/kaggle/working/CoreRouter")
++if "/kaggle/working/CoreRouter" not in sys.path:
++    sys.path.insert(0, "/kaggle/working/CoreRouter")
++
++from src.analytics.training.train_v11 import train_dgrl
++
++print("🚀 Starting NSFNET training (3M steps)...")
++train_dgrl("nsfnet")
++print("✅ NSFNET training complete!")
++
++# ══════════════════════════════════════════════════════════════
++# CELL 3: Train GEANT2 (23 nodes) — ~2-3 hours
++# ══════════════════════════════════════════════════════════════
++
++print("🚀 Starting GEANT2 training (3M steps)...")
++train_dgrl("geant2")
++print("✅ GEANT2 training complete!")
++
++# ══════════════════════════════════════════════════════════════
++# CELL 4: Verify & Rename trained models
++# ══════════════════════════════════════════════════════════════
++
++import os, shutil
+ 
+ MODEL_DIR = "/kaggle/working/CoreRouter/results/models/v11"
+-print("📁 Target Models directory:", MODEL_DIR)
+-
+-vietnam_model = f"{MODEL_DIR}/dgrl_v11_final_vietnam.zip"
+-vietnam_dir = f"{MODEL_DIR}/dgrl_v11_final_vietnam"
+-
+-# Check if Kaggle recursively unzipped the model zip and re-zip it if so
+-if not os.path.exists(vietnam_model) and os.path.isdir(vietnam_dir):
+-    print("📦 Detected that Kaggle recursively unzipped the Vietnam model. Re-zipping it back...")
+-    with zipfile.ZipFile(vietnam_model, 'w', zipfile.ZIP_DEFLATED) as zf:
+-        for root, dirs, files in os.walk(vietnam_dir):
+-            for f in files:
+-                fpath = os.path.join(root, f)
+-                arcname = os.path.relpath(fpath, vietnam_dir)
+-                zf.write(fpath, arcname)
+-    print("✅ Re-zipped model successfully!")
+-
+-# Verify Vietnam Model
+-if os.path.exists(vietnam_model):
+-    print(f"  ✅ Vietnam model found: {os.path.basename(vietnam_model)} ({os.path.getsize(vietnam_model)/1024/1024:.2f} MB)")
+-else:
+-    print(f"  ❌ Vietnam model NOT found: {os.path.basename(vietnam_model)}")
+-    print("  👉 Make sure you zipped 'results/models/v11/dgrl_v11_final_vietnam.zip' and uploaded it.")
+-
+-# Verify Vietnam VecNormalize
+-vietnam_pkl = f"{MODEL_DIR}/vec_normalize_v11_vietnam.pkl"
+-if os.path.exists(vietnam_pkl):
+-    print(f"  ✅ Vietnam normalizer (.pkl) found: {os.path.basename(vietnam_pkl)}")
+-else:
+-    print(f"  ⚠️ Vietnam normalizer (.pkl) NOT found! Benchmark might fail to load normalizer.")
+-
+-print("\n✅ Verification complete!")
+-
+-# ══════════════════════════════════════════════════════════════
+-# CELL 3: Run Algorithm Benchmark — Vietnam
++print("📁 Models in", MODEL_DIR + ":")
++for f in sorted(os.listdir(MODEL_DIR)):
++    fpath = os.path.join(MODEL_DIR, f)
++    size = os.path.getsize(fpath) / 1024
++    print(f"  {f:50s}  {size:.1f} KB")
++
++# Rename: benchmark expects "dgrl_v11_final_{topo}.zip" but training saves "dgrl_v11_{topo}.zip"
++for topo in ["nsfnet", "geant2"]:
++    src = f"{MODEL_DIR}/dgrl_v11_{topo}.zip"
++    dst = f"{MODEL_DIR}/dgrl_v11_final_{topo}.zip"
++    if os.path.exists(src) and not os.path.exists(dst):
++        shutil.copy2(src, dst)
++        print(f"  ✅ Copied {os.path.basename(src)} -> {os.path.basename(dst)}")
++
++# Also need to convert VecNormalize .pkl to .npz for the benchmark loader
++# The benchmark model_loader tries .pkl first, then falls back to .npz
++for topo in ["nsfnet", "geant2"]:
++    pkl = f"{MODEL_DIR}/vec_normalize_v11_{topo}.pkl"
++    if os.path.exists(pkl):
++        print(f"  ✅ VecNormalize found: {os.path.basename(pkl)}")
++    else:
++        print(f"  ⚠️ VecNormalize NOT found for {topo}!")
++
++print("\n✅ Model verification complete!")
++
++# ══════════════════════════════════════════════════════════════
++# CELL 5: Run Algorithm Benchmark — NSFNET
+ # ══════════════════════════════════════════════════════════════
+ 
+ import subprocess, sys, os
+ os.chdir("/kaggle/working/CoreRouter")
+ 
+-print("🏃 Running Vietnam benchmark...")
++print("🏃 Running NSFNET benchmark...")
+ print("=" * 60)
+ 
+-# We run scenario 'thesis' (which covers normal_load + 3 stress scenarios: elephant_stress, burst_surge, chaos)
+-# for 10,000 steps as required for Vietnam topology in the thesis.
++# Normal Load
++print("\n--- NSFNET: normal_load ---")
+ subprocess.run([
+     sys.executable, "-m", "src.analytics.benchmark.benchmark_algorithm.run_all",
+-    "--topology", "vietnam",
+-    "--scenario", "thesis",
+-    "--steps", "10000",
++    "--topology", "nsfnet",
++    "--scenario", "normal_load",
++    "--steps", "2000",
+     "--version", "v11",
+     "--skip-exhaustive",
+     "--data-path", "data/real_telecom_combined.csv",
+@@ -160,10 +142,65 @@
+     "--output-dir", "results/benchmark_algorithm"
+ ])
+ 
+-print("\n✅ Vietnam benchmark complete!")
+-
+-# ══════════════════════════════════════════════════════════════
+-# CELL 4: Show Summary & Zip Results for Download
++# Stress scenarios
++for scenario in ["uniform", "bursty", "heavy_tail"]:
++    print(f"\n--- NSFNET stress: {scenario} ---")
++    subprocess.run([
++        sys.executable, "-m", "src.analytics.benchmark.benchmark_algorithm.run_all",
++        "--topology", "nsfnet",
++        "--scenario", scenario,
++        "--load", "stress",
++        "--steps", "2000",
++        "--version", "v11",
++        "--skip-exhaustive",
++        "--data-path", "data/real_telecom_combined.csv",
++        "--model-root", "results/models",
++        "--output-dir", "results/benchmark_algorithm"
++    ])
++
++print("\n✅ NSFNET benchmark complete!")
++
++# ══════════════════════════════════════════════════════════════
++# CELL 6: Run Algorithm Benchmark — GEANT2
++# ══════════════════════════════════════════════════════════════
++
++print("🏃 Running GEANT2 benchmark...")
++print("=" * 60)
++
++# Normal Load
++print("\n--- GEANT2: normal_load ---")
++subprocess.run([
++    sys.executable, "-m", "src.analytics.benchmark.benchmark_algorithm.run_all",
++    "--topology", "geant2",
++    "--scenario", "normal_load",
++    "--steps", "2000",
++    "--version", "v11",
++    "--skip-exhaustive",
++    "--data-path", "data/real_telecom_combined.csv",
++    "--model-root", "results/models",
++    "--output-dir", "results/benchmark_algorithm"
++])
++
++# Stress scenarios
++for scenario in ["uniform", "bursty", "heavy_tail"]:
++    print(f"\n--- GEANT2 stress: {scenario} ---")
++    subprocess.run([
++        sys.executable, "-m", "src.analytics.benchmark.benchmark_algorithm.run_all",
++        "--topology", "geant2",
++        "--scenario", scenario,
++        "--load", "stress",
++        "--steps", "2000",
++        "--version", "v11",
++        "--skip-exhaustive",
++        "--data-path", "data/real_telecom_combined.csv",
++        "--model-root", "results/models",
++        "--output-dir", "results/benchmark_algorithm"
++    ])
++
++print("\n✅ GEANT2 benchmark complete!")
++
++# ══════════════════════════════════════════════════════════════
++# CELL 7: Show Summary & Zip Results for Download
+ # ══════════════════════════════════════════════════════════════
+ 
+ import zipfile, os
+@@ -181,7 +218,7 @@
+             print(f'{indent}  {f} ({fsize:.0f} KB)')
+ 
+ # Zip everything
+-output_zip = "/kaggle/working/benchmark_results_vietnam.zip"
++output_zip = "/kaggle/working/benchmark_results_nsfnet_geant2.zip"
+ with zipfile.ZipFile(output_zip, 'w', zipfile.ZIP_DEFLATED) as zf:
+     for root, dirs, files in os.walk(results_dir):
+         for f in files:
+--- snapshot/run_backend_docker.sh
++++ current/run_backend_docker.sh
+@@ -16,7 +16,7 @@
+ build() {
+     echo "🔨 Building Python 3.11 backend image..."
+     docker build \
+-        -f "$PROJECT_ROOT/src/portal/backend/Dockerfile.py311" \
++        -f "$PROJECT_ROOT/src/portal/backend/Dockerfile" \
+         -t "$IMAGE" \
+         "$PROJECT_ROOT"
+     echo "✅ Build complete: $IMAGE"
+--- snapshot/src/analytics/benchmark/benchmark_algorithm/README.md
++++ current/src/analytics/benchmark/benchmark_algorithm/README.md
+@@ -1,11 +1,12 @@
+-# JO-VPPM Algorithm Benchmark
++# HARP Algorithm Benchmark
+ 
+ Offline algorithm benchmark split from `src/analytics/benchmark_v10_final.py`.
+ 
+ It evaluates algorithms inside the Gym environment, without hitting the live
+ testbed:
+ 
+-- `jo_vppm`
++- `harp` (legacy runner name `run_jo_vppm`)
++- `saf_h`
+ - `traditional_greedy`
+ - `decoupled_ai`
+ - `exhaustive_pair_search` as an upper-bound search when enabled
+@@ -69,3 +70,7 @@
+ - `dashboard.pdf`
+ - `latency_cdf.pdf`
+ - `rolling_acceptance_ci.pdf` for multi-seed runs
++
++## Revision caveat
++
++The current `scenario_jobs()` maps both `chaos` and `elephant_stress` to `heavy_tail`. They are not independent generators. Retain historical outputs for provenance; fix the protocol and rerun before using distinct-profile claims in the revision.
+--- snapshot/src/analytics/benchmark/benchmark_algorithm/run_load_sweep.py
++++ current/src/analytics/benchmark/benchmark_algorithm/run_load_sweep.py
+@@ -160,7 +160,7 @@
+     lines2, labels2 = ax2.get_legend_handles_labels()
+     ax1.legend(lines1 + lines2, labels1 + labels2, loc="center left", fontsize=10)
+ 
+-    plt.title(f"Load Sweep: {title}", fontsize=13)
++    # plt.title(f"Load Sweep: {title}", fontsize=13)
+     fig.tight_layout()
+     plt.savefig(out_path, format="pdf", bbox_inches="tight")
+     plt.close(fig)
+--- snapshot/src/orchestration/jo_vdpr/env.py
++++ current/src/orchestration/jo_vdpr/env.py
+@@ -53,6 +53,8 @@
+         self.reward_calc = reward_calculator or RewardCalculator()
+         self.EPISODE_LEN = episode_length
+         self.enforce_msd_constraint = enforce_msd_constraint
++        self.alert_cpu_threshold = 0.80
++        self.inference_sla_threshold = None
+         
+         self.topo = topology_manager if topology_manager else TopologyManager("vietnam")
+         self.num_nodes   = self.topo.num_nodes
+@@ -143,7 +145,7 @@
+             ram_u = self._state[i * 3 + 1] / self.max_ram
+             msd_u = self._state[i * 3 + 2] / self.node_msd_limits[i]
+             msd_f = max(0.0, 1.0 - msd_u)
+-            alert = 1.0 if cpu_u > 0.80 else 0.0
++            alert = 1.0 if cpu_u > self.alert_cpu_threshold else 0.0
+             
+             base  = i * self.NODE_FEAT_DIM
+             obs[base], obs[base + 1], obs[base + 2], obs[base + 3] = cpu_u, ram_u, msd_u, msd_f
+@@ -253,8 +255,8 @@
+         msd_total = msd_req + hop_count
+ 
+         # Trích cờ cảnh báo (Proactive Alert)
+-        alert_v1 = 1.0 if (self._state[v1 * 3] / self.max_cpu) > 0.80 else 0.0
+-        alert_v2 = 1.0 if (self._state[v2 * 3] / self.max_cpu) > 0.80 else 0.0
++        alert_v1 = 1.0 if (self._state[v1 * 3] / self.max_cpu) > self.alert_cpu_threshold else 0.0
++        alert_v2 = 1.0 if (self._state[v2 * 3] / self.max_cpu) > self.alert_cpu_threshold else 0.0
+ 
+         errors, is_valid = [], True
+         has_msd_violation = False
+@@ -290,6 +292,10 @@
+         prop_latency  = latency_breakdown["D_prop_ms"]
+         srv6_latency  = latency_breakdown["D_srv6_ms"]
+         queue_latency = latency_breakdown["D_queue_ms"]
++
++        if self.inference_sla_threshold is not None and total_latency > self.inference_sla_threshold:
++            is_valid = False
++            errors.append(f"Latency exceeds inference SLA threshold ({total_latency:.2f}ms > {self.inference_sla_threshold:.2f}ms)")
+ 
+         is_switching = (self._prev_v1 is not None and (v1 != self._prev_v1 or v2 != self._prev_v2))
+ 
+--- snapshot/src/portal/backend/Dockerfile
++++ current/src/portal/backend/Dockerfile
+@@ -0,0 +1,34 @@
++# PHASE 6: Optimized Dockerfile for 3S-COM Hybrid Orchestration
++# Python 3.11 Slim for balance between speed and ML compatibility
++FROM python:3.11-slim
++
++# Avoid writing .pyc files and enable unbuffered logging
++ENV PYTHONDONTWRITEBYTECODE 1
++ENV PYTHONUNBUFFERED 1
++
++# 1. Cài đặt system dependencies (Ít thay đổi nhất - Layer 1)
++RUN apt-get update && apt-get install -y --no-install-recommends \
++    build-essential \
++    git \
++    && rm -rf /var/lib/apt/lists/*
++
++# 2. Cài đặt PyTorch CPU trước để SB3 không kéo nhầm CUDA wheels
++RUN pip install --no-cache-dir \
++    torch --index-url https://download.pytorch.org/whl/cpu
++
++# 3. Cài đặt Python ML Libraries (Nặng, ít thay đổi - Layer 3)
++# Chú ý: Đặt TRƯỚC khi COPY code để Docker Cache được bước này
++WORKDIR /app
++COPY requirements.txt ./requirements.txt
++COPY src/portal/backend/requirements.txt ./src/portal/backend/requirements.txt
++RUN pip install --no-cache-dir -r src/portal/backend/requirements.txt
++
++# 4. Thiết lập môi trường và COPY code (Thay đổi thường xuyên - Layer 4)
++# Việc thay đổi code chỉ làm chạy lại từ bước này trở xuống
++COPY . .
++
++# Mở port 8000 cho FastAPI
++EXPOSE 8000
++
++# Khởi chạy Backend
++CMD ["uvicorn", "src.portal.backend.app.main:app", "--host", "0.0.0.0", "--port", "8000"]
+--- snapshot/src/portal/backend/app/core/config.py
++++ current/src/portal/backend/app/core/config.py
+@@ -1,18 +1,5 @@
+-import os
++"""Compatibility import for backend callers of the shared configuration."""
+ 
+-os.environ.setdefault("JO_VPPM_ENABLE_MODEL", "1")
+-os.environ.setdefault("JO_VPPM_REQUIRE_MODEL", "1")
+-os.environ.setdefault("JO_VPPM_MODEL_PATH", "results/models/v11/dgrl_v11_final_vietnam.zip")
+-os.environ.setdefault("JO_VPPM_SCALER_PATH", "results/models/v11/vec_normalize_v11_vietnam.pkl")
++from src.shared.config import Settings, settings
+ 
+-class Settings:
+-    PROJECT_NAME: str = "3S-COM Orchestrator - INTEGRATED"
+-    VERSION: str = "2.0.0"
+-    PROMETHEUS_URL: str = os.getenv("PROMETHEUS_URL", "http://localhost:9090")
+-    SDN_CONTROLLER_URL: str = os.getenv("SDN_CONTROLLER_URL", "http://localhost:8765")
+-    os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = "gcp-key.json"
+-    VERTEX_PROJECT_ID: str = "corerouter"
+-    VERTEX_LOCATION: str = "us-central1" 
+-    VERTEX_ENDPOINT_ID: str = "817138350065451008"
+-
+-settings = Settings()
++__all__ = ["Settings", "settings"]
+--- snapshot/src/portal/backend/app/routers/ai.py
++++ current/src/portal/backend/app/routers/ai.py
+@@ -1,17 +1,12 @@
+-from fastapi import APIRouter, BackgroundTasks, HTTPException
++from fastapi import APIRouter, BackgroundTasks
+ import asyncio
+ import logging
+-from typing import Dict, List
+ 
+ from src.ai.dgrl_agent import get_dgrl_agent
+-from src.ai.heuristic import HardConstraintError, get_decoupled_action
+-from src.core.state_manager import get_state_manager
+ from src.portal.backend.app.containers.service_container import container
+-from src.portal.backend.app.models.schemas import SFCRequest
+ 
+ logger = logging.getLogger("AI-Loop")
+ router = APIRouter(tags=["AI Simulation"])
+-orchestration_router = APIRouter(tags=["Hybrid Orchestration"])
+ 
+ AI_STATE = {
+     "running": False,
+@@ -104,187 +99,3 @@
+         "load_error": agent.load_error,
+     })
+     return status_dict
+-
+-
+-def _generate_srv6_sids(v_place: int, v_route: int, msd_req: int) -> List[str]:
+-    """Generate a bounded SRv6 segment list for the selected action."""
+-    sid_count = max(1, int(msd_req))
+-    nodes = [int(v_place)]
+-    if sid_count > 1:
+-        nodes.extend([int(v_route)] * (sid_count - 1))
+-    return [
+-        f"2001:db8:{node_id:02x}:{idx + 1:02x}::1"
+-        for idx, node_id in enumerate(nodes[:sid_count])
+-    ]
+-
+-
+-def _node_label(node_id: int, node_names: List[str]) -> Dict[str, object]:
+-    return {"id": int(node_id), "name": node_names[int(node_id)]}
+-
+-
+-def _location_key(node_name: str) -> str:
+-    mapping = {
+-        "Hanoi": "hn",
+-        "HaiPhong": "hp",
+-        "NinhBinh": "hn",
+-        "Vinh": "dn",
+-        "Hue": "dn",
+-        "DaNang": "dn",
+-        "QuyNhon": "dn",
+-        "NhaTrang": "hcm",
+-        "HoChiMinh": "hcm",
+-        "CanTho": "hcm",
+-    }
+-    return mapping.get(node_name, "auto")
+-
+-
+-@orchestration_router.post("/orchestrate")
+-def orchestrate_sfc(request: SFCRequest):
+-    """Adaptive Hybrid Orchestration endpoint.
+-
+-    Normal load uses the latency-optimized heuristic branch.  Stress load,
+-    forecast alerts, or heuristic hard-constraint failures engage JO-VPPM.
+-    """
+-    state_manager = get_state_manager()
+-    forecast_alert = bool(
+-        request.alert_flag
+-        or request.is_ddos_spike
+-        or request.service_type.lower() == "attack"
+-    )
+-    state_manager.set_forecast_alert(forecast_alert)
+-
+-    gate = state_manager.choose_mode()
+-    method = "Heuristic (Latency Optimized)"
+-    branch = "heuristic"
+-    fallback_reason = None
+-    model_loaded = False
+-
+-    try:
+-        if gate.mode == "heuristic":
+-            try:
+-                choice = get_decoupled_action(state_manager.snapshot(), request)
+-            except HardConstraintError as exc:
+-                fallback_reason = str(exc)
+-                dgrl_decision = get_dgrl_agent().get_action(state_manager, request)
+-                choice = dgrl_decision.choice
+-                model_loaded = dgrl_decision.model_loaded
+-                branch = "drl"
+-                method = "JO-VPPM AI (Heuristic Hard-Constraint Fallback)"
+-                fallback_reason = fallback_reason or dgrl_decision.fallback_reason
+-        else:
+-            dgrl_decision = get_dgrl_agent().get_action(state_manager, request)
+-            choice = dgrl_decision.choice
+-            model_loaded = dgrl_decision.model_loaded
+-            fallback_reason = dgrl_decision.fallback_reason
+-            branch = "drl"
+-            method = "JO-VPPM AI (Resilience Optimized)"
+-
+-        sid_stack = _generate_srv6_sids(choice.v_place, choice.v_route, request.msd_req)
+-        accepted, error = state_manager.try_reserve(
+-            choice.v_place,
+-            choice.v_route,
+-            request.cpu_req,
+-            request.ram_req,
+-            len(sid_stack),
+-        )
+-
+-        if not accepted and branch == "heuristic":
+-            fallback_reason = error
+-            dgrl_decision = get_dgrl_agent().get_action(state_manager, request)
+-            choice = dgrl_decision.choice
+-            model_loaded = dgrl_decision.model_loaded
+-            branch = "drl"
+-            method = "JO-VPPM AI (Concurrent-State Fallback)"
+-            sid_stack = _generate_srv6_sids(choice.v_place, choice.v_route, request.msd_req)
+-            accepted, error = state_manager.try_reserve(
+-                choice.v_place,
+-                choice.v_route,
+-                request.cpu_req,
+-                request.ram_req,
+-                len(sid_stack),
+-            )
+-
+-        if not accepted:
+-            raise HTTPException(
+-                status_code=409,
+-                detail={
+-                    "status": "error",
+-                    "code": "NO_SAFE_ACTION",
+-                    "message": error or "No safe placement/routing pair satisfies hard constraints.",
+-                },
+-            )
+-
+-    except HardConstraintError as exc:
+-        raise HTTPException(
+-            status_code=409,
+-            detail={
+-                "status": "error",
+-                "code": "NO_SAFE_ACTION",
+-                "message": str(exc),
+-            },
+-        ) from exc
+-
+-    public_state = state_manager.as_public_dict()
+-    node_names = [node["name"] for node in public_state["nodes"]]
+-    placement = _node_label(choice.v_place, node_names)
+-    route = _node_label(choice.v_route, node_names)
+-    migration_result = None
+-
+-    if branch == "drl" and public_state["alert_flag"]:
+-        try:
+-            migration_result = container.orchestrator.trigger_deploy(
+-                name=f"proactive-{request.flow_id or placement['name']}".lower().replace("_", "-").replace(" ", "-")[:40],
+-                vnf_type="firewall" if request.service_type.lower() == "attack" else "router",
+-                profile="performance",
+-                location=_location_key(str(placement["name"])),
+-            )
+-        except Exception as exc:
+-            logger.error("Proactive migration trigger failed: %s", exc)
+-            migration_result = {"status": "error", "message": str(exc)}
+-
+-    data = {
+-        "placement_node": placement,
+-        "routing_node": route,
+-        "srv6_segment_list": sid_stack,
+-        "method_used": method,
+-        "hybrid_branch": branch,
+-        "gate_reason": gate.reason,
+-        "action_reason": choice.reason,
+-        "fallback_reason": fallback_reason,
+-        "model_loaded": model_loaded,
+-        "global_utilization": public_state["global_utilization"],
+-        "avg_cpu": public_state["avg_cpu"],
+-        "avg_msd_usage": public_state["avg_msd_usage"],
+-        "alert_flag": public_state["alert_flag"],
+-        "make_before_break": bool(branch == "drl" and public_state["alert_flag"]),
+-        "migration_result": migration_result,
+-        "state": public_state,
+-    }
+-    return {
+-        "status": "success",
+-        "message": f"Hybrid orchestration selected {method}.",
+-        "data": data,
+-        # Compatibility with scripts expecting the flat pseudo-code shape.
+-        "placement_node": placement,
+-        "srv6_segment_list": sid_stack,
+-        "method_used": method,
+-    }
+-
+-
+-@orchestration_router.get("/orchestrate/state")
+-def get_hybrid_state():
+-    try:
+-        from src.portal.backend.app.containers.service_container import container
+-        k8s_vnfs = container.orchestrator.list_vnfs()
+-        get_state_manager().sync_with_kubernetes(k8s_vnfs)
+-    except Exception as e:
+-        import logging
+-        logging.getLogger("ai_router").error(f"Failed to sync state with K8s in AI router: {e}")
+-    state = get_state_manager().as_public_dict()
+-    return {"status": "success", "message": "Hybrid state snapshot", "data": state}
+-
+-
+-@orchestration_router.post("/orchestrate/reset")
+-def reset_hybrid_state():
+-    get_state_manager().reset()
+-    return {"status": "success", "message": "Hybrid state reset", "data": get_state_manager().as_public_dict()}
+--- snapshot/src/portal/backend/app/routers/orchestration_router.py
++++ current/src/portal/backend/app/routers/orchestration_router.py
+@@ -1,17 +1,20 @@
+ from fastapi import APIRouter, HTTPException, BackgroundTasks
+ import asyncio
+ import logging
+-from typing import Dict, List, Optional
++import uuid
+ 
+ from src.ai.dgrl_agent import get_dgrl_agent
+-from src.ai.heuristic import HardConstraintError, get_decoupled_action
++from src.ai.heuristic import HardConstraintError
+ from src.analytics.ai_forecasting import get_forecast_service
+ from src.core.state_manager import get_state_manager
+ from src.portal.backend.app.containers.service_container import container
++from src.portal.backend.app.services.hybrid_decision import (
++    select_and_reserve,
++    node_label,
++    location_key,
++)
+ from src.portal.backend.app.models.schemas import (
+     SFCRequest,
+-    MigrateSingleRequest,
+-    BreakOldVnfRequest,
+     FreeResourceRequest,
+     TelemetryIngestRequest,
+ )
+@@ -20,41 +23,6 @@
+ router = APIRouter(tags=["Hybrid Orchestration"])
+ 
+ MIGRATION_LOCK = asyncio.Lock()
+-
+-def _generate_srv6_sids(v_place: int, v_route: int, msd_req: int) -> List[str]:
+-    """Generate a bounded SRv6 segment list for the selected action."""
+-    sid_count = max(1, int(msd_req))
+-    nodes = [int(v_place)]
+-    if sid_count > 1:
+-        nodes.extend([int(v_route)] * (sid_count - 1))
+-    return [
+-        f"2001:db8:{node_id:02x}:{idx + 1:02x}::1"
+-        for idx, node_id in enumerate(nodes[:sid_count])
+-    ]
+-
+-def _node_label(node_id: int, node_names: List[str]) -> Dict[str, object]:
+-    return {"id": int(node_id), "name": node_names[int(node_id)]}
+-
+-def _location_key(node_name: str) -> str:
+-    """
+-    Map AI topology node name -> targetLocation label used by Tekton prepare-vnf task.
+-    Format: "<city>-<index>" matches core-router/location label in K8s manifests.
+-    Option A: Logically independent city locations running on shared physical nodes.
+-    """
+-    mapping = {
+-        "Hanoi":      "hanoi-1",
+-        "HaiPhong":   "haiphong-1",
+-        "NinhBinh":   "ninhbinh-1",
+-        "Vinh":       "vinh-1",
+-        "Hue":        "hue-1",
+-        "DaNang":     "danang-1",
+-        "QuyNhon":    "quynhon-1",
+-        "NhaTrang":   "nhatrang-1",
+-        "HoChiMinh":  "hcm-1",
+-        "CanTho":     "cantho-1",
+-    }
+-    return mapping.get(node_name, "auto")
+-
+ 
+ @router.post("/orchestrate")
+ async def orchestrate_sfc(request: SFCRequest, background_tasks: BackgroundTasks):
+@@ -89,65 +57,31 @@
+     if forecast_alert:
+         state_manager.set_forecast_alert(True)
+ 
+-    gate = state_manager.choose_mode()
+-    method = "Hybrid:Heuristic"
+-    branch = "heuristic"
+-
++    vnf_name = f"vnf-{request.service_type.lower()}-{str(uuid.uuid4())[:8]}"
+     try:
+-        if gate.mode == "heuristic":
+-            try:
+-                choice = get_decoupled_action(state_manager.snapshot(), request)
+-            except HardConstraintError:
+-                dgrl_decision = get_dgrl_agent().get_action(state_manager, request)
+-                choice = dgrl_decision.choice
+-                branch = "drl"
+-                method = "Hybrid:DRL (Heuristic Fallback)"
+-        else:
+-            dgrl_decision = get_dgrl_agent().get_action(state_manager, request)
+-            choice = dgrl_decision.choice
+-            branch = "drl"
+-            method = "Hybrid:DRL"
+-
+-        sid_stack = _generate_srv6_sids(choice.v_place, choice.v_route, request.msd_req)
+-        
+-        # Phase 7: Generate unique VNF name for tracking
+-        import uuid
+-        vnf_id = str(uuid.uuid4())[:8]
+-        vnf_name = f"vnf-{request.service_type.lower()}-{vnf_id}"
+-
+-        # Admission Control with Tracking
+-        accepted, error = state_manager.try_reserve(
+-            choice.v_place, choice.v_route, request.cpu_req, request.ram_req, len(sid_stack),
+-            vnf_name=vnf_name
++        decision = select_and_reserve(
++            state_manager, request,
++            lambda manager, req: get_dgrl_agent().get_action(manager, req),
++            vnf_name=vnf_name,
+         )
+-
+-        if not accepted and branch == "heuristic":
+-            dgrl_decision = get_dgrl_agent().get_action(state_manager, request)
+-            choice = dgrl_decision.choice
+-            sid_stack = _generate_srv6_sids(choice.v_place, choice.v_route, request.msd_req)
+-            accepted, error = state_manager.try_reserve(
+-                choice.v_place, choice.v_route, request.cpu_req, request.ram_req, len(sid_stack),
+-                vnf_name=vnf_name
+-            )
+-            if accepted:
+-                branch = "drl"
+-                method = "Hybrid:DRL (Capacity Fallback)"
+-
+-        if not accepted:
+-            raise HTTPException(
+-                status_code=409,
+-                detail={"status": "error", "code": "NO_SAFE_ACTION", "message": error or "Hardware constraints violated."}
+-            )
+-
+-    except Exception as e:
+-        if isinstance(e, HTTPException): raise e
+-        logger.error(f"Orchestration internal error: {e}")
+-        raise HTTPException(status_code=500, detail=str(e))
++    except HardConstraintError as exc:
++        raise HTTPException(
++            status_code=409,
++            detail={"status": "error", "code": "NO_SAFE_ACTION", "message": str(exc)},
++        ) from exc
++    except Exception as exc:
++        logger.exception("Orchestration internal error")
++        raise HTTPException(status_code=500, detail=str(exc)) from exc
++
++    choice = decision.choice
++    branch = decision.branch
++    method = decision.method
++    sid_stack = decision.sid_stack
+ 
+     public_state = state_manager.as_public_dict()
+     node_names = [n["name"] for n in public_state["nodes"]]
+-    placement = _node_label(choice.v_place, node_names)
+-    route = _node_label(choice.v_route, node_names)
++    placement = node_label(choice.v_place, node_names)
++    route = node_label(choice.v_route, node_names)
+     
+     # Luồng MBB Proactive nếu có Alert và có VNF đăng ký trong state_manager
+     migration_result = None
+@@ -166,7 +100,7 @@
+                         old_name=old_vnf,
+                         new_name=vnf_name,
+                         file_name="vnf-firewall.yaml" if request.service_type.lower() == "attack" else "vnf-frr.yaml",
+-                        target_location=_location_key(str(placement["name"])),
++                        target_location=location_key(str(placement["name"])),
+                         request=request,
+                         ai_node_id=choice.v_place
+                     )
+@@ -179,7 +113,7 @@
+                     name=vnf_name,
+                     vnf_type="router",
+                     profile="standard",
+-                    location=_location_key(str(placement["name"])),
++                    location=location_key(str(placement["name"])),
+                     node_hostname=container.orchestration_service.get_k8s_hostname(choice.v_place)
+                     if hasattr(container.orchestration_service, "get_k8s_hostname") else "",
+                 )
+@@ -313,7 +247,7 @@
+                                 old_name=vnf["name"],
+                                 new_name=f"{vnf['name']}-mig",
+                                 file_name="vnf-frr.yaml",
+-                                target_location=_location_key(target_name),
++                                target_location=location_key(target_name),
+                                 request=fake_req,
+                                 ai_node_id=target_node_id
+                             )
+--- snapshot/src/portal/backend/requirements.txt
++++ current/src/portal/backend/requirements.txt
+@@ -1,3 +1,6 @@
+-google-cloud-aiplatform
+-pandas  # Để đọc file CSV dữ liệu thật
+-numpy+-r ../../../requirements.txt
++fastapi
++uvicorn[standard]
++kubernetes
++requests
++torch-geometric
+--- snapshot/src/shared/config.py
++++ current/src/shared/config.py
+@@ -1,20 +1,22 @@
++"""Shared runtime configuration. Existing JO_VPPM_* names remain compatible."""
++
+ import os
+-from pydantic_settings import BaseSettings
+ 
+-class Settings(BaseSettings):
+-    PROJECT_NAME: str = "3S-COM Orchestrator"
++os.environ.setdefault("JO_VPPM_ENABLE_MODEL", "1")
++os.environ.setdefault("JO_VPPM_REQUIRE_MODEL", "1")
++os.environ.setdefault("JO_VPPM_MODEL_PATH", "results/models/v11/dgrl_v11_final_vietnam.zip")
++os.environ.setdefault("JO_VPPM_SCALER_PATH", "results/models/v11/vec_normalize_v11_vietnam.pkl")
++
++
++class Settings:
++    PROJECT_NAME: str = "AIO-Mesh / HARP Orchestrator"
+     VERSION: str = "2.0.0"
+     PROMETHEUS_URL: str = os.getenv("PROMETHEUS_URL", "http://localhost:9090")
+-    
+-    # K8s Config
+-    NAMESPACE: str = "vnf"
+-    
+-    # Vertx AI (Placeholder from old config)
+-    VERTEX_PROJECT_ID: str = "corerouter"
+-    VERTEX_LOCATION: str = "us-central1"
+-    VERTEX_ENDPOINT_ID: str = "817138350065451008"
++    SDN_CONTROLLER_URL: str = os.getenv("SDN_CONTROLLER_URL", "http://localhost:8765")
++    NAMESPACE: str = os.getenv("NAMESPACE", "core-router")
++    VERTEX_PROJECT_ID: str = os.getenv("VERTEX_PROJECT_ID", "corerouter")
++    VERTEX_LOCATION: str = os.getenv("VERTEX_LOCATION", "us-central1")
++    VERTEX_ENDPOINT_ID: str = os.getenv("VERTEX_ENDPOINT_ID", "817138350065451008")
+ 
+-    class Config:
+-        case_sensitive = True
+ 
+ settings = Settings()

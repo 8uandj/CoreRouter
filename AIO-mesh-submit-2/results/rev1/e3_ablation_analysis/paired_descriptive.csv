@@ -1,0 +1,22 @@
+contrast,left_variant,right_variant,metric,n_pairs,mean_delta,median_delta
+NoMask minus Full,harp_wo_hard_masking,harp_full,acceptance_rate,240,-33.52597222222222,-33.63333333333334
+NoMask minus Full,harp_wo_hard_masking,harp_full,proposed_hard_violation_rate,240,33.52597222222222,33.63333333333334
+NoMask minus Full,harp_wo_hard_masking,harp_full,runtime_rejection_rate,240,33.52597222222222,33.63333333333334
+NoMask minus Full,harp_wo_hard_masking,harp_full,admitted_hard_violation_rate,240,0.0,0.0
+NoMask minus Full,harp_wo_hard_masking,harp_full,admitted_msd_violation_rate,240,0.0,0.0
+NoMask minus Full,harp_wo_hard_masking,harp_full,avg_latency_ms,240,0.5381293894960335,0.49150493009066665
+NoMask minus Full,harp_wo_hard_masking,harp_full,avg_reward,240,-19.488465078258436,-18.976833617147676
+NoMask with MSD admission bypass minus NoMask with MSD admission,harp_wo_mask_unchecked,harp_wo_hard_masking,acceptance_rate,240,-0.005694444444444394,0.0
+NoMask with MSD admission bypass minus NoMask with MSD admission,harp_wo_mask_unchecked,harp_wo_hard_masking,proposed_hard_violation_rate,240,0.006944444444444523,0.0
+NoMask with MSD admission bypass minus NoMask with MSD admission,harp_wo_mask_unchecked,harp_wo_hard_masking,runtime_rejection_rate,240,0.005694444444444535,0.0
+NoMask with MSD admission bypass minus NoMask with MSD admission,harp_wo_mask_unchecked,harp_wo_hard_masking,admitted_hard_violation_rate,240,0.00125,0.0
+NoMask with MSD admission bypass minus NoMask with MSD admission,harp_wo_mask_unchecked,harp_wo_hard_masking,admitted_msd_violation_rate,240,0.00125,0.0
+NoMask with MSD admission bypass minus NoMask with MSD admission,harp_wo_mask_unchecked,harp_wo_hard_masking,avg_latency_ms,240,0.0029171020619790673,0.0
+NoMask with MSD admission bypass minus NoMask with MSD admission,harp_wo_mask_unchecked,harp_wo_hard_masking,avg_reward,240,0.002236621170052629,0.0
+SoftMSD without MSD admission minus SoftMSD with MSD admission,harp_soft_msd_penalty,harp_soft_msd_admission,acceptance_rate,240,-0.04694444444444444,0.0
+SoftMSD without MSD admission minus SoftMSD with MSD admission,harp_soft_msd_penalty,harp_soft_msd_admission,proposed_hard_violation_rate,240,0.07222222222222233,0.0
+SoftMSD without MSD admission minus SoftMSD with MSD admission,harp_soft_msd_penalty,harp_soft_msd_admission,runtime_rejection_rate,240,0.04694444444444474,0.0
+SoftMSD without MSD admission minus SoftMSD with MSD admission,harp_soft_msd_penalty,harp_soft_msd_admission,admitted_hard_violation_rate,240,0.025277777777777777,0.0
+SoftMSD without MSD admission minus SoftMSD with MSD admission,harp_soft_msd_penalty,harp_soft_msd_admission,admitted_msd_violation_rate,240,0.025277777777777777,0.0
+SoftMSD without MSD admission minus SoftMSD with MSD admission,harp_soft_msd_penalty,harp_soft_msd_admission,avg_latency_ms,240,0.004021317000354171,0.0
+SoftMSD without MSD admission minus SoftMSD with MSD admission,harp_soft_msd_penalty,harp_soft_msd_admission,avg_reward,240,-0.051328632173747196,0.0

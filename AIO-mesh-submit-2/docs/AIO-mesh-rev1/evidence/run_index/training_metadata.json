@@ -1,0 +1,71 @@
+{
+  "main_checkpoint_artifacts": [
+    {
+      "topology": "vietnam",
+      "checkpoint": "results/models/v11/dgrl_v11_final_vietnam.zip",
+      "checkpoint_sha256": "42ea62747457807354611f72f21dcc3235eae60c93f2aa06e5a9e3e4cfd05d60",
+      "normalizer": "results/models/v11/vec_normalize_v11_vietnam.pkl",
+      "normalizer_sha256": "49e3075ca33e2085d2677c49f8778ae5bd35fd7f5b0a0ef5f0cec6e11262047d",
+      "stable_baselines3_version": "2.8.0",
+      "serialized_metadata": {
+        "seed": 42,
+        "num_timesteps": 2001920,
+        "n_envs": 10,
+        "n_steps": 512,
+        "batch_size": 256,
+        "n_epochs": 10,
+        "gamma": 0.99,
+        "gae_lambda": 0.95,
+        "ent_coef": 5.0113584058761525e-05,
+        "vf_coef": 0.7
+      }
+    },
+    {
+      "topology": "geant2",
+      "checkpoint": "results/models/v11/v11_nsfnet_geant22/dgrl_v11_final_geant2.zip",
+      "checkpoint_sha256": "f7bb0adc7c9188741d882115b75ddb33667a6d075478dd114f280413d55917fa",
+      "normalizer": "results/models/v11/v11_nsfnet_geant22/vec_normalize_v11_geant2.pkl",
+      "normalizer_sha256": "ce49b416848d44f7f60f9f3c9d0d341e98c0c5137b11135364ef0901b51be519",
+      "stable_baselines3_version": "2.3.2",
+      "serialized_metadata": {
+        "seed": 42,
+        "num_timesteps": 3000320,
+        "n_envs": 10,
+        "n_steps": 512,
+        "batch_size": 256,
+        "n_epochs": 10,
+        "gamma": 0.99,
+        "gae_lambda": 0.95,
+        "ent_coef": 5.0001402273380864e-05,
+        "vf_coef": 0.7
+      }
+    },
+    {
+      "topology": "nsfnet",
+      "checkpoint": "results/models/v11/v11_nsfnet_geant22/dgrl_v11_final_nsfnet.zip",
+      "checkpoint_sha256": "dd39ffbeb58b8b682b96819f6c9b65a2304de4572f3bbea6fdccbf6e06395f3e",
+      "normalizer": "results/models/v11/v11_nsfnet_geant22/vec_normalize_v11_nsfnet.pkl",
+      "normalizer_sha256": "da74a75829cad83c55c227150abc7c38a18e128d532e39c9901dc129bf653326",
+      "stable_baselines3_version": "2.3.2",
+      "serialized_metadata": {
+        "seed": 42,
+        "num_timesteps": 3000320,
+        "n_envs": 10,
+        "n_steps": 512,
+        "batch_size": 256,
+        "n_epochs": 10,
+        "gamma": 0.99,
+        "gae_lambda": 0.95,
+        "ent_coef": 5.0001402273380864e-05,
+        "vf_coef": 0.7
+      }
+    }
+  ],
+  "unavailable": [
+    "exact training command and source commit",
+    "training data hash",
+    "hardware and duration",
+    "criterion used to select checkpoints",
+    "flat-action ablation checkpoint and training-log archive"
+  ]
+}

@@ -1,0 +1,118 @@
+[
+  {
+    "all_zero_differences": false,
+    "ci95_high": -0.6799999999999968,
+    "ci95_low": -1.0499999999999958,
+    "comparison": "harp_vs_saf_h_protected",
+    "control": "saf_h_protected",
+    "holm_p": 1.9073486328125e-06,
+    "mean_delta": -0.8683333333333302,
+    "metric": "acceptance_rate",
+    "n": 20,
+    "paired_keys": [
+      [
+        "nsfnet",
+        "burst_surge",
+        7
+      ],
+      [
+        "nsfnet",
+        "burst_surge",
+        11
+      ],
+      [
+        "nsfnet",
+        "burst_surge",
+        17
+      ],
+      [
+        "nsfnet",
+        "burst_surge",
+        23
+      ],
+      [
+        "nsfnet",
+        "burst_surge",
+        42
+      ],
+      [
+        "nsfnet",
+        "burst_surge",
+        47
+      ],
+      [
+        "nsfnet",
+        "burst_surge",
+        73
+      ],
+      [
+        "nsfnet",
+        "burst_surge",
+        89
+      ],
+      [
+        "nsfnet",
+        "burst_surge",
+        100
+      ],
+      [
+        "nsfnet",
+        "burst_surge",
+        101
+      ],
+      [
+        "nsfnet",
+        "burst_surge",
+        211
+      ],
+      [
+        "nsfnet",
+        "burst_surge",
+        314
+      ],
+      [
+        "nsfnet",
+        "burst_surge",
+        512
+      ],
+      [
+        "nsfnet",
+        "burst_surge",
+        1024
+      ],
+      [
+        "nsfnet",
+        "burst_surge",
+        2024
+      ],
+      [
+        "nsfnet",
+        "burst_surge",
+        2718
+      ],
+      [
+        "nsfnet",
+        "burst_surge",
+        4096
+      ],
+      [
+        "nsfnet",
+        "burst_surge",
+        8192
+      ],
+      [
+        "nsfnet",
+        "burst_surge",
+        8888
+      ],
+      [
+        "nsfnet",
+        "burst_surge",
+        9999
+      ]
+    ],
+    "paired_rank_biserial": -1.0,
+    "treatment": "harp_protected",
+    "wilcoxon_p": 1.9073486328125e-06
+  }
+]

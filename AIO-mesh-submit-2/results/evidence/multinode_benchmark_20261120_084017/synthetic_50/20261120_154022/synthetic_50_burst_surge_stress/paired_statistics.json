@@ -1,0 +1,118 @@
+[
+  {
+    "all_zero_differences": false,
+    "ci95_high": 4.366666666666661,
+    "ci95_low": 4.203333333333328,
+    "comparison": "harp_vs_saf_h_protected",
+    "control": "saf_h_protected",
+    "holm_p": 1.9073486328125e-06,
+    "mean_delta": 4.2866666666666635,
+    "metric": "acceptance_rate",
+    "n": 20,
+    "paired_keys": [
+      [
+        "synthetic_50",
+        "burst_surge",
+        7
+      ],
+      [
+        "synthetic_50",
+        "burst_surge",
+        11
+      ],
+      [
+        "synthetic_50",
+        "burst_surge",
+        17
+      ],
+      [
+        "synthetic_50",
+        "burst_surge",
+        23
+      ],
+      [
+        "synthetic_50",
+        "burst_surge",
+        42
+      ],
+      [
+        "synthetic_50",
+        "burst_surge",
+        47
+      ],
+      [
+        "synthetic_50",
+        "burst_surge",
+        73
+      ],
+      [
+        "synthetic_50",
+        "burst_surge",
+        89
+      ],
+      [
+        "synthetic_50",
+        "burst_surge",
+        100
+      ],
+      [
+        "synthetic_50",
+        "burst_surge",
+        101
+      ],
+      [
+        "synthetic_50",
+        "burst_surge",
+        211
+      ],
+      [
+        "synthetic_50",
+        "burst_surge",
+        314
+      ],
+      [
+        "synthetic_50",
+        "burst_surge",
+        512
+      ],
+      [
+        "synthetic_50",
+        "burst_surge",
+        1024
+      ],
+      [
+        "synthetic_50",
+        "burst_surge",
+        2024
+      ],
+      [
+        "synthetic_50",
+        "burst_surge",
+        2718
+      ],
+      [
+        "synthetic_50",
+        "burst_surge",
+        4096
+      ],
+      [
+        "synthetic_50",
+        "burst_surge",
+        8192
+      ],
+      [
+        "synthetic_50",
+        "burst_surge",
+        8888
+      ],
+      [
+        "synthetic_50",
+        "burst_surge",
+        9999
+      ]
+    ],
+    "paired_rank_biserial": 1.0,
+    "treatment": "harp_protected",
+    "wilcoxon_p": 1.9073486328125e-06
+  }
+]

@@ -1,0 +1,79 @@
+{
+  "protocol": "protected-load-sweep-v2",
+  "topology": "vietnam",
+  "loads": [
+    0.2,
+    0.4,
+    0.6,
+    0.8,
+    1.0,
+    1.2,
+    1.5
+  ],
+  "initial_active_chains": 0,
+  "background_chain_profile": {
+    "cpu": 2.0,
+    "ram": 2.0,
+    "msd": 1,
+    "bandwidth": 20.0,
+    "ttl_steps": "2 * episode length + 1",
+    "placement": "round-robin"
+  },
+  "seeds": [
+    42,
+    100,
+    2024,
+    8888,
+    9999,
+    7,
+    17,
+    73,
+    314,
+    2718,
+    11,
+    23,
+    47,
+    89,
+    101,
+    211,
+    512,
+    1024,
+    4096,
+    8192
+  ],
+  "steps": 3000,
+  "policies": [
+    "harp_protected",
+    "saf_h_protected",
+    "cspf_protected",
+    "traditional_greedy_protected",
+    "decoupled_ai_protected",
+    "harp_unprotected",
+    "saf_h_unprotected",
+    "cspf_unprotected",
+    "traditional_greedy_unprotected",
+    "decoupled_ai_unprotected"
+  ],
+  "data_path": "data/real_telecom_combined.csv",
+  "data_sha256": "5370da1bb55cd679422150c5c4073175109cc7b831eff9c74491b30a17dcdd2a",
+  "model_path": "results/models/retrain_v11_20261119_corrected/vietnam/dgrl_v11_final_vietnam.zip",
+  "model_sha256": "ea215985d1ad5d8ccc8e900da82d3e50e5ff51417c05bb96930dfc10ab9e86da",
+  "normalizer_path": "results/models/retrain_v11_20261119_corrected/vietnam/vec_normalize_v11_vietnam.pkl",
+  "normalizer_sha256": "87385923e8099d3b56096eeaa9a43f75a4e0a670c972a77e667d7e160229d646",
+  "source_sha256": {
+    "/dis/users/dcs/CoreRouter/src/analytics/benchmark/benchmark_algorithm/run_load_sweep.py": "a0a229de14df50f67933cec9e54a888c5494b05323e171d07a02a571708f4ad7",
+    "/dis/users/dcs/CoreRouter/src/analytics/benchmark/benchmark_algorithm/algorithms.py": "3549c20f6e27dee65ba9755437cfb979dae662608c55fba5b421e07ae7a28abd",
+    "/dis/users/dcs/CoreRouter/src/analytics/benchmark/benchmark_algorithm/config.py": "e683a6f173cc88095928bd53f8950ffbd1b5902de47c8417135cb1f1270864fd",
+    "/dis/users/dcs/CoreRouter/src/orchestration/jo_vdpr/env.py": "bc06f22067c22b6a80e8985e0cbc3b5490ac309e0b07bc7573e8393e607b4d48",
+    "/dis/users/dcs/CoreRouter/src/orchestration/jo_vdpr/topology.py": "2b91b72673be8dfb66dc929edc58d80e5f44148ff495a4d0c576077d17ca19f7"
+  },
+  "ttl_topology_scale": {
+    "vietnam": 1.0,
+    "nsfnet": 1.4,
+    "geant2": 2.3,
+    "synthetic_25": 2.5,
+    "synthetic_50": 5.0,
+    "synthetic_100": 10.0
+  },
+  "overload_demand_scaling": "CPU/RAM multiplied by load (capped at 90%); SID depth scaled by rounded load"
+}

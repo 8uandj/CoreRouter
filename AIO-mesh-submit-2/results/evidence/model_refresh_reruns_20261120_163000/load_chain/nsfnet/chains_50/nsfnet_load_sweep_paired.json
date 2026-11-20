@@ -1,0 +1,828 @@
+[
+  {
+    "comparison": "harp_vs_saf_h_protected",
+    "treatment": "harp_protected",
+    "control": "saf_h_protected",
+    "metric": "safe_acceptance_rate",
+    "n": 20,
+    "mean_delta": 0.0,
+    "ci95_low": 0.0,
+    "ci95_high": 0.0,
+    "wilcoxon_p": 1.0,
+    "paired_rank_biserial": 0.0,
+    "all_zero_differences": true,
+    "paired_keys": [
+      [
+        "nsfnet",
+        "load_0.2",
+        7
+      ],
+      [
+        "nsfnet",
+        "load_0.2",
+        11
+      ],
+      [
+        "nsfnet",
+        "load_0.2",
+        17
+      ],
+      [
+        "nsfnet",
+        "load_0.2",
+        23
+      ],
+      [
+        "nsfnet",
+        "load_0.2",
+        42
+      ],
+      [
+        "nsfnet",
+        "load_0.2",
+        47
+      ],
+      [
+        "nsfnet",
+        "load_0.2",
+        73
+      ],
+      [
+        "nsfnet",
+        "load_0.2",
+        89
+      ],
+      [
+        "nsfnet",
+        "load_0.2",
+        100
+      ],
+      [
+        "nsfnet",
+        "load_0.2",
+        101
+      ],
+      [
+        "nsfnet",
+        "load_0.2",
+        211
+      ],
+      [
+        "nsfnet",
+        "load_0.2",
+        314
+      ],
+      [
+        "nsfnet",
+        "load_0.2",
+        512
+      ],
+      [
+        "nsfnet",
+        "load_0.2",
+        1024
+      ],
+      [
+        "nsfnet",
+        "load_0.2",
+        2024
+      ],
+      [
+        "nsfnet",
+        "load_0.2",
+        2718
+      ],
+      [
+        "nsfnet",
+        "load_0.2",
+        4096
+      ],
+      [
+        "nsfnet",
+        "load_0.2",
+        8192
+      ],
+      [
+        "nsfnet",
+        "load_0.2",
+        8888
+      ],
+      [
+        "nsfnet",
+        "load_0.2",
+        9999
+      ]
+    ],
+    "holm_p": 1.0,
+    "load_multiplier": 0.2,
+    "topology": "nsfnet"
+  },
+  {
+    "comparison": "harp_vs_saf_h_protected",
+    "treatment": "harp_protected",
+    "control": "saf_h_protected",
+    "metric": "safe_acceptance_rate",
+    "n": 20,
+    "mean_delta": 0.0,
+    "ci95_low": 0.0,
+    "ci95_high": 0.0,
+    "wilcoxon_p": 1.0,
+    "paired_rank_biserial": 0.0,
+    "all_zero_differences": true,
+    "paired_keys": [
+      [
+        "nsfnet",
+        "load_0.4",
+        7
+      ],
+      [
+        "nsfnet",
+        "load_0.4",
+        11
+      ],
+      [
+        "nsfnet",
+        "load_0.4",
+        17
+      ],
+      [
+        "nsfnet",
+        "load_0.4",
+        23
+      ],
+      [
+        "nsfnet",
+        "load_0.4",
+        42
+      ],
+      [
+        "nsfnet",
+        "load_0.4",
+        47
+      ],
+      [
+        "nsfnet",
+        "load_0.4",
+        73
+      ],
+      [
+        "nsfnet",
+        "load_0.4",
+        89
+      ],
+      [
+        "nsfnet",
+        "load_0.4",
+        100
+      ],
+      [
+        "nsfnet",
+        "load_0.4",
+        101
+      ],
+      [
+        "nsfnet",
+        "load_0.4",
+        211
+      ],
+      [
+        "nsfnet",
+        "load_0.4",
+        314
+      ],
+      [
+        "nsfnet",
+        "load_0.4",
+        512
+      ],
+      [
+        "nsfnet",
+        "load_0.4",
+        1024
+      ],
+      [
+        "nsfnet",
+        "load_0.4",
+        2024
+      ],
+      [
+        "nsfnet",
+        "load_0.4",
+        2718
+      ],
+      [
+        "nsfnet",
+        "load_0.4",
+        4096
+      ],
+      [
+        "nsfnet",
+        "load_0.4",
+        8192
+      ],
+      [
+        "nsfnet",
+        "load_0.4",
+        8888
+      ],
+      [
+        "nsfnet",
+        "load_0.4",
+        9999
+      ]
+    ],
+    "holm_p": 1.0,
+    "load_multiplier": 0.4,
+    "topology": "nsfnet"
+  },
+  {
+    "comparison": "harp_vs_saf_h_protected",
+    "treatment": "harp_protected",
+    "control": "saf_h_protected",
+    "metric": "safe_acceptance_rate",
+    "n": 20,
+    "mean_delta": 0.09161798056438145,
+    "ci95_low": 0.058451813333876924,
+    "ci95_high": 0.12746442727526253,
+    "wilcoxon_p": 0.0006549583433856954,
+    "paired_rank_biserial": 1.0,
+    "all_zero_differences": false,
+    "paired_keys": [
+      [
+        "nsfnet",
+        "load_0.6",
+        7
+      ],
+      [
+        "nsfnet",
+        "load_0.6",
+        11
+      ],
+      [
+        "nsfnet",
+        "load_0.6",
+        17
+      ],
+      [
+        "nsfnet",
+        "load_0.6",
+        23
+      ],
+      [
+        "nsfnet",
+        "load_0.6",
+        42
+      ],
+      [
+        "nsfnet",
+        "load_0.6",
+        47
+      ],
+      [
+        "nsfnet",
+        "load_0.6",
+        73
+      ],
+      [
+        "nsfnet",
+        "load_0.6",
+        89
+      ],
+      [
+        "nsfnet",
+        "load_0.6",
+        100
+      ],
+      [
+        "nsfnet",
+        "load_0.6",
+        101
+      ],
+      [
+        "nsfnet",
+        "load_0.6",
+        211
+      ],
+      [
+        "nsfnet",
+        "load_0.6",
+        314
+      ],
+      [
+        "nsfnet",
+        "load_0.6",
+        512
+      ],
+      [
+        "nsfnet",
+        "load_0.6",
+        1024
+      ],
+      [
+        "nsfnet",
+        "load_0.6",
+        2024
+      ],
+      [
+        "nsfnet",
+        "load_0.6",
+        2718
+      ],
+      [
+        "nsfnet",
+        "load_0.6",
+        4096
+      ],
+      [
+        "nsfnet",
+        "load_0.6",
+        8192
+      ],
+      [
+        "nsfnet",
+        "load_0.6",
+        8888
+      ],
+      [
+        "nsfnet",
+        "load_0.6",
+        9999
+      ]
+    ],
+    "holm_p": 0.0006549583433856954,
+    "load_multiplier": 0.6,
+    "topology": "nsfnet"
+  },
+  {
+    "comparison": "harp_vs_saf_h_protected",
+    "treatment": "harp_protected",
+    "control": "saf_h_protected",
+    "metric": "safe_acceptance_rate",
+    "n": 20,
+    "mean_delta": 0.726775693847442,
+    "ci95_low": 0.6719529492516778,
+    "ci95_high": 0.7785920174244135,
+    "wilcoxon_p": 1.9073486328125e-06,
+    "paired_rank_biserial": 1.0,
+    "all_zero_differences": false,
+    "paired_keys": [
+      [
+        "nsfnet",
+        "load_0.8",
+        7
+      ],
+      [
+        "nsfnet",
+        "load_0.8",
+        11
+      ],
+      [
+        "nsfnet",
+        "load_0.8",
+        17
+      ],
+      [
+        "nsfnet",
+        "load_0.8",
+        23
+      ],
+      [
+        "nsfnet",
+        "load_0.8",
+        42
+      ],
+      [
+        "nsfnet",
+        "load_0.8",
+        47
+      ],
+      [
+        "nsfnet",
+        "load_0.8",
+        73
+      ],
+      [
+        "nsfnet",
+        "load_0.8",
+        89
+      ],
+      [
+        "nsfnet",
+        "load_0.8",
+        100
+      ],
+      [
+        "nsfnet",
+        "load_0.8",
+        101
+      ],
+      [
+        "nsfnet",
+        "load_0.8",
+        211
+      ],
+      [
+        "nsfnet",
+        "load_0.8",
+        314
+      ],
+      [
+        "nsfnet",
+        "load_0.8",
+        512
+      ],
+      [
+        "nsfnet",
+        "load_0.8",
+        1024
+      ],
+      [
+        "nsfnet",
+        "load_0.8",
+        2024
+      ],
+      [
+        "nsfnet",
+        "load_0.8",
+        2718
+      ],
+      [
+        "nsfnet",
+        "load_0.8",
+        4096
+      ],
+      [
+        "nsfnet",
+        "load_0.8",
+        8192
+      ],
+      [
+        "nsfnet",
+        "load_0.8",
+        8888
+      ],
+      [
+        "nsfnet",
+        "load_0.8",
+        9999
+      ]
+    ],
+    "holm_p": 1.9073486328125e-06,
+    "load_multiplier": 0.8,
+    "topology": "nsfnet"
+  },
+  {
+    "comparison": "harp_vs_saf_h_protected",
+    "treatment": "harp_protected",
+    "control": "saf_h_protected",
+    "metric": "safe_acceptance_rate",
+    "n": 20,
+    "mean_delta": 1.9066666666666627,
+    "ci95_low": 1.8316666666666628,
+    "ci95_high": 1.9849999999999952,
+    "wilcoxon_p": 1.9073486328125e-06,
+    "paired_rank_biserial": 1.0,
+    "all_zero_differences": false,
+    "paired_keys": [
+      [
+        "nsfnet",
+        "load_1.0",
+        7
+      ],
+      [
+        "nsfnet",
+        "load_1.0",
+        11
+      ],
+      [
+        "nsfnet",
+        "load_1.0",
+        17
+      ],
+      [
+        "nsfnet",
+        "load_1.0",
+        23
+      ],
+      [
+        "nsfnet",
+        "load_1.0",
+        42
+      ],
+      [
+        "nsfnet",
+        "load_1.0",
+        47
+      ],
+      [
+        "nsfnet",
+        "load_1.0",
+        73
+      ],
+      [
+        "nsfnet",
+        "load_1.0",
+        89
+      ],
+      [
+        "nsfnet",
+        "load_1.0",
+        100
+      ],
+      [
+        "nsfnet",
+        "load_1.0",
+        101
+      ],
+      [
+        "nsfnet",
+        "load_1.0",
+        211
+      ],
+      [
+        "nsfnet",
+        "load_1.0",
+        314
+      ],
+      [
+        "nsfnet",
+        "load_1.0",
+        512
+      ],
+      [
+        "nsfnet",
+        "load_1.0",
+        1024
+      ],
+      [
+        "nsfnet",
+        "load_1.0",
+        2024
+      ],
+      [
+        "nsfnet",
+        "load_1.0",
+        2718
+      ],
+      [
+        "nsfnet",
+        "load_1.0",
+        4096
+      ],
+      [
+        "nsfnet",
+        "load_1.0",
+        8192
+      ],
+      [
+        "nsfnet",
+        "load_1.0",
+        8888
+      ],
+      [
+        "nsfnet",
+        "load_1.0",
+        9999
+      ]
+    ],
+    "holm_p": 1.9073486328125e-06,
+    "load_multiplier": 1.0,
+    "topology": "nsfnet"
+  },
+  {
+    "comparison": "harp_vs_saf_h_protected",
+    "treatment": "harp_protected",
+    "control": "saf_h_protected",
+    "metric": "safe_acceptance_rate",
+    "n": 20,
+    "mean_delta": 3.3649999999999984,
+    "ci95_low": 3.258333333333332,
+    "ci95_high": 3.4766666666666675,
+    "wilcoxon_p": 1.9073486328125e-06,
+    "paired_rank_biserial": 1.0,
+    "all_zero_differences": false,
+    "paired_keys": [
+      [
+        "nsfnet",
+        "load_1.2",
+        7
+      ],
+      [
+        "nsfnet",
+        "load_1.2",
+        11
+      ],
+      [
+        "nsfnet",
+        "load_1.2",
+        17
+      ],
+      [
+        "nsfnet",
+        "load_1.2",
+        23
+      ],
+      [
+        "nsfnet",
+        "load_1.2",
+        42
+      ],
+      [
+        "nsfnet",
+        "load_1.2",
+        47
+      ],
+      [
+        "nsfnet",
+        "load_1.2",
+        73
+      ],
+      [
+        "nsfnet",
+        "load_1.2",
+        89
+      ],
+      [
+        "nsfnet",
+        "load_1.2",
+        100
+      ],
+      [
+        "nsfnet",
+        "load_1.2",
+        101
+      ],
+      [
+        "nsfnet",
+        "load_1.2",
+        211
+      ],
+      [
+        "nsfnet",
+        "load_1.2",
+        314
+      ],
+      [
+        "nsfnet",
+        "load_1.2",
+        512
+      ],
+      [
+        "nsfnet",
+        "load_1.2",
+        1024
+      ],
+      [
+        "nsfnet",
+        "load_1.2",
+        2024
+      ],
+      [
+        "nsfnet",
+        "load_1.2",
+        2718
+      ],
+      [
+        "nsfnet",
+        "load_1.2",
+        4096
+      ],
+      [
+        "nsfnet",
+        "load_1.2",
+        8192
+      ],
+      [
+        "nsfnet",
+        "load_1.2",
+        8888
+      ],
+      [
+        "nsfnet",
+        "load_1.2",
+        9999
+      ]
+    ],
+    "holm_p": 1.9073486328125e-06,
+    "load_multiplier": 1.2,
+    "topology": "nsfnet"
+  },
+  {
+    "comparison": "harp_vs_saf_h_protected",
+    "treatment": "harp_protected",
+    "control": "saf_h_protected",
+    "metric": "safe_acceptance_rate",
+    "n": 20,
+    "mean_delta": 2.638333333333333,
+    "ci95_low": 2.5066666666666677,
+    "ci95_high": 2.768333333333333,
+    "wilcoxon_p": 1.9073486328125e-06,
+    "paired_rank_biserial": 1.0,
+    "all_zero_differences": false,
+    "paired_keys": [
+      [
+        "nsfnet",
+        "load_1.5",
+        7
+      ],
+      [
+        "nsfnet",
+        "load_1.5",
+        11
+      ],
+      [
+        "nsfnet",
+        "load_1.5",
+        17
+      ],
+      [
+        "nsfnet",
+        "load_1.5",
+        23
+      ],
+      [
+        "nsfnet",
+        "load_1.5",
+        42
+      ],
+      [
+        "nsfnet",
+        "load_1.5",
+        47
+      ],
+      [
+        "nsfnet",
+        "load_1.5",
+        73
+      ],
+      [
+        "nsfnet",
+        "load_1.5",
+        89
+      ],
+      [
+        "nsfnet",
+        "load_1.5",
+        100
+      ],
+      [
+        "nsfnet",
+        "load_1.5",
+        101
+      ],
+      [
+        "nsfnet",
+        "load_1.5",
+        211
+      ],
+      [
+        "nsfnet",
+        "load_1.5",
+        314
+      ],
+      [
+        "nsfnet",
+        "load_1.5",
+        512
+      ],
+      [
+        "nsfnet",
+        "load_1.5",
+        1024
+      ],
+      [
+        "nsfnet",
+        "load_1.5",
+        2024
+      ],
+      [
+        "nsfnet",
+        "load_1.5",
+        2718
+      ],
+      [
+        "nsfnet",
+        "load_1.5",
+        4096
+      ],
+      [
+        "nsfnet",
+        "load_1.5",
+        8192
+      ],
+      [
+        "nsfnet",
+        "load_1.5",
+        8888
+      ],
+      [
+        "nsfnet",
+        "load_1.5",
+        9999
+      ]
+    ],
+    "holm_p": 1.9073486328125e-06,
+    "load_multiplier": 1.5,
+    "topology": "nsfnet"
+  }
+]

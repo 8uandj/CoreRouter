@@ -1,0 +1,30 @@
+{
+  "experiment": "forwarding",
+  "scope": "Diagnostic endpoint probe only. No ordered multi-VNF trial is indexed.",
+  "artifacts": [
+    {
+      "path": "results/hil/rebuild_20261117T123405Z/phase18_h9_egress.pcap",
+      "kind": "file",
+      "sha256": "b15b524538ec8020e757fa5a7b4cebae51c8a7086f5dc1a6574ab12e9cd4d19c",
+      "recorded_original_sha256": null
+    },
+    {
+      "path": "results/hil/rebuild_20261117T123405Z/phase19_host_peer.pcap",
+      "kind": "file",
+      "sha256": "297511870c9dab26c7f6bce825b57088368f5ffce02a1ec3a287ce69cbd06159",
+      "recorded_original_sha256": null
+    },
+    {
+      "path": "results/hil/rebuild_20261117T123405Z/phase19_vxlan.pcap",
+      "kind": "file",
+      "sha256": "7de9e9d848c2c73eda76b6de38a7ab48038553fafb02eb1d33991ff68849e93c",
+      "recorded_original_sha256": null
+    },
+    {
+      "path": "results/raw/forwarding",
+      "kind": "missing",
+      "sha256": null,
+      "recorded_original_sha256": null
+    }
+  ]
+}

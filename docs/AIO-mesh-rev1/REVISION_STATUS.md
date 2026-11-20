@@ -1,11 +1,19 @@
 # Revision status
 
+## Current action-space and evidence policy — 2026-11-20
+
+- Current primary training and evaluation use flat `Discrete(N²)` throughout. Direct SB3 ZIP inspection confirms corrected main retrains Vietnam `Discrete(100)`, NSFNET `Discrete(196)`, GEANT2 `Discrete(529)`, plus synthetic-25/50/100 `Discrete(625/2500/10000)`. The trainer, evaluation environment, and runtime pair mask use the same N² interface.
+- Existing ablation variants already use flat `Discrete(N²)` and do not need retraining for action-space alignment. Their retained manifests/logs remain eligible evidence after normal provenance checks.
+- The six-topology benchmark uses these corrected retrains and is still running. Its output becomes new primary evaluation evidence when complete; old main-training logs are not needed as primary training records. Do not replace manuscript benchmark numbers before all seed summaries are complete.
+- Archived main v10/v11 checkpoints with factorized `MultiDiscrete([N,N])` and `2N` logits remain preserved as legacy artifacts. The compatibility adapter still supports them, but they are excluded from current primary runs.
+- The entries below document the earlier audit/recovery chronology. Earlier statements that the current benchmark uses factorized heads or that retraining was not selected are superseded by this update; the historical artifact findings remain true for the archived files.
+
 Updated: 2026-11-18
 
 ## Integrity recovery
 
 - Removed unsupported invented manuscript results and rebuilt descriptive historical Vietnam/NSFNET summaries from available per-seed files. Historical lineage checks remain incomplete; see `INTEGRITY_RECOVERY.md` and `EVIDENCE_LEDGER.csv`.
-- Captured HARP-model source/artifact audit records. The HARP-model runtime model interface is not established as compatible with the flat-action benchmark environment.
+- Captured HARP-model source/artifact audit records. The recovered pre-retrain HARP-model checkpoints were not native-compatible with the flat-action benchmark environment; current primary retrains are native flat-action models.
 
 ## E3 matched-trace ablation results
 
@@ -18,7 +26,7 @@ Updated: 2026-11-18
 
 - `NetworkStateManager` now charges CPU/RAM to placement only, checks each list's SID depth against the routing node limit, tracks anonymous TTL reservations, rejects malformed or duplicate named reservations, and reconstructs per-node MSD state as maximum active depth.
 - Heuristic feasibility, Gym policies, SAF-H candidate generation, and the testbed baseline predicate now use the same per-list MSD interpretation. Environment action decoding rejects malformed/out-of-range values and an empty action mask stays empty.
-- The production DRL runtime now accepts the recovered main v11 `MultiDiscrete([N,N])` checkpoints by converting their factorized `2N` action heads into additive `N²` pair logits before applying the runtime pair mask. The current trainer still declares flat `Discrete(N²)`. Historical training provenance and revised runtime results must be reported separately.
+- At the time of this code-work entry, the runtime adapter was added for recovered factorized `2N` checkpoints while the trainer already used flat `Discrete(N²)`. Corrected main retrains now use flat N² natively; the adapter remains only for archived checkpoint compatibility.
 - DRL inference no longer reports a heuristic shadow choice as a loaded model. Missing or unreadable normalizer statistics fail model loading, and checkpoint space mismatches use an explicit safe-search fallback.
 - Chaos is now an independently seeded two-state Markov demand profile with documented transition and demand parameters; historical records remain untouched.
 - The Gym simulator now checks exactly the SID-list depth emitted by the runtime pair-level realization; it no longer adds an unmaterialized hop count. The implementation and evidence explicitly remain pair-level and do not claim full multi-VNF-chain validation.
@@ -43,7 +51,7 @@ Updated: 2026-11-18
 
 - Measure MBB peak occupancy and verify deployment failure/rollback against a live Kubernetes testbed; local tests now check reservation release only after confirmed absence and retention when state is inconclusive.
 - Audit full pair → SID generation → P4/controller realization and topology-specific MSD meaning; current contract is pair-level and does not claim full chain realization.
-- Evaluate the three retained main v11 checkpoints through the validated factorized-to-pair adapter, with pinned model and normalizer hashes. The `train_v11 --topology all` option remains available but is not part of the chosen no-retraining path.
+- Superseded: evaluate the corrected main retrains through the native flat N² path. The six-topology benchmark is running under `results/evidence/multinode_benchmark_20261120_084017/`.
 - Pin and preflight the retained ablation checkpoints for Vietnam, NSFNET and GEANT2; distinguish any absent variant from a compatible retained artifact.
 - Run the matched evaluation protocol with retained checkpoints under the corrected evaluator and label results as legacy-policy evaluation. The changed MSD semantics mean these runs cannot be described as training under the corrected semantics.
 - Pass the ten-seed primary protocol end-to-end without a training stage, then decide which manuscript claims the resulting evidence actually supports.
@@ -251,8 +259,8 @@ Only short smoke runs were performed. No research-scale revision experiment, Kag
 
 ## Continuation: legacy main-checkpoint action compatibility
 
-- The three retained `main_v11` checkpoints have factorized `2N` action heads, while the current benchmark environment uses flat `N²` placement/route pair actions. The benchmark loader now converts the two N-way linear heads into additive pair logits (`place[p] + route[r]`) before loading, so the existing weights and matching normalizers can be evaluated without retraining. Pair-level action masks still apply after conversion.
-- `configs/rev1/protocol.json` declares `factorized_2n` only for `main_v11`; the 15 ablation checkpoints remain explicitly `flat_n2`. Artifact preflight checks the declared encoding and rejects any other dimension. `FREEZE_MANIFEST.md` now lists the present full and ablation artifacts accurately.
+- Historical note: the archived `main_v11` checkpoints had factorized `2N` heads, and this adapter was added to evaluate them. The corrected retrains now replace those checkpoints as current primary models and use flat N² directly; the adapter is retained only for compatibility.
+- The 20 Nov protocol now pins the corrected flat-N² main retrains; the 15 ablation variants remain flat-N². Archived factorized checkpoints are excluded from the current primary protocol.
 - Verification: focused artifact-contract suite 8 passed; 188 tests passed when excluding the HTTP API module. The full 198-test command stalls on the first `TestClient` request; a minimal FastAPI/TestClient request also stalls in this environment, so the 10 HTTP tests could not be verified here. Evaluation package assembled with all 18 model/normalizer pairs and no missing artifacts; artifact preflight reported `ready` with 0 issues; one masked inference from each of the three actual main checkpoints loaded and returned an action inside the N² mask. After commit `42f1c1427397b0731924dadaf11ad404c6c04df4`, `verify_freeze.py` reported `ready`, clean worktree, and passed all CLI contracts.
 - No training, ablation run, benchmark collection, simulation result collection, or HIL was run. Evaluation package SHA-256 from this dirty draft is temporary and must be regenerated after the final reviewed commit.
 

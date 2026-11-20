@@ -1,0 +1,20 @@
+ M .gitignore
+ M configs/rev1/protocol.json
+ M docs/AIO-mesh-rev1/FREEZE_MANIFEST.md
+ M docs/AIO-mesh-rev1/HARP_MODEL_ARTIFACT_AUDIT.md
+ M docs/AIO-mesh-rev1/INTEGRITY_RECOVERY.md
+ M docs/AIO-mesh-rev1/MENTOR_REVISION_STATUS.md
+ M docs/AIO-mesh-rev1/REVISION_PLAN.md
+ M docs/AIO-mesh-rev1/REVISION_STATUS.md
+ M docs/AIO-mesh-rev1/SEMANTICS_CONTRACT.md
+ M docs/AIO-mesh-rev1/WORKSPACE_CONTEXT.md
+ M docs/AIO-mesh-rev1/rev1.tex
+?? AIO-mesh-submit-2/
+?? docs/AIO-mesh-rev1/evidence/audit_20261119/
+?? scripts/rev1/build_evidence_audit.py
+?? scripts/rev1/launch_model_refresh_reruns.py
+?? scripts/rev1/launch_multinode_evidence_benchmarks.sh
+?? scripts/rev1/package_aio_mesh_submit_2.py
+?? scripts/rev1/refresh_submission_manifest.py
+?? scripts/rev1/summarize_audit_reruns.py
+?? scripts/rev1/summarize_multinode_benchmark_evidence.py

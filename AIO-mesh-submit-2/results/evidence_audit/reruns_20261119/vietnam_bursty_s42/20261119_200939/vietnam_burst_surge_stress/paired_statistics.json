@@ -1,0 +1,23 @@
+[
+  {
+    "all_zero_differences": false,
+    "ci95_high": -0.8666666666666742,
+    "ci95_low": -0.8666666666666742,
+    "comparison": "harp_vs_saf_h_protected",
+    "control": "saf_h_protected",
+    "holm_p": 1.0,
+    "mean_delta": -0.8666666666666742,
+    "metric": "acceptance_rate",
+    "n": 1,
+    "paired_keys": [
+      [
+        "vietnam",
+        "burst_surge",
+        42
+      ]
+    ],
+    "paired_rank_biserial": -1.0,
+    "treatment": "harp_protected",
+    "wilcoxon_p": 1.0
+  }
+]

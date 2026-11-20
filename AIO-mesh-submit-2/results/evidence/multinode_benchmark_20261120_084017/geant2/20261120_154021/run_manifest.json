@@ -1,0 +1,88 @@
+{
+  "protocol": "benchmark-v2",
+  "topologies": [
+    "geant2"
+  ],
+  "topology_metadata": {
+    "geant2": {
+      "description": "GEANT2 European Research Network (23 Nodes)",
+      "num_nodes": 23,
+      "undirected_adjacency_edges": 253,
+      "synthetic": false
+    }
+  },
+  "scenario_jobs": [
+    [
+      "elephant_stress",
+      "heavy_tail",
+      "stress"
+    ],
+    [
+      "burst_surge",
+      "bursty",
+      "stress"
+    ],
+    [
+      "chaos",
+      "chaos",
+      "stress"
+    ]
+  ],
+  "seeds": [
+    42,
+    100,
+    2024,
+    8888,
+    9999,
+    7,
+    17,
+    73,
+    314,
+    2718,
+    11,
+    23,
+    47,
+    89,
+    101,
+    211,
+    512,
+    1024,
+    4096,
+    8192
+  ],
+  "steps": 3000,
+  "load": "stress",
+  "sla_scale": 1.0,
+  "data_path": "/dis/users/dcs/CoreRouter/data/real_telecom_combined.csv",
+  "data_sha256": "5370da1bb55cd679422150c5c4073175109cc7b831eff9c74491b30a17dcdd2a",
+  "artifacts": {
+    "geant2": {
+      "model_path": "/dis/users/dcs/CoreRouter/results/models/retrain_v11_20261119_corrected/geant2/dgrl_v11_final_geant2.zip",
+      "model_sha256": "ae5a9eb304d4c393327a825b7e467088dcc08227d7bb6be2c5059c78d56d3748",
+      "normalizer_path": "/dis/users/dcs/CoreRouter/results/models/retrain_v11_20261119_corrected/geant2/vec_normalize_v11_geant2.pkl",
+      "normalizer_sha256": "f86466cb046f0f629a3b7822aa6990d105f10141ac7b99f7887c4be200806571"
+    }
+  },
+  "source_sha256": {
+    "/dis/users/dcs/CoreRouter/src/analytics/benchmark/benchmark_algorithm/run_all.py": "54ebfa794b72885f47ff2d95495ed91f71163cb029345b7f60f9d0d137ac258b",
+    "/dis/users/dcs/CoreRouter/src/analytics/benchmark/benchmark_algorithm/algorithms.py": "3549c20f6e27dee65ba9755437cfb979dae662608c55fba5b421e07ae7a28abd",
+    "/dis/users/dcs/CoreRouter/src/analytics/benchmark/benchmark_algorithm/metrics.py": "19f7ba3c15d704d8605e59d4acc229b59504c8a3d609dac5d7158bf4eb979b10",
+    "/dis/users/dcs/CoreRouter/src/analytics/benchmark/benchmark_algorithm/model_loader.py": "8672ee0465832d4eec99b978f41a83d59f56ee3a4d8ac21fc1252493249d703d",
+    "/dis/users/dcs/CoreRouter/src/orchestration/jo_vdpr/env.py": "bc06f22067c22b6a80e8985e0cbc3b5490ac309e0b07bc7573e8393e607b4d48",
+    "/dis/users/dcs/CoreRouter/src/orchestration/jo_vdpr/topology.py": "2b91b72673be8dfb66dc929edc58d80e5f44148ff495a4d0c576077d17ca19f7"
+  },
+  "dependencies": {
+    "numpy": "2.0.2",
+    "torch": "2.7.1+cu118",
+    "stable-baselines3": "2.7.1",
+    "sb3-contrib": "2.7.1",
+    "gymnasium": "1.1.1"
+  },
+  "chaos_profile": {
+    "calm_to_stress": 0.08,
+    "stress_to_calm": 0.35,
+    "cpu_multiplier": 2.5,
+    "ram_multiplier": 1.75,
+    "sid_increment": 2
+  }
+}

@@ -1,0 +1,69 @@
+
+The authors identify issues that should be addressed before acceptance, including clearer positioning of the novelty, stronger isolation of the safety contribution, additional details on the masking and runtime mechanisms, significance/scalability analysis, and a more precise discussion of end-to-end decision latency and operational overhead.
+
+
+
+Reviewer #1: Dear Author,
+Your paper titled "AIO-Mesh: Hardware-Safe AIOps Orchestration for Cloud-Native Distributed Services over Programmable Infrastructures" can be accepted for publication in "Future Generation Computer Systems".
+This document presents AIO-Mesh, a hardware-safe AIOps orchestration framework for cloud-native distributed services over programmable infrastructures, focusing on safe decision-making and proactive migration in complex network environments.
+The article introduces AIO-Mesh, a hardware-safe AIOps orchestration framework for cloud-native distributed services over programmable infrastructures. Its core innovation is the explicit separation of hard deployability constraints (such as CPU, memory, and SRv6 Maximum Segment Depth) from soft operational objectives (like latency and migration cost) in AI-driven orchestration. The framework embeds a learned policy (HARP) into a closed-loop runtime that integrates telemetry, policy inference, safety validation, Kubernetes/Tekton-based VNF lifecycle control, SRv6/P4 steering, and data-plane feedback.
+Novelty: Existing orchestration methods often treat hardware constraints as soft penalties or post-hoc checks, which can lead to non-deployable AI decisions. AIO-Mesh enforces these constraints before policy sampling and admission, ensuring only deployable actions are considered.The use of graph-attention topology encoding and MaskablePPO with hard action masking in HARP is a significant advancement over prior approaches, which typically lack topology awareness or enforce constraints less rigorously.The framework is validated both in simulation (across multiple topologies) and in a hardware-in-the-loop testbed, demonstrating practical deployability.
+Sufficient Impact: The article addresses a critical gap in the operationalization of AI-driven orchestration for programmable infrastructures, where unsafe AI decisions can cause real-world failures.By ensuring hardware safety by construction, AIO-Mesh provides a blueprint for future AIOps systems that must operate in environments with strict physical constraints.The evaluation demonstrates that AIO-Mesh and HARP achieve higher safe acceptance rates under stress workloads compared to both heuristic and learning-based baselines, while maintaining zero admitted hardware violations (e.g., MSD violations).
+Knowledge Base:The article systematically compares AIO-Mesh to a wide range of related work (Table 1 in the document), highlighting its unique combination of cloud-native lifecycle integration, graph-aware policy learning, hard deployability enforcement, and runtime validation.The ablation studies and hardware-in-the-loop experiments provide actionable insights into the importance of each architectural component, such as the necessity of hard masking and topology-aware encoding.The open-source release of code, scenarios, and testbed scripts further enhances reproducibility and practical impact.Example Implementation and Evidence (Table 2 and Table 3) show that HARP achieves significantly higher safe acceptance rates (e.g., 17.89%-18.74% on the Vietnam topology vs. ~4% for Greedy/DAI) and maintains zero admitted MSD violations, even under stress scenarios. Ablation results confirm that removing hard masking or treating hardware constraints as soft penalties leads to unsafe deployments and lower performance.Hardware-in-the-loop results (Table 5) demonstrate that AIO-Mesh maintains zero admitted violations across all tested scenarios, unlike unprotected baselines.
+Therefore, the article is both novel and impactful, making a significant contribution to the field of cloud-native service orchestration and safe AIOps.
+
+
+Reviewer #2: The paper tackles an important and practical problem that most learning-based orchestration work leaves aside: a decision can look optimal in a graph model and still be undeployable on the actual substrate. Treating parser depth as an admission condition seems like the right instinct to me, and the testbed is a genuine asset. However, a few substantial gaps need to be considered before publication:
+
+1) First, regarding positioning, the paper announces five contributions, but most of them seem to describe integration rather than new mechanisms. Action masking and graph attention come from existing work, and filtering infeasible actions is fairly standard. What actually looks distinctive here is (for me) the runtime itself, yet the abstract and contribution list foreground the policy, which seems to be the least novel piece. I would encourage the authors to reframe around the runtime contract and treat the policy as one replaceable component inside it (which is, after all, an argument the paper itself makes elsewhere?).
+
+2) Then, the headline safety result does not seem to isolate what it is meant to demonstrate. Zero admitted violations follows almost by construction from the admission layer, which is applied to the proposed method and to runtime baselines alike. The missing configuration seems obvious to me: run the heuristic baselines through the same admission boundary. If they also reach zero, then the safety guarantee belongs to the runtime and not to the policy (or did I miss something here?).
+
+3) Related to this, the gain from learning looks thin once the strongest heuristic baseline is taken seriously, sitting behind or even beaten by it at a fraction of the cost. Given the reported deviations, several margins may well not be significant, and no significance testing is provided. Furthermore, two of the three stress profiles produce identical numbers in every single cell, which suggests they collapse to the same generator (is that intended?) and should probably be explained.
+
+4) The evaluation raises further questions of interpretation. Safe acceptance stays very low throughout, and the load sweep covers a single curve with no baselines in the saturated regime. The ablation also contains something the paper does not fully confront: disabling policy-side masking leaves the safety outcome untouched in all three workloads, meaning the masking mechanism is not contributing to the safety property the paper builds its claims on.
+
+5) On the system side, a few specifications seem incomplete in ways that touch the safety claim itself. The action uses a single routing anchor, yet a chain has several functions and the stack depth follows from the whole concatenated path, so how the anchor determines placement for all of them (and therefore how depth is computed for the mask) is never really stated. Since parser depth is the central constraint here, this does not feel like a detail. The cached path table seems similarly load-bearing: feasibility can only be certified over cached paths, so a rejection may reflect the cache rather than genuine infeasibility, and no sensitivity to that parameter is reported. The complexity discussion covers the encoder but omits mask construction over an action space quadratic in the number of nodes, which I would expect to be the dominant cost (and the one an operator would care about probably). No end-to-end decision latency is measured anywhere either, although online operation is the motivating premise. I would add that the predicate deciding between the heuristic and the learned path is never defined, even though it determines what the hybrid results are actually measuring.
+
+
+Reviewer #3: The submitted paper summarizing the research work conducted by the authors is well defined, easy to read and clear regarding the proposed research concepts and their proof according to the obtained results from testing their implementation and in comparison with alternative approaches facing the same challenge. From the reviewer's perspective the recommendation is of acceptance, but with a significant low overall manuscript rating. This is because the novelty of the exposed work is quite limited. The introduction and background sections are well presented trying to justify the intended novelty of the work by considering only hardware-safe acceptable actions within this working scenario for deploying SFCs in a distributed substrate. Nevertheless, from the reviewer's perspective, according to the present state of the art of publications in this topic in particular, the only real novelty of this work comes from considering the Maximum Segment Depth of the forwarding plane. Any other matter or strategy to solve the problem has already been considered in previous works. The same lack of novelty applies regarding the implementation of the RL policy using the PPO technique, Graph Attention encoders or masking unfeasible actions for training or selecting the actions to be taken.
+
+In summary, it is only because of considering the MSD of the data-plane that this reviewer recommends to accept this paper; otherwise, it would have to be rejected, as there is no other novelty in this work.
+
+
+
+
+Reviewer #4: In this study, the authors propose AIO-Mesh, an integrated management framework for cloud-based distributed infrastructures
+that supports decision-making for service placement, routing, load balancing, and quality-of-service (QoS) preservation in
+dynamic and heterogeneous environments. To achieve this goal, AIO-Mesh follows a closed-loop process consisting of several
+stages including Observe, Learn, Validate, Deploy, and Measure, which are continuously repeated to derive optimal
+and practically deployable decisions.
+
+This manuscript presents an excellent idea, designed within a general framework that can address several related challenges,
+including placement, routing, migration, and others, in dynamic, cloud-based distributed environments.
+Overall, the manuscript is well structured and very well written. The presentation is clear, and the reader can
+easily follow the overall flow of the work as the different technologies are introduced and the experimental
+results are presented. The experimental evaluation provides convincing evidence of the functionality
+and effectiveness of the proposed approach.
+
+In my opinion, the manuscript can be accepted after minor revisions.
+* Please spell out the full term of each abbreviation the first time it is used
+(e.g., Proximal Policy Optimization (PPO)) and use only the abbreviation thereafter.
+For example, if Maximum Segment Depth (MSD) is introduced, there is no need
+to spell it out again later in the manuscript.
+
+* In the experimental evaluation, the authors consider network topologies with a relatively small number
+of nodes. I would appreciate it if the authors could also evaluate the scalability of the proposed implementation,
+for example by considering larger network topologies or discussing how the computational and operational
+overhead scales with the size of the network.
+
+
+
+Reviewer #5: The manuscript identifies a critical gap between AIOps optimization outputs and real-world hardware enforceability in programmable cloud-native environments, but it would benefit from a more explicit quantitative breakdown of how frequently unconstrained RL policies produce non-deployable actions in existing state-of-the-art AIOps orchestrators. The comments are given as follows.
+(1) A stronger motivation around SRv6 Maximum Segment Depth (MSD) violations should be given. The authors do not sufficiently contextualize the practical operational impact of MSD overflows on production carrier-grade networks, beyond stating that decisions become non-deployable.
+(2) The separation of hard deployability constraints from soft optimization objectives is a strong conceptual contribution. However, this manuscript lacks a formalized problem formulation that explicitly maps each hard constraint to its corresponding system-level failure mode.
+(3) In Section Introduction, the proposed AIO-Mesh framework against existing hardware-safe reinforcement learning literature in networked systems, is not clearly positioned, making it difficult for readers to immediately distinguish the novelty of this work from prior art.
+(4) The description of the HARP policy architecture is high-level, but the manuscript does not provide sufficient detail on how the graph-attention topology encoder normalizes heterogeneous node attributes (CPU, memory, MSD) into a unified embedding space. The hard action masking mechanism is a core component of the safety guarantee, yet the paper does not specify the exact update frequency of the mask set, nor how stale hardware state readings could lead to incorrect masking decisions during runtime. The paper does not explain how the framework handles transient hardware resource fluctuations that occur between the safety validation step and the actual deployment of the orchestration decision.
+(5) The evaluation does not present scalability results that show how the HARP policy's inference latency and safety validation overhead scale as the number of nodes, services, and concurrent service chains in the topology increases. The paper does not include any comparison against traditional non-RL heuristic orchestration algorithms (such as constrained shortest path first and greedy hardware-aware placement) to demonstrate under which workload conditions HARP provides measurable performance gains. The evaluation section lacks a real-world production case study or long-running stability analysis that verifies the framework's ability to maintain zero constraint violations over extended multi-hour or multi-day runtime operation, rather than only under controlled short-duration stress scenarios.
+
+（6）Section Conclusion is too long and over lengthy.

@@ -1,0 +1,27 @@
+usage: -c [-h]
+          [--topology {vietnam,nsfnet,geant2,synthetic_25,synthetic_50,synthetic_100,all,scalability}]
+          [--scenario {uniform,bursty,heavy_tail,normal_load,elephant_stress,burst_surge,chaos,thesis,ablation,all}]
+          [--load {normal,stress}] [--version VERSION] [--steps STEPS]
+          [--single-seed | --seeds SEEDS [SEEDS ...]] [--skip-exhaustive]
+          [--workers WORKERS] [--sla-scale SLA_SCALE]
+          [--output-dir OUTPUT_DIR] [--data-path DATA_PATH]
+          [--model-root MODEL_ROOT] [--model-path MODEL_PATH]
+          [--normalizer-path NORMALIZER_PATH] [--ablation]
+-c: error: unrecognized arguments: -- --topology synthetic_100 --scenario ablation --load stress --steps 3000 --seeds 42 100 2024 8888 9999 7 17 73 314 2718 11 23 47 89 101 211 512 1024 4096 8192 --skip-exhaustive --workers 1 --data-path /dis/users/dcs/CoreRouter/data/real_telecom_combined.csv --model-path /dis/users/dcs/CoreRouter/results/models/v11_synthetic_100/dgrl_v11_final_synthetic_100.zip --normalizer-path /dis/users/dcs/CoreRouter/results/models/v11_synthetic_100/vec_normalize_v11_synthetic_100.pkl --output-dir /dis/users/dcs/CoreRouter/results/evidence/multinode_benchmark_20261120_084017/synthetic_100
+/dis/users/dcs/CoreRouter/venv/lib64/python3.9/site-packages/networkx/utils/backends.py:135: RuntimeWarning: networkx backend defined more than once: nx-loopback
+  backends.update(_get_backends("networkx.backends"))
+Running topology=synthetic_100 scenario=elephant_stress env=heavy_tail load=stress
+  completed seed=42 (1/20)
+  completed seed=100 (2/20)
+  completed seed=2024 (3/20)
+  completed seed=8888 (4/20)
+  completed seed=9999 (5/20)
+  completed seed=7 (6/20)
+  completed seed=17 (7/20)
+  completed seed=73 (8/20)
+  completed seed=314 (9/20)
+  completed seed=2718 (10/20)
+  completed seed=11 (11/20)
+  completed seed=23 (12/20)
+  completed seed=47 (13/20)
+  completed seed=89 (14/20)

@@ -1,5 +1,21 @@
 # HARP-model artifact recovery
 
+## Superseding update — corrected main retrains (2026-11-20)
+
+The inventory below describes the recovered pre-retrain archive and remains
+historically accurate for those files. It does not describe the current
+primary model set. The corrected retrains at
+`results/models/retrain_v11_20261119_corrected/{vietnam,nsfnet,geant2}/`
+serialize flat `Discrete(N²)` action spaces (100, 196, and 529 actions), as
+confirmed by inspecting each SB3 ZIP's `data` metadata. The six-topology
+benchmark also uses the `Discrete(N²)` synthetic-25/50/100 checkpoints. Their
+checkpoint and normalizer hashes are pinned in
+`results/evidence/multinode_benchmark_20261120_084017/launch_manifest.json`.
+Current ablation variants already use `Discrete(N²)` and remain unchanged.
+Use this older archive audit to explain legacy 2N files only; use the
+corrected retrains and new benchmark outputs as primary evidence when the
+benchmark is complete.
+
 Source: `origin/HARP-model`, commit `19534b0489c532be46bd4fb540acf83019ac3c8d`.
 Recovered on 2026-11-16; working branch remains `HARP-server`.
 

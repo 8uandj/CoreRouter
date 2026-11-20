@@ -1,0 +1,21 @@
+{
+  "audit_date": "2026-11-17",
+  "kind": "static_source_audit",
+  "live_execution": false,
+  "sources": {
+    "src/portal/backend/app/services/hybrid_decision.py": "9464d166a072e51673859e68e819e71cd45a1b15ff27fe40c7751df057daa7c8",
+    "src/portal/backend/app/services/p4_pair_realization.py": "eabcb58f8f073b0ccf78421d7f8d2d95ae10843ebf1336fc44e612a8de9e87c2",
+    "src/portal/backend/app/services/realization.py": "6be02e500bc46c9d75b6130d8170bb50d0a258249ad74e65136153533d5c875c",
+    "src/portal/backend/app/services/controller_topology.py": "c4e8c68de853b7d3d3d1b16610540d3d858d95434d8fa7186cf55bcb939e5e4e",
+    "src/portal/backend/app/routers/orchestration_router.py": "1e696502a450ea7049405ac1e68eccc55435f002d222267623fd351d28ae36d4",
+    "src/portal/backend/app/services/orchestration_service.py": "ef3551693faf272ad72aaf4d321099cf9bc2dcad4ed9de9b2caff04cdf95cba0",
+    "src/core/state_manager.py": "1214cc4c1d63350c413b6bf237263781c4aa49aebb97ee250bb880588691da4f",
+    "infrastructure/sdn/p4_topology.py": "652aa9bc37c168f6f5d4e6fd5ccb058ec15e5782376e5a81df374326e85e64e4",
+    "infrastructure/sdn/controller.py": "daa42545fbbcee197e41c038c0f8580c40c60d6f278473a358d2347f1b5543ff",
+    "src/portal/backend/app/models/schemas.py": "91d844b14ba544004e395b7f44a58ff78da692d553651b5325e4fc9b8764dd85"
+  },
+  "historical_artifacts": {
+    "multi_vnf_inventory": "results/hil/rebuild_20261117T122432Z/session_transcript.md",
+    "single_target_packet_path": "results/hil/rebuild_20261117T123405Z/progress.md"
+  }
+}

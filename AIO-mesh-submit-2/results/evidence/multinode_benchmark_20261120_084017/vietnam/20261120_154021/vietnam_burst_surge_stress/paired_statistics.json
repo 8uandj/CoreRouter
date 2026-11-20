@@ -1,0 +1,118 @@
+[
+  {
+    "all_zero_differences": false,
+    "ci95_high": -1.0266666666666686,
+    "ci95_low": -1.3400000000000016,
+    "comparison": "harp_vs_saf_h_protected",
+    "control": "saf_h_protected",
+    "holm_p": 1.9073486328125e-06,
+    "mean_delta": -1.1850000000000018,
+    "metric": "acceptance_rate",
+    "n": 20,
+    "paired_keys": [
+      [
+        "vietnam",
+        "burst_surge",
+        7
+      ],
+      [
+        "vietnam",
+        "burst_surge",
+        11
+      ],
+      [
+        "vietnam",
+        "burst_surge",
+        17
+      ],
+      [
+        "vietnam",
+        "burst_surge",
+        23
+      ],
+      [
+        "vietnam",
+        "burst_surge",
+        42
+      ],
+      [
+        "vietnam",
+        "burst_surge",
+        47
+      ],
+      [
+        "vietnam",
+        "burst_surge",
+        73
+      ],
+      [
+        "vietnam",
+        "burst_surge",
+        89
+      ],
+      [
+        "vietnam",
+        "burst_surge",
+        100
+      ],
+      [
+        "vietnam",
+        "burst_surge",
+        101
+      ],
+      [
+        "vietnam",
+        "burst_surge",
+        211
+      ],
+      [
+        "vietnam",
+        "burst_surge",
+        314
+      ],
+      [
+        "vietnam",
+        "burst_surge",
+        512
+      ],
+      [
+        "vietnam",
+        "burst_surge",
+        1024
+      ],
+      [
+        "vietnam",
+        "burst_surge",
+        2024
+      ],
+      [
+        "vietnam",
+        "burst_surge",
+        2718
+      ],
+      [
+        "vietnam",
+        "burst_surge",
+        4096
+      ],
+      [
+        "vietnam",
+        "burst_surge",
+        8192
+      ],
+      [
+        "vietnam",
+        "burst_surge",
+        8888
+      ],
+      [
+        "vietnam",
+        "burst_surge",
+        9999
+      ]
+    ],
+    "paired_rank_biserial": -1.0,
+    "treatment": "harp_protected",
+    "wilcoxon_p": 1.9073486328125e-06
+  }
+]

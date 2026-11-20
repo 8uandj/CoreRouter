@@ -1,0 +1,195 @@
+{
+  "protocol": "ablation-v3",
+  "topology": "geant2",
+  "scenario": "chaos",
+  "seeds": [
+    42,
+    100,
+    2024,
+    8888,
+    9999,
+    7,
+    17,
+    73,
+    314,
+    2718,
+    11,
+    23,
+    47,
+    89,
+    101,
+    211,
+    512,
+    1024,
+    4096,
+    8192
+  ],
+  "steps": 3000,
+  "arrival_rate": 1.0,
+  "ttl_range": [
+    100,
+    500
+  ],
+  "data_path": "data/real_telecom_combined.csv",
+  "data_sha256": "5370da1bb55cd679422150c5c4073175109cc7b831eff9c74491b30a17dcdd2a",
+  "variants": [
+    {
+      "key": "harp_full",
+      "name": "HARP full",
+      "hypothesis": "Full hardware-aware GAT policy with hard safety and adaptive SLA/migration penalties.",
+      "model_key": null,
+      "policy": "harp",
+      "use_gat_model": true,
+      "use_hard_mask": true,
+      "enforce_msd_constraint": true,
+      "soft_msd_penalty": false,
+      "adaptive_penalty": true
+    },
+    {
+      "key": "harp_wo_gat",
+      "name": "HARP w/o GAT",
+      "hypothesis": "Topology encoder contribution: replace GAT with a parameter-matched flat MLP policy.",
+      "model_key": null,
+      "policy": "harp",
+      "use_gat_model": false,
+      "use_hard_mask": true,
+      "enforce_msd_constraint": true,
+      "soft_msd_penalty": false,
+      "adaptive_penalty": true
+    },
+    {
+      "key": "harp_wo_hard_masking",
+      "name": "HARP w/o hard masking",
+      "hypothesis": "Safety masking contribution: allow policy sampling over unsafe actions, then rely on admission rejection.",
+      "model_key": null,
+      "policy": "harp",
+      "use_gat_model": true,
+      "use_hard_mask": false,
+      "enforce_msd_constraint": true,
+      "soft_msd_penalty": false,
+      "adaptive_penalty": true
+    },
+    {
+      "key": "harp_wo_mask_unchecked",
+      "name": "HARP w/o mask + unchecked admission",
+      "hypothesis": "Two-layer safety contribution: allow unmasked policy outputs to bypass MSD admission validation.",
+      "model_key": "harp_wo_hard_masking",
+      "policy": "harp",
+      "use_gat_model": true,
+      "use_hard_mask": false,
+      "enforce_msd_constraint": false,
+      "soft_msd_penalty": false,
+      "adaptive_penalty": true
+    },
+    {
+      "key": "harp_soft_msd_penalty",
+      "name": "HARP with soft MSD penalty",
+      "hypothesis": "Hard constraint versus reward penalty: allow MSD-unsafe admissions and penalize them softly.",
+      "model_key": null,
+      "policy": "harp",
+      "use_gat_model": true,
+      "use_hard_mask": false,
+      "enforce_msd_constraint": false,
+      "soft_msd_penalty": true,
+      "adaptive_penalty": true
+    },
+    {
+      "key": "harp_soft_msd_admission",
+      "name": "Soft MSD + runtime admission",
+      "hypothesis": "Evaluate the soft-MSD-trained, unmasked policy with the independent MSD admission check restored.",
+      "model_key": "harp_soft_msd_penalty",
+      "policy": "harp",
+      "use_gat_model": true,
+      "use_hard_mask": false,
+      "enforce_msd_constraint": true,
+      "soft_msd_penalty": true,
+      "adaptive_penalty": true
+    },
+    {
+      "key": "harp_wo_adaptive_penalty",
+      "name": "HARP w/o adaptive penalty",
+      "hypothesis": "SLA/migration penalty contribution: disable adaptive SLA, switching, and evacuation penalties.",
+      "model_key": null,
+      "policy": "harp",
+      "use_gat_model": true,
+      "use_hard_mask": true,
+      "enforce_msd_constraint": true,
+      "soft_msd_penalty": false,
+      "adaptive_penalty": false
+    }
+  ],
+  "accounting": {
+    "request_denominator": "offered, non-skipped requests",
+    "proposed_violation_rates": "selected proposal; CPU/RAM/BW/MSD rates may overlap",
+    "proposed_hard_violation_rate": "union of selected-proposal CPU/RAM/BW/MSD violations",
+    "admitted_hard_violation_rate": "union of admitted CPU/RAM/BW/MSD violations",
+    "safe_acceptance_rate": "accepted requests minus unique admitted hard-violating requests, divided by offered requests",
+    "primary_rejection_rates": "one non-overlapping rejection cause per rejected offered request",
+    "matched_trace_requirement": "one trace SHA-256 per evaluation seed across all variants"
+  },
+  "source_sha256": {
+    "/dis/users/dcs/CoreRouter/src/analytics/ablation_study.py": "6a7122897d6d2207aa3eaef26dd1bb618490ee34dc3391687681e1a9703bfd4d",
+    "/dis/users/dcs/CoreRouter/src/analytics/training/train_harp_ablation.py": "2cb82a4ee6ac5a348ba87db5eac31a9174df21506663aed439cf5a524ed59177",
+    "/dis/users/dcs/CoreRouter/src/orchestration/jo_vdpr/env.py": "7bfbb9d02ed45e335581ac7f5d1567e0cf584f9c4c5cf455c5fe72d493b44a70",
+    "/dis/users/dcs/CoreRouter/src/orchestration/jo_vdpr/rewards.py": "ae4cb541fdf097c12165504aa013c3809019f07f1b40c9df48b045689512a6d5",
+    "/dis/users/dcs/CoreRouter/src/orchestration/jo_vdpr/topology.py": "2b91b72673be8dfb66dc929edc58d80e5f44148ff495a4d0c576077d17ca19f7"
+  },
+  "artifacts": {
+    "harp_full": {
+      "model_path": "results/models/ablation/harp_full/dgrl_v11_harp_full_geant2.zip",
+      "model_sha256": "13b6611305a31222aeb8d7c347ad248a5d36b625c7038b3f6abb05ee47831444",
+      "normalizer_path": "results/models/ablation/harp_full/vec_normalize_v11_harp_full_geant2.pkl",
+      "normalizer_sha256": "bc55d25011d2355f34c10110efba77d5f3156c29ccf1042088059fae1cbf6fc3",
+      "policy_source": "variant_checkpoint:results/models/ablation/harp_full/dgrl_v11_harp_full_geant2.zip"
+    },
+    "harp_wo_gat": {
+      "model_path": "results/models/ablation/harp_wo_gat/dgrl_v11_harp_wo_gat_geant2.zip",
+      "model_sha256": "f22322b9bc7374266747f186ed7f37bd8a8d9ecb8a485992ecce3e2af4c0569a",
+      "normalizer_path": "results/models/ablation/harp_wo_gat/vec_normalize_v11_harp_wo_gat_geant2.pkl",
+      "normalizer_sha256": "7c7db0225b8e344593004e469635060be8c25fae321eb66e192e84c36910ff12",
+      "policy_source": "variant_checkpoint:results/models/ablation/harp_wo_gat/dgrl_v11_harp_wo_gat_geant2.zip"
+    },
+    "harp_wo_hard_masking": {
+      "model_path": "results/models/ablation/harp_wo_hard_masking/dgrl_v11_harp_wo_hard_masking_geant2.zip",
+      "model_sha256": "98a60d836d16371f2de966203ee51ad395555c25340a5020c6425d6c65dc15f1",
+      "normalizer_path": "results/models/ablation/harp_wo_hard_masking/vec_normalize_v11_harp_wo_hard_masking_geant2.pkl",
+      "normalizer_sha256": "675d93b5fd55270372367eb916374fcb5653f3e77f13fd95fe698b2becbca6cd",
+      "policy_source": "variant_checkpoint:results/models/ablation/harp_wo_hard_masking/dgrl_v11_harp_wo_hard_masking_geant2.zip"
+    },
+    "harp_wo_mask_unchecked": {
+      "model_path": "results/models/ablation/harp_wo_hard_masking/dgrl_v11_harp_wo_hard_masking_geant2.zip",
+      "model_sha256": "98a60d836d16371f2de966203ee51ad395555c25340a5020c6425d6c65dc15f1",
+      "normalizer_path": "results/models/ablation/harp_wo_hard_masking/vec_normalize_v11_harp_wo_hard_masking_geant2.pkl",
+      "normalizer_sha256": "675d93b5fd55270372367eb916374fcb5653f3e77f13fd95fe698b2becbca6cd",
+      "policy_source": "variant_checkpoint:results/models/ablation/harp_wo_hard_masking/dgrl_v11_harp_wo_hard_masking_geant2.zip (reused for harp_wo_mask_unchecked)"
+    },
+    "harp_soft_msd_penalty": {
+      "model_path": "results/models/ablation/harp_soft_msd_penalty/dgrl_v11_harp_soft_msd_penalty_geant2.zip",
+      "model_sha256": "90de4eb4d300c35372ac718615ccfaa7d4e125cceab276e99d6535c4fd44fad3",
+      "normalizer_path": "results/models/ablation/harp_soft_msd_penalty/vec_normalize_v11_harp_soft_msd_penalty_geant2.pkl",
+      "normalizer_sha256": "b90fe6368732502e2b765c9c62344c6d3de039b8a9c1d0142e5f170d6e6bfcff",
+      "policy_source": "variant_checkpoint:results/models/ablation/harp_soft_msd_penalty/dgrl_v11_harp_soft_msd_penalty_geant2.zip"
+    },
+    "harp_soft_msd_admission": {
+      "model_path": "results/models/ablation/harp_soft_msd_penalty/dgrl_v11_harp_soft_msd_penalty_geant2.zip",
+      "model_sha256": "90de4eb4d300c35372ac718615ccfaa7d4e125cceab276e99d6535c4fd44fad3",
+      "normalizer_path": "results/models/ablation/harp_soft_msd_penalty/vec_normalize_v11_harp_soft_msd_penalty_geant2.pkl",
+      "normalizer_sha256": "b90fe6368732502e2b765c9c62344c6d3de039b8a9c1d0142e5f170d6e6bfcff",
+      "policy_source": "variant_checkpoint:results/models/ablation/harp_soft_msd_penalty/dgrl_v11_harp_soft_msd_penalty_geant2.zip (reused for harp_soft_msd_admission)"
+    },
+    "harp_wo_adaptive_penalty": {
+      "model_path": "results/models/ablation/harp_wo_adaptive_penalty/dgrl_v11_harp_wo_adaptive_penalty_geant2.zip",
+      "model_sha256": "b9dd21c76ce7f7776233708d3bb271e7c1f9e15768d61f72ecf01ba17745e555",
+      "normalizer_path": "results/models/ablation/harp_wo_adaptive_penalty/vec_normalize_v11_harp_wo_adaptive_penalty_geant2.pkl",
+      "normalizer_sha256": "366970815179de080c1137bb058a030a598ce8d1f2e2eae9e9a17f2883bbe499",
+      "policy_source": "variant_checkpoint:results/models/ablation/harp_wo_adaptive_penalty/dgrl_v11_harp_wo_adaptive_penalty_geant2.zip"
+    }
+  },
+  "chaos_profile": {
+    "calm_to_stress": 0.08,
+    "stress_to_calm": 0.35,
+    "cpu_multiplier": 2.5,
+    "ram_multiplier": 1.75,
+    "sid_increment": 2
+  }
+}

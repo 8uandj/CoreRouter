@@ -1,0 +1,828 @@
+[
+  {
+    "comparison": "harp_vs_saf_h_protected",
+    "treatment": "harp_protected",
+    "control": "saf_h_protected",
+    "metric": "safe_acceptance_rate",
+    "n": 20,
+    "mean_delta": 0.0,
+    "ci95_low": 0.0,
+    "ci95_high": 0.0,
+    "wilcoxon_p": 1.0,
+    "paired_rank_biserial": 0.0,
+    "all_zero_differences": true,
+    "paired_keys": [
+      [
+        "vietnam",
+        "load_0.2",
+        7
+      ],
+      [
+        "vietnam",
+        "load_0.2",
+        11
+      ],
+      [
+        "vietnam",
+        "load_0.2",
+        17
+      ],
+      [
+        "vietnam",
+        "load_0.2",
+        23
+      ],
+      [
+        "vietnam",
+        "load_0.2",
+        42
+      ],
+      [
+        "vietnam",
+        "load_0.2",
+        47
+      ],
+      [
+        "vietnam",
+        "load_0.2",
+        73
+      ],
+      [
+        "vietnam",
+        "load_0.2",
+        89
+      ],
+      [
+        "vietnam",
+        "load_0.2",
+        100
+      ],
+      [
+        "vietnam",
+        "load_0.2",
+        101
+      ],
+      [
+        "vietnam",
+        "load_0.2",
+        211
+      ],
+      [
+        "vietnam",
+        "load_0.2",
+        314
+      ],
+      [
+        "vietnam",
+        "load_0.2",
+        512
+      ],
+      [
+        "vietnam",
+        "load_0.2",
+        1024
+      ],
+      [
+        "vietnam",
+        "load_0.2",
+        2024
+      ],
+      [
+        "vietnam",
+        "load_0.2",
+        2718
+      ],
+      [
+        "vietnam",
+        "load_0.2",
+        4096
+      ],
+      [
+        "vietnam",
+        "load_0.2",
+        8192
+      ],
+      [
+        "vietnam",
+        "load_0.2",
+        8888
+      ],
+      [
+        "vietnam",
+        "load_0.2",
+        9999
+      ]
+    ],
+    "holm_p": 1.0,
+    "load_multiplier": 0.2,
+    "topology": "vietnam"
+  },
+  {
+    "comparison": "harp_vs_saf_h_protected",
+    "treatment": "harp_protected",
+    "control": "saf_h_protected",
+    "metric": "safe_acceptance_rate",
+    "n": 20,
+    "mean_delta": 0.02465062552678745,
+    "ci95_low": 0.004091653027823128,
+    "ci95_high": 0.05334288387323412,
+    "wilcoxon_p": 0.06788915486182899,
+    "paired_rank_biserial": 1.0,
+    "all_zero_differences": false,
+    "paired_keys": [
+      [
+        "vietnam",
+        "load_0.4",
+        7
+      ],
+      [
+        "vietnam",
+        "load_0.4",
+        11
+      ],
+      [
+        "vietnam",
+        "load_0.4",
+        17
+      ],
+      [
+        "vietnam",
+        "load_0.4",
+        23
+      ],
+      [
+        "vietnam",
+        "load_0.4",
+        42
+      ],
+      [
+        "vietnam",
+        "load_0.4",
+        47
+      ],
+      [
+        "vietnam",
+        "load_0.4",
+        73
+      ],
+      [
+        "vietnam",
+        "load_0.4",
+        89
+      ],
+      [
+        "vietnam",
+        "load_0.4",
+        100
+      ],
+      [
+        "vietnam",
+        "load_0.4",
+        101
+      ],
+      [
+        "vietnam",
+        "load_0.4",
+        211
+      ],
+      [
+        "vietnam",
+        "load_0.4",
+        314
+      ],
+      [
+        "vietnam",
+        "load_0.4",
+        512
+      ],
+      [
+        "vietnam",
+        "load_0.4",
+        1024
+      ],
+      [
+        "vietnam",
+        "load_0.4",
+        2024
+      ],
+      [
+        "vietnam",
+        "load_0.4",
+        2718
+      ],
+      [
+        "vietnam",
+        "load_0.4",
+        4096
+      ],
+      [
+        "vietnam",
+        "load_0.4",
+        8192
+      ],
+      [
+        "vietnam",
+        "load_0.4",
+        8888
+      ],
+      [
+        "vietnam",
+        "load_0.4",
+        9999
+      ]
+    ],
+    "holm_p": 0.06788915486182899,
+    "load_multiplier": 0.4,
+    "topology": "vietnam"
+  },
+  {
+    "comparison": "harp_vs_saf_h_protected",
+    "treatment": "harp_protected",
+    "control": "saf_h_protected",
+    "metric": "safe_acceptance_rate",
+    "n": 20,
+    "mean_delta": 0.2224775268390154,
+    "ci95_low": 0.18596051538026692,
+    "ci95_high": 0.26072852977030536,
+    "wilcoxon_p": 1.9073486328125e-06,
+    "paired_rank_biserial": 1.0,
+    "all_zero_differences": false,
+    "paired_keys": [
+      [
+        "vietnam",
+        "load_0.6",
+        7
+      ],
+      [
+        "vietnam",
+        "load_0.6",
+        11
+      ],
+      [
+        "vietnam",
+        "load_0.6",
+        17
+      ],
+      [
+        "vietnam",
+        "load_0.6",
+        23
+      ],
+      [
+        "vietnam",
+        "load_0.6",
+        42
+      ],
+      [
+        "vietnam",
+        "load_0.6",
+        47
+      ],
+      [
+        "vietnam",
+        "load_0.6",
+        73
+      ],
+      [
+        "vietnam",
+        "load_0.6",
+        89
+      ],
+      [
+        "vietnam",
+        "load_0.6",
+        100
+      ],
+      [
+        "vietnam",
+        "load_0.6",
+        101
+      ],
+      [
+        "vietnam",
+        "load_0.6",
+        211
+      ],
+      [
+        "vietnam",
+        "load_0.6",
+        314
+      ],
+      [
+        "vietnam",
+        "load_0.6",
+        512
+      ],
+      [
+        "vietnam",
+        "load_0.6",
+        1024
+      ],
+      [
+        "vietnam",
+        "load_0.6",
+        2024
+      ],
+      [
+        "vietnam",
+        "load_0.6",
+        2718
+      ],
+      [
+        "vietnam",
+        "load_0.6",
+        4096
+      ],
+      [
+        "vietnam",
+        "load_0.6",
+        8192
+      ],
+      [
+        "vietnam",
+        "load_0.6",
+        8888
+      ],
+      [
+        "vietnam",
+        "load_0.6",
+        9999
+      ]
+    ],
+    "holm_p": 1.9073486328125e-06,
+    "load_multiplier": 0.6,
+    "topology": "vietnam"
+  },
+  {
+    "comparison": "harp_vs_saf_h_protected",
+    "treatment": "harp_protected",
+    "control": "saf_h_protected",
+    "metric": "safe_acceptance_rate",
+    "n": 20,
+    "mean_delta": 1.0072421467411985,
+    "ci95_low": 0.9231941995431495,
+    "ci95_high": 1.0917371914117606,
+    "wilcoxon_p": 1.9073486328125e-06,
+    "paired_rank_biserial": 1.0,
+    "all_zero_differences": false,
+    "paired_keys": [
+      [
+        "vietnam",
+        "load_0.8",
+        7
+      ],
+      [
+        "vietnam",
+        "load_0.8",
+        11
+      ],
+      [
+        "vietnam",
+        "load_0.8",
+        17
+      ],
+      [
+        "vietnam",
+        "load_0.8",
+        23
+      ],
+      [
+        "vietnam",
+        "load_0.8",
+        42
+      ],
+      [
+        "vietnam",
+        "load_0.8",
+        47
+      ],
+      [
+        "vietnam",
+        "load_0.8",
+        73
+      ],
+      [
+        "vietnam",
+        "load_0.8",
+        89
+      ],
+      [
+        "vietnam",
+        "load_0.8",
+        100
+      ],
+      [
+        "vietnam",
+        "load_0.8",
+        101
+      ],
+      [
+        "vietnam",
+        "load_0.8",
+        211
+      ],
+      [
+        "vietnam",
+        "load_0.8",
+        314
+      ],
+      [
+        "vietnam",
+        "load_0.8",
+        512
+      ],
+      [
+        "vietnam",
+        "load_0.8",
+        1024
+      ],
+      [
+        "vietnam",
+        "load_0.8",
+        2024
+      ],
+      [
+        "vietnam",
+        "load_0.8",
+        2718
+      ],
+      [
+        "vietnam",
+        "load_0.8",
+        4096
+      ],
+      [
+        "vietnam",
+        "load_0.8",
+        8192
+      ],
+      [
+        "vietnam",
+        "load_0.8",
+        8888
+      ],
+      [
+        "vietnam",
+        "load_0.8",
+        9999
+      ]
+    ],
+    "holm_p": 1.9073486328125e-06,
+    "load_multiplier": 0.8,
+    "topology": "vietnam"
+  },
+  {
+    "comparison": "harp_vs_saf_h_protected",
+    "treatment": "harp_protected",
+    "control": "saf_h_protected",
+    "metric": "safe_acceptance_rate",
+    "n": 20,
+    "mean_delta": 1.8599999999999988,
+    "ci95_low": 1.7550000000000012,
+    "ci95_high": 1.9633333333333312,
+    "wilcoxon_p": 1.9073486328125e-06,
+    "paired_rank_biserial": 1.0,
+    "all_zero_differences": false,
+    "paired_keys": [
+      [
+        "vietnam",
+        "load_1.0",
+        7
+      ],
+      [
+        "vietnam",
+        "load_1.0",
+        11
+      ],
+      [
+        "vietnam",
+        "load_1.0",
+        17
+      ],
+      [
+        "vietnam",
+        "load_1.0",
+        23
+      ],
+      [
+        "vietnam",
+        "load_1.0",
+        42
+      ],
+      [
+        "vietnam",
+        "load_1.0",
+        47
+      ],
+      [
+        "vietnam",
+        "load_1.0",
+        73
+      ],
+      [
+        "vietnam",
+        "load_1.0",
+        89
+      ],
+      [
+        "vietnam",
+        "load_1.0",
+        100
+      ],
+      [
+        "vietnam",
+        "load_1.0",
+        101
+      ],
+      [
+        "vietnam",
+        "load_1.0",
+        211
+      ],
+      [
+        "vietnam",
+        "load_1.0",
+        314
+      ],
+      [
+        "vietnam",
+        "load_1.0",
+        512
+      ],
+      [
+        "vietnam",
+        "load_1.0",
+        1024
+      ],
+      [
+        "vietnam",
+        "load_1.0",
+        2024
+      ],
+      [
+        "vietnam",
+        "load_1.0",
+        2718
+      ],
+      [
+        "vietnam",
+        "load_1.0",
+        4096
+      ],
+      [
+        "vietnam",
+        "load_1.0",
+        8192
+      ],
+      [
+        "vietnam",
+        "load_1.0",
+        8888
+      ],
+      [
+        "vietnam",
+        "load_1.0",
+        9999
+      ]
+    ],
+    "holm_p": 1.9073486328125e-06,
+    "load_multiplier": 1.0,
+    "topology": "vietnam"
+  },
+  {
+    "comparison": "harp_vs_saf_h_protected",
+    "treatment": "harp_protected",
+    "control": "saf_h_protected",
+    "metric": "safe_acceptance_rate",
+    "n": 20,
+    "mean_delta": 2.701666666666668,
+    "ci95_low": 2.6000000000000005,
+    "ci95_high": 2.801666666666666,
+    "wilcoxon_p": 1.9073486328125e-06,
+    "paired_rank_biserial": 1.0,
+    "all_zero_differences": false,
+    "paired_keys": [
+      [
+        "vietnam",
+        "load_1.2",
+        7
+      ],
+      [
+        "vietnam",
+        "load_1.2",
+        11
+      ],
+      [
+        "vietnam",
+        "load_1.2",
+        17
+      ],
+      [
+        "vietnam",
+        "load_1.2",
+        23
+      ],
+      [
+        "vietnam",
+        "load_1.2",
+        42
+      ],
+      [
+        "vietnam",
+        "load_1.2",
+        47
+      ],
+      [
+        "vietnam",
+        "load_1.2",
+        73
+      ],
+      [
+        "vietnam",
+        "load_1.2",
+        89
+      ],
+      [
+        "vietnam",
+        "load_1.2",
+        100
+      ],
+      [
+        "vietnam",
+        "load_1.2",
+        101
+      ],
+      [
+        "vietnam",
+        "load_1.2",
+        211
+      ],
+      [
+        "vietnam",
+        "load_1.2",
+        314
+      ],
+      [
+        "vietnam",
+        "load_1.2",
+        512
+      ],
+      [
+        "vietnam",
+        "load_1.2",
+        1024
+      ],
+      [
+        "vietnam",
+        "load_1.2",
+        2024
+      ],
+      [
+        "vietnam",
+        "load_1.2",
+        2718
+      ],
+      [
+        "vietnam",
+        "load_1.2",
+        4096
+      ],
+      [
+        "vietnam",
+        "load_1.2",
+        8192
+      ],
+      [
+        "vietnam",
+        "load_1.2",
+        8888
+      ],
+      [
+        "vietnam",
+        "load_1.2",
+        9999
+      ]
+    ],
+    "holm_p": 1.9073486328125e-06,
+    "load_multiplier": 1.2,
+    "topology": "vietnam"
+  },
+  {
+    "comparison": "harp_vs_saf_h_protected",
+    "treatment": "harp_protected",
+    "control": "saf_h_protected",
+    "metric": "safe_acceptance_rate",
+    "n": 20,
+    "mean_delta": 2.191666666666669,
+    "ci95_low": 2.0766666666666707,
+    "ci95_high": 2.3050000000000046,
+    "wilcoxon_p": 1.9073486328125e-06,
+    "paired_rank_biserial": 1.0,
+    "all_zero_differences": false,
+    "paired_keys": [
+      [
+        "vietnam",
+        "load_1.5",
+        7
+      ],
+      [
+        "vietnam",
+        "load_1.5",
+        11
+      ],
+      [
+        "vietnam",
+        "load_1.5",
+        17
+      ],
+      [
+        "vietnam",
+        "load_1.5",
+        23
+      ],
+      [
+        "vietnam",
+        "load_1.5",
+        42
+      ],
+      [
+        "vietnam",
+        "load_1.5",
+        47
+      ],
+      [
+        "vietnam",
+        "load_1.5",
+        73
+      ],
+      [
+        "vietnam",
+        "load_1.5",
+        89
+      ],
+      [
+        "vietnam",
+        "load_1.5",
+        100
+      ],
+      [
+        "vietnam",
+        "load_1.5",
+        101
+      ],
+      [
+        "vietnam",
+        "load_1.5",
+        211
+      ],
+      [
+        "vietnam",
+        "load_1.5",
+        314
+      ],
+      [
+        "vietnam",
+        "load_1.5",
+        512
+      ],
+      [
+        "vietnam",
+        "load_1.5",
+        1024
+      ],
+      [
+        "vietnam",
+        "load_1.5",
+        2024
+      ],
+      [
+        "vietnam",
+        "load_1.5",
+        2718
+      ],
+      [
+        "vietnam",
+        "load_1.5",
+        4096
+      ],
+      [
+        "vietnam",
+        "load_1.5",
+        8192
+      ],
+      [
+        "vietnam",
+        "load_1.5",
+        8888
+      ],
+      [
+        "vietnam",
+        "load_1.5",
+        9999
+      ]
+    ],
+    "holm_p": 1.9073486328125e-06,
+    "load_multiplier": 1.5,
+    "topology": "vietnam"
+  }
+]

@@ -1,0 +1,158 @@
+{
+  "protocol": "ablation-v3",
+  "topologies": [
+    "vietnam",
+    "nsfnet",
+    "geant2"
+  ],
+  "scenarios": [
+    "uniform",
+    "bursty",
+    "heavy_tail",
+    "chaos"
+  ],
+  "variants": [
+    "harp_full",
+    "harp_wo_gat",
+    "harp_wo_hard_masking",
+    "harp_wo_mask_unchecked",
+    "harp_soft_msd_penalty",
+    "harp_soft_msd_admission",
+    "harp_wo_adaptive_penalty"
+  ],
+  "rows": 1680,
+  "runs_per_variant": 240,
+  "runs_per_topology_variant": 80,
+  "steps_per_run": 3000,
+  "offered_steps_per_variant": 720000,
+  "matched_trace_groups": 240,
+  "coverage_issues": [],
+  "artifact_hash_issues": [],
+  "inputs": [
+    {
+      "topology": "vietnam",
+      "scenario": "uniform",
+      "summary": "results/rev1/vietnam/ablation/uniform/vietnam/uniform/harp_ablation_summary.csv",
+      "summary_sha256": "23eb3242c580d9b20e7cca3c9ceceae34538ae3b57b7629b6a97f37339e6c07b",
+      "manifest": "results/rev1/vietnam/ablation/uniform/vietnam/uniform/run_manifest.json",
+      "manifest_sha256": "3284f846586d131e5f380d4c37f7fa8e6ff946dbcf394f50d0799098ffd59848"
+    },
+    {
+      "topology": "vietnam",
+      "scenario": "bursty",
+      "summary": "results/rev1/vietnam/ablation/bursty/vietnam/bursty/harp_ablation_summary.csv",
+      "summary_sha256": "ce2b9ffc74e23cb3ab6cfd348309c51123829e681c12af4cb3ec65de617fce0d",
+      "manifest": "results/rev1/vietnam/ablation/bursty/vietnam/bursty/run_manifest.json",
+      "manifest_sha256": "4bc815de70ba5896b3dafddfd06c4400b61af5436f6464745981cf3039ca5244"
+    },
+    {
+      "topology": "vietnam",
+      "scenario": "heavy_tail",
+      "summary": "results/rev1/vietnam/ablation/heavy_tail/vietnam/heavy_tail/harp_ablation_summary.csv",
+      "summary_sha256": "d961eccbdcbb47a0399db339ab2157a7f55b1226ee314c423d8752ec79b6936e",
+      "manifest": "results/rev1/vietnam/ablation/heavy_tail/vietnam/heavy_tail/run_manifest.json",
+      "manifest_sha256": "2da336cd07c71fe34099b8608d317475cb61a642f17558f0dc8932fe349fa025"
+    },
+    {
+      "topology": "vietnam",
+      "scenario": "chaos",
+      "summary": "results/rev1/vietnam/ablation/chaos/vietnam/chaos/harp_ablation_summary.csv",
+      "summary_sha256": "69f206fba5eb774083d411300ddd9bf393a2f12118fd966037dc06972ded2f6d",
+      "manifest": "results/rev1/vietnam/ablation/chaos/vietnam/chaos/run_manifest.json",
+      "manifest_sha256": "e986474a8fa1aa9c1de094a5cb8551865087427b2a0620758b7b6027db282556"
+    },
+    {
+      "topology": "nsfnet",
+      "scenario": "uniform",
+      "summary": "results/rev1/nsfnet/ablation/uniform/nsfnet/uniform/harp_ablation_summary.csv",
+      "summary_sha256": "ad5c0e896a227d4cef6e8a34ace9f9a008aa462d02e765fe25c54f647c3dd500",
+      "manifest": "results/rev1/nsfnet/ablation/uniform/nsfnet/uniform/run_manifest.json",
+      "manifest_sha256": "b17933e24b6ae895c9677da23b460c889ade851f9b006d37cc962ef489450636"
+    },
+    {
+      "topology": "nsfnet",
+      "scenario": "bursty",
+      "summary": "results/rev1/nsfnet/ablation/bursty/nsfnet/bursty/harp_ablation_summary.csv",
+      "summary_sha256": "aca75685a7acac6127d81629a5edbd8fd18cfdb14e3b5b562eb6f9068a5eadf1",
+      "manifest": "results/rev1/nsfnet/ablation/bursty/nsfnet/bursty/run_manifest.json",
+      "manifest_sha256": "f480fb926ea9d911fec45404daf67dd64be0c166164bfbef45b98e48970b05db"
+    },
+    {
+      "topology": "nsfnet",
+      "scenario": "heavy_tail",
+      "summary": "results/rev1/nsfnet/ablation/heavy_tail/nsfnet/heavy_tail/harp_ablation_summary.csv",
+      "summary_sha256": "15c91fb4cd7590ee81173bdf8bb885b4926448c616bcc654cf0240fcc3ab9435",
+      "manifest": "results/rev1/nsfnet/ablation/heavy_tail/nsfnet/heavy_tail/run_manifest.json",
+      "manifest_sha256": "c6a39856ae9f6505f49b6b319f937562c083b8ce7af1f9a9821081943ebec9e2"
+    },
+    {
+      "topology": "nsfnet",
+      "scenario": "chaos",
+      "summary": "results/rev1/nsfnet/ablation/chaos/nsfnet/chaos/harp_ablation_summary.csv",
+      "summary_sha256": "b3a3f7e253998f9e3db022aebdea59d7e45fca8181d73df2caddfeca04ff4e06",
+      "manifest": "results/rev1/nsfnet/ablation/chaos/nsfnet/chaos/run_manifest.json",
+      "manifest_sha256": "0ebd0c5e1f8e97a5cccaef9e4c6e102546256733cc619909bb80498bed6855ce"
+    },
+    {
+      "topology": "geant2",
+      "scenario": "uniform",
+      "summary": "results/rev1/geant2/ablation/uniform/geant2/uniform/harp_ablation_summary.csv",
+      "summary_sha256": "da711dcbe0af675f880f775dc1b6e8a103e4b37bc731f0be566b4290779614d2",
+      "manifest": "results/rev1/geant2/ablation/uniform/geant2/uniform/run_manifest.json",
+      "manifest_sha256": "357ab35d2f35038d7d385d9a0e609bd3098c21376cc9adb315a82745c58fd9a6"
+    },
+    {
+      "topology": "geant2",
+      "scenario": "bursty",
+      "summary": "results/rev1/geant2/ablation/bursty/geant2/bursty/harp_ablation_summary.csv",
+      "summary_sha256": "484f16d643659c63e59f659cb7663920b0b758522c9bd68e94ad09d44b1f9d11",
+      "manifest": "results/rev1/geant2/ablation/bursty/geant2/bursty/run_manifest.json",
+      "manifest_sha256": "be0c9b14c7e1363857c4c1e32b2ff470fc09f771f3356fe0507135e963d57926"
+    },
+    {
+      "topology": "geant2",
+      "scenario": "heavy_tail",
+      "summary": "results/rev1/geant2/ablation/heavy_tail/geant2/heavy_tail/harp_ablation_summary.csv",
+      "summary_sha256": "33dc2607bc6e9ec60218cd173c3cdb2699574b19c3a419393262ad96c7b1fa87",
+      "manifest": "results/rev1/geant2/ablation/heavy_tail/geant2/heavy_tail/run_manifest.json",
+      "manifest_sha256": "cb04a028b7aa7b612eff5fa5bdc3657f94adc3fe4a756e641ffdc36293372a6c"
+    },
+    {
+      "topology": "geant2",
+      "scenario": "chaos",
+      "summary": "results/rev1/geant2/ablation/chaos/geant2/chaos/harp_ablation_summary.csv",
+      "summary_sha256": "25df51b062fd6f248db80b6400465861b4c970b94ff8a225d3e17c1457a97ce6",
+      "manifest": "results/rev1/geant2/ablation/chaos/geant2/chaos/run_manifest.json",
+      "manifest_sha256": "f07cf379c318597d62cf1c1405ee008eb1d33012d904a6c4931eadc47008bf2f"
+    }
+  ],
+  "source_sha256_observed": {
+    "/dis/users/dcs/CoreRouter/src/analytics/ablation_study.py": [
+      "6a7122897d6d2207aa3eaef26dd1bb618490ee34dc3391687681e1a9703bfd4d"
+    ],
+    "/dis/users/dcs/CoreRouter/src/analytics/training/train_harp_ablation.py": [
+      "2cb82a4ee6ac5a348ba87db5eac31a9174df21506663aed439cf5a524ed59177"
+    ],
+    "/dis/users/dcs/CoreRouter/src/orchestration/jo_vdpr/env.py": [
+      "7bfbb9d02ed45e335581ac7f5d1567e0cf584f9c4c5cf455c5fe72d493b44a70"
+    ],
+    "/dis/users/dcs/CoreRouter/src/orchestration/jo_vdpr/rewards.py": [
+      "ae4cb541fdf097c12165504aa013c3809019f07f1b40c9df48b045689512a6d5"
+    ],
+    "/dis/users/dcs/CoreRouter/src/orchestration/jo_vdpr/topology.py": [
+      "2b91b72673be8dfb66dc929edc58d80e5f44148ff495a4d0c576077d17ca19f7"
+    ]
+  },
+  "source_baseline_commit": "af299593e9a0cabd52c8fb49be5300b25b52560c",
+  "workspace_head": "82376cd6e05e0fcbd00b36ecec204c72c84502a1",
+  "env_source_diff_since_run": "diff --git a/src/orchestration/jo_vdpr/env.py b/src/orchestration/jo_vdpr/env.py\nindex 61b8021..e12070f 100644\n--- a/src/orchestration/jo_vdpr/env.py\n+++ b/src/orchestration/jo_vdpr/env.py\n@@ -0,0 +1 @@\n+from __future__ import annotations\n",
+  "historical_summary_has_timing_fields": false,
+  "training_convergence_artifacts": [],
+  "interpretation": {
+    "rates_denominator": "3,000 offered non-skipped steps per run; violation categories may overlap; hard violation is their union",
+    "mask_pruning": "macro mean of per-run candidate elimination ratios; not wall-clock compute overhead",
+    "avg_latency_ms": "simulated service latency; not policy inference or decision overhead",
+    "soft_msd": "the evaluator reuses the same soft-MSD checkpoint for admission-off/on and the same no-mask checkpoint for MSD-bypass/on; CPU/RAM/BW enforcement remains enabled",
+    "scope": "offline simulator evidence only; no full multi-VNF forwarding or live testbed safety claim"
+  }
+}

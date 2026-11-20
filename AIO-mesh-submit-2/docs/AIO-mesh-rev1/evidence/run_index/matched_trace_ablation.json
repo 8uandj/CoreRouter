@@ -1,0 +1,30 @@
+{
+  "experiment": "matched_trace_ablation",
+  "scope": "File-level evidence index. Refer to run metadata for experiment provenance.",
+  "artifacts": [
+    {
+      "path": "docs/AIO-mesh-rev1/evidence/e3/ablation_admission_summary.csv",
+      "kind": "file",
+      "sha256": "f2df024a13dd8068ba241af0ee14099059c6e00d8961fa0fce1d3368c1d9b0f2",
+      "recorded_original_sha256": null
+    },
+    {
+      "path": "docs/AIO-mesh-rev1/evidence/e3/ablation_pooled_summary.csv",
+      "kind": "file",
+      "sha256": "ee1c04fa3897096b0a96712afead4f8fd653a89e19699ce875e8dd730d34c771",
+      "recorded_original_sha256": null
+    },
+    {
+      "path": "docs/AIO-mesh-rev1/evidence/e3/manifest.json",
+      "kind": "file",
+      "sha256": "f9afccbdae75c6815af8b8e25bf29e2d9d8c39a8268699188c2ac37cbfbe76c5",
+      "recorded_original_sha256": null
+    },
+    {
+      "path": "results/rev1/e3",
+      "kind": "missing",
+      "sha256": null,
+      "recorded_original_sha256": null
+    }
+  ]
+}

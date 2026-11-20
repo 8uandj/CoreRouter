@@ -24,3 +24,12 @@ dist/
 .env.*
 !.env.example
 gcp-key.json
+
+# Keep the curated paper submission package and its evidence versioned.
+!/AIO-mesh-submit-2/
+!/AIO-mesh-submit-2/**
+/AIO-mesh-submit-2/**/node_modules/
+/AIO-mesh-submit-2/**/.venv/
+/AIO-mesh-submit-2/**/venv/
+/AIO-mesh-submit-2/**/__pycache__/
+/AIO-mesh-submit-2/**/*.pyc

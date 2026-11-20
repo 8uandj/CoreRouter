@@ -71,7 +71,7 @@
 
 **Interfaces:** CLI `python scripts/rev1/check_artifacts.py --protocol configs/rev1/protocol.json --output results/rev1/preflight.json`; exit 0 khi mọi input bắt buộc khớp, nonzero khi thiếu/mismatch. Protocol khai báo riêng `historical`/`revision`, topology, train/eval seeds, resolved model/normalizer paths/hashes, dataset/source hash, action/observation specs và dependencies.
 
-- [ ] Viết test missing normalizer, wrong topology/obs dimension, `MultiDiscrete` v11 main vs flat `Discrete(N²)` ablation, MLP/GAT variant và action head sai; chạy `python -m pytest tests/rev1/test_artifact_contract.py -q` để xác nhận test fail trước implementation.
+- [ ] Viết test missing normalizer, wrong topology/obs dimension, native flat `Discrete(N²)` main/ablation artifacts, legacy `MultiDiscrete([N,N])` compatibility, MLP/GAT variant và action head sai; chạy `python -m pytest tests/rev1/test_artifact_contract.py -q` để xác nhận test fail trước implementation. (Historical plan; current protocol now pins flat N² for main and ablation.)
 - [ ] Implement preflight đọc metadata/weights trong môi trường phù hợp, kiểm tra main-model và ablation checkpoint độc lập; không tự reshape action head hoặc dựng lại weights để che mismatch.
 - [ ] Loại bỏ phụ thuộc auto-selection cho revision: pin resolved model/normalizer cụ thể, vì main config ưu tiên ablation `harp_full` khi file xuất hiện. Nếu cần adapter lịch sử, lập task nhỏ với mapping và equivalence test trước khi dùng; chưa đạt thì ghi reproduction gap.
 - [ ] Khóa versions dựa trên metadata, xuất environment lock. Thiếu checkpoint cũ: tìm trong artifact có sẵn trước; train lại được ghi `new training`, không gán là model đã dùng cho submitted.
