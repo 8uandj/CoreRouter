@@ -14,9 +14,10 @@ The [run index](docs/AIO-mesh-rev1/evidence/run_index) inventories current corre
 | Background-chain table and pair oracle | `scripts/rev1/summarize_model_refresh_evidence.py` | Twelve background-chain per-seed CSVs and three 10-seed pair-oracle JSON files are retained. Refreshed outputs are under `docs/AIO-mesh-rev1/evidence/model_refresh_20261120/`. |
 | Timing subsection | Retained dedicated serialized timing measurement | This measurement was not rerun with corrected checkpoints; the manuscript labels it separately and does not attribute it to the refreshed N² models. |
 | Figures 1–2 | `scripts/paper/make_architecture_figures.py` | Architecture illustrations. |
-| Appendix Table A.5 | scripts/paper/make_qos_table.py | HARP/SAF-H service outcomes from the retained 18-cell benchmark aggregate. Evidence for all five policies requires recovery of the per-seed records. |
+| Appendix Table A.5 and unprotected stress table | `scripts/paper/make_qos_table.py` | Refreshed per-seed benchmark records in `docs/AIO-mesh-rev1/evidence/model_refresh_20261120/stress_per_seed_all_topologies.csv`. QoS uses admitted requests per seed; unprotected violation rates use offered requests. |
 | Shared numerical macros | `scripts/paper/make_numbers.py` | The HIL request total and refreshed load-contrast ranges are generated in `generated/numbers.tex` and `generated/numbers.json`. |
-| Checkpoint metadata | `scripts/paper/make_checkpoint_index.py` | Main checkpoint ZIPs and associated normalizers. The original training log, training dataset identity, hardware, run command, checkpoint-selection rule and ablation training artifacts are missing. |
+| Checkpoint metadata | `scripts/paper/make_checkpoint_index.py` | Current corrected N² main checkpoints and normalizers have retraining records. Original training provenance for some ablation variants remains incomplete. |
+| Greedy/DAI action identity | `scripts/rev1/summarize_greedy_decoupled.py` | Validates all 180 audit cells against protected benchmark seed rows and writes `docs/AIO-mesh-rev1/evidence/mentor_completion_20261121/greedy_decoupled_summary.csv`. Actions are compared at corresponding steps on separate policy trajectories. |
 
 ## Testbed source records
 

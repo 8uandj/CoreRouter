@@ -691,6 +691,8 @@ GEANT2 & C & 66.60 $\pm$ 0.48 & 66.60 $\pm$ 0.48 & \textbf{66.70} $\pm$ 0.50 & 6
 }
 \end{table*}
 
+\newrev{A decision-level audit of Greedy and DAI on the same 20 offered seeds per cell explains their identical protected acceptance in five cells (NSFNET E/B/C and GEANT2 B/C). The placement node matched in all 60,000 decisions in each of those cells; the complete placement--route pair matched in only 3.49--7.19\% of decisions. Both policies had identical seed-level safe acceptance in all 20 seeds of each cell. Greedy chooses maximum residual CPU and DAI chooses minimum CPU load; these criteria select the same placement in the observed trajectories. Their route rules differ, so equality of acceptance does not imply identical actions. The audit compares actions at corresponding steps on the policies' separate trajectories with matched offered traces.}
+
 \newrev{All five protected algorithms recorded zero admitted hard violations in the refreshed nine simulator conditions. HARP exceeded SAF-H in the GEANT2 Elephant-stress and Burst-surge cells, and remained below SAF-H in the other seven cells. HARP exceeded CSPF in all nine cell means. Tables~\ref{tab:benchmark_paired_statistics} and~\ref{tab:cspf_paired_statistics} report paired seed-level comparisons against SAF-H and CSPF with Holm correction. The refreshed analysis uses the fixed N² checkpoints and 20 evaluation seeds per cell; it does not claim variation across independently trained policies. The matched-trace ablation below separately evaluates candidate masking and local admission.}
 
 \begin{table}[t]

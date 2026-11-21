@@ -1,33 +1,31 @@
-# Đối chiếu comment mentor
+# Đối chiếu comment mentor — cập nhật 22/11/2026
 
-Xem [hướng dẫn tái lập](../../REPRODUCE.md) và [kết quả chạy lại từng ô](evidence/rerun_report.md). Các mục “một phần” vẫn mở theo tiêu chí nghiệm thu của mentor.
+Đây là trạng thái theo artifact hiện có trong `AIO-mesh-submit-2`. “Đã xác minh” chỉ áp dụng cho phạm vi ghi ở cột bằng chứng, không tự động đóng toàn bộ tiêu chí nghiệm thu của mentor. Nguồn chi tiết: [NON_HIL_STATUS.md](evidence/mentor_completion_20261121/NON_HIL_STATUS.md), [REPRODUCE.md](../../REPRODUCE.md), và các CSV/manifest trong `evidence/`.
 
-| Mục | Trạng thái | Kết quả hoặc phần còn thiếu |
+| Mục | Trạng thái hiện tại | Bằng chứng và phần còn mở |
 |---|---|---|
-| A1 | Một phần | Có chỉ mục 10 giao thức và hash của các tệp còn lưu. Thiếu manifest gốc của một số run, nên các trường lệnh, commit, checkpoint và trace hash chưa đủ cho toàn bộ giao thức. |
-| A2 | Một phần | Tái tạo Bảng 9–11, hình offered-intensity, hai sơ đồ và phụ lục thống kê. Bảng 12 đọc phần hàng đã sinh trước đó. Phần còn lại cần log gốc. |
-| A3 | Một phần | Manuscript và thư dùng chung macro cho tổng request, abstract và kết luận dùng macro cho mức chênh lệch theo tải. Chưa có sổ cho tất cả số liệu. |
-| A4 | Một phần | Vietnam/Bursty/42 chạy xong. Thiếu dòng gốc để đối chiếu. NSFNET thiếu checkpoint. GEANT2 cần môi trường tương thích normalizer NumPy. |
-| A5 | Một phần | Có log đầy đủ 12.325 dòng và 720 mẫu, metadata và generator. Log không giữ toàn bộ HTTP body, không có chuỗi bộ đếm trong run, pcap còn lại chỉ là probe endpoint. |
-| A6 | Một phần | Trích metadata và hash 3 checkpoint chính và normalizer. Thiếu lệnh gốc, dữ liệu huấn luyện, tài nguyên máy và checkpoint ablation. |
-| A7 | Mở | Chưa có gói dữ liệu đủ để công bố bằng DOI. |
-| B1 | Mở | Thiếu per-seed benchmark và CSPF để dùng một quy trình thống nhất cho Bảng 5–6. |
-| B2–B3 | Đã sửa | Tính đủ 21 dòng với Wilcoxon exact, cách xử lý ties và zero, Holm, khoảng tin cậy từ bootstrap. Sửa ba đoạn về đỉnh ở 1.2 và giảm ở 1.5. |
-| B4–B5 | Một phần | Làm rõ mẫu số của ablation, thiết kế ghép cặp và trace Bursty lặp lại. Bảng 4 vẫn ghi SD tổng thể như export hiện có. Chưa xác minh mọi phần biến thiên của các run gốc. |
-| B6–B7 | Một phần | Bổ sung so sánh mô tả với baseline tốt nhất và làm rõ mẫu oracle. Thiếu log bước Greedy/DAI, per-seed benchmark và oracle để tính kiểm định và tỷ lệ toàn run. |
-| B8–B9 | Một phần | Bảng 9 thêm tỷ lệ mask rỗng và pruning khi mask không rỗng, bỏ cột từ chối suy ra được. SD mô tả 80 ô seed × workload. Thiếu joint counts để giải thích nguyên nhân và hai ô timing để bổ sung Bảng 8. |
-| B10–B12 | Một phần | Tách P95 vòng quyết định và thời gian thành phần có dữ liệu, sửa cách mô tả phần đuôi. Chưa có phân bố timing theo seed, cùng giao thức cho đủ năm policy hoặc log SLA/λ của mọi biến thể. |
-| B13 | Đã sửa theo log | Bảng 11 và đoạn HIL báo độ sâu được yêu cầu, profile MSD, mã từ chối, nhánh của các yêu cầu được chấp nhận, RTT, timing backend, tỷ lệ nhận theo giờ và phạm vi readiness. Không suy từ mã MSD ra packet drops. |
-| C1–C5 | Một phần | Bộ thí nghiệm chính hiện dùng flat N²; sáu retrain mới đã xác minh trực tiếp, ablation hiện có cũng flat N² nên không cần retrain. Legacy 2N artifacts được tách khỏi bộ chính. Benchmark mới còn chạy; cần hoàn thiện seed-level outputs và provenance của ablation/training. |
-| C6–C8 | Một phần | Đối chiếu depth theo route anchor và depth của danh sách triển khai. Tách BW simulator khỏi runtime. Chưa hoàn thành bảng ký hiệu và bảng cấu hình theo từng nút. |
-| C9–C12 | Đã sửa mô tả chính | Đồng bộ ngưỡng và trọng số reward, bổ sung fallback, phạm vi Hybrid, local version check và simulator empty mask. Giá trị lịch sử của variant vẫn phụ thuộc training archive. |
-| D1 | Một phần | Có bảng unprotected theo topology/load từ 84 ô. Cần archive để lập bảng benchmark unprotected. |
-| D2 | Mở | Bỏ tuyên bố packet đi tuần tự qua chuỗi nhiều VNF khỏi bản nộp hiện tại. Cần log lịch sử ghép theo packet hoặc phép đo forwarding có ghi đủ. |
-| E1–E5 | Một phần | Viết lại abstract và kết luận, thu hẹp diễn giải GAT, thêm giới hạn thí nghiệm, chuẩn MSD/nén SID và related work. Abstract còn một số số liệu chưa được sinh từ macro. |
-| E6–E10 | Một phần | Chuẩn hóa nhiều từ viết tắt, nhãn, nguồn tham khảo và tách tải khỏi timing. Cần rà lượt cuối với bản PDF và bảng/hình còn lại. |
-| E11 | Một phần | Bản marked dùng xanh lá, có entry point LaTeX cho bản sạch. Hai PDF sẽ được xuất từ Overleaf. |
-| F1–F6 | Đã sửa bố cục chính | Vẽ lại sơ đồ, đổi panel so sánh theo SAF-H, đổi timing sang cột và thêm decision P95, chuyển hình trùng số liệu sang phụ lục, mở rộng Bảng 4/13. Cần kiểm tra bản in 100% và vị trí float trên Overleaf. |
-| G1–G2 | Một phần | Cập nhật phản hồi Editor và reviewer, giữ nội dung comment gốc, hiệu chỉnh phạm vi và tham chiếu. Cần PI duyệt đoạn mở đầu và so lại đánh số trên PDF. |
-| G3 | Chờ PI | Bản nộp đầu ghi **KC-4.0-56/19-30**, bản sửa ghi **KC.01.06/21-30**. Chưa có hồ sơ xác nhận mã đúng hoặc lý do thay đổi. |
-| P1-1–P1-9 | Mở | Chưa có thí nghiệm bổ sung đủ tiêu chí. Bản nộp khoanh phạm vi theo các kết quả hiện có, gồm độ thưa topology, triển khai/steering, HARP scaling, trace lặp và Hybrid. |
-| P2-1–P2-4 | Mở | Các thí nghiệm tùy chọn chưa chạy. |
+| A1–A3 | Một phần | Có manifest, hash, script sinh bảng và macro cho nhiều số liệu của bộ N² mới. Chưa có đủ provenance lịch sử cho mọi ablation, mọi bảng/hình và mọi số trong lời văn; `make paper` trên máy sạch và kiểm tra PDF chưa hoàn tất. Không dùng các con số kỳ vọng cũ trong checklist làm bằng chứng. |
+| A4 | Đã xác minh trong phạm vi 3 ô | 22 dòng chạy lại có cùng safe acceptance và trace hash với dòng per-seed tương ứng; xem `evidence/mentor_completion_20261121/cell_rerun_comparison.csv`. Chưa khẳng định tất cả metric/timing trùng nhau. |
+| A5 | Một phần, phụ thuộc máy HIL | Log 12 giờ và 720 readiness mẫu đã được lập chỉ mục; thiếu packet/forwarding chain theo request và một số HTTP body/counter lịch sử. |
+| A6 | Một phần | Sáu main retrain N² có checkpoint/normalizer và provenance; training độc lập Vietnam seeds 7/2024 đang chạy. Metadata huấn luyện gốc của một số ablation variant chưa đủ. |
+| A7 | Cần quyết định công bố | Chưa có DOI hoặc archive công bố bất biến. Bản bundle và checksum cuối phải đợi các job ghi file xong. |
+| B1–B3 | Đã xác minh trong bộ benchmark mới | Có per-seed 20 seed, Wilcoxon, Holm, CI, SD mẫu và so với SAF-H/CSPF. Chọn baseline mạnh nhất bằng chính dữ liệu so sánh là phân tích khám phá, được ghi rõ trong bài. |
+| B4–B5 | Một phần | Mẫu số/ghép cặp và các trace Bursty lặp lại đã được làm rõ; có đối chứng seed-offset cho benchmark, load và chain. Một số log training ablation cũ vẫn thiếu. |
+| B6 | Đã xác minh trong simulator | Bảng HARP so với baseline mạnh nhất từng ô đã có. Audit Greedy/DAI gồm 180 ô: năm ô NSFNET E/B/C, GEANT2 B/C có placement trùng 100% trên 60.000 quyết định mỗi ô, nhưng action pair chỉ trùng 3,49–7,19%; xem `evidence/mentor_completion_20261121/greedy_decoupled_summary.csv` và script `scripts/rev1/summarize_greedy_decoupled.py`. |
+| B7 | Một phần | Pair oracle cho ba mạng, gồm load 1.2/1.5, có log và bảng. Đây là oracle trong simulator cho cặp endpoint, không phải nghiệm full chain. |
+| B8–B9 | Một phần | Audit pre-step mask/admission cho 180.000 quyết định Bursty: không có rejection khi mask không rỗng; có mask rỗng trở thành không rỗng khi mô phỏng TTL expiry. Job can thiệp post-expiry-mask đang chạy; chưa đổi runtime mặc định. |
+| B10–B12 | Một phần | Có timing thành phần và P95 cho benchmark N², kèm giới hạn job đồng thời; dedicated serialized timing cũ được tách riêng. Thiếu phép đo cô lập và live API/actuation timing; phân tích nguyên nhân đuôi 100 nút chưa được xác lập. |
+| B13 | Một phần, phụ thuộc HIL | Bảng control-plane 12 giờ dựa vào log thô; không suy ra packet forwarding hoặc deployment thành công từ readiness baseline. |
+| C1–C5 | Đã xác minh cho bộ chính N²; provenance ablation một phần | Checkpoint chính và ablation dùng flat `Discrete(N²)`; checkpoint benchmark 2N cũ tách khỏi bảng hiện tại. Chưa đủ archive huấn luyện gốc cho mọi ablation. |
+| C6–C12 | Một phần | Contract pair-action, reward, fallback, Hybrid và giới hạn runtime đã được đối chiếu code; chưa có bằng chứng full-chain forwarding/steering theo packet. |
+| D1 | Đã có bộ simulator mới | Có bảng unprotected stress/load theo offered-request denominator và log per-seed; không dùng bảng tổng hợp cũ làm dữ liệu gốc. |
+| D2 | Phụ thuộc HIL | Thiếu log packet định danh từng chuỗi qua nhiều VNF; bản thảo không tuyên bố đã đo được. |
+| E1–E11, F1–F6, G1–G2 | Một phần | Bản thảo và response đã cập nhật phạm vi/số liệu chính; còn rà PDF, float, thuật ngữ và đánh số reviewer. Môi trường hiện tại chưa có LaTeX compiler. |
+| G3 | Chờ PI | Hai mã tài trợ khác nhau trong bản đầu và bản sửa; cần hồ sơ xác nhận mã đúng. |
+| P1/P2 simulator | Một phần | Seed-offset Bursty, SAF-H weight sensitivity, sparse adjacency GAT–MLP, oracle load 1.2/1.5 đã có. Sparse graph được suy từ latency, chưa có edge list vật lý được xác minh. Independent training và post-expiry intervention đang chạy. Arrival-rate-only sweep chưa có raw output. Không tự chạy full load sweep mới. |
+
+## Việc có thể xử lý ngay và việc cần đợi
+
+- **Có thể xử lý trên máy này:** kiểm tra và đồng bộ CSV/manifest đã hoàn thành; rà câu chữ/provenance; xây script tổng hợp cho job đang chạy; tìm hoặc xác minh edge list vật lý; chạy kiểm tra LaTeX input/reference/citation. Các số chưa đủ mẫu không đưa vào bài.
+- **Đợi job hiện tại:** independent training/evaluation Vietnam, post-expiry-mask intervention, arrival-rate-only nếu supervisor thực sự khởi chạy; sau đó mới tổng hợp và tạo lại checksum bundle.
+- **Cần nguồn ngoài máy hoặc quyết định của tác giả:** packet-level HIL, edge list vật lý có nguồn gốc xác nhận, DOI và mã tài trợ; PDF/Overleaf cần môi trường TeX thích hợp.
