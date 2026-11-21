@@ -1,0 +1,15 @@
+{
+  "note": "source hashes at launch; all jobs are independent simulator experiments and do not overwrite prior results",
+  "source_commit": "6515a5459d4c64f63d96d29c469bc680d4562dea",
+  "python": "3.9.25",
+  "source_sha256": {
+    "scripts/rev1/run_sparse_gat_mlp.py": "a664cd05db4ebdba5e9232bc3274e3b07d3f711da34c631a83eb111087ace7e2",
+    "scripts/rev1/run_seeded_load_chains.py": "38259408d77fb2abe8128f8b705f779f38ef8c47201b36ce5c62bcdf885e1d55",
+    "scripts/rev1/run_saf_weight_sensitivity.py": "5446021ca8adb1cd1280d2ae4a60f58b137b775ddf2d7c25ef96069fda66ecd7",
+    "src/analytics/ablation_study.py": "074702c0896cb41be301fd5fcbf89032a16378227012143624154992581b62c2",
+    "src/analytics/benchmark/benchmark_algorithm/algorithms.py": "3549c20f6e27dee65ba9755437cfb979dae662608c55fba5b421e07ae7a28abd",
+    "src/analytics/benchmark/benchmark_algorithm/run_load_sweep.py": "a0a229de14df50f67933cec9e54a888c5494b05323e171d07a02a571708f4ad7",
+    "src/orchestration/jo_vdpr/env.py": "bc06f22067c22b6a80e8985e0cbc3b5490ac309e0b07bc7573e8393e607b4d48",
+    "src/orchestration/jo_vdpr/topology.py": "2b91b72673be8dfb66dc929edc58d80e5f44148ff495a4d0c576077d17ca19f7"
+  }
+}

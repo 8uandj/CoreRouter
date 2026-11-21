@@ -1,0 +1,13 @@
+session_finished=mask
+session_finished=oracle
+session_finished=seeded_bursty
+session_finished=seeded_load_chains
+session_finished=saf_sensitivity
+session_finished=sparse_gat_mlp
+mask: 3/3
+oracle: 6/6
+seeded_bursty: 30/60
+seeded_load_chains: 300/600
+saf_sensitivity: 240/480
+sparse_gat_mlp: 30/60
+incomplete outputs; checksum refresh deferred, inspect logs

@@ -1,0 +1,46 @@
+{
+  "topology": "geant2",
+  "seeds": [
+    11,
+    23,
+    47,
+    89,
+    101,
+    211,
+    512,
+    1024,
+    4096,
+    8192
+  ],
+  "loads": [
+    1.2,
+    1.5
+  ],
+  "steps": 3000,
+  "weights_latency_cpu_hops": {
+    "baseline": [
+      0.5,
+      100.0,
+      5.0
+    ],
+    "double_latency": [
+      1.0,
+      100.0,
+      5.0
+    ],
+    "double_cpu": [
+      0.5,
+      200.0,
+      5.0
+    ],
+    "double_hops": [
+      0.5,
+      100.0,
+      10.0
+    ]
+  },
+  "data_sha256": "5370da1bb55cd679422150c5c4073175109cc7b831eff9c74491b30a17dcdd2a",
+  "algorithm_sha256": "3549c20f6e27dee65ba9755437cfb979dae662608c55fba5b421e07ae7a28abd",
+  "script_sha256": "aa32d6b75f5d70730c851ab59554e5681c31f4830e7c29ee6002b9c181411884",
+  "interpretation": "one-factor doubled weight, exploratory; protected SAF-H only"
+}

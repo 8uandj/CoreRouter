@@ -1,0 +1,72 @@
+2026-11-22 00:09:42,926 [INFO] DGRL-v11: BẮT ĐẦU HUẤN LUYỆN JO-VPPM V11 TRÊN MẠNG: VIETNAM
+2026-11-22 00:09:42,927 [INFO] DGRL-v11: Topology: vietnam (10 nodes). Load DATA: data/real_telecom_combined.csv
+Using cuda device
+/dis/users/dcs/CoreRouter/venv/lib64/python3.9/site-packages/networkx/utils/backends.py:135: RuntimeWarning: networkx backend defined more than once: nx-loopback
+  backends.update(_get_backends("networkx.backends"))
+2026-11-22 00:09:47,995 [INFO] DGRL-v11: Khởi động quá trình Huấn Luyện (Level 0)...
+Logging to results/evidence/mentor_completion_20261121/independent_training/seed_7/logs/dgrl_v11_tb_vietnam/run_v11_vietnam_1
+---------------------------------
+| rollout/           |          |
+|    ep_len_mean     | 100      |
+|    ep_rew_mean     | 4.77e+03 |
+| time/              |          |
+|    fps             | 120      |
+|    iterations      | 1        |
+|    time_elapsed    | 17       |
+|    total_timesteps | 2048     |
+---------------------------------
+-----------------------------------------
+| rollout/                |             |
+|    ep_len_mean          | 100         |
+|    ep_rew_mean          | 4.73e+03    |
+| time/                   |             |
+|    fps                  | 80          |
+|    iterations           | 2           |
+|    time_elapsed         | 50          |
+|    total_timesteps      | 4096        |
+| train/                  |             |
+|    approx_kl            | 0.017469123 |
+|    clip_fraction        | 0.198       |
+|    clip_range           | 0.2         |
+|    entropy_loss         | -2.46       |
+|    explained_variance   | 0.0536      |
+|    learning_rate        | 0.0003      |
+|    loss                 | -0.16       |
+|    n_updates            | 10          |
+|    policy_gradient_loss | -0.0484     |
+|    value_loss           | 0.311       |
+-----------------------------------------
+2026-11-22 00:10:55,651 [WARNING] DGRL-v11: Bị hủy bởi user! Lưu checkpoint khẩn...
+Traceback (most recent call last):
+  File "/dis/users/dcs/CoreRouter/src/analytics/training/train_v11.py", line 221, in train_dgrl
+    model.learn(total_timesteps=total_steps, callback=callbacks,
+  File "/dis/users/dcs/CoreRouter/venv/lib64/python3.9/site-packages/sb3_contrib/ppo_mask/ppo_mask.py", line 466, in learn
+    self.train()
+  File "/dis/users/dcs/CoreRouter/venv/lib64/python3.9/site-packages/sb3_contrib/ppo_mask/ppo_mask.py", line 356, in train
+    policy_loss_2 = advantages * th.clamp(ratio, 1 - clip_range, 1 + clip_range)
+KeyboardInterrupt
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/usr/lib64/python3.9/runpy.py", line 197, in _run_module_as_main
+    return _run_code(code, main_globals, None,
+  File "/usr/lib64/python3.9/runpy.py", line 87, in _run_code
+    exec(code, run_globals)
+  File "/dis/users/dcs/CoreRouter/src/analytics/training/train_v11.py", line 264, in <module>
+    train_dgrl(topology, total_steps=args.total_steps, n_envs=args.n_envs,
+  File "/dis/users/dcs/CoreRouter/src/analytics/training/train_v11.py", line 238, in train_dgrl
+    train_env.close()
+  File "/dis/users/dcs/CoreRouter/venv/lib64/python3.9/site-packages/stable_baselines3/common/vec_env/base_vec_env.py", line 402, in close
+    return self.venv.close()
+  File "/dis/users/dcs/CoreRouter/venv/lib64/python3.9/site-packages/stable_baselines3/common/vec_env/vec_monitor.py", line 100, in close
+    return self.venv.close()
+  File "/dis/users/dcs/CoreRouter/venv/lib64/python3.9/site-packages/stable_baselines3/common/vec_env/subproc_vec_env.py", line 159, in close
+    remote.send(("close", None))
+  File "/usr/lib64/python3.9/multiprocessing/connection.py", line 210, in send
+    self._send_bytes(_ForkingPickler.dumps(obj))
+  File "/usr/lib64/python3.9/multiprocessing/connection.py", line 415, in _send_bytes
+    self._send(header + buf)
+  File "/usr/lib64/python3.9/multiprocessing/connection.py", line 372, in _send
+    n = write(self._handle, buf)
+BrokenPipeError: [Errno 32] Broken pipe

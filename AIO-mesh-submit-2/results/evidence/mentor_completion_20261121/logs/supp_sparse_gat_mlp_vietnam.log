@@ -1,0 +1,24 @@
+/dis/users/dcs/CoreRouter/venv/lib64/python3.9/site-packages/stable_baselines3/common/save_util.py:167: UserWarning: Could not deserialize object learning_rate. Consider using `custom_objects` argument to replace this object.
+Exception: code() takes at most 16 arguments (18 given)
+  warnings.warn(
+/dis/users/dcs/CoreRouter/venv/lib64/python3.9/site-packages/stable_baselines3/common/save_util.py:167: UserWarning: Could not deserialize object lr_schedule. Consider using `custom_objects` argument to replace this object.
+Exception: code() takes at most 16 arguments (18 given)
+  warnings.warn(
+/dis/users/dcs/CoreRouter/venv/lib64/python3.9/site-packages/networkx/utils/backends.py:135: RuntimeWarning: networkx backend defined more than once: nx-loopback
+  backends.update(_get_backends("networkx.backends"))
+/dis/users/dcs/CoreRouter/venv/lib64/python3.9/site-packages/stable_baselines3/common/save_util.py:167: UserWarning: Could not deserialize object learning_rate. Consider using `custom_objects` argument to replace this object.
+Exception: code() takes at most 16 arguments (18 given)
+  warnings.warn(
+/dis/users/dcs/CoreRouter/venv/lib64/python3.9/site-packages/stable_baselines3/common/save_util.py:167: UserWarning: Could not deserialize object lr_schedule. Consider using `custom_objects` argument to replace this object.
+Exception: code() takes at most 16 arguments (18 given)
+  warnings.warn(
+seed=11 full=57.2 mlp=57.5 trace=27b96b2ca35c8897337c76b1eb4628c3f9dec112aed8a0cf0b62e8decae4a56a
+seed=23 full=57.666666666666664 mlp=58.833333333333336 trace=27b96b2ca35c8897337c76b1eb4628c3f9dec112aed8a0cf0b62e8decae4a56a
+seed=47 full=56.266666666666666 mlp=56.266666666666666 trace=27b96b2ca35c8897337c76b1eb4628c3f9dec112aed8a0cf0b62e8decae4a56a
+seed=89 full=57.5 mlp=57.86666666666667 trace=27b96b2ca35c8897337c76b1eb4628c3f9dec112aed8a0cf0b62e8decae4a56a
+seed=101 full=56.86666666666667 mlp=57.36666666666667 trace=27b96b2ca35c8897337c76b1eb4628c3f9dec112aed8a0cf0b62e8decae4a56a
+seed=211 full=57.266666666666666 mlp=57.5 trace=27b96b2ca35c8897337c76b1eb4628c3f9dec112aed8a0cf0b62e8decae4a56a
+seed=512 full=55.86666666666667 mlp=56.2 trace=27b96b2ca35c8897337c76b1eb4628c3f9dec112aed8a0cf0b62e8decae4a56a
+seed=1024 full=56.86666666666667 mlp=56.96666666666667 trace=27b96b2ca35c8897337c76b1eb4628c3f9dec112aed8a0cf0b62e8decae4a56a
+seed=4096 full=57.03333333333333 mlp=57.43333333333333 trace=27b96b2ca35c8897337c76b1eb4628c3f9dec112aed8a0cf0b62e8decae4a56a
+seed=8192 full=56.9 mlp=57.7 trace=27b96b2ca35c8897337c76b1eb4628c3f9dec112aed8a0cf0b62e8decae4a56a

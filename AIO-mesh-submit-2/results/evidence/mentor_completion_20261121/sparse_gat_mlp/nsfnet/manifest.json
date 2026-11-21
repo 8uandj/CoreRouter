@@ -1,0 +1,145 @@
+{
+  "topology": "nsfnet",
+  "adjacency": "synthetic symmetric 3-nearest-neighbour derived from latency; not a physical edge list",
+  "edges": [
+    [
+      0,
+      1
+    ],
+    [
+      0,
+      3
+    ],
+    [
+      0,
+      4
+    ],
+    [
+      1,
+      2
+    ],
+    [
+      1,
+      3
+    ],
+    [
+      2,
+      3
+    ],
+    [
+      2,
+      4
+    ],
+    [
+      3,
+      4
+    ],
+    [
+      4,
+      6
+    ],
+    [
+      5,
+      6
+    ],
+    [
+      5,
+      7
+    ],
+    [
+      5,
+      13
+    ],
+    [
+      6,
+      7
+    ],
+    [
+      6,
+      8
+    ],
+    [
+      7,
+      8
+    ],
+    [
+      7,
+      11
+    ],
+    [
+      7,
+      13
+    ],
+    [
+      8,
+      11
+    ],
+    [
+      8,
+      12
+    ],
+    [
+      9,
+      10
+    ],
+    [
+      9,
+      11
+    ],
+    [
+      9,
+      12
+    ],
+    [
+      10,
+      11
+    ],
+    [
+      10,
+      12
+    ],
+    [
+      11,
+      12
+    ],
+    [
+      11,
+      13
+    ],
+    [
+      12,
+      13
+    ]
+  ],
+  "nodes": 14,
+  "protocol": "Bursty stress; 20 seeds x 3000 steps; existing separately trained full and MLP checkpoints; replace GAT adjacency after load",
+  "limitation": "simulator pair feasibility and pair link bandwidth do not model physical multi-hop forwarding; no sparse-graph retraining",
+  "models": {
+    "harp_full": {
+      "model": "/dis/users/dcs/CoreRouter/results/models/ablation/harp_full/dgrl_v11_harp_full_nsfnet.zip",
+      "sha256": "678b18007f04374c47d4940332cea0539f8ca9c4e03273f15fb53aa246554071",
+      "normalizer": "/dis/users/dcs/CoreRouter/results/models/ablation/harp_full/vec_normalize_v11_harp_full_nsfnet.pkl",
+      "normalizer_sha256": "fea450c6d61bf265a608465f4e9a3c04472db7d8e940f1c41d85b31ce7cf32a1"
+    },
+    "harp_wo_gat": {
+      "model": "/dis/users/dcs/CoreRouter/results/models/ablation/harp_wo_gat/dgrl_v11_harp_wo_gat_nsfnet.zip",
+      "sha256": "a01ef54ce516031ea72ce28b6cf89548aab2c7e8d6cd1d2af07c8ec57a4b6894",
+      "normalizer": "/dis/users/dcs/CoreRouter/results/models/ablation/harp_wo_gat/vec_normalize_v11_harp_wo_gat_nsfnet.pkl",
+      "normalizer_sha256": "5d816acc6f0cc35f9560d88cf2012b3dd15e8991c953e1c1209889a81e278137"
+    }
+  },
+  "seeds": [
+    42,
+    100,
+    2024,
+    8888,
+    9999,
+    7,
+    17,
+    73,
+    314,
+    2718
+  ],
+  "data_sha256": "5370da1bb55cd679422150c5c4073175109cc7b831eff9c74491b30a17dcdd2a",
+  "script_sha256": "a664cd05db4ebdba5e9232bc3274e3b07d3f711da34c631a83eb111087ace7e2"
+}

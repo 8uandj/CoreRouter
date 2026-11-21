@@ -1,0 +1,22 @@
+/dis/users/dcs/CoreRouter/venv/lib64/python3.9/site-packages/networkx/utils/backends.py:135: RuntimeWarning: networkx backend defined more than once: nx-loopback
+  backends.update(_get_backends("networkx.backends"))
+oracle harp seed=42: 1/120 avoidable selected rejections
+oracle harp seed=100: 2/120 avoidable selected rejections
+oracle harp seed=2024: 3/120 avoidable selected rejections
+oracle harp seed=8888: 1/120 avoidable selected rejections
+oracle harp seed=9999: 3/120 avoidable selected rejections
+oracle harp seed=7: 1/120 avoidable selected rejections
+oracle harp seed=17: 1/120 avoidable selected rejections
+oracle harp seed=73: 3/120 avoidable selected rejections
+oracle harp seed=314: 1/120 avoidable selected rejections
+oracle harp seed=2718: 1/120 avoidable selected rejections
+oracle saf_h seed=42: 2/120 avoidable selected rejections
+oracle saf_h seed=100: 2/120 avoidable selected rejections
+oracle saf_h seed=2024: 2/120 avoidable selected rejections
+oracle saf_h seed=8888: 1/120 avoidable selected rejections
+oracle saf_h seed=9999: 3/120 avoidable selected rejections
+oracle saf_h seed=7: 5/120 avoidable selected rejections
+oracle saf_h seed=17: 3/120 avoidable selected rejections
+oracle saf_h seed=73: 0/120 avoidable selected rejections
+oracle saf_h seed=314: 2/120 avoidable selected rejections
+oracle saf_h seed=2718: 0/120 avoidable selected rejections

@@ -1,0 +1,229 @@
+{
+  "topology": "geant2",
+  "adjacency": "synthetic symmetric 3-nearest-neighbour derived from latency; not a physical edge list",
+  "edges": [
+    [
+      0,
+      1
+    ],
+    [
+      0,
+      2
+    ],
+    [
+      0,
+      5
+    ],
+    [
+      0,
+      6
+    ],
+    [
+      1,
+      2
+    ],
+    [
+      1,
+      6
+    ],
+    [
+      2,
+      3
+    ],
+    [
+      2,
+      4
+    ],
+    [
+      2,
+      5
+    ],
+    [
+      2,
+      8
+    ],
+    [
+      2,
+      9
+    ],
+    [
+      3,
+      4
+    ],
+    [
+      3,
+      9
+    ],
+    [
+      4,
+      9
+    ],
+    [
+      5,
+      6
+    ],
+    [
+      5,
+      7
+    ],
+    [
+      5,
+      8
+    ],
+    [
+      6,
+      7
+    ],
+    [
+      6,
+      20
+    ],
+    [
+      6,
+      22
+    ],
+    [
+      7,
+      8
+    ],
+    [
+      7,
+      9
+    ],
+    [
+      7,
+      12
+    ],
+    [
+      8,
+      9
+    ],
+    [
+      9,
+      10
+    ],
+    [
+      10,
+      17
+    ],
+    [
+      10,
+      18
+    ],
+    [
+      10,
+      19
+    ],
+    [
+      11,
+      12
+    ],
+    [
+      11,
+      13
+    ],
+    [
+      11,
+      14
+    ],
+    [
+      11,
+      18
+    ],
+    [
+      11,
+      19
+    ],
+    [
+      12,
+      13
+    ],
+    [
+      12,
+      14
+    ],
+    [
+      13,
+      14
+    ],
+    [
+      13,
+      21
+    ],
+    [
+      14,
+      15
+    ],
+    [
+      14,
+      16
+    ],
+    [
+      14,
+      18
+    ],
+    [
+      14,
+      19
+    ],
+    [
+      15,
+      16
+    ],
+    [
+      15,
+      17
+    ],
+    [
+      16,
+      17
+    ],
+    [
+      18,
+      19
+    ],
+    [
+      20,
+      21
+    ],
+    [
+      20,
+      22
+    ],
+    [
+      21,
+      22
+    ]
+  ],
+  "nodes": 23,
+  "protocol": "Bursty stress; supplementary 10 seeds x 3000 steps; existing separately trained full and MLP checkpoints; replace GAT adjacency after load",
+  "limitation": "simulator pair feasibility and pair link bandwidth do not model physical multi-hop forwarding; no sparse-graph retraining",
+  "models": {
+    "harp_full": {
+      "model": "/dis/users/dcs/CoreRouter/results/models/ablation/harp_full/dgrl_v11_harp_full_geant2.zip",
+      "sha256": "13b6611305a31222aeb8d7c347ad248a5d36b625c7038b3f6abb05ee47831444",
+      "normalizer": "/dis/users/dcs/CoreRouter/results/models/ablation/harp_full/vec_normalize_v11_harp_full_geant2.pkl",
+      "normalizer_sha256": "bc55d25011d2355f34c10110efba77d5f3156c29ccf1042088059fae1cbf6fc3"
+    },
+    "harp_wo_gat": {
+      "model": "/dis/users/dcs/CoreRouter/results/models/ablation/harp_wo_gat/dgrl_v11_harp_wo_gat_geant2.zip",
+      "sha256": "f22322b9bc7374266747f186ed7f37bd8a8d9ecb8a485992ecce3e2af4c0569a",
+      "normalizer": "/dis/users/dcs/CoreRouter/results/models/ablation/harp_wo_gat/vec_normalize_v11_harp_wo_gat_geant2.pkl",
+      "normalizer_sha256": "7c7db0225b8e344593004e469635060be8c25fae321eb66e192e84c36910ff12"
+    }
+  },
+  "seeds": [
+    11,
+    23,
+    47,
+    89,
+    101,
+    211,
+    512,
+    1024,
+    4096,
+    8192
+  ],
+  "data_sha256": "5370da1bb55cd679422150c5c4073175109cc7b831eff9c74491b30a17dcdd2a",
+  "script_sha256": "b9bda4d82a3425a1ff567d460aaf107867c4f6f10558cd34094c665816900f62"
+}

@@ -1,0 +1,25 @@
+{
+  "topology": "nsfnet",
+  "chains": 50,
+  "loads": [
+    1.0
+  ],
+  "steps": 3000,
+  "seeds": [
+    11,
+    23,
+    47,
+    89,
+    101,
+    211,
+    512,
+    1024,
+    4096,
+    8192
+  ],
+  "seeded_trace": "seed-specific cyclic offset of dataset rows; original Bursty schedule; policies paired",
+  "model_sha256": "84422beca614c96b110aee4d6ea44eda04e66c41e4a29af912b8b4d8d569c52c",
+  "normalizer_sha256": "6bf4eccb4578f29201217ff7be59b73d79815adb63c67e6ebb12a8ccb5413596",
+  "data_sha256": "5370da1bb55cd679422150c5c4073175109cc7b831eff9c74491b30a17dcdd2a",
+  "script_sha256": "f20cf5ec9bb8882916ecd3745913a52bee074961a564d15a7f32052594f432e8"
+}

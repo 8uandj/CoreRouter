@@ -1,0 +1,8 @@
+#!/usr/bin/env bash
+set -euo pipefail
+cd /dis/users/dcs/CoreRouter
+export OMP_NUM_THREADS=1 MKL_NUM_THREADS=1 OPENBLAS_NUM_THREADS=1
+for topo in vietnam nsfnet geant2; do
+ venv/bin/python scripts/rev1/run_seeded_bursty.py --topology "$topo" --output "results/evidence/mentor_completion_20261121/seeded_bursty/$topo" > "results/evidence/mentor_completion_20261121/logs/seeded_bursty_$topo.log" 2>&1 &
+done
+wait

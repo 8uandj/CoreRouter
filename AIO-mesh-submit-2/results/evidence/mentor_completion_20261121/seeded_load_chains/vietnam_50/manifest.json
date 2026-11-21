@@ -1,0 +1,25 @@
+{
+  "topology": "vietnam",
+  "chains": 50,
+  "loads": [
+    1.0
+  ],
+  "steps": 3000,
+  "seeds": [
+    42,
+    100,
+    2024,
+    8888,
+    9999,
+    7,
+    17,
+    73,
+    314,
+    2718
+  ],
+  "seeded_trace": "seed-specific cyclic offset of dataset rows; original Bursty schedule; policies paired",
+  "model_sha256": "ea215985d1ad5d8ccc8e900da82d3e50e5ff51417c05bb96930dfc10ab9e86da",
+  "normalizer_sha256": "87385923e8099d3b56096eeaa9a43f75a4e0a670c972a77e667d7e160229d646",
+  "data_sha256": "5370da1bb55cd679422150c5c4073175109cc7b831eff9c74491b30a17dcdd2a",
+  "script_sha256": "38259408d77fb2abe8128f8b705f779f38ef8c47201b36ce5c62bcdf885e1d55"
+}

@@ -891,7 +891,7 @@ Variant & CPU & RAM & BW & MSD & Union & Admitted \\
 \label{subsec:scalability_path_sensitivity}
 \newrev{The load-sweep protocol evaluates the four protected algorithms at seven offered-intensity multipliers from 0.2 to 1.5 on Vietnam, NSFNET, and GEANT2, using 20 seeds and 3,000 simulator steps per seed and multiplier. At multipliers up to 1.0, the multiplier sets the request-arrival rate. Above 1.0, arrival rate is capped at 1.0 while CPU/RAM demand, requested SID depth, and TTL are scaled. We therefore interpret this protocol as a combined offered-intensity stress test rather than a pure arrival-rate sweep.}
 
-\newrev{At zero background chains, the refreshed run comprises 4,200 seed-level policy trials across three substrates, seven intensities, and ten policy and admission configurations (five policies, protected and unprotected). The main figure presents the four protected policies discussed in the paper; CSPF is retained in the raw evidence. Figure~\ref{fig:load_sweep} compares four protected policies and Table~\ref{tab:load_sweep_results} reports their safe acceptance at every intensity. No protected trial admitted a modeled hard violation. All 20 seeds at each topology and intensity used the same offered trace, so the reported variation is conditional on that trace.}
+\newrev{At zero background chains, the refreshed run comprises 4,200 seed-level policy trials across three substrates, seven intensities, and ten policy and admission configurations (five policies, protected and unprotected). The main figure presents four protected policies; the table additionally reports CSPF. Figure~\ref{fig:load_sweep} compares four protected policies and Table~\ref{tab:load_sweep_results} reports their safe acceptance at every intensity. No protected trial admitted a modeled hard violation. All 20 seeds at each topology and intensity used the same offered trace, so the reported variation is conditional on that trace.}
 
 \newrev{For the 21 HARP--SAF-H contrasts, the paired percentile-bootstrap intervals use 20,000 resamples. The exact two-sided signed-rank test drops zero differences and assigns average ranks to tied absolute differences. Zero-difference counts, effective sample sizes, and rank-biserial effects are reported from the refreshed paired data; all 21 contrasts remain in the Holm family. Appendix Table~\ref{tab:load_sweep_paired_statistics} reports all contrasts. Appendix Tables~\ref{tab:load_sweep_unprotected}--\ref{tab:load_sweep_unprotected_geant2} report modeled violations with admission disabled in the offered-intensity experiment.}
 
@@ -910,11 +910,11 @@ Variant & CPU & RAM & BW & MSD & Union & Admitted \\
 {\color{revisiongreen}
 \setlength{\tabcolsep}{3pt}
 \resizebox{\columnwidth}{!}{%
-\begin{tabular}{llrrrr}
+\begin{tabular}{llrrrrr}
 \toprule
-Network & Load & Greedy & DAI & SAF-H & HARP \\
+Network & Load & Greedy & DAI & SAF-H & CSPF & HARP \\
 \midrule
-\input{evidence/model_refresh_20261120/load_sweep_table_rows.tex}
+\input{evidence/completion_20261121/load_cspf.tex}
 \bottomrule
 \end{tabular}%
 }}
@@ -945,7 +945,7 @@ SAF-H & 1,200 & 579 & 33 & 5.70 $\pm$ 2.32 \\
 }}
 \end{table*}
 
-\newrev{A separate active-chain experiment initializes 0, 25, 50, or 100 long-lived background chains before each 3,000-step Bursty evaluation. Each chain reserves 2 CPU units, 2 RAM units, and 20 bandwidth units, with round-robin placement. The run covers 20 seeds and all four protected algorithms on Vietnam, NSFNET, and GEANT2. Table~\ref{tab:active_chain_stress} compares protected HARP and SAF-H; the reported values are mean safe acceptance with sample standard deviation across seeds. Admitted modeled hard violations were zero for all protected algorithms in every tested condition. HARP's safe acceptance declined as background occupancy increased, while remaining above SAF-H in these simulator conditions.}
+\newrev{A separate active-chain experiment initializes 0, 25, 50, or 100 long-lived background chains before each 3,000-step Bursty evaluation. Each chain reserves 2 CPU units, 2 RAM units, and 20 bandwidth units, with round-robin placement. The run covers 20 seeds and all four protected algorithms on Vietnam, NSFNET, and GEANT2. Table~\ref{tab:active_chain_stress} compares protected HARP, SAF-H, and CSPF; the reported values are mean safe acceptance with sample standard deviation across seeds. Admitted modeled hard violations were zero for all protected algorithms in every tested condition. HARP's safe acceptance declined as background occupancy increased, while remaining above SAF-H in these simulator conditions.}
 
 {\color{revisiongreen}
 \begin{table}[t]
@@ -955,22 +955,11 @@ SAF-H & 1,200 & 579 & 33 & 5.70 $\pm$ 2.32 \\
 \scriptsize
 \setlength{\tabcolsep}{3pt}
 \resizebox{\columnwidth}{!}{%
-\begin{tabular}{lrrr}
+\begin{tabular}{lrrrr}
 \toprule
-Network & Chains & HARP & SAF-H \\
+Network & Chains & HARP & SAF-H & CSPF \\
 \midrule
-Vietnam & 0 & 99.61 $\pm$ 0.08 & 98.40 $\pm$ 0.18 \\
-Vietnam & 25 & 99.19 $\pm$ 0.10 & 97.62 $\pm$ 0.18 \\
-Vietnam & 50 & 98.55 $\pm$ 0.15 & 96.69 $\pm$ 0.23 \\
-Vietnam & 100 & 97.08 $\pm$ 0.13 & 94.38 $\pm$ 0.17 \\
-NSFNET & 0 & 99.86 $\pm$ 0.06 & 98.73 $\pm$ 0.16 \\
-NSFNET & 25 & 99.73 $\pm$ 0.10 & 98.19 $\pm$ 0.15 \\
-NSFNET & 50 & 99.47 $\pm$ 0.12 & 97.56 $\pm$ 0.14 \\
-NSFNET & 100 & 98.62 $\pm$ 0.14 & 95.96 $\pm$ 0.19 \\
-GEANT2 & 0 & 99.99 $\pm$ 0.02 & 99.00 $\pm$ 0.13 \\
-GEANT2 & 25 & 99.99 $\pm$ 0.03 & 98.75 $\pm$ 0.16 \\
-GEANT2 & 50 & 99.94 $\pm$ 0.05 & 98.47 $\pm$ 0.12 \\
-GEANT2 & 100 & 99.79 $\pm$ 0.08 & 97.69 $\pm$ 0.18 \\
+\input{evidence/completion_20261121/chains_cspf.tex}
 \bottomrule
 \end{tabular}%
 }
@@ -992,9 +981,41 @@ Nodes & Profile & Greedy & DAI & SAF-H & CSPF & HARP \\
 \end{tabular}
 \end{table*}
 
+\begin{table*}[t]
+\centering
+\caption{Exploratory HARP minus strongest protected baseline safe acceptance (percentage points; 20 paired seeds). The strongest baseline is selected by sample mean in the same cell. $p_H$ uses Holm correction over nine real-topology comparisons; selection uncertainty is not accounted for.}
+\label{tab:best_baseline_exploratory}
+\scriptsize
+\begin{tabular}{lllrrrr}
+\toprule
+Network & Profile & Baseline & $\Delta$ & 95\% CI & $p_H$ & $n_{eff}$ \\
+\midrule
+\input{evidence/completion_20261121/best_baseline.tex}
+\bottomrule
+\end{tabular}
+\end{table*}
+
+\newrev{Table~\ref{tab:best_baseline_exploratory} compares HARP with the strongest protected baseline in each real-topology workload cell. This comparison is exploratory because the baseline is selected using the same evaluation seeds; the interval and corrected $p$ values do not account for selection.}
+
 \subsection{\newrev{Decision Cost and Topology Scaling}}
 \label{subsec:decision_cost}
 \newrev{A separate serialized, same-process Vietnam policy-decision timing study used the Bursty workload, 10 matched seeds, and 3,000 steps per seed. Its timing artifact is not part of the refreshed-model reruns, so the values below are retained as a separate historical measurement and are not attributed to the corrected N² checkpoint. Per-seed offered-trace hashes matched exactly between HARP and SAF-H. After one excluded warm-up run per policy, execution order alternated across seeds. Mean seed-level decision P50/P95/P99 was 1.925/2.131/2.481~ms for HARP and 0.339/0.494/0.527~ms for SAF-H; HARP's P95 was 1.637~ms higher (4.3$\times$). HARP's mean seed-level policy-inference P95 was 1.617~ms. For SAF-H, feasible-set construction and heuristic selection had mean seed-level P95 values of 0.062 and 0.133~ms. The measured simulator runners processed 537 and 3,282 offered decisions per second, respectively, calculated from completed simulator decisions and run wall time. The decision intervals include the simulator step and exclude live telemetry transport, controller handoff, deployment, readiness, and steering.}
+
+\newrev{For the size-matched HARP stress benchmark, Table~\ref{tab:harp_component_timing} reports means of seed-level P95 timings for normalization, mask construction, policy inference, and total simulator decision time in the Burst-surge profile. Benchmark jobs ran concurrently on a shared host; these measurements are not isolated latency measurements. Components can overlap and their P95 values cannot be added to obtain total P95.}
+\begin{table}[t]
+\centering
+\caption{HARP simulator timing in synthetic Burst-surge runs (ms; mean of 20 seed-level P95 values).}
+\label{tab:harp_component_timing}
+\scriptsize
+\resizebox{\columnwidth}{!}{%
+\begin{tabular}{rrrrr}
+\toprule
+Nodes & Normalize & Mask & Inference & Decision \\
+\midrule
+\input{evidence/completion_20261121/timing_components.tex}
+\bottomrule
+\end{tabular}}
+\end{table}
 
 \newrev{Topology-size timing was measured for SAF-H on deterministic synthetic grids with 25, 50, and 100 nodes, 10 seeds, and 300 decisions per seed; the complete pair-action space contains $N^2$ candidates. Mean per-seed feasible-set P50/P95/P99 time was 0.315/0.368/0.390~ms, 1.355/1.488/1.649~ms, and 5.534/70.175/76.377~ms, respectively. Mean per-seed decision P95/P99 was 1.554/1.620, 5.297/5.728, and 83.562/89.829~ms. The 100-node P95 tail is materially larger than its median. The aggregate does not identify which operation or host condition produced the tail. These measurements characterize SAF-H's simulator-side scaling on synthetic grids; HARP decision timings are reported for the evaluated benchmark topologies. The runs were serial with no pre-seeded background chains; the evaluated implementations did not use a candidate-path cache. Live API concurrency and actuation latency were not measured.}
 
