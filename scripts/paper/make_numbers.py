@@ -3,13 +3,18 @@ import csv
 import json
 from pathlib import Path
 
-ROOT = Path(__file__).resolve().parents[2] / "docs/AIO-mesh-rev1"
+_BASE = Path(__file__).resolve().parents[2]
+ROOT = _BASE / "docs/AIO-mesh-rev1"
 OUT = ROOT / "generated"
 
 
 def main():
     hil = json.loads((OUT / "table11.json").read_text())
-    with (ROOT / "evidence/load_sweep/mentor_b2_load_sweep_21.csv").open() as stream:
+    bundle = _BASE if _BASE.name == "AIO-mesh-submit-2" else _BASE / "AIO-mesh-submit-2"
+    source = bundle / "docs/AIO-mesh-rev1/evidence/load_sweep/mentor_b2_load_sweep_21.csv"
+    if not source.is_file():
+        source = ROOT / "evidence/load_sweep/mentor_b2_load_sweep_21.csv"
+    with source.open() as stream:
         sweep = list(csv.DictReader(stream))
     values = {"HILRequests": f"{hil['requests']:,}"}
     for multiplier, name in [("1.2", "SweepPeakGain"), ("1.5", "SweepFinalGain")]:

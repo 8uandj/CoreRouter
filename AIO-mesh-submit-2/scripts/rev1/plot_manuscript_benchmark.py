@@ -1,37 +1,40 @@
 """Render archived paired benchmark effects; no simulated/example data."""
 import os
 os.environ.setdefault('MPLCONFIGDIR', '/tmp/rev1-paper-mpl')
-import glob
+import csv
 import json
 from pathlib import Path
 import matplotlib
 matplotlib.use('Agg')
 import matplotlib.pyplot as plt
 
-ROOT = Path(__file__).resolve().parents[2]
-OUT = ROOT / 'docs/AIO-mesh-rev1/figs'
+_BASE = Path(__file__).resolve().parents[2]
+ROOT = _BASE.parent if _BASE.name == 'AIO-mesh-submit-2' else _BASE
+BUNDLE = _BASE if _BASE.name == 'AIO-mesh-submit-2' else ROOT / 'AIO-mesh-submit-2'
+OUT = BUNDLE / 'docs/AIO-mesh-rev1/figs'
 SCENARIOS = [('elephant_stress', 'Elephant stress'), ('burst_surge', 'Burst surge'), ('chaos', 'Chaos')]
 
 def main():
     OUT.mkdir(parents=True, exist_ok=True)
     plt.rcParams.update({'font.size': 10, 'pdf.fonttype': 42})
     fig, ax = plt.subplots(figsize=(9, 5))
-    sources = []
+    source = BUNDLE / 'docs/AIO-mesh-rev1/evidence/model_refresh_20261120/stress_per_seed_all_topologies.csv'
+    with source.open(newline='') as f: rows = list(csv.DictReader(f))
+    sources = [str(source.relative_to(ROOT))]
     y = 8
     for topo, color in [('vietnam', '#2672a3'), ('nsfnet', '#c45b25'), ('geant2', '#25845b')]:
         for scenario, name in SCENARIOS:
-            if topo == 'geant2':
-                pattern = ROOT / f'results/rev1/geant2/benchmark/current_code_three_workloads/20261117_205637/geant2_{scenario}_stress/paired_statistics.json'
-            else:
-                pattern = ROOT / f'results/rev1/{topo}/benchmark/{scenario}/*/*/paired_statistics.json'
-            paths = glob.glob(str(pattern))
-            if len(paths) != 1:
-                raise ValueError(f'Ambiguous/missing source: {paths}')
-            path = Path(paths[0]); d = json.loads(path.read_text())[0]
-            assert d['n'] == 20
-            ax.errorbar(d['mean_delta'], y, xerr=[[d['mean_delta']-d['ci95_low']], [d['ci95_high']-d['mean_delta']]], fmt='o', color=color, capsize=4)
+            vals={}
+            for policy in ('harp_protected','saf_h_protected'):
+                vals[policy]=[float(r['safe_acceptance_rate']) for r in rows if r['topology']==topo and r['scenario']==scenario and r['algorithm']==policy]
+            diffs=[a-b for a,b in zip(vals['harp_protected'],vals['saf_h_protected'])]
+            if len(diffs)!=20: raise ValueError(f'Expected 20 paired seeds: {topo}/{scenario}')
+            mean=sum(diffs)/len(diffs); rng=__import__('random').Random(20261120+len(sources)*31+y)
+            samples=sorted(sum(diffs[rng.randrange(20)] for _ in range(20))/20 for _ in range(20000))
+            lo,hi=samples[499],samples[19499]
+            ax.errorbar(mean, y, xerr=[[mean-lo], [hi-mean]], fmt='o', color=color, capsize=4)
             ax.text(-2.65, y, f'{topo.upper() if topo != "vietnam" else "Vietnam"}: {name}', va='center', fontsize=9)
-            sources.append(str(path.relative_to(ROOT))); y -= 1
+            y -= 1
     ax.axvline(0, color='0.4', linestyle='--', linewidth=1)
     ax.set_yticks([]); ax.set_xlim(-2.75, 1.3)
     ax.set_xlabel('Acceptance difference: HARP minus SAF-H (percentage points)')

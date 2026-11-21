@@ -1,0 +1,118 @@
+[
+  {
+    "all_zero_differences": false,
+    "ci95_high": 0.009999999999999431,
+    "ci95_low": 0.0,
+    "comparison": "harp_vs_saf_h_protected",
+    "control": "saf_h_protected",
+    "holm_p": 0.0832645166635504,
+    "mean_delta": 0.004999999999999716,
+    "metric": "acceptance_rate",
+    "n": 20,
+    "paired_keys": [
+      [
+        "synthetic_100",
+        "burst_surge",
+        7
+      ],
+      [
+        "synthetic_100",
+        "burst_surge",
+        11
+      ],
+      [
+        "synthetic_100",
+        "burst_surge",
+        17
+      ],
+      [
+        "synthetic_100",
+        "burst_surge",
+        23
+      ],
+      [
+        "synthetic_100",
+        "burst_surge",
+        42
+      ],
+      [
+        "synthetic_100",
+        "burst_surge",
+        47
+      ],
+      [
+        "synthetic_100",
+        "burst_surge",
+        73
+      ],
+      [
+        "synthetic_100",
+        "burst_surge",
+        89
+      ],
+      [
+        "synthetic_100",
+        "burst_surge",
+        100
+      ],
+      [
+        "synthetic_100",
+        "burst_surge",
+        101
+      ],
+      [
+        "synthetic_100",
+        "burst_surge",
+        211
+      ],
+      [
+        "synthetic_100",
+        "burst_surge",
+        314
+      ],
+      [
+        "synthetic_100",
+        "burst_surge",
+        512
+      ],
+      [
+        "synthetic_100",
+        "burst_surge",
+        1024
+      ],
+      [
+        "synthetic_100",
+        "burst_surge",
+        2024
+      ],
+      [
+        "synthetic_100",
+        "burst_surge",
+        2718
+      ],
+      [
+        "synthetic_100",
+        "burst_surge",
+        4096
+      ],
+      [
+        "synthetic_100",
+        "burst_surge",
+        8192
+      ],
+      [
+        "synthetic_100",
+        "burst_surge",
+        8888
+      ],
+      [
+        "synthetic_100",
+        "burst_surge",
+        9999
+      ]
+    ],
+    "paired_rank_biserial": 1.0,
+    "treatment": "harp_protected",
+    "wilcoxon_p": 0.0832645166635504
+  }
+]

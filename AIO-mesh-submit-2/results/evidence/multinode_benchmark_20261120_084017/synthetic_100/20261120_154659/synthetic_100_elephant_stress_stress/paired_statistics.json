@@ -1,0 +1,118 @@
+[
+  {
+    "all_zero_differences": false,
+    "ci95_high": 6.355000000000001,
+    "ci95_low": 6.046666666666668,
+    "comparison": "harp_vs_saf_h_protected",
+    "control": "saf_h_protected",
+    "holm_p": 1.9073486328125e-06,
+    "mean_delta": 6.205,
+    "metric": "acceptance_rate",
+    "n": 20,
+    "paired_keys": [
+      [
+        "synthetic_100",
+        "elephant_stress",
+        7
+      ],
+      [
+        "synthetic_100",
+        "elephant_stress",
+        11
+      ],
+      [
+        "synthetic_100",
+        "elephant_stress",
+        17
+      ],
+      [
+        "synthetic_100",
+        "elephant_stress",
+        23
+      ],
+      [
+        "synthetic_100",
+        "elephant_stress",
+        42
+      ],
+      [
+        "synthetic_100",
+        "elephant_stress",
+        47
+      ],
+      [
+        "synthetic_100",
+        "elephant_stress",
+        73
+      ],
+      [
+        "synthetic_100",
+        "elephant_stress",
+        89
+      ],
+      [
+        "synthetic_100",
+        "elephant_stress",
+        100
+      ],
+      [
+        "synthetic_100",
+        "elephant_stress",
+        101
+      ],
+      [
+        "synthetic_100",
+        "elephant_stress",
+        211
+      ],
+      [
+        "synthetic_100",
+        "elephant_stress",
+        314
+      ],
+      [
+        "synthetic_100",
+        "elephant_stress",
+        512
+      ],
+      [
+        "synthetic_100",
+        "elephant_stress",
+        1024
+      ],
+      [
+        "synthetic_100",
+        "elephant_stress",
+        2024
+      ],
+      [
+        "synthetic_100",
+        "elephant_stress",
+        2718
+      ],
+      [
+        "synthetic_100",
+        "elephant_stress",
+        4096
+      ],
+      [
+        "synthetic_100",
+        "elephant_stress",
+        8192
+      ],
+      [
+        "synthetic_100",
+        "elephant_stress",
+        8888
+      ],
+      [
+        "synthetic_100",
+        "elephant_stress",
+        9999
+      ]
+    ],
+    "paired_rank_biserial": 1.0,
+    "treatment": "harp_protected",
+    "wilcoxon_p": 1.9073486328125e-06
+  }
+]

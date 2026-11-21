@@ -7,9 +7,11 @@ import matplotlib
 matplotlib.use('Agg')
 import matplotlib.pyplot as plt
 
-ROOT = Path(__file__).resolve().parents[2]
-DATA = ROOT / 'results/rev1/load_sweep/current_code_20261117'
-OUT = ROOT / 'docs/AIO-mesh-rev1/figs'
+_BASE = Path(__file__).resolve().parents[2]
+ROOT = _BASE.parent if _BASE.name == 'AIO-mesh-submit-2' else _BASE
+BUNDLE = _BASE if _BASE.name == 'AIO-mesh-submit-2' else ROOT / 'AIO-mesh-submit-2'
+DATA = BUNDLE / 'results/evidence/model_refresh_reruns_20261120_163000/load_chain'
+OUT = BUNDLE / 'docs/AIO-mesh-rev1/figs'
 TOPOLOGIES = [('vietnam', 'Vietnam'), ('nsfnet', 'NSFNET'), ('geant2', 'GEANT2')]
 POLICIES = [
     ('traditional_greedy_protected', 'Greedy', '#457B9D', 'o'),
@@ -20,9 +22,12 @@ POLICIES = [
 LOADS = [0.2, 0.4, 0.6, 0.8, 1.0, 1.2, 1.5]
 
 def read_rows(topo):
-    path = DATA / f'{topo}_load_sweep_per_seed.csv'
-    with path.open(newline='') as f:
-        rows = list(csv.DictReader(f))
+    rows=[]
+    for chains in (0,25,50,100):
+        path = DATA / topo / f'chains_{chains}' / f'{topo}_load_sweep_per_seed.csv'
+        with path.open(newline='') as f:
+            part=list(csv.DictReader(f))
+        if chains == 0: rows.extend(part)
     return rows
 
 def ci(values, seed):
@@ -85,4 +90,4 @@ for topo, name in TOPOLOGIES:
     fig.tight_layout(rect=(0.02, 0.06, 1, 0.88), w_pad=1.2)
     fig.savefig(OUT / f'{topo}_load_sweep.pdf', bbox_inches='tight')
     plt.close(fig)
-print('Generated combined and topology-specific load-sweep PDFs from 20-seed per-seed CSVs.')
+print('Generated combined and topology-specific load-sweep PDFs from refreshed-model 20-seed per-seed CSVs.')

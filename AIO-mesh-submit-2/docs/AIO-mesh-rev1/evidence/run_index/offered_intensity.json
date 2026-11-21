@@ -1,30 +1,90 @@
 {
   "experiment": "offered_intensity",
-  "scope": "File-level evidence index. Refer to run metadata for experiment provenance.",
+  "scope": "Current corrected flat Discrete(N^2) model refresh; immutable original run artifacts indexed by path and SHA-256. Historical pre-refresh entries are retained separately in evidence/historical/.",
   "artifacts": [
     {
-      "path": "docs/AIO-mesh-rev1/evidence/load_sweep/all_modes_per_seed.csv",
+      "path": "results/evidence/model_refresh_reruns_20261120_163000/load_chain/vietnam/chains_0/vietnam_load_sweep_per_seed.csv",
       "kind": "file",
-      "sha256": "8d0b101498aa271f5c3ef64177b74eae83dab00151876cfa4a1de0760b47029e",
-      "recorded_original_sha256": null
+      "sha256": "64c40c722d412177de5a733bdb9cf18a53dc8d2dbe104ab5e0702517e175ad0b",
+      "topology": "vietnam",
+      "initial_active_chains": 0
     },
     {
-      "path": "results/rev1/load_sweep/current_code_20261117/geant2_load_sweep_per_seed.csv",
-      "kind": "missing",
-      "sha256": null,
-      "recorded_original_sha256": "77d238ac9a208cc94b02543be22e3bf56f053c7f59e2927fb993114f86374657"
+      "path": "results/evidence/model_refresh_reruns_20261120_163000/load_chain/vietnam/chains_25/vietnam_load_sweep_per_seed.csv",
+      "kind": "file",
+      "sha256": "9d25b4f7bfe16ec18b9a5439a4cb5ae4761710a4536d57b03f7f3b8092f4728f",
+      "topology": "vietnam",
+      "initial_active_chains": 25
     },
     {
-      "path": "results/rev1/load_sweep/current_code_20261117/nsfnet_load_sweep_per_seed.csv",
-      "kind": "missing",
-      "sha256": null,
-      "recorded_original_sha256": "298f2e1ccadc2f420018b9c7577098da52729fbeae883e1618b270cdc65dce1a"
+      "path": "results/evidence/model_refresh_reruns_20261120_163000/load_chain/vietnam/chains_50/vietnam_load_sweep_per_seed.csv",
+      "kind": "file",
+      "sha256": "434110f2b8b223427a8dcebd403cb3b012bd1c3484a356ebff7e1b483f9153e0",
+      "topology": "vietnam",
+      "initial_active_chains": 50
     },
     {
-      "path": "results/rev1/load_sweep/current_code_20261117/vietnam_load_sweep_per_seed.csv",
-      "kind": "missing",
-      "sha256": null,
-      "recorded_original_sha256": "15e778b0b276f6c4a3ec8278a3da6dbc8ed3770ae2e306a55e6fa4d9ea0ecf4e"
+      "path": "results/evidence/model_refresh_reruns_20261120_163000/load_chain/vietnam/chains_100/vietnam_load_sweep_per_seed.csv",
+      "kind": "file",
+      "sha256": "4c6a9e67bf880be9d823aa56d9c517ff488bc2801e1b34a1229f5d02c64f644c",
+      "topology": "vietnam",
+      "initial_active_chains": 100
+    },
+    {
+      "path": "results/evidence/model_refresh_reruns_20261120_163000/load_chain/nsfnet/chains_0/nsfnet_load_sweep_per_seed.csv",
+      "kind": "file",
+      "sha256": "df19ec523d8570fef7a50c5f446c49f80507096832ced58a819e8a9acd3a69cb",
+      "topology": "nsfnet",
+      "initial_active_chains": 0
+    },
+    {
+      "path": "results/evidence/model_refresh_reruns_20261120_163000/load_chain/nsfnet/chains_25/nsfnet_load_sweep_per_seed.csv",
+      "kind": "file",
+      "sha256": "c3f7f07d4fa036afe4ee761688310e81fa3976f1f93505d9d818c49105ad0a56",
+      "topology": "nsfnet",
+      "initial_active_chains": 25
+    },
+    {
+      "path": "results/evidence/model_refresh_reruns_20261120_163000/load_chain/nsfnet/chains_50/nsfnet_load_sweep_per_seed.csv",
+      "kind": "file",
+      "sha256": "18209e39c32efbbc20a44a5fc1be736d89ae168ea73e88d694be4d20f378e73f",
+      "topology": "nsfnet",
+      "initial_active_chains": 50
+    },
+    {
+      "path": "results/evidence/model_refresh_reruns_20261120_163000/load_chain/nsfnet/chains_100/nsfnet_load_sweep_per_seed.csv",
+      "kind": "file",
+      "sha256": "23aee302427fca13979aa2a64530d6e292551323f806d01b4c4a0e6649028aae",
+      "topology": "nsfnet",
+      "initial_active_chains": 100
+    },
+    {
+      "path": "results/evidence/model_refresh_reruns_20261120_163000/load_chain/geant2/chains_0/geant2_load_sweep_per_seed.csv",
+      "kind": "file",
+      "sha256": "a5c4be85c9a6e3833be71366631ba20ac2a49500fd0ab965cd2132edb893815f",
+      "topology": "geant2",
+      "initial_active_chains": 0
+    },
+    {
+      "path": "results/evidence/model_refresh_reruns_20261120_163000/load_chain/geant2/chains_25/geant2_load_sweep_per_seed.csv",
+      "kind": "file",
+      "sha256": "6ade47bc2877b11f9988212d8ad6daccc7a49a678a75d4c91208b13813debd59",
+      "topology": "geant2",
+      "initial_active_chains": 25
+    },
+    {
+      "path": "results/evidence/model_refresh_reruns_20261120_163000/load_chain/geant2/chains_50/geant2_load_sweep_per_seed.csv",
+      "kind": "file",
+      "sha256": "5fa6de04f92d46ad00526cee6c9f15c642bd4f78058ea999ec9e00d54c4a0de3",
+      "topology": "geant2",
+      "initial_active_chains": 50
+    },
+    {
+      "path": "results/evidence/model_refresh_reruns_20261120_163000/load_chain/geant2/chains_100/geant2_load_sweep_per_seed.csv",
+      "kind": "file",
+      "sha256": "63c7e23177aa7e326d902b5a7baaf7e2a28237bed7904a1db284f87256bc3420",
+      "topology": "geant2",
+      "initial_active_chains": 100
     }
   ]
 }

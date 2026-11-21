@@ -25,13 +25,23 @@ writing here after this package was created.
 - `provenance/`: source commit/branch/dirty-state, included-file index, current
   source diff, Python/runtime package versions, and package lock.
 
-## Evidence status at packaging
+## Refreshed evidence status
 
-The benchmark sessions and model-refresh reruns were active at package time.
-Their log files were moved without stopping the processes; subsequent CSV,
-JSON, and manifest writes are directed into this bundle through the workspace
-compatibility symlink. Regenerate the hash inventory after all sessions finish
-with `python3 scripts/rev1/refresh_submission_manifest.py`.
+The six-topology N² stress benchmarks and the refreshed-model load, background-
+chain, and pair-oracle reruns are complete. Manuscript-facing tables and figures
+were regenerated from the retained per-seed CSVs by
+`python3 scripts/rev1/summarize_model_refresh_evidence.py`,
+`python3 scripts/rev1/plot_manuscript_benchmark.py`, and
+`python3 scripts/rev1/plot_manuscript_load_sweeps.py`. Source CSV hashes are
+recorded under `docs/AIO-mesh-rev1/evidence/model_refresh_20261120/`; run
+manifests retain checkpoint and normalizer hashes and run commands. The
+dedicated serialized decision-cost paragraph is explicitly identified in the
+manuscript as a separate measurement that was not rerun with the corrected
+checkpoints. HIL remains on the separate testbed and has not been refreshed by
+these simulator jobs.
+
+Refresh `FILE_SHA256SUMS` after evidence changes with
+`python3 scripts/rev1/refresh_submission_manifest.py`.
 
 The HIL/testbed machine is separate. No HIL logs or measurements are claimed
 or included as if they were present on this server. Unrelated repository utilities, old manuscript snapshots, generated
