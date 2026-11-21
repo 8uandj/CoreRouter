@@ -1,0 +1,36 @@
+2026-11-21 23:16:29,849 [INFO] Running HARP ablation on topology=nsfnet scenario=chaos steps=3000
+2026-11-21 23:16:29,849 [INFO] Default full model path is recorded only for metadata: results/models/v11/dgrl_v11_final_nsfnet.zip
+/dis/users/dcs/CoreRouter/venv/lib64/python3.9/site-packages/stable_baselines3/common/save_util.py:167: UserWarning: Could not deserialize object learning_rate. Consider using `custom_objects` argument to replace this object.
+Exception: code() takes at most 16 arguments (18 given)
+  warnings.warn(
+/dis/users/dcs/CoreRouter/venv/lib64/python3.9/site-packages/stable_baselines3/common/save_util.py:167: UserWarning: Could not deserialize object lr_schedule. Consider using `custom_objects` argument to replace this object.
+Exception: code() takes at most 16 arguments (18 given)
+  warnings.warn(
+/dis/users/dcs/CoreRouter/venv/lib64/python3.9/site-packages/networkx/utils/backends.py:135: RuntimeWarning: networkx backend defined more than once: nx-loopback
+  backends.update(_get_backends("networkx.backends"))
+/dis/users/dcs/CoreRouter/venv/lib64/python3.9/site-packages/stable_baselines3/common/save_util.py:167: UserWarning: Could not deserialize object learning_rate. Consider using `custom_objects` argument to replace this object.
+Exception: code() takes at most 16 arguments (18 given)
+  warnings.warn(
+/dis/users/dcs/CoreRouter/venv/lib64/python3.9/site-packages/stable_baselines3/common/save_util.py:167: UserWarning: Could not deserialize object lr_schedule. Consider using `custom_objects` argument to replace this object.
+Exception: code() takes at most 16 arguments (18 given)
+  warnings.warn(
+2026-11-21 23:16:33,737 [INFO] seed=7 HARP full uses variant_checkpoint:results/models/ablation/harp_full/dgrl_v11_harp_full_nsfnet.zip
+2026-11-21 23:16:47,332 [INFO] seed=7 HARP w/o GAT uses variant_checkpoint:results/models/ablation/harp_wo_gat/dgrl_v11_harp_wo_gat_nsfnet.zip
+2026-11-21 23:16:55,662 [INFO] seed=7 HARP w/o hard masking uses variant_checkpoint:results/models/ablation/harp_wo_hard_masking/dgrl_v11_harp_wo_hard_masking_nsfnet.zip
+2026-11-21 23:17:08,389 [INFO] seed=7 HARP w/o mask + unchecked admission uses variant_checkpoint:results/models/ablation/harp_wo_hard_masking/dgrl_v11_harp_wo_hard_masking_nsfnet.zip (reused for harp_wo_mask_unchecked)
+2026-11-21 23:17:16,515 [INFO] seed=7 HARP with soft MSD penalty uses variant_checkpoint:results/models/ablation/harp_soft_msd_penalty/dgrl_v11_harp_soft_msd_penalty_nsfnet.zip
+2026-11-21 23:17:23,422 [INFO] seed=7 Soft MSD + runtime admission uses variant_checkpoint:results/models/ablation/harp_soft_msd_penalty/dgrl_v11_harp_soft_msd_penalty_nsfnet.zip (reused for harp_soft_msd_admission)
+2026-11-21 23:17:30,411 [INFO] seed=7 HARP w/o adaptive penalty uses variant_checkpoint:results/models/ablation/harp_wo_adaptive_penalty/dgrl_v11_harp_wo_adaptive_penalty_nsfnet.zip
+2026-11-21 23:17:39,204 [INFO] Saved results/evidence/completion_20261121/reruns/ablation/nsfnet/chaos/harp_ablation_summary.csv and results/evidence/completion_20261121/reruns/ablation/nsfnet/chaos/harp_ablation_results.json
+
+==============================================================================================================
+Variant                              |  Accept |    Safe | MSD try | MSD admit |     SLA |  Latency |   Reward
+==============================================================================================================
+HARP full                            |   51.4% |   51.4% |    0.0% |      0.0% |    0.0% |    2.19 |     19.7
+HARP w/o GAT                         |   52.2% |   52.2% |    0.0% |      0.0% |    0.0% |    3.30 |     20.4
+HARP w/o hard masking                |   26.0% |   26.0% |    0.0% |      0.0% |    0.0% |    2.37 |      6.9
+HARP w/o mask + unchecked admission  |   26.0% |   26.0% |    0.0% |      0.0% |    0.0% |    2.37 |      6.9
+HARP with soft MSD penalty           |   39.0% |   39.0% |    0.0% |      0.0% |    0.0% |    2.18 |     20.7
+Soft MSD + runtime admission         |   39.0% |   39.0% |    0.0% |      0.0% |    0.0% |    2.18 |     20.7
+HARP w/o adaptive penalty            |   51.9% |   51.9% |    0.0% |      0.0% |    0.0% |    2.16 |     45.1
+==============================================================================================================

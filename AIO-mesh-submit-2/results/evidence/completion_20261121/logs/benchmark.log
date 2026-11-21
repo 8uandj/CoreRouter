@@ -1,0 +1,16 @@
+/dis/users/dcs/CoreRouter/venv/lib64/python3.9/site-packages/networkx/utils/backends.py:135: RuntimeWarning: networkx backend defined more than once: nx-loopback
+  backends.update(_get_backends("networkx.backends"))
+Running topology=vietnam scenario=burst_surge env=bursty load=stress
+  completed seed=42 (1/1)
+  seed=42
+    traditional_greedy_protected: accept=58.9% msd=0.0% sla=0.0% lat=3.52ms reward=28.1
+    cspf_protected: accept=56.0% msd=0.0% sla=0.0% lat=4.25ms reward=23.9
+    saf_h_protected: accept=58.6% msd=0.0% sla=0.0% lat=0.62ms reward=21.5
+    decoupled_ai_protected: accept=58.9% msd=0.0% sla=0.1% lat=4.49ms reward=26.7
+    harp_protected: accept=57.2% msd=0.0% sla=0.0% lat=5.30ms reward=25.0
+    traditional_greedy_unprotected: accept=100.0% msd=0.5% sla=0.0% lat=8.31ms reward=71.8
+    cspf_unprotected: accept=100.0% msd=0.0% sla=0.0% lat=7.53ms reward=76.2
+    saf_h_unprotected: accept=100.0% msd=0.7% sla=0.0% lat=5.98ms reward=54.6
+    decoupled_ai_unprotected: accept=100.0% msd=0.7% sla=2.3% lat=9.17ms reward=75.1
+    harp_unprotected: accept=100.0% msd=0.0% sla=0.0% lat=4.03ms reward=85.5
+Saved algorithm benchmark outputs to results/evidence/completion_20261121/reruns/benchmark/20261121_231630

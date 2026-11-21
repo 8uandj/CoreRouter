@@ -1,0 +1,8 @@
+{
+  "input": "docs/AIO-mesh-rev1/evidence/model_refresh_20261120/stress_per_seed_all_topologies.csv",
+  "input_sha256": "cd65885a4f09e15ac3583bc6831bc0f917b93b24243006c7338bc5a0955fcd4e",
+  "bootstrap_replicates": 20000,
+  "holm": "separate 9-cell real and 9-cell synthetic families",
+  "timing_scope": "means of seed-level p95 values; benchmark runs executed concurrently; components may overlap and cannot be added into p95",
+  "caveat": "baseline chosen on same data; results exploratory, selection not accounted for"
+}

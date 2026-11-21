@@ -1,8 +1,8 @@
 {
   "generator": "scripts/rev1/summarize_model_refresh_evidence.py",
-  "generator_sha256": "7b06961ee24667a92ee60b1bdc8d9f6052815bbe77468f0308dd55af240b9ce5",
+  "generator_sha256": "84f49e86f49bedd989ec51b04bb9bc46436d2ffd12ecd1be1e9a1a8f76428019",
   "command": "python3 scripts/rev1/summarize_model_refresh_evidence.py",
-  "repository_commit": "3356d89fdbfefee7ffd1544374da39efd793a880",
+  "repository_commit": "6c964c1c875a6f3756a57902237b1c90d7edf304",
   "stress_launch_manifest": "results/evidence/multinode_benchmark_20261120_084017/launch_manifest.json",
   "refresh_launch_manifest": "results/evidence/model_refresh_reruns_20261120_163000/launch_manifest.json",
   "inputs_sha256": {
@@ -37,11 +37,12 @@
     "load_sweep_paired_statistics.csv": "682674cd5660800ce4c14e4bde9efeb37f5027c18e8b88aaac7c4e44d94cb577",
     "load_sweep_summary.csv": "6b2883307ff088b5072e71354c2b7f5256e9f88786c1eec13b29030bad7b41f2",
     "load_sweep_table_rows.tex": "eba5496e8dfa26019de7d89d8170590e6a1ece0f33119e17d01c0f447ed514f1",
-    "pair_oracle_summary.csv": "b3f5d6c48d203dacea587bd3d053d5231189ecab58d9303c159d756ac9689da1",
+    "pair_oracle_summary.csv": "52363e3042316ceeca2af0844e0d9cfa635cbcd06afbb49ad575c3e986262fc9",
     "stress_paired_statistics.csv": "9e0f8360cd08ceccadf2b708fb900ec7cf4732c5a9275b64022ae7bcfaf9d145",
     "stress_per_seed_all_topologies.csv": "cd65885a4f09e15ac3583bc6831bc0f917b93b24243006c7338bc5a0955fcd4e",
     "stress_summary.csv": "598c2914614f4ded8952759f32096c627b4f968863aad901e71b85ccc96b5bf5",
-    "stress_table_rows.tex": "8258f04363e50ce8291e9c0671c72613b503f17b204923fb51ef4e602a1dba7b"
+    "stress_table_rows.tex": "8258f04363e50ce8291e9c0671c72613b503f17b204923fb51ef4e602a1dba7b",
+    "synthetic_stress_table_rows.tex": "ac6cc0b6ecf6016dfc279d96c52898aaa90a6bebb10cbd166cc0f449ece5d26d"
   },
   "analysis": {
     "seed_aggregation": "arithmetic mean and sample SD",

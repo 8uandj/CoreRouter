@@ -97,6 +97,15 @@ def main():
         vals=[(r'\textbf{'+m+r'}' if i==best else m)+r' $\pm$ '+sd for i,(m,sd) in enumerate(cells)]
         lines.append(names[t]+' & '+codes[sc]+' & '+' & '.join(vals)+r' \\')
     (OUT/"stress_table_rows.tex").write_text('\n'.join(lines)+'\n')
+    lines=[]
+    for n in (25,50,100):
+      for sc in SCENARIOS:
+        vals=[]
+        for p in POLICIES:
+          z=next(x for x in stress_summary if x['topology']==f'synthetic_{n}' and x['scenario']==sc and x['algorithm']==p+'_protected')
+          vals.append(f"{z['mean']:.2f} $\\pm$ {z['sample_sd']:.2f}")
+        lines.append(f"{n} & {codes[sc]} & "+' & '.join(vals)+r' \\')
+    (OUT/"synthetic_stress_table_rows.tex").write_text('\n'.join(lines)+'\n')
 
     load=[]; chain=[]
     for t in ('vietnam','nsfnet','geant2'):
@@ -194,7 +203,7 @@ def main():
        if len(rr)!=10: raise RuntimeError(f"oracle seeds {t}/{policy}: {len(rr)}")
        selected=sum(int(r['selected_rejections']) for r in rr)
        alternatives=sum(int(r['selected_rejections_with_feasible_alternative']) for r in rr)
-       rates=[float(r['avoidable_rejection_rate_pct']) for r in rr]
+       rates=[100*int(r['selected_rejections_with_feasible_alternative'])/int(r['selected_rejections']) for r in rr if int(r['selected_rejections'])]
        oracle_rows.append(dict(topology=t,policy=policy,n_seeds=len(rr),sampled_states=sum(int(r['sampled_decisions']) for r in rr),
          selected_rejections=selected,with_accepted_alternative=alternatives,
          conditional_rate_mean_pct=statistics.mean(rates),conditional_rate_sample_sd_pct=statistics.stdev(rates),

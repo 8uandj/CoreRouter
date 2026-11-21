@@ -898,7 +898,7 @@ Variant & CPU & RAM & BW & MSD & Union & Admitted \\
 \begin{figure*}[t]
 \centering
 \includegraphics[width=0.97\textwidth]{figs/load_sweep_three_topologies.pdf}
-\caption{\newrev{Offered-intensity sweep across Vietnam, NSFNET, and GEANT2. Left panel shows mean safe acceptance over 20 seeds. The right panel shows paired differences from SAF-H with shaded bootstrap 95\% intervals. The offered-intensity multiplier changes arrival probability up to 1.0 and scales demand, requested SID depth, and TTL above 1.0; this is not a pure arrival-rate sweep. All protected admitted hard-violation rates were zero.}}
+\caption{\newrev{Offered-intensity sweep across Vietnam, NSFNET, and GEANT2. Left panel shows mean safe acceptance over 20 seeds. The right panel shows runtime rejection rates with bootstrap 95\% intervals. The offered-intensity multiplier changes arrival probability up to 1.0 and scales demand, requested SID depth, and TTL above 1.0; this is not a pure arrival-rate sweep. All protected admitted hard-violation rates were zero.}}
 \label{fig:load_sweep}
 \end{figure*}
 
@@ -924,7 +924,7 @@ Network & Load & Greedy & DAI & SAF-H & HARP \\
 
 \newrev{Acceptance is substantially higher under the shorter, topology-scaled TTL protocol than in the three-workload stress benchmark. The favorable sweep results therefore identify a workload regime in which HARP improves safe acceptance relative to SAF-H; they do not establish an advantage under long-lived stress traffic or explain individual rejections as globally infeasible.}
 
-\newrev{To quantify rejected choices with feasible alternatives, we exhaustively evaluated the simulator's complete 10-node pair-action space at sampled decision states. For each of 10 seeds, 120 states were sampled at a stride of 25 from a 3,000-step Bursty run. Every one of the 100 placement--routing pairs was replayed from the same pre-decision snapshot through the simulator step, including its TTL-expiration phase before admission. In the refreshed Vietnam run, HARP selected a rejected action at 583/1,200 sampled states; 30 had an alternative accepted by the same simulator predicate. The per-seed rate of such alternatives among HARP's selected rejections averaged 2.50\% (sample SD 0.88\%). SAF-H had 579/1,200 selected rejections, of which 33 had an accepted alternative; the corresponding mean was 2.75\% (sample SD 1.11\%). These descriptive rates do not use sampled decisions as independent replicates; policy trajectories also differ. They identify avoidable choices in the simulator's pair space, not live-network or full-chain feasibility.}
+\newrev{To quantify rejected choices with feasible alternatives, we exhaustively evaluated the simulator's complete 10-node pair-action space at sampled decision states. For each of 10 seeds, 120 states were sampled at a stride of 25 from a 3,000-step Bursty run. Every one of the 100 placement--routing pairs was replayed from the same pre-decision snapshot through the simulator step, including its TTL-expiration phase before admission. In the refreshed Vietnam run, HARP selected a rejected action at 583/1,200 sampled states; 30 had an alternative accepted by the same simulator predicate. The per-seed rate of such alternatives among HARP's selected rejections averaged 5.16\% (sample SD 1.84\%). SAF-H had 579/1,200 selected rejections, of which 33 had an accepted alternative; the corresponding mean was 5.70\% (sample SD 2.32\%). These descriptive rates do not use sampled decisions as independent replicates; policy trajectories also differ. They identify avoidable choices in the simulator's pair space, not live-network or full-chain feasibility.}
 
 \begin{table*}[t]
 \centering
@@ -938,8 +938,8 @@ Network & Load & Greedy & DAI & SAF-H & HARP \\
 \toprule
 Policy & Sampled states & Selected rejections & With accepted alternative & Conditional rate (\%; mean $\pm$ SD) \\
 \midrule
-HARP & 1,200 & 583 & 30 & 2.50 $\pm$ 0.88 \\
-SAF-H & 1,200 & 579 & 33 & 2.75 $\pm$ 1.11 \\
+HARP & 1,200 & 583 & 30 & 5.16 $\pm$ 1.84 \\
+SAF-H & 1,200 & 579 & 33 & 5.70 $\pm$ 2.32 \\
 \bottomrule
 \end{tabular}%
 }}
@@ -976,6 +976,21 @@ GEANT2 & 100 & 99.79 $\pm$ 0.08 & 97.69 $\pm$ 0.18 \\
 }
 \end{table}
 }
+
+\newrev{We additionally evaluated the size-matched HARP checkpoints on synthetic 25-, 50-, and 100-node topologies. Table~\ref{tab:synthetic_stress} reports safe acceptance in the same three stress workloads, with 20 evaluation seeds and 3,000 offered requests per seed. These fixed-checkpoint simulator results quantify workload-specific acceptance; they do not measure independent training variability or physical deployment.}
+\begin{table*}[t]
+\centering
+\caption{Protected safe acceptance on synthetic topologies (percent; mean $\pm$ sample SD across 20 seeds). E, B, and C denote Elephant stress, Burst surge, and Chaos.}
+\label{tab:synthetic_stress}
+\scriptsize
+\begin{tabular}{llrrrrr}
+\toprule
+Nodes & Profile & Greedy & DAI & SAF-H & CSPF & HARP \\
+\midrule
+\input{evidence/model_refresh_20261120/synthetic_stress_table_rows.tex}
+\bottomrule
+\end{tabular}
+\end{table*}
 
 \subsection{\newrev{Decision Cost and Topology Scaling}}
 \label{subsec:decision_cost}
@@ -1014,7 +1029,7 @@ Nodes & Links & Pair actions ($N^2$) & Feasible-set P50 (ms) & Feasible-set P95 
 
 \subsection{\newrev{Operational Interpretation, Overhead, and Limitations}}
 \label{subsec:operational_interpretation}
-\newrev{The policy comparison depends on the resource-pressure regime. SAF-H achieves higher acceptance in all six Vietnam and NSFNET stress conditions, and in GEANT2 Chaos; HARP improves GEANT2 Burst-surge acceptance by 0.963 percentage points, while the Elephant-stress difference is inconclusive. Under the shorter-lifetime load-sweep protocol, the refreshed model comparisons show higher HARP mean safe acceptance than SAF-H at intensities 1.0--1.5 on all three substrates. The background-occupancy experiment is reported from the same refreshed model family. The background-occupancy experiment also favors HARP within its protocol. Together, these findings support workload-specific policy selection within a common admission interface.}
+\newrev{The policy comparison depends on the resource-pressure regime. SAF-H achieves higher acceptance in all six Vietnam and NSFNET stress conditions, and in GEANT2 Chaos; HARP improves GEANT2 Burst-surge acceptance by 0.808 percentage points, while the Elephant-stress difference is inconclusive. Under the shorter-lifetime load-sweep protocol, the refreshed model comparisons show higher HARP mean safe acceptance than SAF-H at intensities 1.0--1.5 on all three substrates. The background-occupancy experiment also favors HARP within its protocol. Together, these findings support workload-specific policy selection within a common admission interface.}
 
 \newrev{Acceptance gains must also be weighed against computation. In the Vietnam ablation, the MLP variant achieves slightly higher mean safe acceptance and lower mean seed-level decision P95 than the full GAT policy under both Uniform and Bursty traffic (Figure~\ref{fig:ablation_cost}). In the controlled HARP--SAF-H comparison, HARP's mean decision P95 was 4.3 times SAF-H's, while the HARP policy-inference component alone averaged 1.617~ms at P95. Thus the load-sweep acceptance gains have a measurable local computation cost, and the evidence supports a workload-dependent acceptance--cost tradeoff rather than a general efficiency advantage. The common admission boundary permits either policy to be selected without assigning the enforcement outcome to that policy.}
 
