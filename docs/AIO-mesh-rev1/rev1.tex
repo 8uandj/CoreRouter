@@ -997,6 +997,58 @@ Network & Profile & Baseline & $\Delta$ & 95\% CI & $p_H$ & $n_{eff}$ \\
 
 \newrev{Table~\ref{tab:best_baseline_exploratory} compares HARP with the strongest protected baseline in each real-topology workload cell. This comparison is exploratory because the baseline is selected using the same evaluation seeds; the interval and corrected $p$ values do not account for selection.}
 
+\newrev{A further audit follows the corrected HARP checkpoint over 20 Bursty stress seeds per topology and cross-tabulates pre-decision mask emptiness with the subsequent admission outcome (Table~\ref{tab:mask_ttl_audit}). No rejection occurred when the mask was nonempty in these 180,000 offered decisions. The mask is computed before the simulator advances TTL; when the same state is inspected after pending expiry, some previously empty masks contain feasible pairs. This counterfactual does not change the executed action or establish the outcome of a post-expiry policy.}
+\begin{table}[t]
+\centering
+\caption{Pre-step mask and admission audit: 20 seeds and 60,000 decisions per topology. Last column counts empty masks becoming nonempty after pending TTL expiry.}
+\label{tab:mask_ttl_audit}
+\scriptsize
+\resizebox{\columnwidth}{!}{%
+\begin{tabular}{lrrrr}
+\toprule
+Network & Empty & Rejected, empty & Rejected, nonempty & Empty $\rightarrow$ nonempty \\
+\midrule
+\input{evidence/mentor_completion_20261121/mask_table.tex}
+\bottomrule
+\end{tabular}}
+\end{table}
+
+\newrev{To check the repeated Bursty trace limitation, a supplementary experiment offsets the input dataset by a seed-dependent amount while retaining the same Bursty schedule. All five protected policies share the offered trace within each seed; results cover 20 seeds per topology, and the same intervention was evaluated over the load and background-chain protocols. These are additional simulator workloads and do not estimate variation across independent policy training runs. In this seed-offset stress comparison, mean safe acceptance for HARP and SAF-H was 57.37\% and 58.75\% on Vietnam, 67.55\% and 68.47\% on NSFNET, and 80.42\% and 79.70\% on GEANT2, respectively.}
+
+\newrev{For SAF-H weight sensitivity, we doubled each of the latency, CPU-utilization, and hop coefficients separately, keeping the other coefficients fixed. Across these four settings, mean safe acceptance ranged from 92.67--92.72\% on Vietnam, 92.95\% on NSFNET, and 93.32\% on GEANT2 at intensity 1.2; at intensity 1.5, the corresponding ranges were 84.47--84.65\%, 84.68--84.72\%, and 85.01--85.08\%. These exploratory ranges use 20 matched seeds and do not establish robustness to all weight choices.}
+
+\newrev{We also evaluated the existing Full and MLP ablation checkpoints on a symmetric three-nearest-neighbour adjacency constructed from pair latency. Table~\ref{tab:sparse_gat_mlp} reports matched-seed safe acceptance. The GAT adjacency is replaced at evaluation time; the policies were not retrained on this graph. The adjacency is synthetic, and the simulator does not establish physical multihop forwarding.}
+\begin{table}[t]
+\centering
+\caption{Full GAT versus MLP under synthetic sparse adjacency (20 matched Bursty seeds; safe acceptance percent, paired difference in percentage points with 95\% bootstrap CI).}
+\label{tab:sparse_gat_mlp}
+\scriptsize
+\resizebox{\columnwidth}{!}{%
+\begin{tabular}{lrrrr}
+\toprule
+Network & Full & MLP & Difference & 95\% CI \\
+\midrule
+\input{evidence/mentor_completion_20261121/sparse_table.tex}
+\bottomrule
+\end{tabular}}
+\end{table}
+
+\newrev{We extended the sampled pair oracle to offered intensities 1.2 and 1.5 across the three topologies (Table~\ref{tab:oracle_load_followup}). Each policy uses ten seeds and 120 sampled decisions per seed. Accepted alternatives are conditional on the simulator snapshot and TTL-expiry transition; the policies may follow different trajectories.}
+\begin{table}[t]
+\centering
+\caption{Sampled pair oracle for the offered-intensity protocol. Counts aggregate ten seeds; sampled states are not independent replications.}
+\label{tab:oracle_load_followup}
+\scriptsize
+\resizebox{\columnwidth}{!}{%
+\begin{tabular}{llrrrr}
+\toprule
+Network & Load & Policy & States & Rejected & With alternative \\
+\midrule
+\input{evidence/mentor_completion_20261121/oracle_table.tex}
+\bottomrule
+\end{tabular}}
+\end{table}
+
 \subsection{\newrev{Decision Cost and Topology Scaling}}
 \label{subsec:decision_cost}
 \newrev{A separate serialized, same-process Vietnam policy-decision timing study used the Bursty workload, 10 matched seeds, and 3,000 steps per seed. Its timing artifact is not part of the refreshed-model reruns, so the values below are retained as a separate historical measurement and are not attributed to the corrected N² checkpoint. Per-seed offered-trace hashes matched exactly between HARP and SAF-H. After one excluded warm-up run per policy, execution order alternated across seeds. Mean seed-level decision P50/P95/P99 was 1.925/2.131/2.481~ms for HARP and 0.339/0.494/0.527~ms for SAF-H; HARP's P95 was 1.637~ms higher (4.3$\times$). HARP's mean seed-level policy-inference P95 was 1.617~ms. For SAF-H, feasible-set construction and heuristic selection had mean seed-level P95 values of 0.062 and 0.133~ms. The measured simulator runners processed 537 and 3,282 offered decisions per second, respectively, calculated from completed simulator decisions and run wall time. The decision intervals include the simulator step and exclude live telemetry transport, controller handoff, deployment, readiness, and steering.}
@@ -1056,7 +1108,7 @@ Nodes & Links & Pair actions ($N^2$) & Feasible-set P50 (ms) & Feasible-set P95 
 
 \newrev{Appendix Table~\ref{tab:stress_qos} reports service latency and SLA outcomes for HARP and SAF-H by workload. Across the nine stress conditions, mean seed-level simulated service latency is 5.85--12.17~ms for HARP and 0.32--0.62~ms for SAF-H; mean seed-level SLA-violation rates are approximately 0.20--4.75\% and zero, respectively. These quantities describe the requests admitted by each policy, whose composition may differ. SAF-H may choose the same node for placement and routing. HARP also permits that pair but its reward includes a bonus for distinct endpoints. They provide no evidence of a HARP service-latency advantage in these conditions and are distinct from policy-computation timing.}
 
-\newrev{Simulation uses complete latency-derived graphs, synthetic workloads, and fixed checkpoints, with no estimate of variability across independent training runs. The load and occupancy studies reuse one Bursty offered trace. MSD violations were infrequent among simulator proposals. The multilayer perceptron (MLP) was sufficient for the evaluated Vietnam ablations, and graph attention may behave differently on sparse graphs. Scaling measurements on synthetic grids cover SAF-H. The software testbed uses BMv2, and the control-plane run sampled existing Kubernetes workloads without invoking deployment or migration. Deployment latency, make-before-break behavior, and transitions between Hybrid modes therefore remain separate evaluation questions.}
+\newrev{Simulation uses complete latency-derived graphs, synthetic workloads, and fixed checkpoints, with no estimate of variability across independent training runs. The primary load and occupancy studies reuse one Bursty offered trace; the supplementary seed-offset intervention covers trace variation. MSD violations were infrequent among simulator proposals. The multilayer perceptron (MLP) was sufficient for the evaluated Vietnam ablations, and graph attention may behave differently on sparse graphs. Synthetic-grid results include HARP and SAF-H; timing from concurrent benchmark runs is not isolated. The software testbed uses BMv2, and the control-plane run sampled existing Kubernetes workloads without invoking deployment or migration. Deployment latency, make-before-break behavior, and transitions between Hybrid modes therefore remain separate evaluation questions.}
 
 \section{Conclusion}
 \label{sec:conclusion}
