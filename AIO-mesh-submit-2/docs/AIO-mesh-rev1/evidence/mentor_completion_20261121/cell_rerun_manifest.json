@@ -1,0 +1,11 @@
+{
+  "inputs_sha256": {
+    "results/evidence/completion_20261121/reruns/benchmark/20261121_231630/all_seed_summary.csv": "02534802b058ab4fab423259378ea7159026c791fe074a84a6795e345f0970ef",
+    "results/evidence/multinode_benchmark_20261120_084017/vietnam/20261120_154021/all_seed_summary.csv": "2c5dcea248ea33b7aa1b43a477f8327ed6faa94296c57a0e1b1a04e7c9508dc8",
+    "results/evidence/completion_20261121/reruns/ablation/nsfnet/chaos/harp_ablation_summary.csv": "2c1fe67f8f0a9402376796277752829d2e3ddbfa396f550eb5405546eefe75f2",
+    "results/rev1/e3_timed/nsfnet/chaos/harp_ablation_summary.csv": "8ea8bcbe9c51f590756b1d7267716f5e6ba126b8bc065d908201fdf9f789f723",
+    "results/evidence/completion_20261121/reruns/load/load_geant2_1.2_2024.csv": "c3d83a3692123eb0a3e82098b4af17354f0d6caea5b3c5cc101de05f9575f23f",
+    "results/evidence/model_refresh_reruns_20261120_163000/load_chain/geant2/chains_0/geant2_load_sweep_per_seed.csv": "a5c4be85c9a6e3833be71366631ba20ac2a49500fd0ab965cd2132edb893815f"
+  },
+  "note": "compares safe acceptance, offered trace and ablation policy source only; timing and other metrics are not asserted identical"
+}

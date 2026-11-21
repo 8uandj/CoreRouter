@@ -1,0 +1,7 @@
+{
+  "source": "docs/AIO-mesh-rev1/evidence/model_refresh_20261120/stress_per_seed_all_topologies.csv",
+  "source_sha256": "cd65885a4f09e15ac3583bc6831bc0f917b93b24243006c7338bc5a0955fcd4e",
+  "script_sha256": "2ff8a58b782ab822f3b4f73d9d116ef172a63fced4c1cf76703b0d9975f2881a",
+  "qos_denominator": "per-seed admitted requests; seed-level mean then arithmetic mean across 20 seeds",
+  "violation_denominator": "offered non-skipped requests; constraint categories overlap; union is unique admitted hard violation"
+}

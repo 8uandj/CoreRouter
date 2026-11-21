@@ -31,3 +31,7 @@ See [the November 19 rerun report](docs/AIO-mesh-rev1/evidence/rerun_report.md).
 ## Overleaf
 
 Upload the contents of `docs/AIO-mesh-rev1/` preserving `figs/`, `generated/` and `evidence/load_sweep/`. Select `rev1.tex` for the green-marked manuscript or `rev_clean.tex` for the clean manuscript. For the response letter, include the same `generated/numbers.tex` alongside the letter under `generated/`. The shared preamble also supports the repository layout with the response in `docs/`. These instructions leave PDF generation to Overleaf. No DOI deposit has been made. The current [FGCS author guide](https://www.sciencedirect.com/journal/future-generation-computer-systems/publish/guide-for-authors) returned HTTP 403 during inspection and should be confirmed from the submission portal.
+
+## Latest non-HIL reconciliation
+
+See [non-HIL status](docs/AIO-mesh-rev1/evidence/mentor_completion_20261121/NON_HIL_STATUS.md) for updated QoS, unprotected stress and three cell-rerun generators, together with remaining evidence gaps. Independent retraining and evaluation continue to write to `results/evidence/mentor_completion_20261121/independent_training/`.

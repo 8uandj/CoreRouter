@@ -1,0 +1,23 @@
+case,seed,policy,original_safe_acceptance,rerun_safe_acceptance,delta_pp,trace_match,policy_source_match
+vietnam_burst_42,42,traditional_greedy_protected,58.86666666666667,58.86666666666667,0.0,True,not recorded in row
+vietnam_burst_42,42,cspf_protected,56.00000000000001,56.00000000000001,0.0,True,not recorded in row
+vietnam_burst_42,42,saf_h_protected,58.56666666666667,58.56666666666667,0.0,True,not recorded in row
+vietnam_burst_42,42,decoupled_ai_protected,58.86666666666667,58.86666666666667,0.0,True,not recorded in row
+vietnam_burst_42,42,harp_protected,57.233333333333334,57.233333333333334,0.0,True,not recorded in row
+nsfnet_chaos_7,7,harp_full,51.36666666666667,51.36666666666667,0.0,True,True
+nsfnet_chaos_7,7,harp_wo_gat,52.166666666666664,52.166666666666664,0.0,True,True
+nsfnet_chaos_7,7,harp_wo_hard_masking,26.0,26.0,0.0,True,True
+nsfnet_chaos_7,7,harp_wo_mask_unchecked,26.0,26.0,0.0,True,True
+nsfnet_chaos_7,7,harp_soft_msd_penalty,39.03333333333333,39.03333333333333,0.0,True,True
+nsfnet_chaos_7,7,harp_soft_msd_admission,39.03333333333333,39.03333333333333,0.0,True,True
+nsfnet_chaos_7,7,harp_wo_adaptive_penalty,51.93333333333333,51.93333333333333,0.0,True,True
+geant2_load12_2024,2024,traditional_greedy_protected,93.16666666666666,93.16666666666666,0.0,True,not recorded in row
+geant2_load12_2024,2024,cspf_protected,97.0,97.0,0.0,True,not recorded in row
+geant2_load12_2024,2024,saf_h_protected,92.96666666666667,92.96666666666667,0.0,True,not recorded in row
+geant2_load12_2024,2024,decoupled_ai_protected,93.16666666666666,93.16666666666666,0.0,True,not recorded in row
+geant2_load12_2024,2024,harp_protected,96.89999999999999,96.89999999999999,0.0,True,not recorded in row
+geant2_load12_2024,2024,traditional_greedy_unprotected,87.66666666666667,87.66666666666667,0.0,True,not recorded in row
+geant2_load12_2024,2024,cspf_unprotected,0.3,0.3,0.0,True,not recorded in row
+geant2_load12_2024,2024,saf_h_unprotected,87.66666666666667,87.66666666666667,0.0,True,not recorded in row
+geant2_load12_2024,2024,decoupled_ai_unprotected,87.66666666666667,87.66666666666667,0.0,True,not recorded in row
+geant2_load12_2024,2024,harp_unprotected,5.3,5.3,0.0,True,not recorded in row
