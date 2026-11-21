@@ -1,0 +1,15 @@
+{
+  "source_commit": "15614cb39f782cec4c383383a0dcc470a1784bf2",
+  "files_sha256": {
+    "scripts/rev1/audit_greedy_decoupled.py": "84706c5e6ced4b01602a19a2fb0a2033b171cf5a2b215169a16149126e2168ca",
+    "scripts/rev1/run_mask_expiry_intervention.py": "3ba53281ac1d55deee2c407933e1ca785eb72f61be91e0f33cc5b2acd06c9533",
+    "scripts/rev1/audit_mask_ttl.py": "1c509d6da91e9afd2b90ebbcd048eb76239c39dc78ee083e09fd13c3ad0ceaf0",
+    "src/analytics/benchmark/benchmark_algorithm/algorithms.py": "3549c20f6e27dee65ba9755437cfb979dae662608c55fba5b421e07ae7a28abd",
+    "src/orchestration/jo_vdpr/env.py": "bc06f22067c22b6a80e8985e0cbc3b5490ac309e0b07bc7573e8393e607b4d48",
+    "data/real_telecom_combined.csv": "5370da1bb55cd679422150c5c4073175109cc7b831eff9c74491b30a17dcdd2a"
+  },
+  "scope": {
+    "greedy": "paired offered traces; choices compared across separate, policy-dependent trajectories",
+    "expiry": "counterfactual post-expiry mask with pre-expiry observation, separate trajectory; not a runtime code change"
+  }
+}
