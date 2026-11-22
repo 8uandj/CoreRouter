@@ -55,11 +55,29 @@ Kết hợp với thí nghiệm cô lập trong gói export trước (protected/
 2. **Pipeline `vnf-migrate-single` lỗi validation** (thiếu `deploymentName`) → vá trên cluster (YAML trước/sau đã lưu).
 3. **Chờ Ready 30 s và chờ vắng mặt 30 s quá ngắn** → cấu hình được (180 s / 120 s); thêm `POST /orchestrate/reconcile/{vnf}` (chỉ giải phóng khi K8s xác nhận vắng); 4 bản ghi rò đã đối soát.
 4. **Controller từ chối xác nhận mọi path kết thúc ở s10**: bộ so sánh readback hiểu sai MAC nén `0a` (h10). Rule đã cài đúng và gói đi được (probe bổ sung 60/60). Đã sửa code + test, **chưa áp dụng live** vì controller chạy trong tiến trình Mininet (restart = xóa rule của mọi path).
-5. **Pod trên k8s-master không tới được từ 3s-com** (cả host lẫn Mininet; lỗi Calico/VXLAN giữa 2 máy có từ trước). 8 VNF trên k8s-master có control plane đầy đủ nhưng 0 gói tới đích. Chưa sửa (máy khác).
+5. **Pod trên k8s-master từng không tới được từ 3s-com** do firewalld chặn Calico VXLAN UDP 4789 và chuyển tiếp từ `vxlan.calico`. Đã vá runtime lúc 18:57–18:58 UTC ngày 21/11 (không `--permanent`; có rollback), ping từ 3s-com tới 4 Pod đạt 3/3 mỗi Pod. Số 0/20 trong campaign là phép đo trước vá, giữ nguyên. Probe lại 4 VNF còn tồn tại đạt 20/20 từng VNF; VNF thứ năm đã bị thay bởi migration nên không thể kiểm lại. Xem `cluster_changes/k8s_master_vxlan/` và `supplemental_probes/corrected_model_after_vxlan_fix/reprobe_summary.json`. Chưa xác minh cấu hình còn hiệu lực sau reboot hoặc `firewall-cmd --reload`.
 6. Pod trên worker cần MASQUERADE trên 3s-com để có đường về (rule có tag, có ROLLBACK).
 7. Policy v11 dồn placement vào Hue/QuyNhon → với alert, phần lớn actuation là migration; hàng đợi: burst 8 client, request admit thứ 2/3 chờ 52,5/71,1 s ở migration lock trước MAKE.
 8. MBB chọn "VNF cũ" theo placement **hoặc route anchor** (`get_vnfs_on_node`), nên có ca migrate một VNF đặt ở Hue sang NhaTrang — cần nêu rõ ngữ nghĩa.
 9. Driver bị dừng tay 2 lần (#71, #149) → bản ghi request mất, bằng chứng control-plane được thu hồi (`campaign/recovered_*`), probe bổ sung.
 10. Probe tool được sửa giữa chiến dịch (thêm checksum offload off lúc pilot, thêm `--mode icmp`, `--no-capture`); hash công cụ ghi theo từng lần chạy.
 
-<!--LONGRUN-->
+## 5. Long run 3 giờ với checkpoint đã sửa
+
+Nguồn: `long_3h_corrected_model{,_released}/analysis/longrun_summary.json`, raw `admission/*/all_records.csv`, `kubernetes_readiness.csv`, `dataplane/stability_probes.csv`, `state_after_longrun.json`. Hai run dùng cùng checkpoint/normalizer đã hash trong summary; đây là hai trạng thái capacity khác nhau, không phải phép thử ghép cặp. `normal_load` chỉ đo admission; các probe data plane nhắm vào VNF đã steer sẵn, không phải 209 request vừa được nhận.
+
+| Chỉ số | Capacity bão hòa (20:16–23:16 UTC, 21/11) | Sau giải phóng capacity (01:27–04:27 UTC, 22/11) |
+|---|---:|---:|
+| VNF active cuối run; Deployment Ready | 51; 180/180 mẫu, 51/51 | 17; 180/180 mẫu, 17/17 |
+| Request; được nhận; timeout | 3.084; 0; 0 | 3.083; 209; 0 |
+| Từ chối `msd_violation`; `no_safe_action` | 1.069; 2.015 | 2.585; 289 |
+| Decision latency P50/P95/P99 (ms) | 81,434 / 200,214 / 423,067 | 127,563 / 178,671 / 234,335 |
+| Data plane: round; VNF khác nhau; gói nhận/gửi | 90; 34; 1.800/1.800 | 90; 9; 1.800/1.800 |
+| Pod IP đổi; counter MSD tăng; probe lỗi | 0; 0; 0 | 0; 0; 0 |
+| `unaccounted_vnfs` cuối run | [] | [] |
+
+Giữa hai run, lifecycle API giải phóng 34 VNF; log `capacity_release/console.log` ghi active 51→17, CPU ledger trung bình 97,4%→48,0%. Trong run sau giải phóng, 209/3.083 request được nhận (6,78%). Run bão hòa chứng minh từ chối an toàn trong trạng thái gần đầy; run sau giải phóng bổ sung admission thành công. Nhãn `msd_violation` trong workload này không được diễn giải là gói vượt giới hạn MSD vật lý; xem phân rã của run 12 giờ trong gói export cũ.
+
+## 6. Kết luận và điều kiện đóng hồ sơ
+
+Đã có bằng chứng request-correlated cho admission→Ready→rule/readback→steering→gói tới VNF đơn, migration MBB theo thứ tự, fault injection MSD trên BMv2, và hai long run 3 giờ. Không cần run 24 giờ E2E để kết luận trong phạm vi đã đo. Traversal có thứ tự qua chuỗi nhiều VNF vẫn cần một thí nghiệm riêng với thứ tự function, request/path và quan sát gói hoặc ứng dụng tại từng VNF nếu bản thảo muốn tuyên bố khả năng này. Zero-downtime khi migration chưa được đo. Lỗi s10 đã sửa trong source nhưng chưa triển khai vào controller live. Bản vá firewalld trên k8s-master chỉ ở runtime. Những giới hạn này phải đi cùng mọi bảng và phát biểu HIL khi đóng gói.

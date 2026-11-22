@@ -1,0 +1,68 @@
+{"utc": "2026-11-22T01:22:06.869756+00:00", "vnf": "vnf-data-14cbf687", "step": "terminate", "http": 200, "body": {"status": "success", "message": "Termination pipeline started for 'vnf-data-14cbf687'"}}
+{"utc": "2026-11-22T01:22:06.924283+00:00", "vnf": "vnf-data-d9296f2b", "step": "terminate", "http": 200, "body": {"status": "success", "message": "Termination pipeline started for 'vnf-data-d9296f2b'"}}
+{"utc": "2026-11-22T01:22:06.953341+00:00", "vnf": "vnf-firewall-16bc15f2", "step": "terminate", "http": 200, "body": {"status": "success", "message": "Termination pipeline started for 'vnf-firewall-16bc15f2'"}}
+{"utc": "2026-11-22T01:22:07.015370+00:00", "vnf": "vnf-firewall-a83f18dc", "step": "terminate", "http": 200, "body": {"status": "success", "message": "Termination pipeline started for 'vnf-firewall-a83f18dc'"}}
+{"utc": "2026-11-22T01:22:07.137016+00:00", "vnf": "vnf-firewall-b2d50eba", "step": "terminate", "http": 200, "body": {"status": "success", "message": "Termination pipeline started for 'vnf-firewall-b2d50eba'"}}
+{"utc": "2026-11-22T01:22:17.753010+00:00", "vnf": "vnf-data-14cbf687", "step": "reconcile", "http": 200, "body": {"status": "success", "vnf_name": "vnf-data-14cbf687", "released": true}}
+{"utc": "2026-11-22T01:22:18.275861+00:00", "vnf": "vnf-data-d9296f2b", "step": "reconcile", "http": 200, "body": {"status": "success", "vnf_name": "vnf-data-d9296f2b", "released": true}}
+{"utc": "2026-11-22T01:22:52.053936+00:00", "vnf": "vnf-firewall-16bc15f2", "step": "reconcile", "http": 200, "body": {"status": "success", "vnf_name": "vnf-firewall-16bc15f2", "released": true}}
+{"utc": "2026-11-22T01:22:52.553588+00:00", "vnf": "vnf-firewall-a83f18dc", "step": "reconcile", "http": 200, "body": {"status": "success", "vnf_name": "vnf-firewall-a83f18dc", "released": true}}
+{"utc": "2026-11-22T01:22:53.003808+00:00", "vnf": "vnf-firewall-b2d50eba", "step": "reconcile", "http": 200, "body": {"status": "success", "vnf_name": "vnf-firewall-b2d50eba", "released": true}}
+{"utc": "2026-11-22T01:22:53.037731+00:00", "vnf": "vnf-firewall-d09bd6c2", "step": "terminate", "http": 200, "body": {"status": "success", "message": "Termination pipeline started for 'vnf-firewall-d09bd6c2'"}}
+{"utc": "2026-11-22T01:22:53.061342+00:00", "vnf": "vnf-firewall-d7a68076", "step": "terminate", "http": 200, "body": {"status": "success", "message": "Termination pipeline started for 'vnf-firewall-d7a68076'"}}
+{"utc": "2026-11-22T01:22:53.088626+00:00", "vnf": "vnf-idps-4172d3ed", "step": "terminate", "http": 200, "body": {"status": "success", "message": "Termination pipeline started for 'vnf-idps-4172d3ed'"}}
+{"utc": "2026-11-22T01:22:53.149665+00:00", "vnf": "vnf-idps-7d84d1f9", "step": "terminate", "http": 200, "body": {"status": "success", "message": "Termination pipeline started for 'vnf-idps-7d84d1f9'"}}
+{"utc": "2026-11-22T01:22:53.216664+00:00", "vnf": "vnf-idps-8dcb9486", "step": "terminate", "http": 200, "body": {"status": "success", "message": "Termination pipeline started for 'vnf-idps-8dcb9486'"}}
+{"utc": "2026-11-22T01:23:39.312056+00:00", "vnf": "vnf-firewall-d09bd6c2", "step": "reconcile", "http": 200, "body": {"status": "success", "vnf_name": "vnf-firewall-d09bd6c2", "released": true}}
+{"utc": "2026-11-22T01:23:39.819271+00:00", "vnf": "vnf-firewall-d7a68076", "step": "reconcile", "http": 200, "body": {"status": "success", "vnf_name": "vnf-firewall-d7a68076", "released": true}}
+{"utc": "2026-11-22T01:23:40.378130+00:00", "vnf": "vnf-idps-4172d3ed", "step": "reconcile", "http": 200, "body": {"status": "success", "vnf_name": "vnf-idps-4172d3ed", "released": true}}
+{"utc": "2026-11-22T01:23:40.914806+00:00", "vnf": "vnf-idps-7d84d1f9", "step": "reconcile", "http": 200, "body": {"status": "success", "vnf_name": "vnf-idps-7d84d1f9", "released": true}}
+{"utc": "2026-11-22T01:23:41.386931+00:00", "vnf": "vnf-idps-8dcb9486", "step": "reconcile", "http": 200, "body": {"status": "success", "vnf_name": "vnf-idps-8dcb9486", "released": true}}
+{"utc": "2026-11-22T01:23:41.417874+00:00", "vnf": "vnf-idps-ceb91e21", "step": "terminate", "http": 200, "body": {"status": "success", "message": "Termination pipeline started for 'vnf-idps-ceb91e21'"}}
+{"utc": "2026-11-22T01:23:41.442564+00:00", "vnf": "vnf-idps-fd4abe1f", "step": "terminate", "http": 200, "body": {"status": "success", "message": "Termination pipeline started for 'vnf-idps-fd4abe1f'"}}
+{"utc": "2026-11-22T01:23:41.472210+00:00", "vnf": "vnf-idps-fdd8a8f7", "step": "terminate", "http": 200, "body": {"status": "success", "message": "Termination pipeline started for 'vnf-idps-fdd8a8f7'"}}
+{"utc": "2026-11-22T01:23:41.545351+00:00", "vnf": "vnf-lb-21fe39d4", "step": "terminate", "http": 200, "body": {"status": "success", "message": "Termination pipeline started for 'vnf-lb-21fe39d4'"}}
+{"utc": "2026-11-22T01:23:41.599717+00:00", "vnf": "vnf-lb-77360985", "step": "terminate", "http": 200, "body": {"status": "success", "message": "Termination pipeline started for 'vnf-lb-77360985'"}}
+{"utc": "2026-11-22T01:23:53.073074+00:00", "vnf": "vnf-lb-21fe39d4", "step": "reconcile", "http": 200, "body": {"status": "success", "vnf_name": "vnf-lb-21fe39d4", "released": true}}
+{"utc": "2026-11-22T01:23:53.536998+00:00", "vnf": "vnf-lb-77360985", "step": "reconcile", "http": 200, "body": {"status": "success", "vnf_name": "vnf-lb-77360985", "released": true}}
+{"utc": "2026-11-22T01:24:26.809095+00:00", "vnf": "vnf-idps-ceb91e21", "step": "reconcile", "http": 200, "body": {"status": "success", "vnf_name": "vnf-idps-ceb91e21", "released": true}}
+{"utc": "2026-11-22T01:24:27.309702+00:00", "vnf": "vnf-idps-fd4abe1f", "step": "reconcile", "http": 200, "body": {"status": "success", "vnf_name": "vnf-idps-fd4abe1f", "released": true}}
+{"utc": "2026-11-22T01:24:27.863840+00:00", "vnf": "vnf-idps-fdd8a8f7", "step": "reconcile", "http": 200, "body": {"status": "success", "vnf_name": "vnf-idps-fdd8a8f7", "released": true}}
+{"utc": "2026-11-22T01:24:27.891898+00:00", "vnf": "vnf-lb-871bd232", "step": "terminate", "http": 200, "body": {"status": "success", "message": "Termination pipeline started for 'vnf-lb-871bd232'"}}
+{"utc": "2026-11-22T01:24:27.918623+00:00", "vnf": "vnf-nat-9890d9ca", "step": "terminate", "http": 200, "body": {"status": "success", "message": "Termination pipeline started for 'vnf-nat-9890d9ca'"}}
+{"utc": "2026-11-22T01:24:27.943431+00:00", "vnf": "vnf-router-1b660d17", "step": "terminate", "http": 200, "body": {"status": "success", "message": "Termination pipeline started for 'vnf-router-1b660d17'"}}
+{"utc": "2026-11-22T01:24:27.998043+00:00", "vnf": "vnf-router-4001130c", "step": "terminate", "http": 200, "body": {"status": "success", "message": "Termination pipeline started for 'vnf-router-4001130c'"}}
+{"utc": "2026-11-22T01:24:28.079854+00:00", "vnf": "vnf-router-641b71ca", "step": "terminate", "http": 200, "body": {"status": "success", "message": "Termination pipeline started for 'vnf-router-641b71ca'"}}
+{"utc": "2026-11-22T01:24:38.536893+00:00", "vnf": "vnf-lb-871bd232", "step": "reconcile", "http": 200, "body": {"status": "success", "vnf_name": "vnf-lb-871bd232", "released": true}}
+{"utc": "2026-11-22T01:24:39.382159+00:00", "vnf": "vnf-router-1b660d17", "step": "reconcile", "http": 200, "body": {"status": "success", "vnf_name": "vnf-router-1b660d17", "released": true}}
+{"utc": "2026-11-22T01:24:39.871958+00:00", "vnf": "vnf-router-4001130c", "step": "reconcile", "http": 200, "body": {"status": "success", "vnf_name": "vnf-router-4001130c", "released": true}}
+{"utc": "2026-11-22T01:24:40.377915+00:00", "vnf": "vnf-router-641b71ca", "step": "reconcile", "http": 200, "body": {"status": "success", "vnf_name": "vnf-router-641b71ca", "released": true}}
+{"utc": "2026-11-22T01:25:11.539890+00:00", "vnf": "vnf-nat-9890d9ca", "step": "reconcile", "http": 200, "body": {"status": "success", "vnf_name": "vnf-nat-9890d9ca", "released": true}}
+{"utc": "2026-11-22T01:25:11.571891+00:00", "vnf": "vnf-router-f3d7e3b5", "step": "terminate", "http": 200, "body": {"status": "success", "message": "Termination pipeline started for 'vnf-router-f3d7e3b5'"}}
+{"utc": "2026-11-22T01:25:11.596985+00:00", "vnf": "vnf-video-20cb7274", "step": "terminate", "http": 200, "body": {"status": "success", "message": "Termination pipeline started for 'vnf-video-20cb7274'"}}
+{"utc": "2026-11-22T01:25:11.623331+00:00", "vnf": "vnf-video-2d8dea54", "step": "terminate", "http": 200, "body": {"status": "success", "message": "Termination pipeline started for 'vnf-video-2d8dea54'"}}
+{"utc": "2026-11-22T01:25:11.678014+00:00", "vnf": "vnf-video-54d8610d", "step": "terminate", "http": 200, "body": {"status": "success", "message": "Termination pipeline started for 'vnf-video-54d8610d'"}}
+{"utc": "2026-11-22T01:25:11.775994+00:00", "vnf": "vnf-video-5f703ed3", "step": "terminate", "http": 200, "body": {"status": "success", "message": "Termination pipeline started for 'vnf-video-5f703ed3'"}}
+{"utc": "2026-11-22T01:25:22.289872+00:00", "vnf": "vnf-router-f3d7e3b5", "step": "reconcile", "http": 200, "body": {"status": "success", "vnf_name": "vnf-router-f3d7e3b5", "released": true}}
+{"utc": "2026-11-22T01:25:22.767266+00:00", "vnf": "vnf-video-20cb7274", "step": "reconcile", "http": 200, "body": {"status": "success", "vnf_name": "vnf-video-20cb7274", "released": true}}
+{"utc": "2026-11-22T01:25:23.244505+00:00", "vnf": "vnf-video-2d8dea54", "step": "reconcile", "http": 200, "body": {"status": "success", "vnf_name": "vnf-video-2d8dea54", "released": true}}
+{"utc": "2026-11-22T01:25:23.714929+00:00", "vnf": "vnf-video-54d8610d", "step": "reconcile", "http": 200, "body": {"status": "success", "vnf_name": "vnf-video-54d8610d", "released": true}}
+{"utc": "2026-11-22T01:25:24.193895+00:00", "vnf": "vnf-video-5f703ed3", "step": "reconcile", "http": 200, "body": {"status": "success", "vnf_name": "vnf-video-5f703ed3", "released": true}}
+{"utc": "2026-11-22T01:25:24.218570+00:00", "vnf": "vnf-voc-46114e18", "step": "terminate", "http": 200, "body": {"status": "success", "message": "Termination pipeline started for 'vnf-voc-46114e18'"}}
+{"utc": "2026-11-22T01:25:24.244889+00:00", "vnf": "vnf-voc-474040d7", "step": "terminate", "http": 200, "body": {"status": "success", "message": "Termination pipeline started for 'vnf-voc-474040d7'"}}
+{"utc": "2026-11-22T01:25:24.274612+00:00", "vnf": "vnf-voc-519bcac9", "step": "terminate", "http": 200, "body": {"status": "success", "message": "Termination pipeline started for 'vnf-voc-519bcac9'"}}
+{"utc": "2026-11-22T01:25:24.328177+00:00", "vnf": "vnf-voc-585f8dcc", "step": "terminate", "http": 200, "body": {"status": "success", "message": "Termination pipeline started for 'vnf-voc-585f8dcc'"}}
+{"utc": "2026-11-22T01:25:24.396045+00:00", "vnf": "vnf-voc-59e617b3", "step": "terminate", "http": 200, "body": {"status": "success", "message": "Termination pipeline started for 'vnf-voc-59e617b3'"}}
+{"utc": "2026-11-22T01:26:10.015707+00:00", "vnf": "vnf-voc-46114e18", "step": "reconcile", "http": 200, "body": {"status": "success", "vnf_name": "vnf-voc-46114e18", "released": true}}
+{"utc": "2026-11-22T01:26:10.500635+00:00", "vnf": "vnf-voc-474040d7", "step": "reconcile", "http": 200, "body": {"status": "success", "vnf_name": "vnf-voc-474040d7", "released": true}}
+{"utc": "2026-11-22T01:26:10.976009+00:00", "vnf": "vnf-voc-519bcac9", "step": "reconcile", "http": 200, "body": {"status": "success", "vnf_name": "vnf-voc-519bcac9", "released": true}}
+{"utc": "2026-11-22T01:26:11.471614+00:00", "vnf": "vnf-voc-585f8dcc", "step": "reconcile", "http": 200, "body": {"status": "success", "vnf_name": "vnf-voc-585f8dcc", "released": true}}
+{"utc": "2026-11-22T01:26:11.923478+00:00", "vnf": "vnf-voc-59e617b3", "step": "reconcile", "http": 200, "body": {"status": "success", "vnf_name": "vnf-voc-59e617b3", "released": true}}
+{"utc": "2026-11-22T01:26:11.949052+00:00", "vnf": "vnf-voc-89cf7868", "step": "terminate", "http": 200, "body": {"status": "success", "message": "Termination pipeline started for 'vnf-voc-89cf7868'"}}
+{"utc": "2026-11-22T01:26:11.975284+00:00", "vnf": "vnf-voc-d8c0a381", "step": "terminate", "http": 200, "body": {"status": "success", "message": "Termination pipeline started for 'vnf-voc-d8c0a381'"}}
+{"utc": "2026-11-22T01:26:12.023625+00:00", "vnf": "vnf-voc-f3f8bf18", "step": "terminate", "http": 200, "body": {"status": "success", "message": "Termination pipeline started for 'vnf-voc-f3f8bf18'"}}
+{"utc": "2026-11-22T01:26:12.075439+00:00", "vnf": "vnf-voc-f6b1a5cf", "step": "terminate", "http": 200, "body": {"status": "success", "message": "Termination pipeline started for 'vnf-voc-f6b1a5cf'"}}
+{"utc": "2026-11-22T01:26:56.659221+00:00", "vnf": "vnf-voc-89cf7868", "step": "reconcile", "http": 200, "body": {"status": "success", "vnf_name": "vnf-voc-89cf7868", "released": true}}
+{"utc": "2026-11-22T01:26:57.137509+00:00", "vnf": "vnf-voc-d8c0a381", "step": "reconcile", "http": 200, "body": {"status": "success", "vnf_name": "vnf-voc-d8c0a381", "released": true}}
+{"utc": "2026-11-22T01:26:57.600589+00:00", "vnf": "vnf-voc-f3f8bf18", "step": "reconcile", "http": 200, "body": {"status": "success", "vnf_name": "vnf-voc-f3f8bf18", "released": true}}
+{"utc": "2026-11-22T01:26:58.059803+00:00", "vnf": "vnf-voc-f6b1a5cf", "step": "reconcile", "http": 200, "body": {"status": "success", "vnf_name": "vnf-voc-f6b1a5cf", "released": true}}

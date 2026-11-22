@@ -1,0 +1,81 @@
+{
+ "run_dir": "long_3h_corrected_model_released",
+ "model": {
+  "started_utc": "2026-11-22T01:26:58Z",
+  "backend_model": "results/models/retrain_v11_20261119_corrected/vietnam/dgrl_v11_final_vietnam.zip",
+  "model_sha256": "ea215985d1ad5d8ccc8e900da82d3e50e5ff51417c05bb96930dfc10ab9e86da",
+  "normalizer": "results/models/retrain_v11_20261119_corrected/vietnam/vec_normalize_v11_vietnam.pkl",
+  "normalizer_sha256": "87385923e8099d3b56096eeaa9a43f75a4e0a670c972a77e667d7e160229d646",
+  "source": "AIO-mesh-submit-2/results/models/retrain_v11_20261119_corrected (source.txt commit 4f6b365, training-code hashes equal to backend /app/src)",
+  "action_encoding": "flat_n2",
+  "backend_image": "sha256:3c3c114de4d58a62aca10db123b79bee4747caada2448558be76bcc5abb068a7"
+ },
+ "admission": {
+  "source": "admission/20261122_012658/all_records.csv",
+  "requests": 3083,
+  "accepted": 209,
+  "status_codes": {
+   "409": 2874,
+   "200": 209
+  },
+  "reject_reason": {
+   "msd_violation": 2585,
+   "no_safe_action": 289
+  },
+  "msd_req": {
+   "2": 1870,
+   "1": 1213
+  },
+  "timeouts": 0,
+  "admitted_violations": 0,
+  "decision_latency_ms": {
+   "p50": 127.563,
+   "p95": 178.671,
+   "p99": 234.335
+  },
+  "first_utc": "2026-11-22T01:27:02.298445+00:00",
+  "last_utc": "2026-11-22T04:27:02.133746+00:00"
+ },
+ "kubernetes": {
+  "samples": 180,
+  "deployments": [
+   "17"
+  ],
+  "samples_all_ready": 180,
+  "min_ready_deployments": 17
+ },
+ "dataplane": {
+  "rounds": 90,
+  "targets": 9,
+  "distinct_vnfs_probed": 9,
+  "sent": 1800,
+  "received": 1800,
+  "rounds_full": 90,
+  "rounds_zero": 0,
+  "pod_ip_changed": 0,
+  "msd_violation_delta_total": 0,
+  "errors": 0,
+  "rtt_p50_ms": {
+   "p50": 2.6,
+   "p95": 4.17
+  },
+  "first_utc": "2026-11-22T01:27:11.230982+00:00",
+  "last_utc": "2026-11-22T04:25:19.675975+00:00"
+ },
+ "state_after": {
+  "active_vnfs": 17,
+  "node_cpu_util": {
+   "Hanoi": 63.0,
+   "HaiPhong": 68.0,
+   "NinhBinh": 64.0,
+   "Vinh": 58.0,
+   "Hue": 21.0,
+   "DaNang": 64.0,
+   "QuyNhon": 7.0,
+   "NhaTrang": 15.000000953674316,
+   "HoChiMinh": 64.0,
+   "CanTho": 56.0
+  },
+  "unaccounted_vnfs": []
+ }
+}

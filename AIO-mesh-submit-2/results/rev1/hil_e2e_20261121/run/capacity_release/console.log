@@ -1,0 +1,9 @@
+{"utc": "2026-11-22T01:22:06.814920+00:00", "active_before": 51, "baseline_kept": 7, "steered_kept": 10, "kept_per_k8s_node": {"worker1": 4, "worker2": 4, "k8s-master": 2}, "to_release": 34, "cpu_before": 0.9739999771118164, "apply": true}
+batch 0: released 5/5
+batch 1: released 5/5
+batch 2: released 5/5
+batch 3: released 5/5
+batch 4: released 5/5
+batch 5: released 5/5
+batch 6: released 4/4
+{"utc": "2026-11-22T01:26:58.100448+00:00", "active_after": 17, "cpu_after": 0.47999995946884155, "node_cpu_util": {"Hanoi": 63.0, "HaiPhong": 68.0, "NinhBinh": 64.0, "Vinh": 58.0, "Hue": 21.0, "DaNang": 64.0, "QuyNhon": 7.0, "NhaTrang": 15.000000953674316, "HoChiMinh": 64.0, "CanTho": 56.0}, "unaccounted_vnfs": []}

@@ -48,3 +48,10 @@ or included as if they were present on this server. Unrelated repository utiliti
 `node_modules`/virtualenvs/caches, and local Kaggle configuration are excluded.
 Legacy pre-correction main-model training and benchmark archives are also
 excluded; the current main models are under `results/models/retrain_v11_20261119_corrected/`.
+
+## HIL/testbed update — 2026-11-22
+
+- `results/rev1/hil_e2e_20261121/run/` contains the corrected campaign, the k8s-master Calico VXLAN runtime fix with rollback, supplementary packet probes, the saturated 3-hour run, capacity release, and the released-capacity 3-hour run. Read `run/REPORT_E2E.md` for measured scope and limits.
+- The saturated run recorded 3,084 requests (0 accepted), 1,800/1,800 probe packets, and 180/180 readiness samples. The released run recorded 3,083 requests (209 accepted), 1,800/1,800 probe packets, and 180/180 readiness samples. `normal_load` admissions do not themselves deploy or steer these requests.
+- `results/hil_export/hil_rev1_20261121/` retains the earlier 12-hour control-plane, isolated over-MSD and concurrency evidence. Its `scripts/check_export.py` verifies its local hashes and derived tables. One unrelated Kubernetes Job dump with credentials was omitted from the bundle copy; see `provenance/HIL_EXPORT_EXCLUSION.md`.
+- The generated manuscript HIL tables were refreshed from the bundled inputs. No 24-hour end-to-end, ordered multi-VNF chain, or zero-downtime migration claim is made. The s10 controller source fix was not deployed live; the k8s-master firewalld fix was runtime-only.

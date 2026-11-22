@@ -1,0 +1,69 @@
+{
+  "api_base_url": "http://127.0.0.1:8000/api",
+  "baseline_algorithms": [
+    "jo_vppm",
+    "heuristic",
+    "greedy",
+    "decoupled"
+  ],
+  "cleanup_after_scenario": true,
+  "created_at_utc": "2026-11-22T01:27:00.332075+00:00",
+  "duration_hours": 3.0,
+  "edges": 50,
+  "hardware": {
+    "cpu_count": 32,
+    "memory_total_kib": 98871468,
+    "platform": "Linux-5.4.0-216-generic-x86_64-with-glibc2.29"
+  },
+  "include_local_baselines": false,
+  "msd_limits": [
+    10.0,
+    10.0,
+    5.0,
+    5.0,
+    4.0,
+    8.0,
+    4.0,
+    5.0,
+    10.0,
+    5.0
+  ],
+  "nodes": 10,
+  "protocol": "live-testbed-v2",
+  "queue_policy": "sequential client; no client-side concurrency",
+  "request_interval_s": 3.5,
+  "reset_before_scenario": false,
+  "scenarios": [
+    {
+      "default_steps": 200,
+      "name": "normal_load"
+    }
+  ],
+  "sdn_base_url": "http://127.0.0.1:8765",
+  "seed": 246,
+  "software": {
+    "packages": {
+      "fastapi": "0.124.4",
+      "gymnasium": "1.1.1",
+      "numpy": "1.24.4",
+      "sb3-contrib": "2.4.0",
+      "stable-baselines3": "2.4.1",
+      "torch": "2.4.1",
+      "uvicorn": "0.33.0"
+    },
+    "python": "3.8.10 (default, Mar 18 2025, 20:04:55) \n[GCC 9.4.0]"
+  },
+  "source_sha256": {
+    "/home/CoreRouter/src/analytics/benchmark/benchmark_testbed/baseline_simulator.py": "686f1a3aa2b705d5ae9b06c0169ab28278f4f8cb94f53ca8603bd9a916e49c38",
+    "/home/CoreRouter/src/analytics/benchmark/benchmark_testbed/metrics.py": "71856f39c977c5e71afd64c435d28012318e69db5a271960570f3a041cf90940",
+    "/home/CoreRouter/src/analytics/benchmark/benchmark_testbed/run_all_scenarios.py": "a38dc002cde864e81c29096ab12167c20abcdffa93e5e7cc004aa5b70fe403be",
+    "/home/CoreRouter/src/analytics/benchmark/benchmark_testbed/runner.py": "3c400a1c86c9a1bf882577d05c8c2855e9f373baf7a8b2565fc9c38e7d6219ee",
+    "/home/CoreRouter/src/core/state_manager.py": "f9a648ec234265816a9c8cbf007b761f25c863114c713774d688e4c9c5133973",
+    "/home/CoreRouter/src/orchestration/jo_vdpr/env.py": "bc06f22067c22b6a80e8985e0cbc3b5490ac309e0b07bc7573e8393e607b4d48"
+  },
+  "steps_override": 0,
+  "telemetry_ttl_s": null,
+  "topology": "vietnam",
+  "wait_for_migration": true,
+  "workers": 1
+}
