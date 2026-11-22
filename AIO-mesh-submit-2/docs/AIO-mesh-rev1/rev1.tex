@@ -65,7 +65,7 @@
 
 \begin{frontmatter}
 
-\title{AIO-Mesh: Hardware-Safe AIOps Orchestration for Cloud-Native Distributed Services over Programmable Infrastructures}
+\title{AIO-Mesh: Policy-Independent Admission for Cloud-Native Orchestration over Programmable Data Planes}
 
 \author[add1]{Hanh P. Du\orcidlink{0000-0002-8993-1164}}
 \ead{hanhdp@vnu.edu.vn}
@@ -109,7 +109,7 @@ country={Vietnam}
 
 
 \begin{abstract}
-\newrev{Cloud-native service orchestration must select placements and routes that satisfy compute and forwarding constraints. AIO-Mesh separates policy proposals from independent runtime admission and infrastructure actuation. Its replaceable Hardware-Aware Reinforcement Policy (HARP) combines a graph attention encoder with a pair mask at inference. In simulation, protected policies admitted no modeled hard violations. Disabling only maximum segment depth (MSD) enforcement admitted violations in two diagnostic ablations. HARP generally accepted fewer requests than the strongest heuristic in the stress benchmark. Under a separate offered-intensity protocol, its advantage over the Segment Routing over IPv6 (SRv6)-aware feasible heuristic (SAF-H) peaked at \SweepPeakGain{} percentage points at intensity 1.2 and declined to \SweepFinalGain{} points at 1.5. Mean seed-level simulator decision P95 was 2.13~ms for HARP and 0.49~ms for SAF-H in the serialized Vietnam comparison. On a hardware-in-the-loop (HIL) testbed with ten Behavioral Model version~2 (BMv2) P4 switches and Kubernetes, all \HILEtoESteered{} requests admitted under the learned policy were deployed, had their installed rules read back, and were confirmed by the steering controller, with submission-to-confirmation P50/P95 of \HILEtoESubmitSteerPF{}/\HILEtoESubmitSteerPNF{}~s; probe packets carried by the admitted Segment Routing over IPv6 (SRv6) segment lists reached every VNF that was still deployed once a host-firewall fault on one node was corrected. A separate 12-hour control-plane run completed \HILRequests{} application programming interface (API) requests without timeout. These results show how independent admission supports different proposal policies and quantify when learned selection improves acceptance under the measured conditions.}
+\newrev{Cloud-native service orchestration must select placements and routes that satisfy compute and forwarding constraints. AIO-Mesh separates policy proposals from independent runtime admission and infrastructure actuation; its proposal policy can be replaced without changing the admission interface. We evaluate this organization with heuristic baselines and the Hardware-Aware Reinforcement Policy (HARP), a graph-attention policy whose inference is restricted by a placement--routing pair mask. Across the protected simulator conditions, admitted requests met the modeled hard constraints; bypassing only maximum segment depth (MSD) admission produced violations in diagnostic ablations. Policy effectiveness depended on workload and topology: the strongest heuristic led in the long-lived stress benchmark, while a separate fixed-profile arrival-rate experiment showed significant differences in safe acceptance between HARP and the Segment Routing over IPv6 (SRv6)-aware feasible heuristic (SAF-H) in 14 of 15 paired conditions after multiplicity correction, with direction varying by condition and a ceiling-limited exception. On a hardware-in-the-loop (HIL) testbed with ten Behavioral Model version~2 (BMv2) switches running the Programming Protocol-independent Packet Processors (P4) language and Kubernetes, all \HILEtoESteered{} admitted requests were deployed, had their installed rules read back, and were confirmed by the steering controller. Packet probes reached every target virtual network function (VNF) still deployed after a host-firewall fault was corrected. A separate 12-hour control-plane run completed \HILRequests{} application programming interface (API) requests without timeout. These results characterize a policy-independent admission and actuation workflow across the evaluated simulator and BMv2 testbed; they do not establish full-chain forwarding or forwarding behavior on hardware ASICs.}
 
 \end{abstract}
 
@@ -615,7 +615,7 @@ Migration is orchestrated by the lifecycle layer rather than emitted as a separa
 \label{subsec:experimental_setup}
 \newrev{The algorithm benchmark evaluates fixed, topology-specific main-policy checkpoints and their observation normalizers; no model is retrained during evaluation. It covers the 10-node Vietnam, 14-node NSFNET, and 23-node GEANT2 topologies under the stress load (arrival rate 1.0; request time-to-live (TTL) 100--500). The three tested workloads are Elephant stress (mapped to Heavy-tail), Burst surge (mapped to Bursty), and a separately configured Chaos workload. Each algorithm--topology--workload condition uses 20 evaluation seeds, \{42, 100, 2024, 8888, 9999, 7, 17, 73, 314, 2718, 11, 23, 47, 89, 101, 211, 512, 1024, 4096, 8192\}, and 3,000 simulator steps per seed. Algorithms share the offered-request trace within each seed; for the Bursty workload, the generator repeats the same trace across seeds.}
 
-\newrev{The current primary six-topology benchmark is being run with the corrected flat N² main checkpoints. The benchmark rows retained elsewhere in this draft predate that run and remain archived historical measurements; they are not treated as results from the corrected checkpoints and must be regenerated from the new seed-level outputs before final numerical claims are accepted.}
+\newrev{The primary six-topology benchmark uses the corrected flat N² main checkpoints. Its reported rows are regenerated from the completed seed-level outputs and are distinct from the archived factorized-head measurements.}
 
 \newrev{The simulator reads CPU demand, memory demand, service class, and requested SID depth from the telecom trace. Uniform uses the base demands. Bursty applies deterministic peak and off-peak CPU multipliers. Heavy-tail applies a seeded CPU and SID-depth shock. Chaos uses seeded transitions between calm and stressed states, and stress changes CPU, RAM, requested depth, and service class. Request lifetime is measured in simulator steps. For the offered-intensity study, arrival probability increases to one, after which the workload scales CPU and RAM demand, requested depth, and request lifetime.}
 
@@ -636,8 +636,9 @@ Experiment & Checkpoint/interface & Offered traffic and occupancy & Interpretati
 Algorithm benchmark & Corrected main retrain, flat N² head & Three stress workloads; arrival 1.0; TTL 100--500 & Six topologies; completed seed-level results with 20 evaluation seeds per cell \\
 Matched-trace ablation & Variant-specific flat-action policies & Four workloads; arrival 1.0; TTL 100--500 & Candidate quality, pruning, and modeled admission; distinct trained variants \\
 Timed ablation & Variant-specific flat-action policies & Ten topology--workload conditions; arrival 1.0; TTL 100--500 & Simulator normalization, inference, and stepping; external actuation excluded \\
-Background chains & Main policy, historical checkpoint lineage & Bursty; arrival 1.0; 0/25/50/100 persistent chains; topology-scaled TTL & Historical occupancy evidence; rerun with corrected retrains before treating as primary \\
-Load-sweep protocol & Main policy, historical checkpoint lineage & Bursty at seven multipliers from 0.2 to 1.5; above 1.0, scale demand, requested SID depth, and TTL & Historical intensity evidence; rerun with corrected retrains before treating as primary \\
+Background chains & Corrected main flat N² checkpoints & Bursty; arrival 1.0; 0/25/50/100 persistent chains; topology-scaled TTL & Occupancy-conditioned simulator acceptance; 20 evaluation seeds per condition \\
+Arrival-rate-only & Corrected main flat N² checkpoints & Bursty; arrival probability 0.2--1.0; fixed TTL 100--500 & Isolates arrival probability; 15 topology--rate cells and 20 matched evaluation seeds per policy \\
+Load-sweep protocol & Corrected main flat N² checkpoints & Bursty at seven multipliers from 0.2 to 1.5; above 1.0, scale demand, requested SID depth, and TTL & Combined offered-intensity stress; 21 topology--intensity cells and 20 evaluation seeds \\
 \bottomrule
 \end{tabular}
 \end{table*}
@@ -650,7 +651,7 @@ Load-sweep protocol & Main policy, historical checkpoint lineage & Bursty at sev
 
 \newrev{The flat-action ablation defines Full with a graph encoder, action mask, and adaptive SLA penalty. MLP changes the encoder, NoMask removes policy masking, and NoAdapt fixes the SLA coefficient. SoftMSD uses an MSD reward penalty without a policy mask. NoMask and SoftMSD each have an evaluation mode with the MSD admission check disabled, while other resource checks stay active. Each bypass uses its corresponding checkpoint.}
 
-\newrev{The refreshed algorithm benchmark reports safe acceptance per offered, non-skipped request and aggregates 20 seed-level rates with sample standard deviation (SD). For each protected HARP--SAF-H and HARP--CSPF contrast, paired seed-level acceptance differences are tested using the two-sided Wilcoxon signed-rank test~\cite{wilcoxon1945}; percentile-bootstrap 95\% confidence intervals (CIs) use 10,000 resamples, and Holm correction~\cite{holm1979} is applied separately across the nine topology--workload comparisons in each family. The paired rank-biserial effect is positive when HARP tends to have higher acceptance; it describes the signed rank balance, not the magnitude in percentage points. The timing-instrumented ablation reports safe acceptance and policy-decision P95 over 20 evaluation seeds using mean and sample SD. The matched-trace ablation reports sample SD across seed--workload evaluation cells. These deviations describe evaluation variation conditional on the evaluated checkpoints, not variation across independently trained policies.}
+\newrev{The refreshed algorithm benchmark reports safe acceptance per offered, non-skipped request and aggregates 20 seed-level rates with sample standard deviation (SD). For each protected HARP--SAF-H and HARP--CSPF contrast, paired seed-level acceptance differences are tested using the two-sided Wilcoxon signed-rank test~\cite{wilcoxon1945}; percentile-bootstrap 95\% confidence intervals (CIs) use 10,000 resamples, and Holm correction~\cite{holm1979} is applied separately across the nine topology--workload comparisons in each family. The fixed-profile arrival-rate sweep uses the same paired test, 20,000 paired percentile-bootstrap resamples, and Holm correction across its 15 topology--rate contrasts. The paired rank-biserial effect is positive when HARP tends to have higher acceptance; it describes the signed rank balance, not the magnitude in percentage points. The timing-instrumented ablation reports safe acceptance and policy-decision P95 over 20 evaluation seeds using mean and sample SD. The matched-trace ablation reports sample SD across seed--workload evaluation cells. These deviations describe evaluation variation conditional on the evaluated checkpoints, not variation across independently trained policies.}
 
 \newrev{For the timing-instrumented and matched-trace ablations, safe acceptance is accepted requests minus the unique admitted requests violating any modeled hard CPU, memory, bandwidth, or MSD constraint, divided by offered non-skipped requests. Proposed CPU, memory, bandwidth, and MSD violation rates may overlap; the union rate is reported separately. Candidate pruning is computed over the flat $N^2$ action set.}
 
@@ -931,11 +932,19 @@ Variant & CPU & RAM & BW & MSD & Union & Admitted \\
 \subsection{\newrev{Sensitivity to Offered Load and Background Occupancy}}
 \label{subsec:hardware_safe_admission}
 \label{subsec:scalability_path_sensitivity}
-\newrev{The load-sweep protocol evaluates the four protected algorithms at seven offered-intensity multipliers from 0.2 to 1.5 on Vietnam, NSFNET, and GEANT2, using 20 seeds and 3,000 simulator steps per seed and multiplier. At multipliers up to 1.0, the multiplier sets the request-arrival rate. Above 1.0, arrival rate is capped at 1.0 while CPU/RAM demand, requested SID depth, and TTL are scaled. We therefore interpret this protocol as a combined offered-intensity stress test rather than a pure arrival-rate sweep.}
+\newrev{The fixed-profile arrival-rate experiment isolates the effect of arrival probability. It evaluates five protected policies (HARP, SAF-H, CSPF, Greedy, and DAI) at probabilities 0.2, 0.4, 0.6, 0.8, and 1.0 on Vietnam, NSFNET, and GEANT2. The Bursty workload, CPU/RAM demand, requested SID depth, and TTL range (100--500) remain fixed. Each of the 75 policy--topology--rate cells uses 20 matched evaluation seeds and 3,000 simulator steps. Figure~\ref{fig:arrival_rate_only} shows safe acceptance; Appendix Table~\ref{tab:arrival_rate_paired_statistics} reports paired HARP--SAF-H differences, confidence intervals, and multiplicity-adjusted tests.}
+\begin{figure*}[t]
+\centering
+\includegraphics[width=0.94\textwidth]{figs/arrival_rate_only.pdf}
+\caption{\newrev{Safe acceptance under a fixed-profile arrival-rate sweep. Arrival probability varies while the Bursty demand profile, request resource demands, requested SID depth, TTL range, topology, and policy checkpoints remain fixed. Points summarize 20 matched evaluation seeds.}}
+\label{fig:arrival_rate_only}
+\end{figure*}
+\newrev{The paired HARP--SAF-H contrast changes direction with topology and load. HARP is higher at arrival probabilities 0.2 and 0.4 on Vietnam, at 0.2--0.6 on NSFNET, and at 0.4--1.0 on GEANT2; SAF-H is higher in the remaining non-ceiling cells. The largest mean HARP advantage is 3.067 percentage points (GEANT2, 0.4), while the largest SAF-H advantage is 1.593 points (Vietnam, 0.8). Fourteen of the 15 exact paired signed-rank comparisons remain significant after Holm correction across the 15 cells. GEANT2 at 0.2 is ceiling-limited (HARP 100.00\%, SAF-H 99.98\%; 18/20 paired differences are zero) and is not significant. These are fixed-checkpoint comparisons conditional on the simulator and matched traces, not variation across independently trained policies.}
+\newrev{The separate load-sweep protocol evaluates four protected algorithms at seven combined offered-intensity multipliers from 0.2 to 1.5 on the same three topologies, using 20 seeds and 3,000 simulator steps per seed and multiplier. At multipliers up to 1.0, the multiplier sets request-arrival probability. Above 1.0, arrival probability is capped at 1.0 while CPU/RAM demand, requested SID depth, and TTL are scaled. This combined protocol therefore does not isolate arrival rate.}
 
 \newrev{At zero background chains, the refreshed run comprises 4,200 seed-level policy trials across three substrates, seven intensities, and ten policy and admission configurations (five policies, protected and unprotected). The main figure presents four protected policies; the table additionally reports CSPF. Figure~\ref{fig:load_sweep} compares four protected policies and Table~\ref{tab:load_sweep_results} reports their safe acceptance at every intensity. No protected trial admitted a modeled hard violation. All 20 seeds at each topology and intensity used the same offered trace, so the reported variation is conditional on that trace.}
 
-\newrev{For the 21 HARP--SAF-H contrasts, the paired percentile-bootstrap intervals use 20,000 resamples. The exact two-sided signed-rank test drops zero differences and assigns average ranks to tied absolute differences. Zero-difference counts, effective sample sizes, and rank-biserial effects are reported from the refreshed paired data; all 21 contrasts remain in the Holm family. Appendix Table~\ref{tab:load_sweep_paired_statistics} reports all contrasts. Appendix Tables~\ref{tab:load_sweep_unprotected}--\ref{tab:load_sweep_unprotected_geant2} report modeled violations with admission disabled in the offered-intensity experiment.}
+\newrev{For the 21 HARP--SAF-H contrasts in the combined offered-intensity experiment, paired percentile-bootstrap intervals use 20,000 resamples. The exact two-sided signed-rank test drops zero differences and assigns average ranks to tied absolute differences. Zero-difference counts, effective sample sizes, and rank-biserial effects are reported; all 21 contrasts remain in the Holm family. Appendix Table~\ref{tab:load_sweep_paired_statistics} reports these contrasts. Appendix Tables~\ref{tab:load_sweep_unprotected}--\ref{tab:load_sweep_unprotected_geant2} report modeled violations with admission disabled.}
 
 \begin{figure*}[t]
 \centering
@@ -1146,9 +1155,9 @@ Nodes & Links & Pair actions ($N^2$) & Feasible-set P50 (ms) & Feasible-set P95 
 
 \subsection{\newrev{Operational Interpretation, Overhead, and Limitations}}
 \label{subsec:operational_interpretation}
-\newrev{The policy comparison depends on the resource-pressure regime. SAF-H achieves higher acceptance in all six Vietnam and NSFNET stress conditions, and in GEANT2 Chaos; HARP improves GEANT2 Burst-surge acceptance by 0.808 percentage points, while the Elephant-stress difference is inconclusive. Under the shorter-lifetime load-sweep protocol, the refreshed model comparisons show higher HARP mean safe acceptance than SAF-H at intensities 1.0--1.5 on all three substrates. The background-occupancy experiment also favors HARP within its protocol. Together, these findings support workload-specific policy selection within a common admission interface.}
+\newrev{The policy comparison depends on workload and resource pressure. SAF-H achieves higher acceptance in all six Vietnam and NSFNET stress conditions, and in GEANT2 Chaos; HARP improves GEANT2 Burst-surge acceptance by 0.808 percentage points, while the Elephant-stress difference is inconclusive. The fixed-profile arrival-rate experiment also shows direction changes across topologies and rates, while the combined offered-intensity and background-occupancy protocols favor HARP in their tested conditions. These complementary results support workload-specific policy selection through a common admission interface.}
 
-\newrev{Acceptance gains must also be weighed against computation. In the Vietnam ablation, the MLP variant achieves slightly higher mean safe acceptance and lower mean seed-level decision P95 than the full GAT policy under both Uniform and Bursty traffic (Figure~\ref{fig:ablation_cost}). In the controlled HARP--SAF-H comparison, HARP's mean decision P95 was 4.3 times SAF-H's, while the HARP policy-inference component alone averaged 1.617~ms at P95. Thus the load-sweep acceptance gains have a measurable local computation cost, and the evidence supports a workload-dependent acceptance--cost tradeoff rather than a general efficiency advantage. The common admission boundary permits either policy to be selected without assigning the enforcement outcome to that policy.}
+\newrev{Acceptance gains must also be weighed against computation. In the Vietnam ablation, the MLP variant achieves slightly higher mean safe acceptance and lower mean seed-level decision P95 than the full GAT policy under both Uniform and Bursty traffic (Figure~\ref{fig:ablation_cost}). In the controlled HARP--SAF-H comparison, HARP's mean decision P95 was 4.3 times SAF-H's, while the HARP policy-inference component alone averaged 1.617~ms at P95. The measured advantage therefore depends on the workload regime and carries a local computation cost; the evidence supports policy choice through a common admission boundary, not a general efficiency advantage.}
 
 \newrev{Appendix Table~\ref{tab:stress_qos} reports service latency and SLA outcomes for HARP and SAF-H by workload. Across the nine stress conditions, mean seed-level simulated service latency is 5.25--7.39~ms for HARP and 0.32--0.62~ms for SAF-H; mean seed-level SLA-violation rates are approximately 0.00--0.21\% and zero, respectively. These quantities describe the requests admitted by each policy, whose composition may differ. SAF-H may choose the same node for placement and routing. HARP also permits that pair but its reward includes a bonus for distinct endpoints. They provide no evidence of a HARP service-latency advantage in these conditions and are distinct from policy-computation timing.}
 
@@ -1158,7 +1167,7 @@ Nodes & Links & Pair actions ($N^2$) & Feasible-set P50 (ms) & Feasible-set P95 
 \label{sec:conclusion}
 \newrev{AIO-Mesh uses a common admission boundary for heuristic and learned proposals. Protected policies admitted no modeled hard violations in the evaluated simulator conditions. With MSD admission bypassed, NoMask and SoftMSD admitted 9 and 182 MSD-invalid proposals, respectively, over 720,000 decisions per variant. At most 0.352\% of proposals in the matched-trace ablation violated the modeled MSD check. The 12-hour control-plane test processed \HILRequests{} requests without timeout. On the BMv2 testbed, every admitted request in the end-to-end campaign was deployed, read back, and steered, and SID lists deeper than a switch MSD were rejected by admission or, when admission was bypassed, dropped by the data plane.}
 
-\newrev{HARP generally trailed the strongest heuristic in the stress benchmark. Under the separate refreshed offered-intensity protocol, HARP had higher mean safe acceptance than SAF-H at intensities 1.0--1.5 on all three substrates. Policy selection should weigh these workload-dependent differences against decision cost. Future evaluations will use physical edge lists and measure the transition from admitted requests to deployed and steered services.}
+\newrev{HARP generally trailed the strongest heuristic in the long-lived stress benchmark. In the fixed-profile arrival-rate experiment, paired differences favored HARP in some topology--rate conditions and SAF-H in others; the combined offered-intensity and background-occupancy experiments showed higher HARP acceptance under their specified conditions. These results support a workload-aware choice of proposal policy while retaining a shared admission boundary. HARP also incurred higher measured local decision cost than SAF-H in the serialized Vietnam timing study. The testbed confirms admission-to-steering operation for one VNF per request on BMv2; it does not establish forwarding through multi-VNF chains or ASIC behavior.}
 
 \clearpage
 \section*{Appendix: Supplementary Results}
@@ -1206,6 +1215,7 @@ Network & Profile & Policy & CPU & RAM & BW & MSD & Union \\
 \end{tabular}
 \end{table*}
 
+
 \begin{table*}[p]
 \centering
 \caption{\newrev{Simulated service quality for the admitted requests of each policy. Each cell averages 20 seed-level measurements. The policies may admit different request populations.}}
@@ -1222,6 +1232,20 @@ Topology & Workload & Latency (ms) & SLA violation (\%) & Latency (ms) & SLA vio
 \end{tabular}
 }
 \end{table*}
+
+\begin{table*}[p]
+\centering
+\caption{\newrev{Paired HARP minus SAF-H safe-acceptance differences in the fixed-profile arrival-rate experiment (percentage points; 20 matched seeds). Intervals are paired percentile-bootstrap 95\% CIs; $p_H$ is the exact signed-rank p-value after Holm correction over 15 topology--rate cells.}}
+\label{tab:arrival_rate_paired_statistics}
+\scriptsize
+\begin{tabular}{llrrrrr}
+\toprule
+Topology & Arrival probability & Mean difference & 95\% CI & $p$ & $p_H$ \\
+\midrule
+\input{generated/arrival_rate_paired_rows.tex}
+\bottomrule
+\end{tabular}
+\end{table*}
 \clearpage
 \endgroup
 
@@ -1232,11 +1256,11 @@ The authors declare that they have no known competing financial interests or per
 \noindent This work was supported by the Ministry of Science and Technology of Vietnam through the National Science and Technology Program, under Project No.~KC.01.06/21-30.
 
 \section*{Data and Code Availability}
-\newrev{The project source code is available at the repository below. The reproduction guide indexes the available records and scripts for generating the control-plane HIL table and offered-intensity statistics. The source repository is:}
+\newrev{The project source code is available at the repository below. The reproduction guide indexes the available records and scripts for generating the control-plane HIL table, offered-intensity results, and fixed-profile arrival-rate statistics. The source repository is:}
 \url{https://github.com/uet-dis/AIO-Mesh/}.
 
 \section*{Declaration of Generative AI and AI-Assisted Technologies in the Writing Process}
-During the preparation of this work, the authors used generative AI and AI-assisted technologies to refine the scientific prose, improve readability, and polish LaTeX formatting. After using these technologies, the authors thoroughly reviewed and edited the content as needed and take full responsibility for the content of the published article.
+During the preparation of this work, the authors used OpenAI Codex to assist with organizing and refining scientific prose, checking consistency between manuscript statements and supplied experimental records, and editing LaTeX formatting. The authors reviewed the resulting text and remain responsible for verifying the underlying evidence and for the final content of the published article.
 
 \section*{CRediT Authorship Contribution Statement}
 \textbf{Hanh P. Du}: Conceptualization, Methodology, Formal analysis, Validation, Writing -- original draft.

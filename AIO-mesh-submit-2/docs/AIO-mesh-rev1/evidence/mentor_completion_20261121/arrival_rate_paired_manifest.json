@@ -1,0 +1,54 @@
+{
+  "aggregate_rows": "results/evidence/mentor_completion_20261121/arrival_rate_only/arrival_rate_aggregate.csv",
+  "arrival_rates": [
+    0.2,
+    0.4,
+    0.6,
+    0.8,
+    1.0
+  ],
+  "confidence_intervals": "20,000 paired percentile-bootstrap resamples; deterministic per topology and arrival rate",
+  "inputs_sha256": {
+    "results/evidence/mentor_completion_20261121/arrival_rate_only/arrival_rate_aggregate.csv": "19747d3cf136c91a689b9acf4d0affdd3b3d5de94042a6822a03f7940616ffa1",
+    "results/evidence/mentor_completion_20261121/arrival_rate_only/arrival_rate_manifest.json": "00c061593843e9d50d986bdc14c60e9d4260f9c2bdec00649033bc23ce7329fb",
+    "results/evidence/mentor_completion_20261121/arrival_rate_only/arrival_rate_per_seed.csv": "d43519d7ff61ab32079e6a5caa25cd65a496223908db56e9eba6a9cadb5fe2c7",
+    "scripts/rev1/summarize_arrival_rate_sweep.py": "afa96e656251610d8eb55ef7cb0d8a1d62f25a63c98202273b8c955252d84e9a"
+  },
+  "multiplicity": "Holm correction across all 15 topology-by-arrival-rate contrasts",
+  "outputs_sha256": {
+    "docs/AIO-mesh-rev1/evidence/mentor_completion_20261121/arrival_rate_harp_safh_paired.csv": "f70a1850b8a22b21a5a0f010189d25c0c7f30667a46314e2fd12a6278a68cfbc",
+    "docs/AIO-mesh-rev1/figs/arrival_rate_only.pdf": "b32c409a5f4e9eb02c978143aff893cfc0f6122c88871af8112470727dc0978d",
+    "docs/AIO-mesh-rev1/generated/arrival_rate_paired_rows.tex": "9a2240ed3f31891b0eea93a1a034e910931e627ad00c14058c942e83d74b179f"
+  },
+  "paired_tests": "exact two-sided signed-rank test; zero differences dropped; tied absolute ranks averaged",
+  "protocol_manifest": "results/evidence/mentor_completion_20261121/arrival_rate_only/arrival_rate_manifest.json",
+  "raw_rows": "results/evidence/mentor_completion_20261121/arrival_rate_only/arrival_rate_per_seed.csv",
+  "scope": "Matched-seed HARP minus SAF-H safe-acceptance contrasts in the fixed-profile arrival-rate-only experiment",
+  "seeds": [
+    42,
+    100,
+    2024,
+    8888,
+    9999,
+    7,
+    17,
+    73,
+    314,
+    2718,
+    11,
+    23,
+    47,
+    89,
+    101,
+    211,
+    512,
+    1024,
+    4096,
+    8192
+  ],
+  "topologies": [
+    "vietnam",
+    "nsfnet",
+    "geant2"
+  ]
+}

@@ -91,6 +91,7 @@ def summarize(evaluation, evaluation_seeds=EVALUATION_SEEDS,
                   for e in evaluation_seeds]
         per_model[seed] = {
             "training_seed": seed,
+            "training_steps": manifest["checkpoints"][str(seed)]["training_steps"],
             "n_evaluation_seeds": len(values),
             "mean_safe_acceptance_pct": statistics.mean(values),
             "sample_sd_evaluation_pct": statistics.stdev(values),
@@ -104,6 +105,10 @@ def summarize(evaluation, evaluation_seeds=EVALUATION_SEEDS,
             "sample_sd_model_means_pct": statistics.stdev(means),
             "min_model_mean_pct": min(means),
             "max_model_mean_pct": max(means),
+        },
+        "training_steps_by_seed": {
+            str(seed): manifest["checkpoints"][str(seed)]["training_steps"]
+            for seed in training_seeds
         },
         "raw_files": paths,
     }
@@ -121,7 +126,7 @@ def main():
               *summary["raw_files"]]
     manifest_path = OUTPUT / "independent_training_summary_manifest.json"
     manifest_path.write_text(json.dumps({
-        "scope": "Three independently trained Vietnam checkpoints; matched Bursty offered traces; evaluation SD and training-seed SD are distinct",
+        "scope": "Three Vietnam checkpoints evaluated on matched Bursty offered traces. Seed 42 and 7 were trained for 2,001,920 transitions; seed 2024 is an interim 800,000-transition checkpoint. Across-training-seed dispersion is descriptive only and not a matched-budget estimate.",
         "command": "venv/bin/python scripts/rev1/summarize_independent_training.py",
         "inputs_sha256": {str(path.relative_to(ROOT)): sha256(path) for path in inputs},
         "outputs_sha256": {str(csv_path.relative_to(ROOT)): sha256(csv_path)},

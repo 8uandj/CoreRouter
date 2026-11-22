@@ -1,0 +1,79 @@
+{
+  "protocol": "arrival-rate-only-v1",
+  "topologies": [
+    "vietnam",
+    "nsfnet",
+    "geant2"
+  ],
+  "scenario": "bursty",
+  "arrival_rates": [
+    0.2,
+    0.4,
+    0.6,
+    0.8,
+    1.0
+  ],
+  "fixed_ttl_range": [
+    100,
+    500
+  ],
+  "steps_per_seed_condition": 3000,
+  "seeds": [
+    42,
+    100,
+    2024,
+    8888,
+    9999,
+    7,
+    17,
+    73,
+    314,
+    2718,
+    11,
+    23,
+    47,
+    89,
+    101,
+    211,
+    512,
+    1024,
+    4096,
+    8192
+  ],
+  "policies": [
+    "harp_protected",
+    "saf_h_protected",
+    "cspf_protected",
+    "traditional_greedy_protected",
+    "decoupled_ai_protected"
+  ],
+  "request_cpu_ram_msd_profile": "unchanged; source data and bursty scenario are fixed",
+  "data_path": "data/real_telecom_combined.csv",
+  "data_sha256": "5370da1bb55cd679422150c5c4073175109cc7b831eff9c74491b30a17dcdd2a",
+  "models": {
+    "vietnam": {
+      "checkpoint": "results/models/retrain_v11_20261119_corrected/vietnam/dgrl_v11_final_vietnam.zip",
+      "checkpoint_sha256": "ea215985d1ad5d8ccc8e900da82d3e50e5ff51417c05bb96930dfc10ab9e86da",
+      "normalizer": "results/models/retrain_v11_20261119_corrected/vietnam/vec_normalize_v11_vietnam.pkl",
+      "normalizer_sha256": "87385923e8099d3b56096eeaa9a43f75a4e0a670c972a77e667d7e160229d646"
+    },
+    "nsfnet": {
+      "checkpoint": "results/models/retrain_v11_20261119_corrected/nsfnet/dgrl_v11_final_nsfnet.zip",
+      "checkpoint_sha256": "84422beca614c96b110aee4d6ea44eda04e66c41e4a29af912b8b4d8d569c52c",
+      "normalizer": "results/models/retrain_v11_20261119_corrected/nsfnet/vec_normalize_v11_nsfnet.pkl",
+      "normalizer_sha256": "6bf4eccb4578f29201217ff7be59b73d79815adb63c67e6ebb12a8ccb5413596"
+    },
+    "geant2": {
+      "checkpoint": "results/models/retrain_v11_20261119_corrected/geant2/dgrl_v11_final_geant2.zip",
+      "checkpoint_sha256": "ae5a9eb304d4c393327a825b7e467088dcc08227d7bb6be2c5059c78d56d3748",
+      "normalizer": "results/models/retrain_v11_20261119_corrected/geant2/vec_normalize_v11_geant2.pkl",
+      "normalizer_sha256": "f86466cb046f0f629a3b7822aa6990d105f10141ac7b99f7887c4be200806571"
+    }
+  },
+  "source_sha256": {
+    "/dis/users/dcs/CoreRouter/AIO-mesh-submit-2/scripts/rev1/run_arrival_rate_sweep.py": "e163745e119912957dbfdf43c8096b028dede1b745cd81f58d5fa0ff91f32fa5",
+    "/dis/users/dcs/CoreRouter/AIO-mesh-submit-2/src/analytics/benchmark/benchmark_algorithm/algorithms.py": "3549c20f6e27dee65ba9755437cfb979dae662608c55fba5b421e07ae7a28abd",
+    "/dis/users/dcs/CoreRouter/AIO-mesh-submit-2/src/orchestration/jo_vdpr/env.py": "bc06f22067c22b6a80e8985e0cbc3b5490ac309e0b07bc7573e8393e607b4d48",
+    "/dis/users/dcs/CoreRouter/AIO-mesh-submit-2/src/orchestration/jo_vdpr/topology.py": "2b91b72673be8dfb66dc929edc58d80e5f44148ff495a4d0c576077d17ca19f7"
+  }
+}

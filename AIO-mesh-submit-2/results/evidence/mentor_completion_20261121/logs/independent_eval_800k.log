@@ -1,0 +1,8 @@
+/dis/users/dcs/.config/matplotlib is not a writable directory
+Matplotlib created a temporary cache directory at /tmp/matplotlib-ki7menz0 because there was an issue with the default path (/dis/users/dcs/.config/matplotlib); it is highly recommended to set the MPLCONFIGDIR environment variable to a writable directory, in particular to speed up the import of Matplotlib and to better support multiprocessing.
+Traceback (most recent call last):
+  File "/dis/users/dcs/CoreRouter/AIO-mesh-submit-2/scripts/rev1/evaluate_independent_training.py", line 18, in <module>
+    run=run_jo_vppm(lambda:make_env('vietnam',data,3000,1.,(100,500),'bursty'),str(model),str(norm),'bursty',3000,seed,True);row=run.as_summary();row['training_seed']=train_seed;row['training_steps']=training_steps
+  File "/dis/users/dcs/CoreRouter/AIO-mesh-submit-2/src/analytics/benchmark/benchmark_algorithm/algorithms.py", line 249, in run_jo_vppm
+    if not model_path.exists() or not norm_path.exists():
+AttributeError: 'str' object has no attribute 'exists'

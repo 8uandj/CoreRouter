@@ -1,0 +1,8 @@
+Traceback (most recent call last):
+  File "/dis/users/dcs/CoreRouter/AIO-mesh-submit-2/scripts/rev1/summarize_independent_training.py", line 134, in <module>
+    main()
+  File "/dis/users/dcs/CoreRouter/AIO-mesh-submit-2/scripts/rev1/summarize_independent_training.py", line 113, in main
+    summary = summarize(EVALUATION, benchmark=BENCHMARK)
+  File "/dis/users/dcs/CoreRouter/AIO-mesh-submit-2/scripts/rev1/summarize_independent_training.py", line 41, in summarize
+    artifacts = manifest["checkpoints"][str(seed)]
+KeyError: '7'

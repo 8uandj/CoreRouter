@@ -121,7 +121,8 @@ def train_dgrl(topology_name: str, *, total_steps: int = TOTAL_STEPS,
                n_envs: int = N_ENVS, rollout_steps: int = N_STEPS, seed: int = 42,
                data_path: str = None, model_dir: str = None,
                batch_size: int = BATCH_SIZE, device: str = "auto",
-               checkpoint_freq: int = 500_000):
+               checkpoint_freq: int = 500_000, resume_from: str = None,
+               resume_vecnormalize: str = None):
     if total_steps <= 0 or n_envs <= 0 or rollout_steps < 2 or batch_size <= 0 or checkpoint_freq <= 0:
         raise ValueError("training budget, env count, batch size and checkpoint frequency must be positive; rollout_steps >= 2")
     if device == "cuda" and not torch.cuda.is_available():
@@ -154,7 +155,14 @@ def train_dgrl(topology_name: str, *, total_steps: int = TOTAL_STEPS,
         for i in range(n_envs)
     ])
     train_env = VecMonitor(train_env)
-    train_env = VecNormalize(train_env, norm_obs=True, norm_reward=True, clip_obs=10.0, gamma=0.99)
+    if resume_from:
+        if not resume_vecnormalize or not os.path.isfile(resume_vecnormalize):
+            raise FileNotFoundError("--resume-from requires an existing --resume-vecnormalize file")
+        train_env = VecNormalize.load(resume_vecnormalize, train_env)
+        train_env.training = True
+        train_env.norm_reward = True
+    else:
+        train_env = VecNormalize(train_env, norm_obs=True, norm_reward=True, clip_obs=10.0, gamma=0.99)
 
     eval_env = DummyVecEnv([
         make_env(99, seed=999, data_path=DATA_PATH, topology_name=topology_name, lambda_ref=-50.0)
@@ -173,7 +181,13 @@ def train_dgrl(topology_name: str, *, total_steps: int = TOTAL_STEPS,
     )
 
     # ── Khởi tạo Mô Hình ─────────────────────────────────────────
-    model = MaskablePPO(
+    if resume_from:
+        model = MaskablePPO.load(resume_from, env=train_env, device=device)
+        if model.num_timesteps >= total_steps:
+            raise ValueError(f"resume checkpoint already has {model.num_timesteps} steps (target {total_steps})")
+        logger.info("Resuming from %s at %s transitions", resume_from, model.num_timesteps)
+    else:
+        model = MaskablePPO(
         policy=GNNActorCriticPolicy,
         env=train_env,
         learning_rate=linear_schedule(LEARNING_RATE),
@@ -191,7 +205,7 @@ def train_dgrl(topology_name: str, *, total_steps: int = TOTAL_STEPS,
         verbose=1,
         seed=seed,
         device=device,
-    )
+        )
 
     # ── Callbacks ────────────────────────────────────────────────
     base_reward_calc = RewardCalculator(lambda_latency=-100.0)
@@ -218,8 +232,10 @@ def train_dgrl(topology_name: str, *, total_steps: int = TOTAL_STEPS,
     # ── Training ─────────────────────────────────────────────────
     logger.info("Khởi động quá trình Huấn Luyện (Level 0)...")
     try:
-        model.learn(total_timesteps=total_steps, callback=callbacks,
-                    tb_log_name=f"run_v11_{topology_name}")
+        remaining_steps = total_steps - model.num_timesteps if resume_from else total_steps
+        model.learn(total_timesteps=remaining_steps, callback=callbacks,
+                    tb_log_name=f"run_v11_{topology_name}",
+                    reset_num_timesteps=not bool(resume_from))
         
         final_model_path = os.path.join(MODEL_DIR, f'dgrl_v11_final_{topology_name}.zip')
         model.save(final_model_path)
@@ -253,6 +269,8 @@ if __name__ == "__main__":
     parser.add_argument("--device", choices=["auto", "cpu", "cuda"], default="auto")
     parser.add_argument("--checkpoint-freq", type=int, default=500_000,
                         help="Number of environment transitions between checkpoint pairs (model and VecNormalize).")
+    parser.add_argument("--resume-from", default=None, help="Resume from a saved MaskablePPO model.")
+    parser.add_argument("--resume-vecnormalize", default=None, help="VecNormalize state paired with --resume-from.")
     args = parser.parse_args()
     if args.topology == "all":
         topologies = ["vietnam", "nsfnet", "geant2"]
@@ -265,4 +283,5 @@ if __name__ == "__main__":
                    rollout_steps=args.rollout_steps, seed=args.seed,
                    data_path=args.data_path, model_dir=args.model_dir,
                    batch_size=args.batch_size, device=args.device,
-                   checkpoint_freq=args.checkpoint_freq)
+                   checkpoint_freq=args.checkpoint_freq, resume_from=args.resume_from,
+                   resume_vecnormalize=args.resume_vecnormalize)
