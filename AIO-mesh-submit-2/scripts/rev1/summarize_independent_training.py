@@ -9,7 +9,7 @@ from pathlib import Path
 
 
 ROOT = Path(__file__).resolve().parents[2]
-EVALUATION = ROOT / "results/evidence/mentor_completion_20261121/independent_training/evaluation"
+EVALUATION = ROOT / "results/evidence/mentor_completion_20261121/independent_training/evaluation_2m"
 OUTPUT = ROOT / "docs/AIO-mesh-rev1/evidence/mentor_completion_20261121"
 BENCHMARK = ROOT / "docs/AIO-mesh-rev1/evidence/model_refresh_20261120/stress_per_seed_all_topologies.csv"
 TRAINING_SEEDS = (42, 7, 2024)
@@ -64,6 +64,8 @@ def summarize(evaluation, evaluation_seeds=EVALUATION_SEEDS,
             raise ValueError(f"Unexpected or duplicated evaluation cell: {path}")
         if int(row["requests"]) != 3000:
             raise ValueError(f"Unexpected request count: {path}")
+        if int(row["training_steps"]) != int(manifest["checkpoints"][str(train_seed)]["training_steps"]):
+            raise ValueError(f"Training-step mismatch: {path}")
         trace = row["trace_sha256"]
         if eval_seed in traces and traces[eval_seed] != trace:
             raise ValueError(f"Trace mismatch for evaluation seed {eval_seed}")
@@ -122,14 +124,26 @@ def main():
         writer = csv.DictWriter(stream, fieldnames=list(next(iter(summary["per_model"].values()))))
         writer.writeheader()
         writer.writerows(summary["per_model"].values())
+    generated = ROOT / "docs/AIO-mesh-rev1/generated"
+    table_path = generated / "independent_training_rows.tex"
+    table_path.write_text("\n".join(
+        f"{r['training_seed']} & {r['training_steps']:,} & {r['mean_safe_acceptance_pct']:.3f} & {r['sample_sd_evaluation_pct']:.3f} " + r"\\"
+        for r in summary["per_model"].values()) + "\n")
+    stats = summary["across_training"]
+    macro_path = generated / "independent_training_numbers.tex"
+    macro_path.write_text("\n".join(
+        chr(92) + "newcommand{" + chr(92) + name + "}{" + f"{stats[key]:.3f}" + "}"
+        for name, key in (("TrainingMeanMin", "min_model_mean_pct"),
+                          ("TrainingMeanMax", "max_model_mean_pct"),
+                          ("TrainingMeanSD", "sample_sd_model_means_pct"))) + "\n")
     inputs = [EVALUATION / "manifest.json", BENCHMARK, Path(__file__).resolve(),
               *summary["raw_files"]]
     manifest_path = OUTPUT / "independent_training_summary_manifest.json"
     manifest_path.write_text(json.dumps({
-        "scope": "Three Vietnam checkpoints evaluated on matched Bursty offered traces. Seed 42 and 7 were trained for 2,001,920 transitions; seed 2024 is an interim 800,000-transition checkpoint. Across-training-seed dispersion is descriptive only and not a matched-budget estimate.",
+        "scope": "Three independently trained Vietnam final checkpoints at the nominal 2M-transition budget, evaluated on 20 matched Bursty traces per checkpoint; actual saved transition counts are retained in the evaluation manifest. Training-seed dispersion is descriptive with three models.",
         "command": "venv/bin/python scripts/rev1/summarize_independent_training.py",
         "inputs_sha256": {str(path.relative_to(ROOT)): sha256(path) for path in inputs},
-        "outputs_sha256": {str(csv_path.relative_to(ROOT)): sha256(csv_path)},
+        "outputs_sha256": {str(p.relative_to(ROOT)): sha256(p) for p in (csv_path, table_path, macro_path)},
         "across_training": summary["across_training"],
     }, indent=2, sort_keys=True) + "\n")
     print(f"Validated {len(summary['raw_files'])} paired evaluation cells; wrote {csv_path}")

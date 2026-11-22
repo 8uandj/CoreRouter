@@ -1,0 +1,410 @@
+\documentclass[final,5p]{elsarticle}
+\ifdefined\pdfobjcompresslevel
+  \pdfobjcompresslevel=0
+\fi
+\usepackage{amsmath,amssymb,amsfonts}
+\usepackage{microtype,pifont}
+\usepackage{graphicx}
+\usepackage{dblfloatfix}
+\usepackage[dvipsnames]{xcolor}
+\usepackage{pgfplots}
+\usepgfplotslibrary{groupplots}
+\pgfplotsset{compat=1.18}
+\usepackage{booktabs,multirow,tabularx,array,makecell}
+\usepackage{algorithm,algorithmicx,algpseudocode}
+\usepackage{enumitem, float,placeins}
+\usepackage{caption}
+\usepackage[colorlinks,bookmarksopen,bookmarksnumbered,citecolor=black, colorlinks=true,linkcolor=black,urlcolor=black,breaklinks=true]{hyperref}
+\usepackage{xurl}
+\usepackage{orcidlink}
+\usepackage{balance}
+% Permit top/bottom placement of two-column floats and reduce float starvation.
+\setcounter{topnumber}{3}
+\setcounter{dbltopnumber}{3}
+\renewcommand{\topfraction}{0.9}
+\renewcommand{\dbltopfraction}{0.9}
+\renewcommand{\bottomfraction}{0.8}
+\renewcommand{\textfraction}{0.05}
+\renewcommand{\floatpagefraction}{0.75}
+\renewcommand{\dblfloatpagefraction}{0.75}
+
+% =========================
+% Commands and styles
+% =========================
+\newcommand{\cmark}{\textcolor{ForestGreen}{\ding{51}}}
+\newcommand{\xmark}{\textcolor{BrickRed}{\ding{55}}}
+\ifdefined\CleanRevision
+  \colorlet{revisiongreen}{black}
+\else
+  \colorlet{revisiongreen}{ForestGreen}
+\fi
+\newcommand{\rev}[1]{\textcolor{revisiongreen}{#1}}
+\let\newrev\rev
+% Use TeX primitive input for row fragments immediately before booktabs rules.
+\newcommand{\TableRows}[1]{\csname @@input\endcsname{#1}}
+
+\newcolumntype{R}[1]{>{\raggedleft\arraybackslash}m{#1}}
+\newcolumntype{L}[1]{>{\raggedright\arraybackslash}m{#1}}
+\newcolumntype{C}[1]{>{\centering\arraybackslash}m{#1}}
+
+\renewcommand{\algorithmicrequire}{\textbf{Input:}}
+\renewcommand{\algorithmicensure}{\textbf{Output:}}
+\algrenewcommand\algorithmiccomment[1]{\hfill{\footnotesize$\triangleright$ #1}}
+
+\makeatletter
+\newcommand{\algorithmautorefname}{Algorithm}
+\renewcommand{\figureautorefname}{Figure}
+\renewcommand{\tableautorefname}{Table}
+\renewcommand{\equationautorefname}{Eq.}
+\renewcommand{\sectionautorefname}{Section}
+\makeatother
+
+\journal{Future Generation Computer Systems}
+
+\input{generated/numbers.tex}
+\input{generated/hil_e2e_numbers.tex}
+\input{generated/independent_training_numbers.tex}
+\begin{document}
+\title{AIO-Mesh: Supplementary Results}
+\author{Hanh P. Du et al.}
+\maketitle
+\setcounter{table}{0}
+\renewcommand{\thetable}{S\arabic{table}}
+\renewcommand{\theHtable}{supplement.\arabic{table}}
+\begin{table*}[t]
+\centering
+\caption{Positioning of AIO-Mesh against representative related work. \rev{The MSD column concerns explicit SRv6 admission, not general resource-constraint handling.}}
+\label{tab:related_comparison}
+\renewcommand{\arraystretch}{1.15}
+\resizebox{\textwidth}{!}{
+\begin{tabular}{p{4.0cm}p{3.1cm}p{2.0cm}p{2.0cm}p{2.0cm}p{1.8cm}p{1.8cm}}
+\toprule
+\textbf{Work line} & \textbf{Primary focus} & \textbf{Cloud-native lifecycle} & \textbf{Graph-aware policy} & \rev{\textbf{SRv6 MSD admission}} & \textbf{Program- mable actuation} & \textbf{AIOps runtime} \\
+\midrule
+Classical ILP / greedy heuristics & SFC placement and routing & No & Limited & \rev{Varies} & No & No \\
+DRL-based SFC placement~\cite{wang2021drl,taktak2024drl,li2023qosaware} & Online SFC embedding & No & Partial & No & No & No \\
+\rev{Graph-assisted embedding}~\cite{xiao2023twostage,pei2025graph,liu2024sfcml} & Topology-aware embedding & No & Yes & No & No & No \\
+SFC migration studies~\cite{zhai2023migration,addad2022ai,qin2023sfcmigrationbudget,afrasiabi2024cluster,zhang2025sfcmigration,hu2026rlpmo} & Load/failure migration & Partial & Varies & No & No & Limited \\
+SRv6/P4 service-chain systems~\cite{stockmayer2020p4sfc,xiang2019p4sc,yan2024srv6int,li2024stsfc,ma2024sfcache} & Programmable steering & Limited & Partial & Partial & Yes & Limited \\
+\newrev{Safe RL for network slicing~\cite{liu2021safeslicing,nagib2025safeslice}} & \newrev{Resource and latency constraints} & Partial & Varies & No & No & Limited \\
+SFCPlanner~\cite{qiu2024sfcplanner} & SRv6-aware planning & No & Partial & Partial & Yes & No \\
+AIOps/MLOps automation~\cite{kreuzberger2023mlops,diazdearcaya2024joint,eken2025mlops,bayram2025trustworthy,zhang2025aiopsllm,eramo2024architecture} & Operational ML loops & Partial & Not network-specific & No & No & Yes \\
+\textbf{AIO-Mesh / HARP} & Hardware-safe AIOps orchestration & \textbf{Yes} & \textbf{Yes} & \rev{Pair-level} & \textbf{Yes} & \textbf{Yes} \\
+\bottomrule
+\end{tabular}
+}
+\end{table*}
+
+\begin{table*}[t]
+\centering
+\caption{\newrev{Protocols supporting the simulation evaluation. All use 20 evaluation seeds and 3,000 simulator steps per seed and condition. Main-policy and ablation checkpoints are distinct.}}
+\label{tab:evaluation_protocols}
+\color{revisiongreen}
+\scriptsize
+\begin{tabular}{p{0.18\textwidth}p{0.19\textwidth}p{0.25\textwidth}p{0.28\textwidth}}
+\toprule
+Experiment & Checkpoint/interface & Offered traffic and occupancy & Interpretation \\
+\midrule
+Algorithm benchmark & Corrected main retrain, flat N² head & Three stress workloads; arrival 1.0; TTL 100--500 & Six topologies; completed seed-level results with 20 evaluation seeds per cell \\
+Matched-trace ablation & Variant-specific flat-action policies & Four workloads; arrival 1.0; TTL 100--500 & Candidate quality, pruning, and modeled admission; distinct trained variants \\
+Timed ablation & Variant-specific flat-action policies & Ten topology--workload conditions; arrival 1.0; TTL 100--500 & Simulator normalization, inference, and stepping; external actuation excluded \\
+Background chains & Corrected main flat N² checkpoints & Bursty; arrival 1.0; 0/25/50/100 persistent chains; topology-scaled TTL & Completed occupancy sweep; 20 evaluation seeds per condition \\
+Arrival-rate-only & Corrected main flat N² checkpoints & Bursty; arrival probability 0.2--1.0; fixed TTL 100--500 & Isolates arrival probability; 15 topology--rate cells and 20 matched evaluation seeds per policy \\
+Load-sweep protocol & Corrected main flat N² checkpoints & Bursty at seven multipliers from 0.2 to 1.5; above 1.0, scale demand, requested SID depth, and TTL & Completed combined offered-intensity sweep; 21 topology--intensity cells and 20 evaluation seeds \\
+\bottomrule
+\end{tabular}
+\end{table*}
+
+\begin{table}[t]
+\centering
+\color{revisiongreen}
+\caption{\newrev{Paired protected HARP--CSPF safe-acceptance differences (percentage points; 20 matched seeds). CIs are percentile-bootstrap 95\%; $p_H$ is the two-sided Wilcoxon $p$-value with Holm correction across nine conditions; $r$ is the paired rank-biserial effect.}}
+\label{tab:cspf_paired_statistics}
+\scriptsize
+\setlength{\tabcolsep}{2.5pt}
+\resizebox{\columnwidth}{!}{%
+\begin{tabular}{llrrrr}
+\toprule
+Network & Profile & $\Delta$ & 95\% CI & $p_H$ & $r$ \\
+\midrule
+Vietnam & E & 0.392 & [0.215, 0.577] & 0.00142 & 0.810 \\
+Vietnam & B & 0.872 & [0.603, 1.130] & 0.000187 & 0.943 \\
+Vietnam & C & 0.650 & [0.477, 0.828] & 0.000787 & 1.000 \\
+NSFNET & E & 0.672 & [0.487, 0.867] & 4.58e-05 & 0.981 \\
+NSFNET & B & 0.742 & [0.560, 0.932] & 1.72e-05 & 1.000 \\
+NSFNET & C & 0.902 & [0.655, 1.143] & 0.000787 & 0.989 \\
+GEANT2 & E & 0.518 & [0.305, 0.718] & 0.00105 & 0.857 \\
+GEANT2 & B & 0.183 & [0.045, 0.328] & 0.0759 & 0.462 \\
+GEANT2 & C & 0.623 & [0.425, 0.832] & 0.00105 & 0.947 \\
+\bottomrule
+\end{tabular}%
+}
+\end{table}
+
+\begin{table}[t]
+\centering
+\caption{\newrev{Full-policy safe acceptance and decision timing (20 seeds; mean $\pm$ sample SD). Timing summarizes seed-level P95 values; it is not a pooled request-level P95.}}
+\label{tab:timed_full_coverage}
+{\color{revisiongreen}\scriptsize
+\setlength{\tabcolsep}{3pt}
+\resizebox{\columnwidth}{!}{%
+\begin{tabular}{llrr}
+\toprule
+Network & Workload & Safe (\%) & P95 (ms) \\
+\midrule
+GEANT2 & Bursty & 80.52 $\pm$ 0.46 & 2.969 $\pm$ 0.032 \\
+GEANT2 & Uniform & 71.32 $\pm$ 0.36 & 2.802 $\pm$ 0.079 \\
+NSFNET & Bursty & 66.83 $\pm$ 0.56 & 2.242 $\pm$ 0.051 \\
+NSFNET & Chaos & 52.34 $\pm$ 0.73 & 2.223 $\pm$ 0.063 \\
+NSFNET & Heavy-tail & 51.43 $\pm$ 0.54 & 2.187 $\pm$ 0.055 \\
+NSFNET & Uniform & 56.81 $\pm$ 0.69 & 2.173 $\pm$ 0.025 \\
+Vietnam & Bursty & 56.83 $\pm$ 0.78 & 2.250 $\pm$ 0.062 \\
+Vietnam & Chaos & 43.31 $\pm$ 0.84 & 1.986 $\pm$ 0.031 \\
+Vietnam & Heavy-tail & 42.79 $\pm$ 0.70 & 2.105 $\pm$ 0.145 \\
+Vietnam & Uniform & 47.10 $\pm$ 0.54 & 2.201 $\pm$ 0.111 \\
+\bottomrule
+\end{tabular}%
+}}
+\end{table}
+
+\begin{table*}[t]
+\centering
+\caption{Candidate pruning and local admission outcomes under matched traces (20 evaluation seeds across four workloads; mean $\pm$ sample SD over 80 seed--workload cells per topology, percentages). Empty-mask and conditional pruning columns report means.}
+\label{tab:mask_admission}
+\scriptsize
+\begin{tabular}{llrrrrr}
+\toprule
+Topology & Variant & All pruning & Empty mask & Pruning if nonempty & Admitted violations & Safe acceptance \\
+\midrule
+\TableRows{generated/table09_rows.tex}
+\bottomrule
+\end{tabular}
+\end{table*}
+
+\begin{table*}[t]
+\centering
+\caption{\newrev{Control-plane HIL summary. Counts and percent denominators are derived from the request log; readiness counts use the 60-second Kubernetes samples.}}
+\label{tab:hil_12h}
+{\color{revisiongreen}
+\small
+\input{generated/table11.tex}
+}
+\end{table*}
+
+\begin{table}[t]
+\centering
+\caption{\newrev{Protected-policy safe acceptance across the load sweep (\%; mean $\pm$ sample SD, 20 seeds). Load denotes offered intensity; DAI denotes Decoupled AI.}}
+\label{tab:load_sweep_results}
+\scriptsize
+{\color{revisiongreen}
+\setlength{\tabcolsep}{3pt}
+\resizebox{\columnwidth}{!}{%
+\begin{tabular}{llrrrrr}
+\toprule
+Network & Load & Greedy & DAI & SAF-H & CSPF & HARP \\
+\midrule
+\TableRows{evidence/completion_20261121/load_cspf.tex}
+\bottomrule
+\end{tabular}%
+}}
+\end{table}
+
+\begin{table*}[t]
+\centering
+\caption{\newrev{Sampled exhaustive pair-action oracle on Vietnam (10 seeds; 120 states per seed). Conditional rates are seed-level means with sample SD.}}
+\label{tab:missed_feasible_oracle}
+\scriptsize
+{\color{revisiongreen}
+\setlength{\tabcolsep}{3pt}
+\resizebox{\textwidth}{!}{%
+\begin{tabular}{lrrrr}
+\toprule
+Policy & Sampled states & Selected rejections & With accepted alternative & Conditional rate (\%; mean $\pm$ SD) \\
+\midrule
+HARP & 1,200 & 583 & 30 & 5.16 $\pm$ 1.84 \\
+SAF-H & 1,200 & 579 & 33 & 5.70 $\pm$ 2.32 \\
+\bottomrule
+\end{tabular}%
+}}
+\end{table*}
+
+\begin{table}[t]
+\centering
+\caption{Safe acceptance under long-lived background-chain occupancy (20 seeds; mean $\pm$ sample SD, percentages).}
+\label{tab:active_chain_stress}
+\scriptsize
+\setlength{\tabcolsep}{3pt}
+\resizebox{\columnwidth}{!}{%
+\begin{tabular}{lrrrr}
+\toprule
+Network & Chains & HARP & SAF-H & CSPF \\
+\midrule
+\TableRows{evidence/completion_20261121/chains_cspf.tex}
+\bottomrule
+\end{tabular}%
+}
+\end{table}
+
+\begin{table*}[t]
+\centering
+\caption{Protected safe acceptance on synthetic topologies (percent; mean $\pm$ sample SD across 20 seeds). E, B, and C denote Elephant stress, Burst surge, and Chaos.}
+\label{tab:synthetic_stress}
+\scriptsize
+\begin{tabular}{llrrrrr}
+\toprule
+Nodes & Profile & Greedy & DAI & SAF-H & CSPF & HARP \\
+\midrule
+\TableRows{evidence/model_refresh_20261120/synthetic_stress_table_rows.tex}
+\bottomrule
+\end{tabular}
+\end{table*}
+
+\begin{table*}[t]
+\centering
+\caption{Exploratory HARP minus strongest protected baseline safe acceptance (percentage points; 20 paired seeds). The strongest baseline is selected by sample mean in the same cell. $p_H$ uses Holm correction over nine real-topology comparisons; selection uncertainty is not accounted for.}
+\label{tab:best_baseline_exploratory}
+\scriptsize
+\begin{tabular}{lllrrrr}
+\toprule
+Network & Profile & Baseline & $\Delta$ & 95\% CI & $p_H$ & $n_{eff}$ \\
+\midrule
+\TableRows{evidence/completion_20261121/best_baseline.tex}
+\bottomrule
+\end{tabular}
+\end{table*}
+
+\begin{table}[t]
+\centering
+\caption{Pre-step mask and admission audit: 20 seeds and 60,000 decisions per topology. Last column counts empty masks becoming nonempty after pending TTL expiry.}
+\label{tab:mask_ttl_audit}
+\scriptsize
+\resizebox{\columnwidth}{!}{%
+\begin{tabular}{lrrrr}
+\toprule
+Network & Empty & Rejected, empty & Rejected, nonempty & Empty $\rightarrow$ nonempty \\
+\midrule
+\TableRows{evidence/mentor_completion_20261121/mask_table.tex}
+\bottomrule
+\end{tabular}}
+\end{table}
+
+\begin{table}[t]
+\centering
+\caption{Full GAT versus MLP under synthetic sparse adjacency (20 matched Bursty seeds; safe acceptance percent, paired difference in percentage points with 95\% bootstrap CI).}
+\label{tab:sparse_gat_mlp}
+\scriptsize
+\resizebox{\columnwidth}{!}{%
+\begin{tabular}{lrrrr}
+\toprule
+Network & Full & MLP & Difference & 95\% CI \\
+\midrule
+\TableRows{evidence/mentor_completion_20261121/sparse_table.tex}
+\bottomrule
+\end{tabular}}
+\end{table}
+
+\begin{table}[t]
+\centering
+\caption{Sampled pair oracle for the offered-intensity protocol. Counts aggregate ten seeds; sampled states are not independent replications.}
+\label{tab:oracle_load_followup}
+\scriptsize
+\resizebox{\columnwidth}{!}{%
+\begin{tabular}{llrrrr}
+\toprule
+Network & Load & Policy & States & Rejected & With alternative \\
+\midrule
+\TableRows{evidence/mentor_completion_20261121/oracle_table.tex}
+\bottomrule
+\end{tabular}}
+\end{table}
+\section*{Supplementary Results}
+\begingroup
+\setcounter{figure}{0}
+\renewcommand{\thefigure}{S\arabic{figure}}
+\renewcommand{\theHfigure}{supplement.\arabic{figure}}
+\renewcommand{\thetable}{S\arabic{table}}
+\renewcommand{\theHtable}{supplement.\arabic{table}}
+\begin{figure*}[p]
+\centering
+\includegraphics[width=0.94\textwidth]{figs/benchmark_paired_effects.pdf}
+\caption{\newrev{Protected HARP minus SAF-H acceptance across three topologies and three stress workloads. Points show mean paired seed-level differences; horizontal intervals are percentile-bootstrap 95\% confidence intervals from paired seed-level trials. Positive values favor HARP. Holm-adjusted tests across all nine conditions are reported in Table~3.}}
+\label{fig:benchmark_effects}
+\end{figure*}
+
+\begin{figure*}[p]
+\centering
+\includegraphics[width=0.94\textwidth]{figs/ablation_compute_cost.pdf}
+\caption{\newrev{Acceptance and measured computation cost of Full and MLP ablation checkpoints on Vietnam. Bars show means and error bars show sample SD across 20 evaluation seeds. The right panel aggregates the per-seed P95 interval including normalization, inference, and simulator stepping; it excludes external controller actuation.}}
+\label{fig:ablation_cost}
+\end{figure*}
+
+\begin{figure*}[p]
+\centering
+\includegraphics[width=0.94\textwidth]{figs/ablation_mask_admission.pdf}
+\caption{\newrev{Candidate pruning and safe acceptance for Full and NoMask ablation variants with runtime admission enabled. Bars summarize 80 seed--workload cells per topology; error bars are sample SD across those cells. All six protected configurations recorded zero admitted hard violations. Distinct checkpoints and resulting state trajectories limit causal attribution to masking alone.}}
+\label{fig:ablation_pruning}
+\end{figure*}
+
+\input{evidence/load_sweep/mentor_b2_load_sweep_21.tex}
+\input{evidence/load_sweep/mentor_d1_unprotected_load_sweep.tex}
+\begin{table*}[p]
+\centering
+\caption{Unprotected stress benchmark: mean admitted modeled violations across 20 seeds (percent of offered requests). CPU, RAM, bandwidth, and MSD categories may overlap; the union counts each request once.}
+\label{tab:unprotected_stress}
+\scriptsize
+\begin{tabular}{lllrrrrr}
+\toprule
+Network & Profile & Policy & CPU & RAM & BW & MSD & Union \\
+\midrule
+\TableRows{evidence/mentor_completion_20261121/unprotected_stress_rows.tex}
+\bottomrule
+\end{tabular}
+\end{table*}
+
+
+\begin{table*}[p]
+\centering
+\caption{\newrev{Simulated service quality for the admitted requests of each policy. Each cell averages 20 seed-level measurements. The policies may admit different request populations.}}
+\label{tab:stress_qos}
+{\color{revisiongreen}
+\begin{tabular}{llrrrr}
+\toprule
+& & \multicolumn{2}{c}{HARP} & \multicolumn{2}{c}{SAF-H} \\
+\cmidrule(lr){3-4}\cmidrule(lr){5-6}
+Topology & Workload & Latency (ms) & SLA violation (\%) & Latency (ms) & SLA violation (\%) \\
+\midrule
+\TableRows{generated/qos_rows.tex}
+\bottomrule
+\end{tabular}
+}
+\end{table*}
+
+\begin{table*}[p]
+\centering
+\caption{\newrev{Paired HARP minus SAF-H safe-acceptance differences in the fixed-profile arrival-rate experiment (percentage points; 20 matched seeds). Intervals are paired percentile-bootstrap 95\% CIs; $p_H$ is the exact signed-rank p-value after Holm correction over 15 topology--rate cells.}}
+\label{tab:arrival_rate_paired_statistics}
+\scriptsize
+\begin{tabular}{llrrrrr}
+\toprule
+Topology & Arrival probability & Mean difference & 95\% CI & $p$ & $p_H$ \\
+\midrule
+\TableRows{generated/arrival_rate_paired_rows.tex}
+\bottomrule
+\end{tabular}
+\end{table*}
+\begin{table*}[p]
+\centering
+\caption{\newrev{Independent HARP training on Vietnam at the nominal 2M-transition budget. Each model is evaluated on 20 matched Bursty stress seeds; acceptance is in percent, and SD is across evaluation seeds. Training seeds and evaluation seeds are separate experimental factors.}}
+\label{tab:independent_training}
+{\color{revisiongreen}
+\begin{tabular}{rrrr}
+\toprule
+Training seed & Saved transitions & Mean safe acceptance (\%) & Evaluation SD (pp) \\
+\midrule
+\TableRows{generated/independent_training_rows.tex}
+\bottomrule
+\end{tabular}}
+\end{table*}
+\clearpage
+\endgroup
+\end{document}

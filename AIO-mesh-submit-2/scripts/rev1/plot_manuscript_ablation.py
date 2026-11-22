@@ -35,6 +35,6 @@ def main():
             ax.bar(np.arange(2)+offset,means,width=.28,yerr=sd,capsize=3,label=label,color=color)
             ax.set_xticks([0,1],['Uniform','Bursty']);ax.grid(axis='y',alpha=.2)
     axes[0].set_ylabel('Safe acceptance (%)');axes[0].set_ylim(0,65)
-    axes[1].set_ylabel('Seed-level policy-decision p95 (ms)');axes[1].set_ylim(0,2.7)
+    axes[1].set_ylabel('Seed-level simulator-decision P95 (ms)');axes[1].set_ylim(bottom=0)
     axes[0].legend(frameon=False);fig.tight_layout();fig.savefig(OUT/'ablation_compute_cost.pdf',bbox_inches='tight');plt.close(fig)
 if __name__=='__main__':main()

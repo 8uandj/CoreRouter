@@ -1,0 +1,54 @@
+{
+  "scenario": "bursty stress; matched offered traces; 3000 steps per seed; deterministic policy",
+  "evaluation_seeds": [
+    42,
+    100,
+    2024,
+    8888,
+    9999,
+    7,
+    17,
+    73,
+    314,
+    2718,
+    11,
+    23,
+    47,
+    89,
+    101,
+    211,
+    512,
+    1024,
+    4096,
+    8192
+  ],
+  "training_seeds": [
+    42,
+    7,
+    2024
+  ],
+  "data_sha256": "5370da1bb55cd679422150c5c4073175109cc7b831eff9c74491b30a17dcdd2a",
+  "checkpoints": {
+    "42": {
+      "model": "results/models/retrain_v11_20261119_corrected/vietnam/dgrl_v11_final_vietnam.zip",
+      "model_sha256": "ea215985d1ad5d8ccc8e900da82d3e50e5ff51417c05bb96930dfc10ab9e86da",
+      "normalizer": "results/models/retrain_v11_20261119_corrected/vietnam/vec_normalize_v11_vietnam.pkl",
+      "normalizer_sha256": "87385923e8099d3b56096eeaa9a43f75a4e0a670c972a77e667d7e160229d646",
+      "training_steps": 2002944
+    },
+    "7": {
+      "model": "results/evidence/mentor_completion_20261121/independent_training/matched_seed_7/dgrl_v11_final_vietnam.zip",
+      "model_sha256": "ffd704b5e56f2703cc06d1a85c768c66f318f8fbe84588a0c8580550a88c8026",
+      "normalizer": "results/evidence/mentor_completion_20261121/independent_training/matched_seed_7/vec_normalize_v11_vietnam.pkl",
+      "normalizer_sha256": "d2c77ffd5e5f750e9e90721474dfffdf82fccacec48d99c72f86389041a82d90",
+      "training_steps": 2002944
+    },
+    "2024": {
+      "model": "results/evidence/mentor_completion_20261121/independent_training/matched_seed_2024/dgrl_v11_final_vietnam.zip",
+      "model_sha256": "df1a7f118e363bde59cf7ef9890bad0ce55ff69750b4c9707880266c00def625",
+      "normalizer": "results/evidence/mentor_completion_20261121/independent_training/matched_seed_2024/vec_normalize_v11_vietnam.pkl",
+      "normalizer_sha256": "0157745b7ecca1fb6b060abf42da5b21fb66faf97c83706487cfaa1504c4e9d4",
+      "training_steps": 2002944
+    }
+  }
+}

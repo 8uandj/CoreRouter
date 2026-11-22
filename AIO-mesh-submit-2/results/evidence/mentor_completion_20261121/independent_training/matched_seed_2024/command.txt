@@ -1,0 +1,1 @@
+venv/bin/python -m src.analytics.training.train_v11 --topology vietnam --device cuda --total-steps 2001920 --seed 2024 --n-envs 4 --rollout-steps 512 --batch-size 32 --checkpoint-freq 100000 --data-path data/real_telecom_combined.csv --model-dir results/evidence/mentor_completion_20261121/independent_training/matched_seed_2024

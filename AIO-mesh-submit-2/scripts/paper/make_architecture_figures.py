@@ -52,7 +52,7 @@ def main():
             ("Admission", "Independent validation\nand resource accounting"),
             ("Actuation interfaces", "MicroK8s / Tekton lifecycle\nMininet / BMv2 steering"),
         ])
-    ], arrows, "The 12-hour experiment exercises the API and admission path and samples baseline readiness.")
+    ], arrows, "12 h: control-plane checks. E2E: deployment, rule readback and probes. Two 3 h runs: packet stability.")
 
 
 if __name__ == "__main__":

@@ -79,7 +79,8 @@ fig.legend(handles, labels, loc='upper center', ncol=4, frameon=False, bbox_to_a
 fig.text(0.5, 0.014, 'All policies use the protected admission boundary; no admitted hard violations were observed.',
          ha='center', fontsize=8)
 fig.tight_layout(rect=(0.02, 0.04, 1, 0.95), h_pad=1.4, w_pad=1.2)
-fig.savefig(OUT / 'load_sweep_three_topologies.pdf', bbox_inches='tight')
+# The combined final figure is owned by scripts/paper/make_load_sweep_figure.py.
+# This runner exports topology-specific diagnostic figures only.
 plt.close(fig)
 for topo, name in TOPOLOGIES:
     fig, axes = plt.subplots(1, 2, figsize=(10.4, 4.2), sharex=True)

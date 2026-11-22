@@ -166,7 +166,7 @@ def main():
     (OUT/"load_sweep_paired_rows.tex").write_text('\n'.join(tab)+'\n')
     legacy= BUNDLE/'docs/AIO-mesh-rev1/evidence/load_sweep'
     write(legacy/'mentor_b2_load_sweep_21.csv',paired_load)
-    pairtex=[r'\begin{table*}[p]',r'\centering',r'\color{revisiongreen}\small',r'\begin{tabular}{llrrrrrr}',r'\toprule',r'Topology & Intensity & $\Delta$ (pp) & 95\% CI & $p$ & $r_{rb}$ & $n_{eff}$ & $p_{Holm}$ \\',r'\midrule']+tab+[r'\bottomrule',r'\end{tabular}',r'\caption{Paired HARP--SAF-H safe-acceptance differences in the refreshed-model load sweep. $Δ$ is the matched-seed mean; CI is a 20,000-resample paired percentile-bootstrap 95\% interval. $p$ is the exact two-sided Wilcoxon signed-rank test after dropping zeros and averaging tied absolute ranks; Holm correction covers all 21 topology--intensity tests.}',r'\label{tab:load_sweep_paired_statistics}',r'\end{table*}']
+    pairtex=[r'\begin{table*}[p]',r'\centering',r'\color{revisiongreen}\small',r'\begin{tabular}{llrrrrrr}',r'\toprule',r'Topology & Intensity & $\Delta$ (pp) & 95\% CI & $p$ & $r_{rb}$ & $n_{eff}$ & $p_{Holm}$ \\',r'\midrule']+tab+[r'\bottomrule',r'\end{tabular}',r'\caption{Paired HARP--SAF-H safe-acceptance differences in the refreshed-model load sweep. $\Delta$ is the matched-seed mean; CI is a 20,000-resample paired percentile-bootstrap 95\% interval. $p$ is the exact two-sided Wilcoxon signed-rank test after dropping zeros and averaging tied absolute ranks; Holm correction covers all 21 topology--intensity tests.}',r'\label{tab:load_sweep_paired_statistics}',r'\end{table*}']
     (legacy/'mentor_b2_load_sweep_21.tex').write_text('\n'.join(pairtex)+'\n')
     write(legacy/'mentor_d1_unprotected_load_sweep.csv',unprotected)
     tex=[]

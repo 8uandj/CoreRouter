@@ -1,3 +1,5 @@
+> Audit mới nhất: [FINAL_SUBMISSION_AUDIT.md](evidence/final_audit_20261122/FINAL_SUBMISSION_AUDIT.md). Training seed 7 và 2024 đã hoàn tất ở 2.002.944 transitions. Evaluation cuối đã xác minh đủ 60 ô cho ba model; bảng và macro đã vào manuscript/response. Các trạng thái job đang chạy dưới đây là lịch sử. Còn rà PDF và các gate tác giả/provenance trong audit mới.
+
 # Đối chiếu comment mentor — cập nhật 22/11/2026
 
 Đây là trạng thái theo artifact hiện có trong `AIO-mesh-submit-2`. “Đã xác minh” chỉ áp dụng cho phạm vi ghi ở cột bằng chứng, không tự động đóng toàn bộ tiêu chí nghiệm thu của mentor. Nguồn chi tiết: [NON_HIL_STATUS.md](evidence/mentor_completion_20261121/NON_HIL_STATUS.md), [REPRODUCE.md](../../REPRODUCE.md), và các CSV/manifest trong `evidence/`.

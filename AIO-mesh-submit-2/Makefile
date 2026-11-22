@@ -9,6 +9,7 @@ paper-data:
 	$(PYTHON) scripts/paper/make_qos_table.py
 	$(PYTHON) scripts/paper/make_load_sweep_figure.py
 	$(PYTHON) scripts/paper/make_architecture_figures.py
+	$(PYTHON) scripts/paper/refresh_final_figures.py
 
 check-paper:
 	$(PYTHON) scripts/paper/check_tex_inputs.py

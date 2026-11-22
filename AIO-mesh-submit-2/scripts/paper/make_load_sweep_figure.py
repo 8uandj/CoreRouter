@@ -17,8 +17,8 @@ POLICIES = [
 
 
 def main():
-    with (ROOT / "evidence/load_sweep/all_modes_per_seed.csv").open() as stream:
-        rows = list(csv.DictReader(stream))
+    with (ROOT / "evidence/model_refresh_20261120/load_chain_per_seed.csv").open() as stream:
+        rows = [r for r in csv.DictReader(stream) if int(r["initial_active_chains"]) == 0]
     cells = {}
     for row in rows:
         key = row["topology"], float(row["load_multiplier"]), row["algorithm"]

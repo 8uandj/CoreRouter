@@ -35,8 +35,20 @@ See [the November 19 rerun report](docs/AIO-mesh-rev1/evidence/rerun_report.md).
 
 ## Overleaf
 
+Run `python scripts/paper/package_overleaf.py` to create `FGCS_overleaf_final.zip`. Import this ZIP as a new Overleaf project; `rev1.tex` is at the project root together with all transitive `generated/`, `evidence/`, figure and bibliography dependencies. This avoids missing-input errors caused by uploading the main TeX file alone. Select `rev_clean.tex` for the clean version or `response_rev1.tex` for the response. Rebuild the ZIP after source updates.
+
 Upload the contents of `docs/AIO-mesh-rev1/` preserving `figs/`, `generated/` and `evidence/load_sweep/`. Select `rev1.tex` for the green-marked manuscript or `rev_clean.tex` for the clean manuscript. For the response letter, include the same `generated/numbers.tex` alongside the letter under `generated/`. The shared preamble also supports the repository layout with the response in `docs/`. These instructions leave PDF generation to Overleaf. No DOI deposit has been made. The current [FGCS author guide](https://www.sciencedirect.com/journal/future-generation-computer-systems/publish/guide-for-authors) returned HTTP 403 during inspection and should be confirmed from the submission portal.
 
 ## Latest non-HIL reconciliation
 
 See [non-HIL status](docs/AIO-mesh-rev1/evidence/mentor_completion_20261121/NON_HIL_STATUS.md) for updated QoS, unprotected stress and three cell-rerun generators, together with remaining evidence gaps. Independent retraining and evaluation continue to write to `results/evidence/mentor_completion_20261121/independent_training/`. After all 60 evaluation files are present, `venv/bin/python scripts/rev1/summarize_independent_training.py` validates the three checkpoint/normalizer pairs, complete training-by-evaluation seed grid, 3,000 offered requests per cell, paired offered-trace hashes, and the seed-42 benchmark rows; it then writes `docs/AIO-mesh-rev1/evidence/mentor_completion_20261121/independent_training_summary.csv` and a hashed manifest. Evaluation-seed SD and training-seed SD are reported separately. The `independent_summary` tmux session runs this command when `independent_eval` exits.
+
+## Final 2M training variation
+
+Run `../venv/bin/python scripts/rev1/evaluate_independent_training.py` from the bundle to evaluate the three final models; `EVAL_TRAINING_SEED=2024` restricts execution to that model. Then run `../venv/bin/python scripts/rev1/summarize_independent_training.py`. Final records are in `results/evidence/mentor_completion_20261121/independent_training/evaluation_2m/`; the 800k interim evaluation remains under `evaluation/`. In this reconciliation, seeds 42/7 reused 40 evaluations after verifying identical model and normalizer hashes; seed2024 was rerun on its final checkpoint. All checkpoint metadata report 2,002,944 transitions. The summary validates 60 cells, request counts, offered-trace pairing, model hashes and seed42 benchmark agreement; it generates the manuscript table and shared numerical macros.
+
+Final source audit: `docs/AIO-mesh-rev1/evidence/final_audit_20261122/FINAL_SUBMISSION_AUDIT.md`. PDF compilation has not been performed on this host.
+
+## Final manuscript figures
+
+`../venv/bin/python scripts/paper/refresh_final_figures.py` regenerates all eight figures referenced by `rev1.tex`. The source and output hashes for each figure are in `docs/AIO-mesh-rev1/figs/final_figures_manifest.json`. The benchmark plot reads the same paired confidence intervals as the statistical table. The combined offered-intensity figure uses corrected N² records at zero background occupancy and paired contrasts against SAF-H; architecture diagrams include the completed HIL protocols. Ablation and serialized timing retain their own measured protocols; independent 2M training variation is reported separately in a table.

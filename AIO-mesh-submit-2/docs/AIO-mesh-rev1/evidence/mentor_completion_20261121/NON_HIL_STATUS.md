@@ -1,3 +1,5 @@
+> Final 2M reconciliation: all three Vietnam models contain 2,002,944 transitions; 60 matched evaluation cells validated under `evaluation_2m`. Model means: 57.657%, 57.375%, 57.633%; sample SD across model means: 0.156 pp. Earlier interim/running statements below are historical. See `../final_audit_20261122/FINAL_SUBMISSION_AUDIT.md`.
+
 # Non-HIL revision status
 
 - Refreshed benchmark QoS uses `stress_per_seed_all_topologies.csv`, with seed-level mean latency and SLA rates computed over admitted requests. `python3 scripts/paper/make_qos_table.py` generates `generated/qos_rows.tex`, `qos_summary.csv` and the unprotected stress table. Unprotected violation percentages use offered requests, and categories may overlap.

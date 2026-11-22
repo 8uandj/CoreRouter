@@ -24,14 +24,12 @@ def main():
     y = 8
     for topo, color in [('vietnam', '#2672a3'), ('nsfnet', '#c45b25'), ('geant2', '#25845b')]:
         for scenario, name in SCENARIOS:
-            vals={}
-            for policy in ('harp_protected','saf_h_protected'):
-                vals[policy]=[float(r['safe_acceptance_rate']) for r in rows if r['topology']==topo and r['scenario']==scenario and r['algorithm']==policy]
-            diffs=[a-b for a,b in zip(vals['harp_protected'],vals['saf_h_protected'])]
-            if len(diffs)!=20: raise ValueError(f'Expected 20 paired seeds: {topo}/{scenario}')
-            mean=sum(diffs)/len(diffs); rng=__import__('random').Random(20261120+len(sources)*31+y)
-            samples=sorted(sum(diffs[rng.randrange(20)] for _ in range(20))/20 for _ in range(20000))
-            lo,hi=samples[499],samples[19499]
+            stats_path = BUNDLE / 'docs/AIO-mesh-rev1/evidence/model_refresh_20261120/stress_paired_statistics.csv'
+            with stats_path.open(newline='') as stream:
+                matches = [r for r in csv.DictReader(stream) if r['topology'] == topo and r['scenario'] == scenario and r['baseline'] == 'saf_h']
+            if len(matches) != 1: raise ValueError(f'Expected one paired contrast: {topo}/{scenario}')
+            stat = matches[0]
+            mean, lo, hi = (float(stat[k]) for k in ('mean_delta_pp','ci95_low_pp','ci95_high_pp'))
             ax.errorbar(mean, y, xerr=[[mean-lo], [hi-mean]], fmt='o', color=color, capsize=4)
             ax.text(-2.65, y, f'{topo.upper() if topo != "vietnam" else "Vietnam"}: {name}', va='center', fontsize=9)
             y -= 1

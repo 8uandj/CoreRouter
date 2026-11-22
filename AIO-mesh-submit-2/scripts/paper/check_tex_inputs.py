@@ -35,7 +35,7 @@ def manuscript_source(path, seen):
     seen.add(path)
     check_braces(path)
     source = uncomment(path.read_text())
-    return re.sub(r"\\input\{([^}]+)\}",
+    return re.sub(r"\\(?:input|TableRows)\{([^}]+)\}",
                   lambda m: manuscript_source(PAPER / m[1], seen), source)
 
 

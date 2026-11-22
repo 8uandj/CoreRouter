@@ -94,7 +94,8 @@ def main() -> None:
     TEX.write_text("\n".join(lines) + "\n", encoding="utf-8")
     FIGURE.parent.mkdir(parents=True, exist_ok=True)
     source_figure = EVIDENCE / "arrival_rate_only.pdf"
-    FIGURE.write_bytes(source_figure.read_bytes())
+    if not FIGURE.exists():
+        FIGURE.write_bytes(source_figure.read_bytes())
 
     manifest = {
         "scope": "Matched-seed HARP minus SAF-H safe-acceptance contrasts in the fixed-profile arrival-rate-only experiment",
