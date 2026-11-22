@@ -1,0 +1,106 @@
+{
+ "sources_sha256": {
+  "results/rev1/hil_e2e_20261121/run/campaign_corrected_model/analysis/outcomes.json": "e1b29efb12b19d56c620fdc3fa25ce79dc64cf650701bd89358b1ad28b6a6fa4",
+  "results/rev1/hil_e2e_20261121/run/campaign_corrected_model/analysis/stage_percentiles.csv": "b7f3d46511e1caba94eb86226732d6d78fa48ef1a5630b886ce3faff93e4e71a",
+  "results/rev1/hil_e2e_20261121/run/analysis_mbb_corrected_model/mbb_summary.json": "a1433388ebe18e88adc8e7872424bfa49843829eca65bc60dd1015d734dc1c2f",
+  "results/rev1/hil_e2e_20261121/run/campaign/analysis/outcomes.json": "97eba7085019eaf3f2ed5f5f2797cb60ded5d3630c8c86dbfa03b9a0bca4e88c",
+  "results/rev1/hil_e2e_20261121/run/campaign/analysis/stage_percentiles.csv": "79333d1292cd32c8755220ec111bbb31cf300c693d6d4950309abc01d168c1ab",
+  "results/rev1/hil_e2e_20261121/run/analysis_mbb/mbb_summary.json": "d68bec21ca2d760eb2b11ca1c3ed5610798aa5355fd8d263f86867d242420343",
+  "results/rev1/hil_e2e_20261121/run/supplemental_probes/corrected_model_after_vxlan_fix/reprobe_summary.json": "7534c5be97080c638693ed3f9bd906c179854b1dff3e6dd485198941589c93b8",
+  "results/hil_export/hil_rev1_20261121/generated/overmsd/overmsd_summary.json": "77c3c83da1373d1708fa16a632f225b16a25944fa6953b06ea6ac5310ba84279",
+  "results/rev1/hil_e2e_20261121/run/live_fault_injection/summary.json": "0c06ffd1cf29e582980a9fea33bb00335fed17480ef10cb48f72f47e0005695e",
+  "results/rev1/hil_e2e_20261121/run/long_3h_corrected_model/analysis/longrun_summary.json": "bce92e1952370e5f7849aa345e6234cca2152478e244e8fe0945971f8a5ff84d",
+  "results/rev1/hil_e2e_20261121/run/long_3h_corrected_model_released/analysis/longrun_summary.json": "3e2885206af574754c09ce626af0ebfc08d50318db3efab70906e776a68e9eb5"
+ },
+ "macros": {
+  "HILEtoEOffered": "398",
+  "HILEtoESteered": "69",
+  "HILEtoEFullProbes": "64",
+  "HILEtoESubmitSteerPNF": "31.6",
+  "HILEtoESubmitSteerPF": "23.2",
+  "HILEtoEMigrations": "57",
+  "HILEtoEReprobeOK": "4",
+  "HILEtoEReprobeN": "4",
+  "HILLongPackets": "1,800",
+  "HILLongRecv": "1,800",
+  "HILLongRequests": "3,084"
+ },
+ "reprobe": [
+  {
+   "index": 3,
+   "vnf": "vnf-lb-040ad2a7",
+   "utc": "2026-11-21T20:14:29.356422+00:00",
+   "campaign_recv": 0,
+   "pod": {},
+   "result": "vnf no longer exists (replaced by later migration)"
+  },
+  {
+   "index": 4,
+   "vnf": "vnf-firewall-a83f18dc",
+   "utc": "2026-11-21T20:14:29.562550+00:00",
+   "campaign_recv": 0,
+   "pod": {
+    "ip": "10.1.235.214",
+    "ready": true,
+    "node": "k8s-master",
+    "restarts": 0
+   },
+   "result": {
+    "sent": 20,
+    "received": 20
+   }
+  },
+  {
+   "index": 21,
+   "vnf": "vnf-lb-77360985",
+   "utc": "2026-11-21T20:14:57.454982+00:00",
+   "campaign_recv": 0,
+   "pod": {
+    "ip": "10.1.235.215",
+    "ready": true,
+    "node": "k8s-master",
+    "restarts": 0
+   },
+   "result": {
+    "sent": 20,
+    "received": 20
+   }
+  },
+  {
+   "index": 32,
+   "vnf": "vnf-data-11525c8e",
+   "utc": "2026-11-21T20:15:25.109937+00:00",
+   "campaign_recv": 0,
+   "pod": {
+    "ip": "10.1.235.216",
+    "ready": true,
+    "node": "k8s-master",
+    "restarts": 0
+   },
+   "result": {
+    "sent": 20,
+    "received": 20
+   }
+  },
+  {
+   "index": 36,
+   "vnf": "vnf-voc-d8c0a381",
+   "utc": "2026-11-21T20:15:53.116657+00:00",
+   "campaign_recv": 0,
+   "pod": {
+    "ip": "10.1.235.217",
+    "ready": true,
+    "node": "k8s-master",
+    "restarts": 0
+   },
+   "result": {
+    "sent": 20,
+    "received": 20
+   }
+  }
+ ],
+ "longruns": [
+  "saturated",
+  "released"
+ ]
+}
