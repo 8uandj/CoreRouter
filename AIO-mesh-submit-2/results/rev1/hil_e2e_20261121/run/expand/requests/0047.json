@@ -1,0 +1,220 @@
+{
+  "index": 47,
+  "request": {
+    "service_type": "nat",
+    "cpu_req": 6.0,
+    "ram_req": 3.0,
+    "msd_req": 4,
+    "alert_flag": false,
+    "source_node": 1,
+    "destination_node": 8,
+    "flow_id": "expand-0047"
+  },
+  "profile": "VoIP",
+  "evidence_class": "driver-orchestrated actuation",
+  "t": {
+    "submit_utc": "2026-11-21T18:02:07.473913+00:00",
+    "response_utc": "2026-11-21T18:02:07.640771+00:00",
+    "deploy_submit_utc": "2026-11-21T18:02:07.640832+00:00",
+    "deployment_object_seen_utc": "2026-11-21T18:02:31.153782+00:00",
+    "rollout_done_utc": "2026-11-21T18:02:31.283756+00:00",
+    "steer_submit_utc": "2026-11-21T18:02:31.466573+00:00",
+    "steer_confirm_seen_utc": "2026-11-21T18:02:32.484538+00:00",
+    "readback_utc": "2026-11-21T18:02:32.484570+00:00",
+    "probe_start_utc": "2026-11-21T18:02:35.724625+00:00"
+  },
+  "http_status": 200,
+  "api_rtt_ms": 166.675,
+  "vnf_name": "vnf-nat-240e4b06",
+  "placement": {
+    "id": 6,
+    "name": "QuyNhon"
+  },
+  "route": {
+    "id": 7,
+    "name": "NhaTrang"
+  },
+  "realization": {
+    "request_id": "vnf-nat-240e4b06",
+    "operation_id": "f645ea01-3a1a-4e31-b693-039448d4ed08",
+    "topology_hash": "67131a546450606da19276263b00d23988d13fd71c17be38cb24a12637fe9f11",
+    "p4_topology_hash": "ee00b35ebeff5a46d428340fdfd984ecabf2047a4ef0cd79318a81ad732b4dbf",
+    "profile_id": "p4-path-candidate-v1",
+    "switch_path": [
+      2,
+      1,
+      6,
+      7
+    ],
+    "sid_stack": [
+      "fc00:7::1",
+      "fc00:6::1",
+      "fc00:1::1",
+      "fc00:2::1"
+    ]
+  },
+  "server_timings_ms": {
+    "state_sync_ms": 50.3824099432677,
+    "state_snapshot_ms": 1.2466150801628828,
+    "state_construction_ms": 0.2505409065634012,
+    "mask_construction_ms": 0.10753399692475796,
+    "normalization_ms": 0.09263004176318645,
+    "policy_inference_ms": 79.47694789618254,
+    "total_policy_ms": 79.98710684478283,
+    "admission_validation_ms": 22.7677789516747,
+    "decision_policy_and_admission_ms": 104.15276186540723,
+    "controller_handoff_ms": 0.0,
+    "server_decision_ms": 159.84194609336555
+  },
+  "migration_result": null,
+  "deploy_response": {
+    "status": "success",
+    "runName": "deploy-nat-672644",
+    "message": "Successfully initialized NAT (standard) instance."
+  },
+  "rollout": {
+    "rc": 0,
+    "out": "deployment \"vnf-nat-240e4b06\" successfully rolled out\n"
+  },
+  "pod": {
+    "pod": "vnf-nat-240e4b06-84f9575786-zhgn7",
+    "created": "2026-11-21T18:02:29Z",
+    "node": "worker2",
+    "ip": "10.1.189.148",
+    "conditions": {
+      "PodReadyToStartContainers": "2026-11-21T18:02:30Z",
+      "Initialized": "2026-11-21T18:02:29Z",
+      "Ready": "2026-11-21T18:02:30Z",
+      "ContainersReady": "2026-11-21T18:02:30Z",
+      "PodScheduled": "2026-11-21T18:02:29Z"
+    }
+  },
+  "steer_payload": {
+    "request_id": "vnf-nat-240e4b06",
+    "operation_id": "f645ea01-3a1a-4e31-b693-039448d4ed08",
+    "topology_hash": "67131a546450606da19276263b00d23988d13fd71c17be38cb24a12637fe9f11",
+    "profile_id": "p4-path-candidate-v1",
+    "p4_topology_hash": "ee00b35ebeff5a46d428340fdfd984ecabf2047a4ef0cd79318a81ad732b4dbf",
+    "new_deploy": "vnf-nat-240e4b06",
+    "switch_path": [
+      2,
+      1,
+      6,
+      7
+    ],
+    "sid_stack": [
+      "fc00:7::1",
+      "fc00:6::1",
+      "fc00:1::1",
+      "fc00:2::1"
+    ]
+  },
+  "steer_http": 202,
+  "steer_status": {
+    "steer_state": "done",
+    "new_deploy": "vnf-nat-240e4b06",
+    "operation_id": "f645ea01-3a1a-4e31-b693-039448d4ed08",
+    "request_id": "vnf-nat-240e4b06",
+    "topology_hash": "67131a546450606da19276263b00d23988d13fd71c17be38cb24a12637fe9f11",
+    "profile_id": "p4-path-candidate-v1",
+    "p4_topology_hash": "ee00b35ebeff5a46d428340fdfd984ecabf2047a4ef0cd79318a81ad732b4dbf",
+    "confirm_steer_done": true
+  },
+  "readback": [
+    {
+      "switch": "s2",
+      "table": "routing_v6",
+      "key": "fc00:1::1/128",
+      "present": true
+    },
+    {
+      "switch": "s1",
+      "table": "routing_v6",
+      "key": "fc00:6::1/128",
+      "present": true
+    },
+    {
+      "switch": "s6",
+      "table": "routing_v6",
+      "key": "fc00:7::1/128",
+      "present": true
+    },
+    {
+      "switch": "s7",
+      "table": "srv6_end_dx4_table",
+      "key": "fc00:7::1",
+      "present": true
+    }
+  ],
+  "outcome": "steered",
+  "probe": {
+    "mode": "icmp",
+    "sent": 20,
+    "app_received": 20,
+    "loss": 0,
+    "http_codes": [],
+    "rtt_total_ms": [
+      4.35,
+      4.35,
+      4.37,
+      4.41,
+      4.48,
+      4.55,
+      4.57,
+      4.65,
+      4.7,
+      4.73,
+      4.77,
+      4.78,
+      4.8,
+      4.82,
+      4.85,
+      4.86,
+      4.9,
+      4.95,
+      5.0,
+      5.22
+    ],
+    "delta": {
+      "s2": {
+        "advance": 20,
+        "terminal": 0,
+        "msd_violation": 0
+      },
+      "s1": {
+        "advance": 20,
+        "terminal": 0,
+        "msd_violation": 0
+      },
+      "s6": {
+        "advance": 20,
+        "terminal": 0,
+        "msd_violation": 0
+      },
+      "s7": {
+        "advance": 0,
+        "terminal": 20,
+        "msd_violation": 0
+      }
+    },
+    "captured": {
+      "src_egress_srv6": 22,
+      "place_host_decap": 20,
+      "host_vxlan": 40,
+      "src_return": 20
+    }
+  },
+  "active_total_after": 27,
+  "ledger_record_after": {
+    "name": "vnf-nat-240e4b06",
+    "v_place": 6,
+    "v_route": 7,
+    "cpu_req": 6.0,
+    "ram_req": 3.0,
+    "msd_req": 4,
+    "is_pending": false,
+    "presence_unconfirmed": false,
+    "deployment_ready": true,
+    "accounting_unknown": false
+  }
+}

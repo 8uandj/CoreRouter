@@ -1,0 +1,205 @@
+{
+  "index": 9,
+  "request": {
+    "service_type": "voc",
+    "cpu_req": 5.0,
+    "ram_req": 2.5,
+    "msd_req": 3,
+    "alert_flag": false,
+    "source_node": 2,
+    "destination_node": 1,
+    "flow_id": "expand-0009"
+  },
+  "profile": "URLLC",
+  "evidence_class": "driver-orchestrated actuation",
+  "t": {
+    "submit_utc": "2026-11-21T17:54:59.476555+00:00",
+    "response_utc": "2026-11-21T17:54:59.632158+00:00",
+    "deploy_submit_utc": "2026-11-21T17:54:59.632200+00:00",
+    "rollout_done_utc": "2026-11-21T17:55:39.144267+00:00",
+    "deployment_object_seen_utc": "2026-11-21T17:55:39.010122+00:00",
+    "steer_submit_utc": "2026-11-21T17:55:39.345088+00:00",
+    "steer_confirm_seen_utc": "2026-11-21T17:55:40.118926+00:00",
+    "readback_utc": "2026-11-21T17:55:40.118960+00:00",
+    "probe_start_utc": "2026-11-21T17:55:42.530018+00:00"
+  },
+  "http_status": 200,
+  "api_rtt_ms": 155.309,
+  "vnf_name": "vnf-voc-f3f8bf18",
+  "placement": {
+    "id": 4,
+    "name": "Hue"
+  },
+  "route": {
+    "id": 7,
+    "name": "NhaTrang"
+  },
+  "realization": {
+    "request_id": "vnf-voc-f3f8bf18",
+    "operation_id": "55a06894-3c0f-495e-9621-5513c95909df",
+    "topology_hash": "67131a546450606da19276263b00d23988d13fd71c17be38cb24a12637fe9f11",
+    "p4_topology_hash": "ee00b35ebeff5a46d428340fdfd984ecabf2047a4ef0cd79318a81ad732b4dbf",
+    "profile_id": "p4-path-candidate-v1",
+    "switch_path": [
+      3,
+      4,
+      5
+    ],
+    "sid_stack": [
+      "fc00:5::1",
+      "fc00:4::1",
+      "fc00:3::1"
+    ]
+  },
+  "server_timings_ms": {
+    "state_sync_ms": 45.39972613565624,
+    "state_snapshot_ms": 1.3700861018151045,
+    "state_construction_ms": 0.32798084430396557,
+    "mask_construction_ms": 0.1291378866881132,
+    "normalization_ms": 0.08098501712083817,
+    "policy_inference_ms": 81.64709783159196,
+    "total_policy_ms": 82.24956900812685,
+    "admission_validation_ms": 14.263885794207454,
+    "decision_policy_and_admission_ms": 98.0385800357908,
+    "controller_handoff_ms": 0.0,
+    "server_decision_ms": 150.2213249914348
+  },
+  "migration_result": null,
+  "deploy_response": {
+    "status": "success",
+    "runName": "deploy-voc-8355c3",
+    "message": "Successfully initialized VOC (standard) instance."
+  },
+  "rollout": {
+    "rc": 0,
+    "out": "deployment \"vnf-voc-f3f8bf18\" successfully rolled out\n"
+  },
+  "pod": {
+    "pod": "vnf-voc-f3f8bf18-86d65957c8-5qsqc",
+    "created": "2026-11-21T17:55:15Z",
+    "node": "worker1",
+    "ip": "10.1.235.163",
+    "conditions": {
+      "PodReadyToStartContainers": "2026-11-21T17:55:18Z",
+      "Initialized": "2026-11-21T17:55:15Z",
+      "Ready": "2026-11-21T17:55:24Z",
+      "ContainersReady": "2026-11-21T17:55:24Z",
+      "PodScheduled": "2026-11-21T17:55:15Z"
+    }
+  },
+  "outcome": "steered",
+  "active_total_after": 19,
+  "ledger_record_after": {
+    "name": "vnf-voc-f3f8bf18",
+    "v_place": 4,
+    "v_route": 7,
+    "cpu_req": 5.0,
+    "ram_req": 2.5,
+    "msd_req": 3,
+    "is_pending": true
+  },
+  "finished_by_rerun_utc": "2026-11-21T17:55:38.883732+00:00",
+  "steer_payload": {
+    "request_id": "vnf-voc-f3f8bf18",
+    "operation_id": "55a06894-3c0f-495e-9621-5513c95909df",
+    "topology_hash": "67131a546450606da19276263b00d23988d13fd71c17be38cb24a12637fe9f11",
+    "profile_id": "p4-path-candidate-v1",
+    "p4_topology_hash": "ee00b35ebeff5a46d428340fdfd984ecabf2047a4ef0cd79318a81ad732b4dbf",
+    "new_deploy": "vnf-voc-f3f8bf18",
+    "switch_path": [
+      3,
+      4,
+      5
+    ],
+    "sid_stack": [
+      "fc00:5::1",
+      "fc00:4::1",
+      "fc00:3::1"
+    ]
+  },
+  "steer_http": 202,
+  "steer_status": {
+    "steer_state": "done",
+    "new_deploy": "vnf-voc-f3f8bf18",
+    "operation_id": "55a06894-3c0f-495e-9621-5513c95909df",
+    "request_id": "vnf-voc-f3f8bf18",
+    "topology_hash": "67131a546450606da19276263b00d23988d13fd71c17be38cb24a12637fe9f11",
+    "profile_id": "p4-path-candidate-v1",
+    "p4_topology_hash": "ee00b35ebeff5a46d428340fdfd984ecabf2047a4ef0cd79318a81ad732b4dbf",
+    "confirm_steer_done": true
+  },
+  "readback": [
+    {
+      "switch": "s3",
+      "table": "routing_v6",
+      "key": "fc00:4::1/128",
+      "present": true
+    },
+    {
+      "switch": "s4",
+      "table": "routing_v6",
+      "key": "fc00:5::1/128",
+      "present": true
+    },
+    {
+      "switch": "s5",
+      "table": "srv6_end_dx4_table",
+      "key": "fc00:5::1",
+      "present": true
+    }
+  ],
+  "probe": {
+    "mode": "http",
+    "sent": 20,
+    "app_received": 20,
+    "loss": 0,
+    "http_codes": [
+      404
+    ],
+    "rtt_total_ms": [
+      4.981,
+      5.027,
+      5.027,
+      5.117,
+      5.206,
+      5.256,
+      5.329,
+      5.343,
+      5.397,
+      5.704,
+      5.84,
+      5.889,
+      5.923,
+      6.058,
+      6.096,
+      6.269,
+      6.607,
+      7.123,
+      7.235,
+      10.294
+    ],
+    "delta": {
+      "s3": {
+        "advance": 100,
+        "terminal": 0,
+        "msd_violation": 0
+      },
+      "s4": {
+        "advance": 100,
+        "terminal": 0,
+        "msd_violation": 0
+      },
+      "s5": {
+        "advance": 0,
+        "terminal": 100,
+        "msd_violation": 0
+      }
+    },
+    "captured": {
+      "src_egress_srv6": 102,
+      "place_host_decap": 100,
+      "host_vxlan": 200,
+      "src_return": 100
+    }
+  }
+}

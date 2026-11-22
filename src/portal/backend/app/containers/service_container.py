@@ -29,6 +29,9 @@ class ServiceContainer:
             self.controller, 
             settings.SDN_CONTROLLER_URL,
             state_manager=get_state_manager(),
+            # Old-instance absence after BREAK = terminate pipeline + Pod grace
+            # period; 30 s was shorter than observed on the HIL testbed.
+            rollback_timeout_s=float(os.getenv("CORE_ROUTER_ABSENCE_TIMEOUT_S", "120")),
             migration_journal=MigrationJournal(os.getenv(
                 "CORE_ROUTER_MIGRATION_JOURNAL", "results/rev1/runtime/migrations.sqlite3")),
         )

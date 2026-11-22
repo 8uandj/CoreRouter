@@ -1,0 +1,28 @@
+2026-11-21T17:52:34.631692310Z INFO:OrchestrationService:PHASE: MAKE - Triggering Tekton for replacement VNF: vnf-data-2042e77d at hue-1
+2026-11-21T17:52:34.667052417Z INFO:OrchestrationService:PHASE: VERIFY - Polling dynamic endpoint/readiness for vnf-data-2042e77d
+2026-11-21T17:52:34.674734626Z INFO:     127.0.0.1:39734 - "GET /api/orchestrate/migrations/vnf-data-2042e77d HTTP/1.1" 200 OK
+2026-11-21T17:52:35.679954505Z INFO:     127.0.0.1:39738 - "GET /api/orchestrate/migrations/vnf-data-2042e77d HTTP/1.1" 200 OK
+2026-11-21T17:52:36.728798400Z INFO:     127.0.0.1:53732 - "GET /api/orchestrate/migrations/vnf-data-2042e77d HTTP/1.1" 200 OK
+2026-11-21T17:52:37.734655020Z INFO:     127.0.0.1:53744 - "GET /api/orchestrate/migrations/vnf-data-2042e77d HTTP/1.1" 200 OK
+2026-11-21T17:52:38.739656935Z INFO:     127.0.0.1:53746 - "GET /api/orchestrate/migrations/vnf-data-2042e77d HTTP/1.1" 200 OK
+2026-11-21T17:52:39.744718924Z INFO:     127.0.0.1:53756 - "GET /api/orchestrate/migrations/vnf-data-2042e77d HTTP/1.1" 200 OK
+2026-11-21T17:52:40.749873733Z INFO:     127.0.0.1:53760 - "GET /api/orchestrate/migrations/vnf-data-2042e77d HTTP/1.1" 200 OK
+2026-11-21T17:52:41.754321450Z INFO:     127.0.0.1:53776 - "GET /api/orchestrate/migrations/vnf-data-2042e77d HTTP/1.1" 200 OK
+2026-11-21T17:52:42.760172092Z INFO:     127.0.0.1:53780 - "GET /api/orchestrate/migrations/vnf-data-2042e77d HTTP/1.1" 200 OK
+2026-11-21T17:52:43.763585865Z INFO:     127.0.0.1:53784 - "GET /api/orchestrate/migrations/vnf-data-2042e77d HTTP/1.1" 200 OK
+2026-11-21T17:52:44.769688347Z INFO:     127.0.0.1:53794 - "GET /api/orchestrate/migrations/vnf-data-2042e77d HTTP/1.1" 200 OK
+2026-11-21T17:52:45.773203706Z INFO:     127.0.0.1:53810 - "GET /api/orchestrate/migrations/vnf-data-2042e77d HTTP/1.1" 200 OK
+2026-11-21T17:52:46.778474681Z INFO:     127.0.0.1:43660 - "GET /api/orchestrate/migrations/vnf-data-2042e77d HTTP/1.1" 200 OK
+2026-11-21T17:52:47.782841639Z INFO:     127.0.0.1:43672 - "GET /api/orchestrate/migrations/vnf-data-2042e77d HTTP/1.1" 200 OK
+2026-11-21T17:52:48.786846767Z INFO:     127.0.0.1:43686 - "GET /api/orchestrate/migrations/vnf-data-2042e77d HTTP/1.1" 200 OK
+2026-11-21T17:52:49.793286272Z INFO:     127.0.0.1:43694 - "GET /api/orchestrate/migrations/vnf-data-2042e77d HTTP/1.1" 200 OK
+2026-11-21T17:52:50.832862739Z INFO:     127.0.0.1:43696 - "GET /api/orchestrate/migrations/vnf-data-2042e77d HTTP/1.1" 200 OK
+2026-11-21T17:52:51.837848241Z INFO:     127.0.0.1:43702 - "GET /api/orchestrate/migrations/vnf-data-2042e77d HTTP/1.1" 200 OK
+2026-11-21T17:52:52.911332378Z INFO:OrchestrationService:VNF vnf-data-2042e77d is READY. Pod IP: 10.1.235.128 on worker1
+2026-11-21T17:52:52.948366947Z INFO:     127.0.0.1:43712 - "GET /api/orchestrate/migrations/vnf-data-2042e77d HTTP/1.1" 200 OK
+2026-11-21T17:52:53.953501818Z INFO:     127.0.0.1:43722 - "GET /api/orchestrate/migrations/vnf-data-2042e77d HTTP/1.1" 200 OK
+2026-11-21T17:52:54.952043614Z INFO:OrchestrationService:PHASE: BREAK - confirm_steer_done=True. Deleting old VNF: vnf-data-6ce4038a
+2026-11-21T17:52:55.071645381Z INFO:     127.0.0.1:43728 - "GET /api/orchestrate/migrations/vnf-data-2042e77d HTTP/1.1" 200 OK
+2026-11-21T17:52:56.080227051Z INFO:     127.0.0.1:43740 - "GET /api/orchestrate/migrations/vnf-data-2042e77d HTTP/1.1" 200 OK
+2026-11-21T17:52:57.176496058Z INFO:     127.0.0.1:33630 - "GET /api/orchestrate/migrations/vnf-data-2042e77d HTTP/1.1" 200 OK
+2026-11-21T17:56:33.135792766Z INFO:     127.0.0.1:60802 - "GET /api/orchestrate/migrations/vnf-data-2042e77d HTTP/1.1" 200 OK

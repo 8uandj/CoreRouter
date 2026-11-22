@@ -1,0 +1,612 @@
+{
+  "utc": "2026-11-21T16:43:24.259029+00:00",
+  "apply": true,
+  "ours_admitted": 37,
+  "active_before": 44,
+  "to_release": 37,
+  "skipped": [],
+  "responses": [
+    {
+      "payload": {
+        "vnf_name": "vnf-data-18dc9d8d",
+        "v_place": 6,
+        "v_route": 7,
+        "cpu_req": 11.0,
+        "ram_req": 5.5,
+        "msd_req": 2
+      },
+      "http": 200,
+      "body": {
+        "status": "success",
+        "message": "Resources freed"
+      },
+      "latency_ms": 20.02323418855667
+    },
+    {
+      "payload": {
+        "vnf_name": "vnf-data-7356ea4e",
+        "v_place": 6,
+        "v_route": 7,
+        "cpu_req": 11.0,
+        "ram_req": 5.5,
+        "msd_req": 2
+      },
+      "http": 200,
+      "body": {
+        "status": "success",
+        "message": "Resources freed"
+      },
+      "latency_ms": 20.736762089654803
+    },
+    {
+      "payload": {
+        "vnf_name": "vnf-data-0c5c6d05",
+        "v_place": 6,
+        "v_route": 7,
+        "cpu_req": 11.0,
+        "ram_req": 5.5,
+        "msd_req": 2
+      },
+      "http": 200,
+      "body": {
+        "status": "success",
+        "message": "Resources freed"
+      },
+      "latency_ms": 19.447152968496084
+    },
+    {
+      "payload": {
+        "vnf_name": "vnf-video-9f7eefa1",
+        "v_place": 6,
+        "v_route": 7,
+        "cpu_req": 21.0,
+        "ram_req": 10.5,
+        "msd_req": 2
+      },
+      "http": 200,
+      "body": {
+        "status": "success",
+        "message": "Resources freed"
+      },
+      "latency_ms": 23.319619009271264
+    },
+    {
+      "payload": {
+        "vnf_name": "vnf-data-27500a5f",
+        "v_place": 6,
+        "v_route": 7,
+        "cpu_req": 11.0,
+        "ram_req": 5.5,
+        "msd_req": 2
+      },
+      "http": 200,
+      "body": {
+        "status": "success",
+        "message": "Resources freed"
+      },
+      "latency_ms": 19.02879192493856
+    },
+    {
+      "payload": {
+        "vnf_name": "vnf-data-99ccbb8b",
+        "v_place": 6,
+        "v_route": 7,
+        "cpu_req": 11.0,
+        "ram_req": 5.5,
+        "msd_req": 2
+      },
+      "http": 200,
+      "body": {
+        "status": "success",
+        "message": "Resources freed"
+      },
+      "latency_ms": 19.054212141782045
+    },
+    {
+      "payload": {
+        "vnf_name": "vnf-data-16ff9a5c",
+        "v_place": 6,
+        "v_route": 7,
+        "cpu_req": 11.0,
+        "ram_req": 5.5,
+        "msd_req": 2
+      },
+      "http": 200,
+      "body": {
+        "status": "success",
+        "message": "Resources freed"
+      },
+      "latency_ms": 22.009105887264013
+    },
+    {
+      "payload": {
+        "vnf_name": "vnf-data-7a566673",
+        "v_place": 4,
+        "v_route": 7,
+        "cpu_req": 10.0,
+        "ram_req": 5.0,
+        "msd_req": 2
+      },
+      "http": 200,
+      "body": {
+        "status": "success",
+        "message": "Resources freed"
+      },
+      "latency_ms": 19.755486166104674
+    },
+    {
+      "payload": {
+        "vnf_name": "vnf-data-cbad87c1",
+        "v_place": 4,
+        "v_route": 7,
+        "cpu_req": 11.0,
+        "ram_req": 5.5,
+        "msd_req": 2
+      },
+      "http": 200,
+      "body": {
+        "status": "success",
+        "message": "Resources freed"
+      },
+      "latency_ms": 20.356759894639254
+    },
+    {
+      "payload": {
+        "vnf_name": "vnf-data-6f479361",
+        "v_place": 4,
+        "v_route": 7,
+        "cpu_req": 10.0,
+        "ram_req": 5.0,
+        "msd_req": 2
+      },
+      "http": 200,
+      "body": {
+        "status": "success",
+        "message": "Resources freed"
+      },
+      "latency_ms": 20.12349897995591
+    },
+    {
+      "payload": {
+        "vnf_name": "vnf-video-3b9c1b88",
+        "v_place": 4,
+        "v_route": 7,
+        "cpu_req": 20.0,
+        "ram_req": 10.0,
+        "msd_req": 2
+      },
+      "http": 200,
+      "body": {
+        "status": "success",
+        "message": "Resources freed"
+      },
+      "latency_ms": 19.307486014440656
+    },
+    {
+      "payload": {
+        "vnf_name": "vnf-data-f814c34e",
+        "v_place": 4,
+        "v_route": 7,
+        "cpu_req": 10.0,
+        "ram_req": 5.0,
+        "msd_req": 2
+      },
+      "http": 200,
+      "body": {
+        "status": "success",
+        "message": "Resources freed"
+      },
+      "latency_ms": 20.394650055095553
+    },
+    {
+      "payload": {
+        "vnf_name": "vnf-video-c7db0b2a",
+        "v_place": 9,
+        "v_route": 7,
+        "cpu_req": 18.0,
+        "ram_req": 9.0,
+        "msd_req": 2
+      },
+      "http": 200,
+      "body": {
+        "status": "success",
+        "message": "Resources freed"
+      },
+      "latency_ms": 26.13616082817316
+    },
+    {
+      "payload": {
+        "vnf_name": "vnf-data-3b8b8315",
+        "v_place": 4,
+        "v_route": 7,
+        "cpu_req": 11.0,
+        "ram_req": 5.5,
+        "msd_req": 2
+      },
+      "http": 200,
+      "body": {
+        "status": "success",
+        "message": "Resources freed"
+      },
+      "latency_ms": 20.285818027332425
+    },
+    {
+      "payload": {
+        "vnf_name": "vnf-video-e045896a",
+        "v_place": 9,
+        "v_route": 7,
+        "cpu_req": 19.0,
+        "ram_req": 9.5,
+        "msd_req": 2
+      },
+      "http": 200,
+      "body": {
+        "status": "success",
+        "message": "Resources freed"
+      },
+      "latency_ms": 30.680726980790496
+    },
+    {
+      "payload": {
+        "vnf_name": "vnf-data-70912f78",
+        "v_place": 4,
+        "v_route": 7,
+        "cpu_req": 12.0,
+        "ram_req": 6.0,
+        "msd_req": 2
+      },
+      "http": 200,
+      "body": {
+        "status": "success",
+        "message": "Resources freed"
+      },
+      "latency_ms": 30.14945308677852
+    },
+    {
+      "payload": {
+        "vnf_name": "vnf-data-acb0de82",
+        "v_place": 4,
+        "v_route": 7,
+        "cpu_req": 10.0,
+        "ram_req": 5.0,
+        "msd_req": 2
+      },
+      "http": 200,
+      "body": {
+        "status": "success",
+        "message": "Resources freed"
+      },
+      "latency_ms": 19.94641893543303
+    },
+    {
+      "payload": {
+        "vnf_name": "vnf-data-a30c62d5",
+        "v_place": 6,
+        "v_route": 7,
+        "cpu_req": 10.0,
+        "ram_req": 5.0,
+        "msd_req": 2
+      },
+      "http": 200,
+      "body": {
+        "status": "success",
+        "message": "Resources freed"
+      },
+      "latency_ms": 18.24849215336144
+    },
+    {
+      "payload": {
+        "vnf_name": "vnf-data-304b46fa",
+        "v_place": 8,
+        "v_route": 7,
+        "cpu_req": 10.0,
+        "ram_req": 5.0,
+        "msd_req": 2
+      },
+      "http": 200,
+      "body": {
+        "status": "success",
+        "message": "Resources freed"
+      },
+      "latency_ms": 19.36548203229904
+    },
+    {
+      "payload": {
+        "vnf_name": "vnf-video-5ecc1b85",
+        "v_place": 7,
+        "v_route": 7,
+        "cpu_req": 20.0,
+        "ram_req": 10.0,
+        "msd_req": 2
+      },
+      "http": 200,
+      "body": {
+        "status": "success",
+        "message": "Resources freed"
+      },
+      "latency_ms": 19.93726985529065
+    },
+    {
+      "payload": {
+        "vnf_name": "vnf-data-d42137e1",
+        "v_place": 1,
+        "v_route": 7,
+        "cpu_req": 11.0,
+        "ram_req": 5.5,
+        "msd_req": 2
+      },
+      "http": 200,
+      "body": {
+        "status": "success",
+        "message": "Resources freed"
+      },
+      "latency_ms": 37.45422302745283
+    },
+    {
+      "payload": {
+        "vnf_name": "vnf-video-22d73a4f",
+        "v_place": 7,
+        "v_route": 7,
+        "cpu_req": 20.0,
+        "ram_req": 10.0,
+        "msd_req": 2
+      },
+      "http": 200,
+      "body": {
+        "status": "success",
+        "message": "Resources freed"
+      },
+      "latency_ms": 25.635374011471868
+    },
+    {
+      "payload": {
+        "vnf_name": "vnf-data-72a58704",
+        "v_place": 1,
+        "v_route": 7,
+        "cpu_req": 12.0,
+        "ram_req": 6.0,
+        "msd_req": 2
+      },
+      "http": 200,
+      "body": {
+        "status": "success",
+        "message": "Resources freed"
+      },
+      "latency_ms": 25.726794032379985
+    },
+    {
+      "payload": {
+        "vnf_name": "vnf-video-52e29cee",
+        "v_place": 7,
+        "v_route": 7,
+        "cpu_req": 18.0,
+        "ram_req": 9.0,
+        "msd_req": 2
+      },
+      "http": 200,
+      "body": {
+        "status": "success",
+        "message": "Resources freed"
+      },
+      "latency_ms": 18.68655113503337
+    },
+    {
+      "payload": {
+        "vnf_name": "vnf-data-d889bedf",
+        "v_place": 1,
+        "v_route": 7,
+        "cpu_req": 12.0,
+        "ram_req": 6.0,
+        "msd_req": 2
+      },
+      "http": 200,
+      "body": {
+        "status": "success",
+        "message": "Resources freed"
+      },
+      "latency_ms": 20.062685012817383
+    },
+    {
+      "payload": {
+        "vnf_name": "vnf-data-7f1ccfcf",
+        "v_place": 8,
+        "v_route": 7,
+        "cpu_req": 12.0,
+        "ram_req": 6.0,
+        "msd_req": 2
+      },
+      "http": 200,
+      "body": {
+        "status": "success",
+        "message": "Resources freed"
+      },
+      "latency_ms": 29.207480140030384
+    },
+    {
+      "payload": {
+        "vnf_name": "vnf-video-a1a85e4c",
+        "v_place": 7,
+        "v_route": 7,
+        "cpu_req": 20.0,
+        "ram_req": 10.0,
+        "msd_req": 2
+      },
+      "http": 200,
+      "body": {
+        "status": "success",
+        "message": "Resources freed"
+      },
+      "latency_ms": 19.667196087539196
+    },
+    {
+      "payload": {
+        "vnf_name": "vnf-video-76be5820",
+        "v_place": 7,
+        "v_route": 7,
+        "cpu_req": 19.0,
+        "ram_req": 9.5,
+        "msd_req": 2
+      },
+      "http": 200,
+      "body": {
+        "status": "success",
+        "message": "Resources freed"
+      },
+      "latency_ms": 26.318709831684828
+    },
+    {
+      "payload": {
+        "vnf_name": "vnf-video-54f4b13d",
+        "v_place": 0,
+        "v_route": 7,
+        "cpu_req": 20.0,
+        "ram_req": 10.0,
+        "msd_req": 2
+      },
+      "http": 200,
+      "body": {
+        "status": "success",
+        "message": "Resources freed"
+      },
+      "latency_ms": 18.842675955966115
+    },
+    {
+      "payload": {
+        "vnf_name": "vnf-video-278e8a8d",
+        "v_place": 3,
+        "v_route": 7,
+        "cpu_req": 21.0,
+        "ram_req": 10.5,
+        "msd_req": 2
+      },
+      "http": 200,
+      "body": {
+        "status": "success",
+        "message": "Resources freed"
+      },
+      "latency_ms": 24.597910000011325
+    },
+    {
+      "payload": {
+        "vnf_name": "vnf-video-57c2f873",
+        "v_place": 3,
+        "v_route": 7,
+        "cpu_req": 21.0,
+        "ram_req": 10.5,
+        "msd_req": 2
+      },
+      "http": 200,
+      "body": {
+        "status": "success",
+        "message": "Resources freed"
+      },
+      "latency_ms": 18.82554800249636
+    },
+    {
+      "payload": {
+        "vnf_name": "vnf-video-e4cf0857",
+        "v_place": 2,
+        "v_route": 7,
+        "cpu_req": 18.0,
+        "ram_req": 9.0,
+        "msd_req": 2
+      },
+      "http": 200,
+      "body": {
+        "status": "success",
+        "message": "Resources freed"
+      },
+      "latency_ms": 29.84723192639649
+    },
+    {
+      "payload": {
+        "vnf_name": "vnf-data-152b1526",
+        "v_place": 8,
+        "v_route": 7,
+        "cpu_req": 12.0,
+        "ram_req": 6.0,
+        "msd_req": 2
+      },
+      "http": 200,
+      "body": {
+        "status": "success",
+        "message": "Resources freed"
+      },
+      "latency_ms": 26.215268997475505
+    },
+    {
+      "payload": {
+        "vnf_name": "vnf-data-4fe22c92",
+        "v_place": 5,
+        "v_route": 7,
+        "cpu_req": 10.0,
+        "ram_req": 5.0,
+        "msd_req": 2
+      },
+      "http": 200,
+      "body": {
+        "status": "success",
+        "message": "Resources freed"
+      },
+      "latency_ms": 24.835718097165227
+    },
+    {
+      "payload": {
+        "vnf_name": "vnf-video-950a7766",
+        "v_place": 5,
+        "v_route": 7,
+        "cpu_req": 20.0,
+        "ram_req": 10.0,
+        "msd_req": 2
+      },
+      "http": 200,
+      "body": {
+        "status": "success",
+        "message": "Resources freed"
+      },
+      "latency_ms": 24.695458123460412
+    },
+    {
+      "payload": {
+        "vnf_name": "vnf-data-3ad26e81",
+        "v_place": 2,
+        "v_route": 7,
+        "cpu_req": 12.0,
+        "ram_req": 6.0,
+        "msd_req": 2
+      },
+      "http": 200,
+      "body": {
+        "status": "success",
+        "message": "Resources freed"
+      },
+      "latency_ms": 17.884939908981323
+    },
+    {
+      "payload": {
+        "vnf_name": "vnf-data-4a2df82f",
+        "v_place": 0,
+        "v_route": 7,
+        "cpu_req": 10.0,
+        "ram_req": 5.0,
+        "msd_req": 2
+      },
+      "http": 200,
+      "body": {
+        "status": "success",
+        "message": "Resources freed"
+      },
+      "latency_ms": 17.704846104606986
+    }
+  ],
+  "active_after": 7,
+  "active_after_names": [
+    "vnf-attack-004e219d",
+    "vnf-attack-0faeed9f",
+    "vnf-attack-228edabf",
+    "vnf-attack-2f0aa313",
+    "vnf-attack-57b6f205",
+    "vnf-attack-8bf0425e",
+    "vnf-attack-af13f6df"
+  ]
+}

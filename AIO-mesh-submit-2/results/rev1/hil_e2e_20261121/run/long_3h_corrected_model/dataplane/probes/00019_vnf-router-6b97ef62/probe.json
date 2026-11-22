@@ -1,0 +1,222 @@
+{
+  "request_id": "vnf-router-6b97ef62",
+  "src_host": "h6",
+  "place_host": "h5",
+  "switch_path": [
+    6,
+    5
+  ],
+  "sid_stack_final_to_first": [
+    "fc00:5::1",
+    "fc00:6::1"
+  ],
+  "pod_ip": "10.1.235.146",
+  "n": 20,
+  "t": {
+    "counters_before_utc": "2026-11-21T20:54:40.383935+00:00",
+    "send_start_utc": "2026-11-21T20:54:43.620797+00:00",
+    "send_end_utc": "2026-11-21T20:54:48.249625+00:00",
+    "counters_after_utc": "2026-11-21T20:54:48.250292+00:00"
+  },
+  "counters_before": {
+    "s6": {
+      "advance": 3933,
+      "terminal": 80,
+      "msd_violation": 50
+    },
+    "s5": {
+      "advance": 260,
+      "terminal": 3371,
+      "msd_violation": 50
+    }
+  },
+  "src_setup": {
+    "switch_port": "s6-eth1",
+    "switch_port_mac": "ae:7f:6b:c2:79:48",
+    "seg6_segs_traversal": [
+      "fc00:6::1",
+      "fc00:5::1"
+    ],
+    "commands": "ethtool -K h6-eth0 tx off >/dev/null; ip -6 addr replace 2001:db8:100::6/64 dev h6-eth0 nodad; ip -6 route replace fc00::/16 dev h6-eth0; ip -6 neigh replace fc00:6::1 lladdr ae:7f:6b:c2:79:48 dev h6-eth0 nud permanent; ip route replace 10.1.235.146/32 encap seg6 mode encap segs fc00:6::1,fc00:5::1 dev h6-eth0; ip route get 10.1.235.146",
+    "output": "10.1.235.146 dev h6-eth0 src 10.0.0.6 uid 0 \n    cache \n"
+  },
+  "mode": "icmp",
+  "icmp_pattern_hex": "148562256c50dde6b973402bd3110c5f",
+  "icmp_raw": "PATTERN: 0x148562256c50dde6b973402bd3110c5f\nPING 10.1.235.146 (10.1.235.146) 56(84) bytes of data.\n64 bytes from 10.1.235.146: icmp_seq=1 ttl=62 time=2.15 ms\n64 bytes from 10.1.235.146: icmp_seq=2 ttl=62 time=2.34 ms\n64 bytes from 10.1.235.146: icmp_seq=3 ttl=62 time=2.10 ms\n64 bytes from 10.1.235.146: icmp_seq=4 ttl=62 time=2.16 ms\n64 bytes from 10.1.235.146: icmp_seq=5 ttl=62 time=1.58 ms\n64 bytes from 10.1.235.146: icmp_seq=6 ttl=62 time=1.70 ms\n64 bytes from 10.1.235.146: icmp_seq=7 ttl=62 time=1.70 ms\n64 bytes from 10.1.235.146: icmp_seq=8 ttl=62 time=2.19 ms\n64 bytes from 10.1.235.146: icmp_seq=9 ttl=62 time=14.3 ms\n64 bytes from 10.1.235.146: icmp_seq=10 ttl=62 time=1.77 ms\n64 bytes from 10.1.235.146: icmp_seq=11 ttl=62 time=2.44 ms\n64 bytes from 10.1.235.146: icmp_seq=12 ttl=62 time=2.13 ms\n64 bytes from 10.1.235.146: icmp_seq=13 ttl=62 time=1.91 ms\n64 bytes from 10.1.235.146: icmp_seq=14 ttl=62 time=2.10 ms\n64 bytes from 10.1.235.146: icmp_seq=15 ttl=62 time=2.01 ms\n64 bytes from 10.1.235.146: icmp_seq=16 ttl=62 time=2.26 ms\n64 bytes from 10.1.235.146: icmp_seq=17 ttl=62 time=1.68 ms\n64 bytes from 10.1.235.146: icmp_seq=18 ttl=62 time=2.18 ms\n64 bytes from 10.1.235.146: icmp_seq=19 ttl=62 time=2.20 ms\n64 bytes from 10.1.235.146: icmp_seq=20 ttl=62 time=1.98 ms\n\n--- 10.1.235.146 ping statistics ---\n20 packets transmitted, 20 received, 0% packet loss, time 3814ms\nrtt min/avg/max/mdev = 1.578/2.643/14.294/2.682 ms\n",
+  "http": [
+    {
+      "seq": 1,
+      "http_code": null,
+      "time_total_s": 0.00215,
+      "marker_echoed_by_vnf": true
+    },
+    {
+      "seq": 2,
+      "http_code": null,
+      "time_total_s": 0.00234,
+      "marker_echoed_by_vnf": true
+    },
+    {
+      "seq": 3,
+      "http_code": null,
+      "time_total_s": 0.0021000000000000003,
+      "marker_echoed_by_vnf": true
+    },
+    {
+      "seq": 4,
+      "http_code": null,
+      "time_total_s": 0.00216,
+      "marker_echoed_by_vnf": true
+    },
+    {
+      "seq": 5,
+      "http_code": null,
+      "time_total_s": 0.00158,
+      "marker_echoed_by_vnf": true
+    },
+    {
+      "seq": 6,
+      "http_code": null,
+      "time_total_s": 0.0017,
+      "marker_echoed_by_vnf": true
+    },
+    {
+      "seq": 7,
+      "http_code": null,
+      "time_total_s": 0.0017,
+      "marker_echoed_by_vnf": true
+    },
+    {
+      "seq": 8,
+      "http_code": null,
+      "time_total_s": 0.00219,
+      "marker_echoed_by_vnf": true
+    },
+    {
+      "seq": 9,
+      "http_code": null,
+      "time_total_s": 0.0143,
+      "marker_echoed_by_vnf": true
+    },
+    {
+      "seq": 10,
+      "http_code": null,
+      "time_total_s": 0.00177,
+      "marker_echoed_by_vnf": true
+    },
+    {
+      "seq": 11,
+      "http_code": null,
+      "time_total_s": 0.00244,
+      "marker_echoed_by_vnf": true
+    },
+    {
+      "seq": 12,
+      "http_code": null,
+      "time_total_s": 0.00213,
+      "marker_echoed_by_vnf": true
+    },
+    {
+      "seq": 13,
+      "http_code": null,
+      "time_total_s": 0.00191,
+      "marker_echoed_by_vnf": true
+    },
+    {
+      "seq": 14,
+      "http_code": null,
+      "time_total_s": 0.0021000000000000003,
+      "marker_echoed_by_vnf": true
+    },
+    {
+      "seq": 15,
+      "http_code": null,
+      "time_total_s": 0.0020099999999999996,
+      "marker_echoed_by_vnf": true
+    },
+    {
+      "seq": 16,
+      "http_code": null,
+      "time_total_s": 0.00226,
+      "marker_echoed_by_vnf": true
+    },
+    {
+      "seq": 17,
+      "http_code": null,
+      "time_total_s": 0.0016799999999999999,
+      "marker_echoed_by_vnf": true
+    },
+    {
+      "seq": 18,
+      "http_code": null,
+      "time_total_s": 0.00218,
+      "marker_echoed_by_vnf": true
+    },
+    {
+      "seq": 19,
+      "http_code": null,
+      "time_total_s": 0.0022,
+      "marker_echoed_by_vnf": true
+    },
+    {
+      "seq": 20,
+      "http_code": null,
+      "time_total_s": 0.00198,
+      "marker_echoed_by_vnf": true
+    }
+  ],
+  "counters_after": {
+    "s6": {
+      "advance": 3953,
+      "terminal": 80,
+      "msd_violation": 50
+    },
+    "s5": {
+      "advance": 260,
+      "terminal": 3391,
+      "msd_violation": 50
+    }
+  },
+  "counter_delta": {
+    "s6": {
+      "advance": 20,
+      "terminal": 0,
+      "msd_violation": 0
+    },
+    "s5": {
+      "advance": 0,
+      "terminal": 20,
+      "msd_violation": 0
+    }
+  },
+  "src_teardown": "10.0.0.0/24 dev h6-eth0 proto kernel scope link src 10.0.0.6 \n10.1.0.0/16 via 10.1.240.1 dev veth-h6-mn \n",
+  "captured_packets": {},
+  "summary": {
+    "sent": 20,
+    "app_received": 20,
+    "loss": 0,
+    "http_codes": [],
+    "rtt_total_ms": [
+      1.58,
+      1.68,
+      1.7,
+      1.7,
+      1.77,
+      1.91,
+      1.98,
+      2.01,
+      2.1,
+      2.1,
+      2.13,
+      2.15,
+      2.16,
+      2.18,
+      2.19,
+      2.2,
+      2.26,
+      2.34,
+      2.44,
+      14.3
+    ]
+  }
+}

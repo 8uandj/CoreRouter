@@ -1,0 +1,134 @@
+=== s1 ===
+Obtaining JSON from switch...
+Done
+Control utility for runtime P4 table manipulation
+RuntimeCmd:   port #       iface name       status  extra info
+==================================================
+    1           s1-eth1          DOWN   
+    2           s1-eth2           UP    
+    3           s1-eth3           UP    
+    4           s1-eth4           UP    
+RuntimeCmd: 
+=== s2 ===
+Obtaining JSON from switch...
+Done
+Control utility for runtime P4 table manipulation
+RuntimeCmd:   port #       iface name       status  extra info
+==================================================
+    1           s2-eth1          DOWN   
+    2           s2-eth2           UP    
+RuntimeCmd: 
+=== s3 ===
+Obtaining JSON from switch...
+Done
+Control utility for runtime P4 table manipulation
+RuntimeCmd:   port #       iface name       status  extra info
+==================================================
+    1           s3-eth1          DOWN   
+    2           s3-eth2           UP    
+    3           s3-eth3           UP    
+RuntimeCmd: 
+=== s4 ===
+Obtaining JSON from switch...
+Done
+Control utility for runtime P4 table manipulation
+RuntimeCmd:   port #       iface name       status  extra info
+==================================================
+    1           s4-eth1          DOWN   
+    2           s4-eth2           UP    
+    3           s4-eth3           UP    
+RuntimeCmd: 
+=== s5 ===
+Obtaining JSON from switch...
+Done
+Control utility for runtime P4 table manipulation
+RuntimeCmd:   port #       iface name       status  extra info
+==================================================
+    1           s5-eth1          DOWN   
+    2           s5-eth2           UP    
+    3           s5-eth3           UP    
+RuntimeCmd: 
+=== s6 ===
+Obtaining JSON from switch...
+Done
+Control utility for runtime P4 table manipulation
+RuntimeCmd:   port #       iface name       status  extra info
+==================================================
+    1           s6-eth1          DOWN   
+    2           s6-eth2           UP    
+    3           s6-eth3           UP    
+    4           s6-eth4           UP    
+    5           s6-eth5           UP    
+RuntimeCmd: 
+=== s7 ===
+Obtaining JSON from switch...
+Done
+Control utility for runtime P4 table manipulation
+RuntimeCmd:   port #       iface name       status  extra info
+==================================================
+    1           s7-eth1          DOWN   
+    2           s7-eth2           UP    
+    3           s7-eth3           UP    
+RuntimeCmd: 
+=== s8 ===
+Obtaining JSON from switch...
+Done
+Control utility for runtime P4 table manipulation
+RuntimeCmd:   port #       iface name       status  extra info
+==================================================
+    1           s8-eth1          DOWN   
+    2           s8-eth2           UP    
+    3           s8-eth3           UP    
+RuntimeCmd: 
+=== s9 ===
+Obtaining JSON from switch...
+Done
+Control utility for runtime P4 table manipulation
+RuntimeCmd:   port #       iface name       status  extra info
+==================================================
+    1           s9-eth1          DOWN   
+    2           s9-eth2           UP    
+    3           s9-eth3           UP    
+    4           s9-eth4           UP    
+RuntimeCmd: 
+=== s10 ===
+Error response from daemon: Container afbcb86cdedff5691f8aa2de496c078eef06f4b68df8d2e00116d96beed4b544 is not running
+
+=== host links ===
+35419: s2-eth2@s1-eth2: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 1500 qdisc netem master ovs-system state UP mode DEFAULT group default qlen 1000\    link/ether f6:ec:d4:0b:5d:6a brd ff:ff:ff:ff:ff:ff
+35420: s1-eth2@s2-eth2: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 1500 qdisc netem master ovs-system state UP mode DEFAULT group default qlen 1000\    link/ether 4a:3c:6f:4e:44:f5 brd ff:ff:ff:ff:ff:ff
+35421: s3-eth2@s1-eth3: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 1500 qdisc netem master ovs-system state UP mode DEFAULT group default qlen 1000\    link/ether 1e:ef:7e:8b:db:ba brd ff:ff:ff:ff:ff:ff
+35422: s1-eth3@s3-eth2: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 1500 qdisc netem master ovs-system state UP mode DEFAULT group default qlen 1000\    link/ether 6a:11:60:d8:e5:80 brd ff:ff:ff:ff:ff:ff
+35423: s6-eth4@s1-eth4: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 1500 qdisc netem master ovs-system state UP mode DEFAULT group default qlen 1000\    link/ether 7e:d2:dd:37:d9:f0 brd ff:ff:ff:ff:ff:ff
+35424: s1-eth4@s6-eth4: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 1500 qdisc netem master ovs-system state UP mode DEFAULT group default qlen 1000\    link/ether 2a:17:f7:cf:54:3c brd ff:ff:ff:ff:ff:ff
+35425: s4-eth2@s3-eth3: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 1500 qdisc netem master ovs-system state UP mode DEFAULT group default qlen 1000\    link/ether 8a:47:f3:26:45:31 brd ff:ff:ff:ff:ff:ff
+35426: s3-eth3@s4-eth2: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 1500 qdisc netem master ovs-system state UP mode DEFAULT group default qlen 1000\    link/ether 82:b7:8d:c4:46:4c brd ff:ff:ff:ff:ff:ff
+35427: s5-eth2@s4-eth3: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 1500 qdisc netem master ovs-system state UP mode DEFAULT group default qlen 1000\    link/ether b6:a6:2f:4d:77:05 brd ff:ff:ff:ff:ff:ff
+35428: s4-eth3@s5-eth2: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 1500 qdisc netem master ovs-system state UP mode DEFAULT group default qlen 1000\    link/ether f2:d1:d6:b3:8c:02 brd ff:ff:ff:ff:ff:ff
+35429: s6-eth2@s5-eth3: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 1500 qdisc netem master ovs-system state UP mode DEFAULT group default qlen 1000\    link/ether 16:fb:f1:7e:c0:ee brd ff:ff:ff:ff:ff:ff
+35430: s5-eth3@s6-eth2: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 1500 qdisc netem master ovs-system state UP mode DEFAULT group default qlen 1000\    link/ether 16:04:7d:0c:06:f9 brd ff:ff:ff:ff:ff:ff
+35431: s7-eth2@s6-eth3: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 1500 qdisc netem master ovs-system state UP mode DEFAULT group default qlen 1000\    link/ether 22:dd:56:65:5e:f8 brd ff:ff:ff:ff:ff:ff
+35432: s6-eth3@s7-eth2: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 1500 qdisc netem master ovs-system state UP mode DEFAULT group default qlen 1000\    link/ether ca:da:22:5b:d6:b4 brd ff:ff:ff:ff:ff:ff
+35433: s9-eth4@s6-eth5: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 1500 qdisc netem master ovs-system state UP mode DEFAULT group default qlen 1000\    link/ether 36:fe:e3:83:85:f9 brd ff:ff:ff:ff:ff:ff
+35434: s6-eth5@s9-eth4: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 1500 qdisc netem master ovs-system state UP mode DEFAULT group default qlen 1000\    link/ether 8e:83:d1:e3:19:47 brd ff:ff:ff:ff:ff:ff
+35435: s8-eth2@s7-eth3: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 1500 qdisc netem master ovs-system state UP mode DEFAULT group default qlen 1000\    link/ether 62:2e:e9:e9:9b:32 brd ff:ff:ff:ff:ff:ff
+35436: s7-eth3@s8-eth2: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 1500 qdisc netem master ovs-system state UP mode DEFAULT group default qlen 1000\    link/ether 36:95:b8:92:d9:37 brd ff:ff:ff:ff:ff:ff
+35437: s9-eth2@s8-eth3: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 1500 qdisc netem master ovs-system state UP mode DEFAULT group default qlen 1000\    link/ether de:25:cc:6e:4a:18 brd ff:ff:ff:ff:ff:ff
+35438: s8-eth3@s9-eth2: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 1500 qdisc netem master ovs-system state UP mode DEFAULT group default qlen 1000\    link/ether be:37:32:6a:44:10 brd ff:ff:ff:ff:ff:ff
+35439: s10-eth2@s9-eth3: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 1500 qdisc netem master ovs-system state UP mode DEFAULT group default qlen 1000\    link/ether 5a:39:3e:c5:9e:06 brd ff:ff:ff:ff:ff:ff
+35440: s9-eth3@s10-eth2: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 1500 qdisc netem master ovs-system state UP mode DEFAULT group default qlen 1000\    link/ether ca:ad:3e:ab:d8:95 brd ff:ff:ff:ff:ff:ff
+
+=== processes ===
+1744394 1744333 Ssl     02:34:48 simple_switch --device-id 2 --thrift-port 19092 --log-console --log-level warn -i 1@s2-eth1 -i 2@s2-eth2 /data/srv6_msd_10.json
+1745867 1745818 Ssl     02:34:30 simple_switch --device-id 3 --thrift-port 19093 --log-console --log-level warn -i 1@s3-eth1 -i 2@s3-eth2 -i 3@s3-eth3 /data/srv6_msd_5.json
+1747707 1747655 Ssl     02:34:13 simple_switch --device-id 4 --thrift-port 19094 --log-console --log-level warn -i 1@s4-eth1 -i 2@s4-eth2 -i 3@s4-eth3 /data/srv6_msd_5.json
+1749091 1749045 Ssl     02:33:56 simple_switch --device-id 5 --thrift-port 19095 --log-console --log-level warn -i 1@s5-eth1 -i 2@s5-eth2 -i 3@s5-eth3 /data/srv6_msd_4.json
+1751459 1751242 Ssl     02:33:31 simple_switch --device-id 6 --thrift-port 19096 --log-console --log-level warn -i 1@s6-eth1 -i 4@s6-eth4 -i 2@s6-eth2 -i 3@s6-eth3 -i 5@s6-eth5 /data/srv6_msd_8.json
+1754439 1754376 Ssl     02:33:14 simple_switch --device-id 7 --thrift-port 19097 --log-console --log-level warn -i 1@s7-eth1 -i 2@s7-eth2 -i 3@s7-eth3 /data/srv6_msd_4.json
+1755223 1755166 Ssl     02:33:01 simple_switch --device-id 8 --thrift-port 19098 --log-console --log-level warn -i 1@s8-eth1 -i 2@s8-eth2 -i 3@s8-eth3 /data/srv6_msd_5.json
+1756254 1756227 Ssl     02:32:46 simple_switch --device-id 9 --thrift-port 19099 --log-console --log-level warn -i 1@s9-eth1 -i 4@s9-eth4 -i 2@s9-eth2 -i 3@s9-eth3 /data/srv6_msd_10.json
+2490799 2490736 Ssl        05:43 simple_switch --device-id 1 --thrift-port 19091 --log-console --log-level warn -i 1@s1-eth1 -i 2@s1-eth2 -i 3@s1-eth3 -i 4@s1-eth4 /data/srv6_msd_10.json
+
+=== controller ===
+curl: (7) Failed to connect to 127.0.0.1 port 8765: Connection refused
+

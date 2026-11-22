@@ -1,0 +1,44 @@
+{
+  "evidence_class": "control_plane_hil",
+  "traffic_through_p4": false,
+  "claims_in_scope": [
+    "API request outcomes and decision latency",
+    "admission and rejection accounting",
+    "Kubernetes Deployment and Pod readiness observations"
+  ],
+  "claims_out_of_scope": [
+    "packet latency or loss",
+    "forwarding stability",
+    "zero downtime",
+    "SRv6 packet delivery",
+    "BMv2 forwarding performance"
+  ],
+  "run": {
+    "started_at_utc": "2026-11-17T19:02:44.506169Z",
+    "duration_hours": 12,
+    "scenario": "normal_load",
+    "request_interval_s": 3.5,
+    "workers": 1,
+    "reset_before_scenario": false,
+    "cleanup_after_scenario": true,
+    "local_baselines": false,
+    "seed": 42
+  },
+  "initial_state": {
+    "api_health_http": 200,
+    "controller_status_http": 200,
+    "controller_steer_state": "idle",
+    "active_vnf_deployments": 7,
+    "kubernetes_deployments_ready": "7/7",
+    "kubernetes_pods_ready": "7/7",
+    "kubernetes_namespace_pods": 194,
+    "hybrid_mode": "heuristic",
+    "forecast_alert": false
+  },
+  "telemetry": {
+    "kubernetes_sampler": "results/rev1/e6_12h_control_plane/monitor_kubernetes.py",
+    "interval_s": 60,
+    "output": "kubernetes_readiness.csv",
+    "controller_status_and_counter_reads": "Diagnostic preflight only; excluded from HIL conclusions."
+  }
+}

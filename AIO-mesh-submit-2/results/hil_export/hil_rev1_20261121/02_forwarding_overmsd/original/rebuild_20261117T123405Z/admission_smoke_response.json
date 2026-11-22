@@ -1,0 +1,287 @@
+{
+  "http_status": 200,
+  "body": {
+    "status": "success",
+    "message": "Hybrid orchestration selected Hybrid:Heuristic.",
+    "data": {
+      "vnf_name": "vnf-data-ab6279cb",
+      "placement_node": {
+        "id": 4,
+        "name": "Hue"
+      },
+      "routing_node": {
+        "id": 5,
+        "name": "DaNang"
+      },
+      "srv6_segment_list": [
+        "2001:db8:04:01::1",
+        "2001:db8:05:02::1",
+        "2001:db8:05:03::1",
+        "2001:db8:05:04::1",
+        "2001:db8:05:05::1",
+        "2001:db8:05:06::1"
+      ],
+      "method_used": "Hybrid:Heuristic",
+      "hybrid_branch": "heuristic",
+      "decision_state_version": 11,
+      "admission_state_version": 12,
+      "timings_ms": {
+        "state_sync_ms": 45.37422000430524,
+        "state_snapshot_ms": 1.6177049838006496,
+        "heuristic_inference_ms": 0.26171281933784485,
+        "admission_validation_ms": 14.359185006469488,
+        "decision_policy_and_admission_ms": 16.284479992464185,
+        "controller_handoff_ms": 0.0,
+        "server_decision_ms": 62.93789902701974
+      },
+      "global_utilization": 0.49000000953674316,
+      "avg_cpu": 0.49000000953674316,
+      "avg_msd_usage": 0.24000000953674316,
+      "alert_flag": false,
+      "forecast": null,
+      "migration_result": null,
+      "state": {
+        "mode": "heuristic",
+        "state_version": 12,
+        "reservation_persistence": "durable",
+        "telemetry_age_s": [
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null
+        ],
+        "stale_telemetry_nodes": [],
+        "avg_cpu": 0.49000000953674316,
+        "avg_msd_usage": 0.24000000953674316,
+        "global_utilization": 0.49000000953674316,
+        "alert_flag": false,
+        "nodes": [
+          {
+            "id": 0,
+            "name": "Hanoi",
+            "cpu_util": 63.0,
+            "ram_util": 32.0,
+            "msd_util": 0.0,
+            "alert": false
+          },
+          {
+            "id": 1,
+            "name": "HaiPhong",
+            "cpu_util": 57.0,
+            "ram_util": 29.0,
+            "msd_util": 0.0,
+            "alert": false
+          },
+          {
+            "id": 2,
+            "name": "NinhBinh",
+            "cpu_util": 64.0,
+            "ram_util": 32.5,
+            "msd_util": 0.0,
+            "alert": false
+          },
+          {
+            "id": 3,
+            "name": "Vinh",
+            "cpu_util": 58.0,
+            "ram_util": 29.499998092651367,
+            "msd_util": 80.0,
+            "alert": false
+          },
+          {
+            "id": 4,
+            "name": "Hue",
+            "cpu_util": 64.0,
+            "ram_util": 32.5,
+            "msd_util": 0.0,
+            "alert": false
+          },
+          {
+            "id": 5,
+            "name": "DaNang",
+            "cpu_util": 64.0,
+            "ram_util": 32.5,
+            "msd_util": 100.0,
+            "alert": false
+          },
+          {
+            "id": 6,
+            "name": "QuyNhon",
+            "cpu_util": 0.0,
+            "ram_util": 0.0,
+            "msd_util": 0.0,
+            "alert": false
+          },
+          {
+            "id": 7,
+            "name": "NhaTrang",
+            "cpu_util": 0.0,
+            "ram_util": 0.0,
+            "msd_util": 0.0,
+            "alert": false
+          },
+          {
+            "id": 8,
+            "name": "HoChiMinh",
+            "cpu_util": 64.0,
+            "ram_util": 32.5,
+            "msd_util": 60.000003814697266,
+            "alert": false
+          },
+          {
+            "id": 9,
+            "name": "CanTho",
+            "cpu_util": 56.0,
+            "ram_util": 28.5,
+            "msd_util": 0.0,
+            "alert": false
+          }
+        ],
+        "unaccounted_vnfs": [],
+        "active_vnfs": [
+          {
+            "name": "vnf-attack-004e219d",
+            "v_place": 8,
+            "v_route": 8,
+            "cpu_req": 64.0,
+            "ram_req": 32.5,
+            "msd_req": 6,
+            "is_pending": false,
+            "presence_unconfirmed": false,
+            "deployment_ready": true,
+            "accounting_unknown": false
+          },
+          {
+            "name": "vnf-attack-0faeed9f",
+            "v_place": 0,
+            "v_route": 8,
+            "cpu_req": 63.0,
+            "ram_req": 32.0,
+            "msd_req": 4,
+            "is_pending": false,
+            "presence_unconfirmed": false,
+            "deployment_ready": true,
+            "accounting_unknown": false
+          },
+          {
+            "name": "vnf-attack-228edabf",
+            "v_place": 1,
+            "v_route": 8,
+            "cpu_req": 57.0,
+            "ram_req": 29.0,
+            "msd_req": 6,
+            "is_pending": false,
+            "presence_unconfirmed": false,
+            "deployment_ready": true,
+            "accounting_unknown": false
+          },
+          {
+            "name": "vnf-attack-2f0aa313",
+            "v_place": 2,
+            "v_route": 8,
+            "cpu_req": 64.0,
+            "ram_req": 32.5,
+            "msd_req": 6,
+            "is_pending": false,
+            "presence_unconfirmed": false,
+            "deployment_ready": true,
+            "accounting_unknown": false
+          },
+          {
+            "name": "vnf-attack-57b6f205",
+            "v_place": 3,
+            "v_route": 3,
+            "cpu_req": 58.0,
+            "ram_req": 29.5,
+            "msd_req": 4,
+            "is_pending": false,
+            "presence_unconfirmed": false,
+            "deployment_ready": true,
+            "accounting_unknown": false
+          },
+          {
+            "name": "vnf-attack-8bf0425e",
+            "v_place": 5,
+            "v_route": 8,
+            "cpu_req": 64.0,
+            "ram_req": 32.5,
+            "msd_req": 6,
+            "is_pending": false,
+            "presence_unconfirmed": false,
+            "deployment_ready": true,
+            "accounting_unknown": false
+          },
+          {
+            "name": "vnf-attack-af13f6df",
+            "v_place": 9,
+            "v_route": 5,
+            "cpu_req": 56.0,
+            "ram_req": 28.5,
+            "msd_req": 8,
+            "is_pending": false,
+            "presence_unconfirmed": false,
+            "deployment_ready": true,
+            "accounting_unknown": false
+          },
+          {
+            "name": "vnf-data-ab6279cb",
+            "v_place": 4,
+            "v_route": 5,
+            "cpu_req": 64.0,
+            "ram_req": 32.5,
+            "msd_req": 6
+          }
+        ],
+        "forecast_alerts": [
+          false,
+          false,
+          false,
+          false,
+          false,
+          false,
+          false,
+          false,
+          false,
+          false
+        ]
+      }
+    },
+    "vnf_name": "vnf-data-ab6279cb",
+    "placement_node": {
+      "id": 4,
+      "name": "Hue"
+    },
+    "routing_node": {
+      "id": 5,
+      "name": "DaNang"
+    },
+    "srv6_segment_list": [
+      "2001:db8:04:01::1",
+      "2001:db8:05:02::1",
+      "2001:db8:05:03::1",
+      "2001:db8:05:04::1",
+      "2001:db8:05:05::1",
+      "2001:db8:05:06::1"
+    ],
+    "method_used": "Hybrid:Heuristic",
+    "hybrid_branch": "heuristic",
+    "decision_state_version": 11,
+    "admission_state_version": 12,
+    "timings_ms": {
+      "state_sync_ms": 45.37422000430524,
+      "state_snapshot_ms": 1.6177049838006496,
+      "heuristic_inference_ms": 0.26171281933784485,
+      "admission_validation_ms": 14.359185006469488,
+      "decision_policy_and_admission_ms": 16.284479992464185,
+      "controller_handoff_ms": 0.0,
+      "server_decision_ms": 62.93789902701974
+    },
+    "migration_result": null
+  }
+}

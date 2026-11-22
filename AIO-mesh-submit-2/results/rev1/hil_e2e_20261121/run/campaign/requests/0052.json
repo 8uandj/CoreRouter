@@ -1,0 +1,262 @@
+{
+  "index": 52,
+  "request": {
+    "service_type": "router",
+    "cpu_req": 7.0,
+    "ram_req": 3.5,
+    "msd_req": 4,
+    "alert_flag": true,
+    "source_node": 1,
+    "destination_node": 0,
+    "flow_id": "e2e-0052"
+  },
+  "profile": "VoIP",
+  "t": {
+    "submit_utc": "2026-11-21T17:20:59.546116+00:00",
+    "response_utc": "2026-11-21T17:20:59.711342+00:00",
+    "status_terminal_seen_utc": "2026-11-21T17:21:22.263626+00:00",
+    "backend_make_utc": "2026-11-21T17:20:59.734884770Z",
+    "backend_ready_utc": "2026-11-21T17:21:17.952224078Z",
+    "controller_steer_start_utc": "2026-11-21T17:21:17.980553534Z",
+    "controller_confirm_utc": "2026-11-21T17:21:18.695225709Z",
+    "readback_utc": "2026-11-21T17:21:23.709942+00:00",
+    "probe_start_utc": "2026-11-21T17:21:27.152465+00:00"
+  },
+  "http_status": 200,
+  "api_rtt_ms": 165.022,
+  "vnf_name": "vnf-router-e0567266",
+  "placement": {
+    "id": 4,
+    "name": "Hue"
+  },
+  "route": {
+    "id": 7,
+    "name": "NhaTrang"
+  },
+  "realization": {
+    "request_id": "vnf-router-e0567266",
+    "operation_id": "fceeb149-2862-470e-91e7-ef07df72286d",
+    "topology_hash": "67131a546450606da19276263b00d23988d13fd71c17be38cb24a12637fe9f11",
+    "p4_topology_hash": "ee00b35ebeff5a46d428340fdfd984ecabf2047a4ef0cd79318a81ad732b4dbf",
+    "profile_id": "p4-path-candidate-v1",
+    "switch_path": [
+      2,
+      1,
+      6,
+      5
+    ],
+    "sid_stack": [
+      "fc00:5::1",
+      "fc00:6::1",
+      "fc00:1::1",
+      "fc00:2::1"
+    ]
+  },
+  "migration_result": {
+    "status": "triggered",
+    "old_vnf": "vnf-router-229feee7",
+    "new_vnf": "vnf-router-e0567266",
+    "status_path": "/orchestrate/migrations/vnf-router-e0567266"
+  },
+  "server_timings_ms": {
+    "state_sync_ms": 28.649061219766736,
+    "state_snapshot_ms": 1.0715890675783157,
+    "state_construction_ms": 0.18468382768332958,
+    "mask_construction_ms": 0.08186791092157364,
+    "normalization_ms": 0.06382493302226067,
+    "policy_inference_ms": 90.79842292703688,
+    "total_policy_ms": 91.18039696477354,
+    "admission_validation_ms": 16.012111911550164,
+    "decision_policy_and_admission_ms": 108.41382993385196,
+    "controller_handoff_ms": 0.04843994975090027,
+    "server_decision_ms": 159.84866488724947
+  },
+  "actuation_status": {
+    "status": "success",
+    "message": "Hybrid Orchestration Phase 5/6 sequence COMPLETED",
+    "data": {
+      "old_vnf": "vnf-router-229feee7",
+      "new_vnf": "vnf-router-e0567266",
+      "recovery_state": "COMPLETED",
+      "dynamic_endpoint": {
+        "ip": "10.1.235.147",
+        "port": 0
+      },
+      "sid_list": [
+        "fc00:5::1",
+        "fc00:6::1",
+        "fc00:1::1",
+        "fc00:2::1"
+      ],
+      "switch_path": [
+        2,
+        1,
+        6,
+        5
+      ],
+      "steer_status": "CONFIRMED",
+      "steer_operation_id": "fceeb149-2862-470e-91e7-ef07df72286d",
+      "break_result": {
+        "status": "success",
+        "phase": "BREAK",
+        "oldDeployName": "vnf-router-229feee7",
+        "namespace": "core-router",
+        "message": "Old VNF 'vnf-router-229feee7' deleted."
+      },
+      "cp_steering_overhead_ms": 2038.14,
+      "k8s_node_hostname": "worker1"
+    }
+  },
+  "controller_rule_log": [
+    "2026-11-21T17:21:18.161345998Z 2026-11-21 17:21:18,160 [sdn.controller] INFO: [s2] route +fc00:1::1/128 \u2192 port2",
+    "2026-11-21T17:21:18.354429848Z 2026-11-21 17:21:18,353 [sdn.controller] INFO: [s1] route +fc00:6::1/128 \u2192 port4",
+    "2026-11-21T17:21:18.523206536Z 2026-11-21 17:21:18,522 [sdn.controller] INFO: [s6] route +fc00:5::1/128 \u2192 port2"
+  ],
+  "backend_log": [
+    "2026-11-21T17:20:59.764137643Z INFO:     127.0.0.1:59630 - \"GET /api/orchestrate/migrations/vnf-router-e0567266 HTTP/1.1\" 200 OK",
+    "2026-11-21T17:21:00.768456692Z INFO:     127.0.0.1:59632 - \"GET /api/orchestrate/migrations/vnf-router-e0567266 HTTP/1.1\" 200 OK",
+    "2026-11-21T17:21:01.773239672Z INFO:     127.0.0.1:59646 - \"GET /api/orchestrate/migrations/vnf-router-e0567266 HTTP/1.1\" 200 OK",
+    "2026-11-21T17:21:02.778365720Z INFO:     127.0.0.1:59660 - \"GET /api/orchestrate/migrations/vnf-router-e0567266 HTTP/1.1\" 200 OK",
+    "2026-11-21T17:21:03.784326859Z INFO:     127.0.0.1:59672 - \"GET /api/orchestrate/migrations/vnf-router-e0567266 HTTP/1.1\" 200 OK",
+    "2026-11-21T17:21:04.789477779Z INFO:     127.0.0.1:59678 - \"GET /api/orchestrate/migrations/vnf-router-e0567266 HTTP/1.1\" 200 OK",
+    "2026-11-21T17:21:05.793786627Z INFO:     127.0.0.1:59690 - \"GET /api/orchestrate/migrations/vnf-router-e0567266 HTTP/1.1\" 200 OK",
+    "2026-11-21T17:21:06.798815489Z INFO:     127.0.0.1:47882 - \"GET /api/orchestrate/migrations/vnf-router-e0567266 HTTP/1.1\" 200 OK",
+    "2026-11-21T17:21:07.803831314Z INFO:     127.0.0.1:47892 - \"GET /api/orchestrate/migrations/vnf-router-e0567266 HTTP/1.1\" 200 OK",
+    "2026-11-21T17:21:08.808372889Z INFO:     127.0.0.1:47906 - \"GET /api/orchestrate/migrations/vnf-router-e0567266 HTTP/1.1\" 200 OK",
+    "2026-11-21T17:21:09.813681734Z INFO:     127.0.0.1:47908 - \"GET /api/orchestrate/migrations/vnf-router-e0567266 HTTP/1.1\" 200 OK",
+    "2026-11-21T17:21:10.818471776Z INFO:     127.0.0.1:47922 - \"GET /api/orchestrate/migrations/vnf-router-e0567266 HTTP/1.1\" 200 OK",
+    "2026-11-21T17:21:11.823480393Z INFO:     127.0.0.1:47926 - \"GET /api/orchestrate/migrations/vnf-router-e0567266 HTTP/1.1\" 200 OK",
+    "2026-11-21T17:21:12.829552208Z INFO:     127.0.0.1:47942 - \"GET /api/orchestrate/migrations/vnf-router-e0567266 HTTP/1.1\" 200 OK",
+    "2026-11-21T17:21:13.835268374Z INFO:     127.0.0.1:47946 - \"GET /api/orchestrate/migrations/vnf-router-e0567266 HTTP/1.1\" 200 OK",
+    "2026-11-21T17:21:14.839690236Z INFO:     127.0.0.1:47962 - \"GET /api/orchestrate/migrations/vnf-router-e0567266 HTTP/1.1\" 200 OK",
+    "2026-11-21T17:21:15.872066734Z INFO:     127.0.0.1:47968 - \"GET /api/orchestrate/migrations/vnf-router-e0567266 HTTP/1.1\" 200 OK",
+    "2026-11-21T17:21:16.875901910Z INFO:     127.0.0.1:33662 - \"GET /api/orchestrate/migrations/vnf-router-e0567266 HTTP/1.1\" 200 OK",
+    "2026-11-21T17:21:17.989078189Z INFO:     127.0.0.1:33672 - \"GET /api/orchestrate/migrations/vnf-router-e0567266 HTTP/1.1\" 200 OK",
+    "2026-11-21T17:21:18.993365930Z INFO:     127.0.0.1:33680 - \"GET /api/orchestrate/migrations/vnf-router-e0567266 HTTP/1.1\" 200 OK",
+    "2026-11-21T17:21:20.157440294Z INFO:     127.0.0.1:33696 - \"GET /api/orchestrate/migrations/vnf-router-e0567266 HTTP/1.1\" 200 OK",
+    "2026-11-21T17:21:21.163597892Z INFO:     127.0.0.1:33698 - \"GET /api/orchestrate/migrations/vnf-router-e0567266 HTTP/1.1\" 200 OK",
+    "2026-11-21T17:21:22.262694981Z INFO:     127.0.0.1:33704 - \"GET /api/orchestrate/migrations/vnf-router-e0567266 HTTP/1.1\" 200 OK",
+    "2026-11-21T17:20:59.734884770Z INFO:OrchestrationService:PHASE: MAKE - Triggering Tekton for replacement VNF: vnf-router-e0567266 at hue-1",
+    "2026-11-21T17:20:59.756117925Z INFO:OrchestrationService:PHASE: VERIFY - Polling dynamic endpoint/readiness for vnf-router-e0567266",
+    "2026-11-21T17:21:17.952224078Z INFO:OrchestrationService:VNF vnf-router-e0567266 is READY. Pod IP: 10.1.235.147 on worker1"
+  ],
+  "pipelineruns": [
+    {
+      "name": "mig-vnf-router-e0567266-1d9fed",
+      "pipeline": "vnf-migrate-single",
+      "created": "2026-11-21T17:20:59Z",
+      "completed": null,
+      "reason": "Running",
+      "params": {
+        "ns": "core-router",
+        "oldDeployName": "vnf-router-229feee7",
+        "newDeployName": "vnf-router-e0567266",
+        "fileName": "vnf-frr.yaml",
+        "targetLocation": "hue-1",
+        "nodeHostname": "worker1",
+        "labelSelector": "app=vnf-router-e0567266"
+      }
+    }
+  ],
+  "pod": {
+    "pod": "vnf-router-e0567266-57d7dc4f9d-75b59",
+    "created": "2026-11-21T17:21:15Z",
+    "node": "worker1",
+    "ip": "10.1.235.147",
+    "conditions": {
+      "PodReadyToStartContainers": "2026-11-21T17:21:17Z",
+      "Initialized": "2026-11-21T17:21:15Z",
+      "Ready": "2026-11-21T17:21:17Z",
+      "ContainersReady": "2026-11-21T17:21:17Z",
+      "PodScheduled": "2026-11-21T17:21:15Z"
+    }
+  },
+  "readback": [
+    {
+      "switch": "s2",
+      "table": "routing_v6",
+      "key": "fc00:1::1/128",
+      "present": true
+    },
+    {
+      "switch": "s1",
+      "table": "routing_v6",
+      "key": "fc00:6::1/128",
+      "present": true
+    },
+    {
+      "switch": "s6",
+      "table": "routing_v6",
+      "key": "fc00:5::1/128",
+      "present": true
+    },
+    {
+      "switch": "s5",
+      "table": "srv6_end_dx4_table",
+      "key": "fc00:5::1",
+      "present": true
+    }
+  ],
+  "migration_old_vnf": "vnf-router-229feee7",
+  "old_vnf_pod_after": {},
+  "outcome": "steered",
+  "probe": {
+    "mode": "icmp",
+    "sent": 20,
+    "app_received": 20,
+    "loss": 0,
+    "http_codes": [],
+    "rtt_total_ms": [
+      4.11,
+      4.12,
+      4.23,
+      4.25,
+      4.26,
+      4.42,
+      4.6,
+      4.61,
+      4.66,
+      4.66,
+      4.68,
+      4.69,
+      4.69,
+      4.74,
+      4.78,
+      4.8,
+      4.83,
+      4.91,
+      4.97,
+      5.49
+    ],
+    "delta": {
+      "s2": {
+        "advance": 20,
+        "terminal": 0,
+        "msd_violation": 0
+      },
+      "s1": {
+        "advance": 20,
+        "terminal": 0,
+        "msd_violation": 0
+      },
+      "s6": {
+        "advance": 20,
+        "terminal": 0,
+        "msd_violation": 0
+      },
+      "s5": {
+        "advance": 0,
+        "terminal": 20,
+        "msd_violation": 0
+      }
+    },
+    "captured": {
+      "src_egress_srv6": 22,
+      "place_host_decap": 20,
+      "host_vxlan": 40,
+      "src_return": 20
+    },
+    "first_received_utc": null
+  },
+  "new_vnfs_after": 5
+}

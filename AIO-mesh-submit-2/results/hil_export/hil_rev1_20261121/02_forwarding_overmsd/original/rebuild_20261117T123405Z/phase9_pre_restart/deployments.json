@@ -1,0 +1,807 @@
+{
+    "apiVersion": "v1",
+    "items": [
+        {
+            "apiVersion": "apps/v1",
+            "kind": "Deployment",
+            "metadata": {
+                "annotations": {
+                    "deployment.kubernetes.io/revision": "2",
+                    "kubectl.kubernetes.io/last-applied-configuration": "{\"apiVersion\":\"apps/v1\",\"kind\":\"Deployment\",\"metadata\":{\"annotations\":{},\"labels\":{\"core-router/location\":\"hcm-1\",\"core-router/role\":\"firewall\"},\"name\":\"vnf-attack-004e219d\",\"namespace\":\"core-router\"},\"spec\":{\"replicas\":1,\"selector\":{\"matchLabels\":{\"app\":\"vnf-attack-004e219d\"}},\"template\":{\"metadata\":{\"labels\":{\"app\":\"vnf-attack-004e219d\",\"core-router/role\":\"firewall\"}},\"spec\":{\"containers\":[{\"command\":[\"/bin/sh\",\"-c\",\"echo 'Firewall Running'; sleep infinity\"],\"image\":\"localhost:32000/alpine:latest\",\"imagePullPolicy\":\"IfNotPresent\",\"name\":\"firewall\"}],\"nodeSelector\":{\"kubernetes.io/hostname\":\"worker2\"},\"tolerations\":[{\"effect\":\"NoSchedule\",\"key\":\"dedicated\",\"operator\":\"Equal\",\"value\":\"core-router\"},{\"effect\":\"NoSchedule\",\"key\":\"node-role.kubernetes.io/control-plane\",\"operator\":\"Exists\"},{\"effect\":\"NoSchedule\",\"key\":\"node-role.kubernetes.io/master\",\"operator\":\"Exists\"}]}}}}\n"
+                },
+                "creationTimestamp": "2026-05-17T19:46:37Z",
+                "generation": 2,
+                "labels": {
+                    "core-router/location": "hcm-1",
+                    "core-router/role": "firewall"
+                },
+                "name": "vnf-attack-004e219d",
+                "namespace": "core-router",
+                "resourceVersion": "218002491",
+                "uid": "775c32f5-46f2-4921-b29b-c1883470c62a"
+            },
+            "spec": {
+                "progressDeadlineSeconds": 600,
+                "replicas": 1,
+                "revisionHistoryLimit": 10,
+                "selector": {
+                    "matchLabels": {
+                        "app": "vnf-attack-004e219d"
+                    }
+                },
+                "strategy": {
+                    "rollingUpdate": {
+                        "maxSurge": "25%",
+                        "maxUnavailable": "25%"
+                    },
+                    "type": "RollingUpdate"
+                },
+                "template": {
+                    "metadata": {
+                        "creationTimestamp": null,
+                        "labels": {
+                            "app": "vnf-attack-004e219d",
+                            "core-router/role": "firewall"
+                        }
+                    },
+                    "spec": {
+                        "containers": [
+                            {
+                                "command": [
+                                    "/bin/sh",
+                                    "-c",
+                                    "echo 'Firewall Running'; sleep infinity"
+                                ],
+                                "image": "localhost:32000/alpine:latest",
+                                "imagePullPolicy": "IfNotPresent",
+                                "name": "firewall",
+                                "resources": {},
+                                "terminationMessagePath": "/dev/termination-log",
+                                "terminationMessagePolicy": "File"
+                            }
+                        ],
+                        "dnsPolicy": "ClusterFirst",
+                        "nodeSelector": {
+                            "kubernetes.io/hostname": "worker2"
+                        },
+                        "restartPolicy": "Always",
+                        "schedulerName": "default-scheduler",
+                        "securityContext": {},
+                        "terminationGracePeriodSeconds": 30,
+                        "tolerations": [
+                            {
+                                "effect": "NoSchedule",
+                                "key": "dedicated",
+                                "operator": "Equal",
+                                "value": "core-router"
+                            },
+                            {
+                                "effect": "NoSchedule",
+                                "key": "node-role.kubernetes.io/control-plane",
+                                "operator": "Exists"
+                            },
+                            {
+                                "effect": "NoSchedule",
+                                "key": "node-role.kubernetes.io/master",
+                                "operator": "Exists"
+                            }
+                        ]
+                    }
+                }
+            },
+            "status": {
+                "availableReplicas": 1,
+                "conditions": [
+                    {
+                        "lastTransitionTime": "2026-08-28T22:45:03Z",
+                        "lastUpdateTime": "2026-08-28T22:45:03Z",
+                        "message": "Deployment has minimum availability.",
+                        "reason": "MinimumReplicasAvailable",
+                        "status": "True",
+                        "type": "Available"
+                    },
+                    {
+                        "lastTransitionTime": "2026-05-17T19:46:37Z",
+                        "lastUpdateTime": "2026-11-17T13:30:47Z",
+                        "message": "ReplicaSet \"vnf-attack-004e219d-65dffb4b84\" has successfully progressed.",
+                        "reason": "NewReplicaSetAvailable",
+                        "status": "True",
+                        "type": "Progressing"
+                    }
+                ],
+                "observedGeneration": 2,
+                "readyReplicas": 1,
+                "replicas": 1,
+                "updatedReplicas": 1
+            }
+        },
+        {
+            "apiVersion": "apps/v1",
+            "kind": "Deployment",
+            "metadata": {
+                "annotations": {
+                    "deployment.kubernetes.io/revision": "2",
+                    "kubectl.kubernetes.io/last-applied-configuration": "{\"apiVersion\":\"apps/v1\",\"kind\":\"Deployment\",\"metadata\":{\"annotations\":{},\"labels\":{\"core-router/location\":\"hanoi-1\",\"core-router/role\":\"firewall\"},\"name\":\"vnf-attack-0faeed9f\",\"namespace\":\"core-router\"},\"spec\":{\"replicas\":1,\"selector\":{\"matchLabels\":{\"app\":\"vnf-attack-0faeed9f\"}},\"template\":{\"metadata\":{\"labels\":{\"app\":\"vnf-attack-0faeed9f\",\"core-router/role\":\"firewall\"}},\"spec\":{\"containers\":[{\"command\":[\"/bin/sh\",\"-c\",\"echo 'Firewall Running'; sleep infinity\"],\"image\":\"localhost:32000/alpine:latest\",\"imagePullPolicy\":\"IfNotPresent\",\"name\":\"firewall\"}],\"nodeSelector\":{\"kubernetes.io/hostname\":\"k8s-master\"},\"tolerations\":[{\"effect\":\"NoSchedule\",\"key\":\"dedicated\",\"operator\":\"Equal\",\"value\":\"core-router\"},{\"effect\":\"NoSchedule\",\"key\":\"node-role.kubernetes.io/control-plane\",\"operator\":\"Exists\"},{\"effect\":\"NoSchedule\",\"key\":\"node-role.kubernetes.io/master\",\"operator\":\"Exists\"}]}}}}\n"
+                },
+                "creationTimestamp": "2026-05-17T17:09:32Z",
+                "generation": 2,
+                "labels": {
+                    "core-router/location": "hanoi-1",
+                    "core-router/role": "firewall"
+                },
+                "name": "vnf-attack-0faeed9f",
+                "namespace": "core-router",
+                "resourceVersion": "218003775",
+                "uid": "5d80407d-0b55-4657-86ac-6e85e2d5bfe2"
+            },
+            "spec": {
+                "progressDeadlineSeconds": 600,
+                "replicas": 1,
+                "revisionHistoryLimit": 10,
+                "selector": {
+                    "matchLabels": {
+                        "app": "vnf-attack-0faeed9f"
+                    }
+                },
+                "strategy": {
+                    "rollingUpdate": {
+                        "maxSurge": "25%",
+                        "maxUnavailable": "25%"
+                    },
+                    "type": "RollingUpdate"
+                },
+                "template": {
+                    "metadata": {
+                        "creationTimestamp": null,
+                        "labels": {
+                            "app": "vnf-attack-0faeed9f",
+                            "core-router/role": "firewall"
+                        }
+                    },
+                    "spec": {
+                        "containers": [
+                            {
+                                "command": [
+                                    "/bin/sh",
+                                    "-c",
+                                    "echo 'Firewall Running'; sleep infinity"
+                                ],
+                                "image": "localhost:32000/alpine:latest",
+                                "imagePullPolicy": "IfNotPresent",
+                                "name": "firewall",
+                                "resources": {},
+                                "terminationMessagePath": "/dev/termination-log",
+                                "terminationMessagePolicy": "File"
+                            }
+                        ],
+                        "dnsPolicy": "ClusterFirst",
+                        "nodeSelector": {
+                            "kubernetes.io/hostname": "k8s-master"
+                        },
+                        "restartPolicy": "Always",
+                        "schedulerName": "default-scheduler",
+                        "securityContext": {},
+                        "terminationGracePeriodSeconds": 30,
+                        "tolerations": [
+                            {
+                                "effect": "NoSchedule",
+                                "key": "dedicated",
+                                "operator": "Equal",
+                                "value": "core-router"
+                            },
+                            {
+                                "effect": "NoSchedule",
+                                "key": "node-role.kubernetes.io/control-plane",
+                                "operator": "Exists"
+                            },
+                            {
+                                "effect": "NoSchedule",
+                                "key": "node-role.kubernetes.io/master",
+                                "operator": "Exists"
+                            }
+                        ]
+                    }
+                }
+            },
+            "status": {
+                "availableReplicas": 1,
+                "conditions": [
+                    {
+                        "lastTransitionTime": "2026-08-28T22:44:56Z",
+                        "lastUpdateTime": "2026-08-28T22:44:56Z",
+                        "message": "Deployment has minimum availability.",
+                        "reason": "MinimumReplicasAvailable",
+                        "status": "True",
+                        "type": "Available"
+                    },
+                    {
+                        "lastTransitionTime": "2026-05-17T17:09:32Z",
+                        "lastUpdateTime": "2026-11-17T13:32:56Z",
+                        "message": "ReplicaSet \"vnf-attack-0faeed9f-8d9565bbd\" has successfully progressed.",
+                        "reason": "NewReplicaSetAvailable",
+                        "status": "True",
+                        "type": "Progressing"
+                    }
+                ],
+                "observedGeneration": 2,
+                "readyReplicas": 1,
+                "replicas": 1,
+                "updatedReplicas": 1
+            }
+        },
+        {
+            "apiVersion": "apps/v1",
+            "kind": "Deployment",
+            "metadata": {
+                "annotations": {
+                    "deployment.kubernetes.io/revision": "2",
+                    "kubectl.kubernetes.io/last-applied-configuration": "{\"apiVersion\":\"apps/v1\",\"kind\":\"Deployment\",\"metadata\":{\"annotations\":{},\"labels\":{\"core-router/location\":\"haiphong-1\",\"core-router/role\":\"firewall\"},\"name\":\"vnf-attack-228edabf\",\"namespace\":\"core-router\"},\"spec\":{\"replicas\":1,\"selector\":{\"matchLabels\":{\"app\":\"vnf-attack-228edabf\"}},\"template\":{\"metadata\":{\"labels\":{\"app\":\"vnf-attack-228edabf\",\"core-router/role\":\"firewall\"}},\"spec\":{\"containers\":[{\"command\":[\"/bin/sh\",\"-c\",\"echo 'Firewall Running'; sleep infinity\"],\"image\":\"localhost:32000/alpine:latest\",\"imagePullPolicy\":\"IfNotPresent\",\"name\":\"firewall\"}],\"nodeSelector\":{\"kubernetes.io/hostname\":\"k8s-master\"},\"tolerations\":[{\"effect\":\"NoSchedule\",\"key\":\"dedicated\",\"operator\":\"Equal\",\"value\":\"core-router\"},{\"effect\":\"NoSchedule\",\"key\":\"node-role.kubernetes.io/control-plane\",\"operator\":\"Exists\"},{\"effect\":\"NoSchedule\",\"key\":\"node-role.kubernetes.io/master\",\"operator\":\"Exists\"}]}}}}\n"
+                },
+                "creationTimestamp": "2026-05-17T16:01:14Z",
+                "generation": 2,
+                "labels": {
+                    "core-router/location": "haiphong-1",
+                    "core-router/role": "firewall"
+                },
+                "name": "vnf-attack-228edabf",
+                "namespace": "core-router",
+                "resourceVersion": "218004850",
+                "uid": "fb69ab0d-17d9-4ad4-86d4-07e71c50fb1a"
+            },
+            "spec": {
+                "progressDeadlineSeconds": 600,
+                "replicas": 1,
+                "revisionHistoryLimit": 10,
+                "selector": {
+                    "matchLabels": {
+                        "app": "vnf-attack-228edabf"
+                    }
+                },
+                "strategy": {
+                    "rollingUpdate": {
+                        "maxSurge": "25%",
+                        "maxUnavailable": "25%"
+                    },
+                    "type": "RollingUpdate"
+                },
+                "template": {
+                    "metadata": {
+                        "creationTimestamp": null,
+                        "labels": {
+                            "app": "vnf-attack-228edabf",
+                            "core-router/role": "firewall"
+                        }
+                    },
+                    "spec": {
+                        "containers": [
+                            {
+                                "command": [
+                                    "/bin/sh",
+                                    "-c",
+                                    "echo 'Firewall Running'; sleep infinity"
+                                ],
+                                "image": "localhost:32000/alpine:latest",
+                                "imagePullPolicy": "IfNotPresent",
+                                "name": "firewall",
+                                "resources": {},
+                                "terminationMessagePath": "/dev/termination-log",
+                                "terminationMessagePolicy": "File"
+                            }
+                        ],
+                        "dnsPolicy": "ClusterFirst",
+                        "nodeSelector": {
+                            "kubernetes.io/hostname": "k8s-master"
+                        },
+                        "restartPolicy": "Always",
+                        "schedulerName": "default-scheduler",
+                        "securityContext": {},
+                        "terminationGracePeriodSeconds": 30,
+                        "tolerations": [
+                            {
+                                "effect": "NoSchedule",
+                                "key": "dedicated",
+                                "operator": "Equal",
+                                "value": "core-router"
+                            },
+                            {
+                                "effect": "NoSchedule",
+                                "key": "node-role.kubernetes.io/control-plane",
+                                "operator": "Exists"
+                            },
+                            {
+                                "effect": "NoSchedule",
+                                "key": "node-role.kubernetes.io/master",
+                                "operator": "Exists"
+                            }
+                        ]
+                    }
+                }
+            },
+            "status": {
+                "availableReplicas": 1,
+                "conditions": [
+                    {
+                        "lastTransitionTime": "2026-08-28T22:45:03Z",
+                        "lastUpdateTime": "2026-08-28T22:45:03Z",
+                        "message": "Deployment has minimum availability.",
+                        "reason": "MinimumReplicasAvailable",
+                        "status": "True",
+                        "type": "Available"
+                    },
+                    {
+                        "lastTransitionTime": "2026-05-17T16:01:15Z",
+                        "lastUpdateTime": "2026-11-17T13:34:34Z",
+                        "message": "ReplicaSet \"vnf-attack-228edabf-ddfbcc646\" has successfully progressed.",
+                        "reason": "NewReplicaSetAvailable",
+                        "status": "True",
+                        "type": "Progressing"
+                    }
+                ],
+                "observedGeneration": 2,
+                "readyReplicas": 1,
+                "replicas": 1,
+                "updatedReplicas": 1
+            }
+        },
+        {
+            "apiVersion": "apps/v1",
+            "kind": "Deployment",
+            "metadata": {
+                "annotations": {
+                    "deployment.kubernetes.io/revision": "2",
+                    "kubectl.kubernetes.io/last-applied-configuration": "{\"apiVersion\":\"apps/v1\",\"kind\":\"Deployment\",\"metadata\":{\"annotations\":{},\"labels\":{\"core-router/location\":\"ninhbinh-1\",\"core-router/role\":\"firewall\"},\"name\":\"vnf-attack-2f0aa313\",\"namespace\":\"core-router\"},\"spec\":{\"replicas\":1,\"selector\":{\"matchLabels\":{\"app\":\"vnf-attack-2f0aa313\"}},\"template\":{\"metadata\":{\"labels\":{\"app\":\"vnf-attack-2f0aa313\",\"core-router/role\":\"firewall\"}},\"spec\":{\"containers\":[{\"command\":[\"/bin/sh\",\"-c\",\"echo 'Firewall Running'; sleep infinity\"],\"image\":\"localhost:32000/alpine:latest\",\"imagePullPolicy\":\"IfNotPresent\",\"name\":\"firewall\"}],\"nodeSelector\":{\"kubernetes.io/hostname\":\"k8s-master\"},\"tolerations\":[{\"effect\":\"NoSchedule\",\"key\":\"dedicated\",\"operator\":\"Equal\",\"value\":\"core-router\"},{\"effect\":\"NoSchedule\",\"key\":\"node-role.kubernetes.io/control-plane\",\"operator\":\"Exists\"},{\"effect\":\"NoSchedule\",\"key\":\"node-role.kubernetes.io/master\",\"operator\":\"Exists\"}]}}}}\n"
+                },
+                "creationTimestamp": "2026-05-17T19:01:30Z",
+                "generation": 2,
+                "labels": {
+                    "core-router/location": "ninhbinh-1",
+                    "core-router/role": "firewall"
+                },
+                "name": "vnf-attack-2f0aa313",
+                "namespace": "core-router",
+                "resourceVersion": "218005839",
+                "uid": "7ddd8b24-680d-4561-977c-d06d2b079b1b"
+            },
+            "spec": {
+                "progressDeadlineSeconds": 600,
+                "replicas": 1,
+                "revisionHistoryLimit": 10,
+                "selector": {
+                    "matchLabels": {
+                        "app": "vnf-attack-2f0aa313"
+                    }
+                },
+                "strategy": {
+                    "rollingUpdate": {
+                        "maxSurge": "25%",
+                        "maxUnavailable": "25%"
+                    },
+                    "type": "RollingUpdate"
+                },
+                "template": {
+                    "metadata": {
+                        "creationTimestamp": null,
+                        "labels": {
+                            "app": "vnf-attack-2f0aa313",
+                            "core-router/role": "firewall"
+                        }
+                    },
+                    "spec": {
+                        "containers": [
+                            {
+                                "command": [
+                                    "/bin/sh",
+                                    "-c",
+                                    "echo 'Firewall Running'; sleep infinity"
+                                ],
+                                "image": "localhost:32000/alpine:latest",
+                                "imagePullPolicy": "IfNotPresent",
+                                "name": "firewall",
+                                "resources": {},
+                                "terminationMessagePath": "/dev/termination-log",
+                                "terminationMessagePolicy": "File"
+                            }
+                        ],
+                        "dnsPolicy": "ClusterFirst",
+                        "nodeSelector": {
+                            "kubernetes.io/hostname": "k8s-master"
+                        },
+                        "restartPolicy": "Always",
+                        "schedulerName": "default-scheduler",
+                        "securityContext": {},
+                        "terminationGracePeriodSeconds": 30,
+                        "tolerations": [
+                            {
+                                "effect": "NoSchedule",
+                                "key": "dedicated",
+                                "operator": "Equal",
+                                "value": "core-router"
+                            },
+                            {
+                                "effect": "NoSchedule",
+                                "key": "node-role.kubernetes.io/control-plane",
+                                "operator": "Exists"
+                            },
+                            {
+                                "effect": "NoSchedule",
+                                "key": "node-role.kubernetes.io/master",
+                                "operator": "Exists"
+                            }
+                        ]
+                    }
+                }
+            },
+            "status": {
+                "availableReplicas": 1,
+                "conditions": [
+                    {
+                        "lastTransitionTime": "2026-08-28T22:45:00Z",
+                        "lastUpdateTime": "2026-08-28T22:45:00Z",
+                        "message": "Deployment has minimum availability.",
+                        "reason": "MinimumReplicasAvailable",
+                        "status": "True",
+                        "type": "Available"
+                    },
+                    {
+                        "lastTransitionTime": "2026-05-17T19:01:30Z",
+                        "lastUpdateTime": "2026-11-17T13:36:00Z",
+                        "message": "ReplicaSet \"vnf-attack-2f0aa313-5bf4fc4f99\" has successfully progressed.",
+                        "reason": "NewReplicaSetAvailable",
+                        "status": "True",
+                        "type": "Progressing"
+                    }
+                ],
+                "observedGeneration": 2,
+                "readyReplicas": 1,
+                "replicas": 1,
+                "updatedReplicas": 1
+            }
+        },
+        {
+            "apiVersion": "apps/v1",
+            "kind": "Deployment",
+            "metadata": {
+                "annotations": {
+                    "deployment.kubernetes.io/revision": "2",
+                    "kubectl.kubernetes.io/last-applied-configuration": "{\"apiVersion\":\"apps/v1\",\"kind\":\"Deployment\",\"metadata\":{\"annotations\":{},\"labels\":{\"core-router/location\":\"vinh-1\",\"core-router/role\":\"firewall\"},\"name\":\"vnf-attack-57b6f205\",\"namespace\":\"core-router\"},\"spec\":{\"replicas\":1,\"selector\":{\"matchLabels\":{\"app\":\"vnf-attack-57b6f205\"}},\"template\":{\"metadata\":{\"labels\":{\"app\":\"vnf-attack-57b6f205\",\"core-router/role\":\"firewall\"}},\"spec\":{\"containers\":[{\"command\":[\"/bin/sh\",\"-c\",\"echo 'Firewall Running'; sleep infinity\"],\"image\":\"localhost:32000/alpine:latest\",\"imagePullPolicy\":\"IfNotPresent\",\"name\":\"firewall\"}],\"nodeSelector\":{\"kubernetes.io/hostname\":\"worker1\"},\"tolerations\":[{\"effect\":\"NoSchedule\",\"key\":\"dedicated\",\"operator\":\"Equal\",\"value\":\"core-router\"},{\"effect\":\"NoSchedule\",\"key\":\"node-role.kubernetes.io/control-plane\",\"operator\":\"Exists\"},{\"effect\":\"NoSchedule\",\"key\":\"node-role.kubernetes.io/master\",\"operator\":\"Exists\"}]}}}}\n"
+                },
+                "creationTimestamp": "2026-05-17T16:23:51Z",
+                "generation": 2,
+                "labels": {
+                    "core-router/location": "vinh-1",
+                    "core-router/role": "firewall"
+                },
+                "name": "vnf-attack-57b6f205",
+                "namespace": "core-router",
+                "resourceVersion": "218006366",
+                "uid": "ffc7e53b-3ae1-48ee-9e88-93eb80c8301f"
+            },
+            "spec": {
+                "progressDeadlineSeconds": 600,
+                "replicas": 1,
+                "revisionHistoryLimit": 10,
+                "selector": {
+                    "matchLabels": {
+                        "app": "vnf-attack-57b6f205"
+                    }
+                },
+                "strategy": {
+                    "rollingUpdate": {
+                        "maxSurge": "25%",
+                        "maxUnavailable": "25%"
+                    },
+                    "type": "RollingUpdate"
+                },
+                "template": {
+                    "metadata": {
+                        "creationTimestamp": null,
+                        "labels": {
+                            "app": "vnf-attack-57b6f205",
+                            "core-router/role": "firewall"
+                        }
+                    },
+                    "spec": {
+                        "containers": [
+                            {
+                                "command": [
+                                    "/bin/sh",
+                                    "-c",
+                                    "echo 'Firewall Running'; sleep infinity"
+                                ],
+                                "image": "localhost:32000/alpine:latest",
+                                "imagePullPolicy": "IfNotPresent",
+                                "name": "firewall",
+                                "resources": {},
+                                "terminationMessagePath": "/dev/termination-log",
+                                "terminationMessagePolicy": "File"
+                            }
+                        ],
+                        "dnsPolicy": "ClusterFirst",
+                        "nodeSelector": {
+                            "kubernetes.io/hostname": "worker1"
+                        },
+                        "restartPolicy": "Always",
+                        "schedulerName": "default-scheduler",
+                        "securityContext": {},
+                        "terminationGracePeriodSeconds": 30,
+                        "tolerations": [
+                            {
+                                "effect": "NoSchedule",
+                                "key": "dedicated",
+                                "operator": "Equal",
+                                "value": "core-router"
+                            },
+                            {
+                                "effect": "NoSchedule",
+                                "key": "node-role.kubernetes.io/control-plane",
+                                "operator": "Exists"
+                            },
+                            {
+                                "effect": "NoSchedule",
+                                "key": "node-role.kubernetes.io/master",
+                                "operator": "Exists"
+                            }
+                        ]
+                    }
+                }
+            },
+            "status": {
+                "availableReplicas": 1,
+                "conditions": [
+                    {
+                        "lastTransitionTime": "2026-08-28T22:45:03Z",
+                        "lastUpdateTime": "2026-08-28T22:45:03Z",
+                        "message": "Deployment has minimum availability.",
+                        "reason": "MinimumReplicasAvailable",
+                        "status": "True",
+                        "type": "Available"
+                    },
+                    {
+                        "lastTransitionTime": "2026-05-17T16:23:51Z",
+                        "lastUpdateTime": "2026-11-17T13:36:28Z",
+                        "message": "ReplicaSet \"vnf-attack-57b6f205-84d4bd6969\" has successfully progressed.",
+                        "reason": "NewReplicaSetAvailable",
+                        "status": "True",
+                        "type": "Progressing"
+                    }
+                ],
+                "observedGeneration": 2,
+                "readyReplicas": 1,
+                "replicas": 1,
+                "updatedReplicas": 1
+            }
+        },
+        {
+            "apiVersion": "apps/v1",
+            "kind": "Deployment",
+            "metadata": {
+                "annotations": {
+                    "deployment.kubernetes.io/revision": "2",
+                    "kubectl.kubernetes.io/last-applied-configuration": "{\"apiVersion\":\"apps/v1\",\"kind\":\"Deployment\",\"metadata\":{\"annotations\":{},\"labels\":{\"core-router/location\":\"danang-1\",\"core-router/role\":\"firewall\"},\"name\":\"vnf-attack-8bf0425e\",\"namespace\":\"core-router\"},\"spec\":{\"replicas\":1,\"selector\":{\"matchLabels\":{\"app\":\"vnf-attack-8bf0425e\"}},\"template\":{\"metadata\":{\"labels\":{\"app\":\"vnf-attack-8bf0425e\",\"core-router/role\":\"firewall\"}},\"spec\":{\"containers\":[{\"command\":[\"/bin/sh\",\"-c\",\"echo 'Firewall Running'; sleep infinity\"],\"image\":\"localhost:32000/alpine:latest\",\"imagePullPolicy\":\"IfNotPresent\",\"name\":\"firewall\"}],\"nodeSelector\":{\"kubernetes.io/hostname\":\"worker1\"},\"tolerations\":[{\"effect\":\"NoSchedule\",\"key\":\"dedicated\",\"operator\":\"Equal\",\"value\":\"core-router\"},{\"effect\":\"NoSchedule\",\"key\":\"node-role.kubernetes.io/control-plane\",\"operator\":\"Exists\"},{\"effect\":\"NoSchedule\",\"key\":\"node-role.kubernetes.io/master\",\"operator\":\"Exists\"}]}}}}\n"
+                },
+                "creationTimestamp": "2026-05-17T16:17:14Z",
+                "generation": 2,
+                "labels": {
+                    "core-router/location": "danang-1",
+                    "core-router/role": "firewall"
+                },
+                "name": "vnf-attack-8bf0425e",
+                "namespace": "core-router",
+                "resourceVersion": "218006971",
+                "uid": "ac0ab19b-c597-4b83-b108-eb1627127bdf"
+            },
+            "spec": {
+                "progressDeadlineSeconds": 600,
+                "replicas": 1,
+                "revisionHistoryLimit": 10,
+                "selector": {
+                    "matchLabels": {
+                        "app": "vnf-attack-8bf0425e"
+                    }
+                },
+                "strategy": {
+                    "rollingUpdate": {
+                        "maxSurge": "25%",
+                        "maxUnavailable": "25%"
+                    },
+                    "type": "RollingUpdate"
+                },
+                "template": {
+                    "metadata": {
+                        "creationTimestamp": null,
+                        "labels": {
+                            "app": "vnf-attack-8bf0425e",
+                            "core-router/role": "firewall"
+                        }
+                    },
+                    "spec": {
+                        "containers": [
+                            {
+                                "command": [
+                                    "/bin/sh",
+                                    "-c",
+                                    "echo 'Firewall Running'; sleep infinity"
+                                ],
+                                "image": "localhost:32000/alpine:latest",
+                                "imagePullPolicy": "IfNotPresent",
+                                "name": "firewall",
+                                "resources": {},
+                                "terminationMessagePath": "/dev/termination-log",
+                                "terminationMessagePolicy": "File"
+                            }
+                        ],
+                        "dnsPolicy": "ClusterFirst",
+                        "nodeSelector": {
+                            "kubernetes.io/hostname": "worker1"
+                        },
+                        "restartPolicy": "Always",
+                        "schedulerName": "default-scheduler",
+                        "securityContext": {},
+                        "terminationGracePeriodSeconds": 30,
+                        "tolerations": [
+                            {
+                                "effect": "NoSchedule",
+                                "key": "dedicated",
+                                "operator": "Equal",
+                                "value": "core-router"
+                            },
+                            {
+                                "effect": "NoSchedule",
+                                "key": "node-role.kubernetes.io/control-plane",
+                                "operator": "Exists"
+                            },
+                            {
+                                "effect": "NoSchedule",
+                                "key": "node-role.kubernetes.io/master",
+                                "operator": "Exists"
+                            }
+                        ]
+                    }
+                }
+            },
+            "status": {
+                "availableReplicas": 1,
+                "conditions": [
+                    {
+                        "lastTransitionTime": "2026-08-28T22:44:57Z",
+                        "lastUpdateTime": "2026-08-28T22:44:57Z",
+                        "message": "Deployment has minimum availability.",
+                        "reason": "MinimumReplicasAvailable",
+                        "status": "True",
+                        "type": "Available"
+                    },
+                    {
+                        "lastTransitionTime": "2026-05-17T16:17:14Z",
+                        "lastUpdateTime": "2026-11-17T13:37:04Z",
+                        "message": "ReplicaSet \"vnf-attack-8bf0425e-845988f6fd\" has successfully progressed.",
+                        "reason": "NewReplicaSetAvailable",
+                        "status": "True",
+                        "type": "Progressing"
+                    }
+                ],
+                "observedGeneration": 2,
+                "readyReplicas": 1,
+                "replicas": 1,
+                "updatedReplicas": 1
+            }
+        },
+        {
+            "apiVersion": "apps/v1",
+            "kind": "Deployment",
+            "metadata": {
+                "annotations": {
+                    "deployment.kubernetes.io/revision": "2",
+                    "kubectl.kubernetes.io/last-applied-configuration": "{\"apiVersion\":\"apps/v1\",\"kind\":\"Deployment\",\"metadata\":{\"annotations\":{},\"labels\":{\"core-router/location\":\"cantho-1\",\"core-router/role\":\"firewall\"},\"name\":\"vnf-attack-af13f6df\",\"namespace\":\"core-router\"},\"spec\":{\"replicas\":1,\"selector\":{\"matchLabels\":{\"app\":\"vnf-attack-af13f6df\"}},\"template\":{\"metadata\":{\"labels\":{\"app\":\"vnf-attack-af13f6df\",\"core-router/role\":\"firewall\"}},\"spec\":{\"containers\":[{\"command\":[\"/bin/sh\",\"-c\",\"echo 'Firewall Running'; sleep infinity\"],\"image\":\"localhost:32000/alpine:latest\",\"imagePullPolicy\":\"IfNotPresent\",\"name\":\"firewall\"}],\"nodeSelector\":{\"kubernetes.io/hostname\":\"worker2\"},\"tolerations\":[{\"effect\":\"NoSchedule\",\"key\":\"dedicated\",\"operator\":\"Equal\",\"value\":\"core-router\"},{\"effect\":\"NoSchedule\",\"key\":\"node-role.kubernetes.io/control-plane\",\"operator\":\"Exists\"},{\"effect\":\"NoSchedule\",\"key\":\"node-role.kubernetes.io/master\",\"operator\":\"Exists\"}]}}}}\n"
+                },
+                "creationTimestamp": "2026-05-17T16:18:16Z",
+                "generation": 2,
+                "labels": {
+                    "core-router/location": "cantho-1",
+                    "core-router/role": "firewall"
+                },
+                "name": "vnf-attack-af13f6df",
+                "namespace": "core-router",
+                "resourceVersion": "218007491",
+                "uid": "79072bbd-b475-488a-8f7f-f40545188a52"
+            },
+            "spec": {
+                "progressDeadlineSeconds": 600,
+                "replicas": 1,
+                "revisionHistoryLimit": 10,
+                "selector": {
+                    "matchLabels": {
+                        "app": "vnf-attack-af13f6df"
+                    }
+                },
+                "strategy": {
+                    "rollingUpdate": {
+                        "maxSurge": "25%",
+                        "maxUnavailable": "25%"
+                    },
+                    "type": "RollingUpdate"
+                },
+                "template": {
+                    "metadata": {
+                        "creationTimestamp": null,
+                        "labels": {
+                            "app": "vnf-attack-af13f6df",
+                            "core-router/role": "firewall"
+                        }
+                    },
+                    "spec": {
+                        "containers": [
+                            {
+                                "command": [
+                                    "/bin/sh",
+                                    "-c",
+                                    "echo 'Firewall Running'; sleep infinity"
+                                ],
+                                "image": "localhost:32000/alpine:latest",
+                                "imagePullPolicy": "IfNotPresent",
+                                "name": "firewall",
+                                "resources": {},
+                                "terminationMessagePath": "/dev/termination-log",
+                                "terminationMessagePolicy": "File"
+                            }
+                        ],
+                        "dnsPolicy": "ClusterFirst",
+                        "nodeSelector": {
+                            "kubernetes.io/hostname": "worker2"
+                        },
+                        "restartPolicy": "Always",
+                        "schedulerName": "default-scheduler",
+                        "securityContext": {},
+                        "terminationGracePeriodSeconds": 30,
+                        "tolerations": [
+                            {
+                                "effect": "NoSchedule",
+                                "key": "dedicated",
+                                "operator": "Equal",
+                                "value": "core-router"
+                            },
+                            {
+                                "effect": "NoSchedule",
+                                "key": "node-role.kubernetes.io/control-plane",
+                                "operator": "Exists"
+                            },
+                            {
+                                "effect": "NoSchedule",
+                                "key": "node-role.kubernetes.io/master",
+                                "operator": "Exists"
+                            }
+                        ]
+                    }
+                }
+            },
+            "status": {
+                "availableReplicas": 1,
+                "conditions": [
+                    {
+                        "lastTransitionTime": "2026-08-28T22:45:03Z",
+                        "lastUpdateTime": "2026-08-28T22:45:03Z",
+                        "message": "Deployment has minimum availability.",
+                        "reason": "MinimumReplicasAvailable",
+                        "status": "True",
+                        "type": "Available"
+                    },
+                    {
+                        "lastTransitionTime": "2026-05-17T16:18:17Z",
+                        "lastUpdateTime": "2026-11-17T13:37:35Z",
+                        "message": "ReplicaSet \"vnf-attack-af13f6df-66d6777b9d\" has successfully progressed.",
+                        "reason": "NewReplicaSetAvailable",
+                        "status": "True",
+                        "type": "Progressing"
+                    }
+                ],
+                "observedGeneration": 2,
+                "readyReplicas": 1,
+                "replicas": 1,
+                "updatedReplicas": 1
+            }
+        }
+    ],
+    "kind": "List",
+    "metadata": {
+        "resourceVersion": ""
+    }
+}

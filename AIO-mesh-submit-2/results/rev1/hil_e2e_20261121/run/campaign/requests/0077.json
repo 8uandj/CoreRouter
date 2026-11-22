@@ -1,0 +1,28 @@
+{
+  "index": 77,
+  "request": {
+    "service_type": "data",
+    "cpu_req": 5.0,
+    "ram_req": 2.5,
+    "msd_req": 4,
+    "alert_flag": true,
+    "source_node": 8,
+    "destination_node": 4,
+    "flow_id": "e2e-0077"
+  },
+  "profile": "URLLC",
+  "t": {
+    "submit_utc": "2026-11-21T17:31:25.671204+00:00",
+    "response_utc": "2026-11-21T17:31:25.794265+00:00"
+  },
+  "http_status": 409,
+  "api_rtt_ms": 122.822,
+  "outcome": "rejected",
+  "error": {
+    "status": "error",
+    "code": "NO_SAFE_ACTION",
+    "reason_key": "msd_violation",
+    "message": "requested MSD depth does not match materialized P4 path depth"
+  },
+  "new_vnfs_after": 0
+}

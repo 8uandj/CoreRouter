@@ -1,0 +1,152 @@
+{
+  "index": 72,
+  "request": {
+    "service_type": "voc",
+    "cpu_req": 18.0,
+    "ram_req": 9.0,
+    "msd_req": 3,
+    "alert_flag": false,
+    "source_node": 7,
+    "destination_node": 9,
+    "flow_id": "expand-0072"
+  },
+  "profile": "Video",
+  "evidence_class": "driver-orchestrated actuation",
+  "t": {
+    "submit_utc": "2026-11-21T18:05:14.513755+00:00",
+    "response_utc": "2026-11-21T18:05:14.658362+00:00",
+    "deploy_submit_utc": "2026-11-21T18:05:14.658434+00:00",
+    "deployment_object_seen_utc": "2026-11-21T18:05:33.953645+00:00",
+    "rollout_done_utc": "2026-11-21T18:05:40.129559+00:00",
+    "steer_submit_utc": "2026-11-21T18:05:40.325628+00:00",
+    "steer_confirm_seen_utc": "2026-11-21T18:05:41.344354+00:00",
+    "readback_utc": "2026-11-21T18:05:41.344397+00:00"
+  },
+  "http_status": 200,
+  "api_rtt_ms": 144.308,
+  "vnf_name": "vnf-voc-519bcac9",
+  "placement": {
+    "id": 9,
+    "name": "CanTho"
+  },
+  "route": {
+    "id": 7,
+    "name": "NhaTrang"
+  },
+  "realization": {
+    "request_id": "vnf-voc-519bcac9",
+    "operation_id": "67feb08c-7421-4c97-bbfe-01fa83787db1",
+    "topology_hash": "67131a546450606da19276263b00d23988d13fd71c17be38cb24a12637fe9f11",
+    "p4_topology_hash": "ee00b35ebeff5a46d428340fdfd984ecabf2047a4ef0cd79318a81ad732b4dbf",
+    "profile_id": "p4-path-candidate-v1",
+    "switch_path": [
+      8,
+      9,
+      10
+    ],
+    "sid_stack": [
+      "fc00:10::1",
+      "fc00:9::1",
+      "fc00:8::1"
+    ]
+  },
+  "server_timings_ms": {
+    "state_sync_ms": 51.904229912906885,
+    "state_snapshot_ms": 1.4482999686151743,
+    "state_construction_ms": 0.2526738680899143,
+    "mask_construction_ms": 0.0925848726183176,
+    "normalization_ms": 0.08076592348515987,
+    "policy_inference_ms": 64.10206807777286,
+    "total_policy_ms": 64.60195290856063,
+    "admission_validation_ms": 14.293794985860586,
+    "decision_policy_and_admission_ms": 80.4835269227624,
+    "controller_handoff_ms": 0.0,
+    "server_decision_ms": 137.91459519416094
+  },
+  "migration_result": null,
+  "deploy_response": {
+    "status": "success",
+    "runName": "deploy-voc-162dbb",
+    "message": "Successfully initialized VOC (standard) instance."
+  },
+  "rollout": {
+    "rc": 0,
+    "out": "Waiting for deployment \"vnf-voc-519bcac9\" rollout to finish: 0 of 1 updated replicas are available...\ndeployment \"vnf-voc-519bcac9\" successfully rolled out\n"
+  },
+  "pod": {
+    "pod": "vnf-voc-519bcac9-7fbdc86966-dwwpf",
+    "created": "2026-11-21T18:05:31Z",
+    "node": "worker2",
+    "ip": "10.1.189.182",
+    "conditions": {
+      "PodReadyToStartContainers": "2026-11-21T18:05:33Z",
+      "Initialized": "2026-11-21T18:05:32Z",
+      "Ready": "2026-11-21T18:05:40Z",
+      "ContainersReady": "2026-11-21T18:05:40Z",
+      "PodScheduled": "2026-11-21T18:05:32Z"
+    }
+  },
+  "steer_payload": {
+    "request_id": "vnf-voc-519bcac9",
+    "operation_id": "67feb08c-7421-4c97-bbfe-01fa83787db1",
+    "topology_hash": "67131a546450606da19276263b00d23988d13fd71c17be38cb24a12637fe9f11",
+    "profile_id": "p4-path-candidate-v1",
+    "p4_topology_hash": "ee00b35ebeff5a46d428340fdfd984ecabf2047a4ef0cd79318a81ad732b4dbf",
+    "new_deploy": "vnf-voc-519bcac9",
+    "switch_path": [
+      8,
+      9,
+      10
+    ],
+    "sid_stack": [
+      "fc00:10::1",
+      "fc00:9::1",
+      "fc00:8::1"
+    ]
+  },
+  "steer_http": 202,
+  "steer_status": {
+    "steer_state": "failed",
+    "new_deploy": "vnf-voc-519bcac9",
+    "operation_id": "67feb08c-7421-4c97-bbfe-01fa83787db1",
+    "request_id": "vnf-voc-519bcac9",
+    "topology_hash": "67131a546450606da19276263b00d23988d13fd71c17be38cb24a12637fe9f11",
+    "profile_id": "p4-path-candidate-v1",
+    "p4_topology_hash": "ee00b35ebeff5a46d428340fdfd984ecabf2047a4ef0cd79318a81ad732b4dbf",
+    "confirm_steer_done": false
+  },
+  "readback": [
+    {
+      "switch": "s8",
+      "table": "routing_v6",
+      "key": "fc00:9::1/128",
+      "present": true
+    },
+    {
+      "switch": "s9",
+      "table": "routing_v6",
+      "key": "fc00:10::1/128",
+      "present": true
+    },
+    {
+      "switch": "s10",
+      "table": "srv6_end_dx4_table",
+      "key": "fc00:10::1",
+      "present": true
+    }
+  ],
+  "outcome": "steer_not_confirmed",
+  "active_total_after": 31,
+  "ledger_record_after": {
+    "name": "vnf-voc-519bcac9",
+    "v_place": 9,
+    "v_route": 7,
+    "cpu_req": 18.0,
+    "ram_req": 9.0,
+    "msd_req": 3,
+    "is_pending": false,
+    "presence_unconfirmed": false,
+    "deployment_ready": true,
+    "accounting_unknown": false
+  }
+}

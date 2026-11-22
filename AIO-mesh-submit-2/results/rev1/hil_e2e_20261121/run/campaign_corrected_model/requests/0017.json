@@ -1,0 +1,28 @@
+{
+  "index": 17,
+  "request": {
+    "service_type": "voc",
+    "cpu_req": 21.0,
+    "ram_req": 10.5,
+    "msd_req": 4,
+    "alert_flag": true,
+    "source_node": 3,
+    "destination_node": 4,
+    "flow_id": "e2e-0017"
+  },
+  "profile": "Video",
+  "t": {
+    "submit_utc": "2026-11-21T18:54:07.716987+00:00",
+    "response_utc": "2026-11-21T18:54:07.851312+00:00"
+  },
+  "http_status": 409,
+  "api_rtt_ms": 134.054,
+  "outcome": "rejected",
+  "error": {
+    "status": "error",
+    "code": "NO_SAFE_ACTION",
+    "reason_key": "msd_violation",
+    "message": "requested MSD depth does not match materialized P4 path depth"
+  },
+  "new_vnfs_after": 3
+}

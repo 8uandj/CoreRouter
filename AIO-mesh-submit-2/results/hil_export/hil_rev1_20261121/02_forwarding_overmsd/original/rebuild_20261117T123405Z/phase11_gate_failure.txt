@@ -1,0 +1,5 @@
+Command: POST /bootstrap with phase11_path_rules.json
+Result: HTTP 500; {"ok": false}
+Controller log: s1 and s6 route readbacks passed; s9 End.DX4 rule installed but readback comparator rejected compact MAC value 09.
+Traffic: no packet was sent after this failed readback gate.
+Live rule state: s1 route fc00:6::1/128 -> port 4; s6 route fc00:9::1/128 -> port 5; s9 End.DX4 fc00:9::1 -> port 1.

@@ -1,0 +1,28 @@
+{
+  "index": 133,
+  "request": {
+    "service_type": "router",
+    "cpu_req": 21.0,
+    "ram_req": 10.5,
+    "msd_req": 2,
+    "alert_flag": true,
+    "source_node": 4,
+    "destination_node": 3,
+    "flow_id": "e2e-0133"
+  },
+  "profile": "Video",
+  "t": {
+    "submit_utc": "2026-11-21T19:23:44.235917+00:00",
+    "response_utc": "2026-11-21T19:23:44.303562+00:00"
+  },
+  "http_status": 409,
+  "api_rtt_ms": 67.415,
+  "outcome": "rejected",
+  "error": {
+    "status": "error",
+    "code": "NO_SAFE_ACTION",
+    "reason_key": "no_safe_action",
+    "message": "resilience_no_safe_pair_available"
+  },
+  "new_vnfs_after": 19
+}

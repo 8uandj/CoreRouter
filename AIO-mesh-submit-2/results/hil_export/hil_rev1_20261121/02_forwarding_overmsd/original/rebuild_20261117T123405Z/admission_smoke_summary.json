@@ -1,0 +1,32 @@
+{
+  "http_status": 200,
+  "status": "PASS",
+  "vnf_name": "vnf-data-ab6279cb",
+  "branch": "heuristic",
+  "migration_result": null,
+  "placement": {
+    "id": 4,
+    "name": "Hue"
+  },
+  "route": {
+    "id": 5,
+    "name": "DaNang"
+  },
+  "admitted_entry": {
+    "name": "vnf-data-ab6279cb",
+    "v_place": 4,
+    "v_route": 5,
+    "cpu_req": 64.0,
+    "ram_req": 32.5,
+    "msd_req": 6,
+    "is_pending": true
+  },
+  "deployment_absent": true,
+  "release_http_status": 200,
+  "release_response": {
+    "status": "success",
+    "message": "Resources freed"
+  },
+  "active_count_after_cleanup": 7,
+  "unknown_after_cleanup": 0
+}

@@ -1,0 +1,10 @@
+expected=50 actual= 50 exact= True missing= [] unexpected= []
+namespace_all_core-router= True
+ready_all= True
+labels_changed_since_post_restart_snapshot= []
+retire_name_count= 43 retire_names_sorted=
+eligible_dedicated_clusterip_services= 35 names= ['scale-idps-42-svc', 'scale-router-90-svc', 'scale-router-90-mig-svc', 'vnf-attack-13fca5cb-svc', 'vnf-firewall-ct-04-svc', 'vnf-firewall-dn-02-svc', 'vnf-firewall-hcm-01-svc', 'vnf-firewall-nt-03-svc', 'vnf-idps-ct-01-svc', 'vnf-idps-dn-03-svc', 'vnf-idps-hn-01-svc', 'vnf-idps-nt-02-svc', 'vnf-idps-vinh-01-svc', 'vnf-nat-ct-02-svc', 'vnf-nat-dn-01-svc', 'vnf-nat-hcm-02-svc', 'vnf-nat-hn-03-svc', 'vnf-nat-hue-03-svc', 'vnf-nat-nb-01-svc', 'vnf-nat-nt-01-svc', 'vnf-nat-qn-01-svc', 'vnf-nat-vinh-02-svc', 'vnf-node-1-svc', 'vnf-node-nat-svc', 'vnf-router-ct-03-svc', 'vnf-router-hp-02-svc', 'vnf-router-hue-04-svc', 'vnf-router-qn-02-svc', 'vnf-router-vinh-03-svc', 'vnf-test-smoke-svc', 'vnf-voc-hn-02-svc', 'vnf-voc-hp-01-svc', 'vnf-voc-hue-02-svc', 'vnf-voc-nb-02-svc', 'vnf-voc-qn-03-svc']
+skipped_services= [('vnf-lb-hcm-03', 'shared/external dependency type NodePort'), ('vnf-lb-hp-03', 'shared/external dependency type NodePort'), ('vnf-lb-hue-01', 'shared/external dependency type NodePort'), ('vnf-mbb-src-1779442924', 'no corresponding service'), ('vnf-mbb-src-1779447740', 'no corresponding service'), ('vnf-mbb-src-1779447740-mig', 'no corresponding service'), ('vnf-node-hn', 'shared/external dependency type NodePort'), ('vnf-voc-phase3', 'shared/external dependency type NodePort')]
+phase3_nodeport= 31656 selector= {'app': 'vnf-voc-phase3'} endpoint_count= 1
+tekton_total= 1237 nonterminal= []
+orchestrate_status= {'status': 'success', 'is_migrating': False, 'message': 'System Idle', 'latest_pipeline': {'name': 'smoke-1794911901', 'overallStatus': 'Succeeded', 'tasks': [{'name': 'prepare-manifest', 'status': 'Succeeded'}, {'name': 'instantiate', 'status': 'Succeeded'}, {'name': 'wait-ready', 'status': 'Succeeded'}, {'name': 'observe', 'status': 'Succeeded'}]}}

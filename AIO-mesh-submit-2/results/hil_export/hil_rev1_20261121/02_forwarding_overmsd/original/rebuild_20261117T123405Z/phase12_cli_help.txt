@@ -1,0 +1,54 @@
+Obtaining JSON from switch...
+Done
+Control utility for runtime P4 table manipulation
+RuntimeCmd: 
+Documented commands (type help <topic>):
+========================================
+act_prof_add_member_to_group       reset_state                            
+act_prof_create_group              serialize_state                        
+act_prof_create_member             set_crc16_parameters                   
+act_prof_delete_group              set_crc32_parameters                   
+act_prof_delete_member             set_queue_depth                        
+act_prof_dump                      set_queue_rate                         
+act_prof_dump_group                shell                                  
+act_prof_dump_member               show_actions                           
+act_prof_modify_member             show_ports                             
+act_prof_remove_member_from_group  show_pvs                               
+counter_read                       show_tables                            
+counter_reset                      swap_configs                           
+counter_write                      switch_info                            
+get_time_elapsed                   table_add                              
+get_time_since_epoch               table_clear                            
+help                               table_delete                           
+load_new_config_file               table_dump                             
+mc_dump                            table_dump_entry                       
+mc_mgrp_create                     table_dump_entry_from_key              
+mc_mgrp_destroy                    table_dump_group                       
+mc_node_associate                  table_dump_member                      
+mc_node_create                     table_indirect_add                     
+mc_node_destroy                    table_indirect_add_member_to_group     
+mc_node_dissociate                 table_indirect_add_with_group          
+mc_node_update                     table_indirect_create_group            
+mc_set_lag_membership              table_indirect_create_member           
+meter_array_set_rates              table_indirect_delete                  
+meter_get_rates                    table_indirect_delete_group            
+meter_set_rates                    table_indirect_delete_member           
+mirroring_add                      table_indirect_modify_member           
+mirroring_add_mc                   table_indirect_remove_member_from_group
+mirroring_delete                   table_indirect_reset_default           
+mirroring_get                      table_indirect_set_default             
+port_add                           table_indirect_set_default_with_group  
+port_remove                        table_info                             
+pvs_add                            table_modify                           
+pvs_clear                          table_num_entries                      
+pvs_get                            table_reset_default                    
+pvs_remove                         table_set_default                      
+register_read                      table_set_timeout                      
+register_reset                     table_show_actions                     
+register_write                     write_config_to_file                   
+
+Undocumented commands:
+======================
+EOF  greet
+
+RuntimeCmd: 

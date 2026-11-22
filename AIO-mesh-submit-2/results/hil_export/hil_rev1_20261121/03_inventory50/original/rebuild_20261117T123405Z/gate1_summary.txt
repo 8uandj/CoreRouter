@@ -1,0 +1,76 @@
+--- active workloads ---
+44607 erl_child_setup 65536
+74948 sh -c while true; do sleep 3600; done
+75464 sh -c while true; do sleep 3600; done
+1736461 /bin/bash -c RUN_DIR="results/hil/rebuild_20261117T123405Z"; { echo '--- active workloads ---'; pgrep -af '[b]enchmark|[r]un_all_scenarios|[s]cenario_runner|[h]il' || true; echo '--- tmux ---'; cat "$RUN_DIR/tmux.txt"; echo '--- Tekton status ---'; python3 - <<'PY' import json for fn in ['pipelineruns.json','taskruns.json']:  d=json.load(open('results/hil/rebuild_20261117T123405Z/'+fn)); live=[]  for x in d.get('items',[]):   cs=x.get('status',{}).get('conditions',[])   if not cs or cs[0].get('status')=='Unknown' or cs[0].get('reason') in ('Running','Started'):    live.append(x['metadata'].get('name'))  print(fn,'total=',len(d.get('items',[])),'nonterminal=',live) PY echo '--- phase 3 support Service ---'; sed -n '1,70p' "$RUN_DIR/voc_phase3_service.yaml"; echo '--- support Endpoints ---'; sed -n '1,50p' "$RUN_DIR/voc_phase3_endpoints.yaml"; } > "$RUN_DIR/gate1_summary.txt" 2>&1; python3 - <<'PY' > "$RUN_DIR/backend_inspect.txt" import json,subprocess x=json.loads(subprocess.check_output(['docker','inspect','3s-com-backend']))[0] print('container=',x['Name'].lstrip('/')) print('image_ref=',x['Config'].get('Image')) print('image_id=',x.get('Image')) for m in x.get('Mounts',[]): print('mount=',m.get('Source'),'->',m.get('Destination'),'rw=',m.get('RW')) for e in x['Config'].get('Env',[]):  if e.startswith(('CORE_ROUTER_RESERVATION_DB=','CORE_ROUTER_MIGRATION_JOURNAL=')): print('effective_env=',e) PY docker exec 3s-com-backend python3 -c 'import os; print("reservation_db="+os.getenv("CORE_ROUTER_RESERVATION_DB","results/rev1/runtime/reservations.sqlite3")); print("migration_journal="+os.getenv("CORE_ROUTER_MIGRATION_JOURNAL","results/rev1/runtime/migrations.sqlite3"))' > "$RUN_DIR/db_paths.txt" 2>&1; docker logs --since 3h 3s-com-backend > "$RUN_DIR/backend_recent.log" 2>&1; echo '--- Gate 1 ---'; cat "$RUN_DIR/inventory_gate.txt" | head -n 7; cat "$RUN_DIR/gate1_summary.txt"; echo '--- DB paths (allowed values only) ---'; cat "$RUN_DIR/db_paths.txt"; echo '--- inspect summary ---'; cat "$RUN_DIR/backend_inspect.txt"; echo '--- latest log hints ---'; tail -n 40 "$RUN_DIR/backend_recent.log"; sha256sum "$RUN_DIR"/* > "$RUN_DIR/SHA256SUMS.phase1and2-start"
+--- tmux ---
+corerouter-p4: 1 windows (created Tue Nov 17 09:48:15 2026) (attached)
+--- Tekton status ---
+pipelineruns.json total= 305 nonterminal= []
+taskruns.json total= 932 nonterminal= []
+--- phase 3 support Service ---
+apiVersion: v1
+kind: Service
+metadata:
+  annotations:
+    field.cattle.io/publicEndpoints: '[{"port":31656,"protocol":"TCP","serviceName":"core-router:vnf-voc-phase3-svc","allNodes":true}]'
+    kubectl.kubernetes.io/last-applied-configuration: |
+      {"apiVersion":"v1","kind":"Service","metadata":{"annotations":{},"labels":{"app":"vnf-voc-phase3","core-router/phase":"3","core-router/role":"voc"},"name":"vnf-voc-phase3-svc","namespace":"core-router"},"spec":{"ports":[{"name":"http","nodePort":31656,"port":80,"targetPort":8000}],"selector":{"app":"vnf-voc-phase3"},"type":"NodePort"}}
+  creationTimestamp: "2026-05-09T11:08:07Z"
+  labels:
+    app: vnf-voc-phase3
+    core-router/phase: "3"
+    core-router/role: voc
+  name: vnf-voc-phase3-svc
+  namespace: core-router
+  resourceVersion: "79981619"
+  uid: 96a3cfae-05e7-4519-be6a-9d55d507f25a
+spec:
+  clusterIP: 10.152.183.236
+  clusterIPs:
+  - 10.152.183.236
+  externalTrafficPolicy: Cluster
+  internalTrafficPolicy: Cluster
+  ipFamilies:
+  - IPv4
+  ipFamilyPolicy: SingleStack
+  ports:
+  - name: http
+    nodePort: 31656
+    port: 80
+    protocol: TCP
+    targetPort: 8000
+  selector:
+    app: vnf-voc-phase3
+  sessionAffinity: None
+  type: NodePort
+status:
+  loadBalancer: {}
+--- support Endpoints ---
+apiVersion: v1
+kind: Endpoints
+metadata:
+  annotations:
+    endpoints.kubernetes.io/last-change-trigger-time: "2026-11-17T09:57:14Z"
+  creationTimestamp: "2026-05-09T11:08:07Z"
+  labels:
+    app: vnf-voc-phase3
+    core-router/phase: "3"
+    core-router/role: voc
+  name: vnf-voc-phase3-svc
+  namespace: core-router
+  resourceVersion: "217900090"
+  uid: 5d83d446-fdca-430c-983a-e89ef950706b
+subsets:
+- addresses:
+  - ip: 10.1.235.184
+    nodeName: worker1
+    targetRef:
+      kind: Pod
+      name: vnf-voc-phase3-6687c7fcf9-hqb9h
+      namespace: core-router
+      uid: 51a2c411-f78c-490f-9f80-c93d3300942b
+  ports:
+  - name: http
+    port: 8000
+    protocol: TCP

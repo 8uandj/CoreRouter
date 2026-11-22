@@ -1,0 +1,5 @@
+# captured_utc=2026-11-21T16:26:59Z
+# cmd: curl -s -m 5 -w \nHTTP %{http_code}\n http://127.0.0.1:8000/api/orchestrate/status
+{"status":"success","is_migrating":false,"message":"System Idle","latest_pipeline":{"name":"deploy-firewall-508c3d","overallStatus":"Succeeded","tasks":[{"name":"prepare-manifest","status":"Succeeded"},{"name":"instantiate","status":"Succeeded"},{"name":"wait-ready","status":"Succeeded"},{"name":"observe","status":"Succeeded"}]}}
+HTTP 200
+# exit=0

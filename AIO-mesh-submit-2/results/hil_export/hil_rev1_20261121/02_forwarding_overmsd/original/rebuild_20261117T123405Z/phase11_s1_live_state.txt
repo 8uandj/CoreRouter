@@ -1,0 +1,30 @@
+Obtaining JSON from switch...
+Done
+Control utility for runtime P4 table manipulation
+RuntimeCmd:   port #       iface name       status  extra info
+==================================================
+    1           s1-eth1           UP    
+    2           s1-eth2           UP    
+    3           s1-eth3           UP    
+    4           s1-eth4           UP    
+RuntimeCmd: ==========
+TABLE ENTRIES
+**********
+Dumping entry 0x0
+Match key:
+* ipv6.dstAddr        : LPM       fc000006000000000000000000000001/128
+Action entry: SRv6Ingress.ipv6_forward - b640b5afe8e9, c6e0f1be323c, 04
+==========
+Dumping default entry
+Action entry: SRv6Ingress.drop - 
+==========
+RuntimeCmd: ==========
+TABLE ENTRIES
+==========
+Dumping default entry
+Action entry: SRv6Ingress.drop - 
+==========
+RuntimeCmd: srv6_advance_counter[0]=  BmCounterValue(packets=0, bytes=0)
+RuntimeCmd: srv6_terminal_counter[0]=  BmCounterValue(packets=0, bytes=0)
+RuntimeCmd: msd_violation_counter[0]=  BmCounterValue(packets=0, bytes=0)
+RuntimeCmd: 

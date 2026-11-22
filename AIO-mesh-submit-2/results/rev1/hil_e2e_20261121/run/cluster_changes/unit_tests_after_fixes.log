@@ -1,0 +1,282 @@
+test_background_migration_status_can_be_retrieved (tests.test_orchestration_api.TestOrchestrationAPI.test_background_migration_status_can_be_retrieved) ... 2026-11-21 18:25:45,598 [httpx2] INFO: HTTP Request: GET http://testserver/api/orchestrate/migrations/replacement "HTTP/1.1 200 OK"
+ok
+test_benchmark_reset_cannot_clear_live_actuation_charges (tests.test_orchestration_api.TestOrchestrationAPI.test_benchmark_reset_cannot_clear_live_actuation_charges) ... 2026-11-21 18:25:45,644 [httpx2] INFO: HTTP Request: POST http://testserver/api/orchestrate/reset "HTTP/1.1 409 Conflict"
+ok
+test_constraint_exhaustion_returns_409 (tests.test_orchestration_api.TestOrchestrationAPI.test_constraint_exhaustion_returns_409) ... 2026-11-21 18:25:45,689 [httpx2] INFO: HTTP Request: POST http://testserver/api/orchestrate "HTTP/1.1 409 Conflict"
+ok
+test_invalid_request_is_rejected_before_selection (tests.test_orchestration_api.TestOrchestrationAPI.test_invalid_request_is_rejected_before_selection) ... 2026-11-21 18:25:45,732 [httpx2] INFO: HTTP Request: POST http://testserver/api/orchestrate "HTTP/1.1 422 Unprocessable Content"
+ok
+test_named_expiry_cannot_release_actuation_in_flight (tests.test_orchestration_api.TestOrchestrationAPI.test_named_expiry_cannot_release_actuation_in_flight) ... 2026-11-21 18:25:45,771 [httpx2] INFO: HTTP Request: POST http://testserver/api/orchestrate/free "HTTP/1.1 409 Conflict"
+ok
+test_named_expiry_releases_only_its_reservation_and_is_idempotent (tests.test_orchestration_api.TestOrchestrationAPI.test_named_expiry_releases_only_its_reservation_and_is_idempotent) ... 2026-11-21 18:25:45,812 [httpx2] INFO: HTTP Request: POST http://testserver/api/orchestrate/free "HTTP/1.1 200 OK"
+2026-11-21 18:25:45,820 [httpx2] INFO: HTTP Request: POST http://testserver/api/orchestrate/free "HTTP/1.1 200 OK"
+ok
+test_new_service_creates_instead_of_migrating_from_its_own_reservation (tests.test_orchestration_api.TestOrchestrationAPI.test_new_service_creates_instead_of_migrating_from_its_own_reservation)
+Regression (HIL 2026-11-21): the just-reserved VNF is not an old instance. ... 2026-11-21 18:25:45,867 [httpx2] INFO: HTTP Request: POST http://testserver/api/orchestrate "HTTP/1.1 200 OK"
+ok
+test_reconcile_refuses_present_or_unknown_presence (tests.test_orchestration_api.TestOrchestrationAPI.test_reconcile_refuses_present_or_unknown_presence) ... 2026-11-21 18:25:45,908 [httpx2] INFO: HTTP Request: POST http://testserver/api/orchestrate/reconcile/vnf-nat-old "HTTP/1.1 409 Conflict"
+2026-11-21 18:25:45,917 [httpx2] INFO: HTTP Request: POST http://testserver/api/orchestrate/reconcile/vnf-nat-old "HTTP/1.1 409 Conflict"
+ok
+test_reconcile_refuses_record_still_listed (tests.test_orchestration_api.TestOrchestrationAPI.test_reconcile_refuses_record_still_listed) ... 2026-11-21 18:25:45,958 [httpx2] INFO: HTTP Request: POST http://testserver/api/orchestrate/reconcile/vnf-nat-live "HTTP/1.1 409 Conflict"
+ok
+test_reconcile_releases_only_confirmed_absent_record (tests.test_orchestration_api.TestOrchestrationAPI.test_reconcile_releases_only_confirmed_absent_record) ... 2026-11-21 18:25:45,999 [httpx2] INFO: HTTP Request: POST http://testserver/api/orchestrate/reconcile/vnf-nat-old "HTTP/1.1 200 OK"
+ok
+test_success_preserves_nested_and_flat_response (tests.test_orchestration_api.TestOrchestrationAPI.test_success_preserves_nested_and_flat_response) ... 2026-11-21 18:25:46,050 [httpx2] INFO: HTTP Request: POST http://testserver/api/orchestrate "HTTP/1.1 200 OK"
+ok
+test_unexpected_error_remains_500 (tests.test_orchestration_api.TestOrchestrationAPI.test_unexpected_error_remains_500) ... 2026-11-21 18:25:46,091 [OrchestrationRouter] ERROR: Orchestration internal error
+Traceback (most recent call last):
+  File "/src/src/portal/backend/app/routers/orchestration_router.py", line 93, in orchestrate_sfc
+    decision = select_and_reserve(
+               ^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.11/unittest/mock.py", line 1124, in __call__
+    return self._mock_call(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.11/unittest/mock.py", line 1128, in _mock_call
+    return self._execute_mock_call(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.11/unittest/mock.py", line 1183, in _execute_mock_call
+    raise effect
+RuntimeError: test error
+2026-11-21 18:25:46,094 [httpx2] INFO: HTTP Request: POST http://testserver/api/orchestrate "HTTP/1.1 500 Internal Server Error"
+ok
+test_unknown_migration_status_is_404 (tests.test_orchestration_api.TestOrchestrationAPI.test_unknown_migration_status_is_404) ... 2026-11-21 18:25:46,133 [httpx2] INFO: HTTP Request: GET http://testserver/api/orchestrate/migrations/missing "HTTP/1.1 404 Not Found"
+ok
+test_unresolved_realization_rejects_before_scheduling_migration (tests.test_orchestration_api.TestOrchestrationAPI.test_unresolved_realization_rejects_before_scheduling_migration) ... 2026-11-21 18:25:46,178 [httpx2] INFO: HTTP Request: POST http://testserver/api/orchestrate "HTTP/1.1 409 Conflict"
+ok
+test_keeps_reservation_when_presence_cannot_be_verified (tests.rev1.test_migration_reservation_rollback.MigrationReservationRollbackTests.test_keeps_reservation_when_presence_cannot_be_verified) ... 2026-11-21 18:25:46,182 [OrchestrationService] WARNING: PHASE: ROLLBACK - Cleaning up replacement-2 due to: terminate unavailable
+2026-11-21 18:25:46,182 [OrchestrationService] ERROR: Termination was not accepted for replacement-2: {'status': 'error'}
+2026-11-21 18:25:46,193 [OrchestrationService] ERROR: Replacement replacement-2 still present/unverified; retaining its reservation
+ok
+test_releases_only_after_deployment_and_pods_are_confirmed_absent (tests.rev1.test_migration_reservation_rollback.MigrationReservationRollbackTests.test_releases_only_after_deployment_and_pods_are_confirmed_absent) ... 2026-11-21 18:25:46,194 [OrchestrationService] WARNING: PHASE: ROLLBACK - Cleaning up replacement-1 due to: steer rejected
+ok
+test_create_and_steer_without_old_vnf_does_not_break_a_baseline_vnf (tests.rev1.test_migration_reservation_rollback.MigrationSteeringConfirmationTests.test_create_and_steer_without_old_vnf_does_not_break_a_baseline_vnf) ... 2026-11-21 18:25:46,199 [OrchestrationService] INFO: PHASE 6: AI node 8 mapped to K8s hostname 'worker2'
+2026-11-21 18:25:46,199 [OrchestrationService] INFO: PHASE: MAKE - Triggering Tekton for replacement VNF: vnf-voc-smoke at hcm-1
+2026-11-21 18:25:46,199 [OrchestrationService] INFO: PHASE: VERIFY - Polling dynamic endpoint/readiness for vnf-voc-smoke
+2026-11-21 18:25:46,199 [OrchestrationService] INFO: VNF vnf-voc-smoke is READY. Pod IP: 10.1.189.200 on None
+2026-11-21 18:25:46,199 [OrchestrationService] INFO: PHASE: TRANSLATE - Ready endpoint 10.1.189.200:31656 via terminal SID fc00:9::1
+2026-11-21 18:25:46,199 [OrchestrationService] INFO: PHASE: STEER - Sending command to SDN Controller at http://controller
+2026-11-21 18:25:46,200 [OrchestrationService] INFO: PHASE 6: Control-plane Steering Overhead = 0.24 ms (REST→Controller confirmation). Packet loss and data-plane latency are not measured.
+2026-11-21 18:25:46,200 [OrchestrationService] INFO: PHASE: BREAK - confirm_steer_done=True. Deleting old VNF: None
+ok
+test_missing_admitted_realization_fails_before_make (tests.rev1.test_migration_reservation_rollback.MigrationSteeringConfirmationTests.test_missing_admitted_realization_fails_before_make) ... ok
+test_only_matching_completed_operation_can_break_old_vnf (tests.rev1.test_migration_reservation_rollback.MigrationSteeringConfirmationTests.test_only_matching_completed_operation_can_break_old_vnf) ... 2026-11-21 18:25:46,207 [OrchestrationService] INFO: PHASE 6: No AI node mapping — floating placement (scheduler decides)
+2026-11-21 18:25:46,207 [OrchestrationService] INFO: PHASE: MAKE - Triggering Tekton for replacement VNF: new at hanoi-1
+2026-11-21 18:25:46,207 [OrchestrationService] INFO: PHASE: VERIFY - Polling dynamic endpoint/readiness for new
+2026-11-21 18:25:46,207 [OrchestrationService] INFO: VNF new is READY. Pod IP: 10.1.189.200 on None
+2026-11-21 18:25:46,207 [OrchestrationService] INFO: PHASE: TRANSLATE - Ready endpoint 10.1.189.200:30001 via terminal SID fc00:2::1
+2026-11-21 18:25:46,207 [OrchestrationService] INFO: PHASE: STEER - Sending command to SDN Controller at http://controller
+2026-11-21 18:25:46,208 [OrchestrationService] INFO: PHASE 6: Control-plane Steering Overhead = 0.46 ms (REST→Controller confirmation). Packet loss and data-plane latency are not measured.
+2026-11-21 18:25:46,208 [OrchestrationService] INFO: PHASE: BREAK - confirm_steer_done=True. Deleting old VNF: old
+ok
+test_accepted_delete_without_absence_keeps_old_reservation (tests.rev1.test_migration_reservation_rollback.UncertainSteeringTests.test_accepted_delete_without_absence_keeps_old_reservation) ... 2026-11-21 18:25:46,212 [OrchestrationService] INFO: PHASE 6: No AI node mapping — floating placement (scheduler decides)
+2026-11-21 18:25:46,212 [OrchestrationService] INFO: PHASE: MAKE - Triggering Tekton for replacement VNF: new at hanoi-1
+2026-11-21 18:25:46,212 [OrchestrationService] INFO: PHASE: VERIFY - Polling dynamic endpoint/readiness for new
+2026-11-21 18:25:46,212 [OrchestrationService] INFO: VNF new is READY. Pod IP: 10.1.189.200 on None
+2026-11-21 18:25:46,212 [OrchestrationService] INFO: PHASE: TRANSLATE - Ready endpoint 10.1.189.200:30001 via terminal SID fc00:2::1
+2026-11-21 18:25:46,212 [OrchestrationService] INFO: PHASE: STEER - Sending command to SDN Controller at http://controller
+2026-11-21 18:25:46,212 [OrchestrationService] ERROR: STEER submission returned 500; installation outcome uncertain
+2026-11-21 18:25:46,213 [OrchestrationService] INFO: PHASE 6: Control-plane Steering Overhead = 0.43 ms (REST→Controller confirmation). Packet loss and data-plane latency are not measured.
+2026-11-21 18:25:46,213 [OrchestrationService] INFO: PHASE: BREAK - confirm_steer_done=True. Deleting old VNF: old
+ok
+test_break_error_is_not_reported_as_completed (tests.rev1.test_migration_reservation_rollback.UncertainSteeringTests.test_break_error_is_not_reported_as_completed) ... 2026-11-21 18:25:46,218 [OrchestrationService] INFO: PHASE 6: No AI node mapping — floating placement (scheduler decides)
+2026-11-21 18:25:46,218 [OrchestrationService] INFO: PHASE: MAKE - Triggering Tekton for replacement VNF: new at hanoi-1
+2026-11-21 18:25:46,218 [OrchestrationService] INFO: PHASE: VERIFY - Polling dynamic endpoint/readiness for new
+2026-11-21 18:25:46,218 [OrchestrationService] INFO: VNF new is READY. Pod IP: 10.1.189.200 on None
+2026-11-21 18:25:46,219 [OrchestrationService] INFO: PHASE: TRANSLATE - Ready endpoint 10.1.189.200:30001 via terminal SID fc00:2::1
+2026-11-21 18:25:46,219 [OrchestrationService] INFO: PHASE: STEER - Sending command to SDN Controller at http://controller
+2026-11-21 18:25:46,219 [OrchestrationService] ERROR: STEER submission returned 500; installation outcome uncertain
+2026-11-21 18:25:46,219 [OrchestrationService] INFO: PHASE 6: Control-plane Steering Overhead = 0.3 ms (REST→Controller confirmation). Packet loss and data-plane latency are not measured.
+2026-11-21 18:25:46,219 [OrchestrationService] INFO: PHASE: BREAK - confirm_steer_done=True. Deleting old VNF: old
+ok
+test_confirmed_old_absence_releases_only_old_reservation (tests.rev1.test_migration_reservation_rollback.UncertainSteeringTests.test_confirmed_old_absence_releases_only_old_reservation) ... 2026-11-21 18:25:46,223 [OrchestrationService] INFO: PHASE 6: No AI node mapping — floating placement (scheduler decides)
+2026-11-21 18:25:46,223 [OrchestrationService] INFO: PHASE: MAKE - Triggering Tekton for replacement VNF: new at hanoi-1
+2026-11-21 18:25:46,223 [OrchestrationService] INFO: PHASE: VERIFY - Polling dynamic endpoint/readiness for new
+2026-11-21 18:25:46,223 [OrchestrationService] INFO: VNF new is READY. Pod IP: 10.1.189.200 on None
+2026-11-21 18:25:46,223 [OrchestrationService] INFO: PHASE: TRANSLATE - Ready endpoint 10.1.189.200:30001 via terminal SID fc00:2::1
+2026-11-21 18:25:46,223 [OrchestrationService] INFO: PHASE: STEER - Sending command to SDN Controller at http://controller
+2026-11-21 18:25:46,223 [OrchestrationService] ERROR: STEER submission returned 500; installation outcome uncertain
+2026-11-21 18:25:46,224 [OrchestrationService] INFO: PHASE 6: Control-plane Steering Overhead = 0.27 ms (REST→Controller confirmation). Packet loss and data-plane latency are not measured.
+2026-11-21 18:25:46,224 [OrchestrationService] INFO: PHASE: BREAK - confirm_steer_done=True. Deleting old VNF: old
+ok
+test_correlated_confirmation_recovers_lost_submit_response (tests.rev1.test_migration_reservation_rollback.UncertainSteeringTests.test_correlated_confirmation_recovers_lost_submit_response) ... 2026-11-21 18:25:46,230 [OrchestrationService] INFO: PHASE 6: No AI node mapping — floating placement (scheduler decides)
+2026-11-21 18:25:46,230 [OrchestrationService] INFO: PHASE: MAKE - Triggering Tekton for replacement VNF: new at hanoi-1
+2026-11-21 18:25:46,230 [OrchestrationService] INFO: PHASE: VERIFY - Polling dynamic endpoint/readiness for new
+2026-11-21 18:25:46,230 [OrchestrationService] INFO: VNF new is READY. Pod IP: 10.1.189.200 on None
+2026-11-21 18:25:46,230 [OrchestrationService] INFO: PHASE: TRANSLATE - Ready endpoint 10.1.189.200:30001 via terminal SID fc00:2::1
+2026-11-21 18:25:46,231 [OrchestrationService] INFO: PHASE: STEER - Sending command to SDN Controller at http://controller
+2026-11-21 18:25:46,231 [OrchestrationService] ERROR: STEER submission response unavailable; retaining both VNFs while checking status
+Traceback (most recent call last):
+  File "/src/src/portal/backend/app/services/orchestration_service.py", line 257, in _execute_make_before_break
+    resp = requests.post(f"{self.sdn_controller_url}/steer", json=steer_payload, timeout=5)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.11/unittest/mock.py", line 1124, in __call__
+    return self._mock_call(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.11/unittest/mock.py", line 1128, in _mock_call
+    return self._execute_mock_call(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.11/unittest/mock.py", line 1183, in _execute_mock_call
+    raise effect
+TimeoutError: response lost after submission
+2026-11-21 18:25:46,232 [OrchestrationService] INFO: PHASE 6: Control-plane Steering Overhead = 1.24 ms (REST→Controller confirmation). Packet loss and data-plane latency are not measured.
+2026-11-21 18:25:46,232 [OrchestrationService] INFO: PHASE: BREAK - confirm_steer_done=True. Deleting old VNF: old
+ok
+test_lost_submit_response_preserves_both_vnfs_and_reservations (tests.rev1.test_migration_reservation_rollback.UncertainSteeringTests.test_lost_submit_response_preserves_both_vnfs_and_reservations) ... 2026-11-21 18:25:46,237 [OrchestrationService] INFO: PHASE 6: No AI node mapping — floating placement (scheduler decides)
+2026-11-21 18:25:46,238 [OrchestrationService] INFO: PHASE: MAKE - Triggering Tekton for replacement VNF: new at hanoi-1
+2026-11-21 18:25:46,238 [OrchestrationService] INFO: PHASE: VERIFY - Polling dynamic endpoint/readiness for new
+2026-11-21 18:25:46,238 [OrchestrationService] INFO: VNF new is READY. Pod IP: 10.1.189.200 on None
+2026-11-21 18:25:46,238 [OrchestrationService] INFO: PHASE: TRANSLATE - Ready endpoint 10.1.189.200:30001 via terminal SID fc00:2::1
+2026-11-21 18:25:46,238 [OrchestrationService] INFO: PHASE: STEER - Sending command to SDN Controller at http://controller
+2026-11-21 18:25:46,238 [OrchestrationService] ERROR: STEER submission response unavailable; retaining both VNFs while checking status
+Traceback (most recent call last):
+  File "/src/src/portal/backend/app/services/orchestration_service.py", line 257, in _execute_make_before_break
+    resp = requests.post(f"{self.sdn_controller_url}/steer", json=steer_payload, timeout=5)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.11/unittest/mock.py", line 1124, in __call__
+    return self._mock_call(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.11/unittest/mock.py", line 1128, in _mock_call
+    return self._execute_mock_call(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.11/unittest/mock.py", line 1183, in _execute_mock_call
+    raise effect
+TimeoutError: response lost after submission
+2026-11-21 18:25:46,241 [OrchestrationService] ERROR: STEERING_UNCERTAIN operation_id=current old_vnf=old new_vnf=new submission=response_unavailable elapsed_ms=3.52; retaining both endpoints
+ok
+test_server_error_does_not_prove_rules_were_not_installed (tests.rev1.test_migration_reservation_rollback.UncertainSteeringTests.test_server_error_does_not_prove_rules_were_not_installed) ... 2026-11-21 18:25:46,247 [OrchestrationService] INFO: PHASE 6: No AI node mapping — floating placement (scheduler decides)
+2026-11-21 18:25:46,247 [OrchestrationService] INFO: PHASE: MAKE - Triggering Tekton for replacement VNF: new at hanoi-1
+2026-11-21 18:25:46,247 [OrchestrationService] INFO: PHASE: VERIFY - Polling dynamic endpoint/readiness for new
+2026-11-21 18:25:46,247 [OrchestrationService] INFO: VNF new is READY. Pod IP: 10.1.189.200 on None
+2026-11-21 18:25:46,248 [OrchestrationService] INFO: PHASE: TRANSLATE - Ready endpoint 10.1.189.200:30001 via terminal SID fc00:2::1
+2026-11-21 18:25:46,248 [OrchestrationService] INFO: PHASE: STEER - Sending command to SDN Controller at http://controller
+2026-11-21 18:25:46,248 [OrchestrationService] ERROR: STEER submission returned 500; installation outcome uncertain
+2026-11-21 18:25:46,250 [OrchestrationService] ERROR: STEERING_UNCERTAIN operation_id=current old_vnf=old new_vnf=new submission=http_500 elapsed_ms=2.24; retaining both endpoints
+ok
+test_controller_payload_mismatch_is_rejected (tests.rev1.test_realization_binding.RealizationBindingTests.test_controller_payload_mismatch_is_rejected) ... ok
+test_controller_payload_must_match_admitted_identity_and_full_path (tests.rev1.test_realization_binding.RealizationBindingTests.test_controller_payload_must_match_admitted_identity_and_full_path) ... ok
+test_supported_p4_path_requires_matching_terminal_and_topology_hash (tests.rev1.test_realization_binding.RealizationBindingTests.test_supported_p4_path_requires_matching_terminal_and_topology_hash) ... ok
+test_unresolved_forwarding_realization_is_rejected (tests.rev1.test_realization_binding.RealizationBindingTests.test_unresolved_forwarding_realization_is_rejected) ... ok
+test_compiles_only_admitted_path_using_observed_live_ports (tests.rev1.test_controller_steering.SteeringAdmissionTests.test_compiles_only_admitted_path_using_observed_live_ports) ... ok
+test_confirmation_identifies_the_deployment (tests.rev1.test_controller_steering.SteeringAdmissionTests.test_confirmation_identifies_the_deployment) ... 2026-11-21 18:25:46,254 [sdn.controller] INFO: [MBB-Steer] START: Installing rules for replacement-a
+2026-11-21 18:25:46,254 [sdn.controller] INFO: [Controller] Bootstrap: populating forwarding tables...
+2026-11-21 18:25:46,254 [sdn.controller] INFO: [Controller] Bootstrap complete ✅
+2026-11-21 18:25:46,255 [sdn.controller] INFO: [MBB-Steer] ✅ confirm_steer_done = True
+2026-11-21 18:25:46,255 [sdn.controller] INFO: [MBB-Steer] Tekton can now BREAK old VNF
+2026-11-21 18:25:46,255 [sdn.controller] INFO: [MBB-Steer] START: Installing rules for replacement-b
+2026-11-21 18:25:46,255 [sdn.controller] INFO: [Controller] Bootstrap: populating forwarding tables...
+2026-11-21 18:25:46,255 [sdn.controller] ERROR:   Unknown switch: missing; refusing confirmation
+2026-11-21 18:25:46,255 [sdn.controller] ERROR: [Controller] Bootstrap had errors ❌
+2026-11-21 18:25:46,255 [sdn.controller] ERROR: [MBB-Steer] ABORT: Failed to install new rules
+ok
+test_empty_rules_cannot_confirm_steering (tests.rev1.test_controller_steering.SteeringAdmissionTests.test_empty_rules_cannot_confirm_steering) ... 2026-11-21 18:25:46,255 [sdn.controller] INFO: [MBB-Steer] START: Installing rules for replacement
+2026-11-21 18:25:46,255 [sdn.controller] ERROR: [MBB-Steer] ABORT: Failed to install new rules
+ok
+test_install_exception_records_failed_operation (tests.rev1.test_controller_steering.SteeringAdmissionTests.test_install_exception_records_failed_operation) ... 2026-11-21 18:25:46,255 [sdn.controller] INFO: [MBB-Steer] START: Installing rules for replacement
+2026-11-21 18:25:46,255 [sdn.controller] INFO: [Controller] Bootstrap: populating forwarding tables...
+2026-11-21 18:25:46,256 [sdn.controller] ERROR: Steering failed for replacement
+Traceback (most recent call last):
+  File "/src/infrastructure/sdn/controller.py", line 555, in steer
+    return self._steer_once(new_deploy, new_rules, old_rules,
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/src/infrastructure/sdn/controller.py", line 599, in _steer_once
+    ok = bool(new_rules) and self.bootstrap(new_rules)
+                             ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/src/infrastructure/sdn/controller.py", line 491, in bootstrap
+    success = ctl.add_srv6_local_sid(rule["sid"])
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.11/unittest/mock.py", line 1124, in __call__
+    return self._mock_call(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.11/unittest/mock.py", line 1128, in _mock_call
+    return self._execute_mock_call(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.11/unittest/mock.py", line 1183, in _execute_mock_call
+    raise effect
+RuntimeError: switch unavailable
+ok
+test_known_switch_installation_can_confirm (tests.rev1.test_controller_steering.SteeringAdmissionTests.test_known_switch_installation_can_confirm) ... 2026-11-21 18:25:46,258 [sdn.controller] INFO: [MBB-Steer] START: Installing rules for replacement
+2026-11-21 18:25:46,258 [sdn.controller] INFO: [Controller] Bootstrap: populating forwarding tables...
+2026-11-21 18:25:46,258 [sdn.controller] INFO: [Controller] Bootstrap complete ✅
+2026-11-21 18:25:46,259 [sdn.controller] INFO: [MBB-Steer] ✅ confirm_steer_done = True
+2026-11-21 18:25:46,259 [sdn.controller] INFO: [MBB-Steer] Tekton can now BREAK old VNF
+ok
+test_parallel_steer_cannot_confirm_another_operation (tests.rev1.test_controller_steering.SteeringAdmissionTests.test_parallel_steer_cannot_confirm_another_operation) ... 2026-11-21 18:25:46,259 [sdn.controller] INFO: [MBB-Steer] START: Installing rules for a
+2026-11-21 18:25:46,260 [sdn.controller] INFO: [Controller] Bootstrap: populating forwarding tables...
+2026-11-21 18:25:46,310 [sdn.controller] INFO: [Controller] Bootstrap complete ✅
+2026-11-21 18:25:46,311 [sdn.controller] INFO: [MBB-Steer] ✅ confirm_steer_done = True
+2026-11-21 18:25:46,311 [sdn.controller] INFO: [MBB-Steer] Tekton can now BREAK old VNF
+2026-11-21 18:25:46,311 [sdn.controller] INFO: [MBB-Steer] START: Installing rules for b
+2026-11-21 18:25:46,311 [sdn.controller] INFO: [Controller] Bootstrap: populating forwarding tables...
+2026-11-21 18:25:46,311 [sdn.controller] INFO: [Controller] Bootstrap complete ✅
+2026-11-21 18:25:46,311 [sdn.controller] INFO: [MBB-Steer] ✅ confirm_steer_done = True
+2026-11-21 18:25:46,311 [sdn.controller] INFO: [MBB-Steer] Tekton can now BREAK old VNF
+ok
+test_path_steering_rejects_topology_hash_mismatch_before_install (tests.rev1.test_controller_steering.SteeringAdmissionTests.test_path_steering_rejects_topology_hash_mismatch_before_install) ... 2026-11-21 18:25:46,312 [sdn.controller] ERROR: Steering failed for vnf-voc-smoke
+Traceback (most recent call last):
+  File "/src/infrastructure/sdn/controller.py", line 543, in steer
+    raise ValueError("admitted path identity is incomplete or unsupported")
+ValueError: admitted path identity is incomplete or unsupported
+ok
+test_path_steering_without_admission_identity_fails_before_install (tests.rev1.test_controller_steering.SteeringAdmissionTests.test_path_steering_without_admission_identity_fails_before_install) ... 2026-11-21 18:25:46,313 [sdn.controller] ERROR: Steering failed for vnf-voc-smoke
+Traceback (most recent call last):
+  File "/src/infrastructure/sdn/controller.py", line 543, in steer
+    raise ValueError("admitted path identity is incomplete or unsupported")
+ValueError: admitted path identity is incomplete or unsupported
+ok
+test_steer_installs_compiled_rules_not_caller_supplied_port_values (tests.rev1.test_controller_steering.SteeringAdmissionTests.test_steer_installs_compiled_rules_not_caller_supplied_port_values) ... 2026-11-21 18:25:46,314 [sdn.controller] INFO: [MBB-Steer] START: Installing rules for vnf-voc-smoke
+2026-11-21 18:25:46,314 [sdn.controller] INFO: [Controller] Bootstrap: populating forwarding tables...
+2026-11-21 18:25:46,315 [sdn.controller] INFO: [Controller] Bootstrap complete ✅
+2026-11-21 18:25:46,315 [sdn.controller] INFO: [MBB-Steer] ✅ confirm_steer_done = True
+2026-11-21 18:25:46,315 [sdn.controller] INFO: [MBB-Steer] Tekton can now BREAK old VNF
+ok
+test_unknown_switch_never_confirms_or_deletes_old_rules (tests.rev1.test_controller_steering.SteeringAdmissionTests.test_unknown_switch_never_confirms_or_deletes_old_rules) ... 2026-11-21 18:25:46,316 [sdn.controller] INFO: [MBB-Steer] START: Installing rules for replacement
+2026-11-21 18:25:46,316 [sdn.controller] INFO: [Controller] Bootstrap: populating forwarding tables...
+2026-11-21 18:25:46,316 [sdn.controller] ERROR:   Unknown switch: missing; refusing confirmation
+2026-11-21 18:25:46,316 [sdn.controller] ERROR: [Controller] Bootstrap had errors ❌
+2026-11-21 18:25:46,316 [sdn.controller] ERROR: [MBB-Steer] ABORT: Failed to install new rules
+ok
+test_compiles_observed_live_ports_into_each_hop_and_terminal_rule (tests.rev1.test_p4_pair_realization.TestP4PairRealization.test_compiles_observed_live_ports_into_each_hop_and_terminal_rule) ... ok
+test_compiles_shortest_verified_p4_path_into_observed_switch_sids (tests.rev1.test_p4_pair_realization.TestP4PairRealization.test_compiles_shortest_verified_p4_path_into_observed_switch_sids) ... ok
+test_every_switch_parser_profile_on_path_is_checked (tests.rev1.test_p4_pair_realization.TestP4PairRealization.test_every_switch_parser_profile_on_path_is_checked) ... ok
+test_invalid_node_ids_are_rejected (tests.rev1.test_p4_pair_realization.TestP4PairRealization.test_invalid_node_ids_are_rejected) ... ok
+test_realized_path_depth_must_match_requested_sid_depth (tests.rev1.test_p4_pair_realization.TestP4PairRealization.test_realized_path_depth_must_match_requested_sid_depth) ... ok
+test_route_profile_msd_is_checked_against_materialized_sid_depth (tests.rev1.test_p4_pair_realization.TestP4PairRealization.test_route_profile_msd_is_checked_against_materialized_sid_depth) ... ok
+test_rule_compilation_fails_closed_when_any_live_port_is_missing (tests.rev1.test_p4_pair_realization.TestP4PairRealization.test_rule_compilation_fails_closed_when_any_live_port_is_missing) ... ok
+test_same_node_pair_is_not_a_forwardable_switch_path (tests.rev1.test_p4_pair_realization.TestP4PairRealization.test_same_node_pair_is_not_a_forwardable_switch_path) ... ok
+test_shortest_path_uses_deterministic_node_order_for_equal_paths (tests.rev1.test_p4_pair_realization.TestP4PairRealization.test_shortest_path_uses_deterministic_node_order_for_equal_paths) ... ok
+test_cli_hex_port_is_compared_as_decimal_port_number (tests.rev1.test_controller_rule_readback.ControllerRuleReadbackTests.test_cli_hex_port_is_compared_as_decimal_port_number) ... ok
+test_conflicting_route_fails_closed_without_adding_another_entry (tests.rev1.test_controller_rule_readback.ControllerRuleReadbackTests.test_conflicting_route_fails_closed_without_adding_another_entry) ... ok
+test_duplicate_entries_are_not_single_rule_confirmation (tests.rev1.test_controller_rule_readback.ControllerRuleReadbackTests.test_duplicate_entries_are_not_single_rule_confirmation) ... ok
+test_end_dx4_matches_bmv2_trimmed_leading_zero_mac (tests.rev1.test_controller_rule_readback.ControllerRuleReadbackTests.test_end_dx4_matches_bmv2_trimmed_leading_zero_mac) ... ok
+test_end_dx4_matches_compact_mac_with_hex_letter (tests.rev1.test_controller_rule_readback.ControllerRuleReadbackTests.test_end_dx4_matches_compact_mac_with_hex_letter)
+Regression (HIL 2026-11-21): h10's MAC 00:00:00:00:00:0a prints as '0a'. ... ok
+test_exact_local_sid_rule_matches (tests.rev1.test_controller_rule_readback.ControllerRuleReadbackTests.test_exact_local_sid_rule_matches) ... ok
+test_exact_route_rule_matches_full_action_and_parameters (tests.rev1.test_controller_rule_readback.ControllerRuleReadbackTests.test_exact_route_rule_matches_full_action_and_parameters) ... ok
+test_malformed_table_dump_fails_closed (tests.rev1.test_controller_rule_readback.ControllerRuleReadbackTests.test_malformed_table_dump_fails_closed) ... ok
+test_parser_canonicalizes_ipv6_macs_and_port (tests.rev1.test_controller_rule_readback.ControllerRuleReadbackTests.test_parser_canonicalizes_ipv6_macs_and_port) ... ok
+test_reapplying_identical_route_reuses_its_exact_readback (tests.rev1.test_controller_rule_readback.ControllerRuleReadbackTests.test_reapplying_identical_route_reuses_its_exact_readback) ... 2026-11-21 18:25:46,321 [sdn.controller] INFO: [s1] route +fc00:6::1/128 → port2
+ok
+test_admission_rejects_decision_from_stale_snapshot_version (tests.rev1.test_admission_semantics.AdmissionSemanticsTests.test_admission_rejects_decision_from_stale_snapshot_version) ... ok
+test_anonymous_expiry_does_not_free_another_request (tests.rev1.test_admission_semantics.AdmissionSemanticsTests.test_anonymous_expiry_does_not_free_another_request) ... ok
+test_baseline_pair_predicate_uses_placement_resources_and_route_msd (tests.rev1.test_admission_semantics.AdmissionSemanticsTests.test_baseline_pair_predicate_uses_placement_resources_and_route_msd) ... ok
+test_concurrent_admission_cannot_overbook_cpu (tests.rev1.test_admission_semantics.AdmissionSemanticsTests.test_concurrent_admission_cannot_overbook_cpu) ... ok
+test_duplicate_reservation_name_is_not_double_charged (tests.rev1.test_admission_semantics.AdmissionSemanticsTests.test_duplicate_reservation_name_is_not_double_charged) ... ok
+test_invalid_or_nonfinite_inputs_fail_closed (tests.rev1.test_admission_semantics.AdmissionSemanticsTests.test_invalid_or_nonfinite_inputs_fail_closed) ... ok
+test_optional_telemetry_ttl_fails_closed_when_any_node_is_stale (tests.rev1.test_admission_semantics.AdmissionSemanticsTests.test_optional_telemetry_ttl_fails_closed_when_any_node_is_stale) ... ok
+test_over_depth_rejects_without_mutating_state (tests.rev1.test_admission_semantics.AdmissionSemanticsTests.test_over_depth_rejects_without_mutating_state) ... ok
+test_pending_sync_preserves_per_list_depth_and_placement_only_cpu (tests.rev1.test_admission_semantics.AdmissionSemanticsTests.test_pending_sync_preserves_per_list_depth_and_placement_only_cpu) ... ok
+test_release_preserves_reported_external_msd (tests.rev1.test_admission_semantics.AdmissionSemanticsTests.test_release_preserves_reported_external_msd) ... ok
+test_routing_only_node_does_not_allocate_vnf_cpu_or_memory (tests.rev1.test_admission_semantics.AdmissionSemanticsTests.test_routing_only_node_does_not_allocate_vnf_cpu_or_memory) ... ok
+test_runtime_action_mask_matches_flat_pair_action_space (tests.rev1.test_admission_semantics.AdmissionSemanticsTests.test_runtime_action_mask_matches_flat_pair_action_space) ... ok
+test_sid_depth_is_not_consumed_across_independent_flows (tests.rev1.test_admission_semantics.AdmissionSemanticsTests.test_sid_depth_is_not_consumed_across_independent_flows) ... ok
+test_collects_both_directions_and_host_egress_from_mininet_interfaces (tests.rev1.test_p4_live_port_map.TestLiveP4PortMap.test_collects_both_directions_and_host_egress_from_mininet_interfaces) ... ok
+test_rejects_unobserved_or_invalid_mininet_peer_data (tests.rev1.test_p4_live_port_map.TestLiveP4PortMap.test_rejects_unobserved_or_invalid_mininet_peer_data) ... ok
+test_topology_hash_binds_live_port_map_and_loaded_profile_hashes (tests.rev1.test_p4_live_port_map.TestLiveP4PortMap.test_topology_hash_binds_live_port_map_and_loaded_profile_hashes) ... ok
+test_accepts_only_a_ready_controller_with_the_supported_profile (tests.rev1.test_controller_topology_gate.ControllerTopologyGateTests.test_accepts_only_a_ready_controller_with_the_supported_profile) ... ok
+test_missing_controller_url_fails_without_network_access (tests.rev1.test_controller_topology_gate.ControllerTopologyGateTests.test_missing_controller_url_fails_without_network_access) ... ok
+test_rejects_unready_or_mismatched_controller_before_admission (tests.rev1.test_controller_topology_gate.ControllerTopologyGateTests.test_rejects_unready_or_mismatched_controller_before_admission) ... ok
+
+----------------------------------------------------------------------
+Ran 77 tests in 0.873s
+
+OK

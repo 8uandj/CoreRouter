@@ -1,0 +1,47 @@
+{
+  "snapshot_file": "03_inventory50/original/rebuild_20261117T123405Z/deployments.json",
+  "snapshot_file_mtime_note": "captured 2026-11-17 ~12:36 UTC (see ORIGINAL_SOURCE_INVENTORY.csv)",
+  "deployments_in_snapshot": 50,
+  "deployments_fully_ready": 50,
+  "matches_expected_50_names": true,
+  "keep_names": [
+    "vnf-attack-004e219d",
+    "vnf-attack-0faeed9f",
+    "vnf-attack-228edabf",
+    "vnf-attack-2f0aa313",
+    "vnf-attack-57b6f205",
+    "vnf-attack-8bf0425e",
+    "vnf-attack-af13f6df"
+  ],
+  "retire_count": 43,
+  "keep_plus_retire_equals_snapshot": true,
+  "images": {
+    "localhost:32000/alpine:latest": 31,
+    "localhost:32000/frr:9.1.1": 9,
+    "localhost:32000/nginx:1.27-alpine": 4,
+    "localhost:32000/python:3.11-alpine": 6
+  },
+  "creation_timestamp_range": [
+    "2026-05-17T14:40:11Z",
+    "2026-11-17T10:38:41Z"
+  ],
+  "after_retirement_gate": {
+    "count": 7,
+    "seven_keep_exact": true,
+    "retired_absent": true,
+    "extra": [],
+    "missing_keep": [],
+    "retired_remaining": [],
+    "all_ready": true,
+    "keep_names": [
+      "vnf-attack-004e219d",
+      "vnf-attack-0faeed9f",
+      "vnf-attack-228edabf",
+      "vnf-attack-2f0aa313",
+      "vnf-attack-57b6f205",
+      "vnf-attack-8bf0425e",
+      "vnf-attack-af13f6df"
+    ]
+  },
+  "relation_to_12h_hil": "The 12-h HIL run (2026-11-17 19:02 UTC onward) observed only the 7 keep_names; the 50-Deployment snapshot predates the retirement of 43 Deployments at ~13:05 UTC and is not a state during the HIL run."
+}

@@ -1,0 +1,73 @@
+## links
+lo               UNKNOWN        127.0.0.1/8 ::1/128 
+enp1s0           UP             10.10.7.10/21 fe80::5054:ff:fe93:d44d/64 
+vxlan.calico     UNKNOWN        10.1.235.202/32 fe80::64d5:cfff:fed3:6b7e/64 
+## vxlan
+3: vxlan.calico: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 1450 qdisc noqueue state UNKNOWN mode DEFAULT group default qlen 1000
+    link/ether 66:d5:cf:d3:6b:7e brd ff:ff:ff:ff:ff:ff promiscuity 0 allmulti 0 minmtu 68 maxmtu 65535 
+    vxlan id 4096 local 10.10.7.10 dev enp1s0 srcport 0 0 dstport 4789 ttl auto ageing 300 nolearning addrgenmode eui64 numtxqueues 1 numrxqueues 1 gso_max_size 65536 gso_max_segs 65535 tso_max_size 65536 tso_max_segs 65535 gro_max_size 65536 gso_ipv4_max_size 65536 gro_ipv4_max_size 65536 
+## fdb
+66:3c:05:84:20:98 dst 10.10.6.233 self permanent
+66:54:bd:6c:19:2d dst 10.10.6.234 self permanent
+66:34:57:c3:a5:18 dst 10.10.6.231 self permanent
+## neigh
+10.1.189.64 lladdr 66:54:bd:6c:19:2d PERMANENT 
+10.1.235.149 lladdr 66:3c:05:84:20:98 PERMANENT 
+10.1.174.128 lladdr 66:34:57:c3:a5:18 PERMANENT 
+## routes 10.1
+10.1.174.128/26 via 10.1.174.128 dev vxlan.calico onlink 
+10.1.174.192/26 via 10.1.174.128 dev vxlan.calico onlink 
+10.1.175.0/26 via 10.1.174.128 dev vxlan.calico onlink 
+10.1.189.64/26 via 10.1.189.64 dev vxlan.calico onlink 
+10.1.189.128/26 via 10.1.189.64 dev vxlan.calico onlink 
+10.1.235.128/26 via 10.1.235.149 dev vxlan.calico onlink 
+blackhole 10.1.235.192/26 proto 80 
+10.1.235.205 dev cali8fdcde4566c scope link 
+10.1.235.206 dev cali54edd97b6e0 scope link 
+10.1.235.207 dev cali144b823fb7f scope link 
+10.1.235.208 dev calie723e2fc372 scope link 
+10.1.235.209 dev cali520fab0d220 scope link 
+10.1.235.210 dev cali4802ca792ca scope link 
+10.1.235.214 dev calie7cf8d57eb9 scope link 
+10.1.235.215 dev cali23277221141 scope link 
+10.1.235.216 dev cali27ddf54aba7 scope link 
+10.1.235.217 dev calied7b087f9dc scope link 
+## route to 3s-com
+10.10.6.231 dev enp1s0 src 10.10.7.10 uid 0 
+    cache 
+## rp_filter
+net.ipv4.conf.all.rp_filter = 0
+net.ipv4.conf.default.rp_filter = 1
+all 0
+default 1
+enp1s0 1
+lo 1
+vxlan.calico 1
+## forwarding
+net.ipv4.ip_forward = 1
+## firewall
+active
+# Warning: iptables-legacy tables present, use iptables-legacy to see them
+-P INPUT ACCEPT
+# Warning: iptables-legacy tables present, use iptables-legacy to see them
+75:		meta nfproto ipv6 fib saddr . mark . iif oif missing drop
+83:		ct state invalid drop
+93:		ct state invalid drop
+public
+  interfaces: enp1s0
+trusted
+  interfaces: cni0 flannel.1
+public (active)
+  target: default
+  icmp-block-inversion: no
+  interfaces: enp1s0
+  sources: 
+  services: cockpit dhcpv6-client ssh
+  ports: 6443/tcp 2379-2380/tcp 10250/tcp 10251/tcp 10252/tcp 10255/tcp 30000-32767/tcp 8472/udp 25000/tcp 16443/tcp
+  protocols: 
+  forward: yes
+  masquerade: yes
+  forward-ports: 
+  source-ports: 
+  icmp-blocks: 
+  rich rules: 

@@ -1,0 +1,99 @@
+{
+  "sid_depth": 2,
+  "packets_received_sink": 100,
+  "switch_msd": {
+    "s6": 8.0,
+    "s7": 4.0
+  },
+  "loss": 0,
+  "rules_readback_present": 2,
+  "stamps": {
+    "trial_start_utc": "2026-11-21T16:36:18.141674Z",
+    "rules_installed_utc": "2026-11-21T16:36:19.003118Z",
+    "capture_end_utc": "2026-11-21T16:36:23.678933Z",
+    "switches_ready_utc": "2026-11-21T16:36:18.720099Z",
+    "send_end_utc": "2026-11-21T16:36:21.438911Z",
+    "send_start_utc": "2026-11-21T16:36:20.251312Z",
+    "readback_done_utc": "2026-11-21T16:36:19.475668Z"
+  },
+  "unexpected_entries": 0,
+  "per_hop_egress_captured": {
+    "sink0": 100,
+    "s6-p2": 100
+  },
+  "readback": [
+    {
+      "key": "fc000007000000000000000000000001",
+      "table": "routing_v6",
+      "switch": "s6",
+      "action": "ipv6_forward",
+      "present": true,
+      "installed_by_plan": true
+    },
+    {
+      "key": "fc000007000000000000000000000001",
+      "table": "srv6_end_dx4_table",
+      "switch": "s7",
+      "action": "srv6_end_dx4",
+      "present": true,
+      "installed_by_plan": true
+    }
+  ],
+  "mode": "protected",
+  "readback_ms": 472.538,
+  "admission_error": null,
+  "counter_delta": {
+    "s6": {
+      "srv6_advance_counter": 100,
+      "msd_violation_counter": 0,
+      "srv6_terminal_counter": 0
+    },
+    "s7": {
+      "srv6_advance_counter": 0,
+      "msd_violation_counter": 0,
+      "srv6_terminal_counter": 100
+    }
+  },
+  "msd_drops_total_delta": 0,
+  "sid_stack_final_to_first": [
+    "fc00:7::1",
+    "fc00:6::1"
+  ],
+  "switch_path": [
+    "s6",
+    "s7"
+  ],
+  "rejected_rules_absent": true,
+  "unique_sink_seqs": 100,
+  "packets_sent": 100,
+  "install_ms": 136.402,
+  "counters_before": {
+    "s6": {
+      "srv6_advance_counter": 0,
+      "msd_violation_counter": 0,
+      "srv6_terminal_counter": 0
+    },
+    "s7": {
+      "srv6_advance_counter": 0,
+      "msd_violation_counter": 0,
+      "srv6_terminal_counter": 0
+    }
+  },
+  "sink_inner_ipv4_frames": 100,
+  "rules_installed": 2,
+  "trial": 3,
+  "case": "in_limit_depth2",
+  "admission_decision": "admit",
+  "counters_after": {
+    "s6": {
+      "srv6_advance_counter": 100,
+      "msd_violation_counter": 0,
+      "srv6_terminal_counter": 0
+    },
+    "s7": {
+      "srv6_advance_counter": 0,
+      "msd_violation_counter": 0,
+      "srv6_terminal_counter": 100
+    }
+  }
+}

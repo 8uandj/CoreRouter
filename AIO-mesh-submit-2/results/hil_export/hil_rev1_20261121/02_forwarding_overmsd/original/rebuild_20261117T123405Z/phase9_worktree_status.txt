@@ -1,0 +1,17 @@
+ M docs/AIO-mesh-rev1/REVISION_STATUS.md
+ M infrastructure/k8s/tekton/pipeline-vnf-fast.yaml
+ M infrastructure/k8s/tekton/tasks/task-kubectl-wait.yaml
+ M infrastructure/k8s/tekton/tasks/task-prepare-vnf.yaml
+ M infrastructure/sdn/controller.py
+ M infrastructure/sdn/p4/srv6_basic.p4
+ M infrastructure/sdn/topo_p4.py
+ M run_backend_docker.sh
+ M src/portal/backend/app/services/hybrid_decision.py
+ M tests/test_hybrid_decision.py
+?? infrastructure/sdn/p4/tests/run_isolated_srv6_dataplane.py
+?? infrastructure/sdn/p4/tests/test_srv6_realization_contract.py
+?? infrastructure/sdn/p4_topology.py
+?? scripts/hil/seed_base_inventory.py
+?? src/portal/backend/app/services/p4_pair_realization.py
+?? tests/rev1/test_controller_rule_readback.py
+?? tests/rev1/test_p4_pair_realization.py

@@ -1,0 +1,18 @@
+# captured_utc=2026-11-21T16:51:24Z
+# cmd: bash -c ps -eo pid,user,lstart,etime,pcpu,pmem,cmd | grep -E "simple_switch|topo_p4|uvicorn|run_all_scenarios|monitor_kubernetes|tcpdump" | grep -v grep
+   4923 root     Wed Nov  4 11:39:00 2026 17-05:12:23  1.1  0.4 /opt/venv/bin/python /opt/venv/bin/uvicorn main:app --host 0.0.0.0 --port 8000
+1357948 root     Sat Nov 21 16:46:33 2026       04:50  8.6  0.3 /usr/local/bin/python /usr/local/bin/uvicorn src.main:app --host 0.0.0.0 --port 8767
+3372267 root     Tue Nov 17 18:07:06 2026  3-22:44:17  8.1  0.4 /usr/local/bin/python3.11 /usr/local/bin/uvicorn src.portal.backend.app.main:app --host 0.0.0.0 --port 8000
+3423577 dis      Tue Nov 17 18:16:23 2026  3-22:35:00  0.0  0.0 docker run --rm -it --privileged --network host --pid host -v /:/host -v /var/run/docker.sock:/host/var/run/docker.sock --entrypoint /bin/bash p4lang/p4app:latest -lc chroot /host /bin/bash -lc "cd /home/CoreRouter && exec /home/CoreRouter/venv/bin/python3 infrastructure/sdn/topo_p4.py --p4"
+3423619 root     Tue Nov 17 18:16:23 2026  3-22:35:00  0.0  0.0 /home/CoreRouter/venv/bin/python3 infrastructure/sdn/topo_p4.py --p4
+3426833 root     Tue Nov 17 18:16:40 2026  3-22:34:43  0.2  0.0 simple_switch --device-id 1 --thrift-port 19091 --log-console --log-level warn -i 1@s1-eth1 -i 2@s1-eth2 -i 3@s1-eth3 -i 4@s1-eth4 /data/srv6_msd_10.json
+3426960 root     Tue Nov 17 18:16:41 2026  3-22:34:42  0.1  0.0 simple_switch --device-id 2 --thrift-port 19092 --log-console --log-level warn -i 1@s2-eth1 -i 2@s2-eth2 /data/srv6_msd_10.json
+3427084 root     Tue Nov 17 18:16:42 2026  3-22:34:41  0.1  0.0 simple_switch --device-id 3 --thrift-port 19093 --log-console --log-level warn -i 1@s3-eth1 -i 2@s3-eth2 -i 3@s3-eth3 /data/srv6_msd_5.json
+3427190 root     Tue Nov 17 18:16:43 2026  3-22:34:40  0.1  0.0 simple_switch --device-id 4 --thrift-port 19094 --log-console --log-level warn -i 1@s4-eth1 -i 2@s4-eth2 -i 3@s4-eth3 /data/srv6_msd_5.json
+3427327 root     Tue Nov 17 18:16:44 2026  3-22:34:39  0.1  0.0 simple_switch --device-id 5 --thrift-port 19095 --log-console --log-level warn -i 1@s5-eth1 -i 2@s5-eth2 -i 3@s5-eth3 /data/srv6_msd_4.json
+3427589 root     Tue Nov 17 18:16:45 2026  3-22:34:38  0.2  0.0 simple_switch --device-id 6 --thrift-port 19096 --log-console --log-level warn -i 1@s6-eth1 -i 4@s6-eth4 -i 2@s6-eth2 -i 3@s6-eth3 -i 5@s6-eth5 /data/srv6_msd_8.json
+3427702 root     Tue Nov 17 18:16:46 2026  3-22:34:37  0.1  0.0 simple_switch --device-id 7 --thrift-port 19097 --log-console --log-level warn -i 1@s7-eth1 -i 2@s7-eth2 -i 3@s7-eth3 /data/srv6_msd_4.json
+3427927 root     Tue Nov 17 18:16:46 2026  3-22:34:37  0.1  0.0 simple_switch --device-id 8 --thrift-port 19098 --log-console --log-level warn -i 1@s8-eth1 -i 2@s8-eth2 -i 3@s8-eth3 /data/srv6_msd_5.json
+3428075 root     Tue Nov 17 18:16:47 2026  3-22:34:36  0.2  0.0 simple_switch --device-id 9 --thrift-port 19099 --log-console --log-level warn -i 1@s9-eth1 -i 4@s9-eth4 -i 2@s9-eth2 -i 3@s9-eth3 /data/srv6_msd_10.json
+3428213 root     Tue Nov 17 18:16:48 2026  3-22:34:35  0.1  0.0 simple_switch --device-id 10 --thrift-port 19100 --log-console --log-level warn -i 1@s10-eth1 -i 2@s10-eth2 /data/srv6_msd_5.json
+# exit=0

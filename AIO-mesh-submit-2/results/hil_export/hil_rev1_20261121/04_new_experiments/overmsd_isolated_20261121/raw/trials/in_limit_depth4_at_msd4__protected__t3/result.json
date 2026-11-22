@@ -1,0 +1,153 @@
+{
+  "sid_depth": 4,
+  "packets_received_sink": 100,
+  "switch_msd": {
+    "s2": 10.0,
+    "s6": 8.0,
+    "s1": 10.0,
+    "s7": 4.0
+  },
+  "loss": 0,
+  "rules_readback_present": 4,
+  "stamps": {
+    "trial_start_utc": "2026-11-21T16:37:01.281632Z",
+    "rules_installed_utc": "2026-11-21T16:37:02.953616Z",
+    "capture_end_utc": "2026-11-21T16:37:08.151486Z",
+    "switches_ready_utc": "2026-11-21T16:37:02.347853Z",
+    "send_end_utc": "2026-11-21T16:37:05.962839Z",
+    "send_start_utc": "2026-11-21T16:37:04.709412Z",
+    "readback_done_utc": "2026-11-21T16:37:03.793406Z"
+  },
+  "unexpected_entries": 0,
+  "per_hop_egress_captured": {
+    "sink0": 100,
+    "s1-p2": 100,
+    "s2-p2": 100,
+    "s6-p2": 100
+  },
+  "readback": [
+    {
+      "key": "fc000001000000000000000000000001",
+      "table": "routing_v6",
+      "switch": "s2",
+      "action": "ipv6_forward",
+      "present": true,
+      "installed_by_plan": true
+    },
+    {
+      "key": "fc000006000000000000000000000001",
+      "table": "routing_v6",
+      "switch": "s1",
+      "action": "ipv6_forward",
+      "present": true,
+      "installed_by_plan": true
+    },
+    {
+      "key": "fc000007000000000000000000000001",
+      "table": "routing_v6",
+      "switch": "s6",
+      "action": "ipv6_forward",
+      "present": true,
+      "installed_by_plan": true
+    },
+    {
+      "key": "fc000007000000000000000000000001",
+      "table": "srv6_end_dx4_table",
+      "switch": "s7",
+      "action": "srv6_end_dx4",
+      "present": true,
+      "installed_by_plan": true
+    }
+  ],
+  "mode": "protected",
+  "readback_ms": 839.785,
+  "admission_error": null,
+  "counter_delta": {
+    "s2": {
+      "srv6_advance_counter": 100,
+      "msd_violation_counter": 0,
+      "srv6_terminal_counter": 0
+    },
+    "s6": {
+      "srv6_advance_counter": 100,
+      "msd_violation_counter": 0,
+      "srv6_terminal_counter": 0
+    },
+    "s1": {
+      "srv6_advance_counter": 100,
+      "msd_violation_counter": 0,
+      "srv6_terminal_counter": 0
+    },
+    "s7": {
+      "srv6_advance_counter": 0,
+      "msd_violation_counter": 0,
+      "srv6_terminal_counter": 100
+    }
+  },
+  "msd_drops_total_delta": 0,
+  "sid_stack_final_to_first": [
+    "fc00:7::1",
+    "fc00:6::1",
+    "fc00:1::1",
+    "fc00:2::1"
+  ],
+  "switch_path": [
+    "s2",
+    "s1",
+    "s6",
+    "s7"
+  ],
+  "rejected_rules_absent": true,
+  "unique_sink_seqs": 100,
+  "packets_sent": 100,
+  "install_ms": 306.896,
+  "counters_before": {
+    "s2": {
+      "srv6_advance_counter": 0,
+      "msd_violation_counter": 0,
+      "srv6_terminal_counter": 0
+    },
+    "s6": {
+      "srv6_advance_counter": 0,
+      "msd_violation_counter": 0,
+      "srv6_terminal_counter": 0
+    },
+    "s1": {
+      "srv6_advance_counter": 0,
+      "msd_violation_counter": 0,
+      "srv6_terminal_counter": 0
+    },
+    "s7": {
+      "srv6_advance_counter": 0,
+      "msd_violation_counter": 0,
+      "srv6_terminal_counter": 0
+    }
+  },
+  "sink_inner_ipv4_frames": 100,
+  "rules_installed": 4,
+  "trial": 3,
+  "case": "in_limit_depth4_at_msd4",
+  "admission_decision": "admit",
+  "counters_after": {
+    "s2": {
+      "srv6_advance_counter": 100,
+      "msd_violation_counter": 0,
+      "srv6_terminal_counter": 0
+    },
+    "s6": {
+      "srv6_advance_counter": 100,
+      "msd_violation_counter": 0,
+      "srv6_terminal_counter": 0
+    },
+    "s1": {
+      "srv6_advance_counter": 100,
+      "msd_violation_counter": 0,
+      "srv6_terminal_counter": 0
+    },
+    "s7": {
+      "srv6_advance_counter": 0,
+      "msd_violation_counter": 0,
+      "srv6_terminal_counter": 100
+    }
+  }
+}

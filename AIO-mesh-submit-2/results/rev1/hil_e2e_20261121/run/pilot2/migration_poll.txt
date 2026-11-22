@@ -1,0 +1,10 @@
+17:08:57.705293769 {"status":"running","data":{"old_vnf":null,"new_vnf":"vnf-voc-237923df","recovery_state":"MAKE_STARTED"}}
+17:09:00.741727517 {"status":"running","data":{"old_vnf":null,"new_vnf":"vnf-voc-237923df","recovery_state":"MAKE_STARTED"}}
+17:09:03.777083115 {"status":"running","data":{"old_vnf":null,"new_vnf":"vnf-voc-237923df","recovery_state":"MAKE_STARTED"}}
+17:09:06.816455978 {"status":"running","data":{"old_vnf":null,"new_vnf":"vnf-voc-237923df","recovery_state":"MAKE_STARTED"}}
+17:09:09.843027346 {"status":"running","data":{"old_vnf":null,"new_vnf":"vnf-voc-237923df","recovery_state":"MAKE_STARTED"}}
+17:09:12.875864756 {"status":"running","data":{"old_vnf":null,"new_vnf":"vnf-voc-237923df","recovery_state":"MAKE_STARTED"}}
+17:09:15.924470300 {"status":"running","data":{"old_vnf":null,"new_vnf":"vnf-voc-237923df","recovery_state":"MAKE_STARTED"}}
+17:09:18.977197281 {"status":"running","data":{"old_vnf":null,"new_vnf":"vnf-voc-237923df","recovery_state":"MAKE_STARTED"}}
+17:09:22.010454718 {"status":"running","data":{"old_vnf":null,"new_vnf":"vnf-voc-237923df","recovery_state":"MAKE_STARTED"}}
+17:09:25.065365333 {"status":"success","message":"VNF created, ready, and steered; no old VNF required BREAK.","data":{"old_vnf":null,"new_vnf":"vnf-voc-237923df","steer_operation_id":"f56ad837-46e2-438b-9206-4e11702b1556","steer_status":"CONFIRMED","recovery_state":"STEERED","dynamic_endpoint":{"ip":"10.1.189.168","port":0},"sid_list":["fc00:7::1","fc00:6::1"],"switch_path":[6,7],"cp_steering_overhead_ms":2036.14,"k8s_node_hostname":"worker2"}}

@@ -1,0 +1,10 @@
+# captured_utc=2026-11-21T16:51:24Z
+# cmd: bash -c free -h; df -h / /home; cat /proc/loadavg
+              total        used        free      shared  buff/cache   available
+Mem:           94Gi        38Gi       2.6Gi       251Mi        53Gi        54Gi
+Swap:         8.0Gi        67Mi       7.9Gi
+Filesystem      Size  Used Avail Use% Mounted on
+/dev/vda3       195G  174G   12G  95% /
+/dev/vda3       195G  174G   12G  95% /
+5.25 12.67 10.51 2/9523 1412450
+# exit=0

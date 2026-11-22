@@ -1,0 +1,48 @@
+{
+  "accounting_unknown_count": 0,
+  "assignment_count": 7,
+  "expected_topology_hash": "67131a546450606da19276263b00d23988d13fd71c17be38cb24a12637fe9f11",
+  "ledger_sha256": "2b895d40250ac10a05ae0dac5fdf0814cb4f98146e57c0bfbe051f6706feeedf",
+  "per_node_cpu_req": {
+    "0": 63.0,
+    "1": 57.0,
+    "2": 64.0,
+    "3": 58.0,
+    "5": 64.0,
+    "8": 64.0,
+    "9": 56.0
+  },
+  "per_node_ram_req": {
+    "0": 32.0,
+    "1": 29.0,
+    "2": 32.5,
+    "3": 29.5,
+    "5": 32.5,
+    "8": 32.5,
+    "9": 28.5
+  },
+  "placement_source": "synthetic proposed assignment; not historical placement",
+  "profile_count": 7,
+  "route_msd_max": {
+    "3": 4,
+    "5": 8,
+    "8": 6
+  },
+  "source_hashes": {
+    "/tmp/base_inventory_assignment.proposed.json": "9e3dcce9e2f1e2cc5bfde360f4a2bfa3dba7e1be6f29c95997e7eb13094c8f48",
+    "/tmp/recovered_hil_profiles.json": "fc2370a51d075da2b464d855969d325299523de635689137e5600a1595d841b6"
+  },
+  "state_version": 8,
+  "status": "seed_ready_not_applied",
+  "topology": "vietnam",
+  "topology_hash": "67131a546450606da19276263b00d23988d13fd71c17be38cb24a12637fe9f11",
+  "vnf_names": [
+    "vnf-attack-004e219d",
+    "vnf-attack-0faeed9f",
+    "vnf-attack-228edabf",
+    "vnf-attack-2f0aa313",
+    "vnf-attack-57b6f205",
+    "vnf-attack-8bf0425e",
+    "vnf-attack-af13f6df"
+  ]
+}

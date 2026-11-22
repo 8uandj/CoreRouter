@@ -1,0 +1,163 @@
+{
+  "inputs_sha256": {
+    "all_records.csv": "8e8f1945a44f725b77234d1399d6bda2368c189aaa0eb6b8a43a3d53222d1601",
+    "backend_access_12h_window.log": "909d7f8f69ad9950cec0caaf43ae346976b9bd1db2724ace720c429580915bbb"
+  },
+  "scenario_copy_identical": true,
+  "benchmark_results_json_records": 12325,
+  "benchmark_results_json_status_sequence_equal_csv": true,
+  "server_post_orchestrate_count": 12325,
+  "server_status_counts": {
+    "409": 10870,
+    "200": 1455
+  },
+  "client_status_counts": {
+    "409": 10870,
+    "200": 1455
+  },
+  "status_sequence_identical_client_vs_server": true,
+  "server_free_calls": {
+    "200": 1455
+  },
+  "server_other_requests_in_window": {
+    "GET /api/health 200": 1,
+    "POST /api/orchestrate/alert?alert=false 200": 1,
+    "GET /api/orchestrate/state 200": 1
+  },
+  "free_never_exceeds_prior_admissions": true,
+  "unfreed_admissions_at_window_end": 0,
+  "client_minus_server_timestamp_ms": {
+    "n": 12325,
+    "min": -19.970000000000002,
+    "p50": 0.679,
+    "p99": 1.438,
+    "max": 65.73700000000001,
+    "note": "client timestamp is taken after the HTTP response; server timestamp is the docker log write time of the access line"
+  },
+  "accepted_depth_equals_msd_req": true,
+  "accepted_server_vnf_names_unique": true,
+  "p4_topology": {
+    "edges": [
+      [
+        0,
+        1
+      ],
+      [
+        0,
+        2
+      ],
+      [
+        2,
+        3
+      ],
+      [
+        3,
+        4
+      ],
+      [
+        4,
+        5
+      ],
+      [
+        5,
+        6
+      ],
+      [
+        6,
+        7
+      ],
+      [
+        7,
+        8
+      ],
+      [
+        8,
+        9
+      ],
+      [
+        0,
+        5
+      ],
+      [
+        5,
+        8
+      ]
+    ],
+    "p4_topology_py_sha256": "652aa9bc37c168f6f5d4e6fd5ccb058ec15e5782376e5a81df374326e85e64e4",
+    "min_compiled_depth_over_distinct_pairs": 2,
+    "max_compiled_depth_over_distinct_pairs": 5,
+    "depth_histogram": {
+      "2": 22,
+      "3": 30,
+      "4": 26,
+      "5": 12
+    },
+    "manifest_runtime_edges": 50
+  },
+  "msd_limits_from_manifest": [
+    10.0,
+    10.0,
+    5.0,
+    5.0,
+    4.0,
+    8.0,
+    4.0,
+    5.0,
+    10.0,
+    5.0
+  ],
+  "max_requested_depth": 2,
+  "true_msd_limit_exceedance_possible_in_this_run": false,
+  "requested_depth_by_service": {
+    "URLLC": {
+      "1": 2524
+    },
+    "Video": {
+      "2": 3633
+    },
+    "Data": {
+      "2": 3728
+    },
+    "VoIP": {
+      "1": 2440
+    }
+  },
+  "pipelineruns_created_during_run": 0,
+  "controller_console_lines_during_run": 0,
+  "readiness": {
+    "samples": 720,
+    "first": "2026-11-17T19:03:03.709959+00:00",
+    "last": "2026-11-18T07:02:41.499636+00:00",
+    "interval_s_min": 60.000999999996566,
+    "interval_s_max": 60.06000000000495,
+    "deployments_ready_set": [
+      "7/7"
+    ],
+    "replicas_ready_set": [
+      "7/7"
+    ],
+    "snapshot_errors": 0,
+    "deployment_names_set": [
+      "vnf-attack-004e219d:1/1/1;vnf-attack-0faeed9f:1/1/1;vnf-attack-228edabf:1/1/1;vnf-attack-2f0aa313:1/1/1;vnf-attack-57b6f205:1/1/1;vnf-attack-8bf0425e:1/1/1;vnf-attack-af13f6df:1/1/1"
+    ]
+  },
+  "msd_drops": {
+    "preflight_2026-11-17": {
+      "s1": 0,
+      "s10": 0,
+      "s2": 0,
+      "s3": 0,
+      "s4": 0,
+      "s5": 0,
+      "s6": 0,
+      "s7": 0,
+      "s8": 0,
+      "s9": 0
+    },
+    "summary_msd_drop_delta": 0,
+    "read_at_export": "{\"s1\": 0, \"s2\": 0, \"s3\": 0, \"s4\": 0, \"s5\": 0, \"s6\": 0, \"s7\": 0, \"s8\": 0, \"s9\": 0, \"s10\": 0}",
+    "switch_processes": "see 00_inventory/at_start/processes_project.txt (simple_switch started 2026-11-17 18:16:40-48 UTC, not restarted)",
+    "interpretation": "cumulative per-switch msd_violation_counter stayed 0 from switch start through export; the HIL run sent no packets through P4, so this is not a packet-level MSD measurement"
+  },
+  "run_summary_notes": ""
+}

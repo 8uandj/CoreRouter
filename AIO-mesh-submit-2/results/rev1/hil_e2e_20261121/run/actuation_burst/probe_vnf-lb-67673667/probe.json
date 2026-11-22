@@ -1,0 +1,85 @@
+{
+  "request_id": "vnf-lb-67673667",
+  "src_host": "h1",
+  "place_host": "h2",
+  "switch_path": [
+    1,
+    2
+  ],
+  "sid_stack_final_to_first": [
+    "fc00:2::1",
+    "fc00:1::1"
+  ],
+  "pod_ip": "10.1.235.211",
+  "n": 20,
+  "t": {
+    "counters_before_utc": "2026-11-21T18:19:50.200392+00:00",
+    "send_start_utc": "2026-11-21T18:19:57.488976+00:00",
+    "send_end_utc": "2026-11-21T18:20:04.234514+00:00",
+    "counters_after_utc": "2026-11-21T18:20:04.235229+00:00"
+  },
+  "counters_before": {
+    "s1": {
+      "advance": 852,
+      "terminal": 0,
+      "msd_violation": 0
+    },
+    "s2": {
+      "advance": 472,
+      "terminal": 0,
+      "msd_violation": 50
+    }
+  },
+  "src_setup": {
+    "switch_port": "s1-eth1",
+    "switch_port_mac": "4e:76:a8:a5:f6:8d",
+    "seg6_segs_traversal": [
+      "fc00:1::1",
+      "fc00:2::1"
+    ],
+    "commands": "ethtool -K h1-eth0 tx off >/dev/null; ip -6 addr replace 2001:db8:100::1/64 dev h1-eth0 nodad; ip -6 route replace fc00::/16 dev h1-eth0; ip -6 neigh replace fc00:1::1 lladdr 4e:76:a8:a5:f6:8d dev h1-eth0 nud permanent; ip route replace 10.1.235.211/32 encap seg6 mode encap segs fc00:1::1,fc00:2::1 dev h1-eth0; ip route get 10.1.235.211",
+    "output": "10.1.235.211 dev h1-eth0 src 10.0.0.1 uid 0 \n    cache \n"
+  },
+  "mode": "icmp",
+  "icmp_pattern_hex": "3d3b42dd2f88371590478a1882829163",
+  "icmp_raw": "PATTERN: 0x3d3b42dd2f88371590478a1882829163\nPING 10.1.235.211 (10.1.235.211) 56(84) bytes of data.\n\n--- 10.1.235.211 ping statistics ---\n20 packets transmitted, 0 received, 100% packet loss, time 3878ms\n\n",
+  "http": [],
+  "counters_after": {
+    "s1": {
+      "advance": 872,
+      "terminal": 0,
+      "msd_violation": 0
+    },
+    "s2": {
+      "advance": 472,
+      "terminal": 20,
+      "msd_violation": 50
+    }
+  },
+  "counter_delta": {
+    "s1": {
+      "advance": 20,
+      "terminal": 0,
+      "msd_violation": 0
+    },
+    "s2": {
+      "advance": 0,
+      "terminal": 20,
+      "msd_violation": 0
+    }
+  },
+  "src_teardown": "10.0.0.0/24 dev h1-eth0 proto kernel scope link src 10.0.0.1 \n10.1.0.0/16 via 10.1.240.1 dev veth-h1-mn \n",
+  "captured_packets": {
+    "src_egress_srv6": 22,
+    "place_host_decap": 20,
+    "host_vxlan": 20,
+    "src_return": 0
+  },
+  "summary": {
+    "sent": 20,
+    "app_received": 0,
+    "loss": 20,
+    "http_codes": [],
+    "rtt_total_ms": []
+  }
+}

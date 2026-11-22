@@ -1,0 +1,399 @@
+index,submit_utc,service_type,source,msd_req,cpu,ram,http,outcome,vnf,placement,switch_path,old_vnf,reason,message,probe_sent,probe_recv,new_vnfs_after
+0,2026-11-21T18:51:07.948228+00:00,voc,3,2,5.0,2.5,409,rejected,,,,,no_safe_action,forwarding requires distinct ingress and placement nodes,,,0
+1,2026-11-21T18:51:08.363597+00:00,idps,3,5,21.0,10.5,409,rejected,,,,,no_safe_action,forwarding requires distinct ingress and placement nodes,,,0
+2,2026-11-21T18:51:08.802609+00:00,nat,1,4,4.0,2.0,409,rejected,,,,,no_safe_action,forwarding requires distinct ingress and placement nodes,,,0
+3,2026-11-21T18:51:09.245959+00:00,lb,3,4,5.0,2.5,200,steered,vnf-lb-040ad2a7,1,4-3-1-2,vnf-lb-67673667,,,20,0,1
+4,2026-11-21T18:52:14.005566+00:00,firewall,6,4,11.0,5.5,200,steered,vnf-firewall-a83f18dc,1,7-6-1-2,,,,20,0,2
+5,2026-11-21T18:53:09.311678+00:00,data,8,2,5.0,2.5,409,rejected,,,,,msd_violation,requested MSD depth does not match materialized P4 path depth,,,2
+6,2026-11-21T18:53:09.763451+00:00,video,2,5,11.0,5.5,409,rejected,,,,,msd_violation,requested MSD depth does not match materialized P4 path depth,,,2
+7,2026-11-21T18:53:10.193403+00:00,router,5,4,10.0,5.0,409,rejected,,,,,msd_violation,requested MSD depth does not match materialized P4 path depth,,,2
+8,2026-11-21T18:53:10.635976+00:00,voc,9,5,18.0,9.0,409,rejected,,,,,msd_violation,materialized path exceeds physical switch MSD profile,,,2
+9,2026-11-21T18:53:11.095451+00:00,voc,8,5,18.0,9.0,409,rejected,,,,,msd_violation,requested MSD depth does not match materialized P4 path depth,,,2
+10,2026-11-21T18:53:11.514636+00:00,idps,6,4,21.0,10.5,200,steered,vnf-idps-4172d3ed,3,7-6-5-4,,,,20,20,3
+11,2026-11-21T18:54:05.121680+00:00,nat,2,3,18.0,9.0,409,rejected,,,,,msd_violation,requested MSD depth does not match materialized P4 path depth,,,3
+12,2026-11-21T18:54:05.626194+00:00,lb,2,5,5.0,2.5,409,rejected,,,,,msd_violation,requested MSD depth does not match materialized P4 path depth,,,3
+13,2026-11-21T18:54:06.048178+00:00,firewall,7,5,6.0,3.0,409,rejected,,,,,msd_violation,materialized path exceeds physical switch MSD profile,,,3
+14,2026-11-21T18:54:06.456570+00:00,data,4,5,12.0,6.0,409,rejected,,,,,msd_violation,requested MSD depth does not match materialized P4 path depth,,,3
+15,2026-11-21T18:54:06.864947+00:00,video,3,5,21.0,10.5,409,rejected,,,,,msd_violation,requested MSD depth does not match materialized P4 path depth,,,3
+16,2026-11-21T18:54:07.291936+00:00,router,2,2,10.0,5.0,409,rejected,,,,,msd_violation,requested MSD depth does not match materialized P4 path depth,,,3
+17,2026-11-21T18:54:07.716987+00:00,voc,3,4,21.0,10.5,409,rejected,,,,,msd_violation,requested MSD depth does not match materialized P4 path depth,,,3
+18,2026-11-21T18:54:08.152387+00:00,voc,6,5,21.0,10.5,409,rejected,,,,,msd_violation,requested MSD depth does not match materialized P4 path depth,,,3
+19,2026-11-21T18:54:08.558864+00:00,idps,7,4,5.0,2.5,409,rejected,,,,,msd_violation,requested MSD depth does not match materialized P4 path depth,,,3
+20,2026-11-21T18:54:09.030764+00:00,nat,2,5,20.0,10.0,409,rejected,,,,,msd_violation,requested MSD depth does not match materialized P4 path depth,,,3
+21,2026-11-21T18:54:09.466736+00:00,lb,7,4,18.0,9.0,200,steered,vnf-lb-77360985,0,8-7-6-1,vnf-lb-040ad2a7,,,20,0,3
+22,2026-11-21T18:55:09.986701+00:00,firewall,2,5,4.0,2.0,409,rejected,,,,,msd_violation,requested MSD depth does not match materialized P4 path depth,,,3
+23,2026-11-21T18:55:10.467407+00:00,data,7,2,4.0,2.0,409,rejected,,,,,msd_violation,requested MSD depth does not match materialized P4 path depth,,,3
+24,2026-11-21T18:55:10.943080+00:00,video,1,3,4.0,2.0,409,rejected,,,,,no_safe_action,forwarding requires distinct ingress and placement nodes,,,3
+25,2026-11-21T18:55:11.382821+00:00,router,2,4,5.0,2.5,409,rejected,,,,,msd_violation,requested MSD depth does not match materialized P4 path depth,,,3
+26,2026-11-21T18:55:11.792870+00:00,voc,2,5,12.0,6.0,409,rejected,,,,,msd_violation,requested MSD depth does not match materialized P4 path depth,,,3
+27,2026-11-21T18:55:12.214298+00:00,voc,9,3,7.0,3.5,409,rejected,,,,,msd_violation,requested MSD depth does not match materialized P4 path depth,,,3
+28,2026-11-21T18:55:12.652139+00:00,idps,2,5,10.0,5.0,409,rejected,,,,,msd_violation,requested MSD depth does not match materialized P4 path depth,,,3
+29,2026-11-21T18:55:13.090263+00:00,nat,6,5,12.0,6.0,409,rejected,,,,,msd_violation,requested MSD depth does not match materialized P4 path depth,,,3
+30,2026-11-21T18:55:13.539557+00:00,lb,1,2,7.0,3.5,409,rejected,,,,,no_safe_action,forwarding requires distinct ingress and placement nodes,,,3
+31,2026-11-21T18:55:13.989997+00:00,firewall,5,4,4.0,2.0,409,rejected,,,,,msd_violation,requested MSD depth does not match materialized P4 path depth,,,3
+32,2026-11-21T18:55:14.446727+00:00,data,4,4,5.0,2.5,200,steered,vnf-data-11525c8e,1,5-6-1-2,vnf-data-b6fad338,,,20,0,4
+33,2026-11-21T18:56:19.489102+00:00,video,7,5,10.0,5.0,409,rejected,,,,,msd_violation,materialized path exceeds physical switch MSD profile,,,4
+34,2026-11-21T18:56:20.226916+00:00,router,6,3,6.0,3.0,409,rejected,,,,,msd_violation,requested MSD depth does not match materialized P4 path depth,,,4
+35,2026-11-21T18:56:20.707183+00:00,voc,1,3,11.0,5.5,409,rejected,,,,,no_safe_action,forwarding requires distinct ingress and placement nodes,,,4
+36,2026-11-21T18:56:21.171355+00:00,voc,2,3,18.0,9.0,200,steered,vnf-voc-d8c0a381,1,3-1-2,,,,20,0,5
+37,2026-11-21T18:58:13.241175+00:00,idps,7,3,5.0,2.5,409,rejected,,,,,msd_violation,requested MSD depth does not match materialized P4 path depth,,,5
+38,2026-11-21T18:58:13.688087+00:00,nat,2,3,6.0,3.0,200,steered,vnf-nat-f7d64cfc,1,3-1-2,,,,20,20,6
+39,2026-11-21T18:59:11.011096+00:00,lb,8,5,20.0,10.0,409,rejected,,,,,msd_violation,requested MSD depth does not match materialized P4 path depth,,,6
+40,2026-11-21T18:59:11.463556+00:00,firewall,2,4,5.0,2.5,409,rejected,,,,,msd_violation,requested MSD depth does not match materialized P4 path depth,,,6
+41,2026-11-21T18:59:11.887790+00:00,data,7,5,7.0,3.5,409,rejected,,,,,msd_violation,requested MSD depth does not match materialized P4 path depth,,,6
+42,2026-11-21T18:59:12.313110+00:00,video,5,3,11.0,5.5,200,steered,vnf-video-5f703ed3,7,6-7-8,vnf-video-09771db5,,,20,20,7
+43,2026-11-21T19:00:12.585759+00:00,router,8,2,21.0,10.5,200,steered,vnf-router-f3d7e3b5,7,9-8,vnf-router-485205ac,,,20,20,8
+44,2026-11-21T19:01:06.343062+00:00,voc,3,3,10.0,5.0,409,rejected,,,,,msd_violation,requested MSD depth does not match materialized P4 path depth,,,8
+45,2026-11-21T19:01:06.919750+00:00,voc,6,4,5.0,2.5,409,rejected,,,,,msd_violation,requested MSD depth does not match materialized P4 path depth,,,8
+46,2026-11-21T19:01:07.356703+00:00,idps,2,4,6.0,3.0,409,rejected,,,,,msd_violation,requested MSD depth does not match materialized P4 path depth,,,8
+47,2026-11-21T19:01:07.788566+00:00,nat,8,4,6.0,3.0,409,rejected,,,,,msd_violation,requested MSD depth does not match materialized P4 path depth,,,8
+48,2026-11-21T19:01:08.281356+00:00,lb,8,4,7.0,3.5,409,rejected,,,,,msd_violation,requested MSD depth does not match materialized P4 path depth,,,8
+49,2026-11-21T19:01:08.740141+00:00,firewall,6,2,5.0,2.5,409,rejected,,,,,msd_violation,requested MSD depth does not match materialized P4 path depth,,,8
+50,2026-11-21T19:01:09.219197+00:00,data,2,4,4.0,2.0,409,rejected,,,,,msd_violation,requested MSD depth does not match materialized P4 path depth,,,8
+51,2026-11-21T19:01:09.714072+00:00,video,4,2,11.0,5.5,409,rejected,,,,,msd_violation,requested MSD depth does not match materialized P4 path depth,,,8
+52,2026-11-21T19:01:10.149676+00:00,router,1,4,7.0,3.5,200,steered,vnf-router-567bff1c,4,2-1-6-5,vnf-router-740a9f49,,,20,20,9
+53,2026-11-21T19:02:11.187818+00:00,voc,0,5,20.0,10.0,409,rejected,,,,,msd_violation,requested MSD depth does not match materialized P4 path depth,,,9
+54,2026-11-21T19:02:11.624413+00:00,voc,4,2,4.0,2.0,409,rejected,,,,,no_safe_action,forwarding requires distinct ingress and placement nodes,,,9
+55,2026-11-21T19:02:12.074385+00:00,idps,7,4,5.0,2.5,200,steered,vnf-idps-e045d23e,4,8-7-6-5,,,,20,20,10
+56,2026-11-21T19:03:05.854559+00:00,nat,9,4,5.0,2.5,200,steered,vnf-nat-fd293e3a,4,10-9-6-5,vnf-nat-ff43155a,,,20,20,11
+57,2026-11-21T19:04:32.225266+00:00,lb,5,2,21.0,10.5,409,rejected,,,,,msd_violation,requested MSD depth does not match materialized P4 path depth,,,11
+58,2026-11-21T19:04:32.669953+00:00,firewall,5,4,11.0,5.5,409,rejected,,,,,msd_violation,requested MSD depth does not match materialized P4 path depth,,,11
+59,2026-11-21T19:04:33.121078+00:00,data,5,4,18.0,9.0,409,rejected,,,,,msd_violation,requested MSD depth does not match materialized P4 path depth,,,11
+60,2026-11-21T19:04:33.570824+00:00,video,5,5,5.0,2.5,409,rejected,,,,,msd_violation,requested MSD depth does not match materialized P4 path depth,,,11
+61,2026-11-21T19:04:34.008109+00:00,router,8,3,5.0,2.5,200,steered,vnf-router-92acf881,4,9-6-5,vnf-router-567bff1c,,,20,20,11
+62,2026-11-21T19:05:28.477750+00:00,voc,1,2,4.0,2.0,409,rejected,,,,,msd_violation,requested MSD depth does not match materialized P4 path depth,,,11
+63,2026-11-21T19:05:28.915762+00:00,voc,0,4,7.0,3.5,409,rejected,,,,,msd_violation,requested MSD depth does not match materialized P4 path depth,,,11
+64,2026-11-21T19:05:29.381946+00:00,idps,6,5,7.0,3.5,409,rejected,,,,,msd_violation,requested MSD depth does not match materialized P4 path depth,,,11
+65,2026-11-21T19:05:29.838617+00:00,nat,2,3,7.0,3.5,200,steered,vnf-nat-e94c9333,4,3-4-5,vnf-nat-fd293e3a,,,20,20,11
+66,2026-11-21T19:06:53.593008+00:00,lb,2,4,5.0,2.5,409,rejected,,,,,msd_violation,requested MSD depth does not match materialized P4 path depth,,,11
+67,2026-11-21T19:06:54.075014+00:00,firewall,8,4,4.0,2.0,409,rejected,,,,,msd_violation,requested MSD depth does not match materialized P4 path depth,,,11
+68,2026-11-21T19:06:54.529095+00:00,data,2,4,20.0,10.0,409,rejected,,,,,msd_violation,requested MSD depth does not match materialized P4 path depth,,,11
+69,2026-11-21T19:06:54.976694+00:00,video,8,2,4.0,2.0,409,rejected,,,,,msd_violation,requested MSD depth does not match materialized P4 path depth,,,11
+70,2026-11-21T19:06:55.437172+00:00,router,0,4,12.0,6.0,409,rejected,,,,,msd_violation,requested MSD depth does not match materialized P4 path depth,,,11
+71,2026-11-21T19:06:55.885096+00:00,voc,3,2,7.0,3.5,200,steered,vnf-voc-8d6a81e6,4,4-5,vnf-voc-8af9e5bb,,,20,20,12
+72,2026-11-21T19:08:24.656792+00:00,voc,3,4,7.0,3.5,409,rejected,,,,,msd_violation,requested MSD depth does not match materialized P4 path depth,,,12
+73,2026-11-21T19:08:25.092177+00:00,idps,5,3,11.0,5.5,409,rejected,,,,,msd_violation,requested MSD depth does not match materialized P4 path depth,,,12
+74,2026-11-21T19:08:25.552470+00:00,nat,9,5,21.0,10.5,409,rejected,,,,,msd_violation,requested MSD depth does not match materialized P4 path depth,,,12
+75,2026-11-21T19:08:26.016599+00:00,lb,2,5,6.0,3.0,409,rejected,,,,,msd_violation,requested MSD depth does not match materialized P4 path depth,,,12
+76,2026-11-21T19:08:26.433415+00:00,firewall,0,5,5.0,2.5,409,rejected,,,,,msd_violation,requested MSD depth does not match materialized P4 path depth,,,12
+77,2026-11-21T19:08:26.860768+00:00,data,8,4,5.0,2.5,409,rejected,,,,,msd_violation,requested MSD depth does not match materialized P4 path depth,,,12
+78,2026-11-21T19:08:27.293310+00:00,video,8,2,6.0,3.0,409,rejected,,,,,msd_violation,requested MSD depth does not match materialized P4 path depth,,,12
+79,2026-11-21T19:08:27.721765+00:00,router,6,2,12.0,6.0,409,rejected,,,,,msd_violation,requested MSD depth does not match materialized P4 path depth,,,12
+80,2026-11-21T19:08:28.115887+00:00,voc,2,2,6.0,3.0,409,rejected,,,,,msd_violation,requested MSD depth does not match materialized P4 path depth,,,12
+81,2026-11-21T19:08:28.554695+00:00,voc,4,4,12.0,6.0,409,rejected,,,,,no_safe_action,forwarding requires distinct ingress and placement nodes,,,12
+82,2026-11-21T19:08:28.990018+00:00,idps,4,4,6.0,3.0,409,rejected,,,,,no_safe_action,forwarding requires distinct ingress and placement nodes,,,12
+83,2026-11-21T19:08:29.425907+00:00,nat,6,3,11.0,5.5,200,steered,vnf-nat-cf323c61,4,7-6-5,vnf-nat-e94c9333,,,20,20,12
+84,2026-11-21T19:09:59.294322+00:00,lb,5,5,5.0,2.5,409,rejected,,,,,msd_violation,requested MSD depth does not match materialized P4 path depth,,,12
+85,2026-11-21T19:09:59.752347+00:00,firewall,5,3,6.0,3.0,409,rejected,,,,,msd_violation,requested MSD depth does not match materialized P4 path depth,,,12
+86,2026-11-21T19:10:00.190834+00:00,data,1,2,6.0,3.0,409,rejected,,,,,msd_violation,requested MSD depth does not match materialized P4 path depth,,,12
+87,2026-11-21T19:10:00.672902+00:00,video,5,2,5.0,2.5,200,steered,vnf-video-939409da,4,6-5,vnf-video-bcb87148,,,20,20,13
+88,2026-11-21T19:10:58.100952+00:00,router,2,3,6.0,3.0,200,steered,vnf-router-7cc7a8fc,4,3-4-5,vnf-router-92acf881,,,20,20,13
+89,2026-11-21T19:11:54.107231+00:00,voc,1,2,11.0,5.5,409,rejected,,,,,msd_violation,requested MSD depth does not match materialized P4 path depth,,,13
+90,2026-11-21T19:11:54.576585+00:00,voc,1,4,12.0,6.0,200,steered,vnf-voc-1562317b,4,2-1-6-5,vnf-voc-8d6a81e6,,,20,20,13
+91,2026-11-21T19:13:26.993277+00:00,idps,8,2,21.0,10.5,200,steered,vnf-idps-ceb91e21,7,9-8,vnf-idps-6ff25e7b,,,20,20,14
+92,2026-11-21T19:14:54.566892+00:00,nat,9,5,7.0,3.5,409,rejected,,,,,msd_violation,requested MSD depth does not match materialized P4 path depth,,,14
+93,2026-11-21T19:14:55.003397+00:00,lb,7,2,4.0,2.0,409,rejected,,,,,msd_violation,requested MSD depth does not match materialized P4 path depth,,,14
+94,2026-11-21T19:14:55.510807+00:00,firewall,2,3,12.0,6.0,200,steered,vnf-firewall-774d16ee,4,3-4-5,vnf-firewall-60c82ba3,,,20,20,15
+95,2026-11-21T19:16:19.476237+00:00,data,7,4,20.0,10.0,409,rejected,,,,,msd_violation,requested MSD depth does not match materialized P4 path depth,,,15
+96,2026-11-21T19:16:19.916888+00:00,video,7,3,10.0,5.0,409,rejected,,,,,no_safe_action,forwarding requires distinct ingress and placement nodes,,,15
+97,2026-11-21T19:16:20.374102+00:00,router,9,5,11.0,5.5,409,rejected,,,,,msd_violation,requested MSD depth does not match materialized P4 path depth,,,15
+98,2026-11-21T19:16:20.855527+00:00,voc,9,5,6.0,3.0,409,rejected,,,,,msd_violation,requested MSD depth does not match materialized P4 path depth,,,15
+99,2026-11-21T19:16:21.310474+00:00,voc,1,4,20.0,10.0,409,rejected,,,,,msd_violation,requested MSD depth does not match materialized P4 path depth,,,15
+100,2026-11-21T19:16:21.727493+00:00,idps,2,4,11.0,5.5,409,rejected,,,,,msd_violation,requested MSD depth does not match materialized P4 path depth,,,15
+101,2026-11-21T19:16:22.160661+00:00,nat,2,4,10.0,5.0,409,rejected,,,,,msd_violation,requested MSD depth does not match materialized P4 path depth,,,15
+102,2026-11-21T19:16:22.582920+00:00,lb,9,4,5.0,2.5,200,steered,vnf-lb-3514b4e0,4,10-9-6-5,vnf-lb-c7266b57,,,20,20,16
+103,2026-11-21T19:17:25.732423+00:00,firewall,8,2,21.0,10.5,200,steered,vnf-firewall-16bc15f2,5,9-6,vnf-firewall-774d16ee,,,20,20,16
+104,2026-11-21T19:18:46.373912+00:00,data,7,2,20.0,10.0,409,rejected,,,,,msd_violation,requested MSD depth does not match materialized P4 path depth,,,16
+105,2026-11-21T19:18:46.823221+00:00,video,5,4,7.0,3.5,409,rejected,,,,,msd_violation,requested MSD depth does not match materialized P4 path depth,,,16
+106,2026-11-21T19:18:47.229442+00:00,router,4,2,19.0,9.5,409,rejected,,,,,no_safe_action,forwarding requires distinct ingress and placement nodes,,,16
+107,2026-11-21T19:18:47.722087+00:00,voc,9,4,10.0,5.0,409,rejected,,,,,msd_violation,requested MSD depth does not match materialized P4 path depth,,,16
+108,2026-11-21T19:18:48.143640+00:00,voc,5,5,21.0,10.5,409,rejected,,,,,msd_violation,requested MSD depth does not match materialized P4 path depth,,,16
+109,2026-11-21T19:18:48.872601+00:00,idps,4,2,4.0,2.0,409,rejected,,,,,msd_violation,requested MSD depth does not match materialized P4 path depth,,,16
+110,2026-11-21T19:18:49.314124+00:00,nat,8,5,4.0,2.0,409,rejected,,,,,msd_violation,requested MSD depth does not match materialized P4 path depth,,,16
+111,2026-11-21T19:18:49.746075+00:00,lb,8,3,10.0,5.0,409,rejected,,,,,msd_violation,requested MSD depth does not match materialized P4 path depth,,,16
+112,2026-11-21T19:18:50.189325+00:00,firewall,3,4,4.0,2.0,409,rejected,,,,,msd_violation,requested MSD depth does not match materialized P4 path depth,,,16
+113,2026-11-21T19:18:50.626790+00:00,data,1,4,6.0,3.0,409,rejected,,,,,msd_violation,requested MSD depth does not match materialized P4 path depth,,,16
+114,2026-11-21T19:18:51.121777+00:00,video,0,2,19.0,9.5,409,rejected,,,,,msd_violation,requested MSD depth does not match materialized P4 path depth,,,16
+115,2026-11-21T19:18:51.555790+00:00,router,8,3,18.0,9.0,200,steered,vnf-router-69bf0c3c,4,9-6-5,vnf-router-7cc7a8fc,,,20,20,16
+116,2026-11-21T19:19:45.103888+00:00,voc,5,4,7.0,3.5,409,rejected,,,,,msd_violation,requested MSD depth does not match materialized P4 path depth,,,16
+117,2026-11-21T19:19:45.546857+00:00,voc,4,5,12.0,6.0,409,rejected,,,,,msd_violation,requested MSD depth does not match materialized P4 path depth,,,16
+118,2026-11-21T19:19:45.977005+00:00,idps,7,2,11.0,5.5,409,rejected,,,,,no_safe_action,forwarding requires distinct ingress and placement nodes,,,16
+119,2026-11-21T19:19:46.407343+00:00,nat,4,4,5.0,2.5,200,steered,vnf-nat-187370d6,7,5-6-7-8,vnf-nat-240e4b06,,,20,20,17
+120,2026-11-21T19:21:20.539973+00:00,lb,8,4,7.0,3.5,409,rejected,,,,,msd_violation,requested MSD depth does not match materialized P4 path depth,,,17
+121,2026-11-21T19:21:21.028773+00:00,firewall,6,2,10.0,5.0,409,rejected,,,,,msd_violation,requested MSD depth does not match materialized P4 path depth,,,17
+122,2026-11-21T19:21:21.468937+00:00,data,8,2,11.0,5.5,200,steered,vnf-data-14cbf687,5,9-6,,,,20,20,18
+123,2026-11-21T19:22:10.702416+00:00,video,5,4,11.0,5.5,409,rejected,,,,,msd_violation,requested MSD depth does not match materialized P4 path depth,,,18
+124,2026-11-21T19:22:11.154603+00:00,router,4,3,6.0,3.0,409,rejected,,,,,msd_violation,requested MSD depth does not match materialized P4 path depth,,,18
+125,2026-11-21T19:22:11.728737+00:00,voc,0,3,18.0,9.0,409,rejected,,,,,no_safe_action,forwarding requires distinct ingress and placement nodes,,,18
+126,2026-11-21T19:22:12.182322+00:00,voc,8,5,6.0,3.0,409,rejected,,,,,msd_violation,requested MSD depth does not match materialized P4 path depth,,,18
+127,2026-11-21T19:22:12.638911+00:00,idps,7,4,6.0,3.0,409,rejected,,,,,no_safe_action,forwarding requires distinct ingress and placement nodes,,,18
+128,2026-11-21T19:22:13.079585+00:00,nat,8,5,11.0,5.5,409,rejected,,,,,msd_violation,requested MSD depth does not match materialized P4 path depth,,,18
+129,2026-11-21T19:22:13.558303+00:00,lb,2,3,6.0,3.0,409,rejected,,,,,msd_violation,requested MSD depth does not match materialized P4 path depth,,,18
+130,2026-11-21T19:22:14.004502+00:00,firewall,4,4,4.0,2.0,200,steered,vnf-firewall-c1648617,7,5-6-7-8,vnf-firewall-06223c61,,,20,20,19
+131,2026-11-21T19:23:43.354581+00:00,data,2,4,7.0,3.5,409,rejected,,,,,msd_violation,requested MSD depth does not match materialized P4 path depth,,,19
+132,2026-11-21T19:23:43.805208+00:00,video,2,2,6.0,3.0,409,rejected,,,,,msd_violation,requested MSD depth does not match materialized P4 path depth,,,19
+133,2026-11-21T19:23:44.235917+00:00,router,4,2,21.0,10.5,409,rejected,,,,,no_safe_action,resilience_no_safe_pair_available,,,19
+134,2026-11-21T19:23:44.604953+00:00,voc,7,2,12.0,6.0,409,rejected,,,,,no_safe_action,forwarding requires distinct ingress and placement nodes,,,19
+135,2026-11-21T19:23:45.071521+00:00,voc,8,3,7.0,3.5,409,rejected,,,,,msd_violation,requested MSD depth does not match materialized P4 path depth,,,19
+136,2026-11-21T19:23:45.518773+00:00,idps,1,2,18.0,9.0,200,steered,vnf-idps-7d84d1f9,0,2-1,,,,20,20,20
+137,2026-11-21T19:24:41.094002+00:00,nat,2,2,11.0,5.5,409,rejected,,,,,msd_violation,requested MSD depth does not match materialized P4 path depth,,,20
+138,2026-11-21T19:24:41.541680+00:00,lb,6,5,6.0,3.0,409,rejected,,,,,msd_violation,requested MSD depth does not match materialized P4 path depth,,,20
+139,2026-11-21T19:24:41.977147+00:00,firewall,7,3,6.0,3.0,409,rejected,,,,,no_safe_action,forwarding requires distinct ingress and placement nodes,,,20
+140,2026-11-21T19:24:42.374866+00:00,data,6,5,10.0,5.0,409,rejected,,,,,msd_violation,requested MSD depth does not match materialized P4 path depth,,,20
+141,2026-11-21T19:24:42.789063+00:00,video,4,3,12.0,6.0,409,rejected,,,,,msd_violation,requested MSD depth does not match materialized P4 path depth,,,20
+142,2026-11-21T19:24:43.238334+00:00,router,3,3,18.0,9.0,409,rejected,,,,,msd_violation,requested MSD depth does not match materialized P4 path depth,,,20
+143,2026-11-21T19:24:43.671365+00:00,voc,1,3,5.0,2.5,409,rejected,,,,,msd_violation,requested MSD depth does not match materialized P4 path depth,,,20
+144,2026-11-21T19:24:44.169227+00:00,voc,6,3,7.0,3.5,409,rejected,,,,,msd_violation,requested MSD depth does not match materialized P4 path depth,,,20
+145,2026-11-21T19:24:44.617389+00:00,idps,5,4,7.0,3.5,409,rejected,,,,,msd_violation,requested MSD depth does not match materialized P4 path depth,,,20
+146,2026-11-21T19:24:45.057592+00:00,nat,4,5,5.0,2.5,409,rejected,,,,,msd_violation,requested MSD depth does not match materialized P4 path depth,,,20
+147,2026-11-21T19:24:45.490508+00:00,lb,2,2,19.0,9.5,409,rejected,,,,,no_safe_action,resilience_no_safe_pair_available,,,20
+148,2026-11-21T19:24:45.855201+00:00,firewall,6,5,7.0,3.5,409,rejected,,,,,msd_violation,requested MSD depth does not match materialized P4 path depth,,,20
+149,2026-11-21T19:24:46.546258+00:00,data,1,4,5.0,2.5,409,rejected,,,,,msd_violation,requested MSD depth does not match materialized P4 path depth,,,20
+150,2026-11-21T19:24:47.001258+00:00,video,4,2,20.0,10.0,409,rejected,,,,,no_safe_action,resilience_no_safe_pair_available,,,20
+151,2026-11-21T19:24:47.368936+00:00,router,1,2,4.0,2.0,409,rejected,,,,,msd_violation,requested MSD depth does not match materialized P4 path depth,,,20
+152,2026-11-21T19:24:47.798486+00:00,voc,9,5,18.0,9.0,409,rejected,,,,,msd_violation,requested MSD depth does not match materialized P4 path depth,,,20
+153,2026-11-21T19:24:48.226619+00:00,voc,5,3,18.0,9.0,409,rejected,,,,,msd_violation,requested MSD depth does not match materialized P4 path depth,,,20
+154,2026-11-21T19:24:48.662615+00:00,idps,1,5,4.0,2.0,409,rejected,,,,,msd_violation,materialized path exceeds physical switch MSD profile,,,20
+155,2026-11-21T19:24:49.124160+00:00,nat,1,2,10.0,5.0,409,rejected,,,,,msd_violation,requested MSD depth does not match materialized P4 path depth,,,20
+156,2026-11-21T19:24:49.563689+00:00,lb,4,3,5.0,2.5,409,rejected,,,,,msd_violation,requested MSD depth does not match materialized P4 path depth,,,20
+157,2026-11-21T19:24:49.995709+00:00,firewall,3,5,7.0,3.5,409,rejected,,,,,msd_violation,materialized path exceeds physical switch MSD profile,,,20
+158,2026-11-21T19:24:50.440065+00:00,data,0,5,7.0,3.5,409,rejected,,,,,msd_violation,requested MSD depth does not match materialized P4 path depth,,,20
+159,2026-11-21T19:24:50.891057+00:00,video,3,5,6.0,3.0,409,rejected,,,,,msd_violation,materialized path exceeds physical switch MSD profile,,,20
+160,2026-11-21T19:24:51.336719+00:00,router,8,5,21.0,10.5,409,rejected,,,,,no_safe_action,resilience_no_safe_pair_available,,,20
+161,2026-11-21T19:24:51.706229+00:00,voc,0,5,19.0,9.5,409,rejected,,,,,no_safe_action,resilience_no_safe_pair_available,,,20
+162,2026-11-21T19:24:52.073206+00:00,voc,3,4,19.0,9.5,409,rejected,,,,,no_safe_action,resilience_no_safe_pair_available,,,20
+163,2026-11-21T19:24:52.446812+00:00,idps,9,5,11.0,5.5,409,rejected,,,,,msd_violation,requested MSD depth does not match materialized P4 path depth,,,20
+164,2026-11-21T19:24:52.872347+00:00,nat,8,3,12.0,6.0,409,rejected,,,,,msd_violation,requested MSD depth does not match materialized P4 path depth,,,20
+165,2026-11-21T19:24:53.356751+00:00,lb,8,2,10.0,5.0,200,steered,vnf-lb-871bd232,7,9-8,vnf-lb-a8f80139,,,20,20,21
+166,2026-11-21T19:25:45.166129+00:00,firewall,1,2,21.0,10.5,409,rejected,,,,,msd_violation,requested MSD depth does not match materialized P4 path depth,,,21
+167,2026-11-21T19:25:45.664728+00:00,data,3,3,18.0,9.0,409,rejected,,,,,msd_violation,requested MSD depth does not match materialized P4 path depth,,,21
+168,2026-11-21T19:25:46.103929+00:00,video,5,4,10.0,5.0,409,rejected,,,,,msd_violation,requested MSD depth does not match materialized P4 path depth,,,21
+169,2026-11-21T19:25:46.550850+00:00,router,3,2,10.0,5.0,200,steered,vnf-router-f6e663dc,4,4-5,vnf-router-69bf0c3c,,,20,20,21
+170,2026-11-21T19:26:38.000488+00:00,voc,5,2,5.0,2.5,409,rejected,,,,,msd_violation,requested MSD depth does not match materialized P4 path depth,,,21
+171,2026-11-21T19:26:38.426024+00:00,voc,0,5,4.0,2.0,409,rejected,,,,,msd_violation,requested MSD depth does not match materialized P4 path depth,,,21
+172,2026-11-21T19:26:38.883175+00:00,idps,4,2,4.0,2.0,409,rejected,,,,,msd_violation,requested MSD depth does not match materialized P4 path depth,,,21
+173,2026-11-21T19:26:39.322347+00:00,nat,7,2,5.0,2.5,409,rejected,,,,,no_safe_action,forwarding requires distinct ingress and placement nodes,,,21
+174,2026-11-21T19:26:39.765910+00:00,lb,7,3,4.0,2.0,409,rejected,,,,,no_safe_action,forwarding requires distinct ingress and placement nodes,,,21
+175,2026-11-21T19:26:40.210553+00:00,firewall,7,5,10.0,5.0,409,rejected,,,,,msd_violation,requested MSD depth does not match materialized P4 path depth,,,21
+176,2026-11-21T19:26:40.644811+00:00,data,6,2,6.0,3.0,200,steered,vnf-data-7ece1767,7,7-8,vnf-data-2042e77d,,,20,20,22
+177,2026-11-21T19:27:32.613408+00:00,video,2,3,5.0,2.5,200,steered,vnf-video-c7e3f77e,4,3-4-5,vnf-video-939409da,,,20,20,22
+178,2026-11-21T19:28:26.850152+00:00,router,6,4,6.0,3.0,409,rejected,,,,,msd_violation,requested MSD depth does not match materialized P4 path depth,,,22
+179,2026-11-21T19:28:27.284639+00:00,voc,0,2,7.0,3.5,409,rejected,,,,,msd_violation,requested MSD depth does not match materialized P4 path depth,,,22
+180,2026-11-21T19:28:27.729921+00:00,voc,7,3,4.0,2.0,409,rejected,,,,,msd_violation,requested MSD depth does not match materialized P4 path depth,,,22
+181,2026-11-21T19:28:28.134835+00:00,idps,8,5,10.0,5.0,409,rejected,,,,,msd_violation,requested MSD depth does not match materialized P4 path depth,,,22
+182,2026-11-21T19:28:28.572777+00:00,nat,1,5,6.0,3.0,409,rejected,,,,,msd_violation,requested MSD depth does not match materialized P4 path depth,,,22
+183,2026-11-21T19:28:29.013904+00:00,lb,1,4,20.0,10.0,200,steered,vnf-lb-4904891d,4,2-1-6-5,vnf-lb-3514b4e0,,,20,20,22
+184,2026-11-21T19:29:26.356273+00:00,firewall,1,3,5.0,2.5,409,rejected,,,,,msd_violation,requested MSD depth does not match materialized P4 path depth,,,22
+185,2026-11-21T19:29:26.805761+00:00,data,4,3,7.0,3.5,409,rejected,,,,,no_safe_action,forwarding requires distinct ingress and placement nodes,,,22
+186,2026-11-21T19:29:27.313348+00:00,video,2,4,4.0,2.0,409,rejected,,,,,msd_violation,requested MSD depth does not match materialized P4 path depth,,,22
+187,2026-11-21T19:29:27.769667+00:00,router,2,5,4.0,2.0,409,rejected,,,,,msd_violation,requested MSD depth does not match materialized P4 path depth,,,22
+188,2026-11-21T19:29:28.219326+00:00,voc,2,2,18.0,9.0,409,rejected,,,,,msd_violation,requested MSD depth does not match materialized P4 path depth,,,22
+189,2026-11-21T19:29:28.693718+00:00,voc,4,5,10.0,5.0,409,rejected,,,,,msd_violation,requested MSD depth does not match materialized P4 path depth,,,22
+190,2026-11-21T19:29:29.164506+00:00,idps,6,3,20.0,10.0,409,rejected,,,,,no_safe_action,forwarding requires distinct ingress and placement nodes,,,22
+191,2026-11-21T19:29:29.915149+00:00,nat,3,2,18.0,9.0,409,rejected,,,,,msd_violation,requested MSD depth does not match materialized P4 path depth,,,22
+192,2026-11-21T19:29:30.386381+00:00,lb,4,5,18.0,9.0,409,rejected,,,,,msd_violation,requested MSD depth does not match materialized P4 path depth,,,22
+193,2026-11-21T19:29:30.903040+00:00,firewall,7,4,20.0,10.0,409,rejected,,,,,msd_violation,requested MSD depth does not match materialized P4 path depth,,,22
+194,2026-11-21T19:29:31.424941+00:00,data,5,4,21.0,10.5,409,rejected,,,,,msd_violation,requested MSD depth does not match materialized P4 path depth,,,22
+195,2026-11-21T19:29:31.985296+00:00,video,3,3,4.0,2.0,409,rejected,,,,,msd_violation,requested MSD depth does not match materialized P4 path depth,,,22
+196,2026-11-21T19:29:32.435671+00:00,router,2,4,19.0,9.5,200,steered,vnf-router-1b660d17,6,3-1-6-7,vnf-router-a699951e,,,20,20,23
+197,2026-11-21T19:30:38.903665+00:00,voc,9,3,7.0,3.5,409,rejected,,,,,msd_violation,requested MSD depth does not match materialized P4 path depth,,,23
+198,2026-11-21T19:30:39.406324+00:00,voc,8,4,19.0,9.5,409,rejected,,,,,msd_violation,requested MSD depth does not match materialized P4 path depth,,,23
+199,2026-11-21T19:30:39.850548+00:00,idps,7,4,20.0,10.0,409,rejected,,,,,msd_violation,requested MSD depth does not match materialized P4 path depth,,,23
+200,2026-11-21T19:30:40.282926+00:00,nat,9,2,7.0,3.5,409,rejected,,,,,msd_violation,requested MSD depth does not match materialized P4 path depth,,,23
+201,2026-11-21T19:30:40.761931+00:00,lb,9,5,10.0,5.0,200,steered,vnf-lb-21fe39d4,2,10-9-6-1-3,,,,20,20,24
+202,2026-11-21T19:31:36.847577+00:00,firewall,0,5,21.0,10.5,409,rejected,,,,,msd_violation,requested MSD depth does not match materialized P4 path depth,,,24
+203,2026-11-21T19:31:37.274528+00:00,data,9,2,12.0,6.0,409,rejected,,,,,msd_violation,requested MSD depth does not match materialized P4 path depth,,,24
+204,2026-11-21T19:31:37.702541+00:00,video,6,4,12.0,6.0,409,rejected,,,,,no_safe_action,forwarding requires distinct ingress and placement nodes,,,24
+205,2026-11-21T19:31:38.150630+00:00,router,5,4,12.0,6.0,409,rejected,,,,,msd_violation,requested MSD depth does not match materialized P4 path depth,,,24
+206,2026-11-21T19:31:38.603823+00:00,voc,8,5,6.0,3.0,409,rejected,,,,,msd_violation,requested MSD depth does not match materialized P4 path depth,,,24
+207,2026-11-21T19:31:39.045346+00:00,voc,8,3,20.0,10.0,200,steered,vnf-voc-585f8dcc,6,9-6-7,vnf-voc-1a081337,,,20,20,25
+208,2026-11-21T19:33:06.608724+00:00,idps,1,2,20.0,10.0,409,rejected,,,,,msd_violation,requested MSD depth does not match materialized P4 path depth,,,25
+209,2026-11-21T19:33:07.050284+00:00,nat,9,5,6.0,3.0,409,rejected,,,,,msd_violation,requested MSD depth does not match materialized P4 path depth,,,25
+210,2026-11-21T19:33:07.467503+00:00,lb,8,5,19.0,9.5,409,rejected,,,,,msd_violation,requested MSD depth does not match materialized P4 path depth,,,25
+211,2026-11-21T19:33:07.914858+00:00,firewall,1,2,10.0,5.0,409,rejected,,,,,msd_violation,requested MSD depth does not match materialized P4 path depth,,,25
+212,2026-11-21T19:33:08.346578+00:00,data,7,2,7.0,3.5,409,rejected,,,,,msd_violation,requested MSD depth does not match materialized P4 path depth,,,25
+213,2026-11-21T19:33:08.786599+00:00,video,6,2,12.0,6.0,409,rejected,,,,,no_safe_action,forwarding requires distinct ingress and placement nodes,,,25
+214,2026-11-21T19:33:09.216167+00:00,router,1,2,11.0,5.5,409,rejected,,,,,msd_violation,requested MSD depth does not match materialized P4 path depth,,,25
+215,2026-11-21T19:33:09.678368+00:00,voc,7,3,12.0,6.0,409,rejected,,,,,msd_violation,requested MSD depth does not match materialized P4 path depth,,,25
+216,2026-11-21T19:33:10.126269+00:00,voc,8,3,4.0,2.0,200,steered,vnf-voc-8ce233cf,4,9-6-5,vnf-voc-1562317b,,,20,20,25
+217,2026-11-21T19:34:37.887386+00:00,idps,1,3,12.0,6.0,409,rejected,,,,,msd_violation,requested MSD depth does not match materialized P4 path depth,,,25
+218,2026-11-21T19:34:38.338517+00:00,nat,7,3,10.0,5.0,409,rejected,,,,,msd_violation,requested MSD depth does not match materialized P4 path depth,,,25
+219,2026-11-21T19:34:38.905142+00:00,lb,1,3,5.0,2.5,409,rejected,,,,,msd_violation,requested MSD depth does not match materialized P4 path depth,,,25
+220,2026-11-21T19:34:39.417311+00:00,firewall,7,2,21.0,10.5,200,steered,vnf-firewall-d7a68076,6,8-7,,,,20,20,26
+221,2026-11-21T19:36:22.853180+00:00,data,5,5,5.0,2.5,409,rejected,,,,,msd_violation,requested MSD depth does not match materialized P4 path depth,,,26
+222,2026-11-21T19:36:23.298220+00:00,video,6,3,5.0,2.5,200,steered,vnf-video-ab3f9ba7,4,7-6-5,vnf-video-c7e3f77e,,,20,20,26
+223,2026-11-21T19:37:17.428919+00:00,router,6,3,12.0,6.0,200,steered,vnf-router-6eb0ab50,4,7-6-5,vnf-router-f6e663dc,,,20,20,26
+224,2026-11-21T19:38:11.704111+00:00,voc,2,2,10.0,5.0,409,rejected,,,,,msd_violation,requested MSD depth does not match materialized P4 path depth,,,26
+225,2026-11-21T19:38:12.143654+00:00,voc,1,5,11.0,5.5,409,rejected,,,,,msd_violation,requested MSD depth does not match materialized P4 path depth,,,26
+226,2026-11-21T19:38:12.865288+00:00,idps,1,5,10.0,5.0,409,rejected,,,,,msd_violation,requested MSD depth does not match materialized P4 path depth,,,26
+227,2026-11-21T19:38:13.298906+00:00,nat,9,5,11.0,5.5,409,rejected,,,,,msd_violation,requested MSD depth does not match materialized P4 path depth,,,26
+228,2026-11-21T19:38:13.750127+00:00,lb,8,3,10.0,5.0,200,steered,vnf-lb-446a15ca,4,9-6-5,vnf-lb-4904891d,,,20,20,26
+229,2026-11-21T19:39:09.210483+00:00,firewall,8,4,10.0,5.0,409,rejected,,,,,msd_violation,requested MSD depth does not match materialized P4 path depth,,,26
+230,2026-11-21T19:39:09.669850+00:00,data,3,4,11.0,5.5,409,rejected,,,,,msd_violation,requested MSD depth does not match materialized P4 path depth,,,26
+231,2026-11-21T19:39:10.114567+00:00,video,8,4,19.0,9.5,409,rejected,,,,,msd_violation,requested MSD depth does not match materialized P4 path depth,,,26
+232,2026-11-21T19:39:10.574775+00:00,router,9,2,11.0,5.5,409,rejected,,,,,msd_violation,requested MSD depth does not match materialized P4 path depth,,,26
+233,2026-11-21T19:39:11.042341+00:00,voc,5,4,4.0,2.0,409,rejected,,,,,msd_violation,requested MSD depth does not match materialized P4 path depth,,,26
+234,2026-11-21T19:39:11.476260+00:00,voc,9,5,11.0,5.5,409,rejected,,,,,msd_violation,requested MSD depth does not match materialized P4 path depth,,,26
+235,2026-11-21T19:39:11.934810+00:00,idps,6,4,18.0,9.0,409,rejected,,,,,msd_violation,requested MSD depth does not match materialized P4 path depth,,,26
+236,2026-11-21T19:39:12.393675+00:00,nat,5,5,12.0,6.0,409,rejected,,,,,msd_violation,requested MSD depth does not match materialized P4 path depth,,,26
+237,2026-11-21T19:39:12.930876+00:00,lb,4,4,11.0,5.5,409,rejected,,,,,no_safe_action,forwarding requires distinct ingress and placement nodes,,,26
+238,2026-11-21T19:39:13.499986+00:00,firewall,7,5,5.0,2.5,409,rejected,,,,,msd_violation,requested MSD depth does not match materialized P4 path depth,,,26
+239,2026-11-21T19:39:13.975966+00:00,data,1,2,5.0,2.5,409,rejected,,,,,msd_violation,requested MSD depth does not match materialized P4 path depth,,,26
+240,2026-11-21T19:39:14.426063+00:00,video,4,5,20.0,10.0,409,rejected,,,,,no_safe_action,forwarding requires distinct ingress and placement nodes,,,26
+241,2026-11-21T19:39:14.875488+00:00,router,0,3,4.0,2.0,200,steered,vnf-router-8207add8,4,1-6-5,vnf-router-6eb0ab50,,,20,20,26
+242,2026-11-21T19:40:19.771385+00:00,voc,5,2,6.0,3.0,200,steered,vnf-voc-bd684f0b,4,6-5,vnf-voc-8ce233cf,,,20,20,26
+243,2026-11-21T19:41:48.781410+00:00,voc,4,2,18.0,9.0,409,rejected,,,,,no_safe_action,forwarding requires distinct ingress and placement nodes,,,26
+244,2026-11-21T19:41:49.219345+00:00,idps,1,3,5.0,2.5,409,rejected,,,,,msd_violation,requested MSD depth does not match materialized P4 path depth,,,26
+245,2026-11-21T19:41:49.665899+00:00,nat,0,5,4.0,2.0,409,rejected,,,,,msd_violation,requested MSD depth does not match materialized P4 path depth,,,26
+246,2026-11-21T19:41:50.104513+00:00,lb,6,4,18.0,9.0,409,rejected,,,,,msd_violation,requested MSD depth does not match materialized P4 path depth,,,26
+247,2026-11-21T19:41:50.531612+00:00,firewall,6,2,19.0,9.5,409,rejected,,,,,msd_violation,requested MSD depth does not match materialized P4 path depth,,,26
+248,2026-11-21T19:41:50.971037+00:00,data,9,3,7.0,3.5,409,rejected,,,,,msd_violation,requested MSD depth does not match materialized P4 path depth,,,26
+249,2026-11-21T19:41:51.407642+00:00,video,9,5,4.0,2.0,409,rejected,,,,,msd_violation,requested MSD depth does not match materialized P4 path depth,,,26
+250,2026-11-21T19:41:51.825141+00:00,router,0,3,21.0,10.5,200,steered,vnf-router-0dc36c3c,4,1-6-5,vnf-router-8207add8,,,20,20,26
+251,2026-11-21T19:42:45.918156+00:00,voc,3,5,4.0,2.0,409,rejected,,,,,msd_violation,requested MSD depth does not match materialized P4 path depth,,,26
+252,2026-11-21T19:42:46.375699+00:00,voc,5,3,19.0,9.5,409,rejected,,,,,no_safe_action,resilience_no_safe_pair_available,,,26
+253,2026-11-21T19:42:46.745571+00:00,idps,3,2,10.0,5.0,200,steered,vnf-idps-d465d7fe,4,4-5,vnf-idps-e045d23e,,,20,20,26
+254,2026-11-21T19:44:08.398230+00:00,nat,6,4,18.0,9.0,409,rejected,,,,,msd_violation,requested MSD depth does not match materialized P4 path depth,,,26
+255,2026-11-21T19:44:08.855627+00:00,lb,4,2,5.0,2.5,409,rejected,,,,,no_safe_action,forwarding requires distinct ingress and placement nodes,,,26
+256,2026-11-21T19:44:09.286627+00:00,firewall,4,4,6.0,3.0,409,rejected,,,,,no_safe_action,forwarding requires distinct ingress and placement nodes,,,26
+257,2026-11-21T19:44:09.726397+00:00,data,8,2,12.0,6.0,409,rejected,,,,,no_safe_action,forwarding requires distinct ingress and placement nodes,,,26
+258,2026-11-21T19:44:10.122987+00:00,video,2,4,7.0,3.5,409,rejected,,,,,msd_violation,requested MSD depth does not match materialized P4 path depth,,,26
+259,2026-11-21T19:44:10.577136+00:00,router,1,4,6.0,3.0,200,steered,vnf-router-966b1893,4,2-1-6-5,vnf-router-0dc36c3c,,,20,20,26
+260,2026-11-21T19:45:13.731596+00:00,voc,5,5,12.0,6.0,409,rejected,,,,,msd_violation,requested MSD depth does not match materialized P4 path depth,,,26
+261,2026-11-21T19:45:14.222895+00:00,voc,7,4,6.0,3.0,200,steered,vnf-voc-a0bd85d9,4,8-7-6-5,vnf-voc-bd684f0b,,,20,20,26
+262,2026-11-21T19:46:50.000722+00:00,idps,8,2,7.0,3.5,409,rejected,,,,,msd_violation,requested MSD depth does not match materialized P4 path depth,,,26
+263,2026-11-21T19:46:50.447620+00:00,nat,0,5,7.0,3.5,409,rejected,,,,,msd_violation,requested MSD depth does not match materialized P4 path depth,,,26
+264,2026-11-21T19:46:50.920634+00:00,lb,6,5,7.0,3.5,409,rejected,,,,,msd_violation,requested MSD depth does not match materialized P4 path depth,,,26
+265,2026-11-21T19:46:51.369484+00:00,firewall,4,2,7.0,3.5,409,rejected,,,,,no_safe_action,forwarding requires distinct ingress and placement nodes,,,26
+266,2026-11-21T19:46:51.769770+00:00,data,4,4,5.0,2.5,409,rejected,,,,,no_safe_action,forwarding requires distinct ingress and placement nodes,,,26
+267,2026-11-21T19:46:52.200332+00:00,video,4,2,6.0,3.0,409,rejected,,,,,no_safe_action,forwarding requires distinct ingress and placement nodes,,,26
+268,2026-11-21T19:46:52.632840+00:00,router,8,3,4.0,2.0,200,steered,vnf-router-c6651e9c,4,9-6-5,vnf-router-966b1893,,,20,20,26
+269,2026-11-21T19:47:49.126654+00:00,voc,0,3,5.0,2.5,200,steered,vnf-voc-260e0070,4,1-6-5,vnf-voc-a0bd85d9,,,20,20,26
+270,2026-11-21T19:49:16.317739+00:00,voc,8,5,5.0,2.5,409,rejected,,,,,msd_violation,requested MSD depth does not match materialized P4 path depth,,,26
+271,2026-11-21T19:49:16.749037+00:00,idps,0,3,12.0,6.0,200,steered,vnf-idps-8dcb9486,4,1-6-5,vnf-idps-d465d7fe,,,20,20,26
+272,2026-11-21T19:50:57.697676+00:00,nat,0,5,21.0,10.5,409,rejected,,,,,msd_violation,requested MSD depth does not match materialized P4 path depth,,,26
+273,2026-11-21T19:50:58.149408+00:00,lb,8,4,10.0,5.0,409,rejected,,,,,msd_violation,requested MSD depth does not match materialized P4 path depth,,,26
+274,2026-11-21T19:50:58.582953+00:00,firewall,0,2,11.0,5.5,409,rejected,,,,,msd_violation,requested MSD depth does not match materialized P4 path depth,,,26
+275,2026-11-21T19:50:59.054259+00:00,data,7,2,18.0,9.0,409,rejected,,,,,msd_violation,requested MSD depth does not match materialized P4 path depth,,,26
+276,2026-11-21T19:50:59.491508+00:00,video,5,2,21.0,10.5,200,steered,vnf-video-4183a906,4,6-5,vnf-video-ab3f9ba7,,,20,20,26
+277,2026-11-21T19:51:57.749644+00:00,router,6,3,10.0,5.0,200,steered,vnf-router-4001130c,8,7-6-9,,,,20,20,27
+278,2026-11-21T19:52:49.407541+00:00,voc,7,3,7.0,3.5,409,rejected,,,,,msd_violation,requested MSD depth does not match materialized P4 path depth,,,27
+279,2026-11-21T19:52:49.866934+00:00,voc,5,5,4.0,2.0,409,rejected,,,,,msd_violation,requested MSD depth does not match materialized P4 path depth,,,27
+280,2026-11-21T19:52:50.317335+00:00,idps,9,3,19.0,9.5,409,rejected,,,,,no_safe_action,resilience_no_safe_pair_available,,,27
+281,2026-11-21T19:52:50.688591+00:00,nat,4,5,7.0,3.5,409,rejected,,,,,no_safe_action,forwarding requires distinct ingress and placement nodes,,,27
+282,2026-11-21T19:52:51.126084+00:00,lb,1,3,21.0,10.5,409,rejected,,,,,no_safe_action,resilience_no_safe_pair_available,,,27
+283,2026-11-21T19:52:51.514125+00:00,firewall,9,3,20.0,10.0,409,rejected,,,,,no_safe_action,resilience_no_safe_pair_available,,,27
+284,2026-11-21T19:52:51.881939+00:00,data,3,4,20.0,10.0,409,rejected,,,,,no_safe_action,resilience_no_safe_pair_available,,,27
+285,2026-11-21T19:52:52.252575+00:00,video,2,4,4.0,2.0,409,rejected,,,,,msd_violation,requested MSD depth does not match materialized P4 path depth,,,27
+286,2026-11-21T19:52:52.656480+00:00,router,3,3,19.0,9.5,409,rejected,,,,,no_safe_action,resilience_no_safe_pair_available,,,27
+287,2026-11-21T19:52:53.017632+00:00,voc,0,5,21.0,10.5,409,rejected,,,,,no_safe_action,resilience_no_safe_pair_available,,,27
+288,2026-11-21T19:52:53.381363+00:00,voc,0,2,12.0,6.0,409,rejected,,,,,no_safe_action,resilience_no_safe_pair_available,,,27
+289,2026-11-21T19:52:53.763279+00:00,idps,6,2,20.0,10.0,409,rejected,,,,,no_safe_action,resilience_no_safe_pair_available,,,27
+290,2026-11-21T19:52:54.137034+00:00,nat,1,5,20.0,10.0,409,rejected,,,,,no_safe_action,resilience_no_safe_pair_available,,,27
+291,2026-11-21T19:52:54.508279+00:00,lb,8,2,10.0,5.0,409,rejected,,,,,no_safe_action,resilience_no_safe_pair_available,,,27
+292,2026-11-21T19:52:54.882887+00:00,firewall,3,4,7.0,3.5,409,rejected,,,,,msd_violation,requested MSD depth does not match materialized P4 path depth,,,27
+293,2026-11-21T19:52:55.322802+00:00,data,2,4,10.0,5.0,409,rejected,,,,,no_safe_action,resilience_no_safe_pair_available,,,27
+294,2026-11-21T19:52:56.040859+00:00,video,7,4,11.0,5.5,409,rejected,,,,,no_safe_action,resilience_no_safe_pair_available,,,27
+295,2026-11-21T19:52:56.424697+00:00,router,4,4,4.0,2.0,409,rejected,,,,,no_safe_action,forwarding requires distinct ingress and placement nodes,,,27
+296,2026-11-21T19:52:56.868141+00:00,voc,1,5,4.0,2.0,409,rejected,,,,,msd_violation,requested MSD depth does not match materialized P4 path depth,,,27
+297,2026-11-21T19:52:57.317219+00:00,voc,8,2,11.0,5.5,409,rejected,,,,,no_safe_action,resilience_no_safe_pair_available,,,27
+298,2026-11-21T19:52:57.696503+00:00,idps,0,2,4.0,2.0,409,rejected,,,,,msd_violation,requested MSD depth does not match materialized P4 path depth,,,27
+299,2026-11-21T19:52:58.156120+00:00,nat,7,2,6.0,3.0,409,rejected,,,,,msd_violation,requested MSD depth does not match materialized P4 path depth,,,27
+300,2026-11-21T19:52:58.660747+00:00,lb,0,5,4.0,2.0,409,rejected,,,,,msd_violation,requested MSD depth does not match materialized P4 path depth,,,27
+301,2026-11-21T19:52:59.085534+00:00,firewall,3,3,7.0,3.5,409,rejected,,,,,msd_violation,requested MSD depth does not match materialized P4 path depth,,,27
+302,2026-11-21T19:52:59.523984+00:00,data,3,2,11.0,5.5,409,rejected,,,,,no_safe_action,resilience_no_safe_pair_available,,,27
+303,2026-11-21T19:52:59.904562+00:00,video,7,5,12.0,6.0,409,rejected,,,,,no_safe_action,resilience_no_safe_pair_available,,,27
+304,2026-11-21T19:53:00.271382+00:00,router,1,5,5.0,2.5,409,rejected,,,,,msd_violation,requested MSD depth does not match materialized P4 path depth,,,27
+305,2026-11-21T19:53:00.721395+00:00,voc,5,3,11.0,5.5,409,rejected,,,,,no_safe_action,resilience_no_safe_pair_available,,,27
+306,2026-11-21T19:53:01.103582+00:00,voc,0,3,4.0,2.0,200,steered,vnf-voc-ab502efb,4,1-6-5,vnf-voc-260e0070,,,20,20,27
+307,2026-11-21T19:54:26.965688+00:00,idps,4,2,6.0,3.0,409,rejected,,,,,no_safe_action,forwarding requires distinct ingress and placement nodes,,,27
+308,2026-11-21T19:54:27.383325+00:00,nat,4,2,6.0,3.0,409,rejected,,,,,no_safe_action,forwarding requires distinct ingress and placement nodes,,,27
+309,2026-11-21T19:54:27.822267+00:00,lb,1,5,19.0,9.5,409,rejected,,,,,no_safe_action,resilience_no_safe_pair_available,,,27
+310,2026-11-21T19:54:28.190307+00:00,firewall,5,4,18.0,9.0,409,rejected,,,,,no_safe_action,resilience_no_safe_pair_available,,,27
+311,2026-11-21T19:54:28.571386+00:00,data,2,2,6.0,3.0,409,rejected,,,,,msd_violation,requested MSD depth does not match materialized P4 path depth,,,27
+312,2026-11-21T19:54:29.018874+00:00,video,2,2,18.0,9.0,409,rejected,,,,,no_safe_action,resilience_no_safe_pair_available,,,27
+313,2026-11-21T19:54:29.394538+00:00,router,5,2,21.0,10.5,409,rejected,,,,,no_safe_action,resilience_no_safe_pair_available,,,27
+314,2026-11-21T19:54:29.759387+00:00,voc,9,3,6.0,3.0,409,rejected,,,,,msd_violation,requested MSD depth does not match materialized P4 path depth,,,27
+315,2026-11-21T19:54:30.227882+00:00,voc,7,3,4.0,2.0,409,rejected,,,,,msd_violation,requested MSD depth does not match materialized P4 path depth,,,27
+316,2026-11-21T19:54:30.729484+00:00,idps,8,2,7.0,3.5,409,rejected,,,,,msd_violation,requested MSD depth does not match materialized P4 path depth,,,27
+317,2026-11-21T19:54:31.184307+00:00,nat,2,2,5.0,2.5,409,rejected,,,,,msd_violation,requested MSD depth does not match materialized P4 path depth,,,27
+318,2026-11-21T19:54:31.636621+00:00,lb,0,5,5.0,2.5,409,rejected,,,,,msd_violation,requested MSD depth does not match materialized P4 path depth,,,27
+319,2026-11-21T19:54:32.078042+00:00,firewall,4,4,20.0,10.0,409,rejected,,,,,no_safe_action,resilience_no_safe_pair_available,,,27
+320,2026-11-21T19:54:32.449250+00:00,data,6,5,10.0,5.0,409,rejected,,,,,no_safe_action,resilience_no_safe_pair_available,,,27
+321,2026-11-21T19:54:32.812596+00:00,video,7,5,10.0,5.0,409,rejected,,,,,no_safe_action,resilience_no_safe_pair_available,,,27
+322,2026-11-21T19:54:33.177281+00:00,router,3,5,7.0,3.5,409,rejected,,,,,msd_violation,requested MSD depth does not match materialized P4 path depth,,,27
+323,2026-11-21T19:54:33.645660+00:00,voc,1,4,4.0,2.0,200,steered,vnf-voc-1a77998f,4,2-1-6-5,vnf-voc-ab502efb,,,20,20,27
+324,2026-11-21T19:56:10.318379+00:00,voc,3,4,7.0,3.5,409,rejected,,,,,msd_violation,requested MSD depth does not match materialized P4 path depth,,,27
+325,2026-11-21T19:56:11.043780+00:00,idps,9,3,19.0,9.5,409,rejected,,,,,no_safe_action,resilience_no_safe_pair_available,,,27
+326,2026-11-21T19:56:11.412365+00:00,nat,4,3,6.0,3.0,409,rejected,,,,,no_safe_action,forwarding requires distinct ingress and placement nodes,,,27
+327,2026-11-21T19:56:11.860240+00:00,lb,2,4,6.0,3.0,409,rejected,,,,,msd_violation,requested MSD depth does not match materialized P4 path depth,,,27
+328,2026-11-21T19:56:12.342810+00:00,firewall,0,5,6.0,3.0,409,rejected,,,,,msd_violation,requested MSD depth does not match materialized P4 path depth,,,27
+329,2026-11-21T19:56:12.782781+00:00,data,0,5,10.0,5.0,409,rejected,,,,,no_safe_action,resilience_no_safe_pair_available,,,27
+330,2026-11-21T19:56:13.162086+00:00,video,1,4,18.0,9.0,409,rejected,,,,,no_safe_action,resilience_no_safe_pair_available,,,27
+331,2026-11-21T19:56:13.608278+00:00,router,1,2,5.0,2.5,409,rejected,,,,,msd_violation,requested MSD depth does not match materialized P4 path depth,,,27
+332,2026-11-21T19:56:14.058365+00:00,voc,2,4,6.0,3.0,409,rejected,,,,,msd_violation,requested MSD depth does not match materialized P4 path depth,,,27
+333,2026-11-21T19:56:14.490085+00:00,voc,3,5,12.0,6.0,409,rejected,,,,,no_safe_action,resilience_no_safe_pair_available,,,27
+334,2026-11-21T19:56:14.851587+00:00,idps,0,5,7.0,3.5,409,rejected,,,,,msd_violation,requested MSD depth does not match materialized P4 path depth,,,27
+335,2026-11-21T19:56:15.282795+00:00,nat,1,5,6.0,3.0,409,rejected,,,,,msd_violation,requested MSD depth does not match materialized P4 path depth,,,27
+336,2026-11-21T19:56:15.766518+00:00,lb,6,4,4.0,2.0,409,rejected,,,,,msd_violation,requested MSD depth does not match materialized P4 path depth,,,27
+337,2026-11-21T19:56:16.480257+00:00,firewall,2,2,18.0,9.0,409,rejected,,,,,no_safe_action,resilience_no_safe_pair_available,,,27
+338,2026-11-21T19:56:16.854016+00:00,data,9,5,7.0,3.5,409,rejected,,,,,msd_violation,requested MSD depth does not match materialized P4 path depth,,,27
+339,2026-11-21T19:56:17.312739+00:00,video,2,3,7.0,3.5,200,steered,vnf-video-0bc2b437,4,3-4-5,vnf-video-4183a906,,,20,20,27
+340,2026-11-21T19:57:16.664414+00:00,router,5,4,11.0,5.5,409,rejected,,,,,msd_violation,requested MSD depth does not match materialized P4 path depth,,,27
+341,2026-11-21T19:57:17.150096+00:00,voc,1,4,4.0,2.0,200,steered,vnf-voc-59301d82,4,2-1-6-5,vnf-voc-1a77998f,,,20,20,27
+342,2026-11-21T19:58:45.459527+00:00,voc,7,3,5.0,2.5,409,rejected,,,,,msd_violation,requested MSD depth does not match materialized P4 path depth,,,27
+343,2026-11-21T19:58:45.911289+00:00,idps,2,2,18.0,9.0,409,rejected,,,,,msd_violation,requested MSD depth does not match materialized P4 path depth,,,27
+344,2026-11-21T19:58:46.354282+00:00,nat,1,4,6.0,3.0,200,steered,vnf-nat-5a04d85d,4,2-1-6-5,vnf-nat-cf323c61,,,20,20,27
+345,2026-11-21T20:00:12.692492+00:00,lb,0,4,12.0,6.0,409,rejected,,,,,msd_violation,requested MSD depth does not match materialized P4 path depth,,,27
+346,2026-11-21T20:00:13.126357+00:00,firewall,5,2,18.0,9.0,200,steered,vnf-firewall-b2d50eba,4,6-5,vnf-firewall-977cd493,,,20,20,28
+347,2026-11-21T20:01:35.156244+00:00,data,1,5,6.0,3.0,409,rejected,,,,,msd_violation,requested MSD depth does not match materialized P4 path depth,,,28
+348,2026-11-21T20:01:35.622507+00:00,video,2,3,6.0,3.0,200,steered,vnf-video-e27db4fe,4,3-4-5,vnf-video-0bc2b437,,,20,20,28
+349,2026-11-21T20:02:33.068517+00:00,router,5,2,4.0,2.0,200,steered,vnf-router-6b97ef62,4,6-5,vnf-router-c6651e9c,,,20,20,28
+350,2026-11-21T20:03:30.349204+00:00,voc,1,2,5.0,2.5,409,rejected,,,,,msd_violation,requested MSD depth does not match materialized P4 path depth,,,28
+351,2026-11-21T20:03:30.787350+00:00,voc,8,2,7.0,3.5,409,rejected,,,,,msd_violation,requested MSD depth does not match materialized P4 path depth,,,28
+352,2026-11-21T20:03:31.311542+00:00,idps,8,2,10.0,5.0,409,rejected,,,,,msd_violation,requested MSD depth does not match materialized P4 path depth,,,28
+353,2026-11-21T20:03:31.749618+00:00,nat,3,2,7.0,3.5,200,steered,vnf-nat-b539ac02,4,4-5,vnf-nat-5a04d85d,,,20,20,28
+354,2026-11-21T20:04:55.429634+00:00,lb,2,3,6.0,3.0,200,steered,vnf-lb-bc99209f,4,3-4-5,vnf-lb-446a15ca,,,20,20,28
+355,2026-11-21T20:05:49.755837+00:00,firewall,7,3,7.0,3.5,409,rejected,,,,,msd_violation,requested MSD depth does not match materialized P4 path depth,,,28
+356,2026-11-21T20:05:50.234572+00:00,data,0,5,21.0,10.5,409,rejected,,,,,msd_violation,requested MSD depth does not match materialized P4 path depth,,,28
+357,2026-11-21T20:05:50.694647+00:00,video,2,4,5.0,2.5,409,rejected,,,,,msd_violation,requested MSD depth does not match materialized P4 path depth,,,28
+358,2026-11-21T20:05:51.153549+00:00,router,2,4,20.0,10.0,409,rejected,,,,,msd_violation,requested MSD depth does not match materialized P4 path depth,,,28
+359,2026-11-21T20:05:51.612446+00:00,voc,4,5,7.0,3.5,409,rejected,,,,,no_safe_action,forwarding requires distinct ingress and placement nodes,,,28
+360,2026-11-21T20:05:52.060076+00:00,voc,4,4,7.0,3.5,409,rejected,,,,,no_safe_action,forwarding requires distinct ingress and placement nodes,,,28
+361,2026-11-21T20:05:52.508666+00:00,idps,4,2,21.0,10.5,409,rejected,,,,,no_safe_action,forwarding requires distinct ingress and placement nodes,,,28
+362,2026-11-21T20:05:53.032644+00:00,nat,6,3,4.0,2.0,200,steered,vnf-nat-166ced19,4,7-6-5,vnf-nat-b539ac02,,,20,20,28
+363,2026-11-21T20:07:19.556822+00:00,lb,4,2,11.0,5.5,409,rejected,,,,,no_safe_action,forwarding requires distinct ingress and placement nodes,,,28
+364,2026-11-21T20:07:20.012333+00:00,firewall,0,5,20.0,10.0,409,rejected,,,,,msd_violation,requested MSD depth does not match materialized P4 path depth,,,28
+365,2026-11-21T20:07:20.518173+00:00,data,6,4,18.0,9.0,409,rejected,,,,,msd_violation,requested MSD depth does not match materialized P4 path depth,,,28
+366,2026-11-21T20:07:20.961103+00:00,video,8,3,6.0,3.0,200,steered,vnf-video-54d8610d,4,9-6-5,vnf-video-e27db4fe,,,20,20,28
+367,2026-11-21T20:08:21.013660+00:00,router,7,5,7.0,3.5,409,rejected,,,,,msd_violation,requested MSD depth does not match materialized P4 path depth,,,28
+368,2026-11-21T20:08:21.571528+00:00,voc,4,4,5.0,2.5,409,rejected,,,,,no_safe_action,forwarding requires distinct ingress and placement nodes,,,28
+369,2026-11-21T20:08:22.011487+00:00,voc,3,2,20.0,10.0,200,steered,vnf-voc-59e617b3,4,4-5,vnf-voc-59301d82,,,20,20,28
+370,2026-11-21T20:09:53.083849+00:00,idps,6,4,6.0,3.0,409,rejected,,,,,msd_violation,requested MSD depth does not match materialized P4 path depth,,,28
+371,2026-11-21T20:09:53.538702+00:00,nat,6,5,6.0,3.0,409,rejected,,,,,msd_violation,requested MSD depth does not match materialized P4 path depth,,,28
+372,2026-11-21T20:09:53.934453+00:00,lb,8,5,20.0,10.0,409,rejected,,,,,no_safe_action,resilience_no_safe_pair_available,,,28
+373,2026-11-21T20:09:54.296818+00:00,firewall,6,2,20.0,10.0,409,rejected,,,,,no_safe_action,resilience_no_safe_pair_available,,,28
+374,2026-11-21T20:09:54.674793+00:00,data,0,3,5.0,2.5,200,steered,vnf-data-485bbe4d,4,1-6-5,,,,20,20,29
+375,2026-11-21T20:10:52.484048+00:00,video,0,3,19.0,9.5,409,rejected,,,,,no_safe_action,resilience_no_safe_pair_available,,,29
+376,2026-11-21T20:10:52.855323+00:00,router,3,4,21.0,10.5,409,rejected,,,,,no_safe_action,resilience_no_safe_pair_available,,,29
+377,2026-11-21T20:10:53.226180+00:00,voc,0,2,18.0,9.0,409,rejected,,,,,no_safe_action,resilience_no_safe_pair_available,,,29
+378,2026-11-21T20:10:53.591982+00:00,voc,0,2,21.0,10.5,409,rejected,,,,,no_safe_action,resilience_no_safe_pair_available,,,29
+379,2026-11-21T20:10:53.951177+00:00,idps,7,2,6.0,3.0,409,rejected,,,,,msd_violation,requested MSD depth does not match materialized P4 path depth,,,29
+380,2026-11-21T20:10:54.398080+00:00,nat,9,3,5.0,2.5,409,rejected,,,,,msd_violation,requested MSD depth does not match materialized P4 path depth,,,29
+381,2026-11-21T20:10:54.823103+00:00,lb,7,3,11.0,5.5,409,rejected,,,,,no_safe_action,resilience_no_safe_pair_available,,,29
+382,2026-11-21T20:10:55.200484+00:00,firewall,2,5,6.0,3.0,409,rejected,,,,,msd_violation,requested MSD depth does not match materialized P4 path depth,,,29
+383,2026-11-21T20:10:55.682413+00:00,data,7,2,10.0,5.0,409,rejected,,,,,no_safe_action,resilience_no_safe_pair_available,,,29
+384,2026-11-21T20:10:56.053690+00:00,video,4,5,11.0,5.5,409,rejected,,,,,no_safe_action,resilience_no_safe_pair_available,,,29
+385,2026-11-21T20:10:56.444318+00:00,router,6,2,6.0,3.0,409,rejected,,,,,msd_violation,requested MSD depth does not match materialized P4 path depth,,,29
+386,2026-11-21T20:10:56.952613+00:00,voc,1,3,21.0,10.5,409,rejected,,,,,no_safe_action,resilience_no_safe_pair_available,,,29
+387,2026-11-21T20:10:57.315932+00:00,voc,4,3,5.0,2.5,409,rejected,,,,,no_safe_action,forwarding requires distinct ingress and placement nodes,,,29
+388,2026-11-21T20:10:57.773696+00:00,idps,2,5,21.0,10.5,409,rejected,,,,,no_safe_action,resilience_no_safe_pair_available,,,29
+389,2026-11-21T20:10:58.151250+00:00,nat,3,2,6.0,3.0,200,steered,vnf-nat-d48c9ffb,4,4-5,vnf-nat-166ced19,,,20,20,29
+390,2026-11-21T20:12:20.965540+00:00,lb,6,3,6.0,3.0,200,steered,vnf-lb-17f5bdb8,4,7-6-5,vnf-lb-bc99209f,,,20,20,29
+391,2026-11-21T20:13:21.970072+00:00,firewall,7,3,19.0,9.5,409,rejected,,,,,no_safe_action,resilience_no_safe_pair_available,,,29
+392,2026-11-21T20:13:22.340144+00:00,data,2,2,6.0,3.0,409,rejected,,,,,msd_violation,requested MSD depth does not match materialized P4 path depth,,,29
+393,2026-11-21T20:13:22.780633+00:00,video,1,5,12.0,6.0,409,rejected,,,,,no_safe_action,resilience_no_safe_pair_available,,,29
+394,2026-11-21T20:13:23.155924+00:00,router,2,4,4.0,2.0,409,rejected,,,,,msd_violation,requested MSD depth does not match materialized P4 path depth,,,29
+395,2026-11-21T20:13:23.957943+00:00,voc,4,5,6.0,3.0,409,rejected,,,,,no_safe_action,forwarding requires distinct ingress and placement nodes,,,29
+396,2026-11-21T20:13:24.423142+00:00,voc,7,4,11.0,5.5,409,rejected,,,,,no_safe_action,resilience_no_safe_pair_available,,,29
+397,2026-11-21T20:13:24.783146+00:00,idps,7,2,7.0,3.5,200,steered,vnf-idps-d1e32998,6,8-7,,,,20,20,30

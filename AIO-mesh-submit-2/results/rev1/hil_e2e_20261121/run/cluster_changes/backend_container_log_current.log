@@ -1,0 +1,1340 @@
+2026-11-21T17:31:04.260940961Z INFO:     Started server process [1]
+2026-11-21T17:31:04.261022292Z INFO:     Waiting for application startup.
+2026-11-21T17:31:04.261759275Z AI Model Warm-up: Loading JO-VPPM model into RAM...
+2026-11-21T17:31:04.577072657Z INFO:DGRLAgent:Normalized nested SB3 archive results/models/v11/dgrl_v11_final_vietnam.zip -> /tmp/corerouter_sb3_models/dgrl_v11_final_vietnam-1778604188187080000-8244988.zip
+2026-11-21T17:31:07.478041093Z INFO:DGRLAgent:Loaded JO-VPPM model from results/models/v11/dgrl_v11_final_vietnam.zip
+2026-11-21T17:31:07.479095405Z INFO:DGRLAgent:Loaded VecNormalize scaler from results/models/v11/vec_normalize_v11_vietnam.pkl
+2026-11-21T17:31:07.479536319Z INFO:     Application startup complete.
+2026-11-21T17:31:07.480667467Z INFO:     Uvicorn running on http://0.0.0.0:8000 (Press CTRL+C to quit)
+2026-11-21T17:31:08.577759387Z INFO:     127.0.0.1:55216 - "GET /api/health HTTP/1.1" 200 OK
+2026-11-21T17:31:08.665623651Z INFO:     127.0.0.1:55222 - "GET /api/orchestrate/state HTTP/1.1" 200 OK
+2026-11-21T17:31:08.830095476Z INFO:     127.0.0.1:55228 - "POST /api/orchestrate/reconcile/vnf-nat-e82a6f4e HTTP/1.1" 200 OK
+2026-11-21T17:31:08.971880432Z INFO:     127.0.0.1:55234 - "POST /api/orchestrate/reconcile/vnf-nat-cb5e25a2 HTTP/1.1" 200 OK
+2026-11-21T17:31:09.121161321Z INFO:     127.0.0.1:55236 - "POST /api/orchestrate/reconcile/vnf-idps-0e8d6951 HTTP/1.1" 200 OK
+2026-11-21T17:31:09.257392802Z INFO:     127.0.0.1:55252 - "POST /api/orchestrate/reconcile/vnf-nat-e549e29f HTTP/1.1" 200 OK
+2026-11-21T17:31:09.327191629Z INFO:     127.0.0.1:55262 - "GET /api/orchestrate/state HTTP/1.1" 200 OK
+2026-11-21T17:31:23.512204510Z INFO:     127.0.0.1:49156 - "GET /api/orchestrate/state HTTP/1.1" 200 OK
+2026-11-21T17:31:23.673404580Z INFO:     127.0.0.1:49164 - "POST /api/orchestrate HTTP/1.1" 409 Conflict
+2026-11-21T17:31:24.115220891Z INFO:     127.0.0.1:49174 - "POST /api/orchestrate HTTP/1.1" 409 Conflict
+2026-11-21T17:31:24.504146131Z INFO:     127.0.0.1:49180 - "POST /api/orchestrate HTTP/1.1" 409 Conflict
+2026-11-21T17:31:24.944009080Z INFO:     127.0.0.1:49184 - "POST /api/orchestrate HTTP/1.1" 409 Conflict
+2026-11-21T17:31:25.369642696Z INFO:     127.0.0.1:49186 - "POST /api/orchestrate HTTP/1.1" 409 Conflict
+2026-11-21T17:31:25.794278933Z INFO:     127.0.0.1:49190 - "POST /api/orchestrate HTTP/1.1" 409 Conflict
+2026-11-21T17:31:26.211052581Z INFO:     127.0.0.1:49194 - "POST /api/orchestrate HTTP/1.1" 409 Conflict
+2026-11-21T17:31:26.640686404Z INFO:     127.0.0.1:49200 - "POST /api/orchestrate HTTP/1.1" 409 Conflict
+2026-11-21T17:31:27.056336289Z INFO:     127.0.0.1:47446 - "POST /api/orchestrate HTTP/1.1" 409 Conflict
+2026-11-21T17:31:27.431026884Z INFO:     127.0.0.1:47452 - "POST /api/orchestrate HTTP/1.1" 409 Conflict
+2026-11-21T17:31:27.813858086Z INFO:     127.0.0.1:47458 - "POST /api/orchestrate HTTP/1.1" 409 Conflict
+2026-11-21T17:31:28.274749630Z INFO:     127.0.0.1:47460 - "POST /api/orchestrate HTTP/1.1" 200 OK
+2026-11-21T17:31:28.292910732Z INFO:OrchestrationService:PHASE 6: AI node 4 mapped to K8s hostname 'worker1'
+2026-11-21T17:31:28.292961182Z INFO:OrchestrationService:PHASE: MAKE - Triggering Tekton for replacement VNF: vnf-nat-ff43155a at hue-1
+2026-11-21T17:31:28.338010958Z INFO:OrchestrationService:PHASE: VERIFY - Polling dynamic endpoint/readiness for vnf-nat-ff43155a
+2026-11-21T17:31:28.347842912Z INFO:     127.0.0.1:47476 - "GET /api/orchestrate/migrations/vnf-nat-ff43155a HTTP/1.1" 200 OK
+2026-11-21T17:31:29.352391333Z INFO:     127.0.0.1:47490 - "GET /api/orchestrate/migrations/vnf-nat-ff43155a HTTP/1.1" 200 OK
+2026-11-21T17:31:30.356922592Z INFO:     127.0.0.1:47504 - "GET /api/orchestrate/migrations/vnf-nat-ff43155a HTTP/1.1" 200 OK
+2026-11-21T17:31:30.496811626Z INFO:     127.0.0.1:47520 - "GET /api/orchestrate/migrations/vnf-voc-f51532ef HTTP/1.1" 200 OK
+2026-11-21T17:31:31.362397106Z INFO:     127.0.0.1:47522 - "GET /api/orchestrate/migrations/vnf-nat-ff43155a HTTP/1.1" 200 OK
+2026-11-21T17:31:32.367989982Z INFO:     127.0.0.1:47534 - "GET /api/orchestrate/migrations/vnf-nat-ff43155a HTTP/1.1" 200 OK
+2026-11-21T17:31:33.372686237Z INFO:     127.0.0.1:47542 - "GET /api/orchestrate/migrations/vnf-nat-ff43155a HTTP/1.1" 200 OK
+2026-11-21T17:31:34.378085103Z INFO:     127.0.0.1:47554 - "GET /api/orchestrate/migrations/vnf-nat-ff43155a HTTP/1.1" 200 OK
+2026-11-21T17:31:35.389609131Z INFO:     127.0.0.1:47568 - "GET /api/orchestrate/migrations/vnf-nat-ff43155a HTTP/1.1" 200 OK
+2026-11-21T17:31:36.387606791Z INFO:     127.0.0.1:47574 - "GET /api/orchestrate/migrations/vnf-nat-ff43155a HTTP/1.1" 200 OK
+2026-11-21T17:31:37.391522966Z INFO:     127.0.0.1:48934 - "GET /api/orchestrate/migrations/vnf-nat-ff43155a HTTP/1.1" 200 OK
+2026-11-21T17:31:38.395893347Z INFO:     127.0.0.1:48938 - "GET /api/orchestrate/migrations/vnf-nat-ff43155a HTTP/1.1" 200 OK
+2026-11-21T17:31:39.399484020Z INFO:     127.0.0.1:48950 - "GET /api/orchestrate/migrations/vnf-nat-ff43155a HTTP/1.1" 200 OK
+2026-11-21T17:31:40.405349819Z INFO:     127.0.0.1:48956 - "GET /api/orchestrate/migrations/vnf-nat-ff43155a HTTP/1.1" 200 OK
+2026-11-21T17:31:41.410462440Z INFO:     127.0.0.1:48972 - "GET /api/orchestrate/migrations/vnf-nat-ff43155a HTTP/1.1" 200 OK
+2026-11-21T17:31:42.414931635Z INFO:     127.0.0.1:48988 - "GET /api/orchestrate/migrations/vnf-nat-ff43155a HTTP/1.1" 200 OK
+2026-11-21T17:31:43.419071090Z INFO:     127.0.0.1:49000 - "GET /api/orchestrate/migrations/vnf-nat-ff43155a HTTP/1.1" 200 OK
+2026-11-21T17:31:44.424905130Z INFO:     127.0.0.1:49010 - "GET /api/orchestrate/migrations/vnf-nat-ff43155a HTTP/1.1" 200 OK
+2026-11-21T17:31:45.429751230Z INFO:     127.0.0.1:49012 - "GET /api/orchestrate/migrations/vnf-nat-ff43155a HTTP/1.1" 200 OK
+2026-11-21T17:31:46.470464811Z INFO:     127.0.0.1:49020 - "GET /api/orchestrate/migrations/vnf-nat-ff43155a HTTP/1.1" 200 OK
+2026-11-21T17:31:47.475425896Z INFO:     127.0.0.1:32986 - "GET /api/orchestrate/migrations/vnf-nat-ff43155a HTTP/1.1" 200 OK
+2026-11-21T17:31:48.544719482Z INFO:OrchestrationService:VNF vnf-nat-ff43155a is READY. Pod IP: 10.1.235.155 on worker1
+2026-11-21T17:31:48.544792684Z INFO:OrchestrationService:PHASE: TRANSLATE - Ready endpoint 10.1.235.155:0 via terminal SID fc00:5::1
+2026-11-21T17:31:48.544800160Z INFO:OrchestrationService:PHASE: STEER - Sending command to SDN Controller at http://localhost:8765
+2026-11-21T17:31:48.570511875Z INFO:     127.0.0.1:32990 - "GET /api/orchestrate/migrations/vnf-nat-ff43155a HTTP/1.1" 200 OK
+2026-11-21T17:31:49.576111186Z INFO:     127.0.0.1:32998 - "GET /api/orchestrate/migrations/vnf-nat-ff43155a HTTP/1.1" 200 OK
+2026-11-21T17:31:50.572849472Z INFO:OrchestrationService:PHASE 6: Control-plane Steering Overhead = 2027.61 ms (REST→Controller confirmation). Packet loss and data-plane latency are not measured.
+2026-11-21T17:31:50.572874374Z INFO:OrchestrationService:PHASE: BREAK - confirm_steer_done=True. Deleting old VNF: vnf-nat-a0d69c02
+2026-11-21T17:31:50.727492385Z INFO:     127.0.0.1:33002 - "GET /api/orchestrate/migrations/vnf-nat-ff43155a HTTP/1.1" 200 OK
+2026-11-21T17:31:51.737438182Z INFO:     127.0.0.1:33008 - "GET /api/orchestrate/migrations/vnf-nat-ff43155a HTTP/1.1" 200 OK
+2026-11-21T17:31:52.744279521Z INFO:     127.0.0.1:33022 - "GET /api/orchestrate/migrations/vnf-nat-ff43155a HTTP/1.1" 200 OK
+2026-11-21T17:31:53.752618909Z INFO:     127.0.0.1:33030 - "GET /api/orchestrate/migrations/vnf-nat-ff43155a HTTP/1.1" 200 OK
+2026-11-21T17:31:54.762157140Z INFO:     127.0.0.1:33044 - "GET /api/orchestrate/migrations/vnf-nat-ff43155a HTTP/1.1" 200 OK
+2026-11-21T17:31:55.769190380Z INFO:     127.0.0.1:33060 - "GET /api/orchestrate/migrations/vnf-nat-ff43155a HTTP/1.1" 200 OK
+2026-11-21T17:31:56.777628580Z INFO:     127.0.0.1:60576 - "GET /api/orchestrate/migrations/vnf-nat-ff43155a HTTP/1.1" 200 OK
+2026-11-21T17:31:57.787479021Z INFO:     127.0.0.1:60586 - "GET /api/orchestrate/migrations/vnf-nat-ff43155a HTTP/1.1" 200 OK
+2026-11-21T17:31:58.797970051Z INFO:     127.0.0.1:60598 - "GET /api/orchestrate/migrations/vnf-nat-ff43155a HTTP/1.1" 200 OK
+2026-11-21T17:31:59.805261714Z INFO:     127.0.0.1:60610 - "GET /api/orchestrate/migrations/vnf-nat-ff43155a HTTP/1.1" 200 OK
+2026-11-21T17:32:00.811408434Z INFO:     127.0.0.1:60612 - "GET /api/orchestrate/migrations/vnf-nat-ff43155a HTTP/1.1" 200 OK
+2026-11-21T17:32:01.825952901Z INFO:     127.0.0.1:60618 - "GET /api/orchestrate/migrations/vnf-nat-ff43155a HTTP/1.1" 200 OK
+2026-11-21T17:32:02.842893528Z INFO:     127.0.0.1:60628 - "GET /api/orchestrate/migrations/vnf-nat-ff43155a HTTP/1.1" 200 OK
+2026-11-21T17:32:03.847333106Z INFO:     127.0.0.1:60644 - "GET /api/orchestrate/migrations/vnf-nat-ff43155a HTTP/1.1" 200 OK
+2026-11-21T17:32:04.854271628Z INFO:     127.0.0.1:60656 - "GET /api/orchestrate/migrations/vnf-nat-ff43155a HTTP/1.1" 200 OK
+2026-11-21T17:32:05.863667918Z INFO:     127.0.0.1:60670 - "GET /api/orchestrate/migrations/vnf-nat-ff43155a HTTP/1.1" 200 OK
+2026-11-21T17:32:06.868845901Z INFO:     127.0.0.1:54406 - "GET /api/orchestrate/migrations/vnf-nat-ff43155a HTTP/1.1" 200 OK
+2026-11-21T17:32:07.877024009Z INFO:     127.0.0.1:54422 - "GET /api/orchestrate/migrations/vnf-nat-ff43155a HTTP/1.1" 200 OK
+2026-11-21T17:32:08.884575342Z INFO:     127.0.0.1:54436 - "GET /api/orchestrate/migrations/vnf-nat-ff43155a HTTP/1.1" 200 OK
+2026-11-21T17:32:09.891972917Z INFO:     127.0.0.1:54440 - "GET /api/orchestrate/migrations/vnf-nat-ff43155a HTTP/1.1" 200 OK
+2026-11-21T17:32:10.898693188Z INFO:     127.0.0.1:54450 - "GET /api/orchestrate/migrations/vnf-nat-ff43155a HTTP/1.1" 200 OK
+2026-11-21T17:32:11.906478487Z INFO:     127.0.0.1:54464 - "GET /api/orchestrate/migrations/vnf-nat-ff43155a HTTP/1.1" 200 OK
+2026-11-21T17:32:12.911833996Z INFO:     127.0.0.1:54472 - "GET /api/orchestrate/migrations/vnf-nat-ff43155a HTTP/1.1" 200 OK
+2026-11-21T17:32:13.922803333Z INFO:     127.0.0.1:54486 - "GET /api/orchestrate/migrations/vnf-nat-ff43155a HTTP/1.1" 200 OK
+2026-11-21T17:32:14.932976734Z INFO:     127.0.0.1:54494 - "GET /api/orchestrate/migrations/vnf-nat-ff43155a HTTP/1.1" 200 OK
+2026-11-21T17:32:15.937321170Z INFO:     127.0.0.1:54498 - "GET /api/orchestrate/migrations/vnf-nat-ff43155a HTTP/1.1" 200 OK
+2026-11-21T17:32:16.945701875Z INFO:     127.0.0.1:55832 - "GET /api/orchestrate/migrations/vnf-nat-ff43155a HTTP/1.1" 200 OK
+2026-11-21T17:32:17.956175002Z INFO:     127.0.0.1:55836 - "GET /api/orchestrate/migrations/vnf-nat-ff43155a HTTP/1.1" 200 OK
+2026-11-21T17:32:18.963763238Z INFO:     127.0.0.1:55846 - "GET /api/orchestrate/migrations/vnf-nat-ff43155a HTTP/1.1" 200 OK
+2026-11-21T17:32:19.973690878Z INFO:     127.0.0.1:55850 - "GET /api/orchestrate/migrations/vnf-nat-ff43155a HTTP/1.1" 200 OK
+2026-11-21T17:32:20.982008250Z INFO:     127.0.0.1:55864 - "GET /api/orchestrate/migrations/vnf-nat-ff43155a HTTP/1.1" 200 OK
+2026-11-21T17:32:21.990950994Z INFO:     127.0.0.1:55878 - "GET /api/orchestrate/migrations/vnf-nat-ff43155a HTTP/1.1" 200 OK
+2026-11-21T17:32:23.105950692Z INFO:     127.0.0.1:55880 - "GET /api/orchestrate/migrations/vnf-nat-ff43155a HTTP/1.1" 200 OK
+2026-11-21T17:32:53.825022305Z INFO:     127.0.0.1:54582 - "GET /api/orchestrate/state HTTP/1.1" 200 OK
+2026-11-21T17:32:54.265112463Z INFO:     127.0.0.1:54596 - "POST /api/orchestrate HTTP/1.1" 409 Conflict
+2026-11-21T17:32:54.710338244Z INFO:     127.0.0.1:54608 - "POST /api/orchestrate HTTP/1.1" 409 Conflict
+2026-11-21T17:32:55.137151317Z INFO:     127.0.0.1:54622 - "POST /api/orchestrate HTTP/1.1" 409 Conflict
+2026-11-21T17:32:55.617787918Z INFO:     127.0.0.1:54628 - "POST /api/orchestrate HTTP/1.1" 200 OK
+2026-11-21T17:32:55.633069505Z INFO:OrchestrationService:PHASE 6: AI node 4 mapped to K8s hostname 'worker1'
+2026-11-21T17:32:55.633106544Z INFO:OrchestrationService:PHASE: MAKE - Triggering Tekton for replacement VNF: vnf-video-bcb87148 at hue-1
+2026-11-21T17:32:55.654322996Z INFO:OrchestrationService:PHASE: VERIFY - Polling dynamic endpoint/readiness for vnf-video-bcb87148
+2026-11-21T17:32:55.663058597Z INFO:     127.0.0.1:54638 - "GET /api/orchestrate/migrations/vnf-video-bcb87148 HTTP/1.1" 200 OK
+2026-11-21T17:32:56.666951253Z INFO:     127.0.0.1:42304 - "GET /api/orchestrate/migrations/vnf-video-bcb87148 HTTP/1.1" 200 OK
+2026-11-21T17:32:57.671334269Z INFO:     127.0.0.1:42312 - "GET /api/orchestrate/migrations/vnf-video-bcb87148 HTTP/1.1" 200 OK
+2026-11-21T17:32:58.676627002Z INFO:     127.0.0.1:42316 - "GET /api/orchestrate/migrations/vnf-video-bcb87148 HTTP/1.1" 200 OK
+2026-11-21T17:32:59.681206452Z INFO:     127.0.0.1:42318 - "GET /api/orchestrate/migrations/vnf-video-bcb87148 HTTP/1.1" 200 OK
+2026-11-21T17:33:00.685421901Z INFO:     127.0.0.1:42334 - "GET /api/orchestrate/migrations/vnf-video-bcb87148 HTTP/1.1" 200 OK
+2026-11-21T17:33:01.689890613Z INFO:     127.0.0.1:42344 - "GET /api/orchestrate/migrations/vnf-video-bcb87148 HTTP/1.1" 200 OK
+2026-11-21T17:33:02.694326425Z INFO:     127.0.0.1:42358 - "GET /api/orchestrate/migrations/vnf-video-bcb87148 HTTP/1.1" 200 OK
+2026-11-21T17:33:03.699669440Z INFO:     127.0.0.1:42374 - "GET /api/orchestrate/migrations/vnf-video-bcb87148 HTTP/1.1" 200 OK
+2026-11-21T17:33:04.704205573Z INFO:     127.0.0.1:42376 - "GET /api/orchestrate/migrations/vnf-video-bcb87148 HTTP/1.1" 200 OK
+2026-11-21T17:33:05.709220440Z INFO:     127.0.0.1:42388 - "GET /api/orchestrate/migrations/vnf-video-bcb87148 HTTP/1.1" 200 OK
+2026-11-21T17:33:06.713307516Z INFO:     127.0.0.1:55702 - "GET /api/orchestrate/migrations/vnf-video-bcb87148 HTTP/1.1" 200 OK
+2026-11-21T17:33:07.717609984Z INFO:     127.0.0.1:55714 - "GET /api/orchestrate/migrations/vnf-video-bcb87148 HTTP/1.1" 200 OK
+2026-11-21T17:33:08.722783874Z INFO:     127.0.0.1:55728 - "GET /api/orchestrate/migrations/vnf-video-bcb87148 HTTP/1.1" 200 OK
+2026-11-21T17:33:09.728396769Z INFO:     127.0.0.1:55740 - "GET /api/orchestrate/migrations/vnf-video-bcb87148 HTTP/1.1" 200 OK
+2026-11-21T17:33:10.732703435Z INFO:     127.0.0.1:55744 - "GET /api/orchestrate/migrations/vnf-video-bcb87148 HTTP/1.1" 200 OK
+2026-11-21T17:33:11.738114190Z INFO:     127.0.0.1:55752 - "GET /api/orchestrate/migrations/vnf-video-bcb87148 HTTP/1.1" 200 OK
+2026-11-21T17:33:12.741914858Z INFO:     127.0.0.1:55764 - "GET /api/orchestrate/migrations/vnf-video-bcb87148 HTTP/1.1" 200 OK
+2026-11-21T17:33:13.794764006Z INFO:OrchestrationService:VNF vnf-video-bcb87148 is READY. Pod IP: 10.1.235.190 on worker1
+2026-11-21T17:33:13.794815275Z INFO:OrchestrationService:PHASE: TRANSLATE - Ready endpoint 10.1.235.190:0 via terminal SID fc00:5::1
+2026-11-21T17:33:13.794824447Z INFO:OrchestrationService:PHASE: STEER - Sending command to SDN Controller at http://localhost:8765
+2026-11-21T17:33:13.820263623Z INFO:     127.0.0.1:55766 - "GET /api/orchestrate/migrations/vnf-video-bcb87148 HTTP/1.1" 200 OK
+2026-11-21T17:33:14.825656639Z INFO:     127.0.0.1:55780 - "GET /api/orchestrate/migrations/vnf-video-bcb87148 HTTP/1.1" 200 OK
+2026-11-21T17:33:15.822310313Z INFO:OrchestrationService:PHASE 6: Control-plane Steering Overhead = 2027.46 ms (REST→Controller confirmation). Packet loss and data-plane latency are not measured.
+2026-11-21T17:33:15.822341518Z INFO:OrchestrationService:PHASE: BREAK - confirm_steer_done=True. Deleting old VNF: None
+2026-11-21T17:33:15.849020137Z INFO:     127.0.0.1:55796 - "GET /api/orchestrate/migrations/vnf-video-bcb87148 HTTP/1.1" 200 OK
+2026-11-21T17:33:43.664874647Z INFO:     127.0.0.1:56872 - "GET /api/orchestrate/state HTTP/1.1" 200 OK
+2026-11-21T17:33:44.124877257Z INFO:     127.0.0.1:56878 - "POST /api/orchestrate HTTP/1.1" 200 OK
+2026-11-21T17:33:44.141707063Z INFO:OrchestrationService:PHASE 6: AI node 4 mapped to K8s hostname 'worker1'
+2026-11-21T17:33:44.141756247Z INFO:OrchestrationService:PHASE: MAKE - Triggering Tekton for replacement VNF: vnf-router-bf3efb0a at hue-1
+2026-11-21T17:33:44.167513013Z INFO:OrchestrationService:PHASE: VERIFY - Polling dynamic endpoint/readiness for vnf-router-bf3efb0a
+2026-11-21T17:33:44.174991903Z INFO:     127.0.0.1:56886 - "GET /api/orchestrate/migrations/vnf-router-bf3efb0a HTTP/1.1" 200 OK
+2026-11-21T17:33:45.178982978Z INFO:     127.0.0.1:56898 - "GET /api/orchestrate/migrations/vnf-router-bf3efb0a HTTP/1.1" 200 OK
+2026-11-21T17:33:46.183800210Z INFO:     127.0.0.1:56912 - "GET /api/orchestrate/migrations/vnf-router-bf3efb0a HTTP/1.1" 200 OK
+2026-11-21T17:33:47.189276944Z INFO:     127.0.0.1:41612 - "GET /api/orchestrate/migrations/vnf-router-bf3efb0a HTTP/1.1" 200 OK
+2026-11-21T17:33:48.199945783Z INFO:     127.0.0.1:41624 - "GET /api/orchestrate/migrations/vnf-router-bf3efb0a HTTP/1.1" 200 OK
+2026-11-21T17:33:49.204503058Z INFO:     127.0.0.1:41636 - "GET /api/orchestrate/migrations/vnf-router-bf3efb0a HTTP/1.1" 200 OK
+2026-11-21T17:33:50.209681766Z INFO:     127.0.0.1:41646 - "GET /api/orchestrate/migrations/vnf-router-bf3efb0a HTTP/1.1" 200 OK
+2026-11-21T17:33:51.214174500Z INFO:     127.0.0.1:41648 - "GET /api/orchestrate/migrations/vnf-router-bf3efb0a HTTP/1.1" 200 OK
+2026-11-21T17:33:52.219003700Z INFO:     127.0.0.1:41654 - "GET /api/orchestrate/migrations/vnf-router-bf3efb0a HTTP/1.1" 200 OK
+2026-11-21T17:33:53.224735422Z INFO:     127.0.0.1:41656 - "GET /api/orchestrate/migrations/vnf-router-bf3efb0a HTTP/1.1" 200 OK
+2026-11-21T17:33:54.228342312Z INFO:     127.0.0.1:41666 - "GET /api/orchestrate/migrations/vnf-router-bf3efb0a HTTP/1.1" 200 OK
+2026-11-21T17:33:55.232831411Z INFO:     127.0.0.1:41682 - "GET /api/orchestrate/migrations/vnf-router-bf3efb0a HTTP/1.1" 200 OK
+2026-11-21T17:33:56.236503491Z INFO:     127.0.0.1:41686 - "GET /api/orchestrate/migrations/vnf-router-bf3efb0a HTTP/1.1" 200 OK
+2026-11-21T17:33:57.242156203Z INFO:     127.0.0.1:46310 - "GET /api/orchestrate/migrations/vnf-router-bf3efb0a HTTP/1.1" 200 OK
+2026-11-21T17:33:58.246605026Z INFO:     127.0.0.1:46318 - "GET /api/orchestrate/migrations/vnf-router-bf3efb0a HTTP/1.1" 200 OK
+2026-11-21T17:33:59.251457225Z INFO:     127.0.0.1:46326 - "GET /api/orchestrate/migrations/vnf-router-bf3efb0a HTTP/1.1" 200 OK
+2026-11-21T17:34:00.305149752Z INFO:     127.0.0.1:46332 - "GET /api/orchestrate/migrations/vnf-router-bf3efb0a HTTP/1.1" 200 OK
+2026-11-21T17:34:01.310259439Z INFO:     127.0.0.1:46348 - "GET /api/orchestrate/migrations/vnf-router-bf3efb0a HTTP/1.1" 200 OK
+2026-11-21T17:34:02.379429171Z INFO:OrchestrationService:VNF vnf-router-bf3efb0a is READY. Pod IP: 10.1.235.140 on worker1
+2026-11-21T17:34:02.379467754Z INFO:OrchestrationService:PHASE: TRANSLATE - Ready endpoint 10.1.235.140:0 via terminal SID fc00:5::1
+2026-11-21T17:34:02.379520392Z INFO:OrchestrationService:PHASE: STEER - Sending command to SDN Controller at http://localhost:8765
+2026-11-21T17:34:02.424837599Z INFO:     127.0.0.1:46352 - "GET /api/orchestrate/migrations/vnf-router-bf3efb0a HTTP/1.1" 200 OK
+2026-11-21T17:34:03.429700793Z INFO:     127.0.0.1:46368 - "GET /api/orchestrate/migrations/vnf-router-bf3efb0a HTTP/1.1" 200 OK
+2026-11-21T17:34:04.429171025Z INFO:OrchestrationService:PHASE 6: Control-plane Steering Overhead = 2049.41 ms (REST→Controller confirmation). Packet loss and data-plane latency are not measured.
+2026-11-21T17:34:04.429218260Z INFO:OrchestrationService:PHASE: BREAK - confirm_steer_done=True. Deleting old VNF: vnf-router-53f56b53
+2026-11-21T17:34:04.558375614Z INFO:     127.0.0.1:46374 - "GET /api/orchestrate/migrations/vnf-router-bf3efb0a HTTP/1.1" 200 OK
+2026-11-21T17:34:05.567559346Z INFO:     127.0.0.1:46390 - "GET /api/orchestrate/migrations/vnf-router-bf3efb0a HTTP/1.1" 200 OK
+2026-11-21T17:34:06.689901796Z INFO:     127.0.0.1:46394 - "GET /api/orchestrate/migrations/vnf-router-bf3efb0a HTTP/1.1" 200 OK
+2026-11-21T17:34:37.025493684Z INFO:     127.0.0.1:41428 - "GET /api/orchestrate/state HTTP/1.1" 200 OK
+2026-11-21T17:34:37.415618118Z INFO:     127.0.0.1:41434 - "POST /api/orchestrate HTTP/1.1" 409 Conflict
+2026-11-21T17:34:37.820164153Z INFO:     127.0.0.1:41436 - "POST /api/orchestrate HTTP/1.1" 200 OK
+2026-11-21T17:34:37.834749370Z INFO:OrchestrationService:PHASE 6: AI node 4 mapped to K8s hostname 'worker1'
+2026-11-21T17:34:37.834789944Z INFO:OrchestrationService:PHASE: MAKE - Triggering Tekton for replacement VNF: vnf-voc-79ec0a10 at hue-1
+2026-11-21T17:34:37.865526171Z INFO:OrchestrationService:PHASE: VERIFY - Polling dynamic endpoint/readiness for vnf-voc-79ec0a10
+2026-11-21T17:34:37.869885254Z INFO:     127.0.0.1:41448 - "GET /api/orchestrate/migrations/vnf-voc-79ec0a10 HTTP/1.1" 200 OK
+2026-11-21T17:34:38.873628963Z INFO:     127.0.0.1:41452 - "GET /api/orchestrate/migrations/vnf-voc-79ec0a10 HTTP/1.1" 200 OK
+2026-11-21T17:34:39.878002567Z INFO:     127.0.0.1:41464 - "GET /api/orchestrate/migrations/vnf-voc-79ec0a10 HTTP/1.1" 200 OK
+2026-11-21T17:34:40.882254730Z INFO:     127.0.0.1:41472 - "GET /api/orchestrate/migrations/vnf-voc-79ec0a10 HTTP/1.1" 200 OK
+2026-11-21T17:34:41.887376240Z INFO:     127.0.0.1:41480 - "GET /api/orchestrate/migrations/vnf-voc-79ec0a10 HTTP/1.1" 200 OK
+2026-11-21T17:34:42.892317476Z INFO:     127.0.0.1:41492 - "GET /api/orchestrate/migrations/vnf-voc-79ec0a10 HTTP/1.1" 200 OK
+2026-11-21T17:34:43.897645129Z INFO:     127.0.0.1:41498 - "GET /api/orchestrate/migrations/vnf-voc-79ec0a10 HTTP/1.1" 200 OK
+2026-11-21T17:34:44.903332780Z INFO:     127.0.0.1:41502 - "GET /api/orchestrate/migrations/vnf-voc-79ec0a10 HTTP/1.1" 200 OK
+2026-11-21T17:34:45.907867311Z INFO:     127.0.0.1:41510 - "GET /api/orchestrate/migrations/vnf-voc-79ec0a10 HTTP/1.1" 200 OK
+2026-11-21T17:34:46.912318274Z INFO:     127.0.0.1:33028 - "GET /api/orchestrate/migrations/vnf-voc-79ec0a10 HTTP/1.1" 200 OK
+2026-11-21T17:34:47.917631205Z INFO:     127.0.0.1:33036 - "GET /api/orchestrate/migrations/vnf-voc-79ec0a10 HTTP/1.1" 200 OK
+2026-11-21T17:34:48.922798571Z INFO:     127.0.0.1:33042 - "GET /api/orchestrate/migrations/vnf-voc-79ec0a10 HTTP/1.1" 200 OK
+2026-11-21T17:34:49.927002244Z INFO:     127.0.0.1:33056 - "GET /api/orchestrate/migrations/vnf-voc-79ec0a10 HTTP/1.1" 200 OK
+2026-11-21T17:34:50.930919661Z INFO:     127.0.0.1:33072 - "GET /api/orchestrate/migrations/vnf-voc-79ec0a10 HTTP/1.1" 200 OK
+2026-11-21T17:34:51.935450733Z INFO:     127.0.0.1:33088 - "GET /api/orchestrate/migrations/vnf-voc-79ec0a10 HTTP/1.1" 200 OK
+2026-11-21T17:34:52.939236492Z INFO:     127.0.0.1:33104 - "GET /api/orchestrate/migrations/vnf-voc-79ec0a10 HTTP/1.1" 200 OK
+2026-11-21T17:34:53.944363408Z INFO:     127.0.0.1:33108 - "GET /api/orchestrate/migrations/vnf-voc-79ec0a10 HTTP/1.1" 200 OK
+2026-11-21T17:34:54.949755968Z INFO:     127.0.0.1:33112 - "GET /api/orchestrate/migrations/vnf-voc-79ec0a10 HTTP/1.1" 200 OK
+2026-11-21T17:34:56.011353355Z INFO:     127.0.0.1:33122 - "GET /api/orchestrate/migrations/vnf-voc-79ec0a10 HTTP/1.1" 200 OK
+2026-11-21T17:34:57.015053155Z INFO:     127.0.0.1:33332 - "GET /api/orchestrate/migrations/vnf-voc-79ec0a10 HTTP/1.1" 200 OK
+2026-11-21T17:34:58.085439907Z INFO:     127.0.0.1:33340 - "GET /api/orchestrate/migrations/vnf-voc-79ec0a10 HTTP/1.1" 200 OK
+2026-11-21T17:34:59.090157429Z INFO:     127.0.0.1:33350 - "GET /api/orchestrate/migrations/vnf-voc-79ec0a10 HTTP/1.1" 200 OK
+2026-11-21T17:35:00.185469576Z INFO:     127.0.0.1:33360 - "GET /api/orchestrate/migrations/vnf-voc-79ec0a10 HTTP/1.1" 200 OK
+2026-11-21T17:35:01.190972220Z INFO:     127.0.0.1:33364 - "GET /api/orchestrate/migrations/vnf-voc-79ec0a10 HTTP/1.1" 200 OK
+2026-11-21T17:35:02.256733138Z INFO:     127.0.0.1:33376 - "GET /api/orchestrate/migrations/vnf-voc-79ec0a10 HTTP/1.1" 200 OK
+2026-11-21T17:35:03.261390273Z INFO:     127.0.0.1:33392 - "GET /api/orchestrate/migrations/vnf-voc-79ec0a10 HTTP/1.1" 200 OK
+2026-11-21T17:35:04.328899057Z INFO:OrchestrationService:VNF vnf-voc-79ec0a10 is READY. Pod IP: 10.1.235.132 on worker1
+2026-11-21T17:35:04.328940874Z INFO:OrchestrationService:PHASE: TRANSLATE - Ready endpoint 10.1.235.132:0 via terminal SID fc00:5::1
+2026-11-21T17:35:04.328946038Z INFO:OrchestrationService:PHASE: STEER - Sending command to SDN Controller at http://localhost:8765
+2026-11-21T17:35:04.366736631Z INFO:     127.0.0.1:33400 - "GET /api/orchestrate/migrations/vnf-voc-79ec0a10 HTTP/1.1" 200 OK
+2026-11-21T17:35:05.371653310Z INFO:     127.0.0.1:33414 - "GET /api/orchestrate/migrations/vnf-voc-79ec0a10 HTTP/1.1" 200 OK
+2026-11-21T17:35:06.371558633Z INFO:OrchestrationService:PHASE 6: Control-plane Steering Overhead = 2042.39 ms (REST→Controller confirmation). Packet loss and data-plane latency are not measured.
+2026-11-21T17:35:06.371611765Z INFO:OrchestrationService:PHASE: BREAK - confirm_steer_done=True. Deleting old VNF: vnf-voc-f51532ef
+2026-11-21T17:35:06.539721851Z INFO:     127.0.0.1:33418 - "GET /api/orchestrate/migrations/vnf-voc-79ec0a10 HTTP/1.1" 200 OK
+2026-11-21T17:35:07.545861685Z INFO:     127.0.0.1:38210 - "GET /api/orchestrate/migrations/vnf-voc-79ec0a10 HTTP/1.1" 200 OK
+2026-11-21T17:35:08.555230576Z INFO:     127.0.0.1:38218 - "GET /api/orchestrate/migrations/vnf-voc-79ec0a10 HTTP/1.1" 200 OK
+2026-11-21T17:35:09.565146017Z INFO:     127.0.0.1:38222 - "GET /api/orchestrate/migrations/vnf-voc-79ec0a10 HTTP/1.1" 200 OK
+2026-11-21T17:35:10.571322232Z INFO:     127.0.0.1:38238 - "GET /api/orchestrate/migrations/vnf-voc-79ec0a10 HTTP/1.1" 200 OK
+2026-11-21T17:35:11.579496733Z INFO:     127.0.0.1:38240 - "GET /api/orchestrate/migrations/vnf-voc-79ec0a10 HTTP/1.1" 200 OK
+2026-11-21T17:35:12.586714948Z INFO:     127.0.0.1:38250 - "GET /api/orchestrate/migrations/vnf-voc-79ec0a10 HTTP/1.1" 200 OK
+2026-11-21T17:35:13.594174545Z INFO:     127.0.0.1:38254 - "GET /api/orchestrate/migrations/vnf-voc-79ec0a10 HTTP/1.1" 200 OK
+2026-11-21T17:35:14.600296365Z INFO:     127.0.0.1:38268 - "GET /api/orchestrate/migrations/vnf-voc-79ec0a10 HTTP/1.1" 200 OK
+2026-11-21T17:35:15.605927744Z INFO:     127.0.0.1:38280 - "GET /api/orchestrate/migrations/vnf-voc-79ec0a10 HTTP/1.1" 200 OK
+2026-11-21T17:35:16.615218226Z INFO:     127.0.0.1:45180 - "GET /api/orchestrate/migrations/vnf-voc-79ec0a10 HTTP/1.1" 200 OK
+2026-11-21T17:35:17.623287968Z INFO:     127.0.0.1:45196 - "GET /api/orchestrate/migrations/vnf-voc-79ec0a10 HTTP/1.1" 200 OK
+2026-11-21T17:35:18.633742397Z INFO:     127.0.0.1:45200 - "GET /api/orchestrate/migrations/vnf-voc-79ec0a10 HTTP/1.1" 200 OK
+2026-11-21T17:35:19.643880080Z INFO:     127.0.0.1:45210 - "GET /api/orchestrate/migrations/vnf-voc-79ec0a10 HTTP/1.1" 200 OK
+2026-11-21T17:35:20.650911092Z INFO:     127.0.0.1:45220 - "GET /api/orchestrate/migrations/vnf-voc-79ec0a10 HTTP/1.1" 200 OK
+2026-11-21T17:35:21.661524971Z INFO:     127.0.0.1:45222 - "GET /api/orchestrate/migrations/vnf-voc-79ec0a10 HTTP/1.1" 200 OK
+2026-11-21T17:35:22.672010148Z INFO:     127.0.0.1:45224 - "GET /api/orchestrate/migrations/vnf-voc-79ec0a10 HTTP/1.1" 200 OK
+2026-11-21T17:35:23.679636866Z INFO:     127.0.0.1:45240 - "GET /api/orchestrate/migrations/vnf-voc-79ec0a10 HTTP/1.1" 200 OK
+2026-11-21T17:35:24.690079097Z INFO:     127.0.0.1:45256 - "GET /api/orchestrate/migrations/vnf-voc-79ec0a10 HTTP/1.1" 200 OK
+2026-11-21T17:35:25.700157899Z INFO:     127.0.0.1:45264 - "GET /api/orchestrate/migrations/vnf-voc-79ec0a10 HTTP/1.1" 200 OK
+2026-11-21T17:35:26.716336041Z INFO:     127.0.0.1:45682 - "GET /api/orchestrate/migrations/vnf-voc-79ec0a10 HTTP/1.1" 200 OK
+2026-11-21T17:35:27.725795190Z INFO:     127.0.0.1:45688 - "GET /api/orchestrate/migrations/vnf-voc-79ec0a10 HTTP/1.1" 200 OK
+2026-11-21T17:35:28.734120459Z INFO:     127.0.0.1:45692 - "GET /api/orchestrate/migrations/vnf-voc-79ec0a10 HTTP/1.1" 200 OK
+2026-11-21T17:35:29.743647241Z INFO:     127.0.0.1:45698 - "GET /api/orchestrate/migrations/vnf-voc-79ec0a10 HTTP/1.1" 200 OK
+2026-11-21T17:35:30.749105353Z INFO:     127.0.0.1:45700 - "GET /api/orchestrate/migrations/vnf-voc-79ec0a10 HTTP/1.1" 200 OK
+2026-11-21T17:35:31.758087074Z INFO:     127.0.0.1:45708 - "GET /api/orchestrate/migrations/vnf-voc-79ec0a10 HTTP/1.1" 200 OK
+2026-11-21T17:35:32.768601519Z INFO:     127.0.0.1:45718 - "GET /api/orchestrate/migrations/vnf-voc-79ec0a10 HTTP/1.1" 200 OK
+2026-11-21T17:35:33.778223452Z INFO:     127.0.0.1:45734 - "GET /api/orchestrate/migrations/vnf-voc-79ec0a10 HTTP/1.1" 200 OK
+2026-11-21T17:35:34.790087185Z INFO:     127.0.0.1:45746 - "GET /api/orchestrate/migrations/vnf-voc-79ec0a10 HTTP/1.1" 200 OK
+2026-11-21T17:35:35.802479202Z INFO:     127.0.0.1:45762 - "GET /api/orchestrate/migrations/vnf-voc-79ec0a10 HTTP/1.1" 200 OK
+2026-11-21T17:35:36.808936798Z INFO:     127.0.0.1:43296 - "GET /api/orchestrate/migrations/vnf-voc-79ec0a10 HTTP/1.1" 200 OK
+2026-11-21T17:35:37.817499359Z INFO:     127.0.0.1:43312 - "GET /api/orchestrate/migrations/vnf-voc-79ec0a10 HTTP/1.1" 200 OK
+2026-11-21T17:35:38.962046567Z INFO:     127.0.0.1:43320 - "GET /api/orchestrate/migrations/vnf-voc-79ec0a10 HTTP/1.1" 200 OK
+2026-11-21T17:36:09.017695437Z INFO:     127.0.0.1:57220 - "GET /api/orchestrate/state HTTP/1.1" 200 OK
+2026-11-21T17:36:09.468711749Z INFO:     127.0.0.1:57228 - "POST /api/orchestrate HTTP/1.1" 409 Conflict
+2026-11-21T17:36:09.940301373Z INFO:     127.0.0.1:57244 - "POST /api/orchestrate HTTP/1.1" 409 Conflict
+2026-11-21T17:36:10.380780913Z INFO:     127.0.0.1:57260 - "POST /api/orchestrate HTTP/1.1" 409 Conflict
+2026-11-21T17:36:10.862721222Z INFO:     127.0.0.1:57274 - "POST /api/orchestrate HTTP/1.1" 200 OK
+2026-11-21T17:36:10.877258195Z INFO:OrchestrationService:PHASE 6: AI node 4 mapped to K8s hostname 'worker1'
+2026-11-21T17:36:10.877283821Z INFO:OrchestrationService:PHASE: MAKE - Triggering Tekton for replacement VNF: vnf-firewall-977cd493 at hue-1
+2026-11-21T17:36:10.911259673Z INFO:OrchestrationService:PHASE: VERIFY - Polling dynamic endpoint/readiness for vnf-firewall-977cd493
+2026-11-21T17:36:10.920071857Z INFO:     127.0.0.1:57276 - "GET /api/orchestrate/migrations/vnf-firewall-977cd493 HTTP/1.1" 200 OK
+2026-11-21T17:36:11.924944817Z INFO:     127.0.0.1:57280 - "GET /api/orchestrate/migrations/vnf-firewall-977cd493 HTTP/1.1" 200 OK
+2026-11-21T17:36:12.929613861Z INFO:     127.0.0.1:57288 - "GET /api/orchestrate/migrations/vnf-firewall-977cd493 HTTP/1.1" 200 OK
+2026-11-21T17:36:13.934412195Z INFO:     127.0.0.1:57304 - "GET /api/orchestrate/migrations/vnf-firewall-977cd493 HTTP/1.1" 200 OK
+2026-11-21T17:36:14.939240311Z INFO:     127.0.0.1:57316 - "GET /api/orchestrate/migrations/vnf-firewall-977cd493 HTTP/1.1" 200 OK
+2026-11-21T17:36:15.945159278Z INFO:     127.0.0.1:57318 - "GET /api/orchestrate/migrations/vnf-firewall-977cd493 HTTP/1.1" 200 OK
+2026-11-21T17:36:16.951231052Z INFO:     127.0.0.1:39504 - "GET /api/orchestrate/migrations/vnf-firewall-977cd493 HTTP/1.1" 200 OK
+2026-11-21T17:36:17.956312443Z INFO:     127.0.0.1:39514 - "GET /api/orchestrate/migrations/vnf-firewall-977cd493 HTTP/1.1" 200 OK
+2026-11-21T17:36:18.960949393Z INFO:     127.0.0.1:39528 - "GET /api/orchestrate/migrations/vnf-firewall-977cd493 HTTP/1.1" 200 OK
+2026-11-21T17:36:19.967212788Z INFO:     127.0.0.1:39530 - "GET /api/orchestrate/migrations/vnf-firewall-977cd493 HTTP/1.1" 200 OK
+2026-11-21T17:36:20.971055982Z INFO:     127.0.0.1:39546 - "GET /api/orchestrate/migrations/vnf-firewall-977cd493 HTTP/1.1" 200 OK
+2026-11-21T17:36:21.977373796Z INFO:     127.0.0.1:39550 - "GET /api/orchestrate/migrations/vnf-firewall-977cd493 HTTP/1.1" 200 OK
+2026-11-21T17:36:22.982750451Z INFO:     127.0.0.1:39558 - "GET /api/orchestrate/migrations/vnf-firewall-977cd493 HTTP/1.1" 200 OK
+2026-11-21T17:36:23.989027978Z INFO:     127.0.0.1:39560 - "GET /api/orchestrate/migrations/vnf-firewall-977cd493 HTTP/1.1" 200 OK
+2026-11-21T17:36:24.995335824Z INFO:     127.0.0.1:39570 - "GET /api/orchestrate/migrations/vnf-firewall-977cd493 HTTP/1.1" 200 OK
+2026-11-21T17:36:25.999989814Z INFO:     127.0.0.1:39580 - "GET /api/orchestrate/migrations/vnf-firewall-977cd493 HTTP/1.1" 200 OK
+2026-11-21T17:36:27.005581402Z INFO:     127.0.0.1:40998 - "GET /api/orchestrate/migrations/vnf-firewall-977cd493 HTTP/1.1" 200 OK
+2026-11-21T17:36:28.011885366Z INFO:     127.0.0.1:41006 - "GET /api/orchestrate/migrations/vnf-firewall-977cd493 HTTP/1.1" 200 OK
+2026-11-21T17:36:29.044154526Z INFO:     127.0.0.1:41020 - "GET /api/orchestrate/migrations/vnf-firewall-977cd493 HTTP/1.1" 200 OK
+2026-11-21T17:36:30.049264640Z INFO:     127.0.0.1:41034 - "GET /api/orchestrate/migrations/vnf-firewall-977cd493 HTTP/1.1" 200 OK
+2026-11-21T17:36:31.136888559Z INFO:OrchestrationService:VNF vnf-firewall-977cd493 is READY. Pod IP: 10.1.235.145 on worker1
+2026-11-21T17:36:31.136938098Z INFO:OrchestrationService:PHASE: TRANSLATE - Ready endpoint 10.1.235.145:0 via terminal SID fc00:5::1
+2026-11-21T17:36:31.136943058Z INFO:OrchestrationService:PHASE: STEER - Sending command to SDN Controller at http://localhost:8765
+2026-11-21T17:36:31.175215321Z INFO:     127.0.0.1:41040 - "GET /api/orchestrate/migrations/vnf-firewall-977cd493 HTTP/1.1" 200 OK
+2026-11-21T17:36:32.180103433Z INFO:     127.0.0.1:41056 - "GET /api/orchestrate/migrations/vnf-firewall-977cd493 HTTP/1.1" 200 OK
+2026-11-21T17:36:33.177374356Z INFO:OrchestrationService:PHASE 6: Control-plane Steering Overhead = 2040.42 ms (REST→Controller confirmation). Packet loss and data-plane latency are not measured.
+2026-11-21T17:36:33.177408397Z INFO:OrchestrationService:PHASE: BREAK - confirm_steer_done=True. Deleting old VNF: None
+2026-11-21T17:36:33.222727428Z INFO:     127.0.0.1:41062 - "GET /api/orchestrate/migrations/vnf-firewall-977cd493 HTTP/1.1" 200 OK
+2026-11-21T17:37:03.190354991Z INFO:     127.0.0.1:43442 - "GET /api/orchestrate/state HTTP/1.1" 200 OK
+2026-11-21T17:37:03.701999436Z INFO:     127.0.0.1:43452 - "POST /api/orchestrate HTTP/1.1" 200 OK
+2026-11-21T17:37:03.720731870Z INFO:OrchestrationService:PHASE 6: AI node 4 mapped to K8s hostname 'worker1'
+2026-11-21T17:37:03.720778606Z INFO:OrchestrationService:PHASE: MAKE - Triggering Tekton for replacement VNF: vnf-data-2e97c8c5 at hue-1
+2026-11-21T17:37:03.742456771Z INFO:OrchestrationService:PHASE: VERIFY - Polling dynamic endpoint/readiness for vnf-data-2e97c8c5
+2026-11-21T17:37:03.750012449Z INFO:     127.0.0.1:43460 - "GET /api/orchestrate/migrations/vnf-data-2e97c8c5 HTTP/1.1" 200 OK
+2026-11-21T17:37:04.756486582Z INFO:     127.0.0.1:43470 - "GET /api/orchestrate/migrations/vnf-data-2e97c8c5 HTTP/1.1" 200 OK
+2026-11-21T17:37:05.761794962Z INFO:     127.0.0.1:43486 - "GET /api/orchestrate/migrations/vnf-data-2e97c8c5 HTTP/1.1" 200 OK
+2026-11-21T17:37:06.766037677Z INFO:     127.0.0.1:53316 - "GET /api/orchestrate/migrations/vnf-data-2e97c8c5 HTTP/1.1" 200 OK
+2026-11-21T17:37:07.771370512Z INFO:     127.0.0.1:53326 - "GET /api/orchestrate/migrations/vnf-data-2e97c8c5 HTTP/1.1" 200 OK
+2026-11-21T17:37:08.777175907Z INFO:     127.0.0.1:53340 - "GET /api/orchestrate/migrations/vnf-data-2e97c8c5 HTTP/1.1" 200 OK
+2026-11-21T17:37:09.781731210Z INFO:     127.0.0.1:53342 - "GET /api/orchestrate/migrations/vnf-data-2e97c8c5 HTTP/1.1" 200 OK
+2026-11-21T17:37:10.786712066Z INFO:     127.0.0.1:53346 - "GET /api/orchestrate/migrations/vnf-data-2e97c8c5 HTTP/1.1" 200 OK
+2026-11-21T17:37:11.791799353Z INFO:     127.0.0.1:53356 - "GET /api/orchestrate/migrations/vnf-data-2e97c8c5 HTTP/1.1" 200 OK
+2026-11-21T17:37:12.798064957Z INFO:     127.0.0.1:53366 - "GET /api/orchestrate/migrations/vnf-data-2e97c8c5 HTTP/1.1" 200 OK
+2026-11-21T17:37:13.804647072Z INFO:     127.0.0.1:53368 - "GET /api/orchestrate/migrations/vnf-data-2e97c8c5 HTTP/1.1" 200 OK
+2026-11-21T17:37:14.808839974Z INFO:     127.0.0.1:53370 - "GET /api/orchestrate/migrations/vnf-data-2e97c8c5 HTTP/1.1" 200 OK
+2026-11-21T17:37:15.813446982Z INFO:     127.0.0.1:53378 - "GET /api/orchestrate/migrations/vnf-data-2e97c8c5 HTTP/1.1" 200 OK
+2026-11-21T17:37:16.818145485Z INFO:     127.0.0.1:53458 - "GET /api/orchestrate/migrations/vnf-data-2e97c8c5 HTTP/1.1" 200 OK
+2026-11-21T17:37:17.823236091Z INFO:     127.0.0.1:53468 - "GET /api/orchestrate/migrations/vnf-data-2e97c8c5 HTTP/1.1" 200 OK
+2026-11-21T17:37:18.828509551Z INFO:     127.0.0.1:53476 - "GET /api/orchestrate/migrations/vnf-data-2e97c8c5 HTTP/1.1" 200 OK
+2026-11-21T17:37:19.833472781Z INFO:     127.0.0.1:53484 - "GET /api/orchestrate/migrations/vnf-data-2e97c8c5 HTTP/1.1" 200 OK
+2026-11-21T17:37:20.837622011Z INFO:     127.0.0.1:53488 - "GET /api/orchestrate/migrations/vnf-data-2e97c8c5 HTTP/1.1" 200 OK
+2026-11-21T17:37:21.876407461Z INFO:     127.0.0.1:53504 - "GET /api/orchestrate/migrations/vnf-data-2e97c8c5 HTTP/1.1" 200 OK
+2026-11-21T17:37:22.880860409Z INFO:     127.0.0.1:53506 - "GET /api/orchestrate/migrations/vnf-data-2e97c8c5 HTTP/1.1" 200 OK
+2026-11-21T17:37:23.942031440Z INFO:OrchestrationService:VNF vnf-data-2e97c8c5 is READY. Pod IP: 10.1.235.138 on worker1
+2026-11-21T17:37:23.942094623Z INFO:OrchestrationService:PHASE: TRANSLATE - Ready endpoint 10.1.235.138:0 via terminal SID fc00:5::1
+2026-11-21T17:37:23.942102927Z INFO:OrchestrationService:PHASE: STEER - Sending command to SDN Controller at http://localhost:8765
+2026-11-21T17:37:23.984468210Z INFO:     127.0.0.1:53520 - "GET /api/orchestrate/migrations/vnf-data-2e97c8c5 HTTP/1.1" 200 OK
+2026-11-21T17:37:24.989659336Z INFO:     127.0.0.1:53532 - "GET /api/orchestrate/migrations/vnf-data-2e97c8c5 HTTP/1.1" 200 OK
+2026-11-21T17:37:25.988857993Z INFO:OrchestrationService:PHASE 6: Control-plane Steering Overhead = 2046.55 ms (REST→Controller confirmation). Packet loss and data-plane latency are not measured.
+2026-11-21T17:37:25.988905030Z INFO:OrchestrationService:PHASE: BREAK - confirm_steer_done=True. Deleting old VNF: None
+2026-11-21T17:37:26.014429188Z INFO:     127.0.0.1:53540 - "GET /api/orchestrate/migrations/vnf-data-2e97c8c5 HTTP/1.1" 200 OK
+2026-11-21T17:37:59.173337402Z INFO:     127.0.0.1:44992 - "GET /api/orchestrate/state HTTP/1.1" 200 OK
+2026-11-21T17:37:59.629014146Z INFO:     127.0.0.1:45000 - "POST /api/orchestrate HTTP/1.1" 409 Conflict
+2026-11-21T17:38:00.067312175Z INFO:     127.0.0.1:45002 - "POST /api/orchestrate HTTP/1.1" 409 Conflict
+2026-11-21T17:38:00.560248417Z INFO:     127.0.0.1:45012 - "POST /api/orchestrate HTTP/1.1" 409 Conflict
+2026-11-21T17:38:01.081645615Z INFO:     127.0.0.1:45014 - "POST /api/orchestrate HTTP/1.1" 200 OK
+2026-11-21T17:38:01.096393393Z INFO:OrchestrationService:PHASE 6: AI node 6 mapped to K8s hostname 'worker2'
+2026-11-21T17:38:01.096455310Z INFO:OrchestrationService:PHASE: MAKE - Triggering Tekton for replacement VNF: vnf-voc-1a081337 at quynhon-1
+2026-11-21T17:38:01.118264533Z INFO:OrchestrationService:PHASE: VERIFY - Polling dynamic endpoint/readiness for vnf-voc-1a081337
+2026-11-21T17:38:01.123571050Z INFO:     127.0.0.1:45016 - "GET /api/orchestrate/migrations/vnf-voc-1a081337 HTTP/1.1" 200 OK
+2026-11-21T17:38:02.128709713Z INFO:     127.0.0.1:45030 - "GET /api/orchestrate/migrations/vnf-voc-1a081337 HTTP/1.1" 200 OK
+2026-11-21T17:38:03.133650237Z INFO:     127.0.0.1:45042 - "GET /api/orchestrate/migrations/vnf-voc-1a081337 HTTP/1.1" 200 OK
+2026-11-21T17:38:04.139517343Z INFO:     127.0.0.1:45050 - "GET /api/orchestrate/migrations/vnf-voc-1a081337 HTTP/1.1" 200 OK
+2026-11-21T17:38:05.144335072Z INFO:     127.0.0.1:45062 - "GET /api/orchestrate/migrations/vnf-voc-1a081337 HTTP/1.1" 200 OK
+2026-11-21T17:38:06.149376138Z INFO:     127.0.0.1:45064 - "GET /api/orchestrate/migrations/vnf-voc-1a081337 HTTP/1.1" 200 OK
+2026-11-21T17:38:07.154060722Z INFO:     127.0.0.1:40552 - "GET /api/orchestrate/migrations/vnf-voc-1a081337 HTTP/1.1" 200 OK
+2026-11-21T17:38:08.158527763Z INFO:     127.0.0.1:40564 - "GET /api/orchestrate/migrations/vnf-voc-1a081337 HTTP/1.1" 200 OK
+2026-11-21T17:38:09.162961719Z INFO:     127.0.0.1:40566 - "GET /api/orchestrate/migrations/vnf-voc-1a081337 HTTP/1.1" 200 OK
+2026-11-21T17:38:10.169417272Z INFO:     127.0.0.1:40572 - "GET /api/orchestrate/migrations/vnf-voc-1a081337 HTTP/1.1" 200 OK
+2026-11-21T17:38:11.172273663Z INFO:     127.0.0.1:40580 - "GET /api/orchestrate/migrations/vnf-voc-1a081337 HTTP/1.1" 200 OK
+2026-11-21T17:38:12.177768292Z INFO:     127.0.0.1:40588 - "GET /api/orchestrate/migrations/vnf-voc-1a081337 HTTP/1.1" 200 OK
+2026-11-21T17:38:13.181740420Z INFO:     127.0.0.1:40602 - "GET /api/orchestrate/migrations/vnf-voc-1a081337 HTTP/1.1" 200 OK
+2026-11-21T17:38:14.185819371Z INFO:     127.0.0.1:40610 - "GET /api/orchestrate/migrations/vnf-voc-1a081337 HTTP/1.1" 200 OK
+2026-11-21T17:38:15.190919178Z INFO:     127.0.0.1:40626 - "GET /api/orchestrate/migrations/vnf-voc-1a081337 HTTP/1.1" 200 OK
+2026-11-21T17:38:16.196168170Z INFO:     127.0.0.1:40636 - "GET /api/orchestrate/migrations/vnf-voc-1a081337 HTTP/1.1" 200 OK
+2026-11-21T17:38:17.210869862Z INFO:     127.0.0.1:41546 - "GET /api/orchestrate/migrations/vnf-voc-1a081337 HTTP/1.1" 200 OK
+2026-11-21T17:38:18.206222524Z INFO:     127.0.0.1:41548 - "GET /api/orchestrate/migrations/vnf-voc-1a081337 HTTP/1.1" 200 OK
+2026-11-21T17:38:19.284236773Z INFO:     127.0.0.1:41560 - "GET /api/orchestrate/migrations/vnf-voc-1a081337 HTTP/1.1" 200 OK
+2026-11-21T17:38:20.293621522Z INFO:     127.0.0.1:41576 - "GET /api/orchestrate/migrations/vnf-voc-1a081337 HTTP/1.1" 200 OK
+2026-11-21T17:38:21.363211147Z INFO:     127.0.0.1:41592 - "GET /api/orchestrate/migrations/vnf-voc-1a081337 HTTP/1.1" 200 OK
+2026-11-21T17:38:22.368273924Z INFO:     127.0.0.1:41598 - "GET /api/orchestrate/migrations/vnf-voc-1a081337 HTTP/1.1" 200 OK
+2026-11-21T17:38:23.441676391Z INFO:     127.0.0.1:41610 - "GET /api/orchestrate/migrations/vnf-voc-1a081337 HTTP/1.1" 200 OK
+2026-11-21T17:38:24.446059419Z INFO:     127.0.0.1:41618 - "GET /api/orchestrate/migrations/vnf-voc-1a081337 HTTP/1.1" 200 OK
+2026-11-21T17:38:25.519743132Z INFO:     127.0.0.1:41630 - "GET /api/orchestrate/migrations/vnf-voc-1a081337 HTTP/1.1" 200 OK
+2026-11-21T17:38:26.524850876Z INFO:     127.0.0.1:41644 - "GET /api/orchestrate/migrations/vnf-voc-1a081337 HTTP/1.1" 200 OK
+2026-11-21T17:38:27.605789656Z INFO:OrchestrationService:VNF vnf-voc-1a081337 is READY. Pod IP: 10.1.189.133 on worker2
+2026-11-21T17:38:27.605837637Z INFO:OrchestrationService:PHASE: TRANSLATE - Ready endpoint 10.1.189.133:0 via terminal SID fc00:7::1
+2026-11-21T17:38:27.605846488Z INFO:OrchestrationService:PHASE: STEER - Sending command to SDN Controller at http://localhost:8765
+2026-11-21T17:38:27.702221885Z INFO:     127.0.0.1:52012 - "GET /api/orchestrate/migrations/vnf-voc-1a081337 HTTP/1.1" 200 OK
+2026-11-21T17:38:28.706226574Z INFO:     127.0.0.1:52018 - "GET /api/orchestrate/migrations/vnf-voc-1a081337 HTTP/1.1" 200 OK
+2026-11-21T17:38:29.703339081Z INFO:OrchestrationService:PHASE 6: Control-plane Steering Overhead = 2097.23 ms (REST→Controller confirmation). Packet loss and data-plane latency are not measured.
+2026-11-21T17:38:29.703380605Z INFO:OrchestrationService:PHASE: BREAK - confirm_steer_done=True. Deleting old VNF: vnf-voc-237923df
+2026-11-21T17:38:29.859679535Z INFO:     127.0.0.1:52028 - "GET /api/orchestrate/migrations/vnf-voc-1a081337 HTTP/1.1" 200 OK
+2026-11-21T17:38:30.867402642Z INFO:     127.0.0.1:52036 - "GET /api/orchestrate/migrations/vnf-voc-1a081337 HTTP/1.1" 200 OK
+2026-11-21T17:38:31.877944048Z INFO:     127.0.0.1:52050 - "GET /api/orchestrate/migrations/vnf-voc-1a081337 HTTP/1.1" 200 OK
+2026-11-21T17:38:32.886563433Z INFO:     127.0.0.1:52062 - "GET /api/orchestrate/migrations/vnf-voc-1a081337 HTTP/1.1" 200 OK
+2026-11-21T17:38:33.899806977Z INFO:     127.0.0.1:52068 - "GET /api/orchestrate/migrations/vnf-voc-1a081337 HTTP/1.1" 200 OK
+2026-11-21T17:38:34.908981717Z INFO:     127.0.0.1:52082 - "GET /api/orchestrate/migrations/vnf-voc-1a081337 HTTP/1.1" 200 OK
+2026-11-21T17:38:35.917344201Z INFO:     127.0.0.1:52092 - "GET /api/orchestrate/migrations/vnf-voc-1a081337 HTTP/1.1" 200 OK
+2026-11-21T17:38:36.925802824Z INFO:     127.0.0.1:37610 - "GET /api/orchestrate/migrations/vnf-voc-1a081337 HTTP/1.1" 200 OK
+2026-11-21T17:38:37.936573440Z INFO:     127.0.0.1:37626 - "GET /api/orchestrate/migrations/vnf-voc-1a081337 HTTP/1.1" 200 OK
+2026-11-21T17:38:38.945514427Z INFO:     127.0.0.1:37642 - "GET /api/orchestrate/migrations/vnf-voc-1a081337 HTTP/1.1" 200 OK
+2026-11-21T17:38:39.952525659Z INFO:     127.0.0.1:37648 - "GET /api/orchestrate/migrations/vnf-voc-1a081337 HTTP/1.1" 200 OK
+2026-11-21T17:38:40.961500867Z INFO:     127.0.0.1:37664 - "GET /api/orchestrate/migrations/vnf-voc-1a081337 HTTP/1.1" 200 OK
+2026-11-21T17:38:41.970787760Z INFO:     127.0.0.1:37666 - "GET /api/orchestrate/migrations/vnf-voc-1a081337 HTTP/1.1" 200 OK
+2026-11-21T17:38:42.978217708Z INFO:     127.0.0.1:37678 - "GET /api/orchestrate/migrations/vnf-voc-1a081337 HTTP/1.1" 200 OK
+2026-11-21T17:38:43.986583487Z INFO:     127.0.0.1:37692 - "GET /api/orchestrate/migrations/vnf-voc-1a081337 HTTP/1.1" 200 OK
+2026-11-21T17:38:44.994440803Z INFO:     127.0.0.1:37706 - "GET /api/orchestrate/migrations/vnf-voc-1a081337 HTTP/1.1" 200 OK
+2026-11-21T17:38:46.004546340Z INFO:     127.0.0.1:37722 - "GET /api/orchestrate/migrations/vnf-voc-1a081337 HTTP/1.1" 200 OK
+2026-11-21T17:38:47.009718849Z INFO:     127.0.0.1:45126 - "GET /api/orchestrate/migrations/vnf-voc-1a081337 HTTP/1.1" 200 OK
+2026-11-21T17:38:48.019055430Z INFO:     127.0.0.1:45134 - "GET /api/orchestrate/migrations/vnf-voc-1a081337 HTTP/1.1" 200 OK
+2026-11-21T17:38:49.026545231Z INFO:     127.0.0.1:45146 - "GET /api/orchestrate/migrations/vnf-voc-1a081337 HTTP/1.1" 200 OK
+2026-11-21T17:38:50.033584557Z INFO:     127.0.0.1:45160 - "GET /api/orchestrate/migrations/vnf-voc-1a081337 HTTP/1.1" 200 OK
+2026-11-21T17:38:51.042355257Z INFO:     127.0.0.1:45164 - "GET /api/orchestrate/migrations/vnf-voc-1a081337 HTTP/1.1" 200 OK
+2026-11-21T17:38:52.052898607Z INFO:     127.0.0.1:45172 - "GET /api/orchestrate/migrations/vnf-voc-1a081337 HTTP/1.1" 200 OK
+2026-11-21T17:38:53.061675317Z INFO:     127.0.0.1:45176 - "GET /api/orchestrate/migrations/vnf-voc-1a081337 HTTP/1.1" 200 OK
+2026-11-21T17:38:54.071177656Z INFO:     127.0.0.1:45186 - "GET /api/orchestrate/migrations/vnf-voc-1a081337 HTTP/1.1" 200 OK
+2026-11-21T17:38:55.078559948Z INFO:     127.0.0.1:45192 - "GET /api/orchestrate/migrations/vnf-voc-1a081337 HTTP/1.1" 200 OK
+2026-11-21T17:38:56.085920130Z INFO:     127.0.0.1:45204 - "GET /api/orchestrate/migrations/vnf-voc-1a081337 HTTP/1.1" 200 OK
+2026-11-21T17:38:57.095199368Z INFO:     127.0.0.1:55088 - "GET /api/orchestrate/migrations/vnf-voc-1a081337 HTTP/1.1" 200 OK
+2026-11-21T17:38:58.103017368Z INFO:     127.0.0.1:55094 - "GET /api/orchestrate/migrations/vnf-voc-1a081337 HTTP/1.1" 200 OK
+2026-11-21T17:38:59.114604490Z INFO:     127.0.0.1:55104 - "GET /api/orchestrate/migrations/vnf-voc-1a081337 HTTP/1.1" 200 OK
+2026-11-21T17:39:00.121238101Z INFO:     127.0.0.1:55118 - "GET /api/orchestrate/migrations/vnf-voc-1a081337 HTTP/1.1" 200 OK
+2026-11-21T17:39:01.129868808Z INFO:     127.0.0.1:55128 - "GET /api/orchestrate/migrations/vnf-voc-1a081337 HTTP/1.1" 200 OK
+2026-11-21T17:39:02.229013310Z INFO:     127.0.0.1:55140 - "GET /api/orchestrate/migrations/vnf-voc-1a081337 HTTP/1.1" 200 OK
+2026-11-21T17:39:31.909206632Z INFO:     127.0.0.1:49100 - "GET /api/orchestrate/state HTTP/1.1" 200 OK
+2026-11-21T17:39:32.312905879Z INFO:     127.0.0.1:49108 - "POST /api/orchestrate HTTP/1.1" 409 Conflict
+2026-11-21T17:39:32.726777677Z INFO:     127.0.0.1:49114 - "POST /api/orchestrate HTTP/1.1" 409 Conflict
+2026-11-21T17:39:33.212771128Z INFO:     127.0.0.1:49116 - "POST /api/orchestrate HTTP/1.1" 200 OK
+2026-11-21T17:39:33.233941174Z INFO:OrchestrationService:PHASE 6: AI node 4 mapped to K8s hostname 'worker1'
+2026-11-21T17:39:33.233991592Z INFO:OrchestrationService:PHASE: MAKE - Triggering Tekton for replacement VNF: vnf-lb-42157303 at hue-1
+2026-11-21T17:39:33.271465962Z INFO:OrchestrationService:PHASE: VERIFY - Polling dynamic endpoint/readiness for vnf-lb-42157303
+2026-11-21T17:39:33.279905609Z INFO:     127.0.0.1:49120 - "GET /api/orchestrate/migrations/vnf-lb-42157303 HTTP/1.1" 200 OK
+2026-11-21T17:39:34.284351135Z INFO:     127.0.0.1:49128 - "GET /api/orchestrate/migrations/vnf-lb-42157303 HTTP/1.1" 200 OK
+2026-11-21T17:39:35.289472405Z INFO:     127.0.0.1:49132 - "GET /api/orchestrate/migrations/vnf-lb-42157303 HTTP/1.1" 200 OK
+2026-11-21T17:39:36.293842291Z INFO:     127.0.0.1:49146 - "GET /api/orchestrate/migrations/vnf-lb-42157303 HTTP/1.1" 200 OK
+2026-11-21T17:39:37.298737334Z INFO:     127.0.0.1:41114 - "GET /api/orchestrate/migrations/vnf-lb-42157303 HTTP/1.1" 200 OK
+2026-11-21T17:39:38.303998409Z INFO:     127.0.0.1:41130 - "GET /api/orchestrate/migrations/vnf-lb-42157303 HTTP/1.1" 200 OK
+2026-11-21T17:39:39.309009988Z INFO:     127.0.0.1:41136 - "GET /api/orchestrate/migrations/vnf-lb-42157303 HTTP/1.1" 200 OK
+2026-11-21T17:39:40.315145646Z INFO:     127.0.0.1:41144 - "GET /api/orchestrate/migrations/vnf-lb-42157303 HTTP/1.1" 200 OK
+2026-11-21T17:39:41.321682868Z INFO:     127.0.0.1:41148 - "GET /api/orchestrate/migrations/vnf-lb-42157303 HTTP/1.1" 200 OK
+2026-11-21T17:39:42.328222832Z INFO:     127.0.0.1:41158 - "GET /api/orchestrate/migrations/vnf-lb-42157303 HTTP/1.1" 200 OK
+2026-11-21T17:39:43.335223950Z INFO:     127.0.0.1:41164 - "GET /api/orchestrate/migrations/vnf-lb-42157303 HTTP/1.1" 200 OK
+2026-11-21T17:39:44.340968592Z INFO:     127.0.0.1:41172 - "GET /api/orchestrate/migrations/vnf-lb-42157303 HTTP/1.1" 200 OK
+2026-11-21T17:39:45.346042706Z INFO:     127.0.0.1:41186 - "GET /api/orchestrate/migrations/vnf-lb-42157303 HTTP/1.1" 200 OK
+2026-11-21T17:39:46.350226009Z INFO:     127.0.0.1:41198 - "GET /api/orchestrate/migrations/vnf-lb-42157303 HTTP/1.1" 200 OK
+2026-11-21T17:39:47.356019709Z INFO:     127.0.0.1:41162 - "GET /api/orchestrate/migrations/vnf-lb-42157303 HTTP/1.1" 200 OK
+2026-11-21T17:39:48.362029403Z INFO:     127.0.0.1:41174 - "GET /api/orchestrate/migrations/vnf-lb-42157303 HTTP/1.1" 200 OK
+2026-11-21T17:39:49.368701993Z INFO:     127.0.0.1:41188 - "GET /api/orchestrate/migrations/vnf-lb-42157303 HTTP/1.1" 200 OK
+2026-11-21T17:39:50.374055162Z INFO:     127.0.0.1:41204 - "GET /api/orchestrate/migrations/vnf-lb-42157303 HTTP/1.1" 200 OK
+2026-11-21T17:39:51.409473334Z INFO:OrchestrationService:VNF vnf-lb-42157303 is READY. Pod IP: 10.1.235.161 on worker1
+2026-11-21T17:39:51.409514681Z INFO:OrchestrationService:PHASE: TRANSLATE - Ready endpoint 10.1.235.161:30208 via terminal SID fc00:5::1
+2026-11-21T17:39:51.409520634Z INFO:OrchestrationService:PHASE: STEER - Sending command to SDN Controller at http://localhost:8765
+2026-11-21T17:39:51.443619301Z INFO:     127.0.0.1:41212 - "GET /api/orchestrate/migrations/vnf-lb-42157303 HTTP/1.1" 200 OK
+2026-11-21T17:39:52.448640645Z INFO:     127.0.0.1:41222 - "GET /api/orchestrate/migrations/vnf-lb-42157303 HTTP/1.1" 200 OK
+2026-11-21T17:39:53.447182931Z INFO:OrchestrationService:PHASE 6: Control-plane Steering Overhead = 2037.39 ms (REST→Controller confirmation). Packet loss and data-plane latency are not measured.
+2026-11-21T17:39:53.447224880Z INFO:OrchestrationService:PHASE: BREAK - confirm_steer_done=True. Deleting old VNF: vnf-lb-f5f63e78
+2026-11-21T17:39:53.645443535Z INFO:     127.0.0.1:41232 - "GET /api/orchestrate/migrations/vnf-lb-42157303 HTTP/1.1" 200 OK
+2026-11-21T17:39:54.658540795Z INFO:     127.0.0.1:41248 - "GET /api/orchestrate/migrations/vnf-lb-42157303 HTTP/1.1" 200 OK
+2026-11-21T17:39:55.760709406Z INFO:     127.0.0.1:41262 - "GET /api/orchestrate/migrations/vnf-lb-42157303 HTTP/1.1" 200 OK
+2026-11-21T17:40:27.895645499Z INFO:     127.0.0.1:40026 - "GET /api/orchestrate/state HTTP/1.1" 200 OK
+2026-11-21T17:40:28.327601075Z INFO:     127.0.0.1:40028 - "POST /api/orchestrate HTTP/1.1" 409 Conflict
+2026-11-21T17:40:28.807595974Z INFO:     127.0.0.1:40036 - "POST /api/orchestrate HTTP/1.1" 200 OK
+2026-11-21T17:40:28.827357924Z INFO:OrchestrationService:PHASE 6: AI node 6 mapped to K8s hostname 'worker2'
+2026-11-21T17:40:28.827403713Z INFO:OrchestrationService:PHASE: MAKE - Triggering Tekton for replacement VNF: vnf-data-d9296f2b at quynhon-1
+2026-11-21T17:40:28.846129174Z INFO:OrchestrationService:PHASE: VERIFY - Polling dynamic endpoint/readiness for vnf-data-d9296f2b
+2026-11-21T17:40:28.854950410Z INFO:     127.0.0.1:40040 - "GET /api/orchestrate/migrations/vnf-data-d9296f2b HTTP/1.1" 200 OK
+2026-11-21T17:40:29.858927277Z INFO:     127.0.0.1:40044 - "GET /api/orchestrate/migrations/vnf-data-d9296f2b HTTP/1.1" 200 OK
+2026-11-21T17:40:30.863677966Z INFO:     127.0.0.1:40050 - "GET /api/orchestrate/migrations/vnf-data-d9296f2b HTTP/1.1" 200 OK
+2026-11-21T17:40:31.868977077Z INFO:     127.0.0.1:40062 - "GET /api/orchestrate/migrations/vnf-data-d9296f2b HTTP/1.1" 200 OK
+2026-11-21T17:40:32.873649386Z INFO:     127.0.0.1:40072 - "GET /api/orchestrate/migrations/vnf-data-d9296f2b HTTP/1.1" 200 OK
+2026-11-21T17:40:33.877912362Z INFO:     127.0.0.1:40078 - "GET /api/orchestrate/migrations/vnf-data-d9296f2b HTTP/1.1" 200 OK
+2026-11-21T17:40:34.882129106Z INFO:     127.0.0.1:40080 - "GET /api/orchestrate/migrations/vnf-data-d9296f2b HTTP/1.1" 200 OK
+2026-11-21T17:40:35.886173005Z INFO:     127.0.0.1:40090 - "GET /api/orchestrate/migrations/vnf-data-d9296f2b HTTP/1.1" 200 OK
+2026-11-21T17:40:36.890622975Z INFO:     127.0.0.1:36432 - "GET /api/orchestrate/migrations/vnf-data-d9296f2b HTTP/1.1" 200 OK
+2026-11-21T17:40:37.895808476Z INFO:     127.0.0.1:36442 - "GET /api/orchestrate/migrations/vnf-data-d9296f2b HTTP/1.1" 200 OK
+2026-11-21T17:40:38.900177352Z INFO:     127.0.0.1:36452 - "GET /api/orchestrate/migrations/vnf-data-d9296f2b HTTP/1.1" 200 OK
+2026-11-21T17:40:39.905553369Z INFO:     127.0.0.1:36464 - "GET /api/orchestrate/migrations/vnf-data-d9296f2b HTTP/1.1" 200 OK
+2026-11-21T17:40:40.909776532Z INFO:     127.0.0.1:36480 - "GET /api/orchestrate/migrations/vnf-data-d9296f2b HTTP/1.1" 200 OK
+2026-11-21T17:40:41.915691577Z INFO:     127.0.0.1:36484 - "GET /api/orchestrate/migrations/vnf-data-d9296f2b HTTP/1.1" 200 OK
+2026-11-21T17:40:42.931211901Z INFO:     127.0.0.1:36490 - "GET /api/orchestrate/migrations/vnf-data-d9296f2b HTTP/1.1" 200 OK
+2026-11-21T17:40:43.936620567Z INFO:     127.0.0.1:36504 - "GET /api/orchestrate/migrations/vnf-data-d9296f2b HTTP/1.1" 200 OK
+2026-11-21T17:40:44.940796290Z INFO:     127.0.0.1:36520 - "GET /api/orchestrate/migrations/vnf-data-d9296f2b HTTP/1.1" 200 OK
+2026-11-21T17:40:45.946597047Z INFO:     127.0.0.1:36528 - "GET /api/orchestrate/migrations/vnf-data-d9296f2b HTTP/1.1" 200 OK
+2026-11-21T17:40:47.022006652Z INFO:     127.0.0.1:59002 - "GET /api/orchestrate/migrations/vnf-data-d9296f2b HTTP/1.1" 200 OK
+2026-11-21T17:40:48.027222132Z INFO:     127.0.0.1:59012 - "GET /api/orchestrate/migrations/vnf-data-d9296f2b HTTP/1.1" 200 OK
+2026-11-21T17:40:49.100032193Z INFO:OrchestrationService:VNF vnf-data-d9296f2b is READY. Pod IP: 10.1.189.170 on worker2
+2026-11-21T17:40:49.100076797Z INFO:OrchestrationService:PHASE: TRANSLATE - Ready endpoint 10.1.189.170:0 via terminal SID fc00:7::1
+2026-11-21T17:40:49.100082596Z INFO:OrchestrationService:PHASE: STEER - Sending command to SDN Controller at http://localhost:8765
+2026-11-21T17:40:49.140720020Z INFO:     127.0.0.1:59020 - "GET /api/orchestrate/migrations/vnf-data-d9296f2b HTTP/1.1" 200 OK
+2026-11-21T17:40:50.145465119Z INFO:     127.0.0.1:59028 - "GET /api/orchestrate/migrations/vnf-data-d9296f2b HTTP/1.1" 200 OK
+2026-11-21T17:40:51.146706431Z INFO:OrchestrationService:PHASE 6: Control-plane Steering Overhead = 2046.33 ms (REST→Controller confirmation). Packet loss and data-plane latency are not measured.
+2026-11-21T17:40:51.146762616Z INFO:OrchestrationService:PHASE: BREAK - confirm_steer_done=True. Deleting old VNF: vnf-data-37c635b5
+2026-11-21T17:40:51.305862065Z INFO:     127.0.0.1:59034 - "GET /api/orchestrate/migrations/vnf-data-d9296f2b HTTP/1.1" 200 OK
+2026-11-21T17:40:52.315592502Z INFO:     127.0.0.1:59046 - "GET /api/orchestrate/migrations/vnf-data-d9296f2b HTTP/1.1" 200 OK
+2026-11-21T17:40:53.412838113Z INFO:     127.0.0.1:59062 - "GET /api/orchestrate/migrations/vnf-data-d9296f2b HTTP/1.1" 200 OK
+2026-11-21T17:41:22.313002939Z INFO:     127.0.0.1:53060 - "GET /api/orchestrate/state HTTP/1.1" 200 OK
+2026-11-21T17:41:22.759627884Z INFO:     127.0.0.1:53070 - "POST /api/orchestrate HTTP/1.1" 409 Conflict
+2026-11-21T17:41:23.202855474Z INFO:     127.0.0.1:53084 - "POST /api/orchestrate HTTP/1.1" 409 Conflict
+2026-11-21T17:41:23.681320043Z INFO:     127.0.0.1:53096 - "POST /api/orchestrate HTTP/1.1" 200 OK
+2026-11-21T17:41:23.705365122Z INFO:OrchestrationService:PHASE 6: AI node 4 mapped to K8s hostname 'worker1'
+2026-11-21T17:41:23.705408526Z INFO:OrchestrationService:PHASE: MAKE - Triggering Tekton for replacement VNF: vnf-voc-8b90635a at hue-1
+2026-11-21T17:41:23.728303343Z INFO:OrchestrationService:PHASE: VERIFY - Polling dynamic endpoint/readiness for vnf-voc-8b90635a
+2026-11-21T17:41:23.736769051Z INFO:     127.0.0.1:53104 - "GET /api/orchestrate/migrations/vnf-voc-8b90635a HTTP/1.1" 200 OK
+2026-11-21T17:41:24.740749969Z INFO:     127.0.0.1:53106 - "GET /api/orchestrate/migrations/vnf-voc-8b90635a HTTP/1.1" 200 OK
+2026-11-21T17:41:25.744903631Z INFO:     127.0.0.1:53114 - "GET /api/orchestrate/migrations/vnf-voc-8b90635a HTTP/1.1" 200 OK
+2026-11-21T17:41:26.749106352Z INFO:     127.0.0.1:36772 - "GET /api/orchestrate/migrations/vnf-voc-8b90635a HTTP/1.1" 200 OK
+2026-11-21T17:41:27.753420775Z INFO:     127.0.0.1:36776 - "GET /api/orchestrate/migrations/vnf-voc-8b90635a HTTP/1.1" 200 OK
+2026-11-21T17:41:28.758787142Z INFO:     127.0.0.1:36780 - "GET /api/orchestrate/migrations/vnf-voc-8b90635a HTTP/1.1" 200 OK
+2026-11-21T17:41:29.764606847Z INFO:     127.0.0.1:36784 - "GET /api/orchestrate/migrations/vnf-voc-8b90635a HTTP/1.1" 200 OK
+2026-11-21T17:41:30.769872077Z INFO:     127.0.0.1:36786 - "GET /api/orchestrate/migrations/vnf-voc-8b90635a HTTP/1.1" 200 OK
+2026-11-21T17:41:31.775797946Z INFO:     127.0.0.1:36794 - "GET /api/orchestrate/migrations/vnf-voc-8b90635a HTTP/1.1" 200 OK
+2026-11-21T17:41:32.781148343Z INFO:     127.0.0.1:36796 - "GET /api/orchestrate/migrations/vnf-voc-8b90635a HTTP/1.1" 200 OK
+2026-11-21T17:41:33.786495840Z INFO:     127.0.0.1:36798 - "GET /api/orchestrate/migrations/vnf-voc-8b90635a HTTP/1.1" 200 OK
+2026-11-21T17:41:34.792052982Z INFO:     127.0.0.1:36806 - "GET /api/orchestrate/migrations/vnf-voc-8b90635a HTTP/1.1" 200 OK
+2026-11-21T17:41:35.796270277Z INFO:     127.0.0.1:36816 - "GET /api/orchestrate/migrations/vnf-voc-8b90635a HTTP/1.1" 200 OK
+2026-11-21T17:41:36.800860812Z INFO:     127.0.0.1:42812 - "GET /api/orchestrate/migrations/vnf-voc-8b90635a HTTP/1.1" 200 OK
+2026-11-21T17:41:37.805896176Z INFO:     127.0.0.1:42814 - "GET /api/orchestrate/migrations/vnf-voc-8b90635a HTTP/1.1" 200 OK
+2026-11-21T17:41:38.812726817Z INFO:     127.0.0.1:42822 - "GET /api/orchestrate/migrations/vnf-voc-8b90635a HTTP/1.1" 200 OK
+2026-11-21T17:41:39.815045805Z INFO:     127.0.0.1:42836 - "GET /api/orchestrate/migrations/vnf-voc-8b90635a HTTP/1.1" 200 OK
+2026-11-21T17:41:40.819528097Z INFO:     127.0.0.1:42838 - "GET /api/orchestrate/migrations/vnf-voc-8b90635a HTTP/1.1" 200 OK
+2026-11-21T17:41:41.855302790Z INFO:     127.0.0.1:42850 - "GET /api/orchestrate/migrations/vnf-voc-8b90635a HTTP/1.1" 200 OK
+2026-11-21T17:41:42.859717632Z INFO:     127.0.0.1:42860 - "GET /api/orchestrate/migrations/vnf-voc-8b90635a HTTP/1.1" 200 OK
+2026-11-21T17:41:43.939951841Z INFO:     127.0.0.1:42876 - "GET /api/orchestrate/migrations/vnf-voc-8b90635a HTTP/1.1" 200 OK
+2026-11-21T17:41:44.945616699Z INFO:     127.0.0.1:42882 - "GET /api/orchestrate/migrations/vnf-voc-8b90635a HTTP/1.1" 200 OK
+2026-11-21T17:41:46.037036059Z INFO:     127.0.0.1:42898 - "GET /api/orchestrate/migrations/vnf-voc-8b90635a HTTP/1.1" 200 OK
+2026-11-21T17:41:47.041682946Z INFO:     127.0.0.1:36646 - "GET /api/orchestrate/migrations/vnf-voc-8b90635a HTTP/1.1" 200 OK
+2026-11-21T17:41:48.112496704Z INFO:     127.0.0.1:36652 - "GET /api/orchestrate/migrations/vnf-voc-8b90635a HTTP/1.1" 200 OK
+2026-11-21T17:41:49.117227724Z INFO:     127.0.0.1:36656 - "GET /api/orchestrate/migrations/vnf-voc-8b90635a HTTP/1.1" 200 OK
+2026-11-21T17:41:50.184142174Z INFO:OrchestrationService:VNF vnf-voc-8b90635a is READY. Pod IP: 10.1.235.191 on worker1
+2026-11-21T17:41:50.184175878Z INFO:OrchestrationService:PHASE: TRANSLATE - Ready endpoint 10.1.235.191:0 via terminal SID fc00:5::1
+2026-11-21T17:41:50.184180683Z INFO:OrchestrationService:PHASE: STEER - Sending command to SDN Controller at http://localhost:8765
+2026-11-21T17:41:50.211574361Z INFO:     127.0.0.1:36670 - "GET /api/orchestrate/migrations/vnf-voc-8b90635a HTTP/1.1" 200 OK
+2026-11-21T17:41:51.215861046Z INFO:     127.0.0.1:36672 - "GET /api/orchestrate/migrations/vnf-voc-8b90635a HTTP/1.1" 200 OK
+2026-11-21T17:41:52.214852142Z INFO:OrchestrationService:PHASE 6: Control-plane Steering Overhead = 2030.3 ms (REST→Controller confirmation). Packet loss and data-plane latency are not measured.
+2026-11-21T17:41:52.214970198Z INFO:OrchestrationService:PHASE: BREAK - confirm_steer_done=True. Deleting old VNF: vnf-voc-79ec0a10
+2026-11-21T17:41:52.403524636Z INFO:     127.0.0.1:36680 - "GET /api/orchestrate/migrations/vnf-voc-8b90635a HTTP/1.1" 200 OK
+2026-11-21T17:41:53.410170159Z INFO:     127.0.0.1:36686 - "GET /api/orchestrate/migrations/vnf-voc-8b90635a HTTP/1.1" 200 OK
+2026-11-21T17:41:54.418287299Z INFO:     127.0.0.1:36692 - "GET /api/orchestrate/migrations/vnf-voc-8b90635a HTTP/1.1" 200 OK
+2026-11-21T17:41:55.425085594Z INFO:     127.0.0.1:36706 - "GET /api/orchestrate/migrations/vnf-voc-8b90635a HTTP/1.1" 200 OK
+2026-11-21T17:41:56.433946414Z INFO:     127.0.0.1:36708 - "GET /api/orchestrate/migrations/vnf-voc-8b90635a HTTP/1.1" 200 OK
+2026-11-21T17:41:57.439011044Z INFO:     127.0.0.1:59558 - "GET /api/orchestrate/migrations/vnf-voc-8b90635a HTTP/1.1" 200 OK
+2026-11-21T17:41:58.450362637Z INFO:     127.0.0.1:59570 - "GET /api/orchestrate/migrations/vnf-voc-8b90635a HTTP/1.1" 200 OK
+2026-11-21T17:41:59.459820597Z INFO:     127.0.0.1:59584 - "GET /api/orchestrate/migrations/vnf-voc-8b90635a HTTP/1.1" 200 OK
+2026-11-21T17:42:00.469281793Z INFO:     127.0.0.1:59596 - "GET /api/orchestrate/migrations/vnf-voc-8b90635a HTTP/1.1" 200 OK
+2026-11-21T17:42:01.477881831Z INFO:     127.0.0.1:59610 - "GET /api/orchestrate/migrations/vnf-voc-8b90635a HTTP/1.1" 200 OK
+2026-11-21T17:42:02.486213381Z INFO:     127.0.0.1:59626 - "GET /api/orchestrate/migrations/vnf-voc-8b90635a HTTP/1.1" 200 OK
+2026-11-21T17:42:03.494290341Z INFO:     127.0.0.1:59640 - "GET /api/orchestrate/migrations/vnf-voc-8b90635a HTTP/1.1" 200 OK
+2026-11-21T17:42:04.504347317Z INFO:     127.0.0.1:59646 - "GET /api/orchestrate/migrations/vnf-voc-8b90635a HTTP/1.1" 200 OK
+2026-11-21T17:42:05.511188328Z INFO:     127.0.0.1:59658 - "GET /api/orchestrate/migrations/vnf-voc-8b90635a HTTP/1.1" 200 OK
+2026-11-21T17:42:06.518533543Z INFO:     127.0.0.1:59662 - "GET /api/orchestrate/migrations/vnf-voc-8b90635a HTTP/1.1" 200 OK
+2026-11-21T17:42:07.526703011Z INFO:     127.0.0.1:37870 - "GET /api/orchestrate/migrations/vnf-voc-8b90635a HTTP/1.1" 200 OK
+2026-11-21T17:42:08.139021257Z INFO:     127.0.0.1:37878 - "GET /api/orchestrate/state HTTP/1.1" 200 OK
+2026-11-21T17:42:08.534409315Z INFO:     127.0.0.1:37882 - "GET /api/orchestrate/migrations/vnf-voc-8b90635a HTTP/1.1" 200 OK
+2026-11-21T17:42:09.542504683Z INFO:     127.0.0.1:37884 - "GET /api/orchestrate/migrations/vnf-voc-8b90635a HTTP/1.1" 200 OK
+2026-11-21T17:42:10.551639102Z INFO:     127.0.0.1:37898 - "GET /api/orchestrate/migrations/vnf-voc-8b90635a HTTP/1.1" 200 OK
+2026-11-21T17:42:11.561806325Z INFO:     127.0.0.1:37910 - "GET /api/orchestrate/migrations/vnf-voc-8b90635a HTTP/1.1" 200 OK
+2026-11-21T17:42:12.567787992Z INFO:     127.0.0.1:37924 - "GET /api/orchestrate/migrations/vnf-voc-8b90635a HTTP/1.1" 200 OK
+2026-11-21T17:42:13.576328573Z INFO:     127.0.0.1:37930 - "GET /api/orchestrate/migrations/vnf-voc-8b90635a HTTP/1.1" 200 OK
+2026-11-21T17:42:14.586292476Z INFO:     127.0.0.1:37938 - "GET /api/orchestrate/migrations/vnf-voc-8b90635a HTTP/1.1" 200 OK
+2026-11-21T17:42:15.594740641Z INFO:     127.0.0.1:37952 - "GET /api/orchestrate/migrations/vnf-voc-8b90635a HTTP/1.1" 200 OK
+2026-11-21T17:42:16.603931224Z INFO:     127.0.0.1:37964 - "GET /api/orchestrate/migrations/vnf-voc-8b90635a HTTP/1.1" 200 OK
+2026-11-21T17:42:17.611438527Z INFO:     127.0.0.1:32954 - "GET /api/orchestrate/migrations/vnf-voc-8b90635a HTTP/1.1" 200 OK
+2026-11-21T17:42:18.621991859Z INFO:     127.0.0.1:32966 - "GET /api/orchestrate/migrations/vnf-voc-8b90635a HTTP/1.1" 200 OK
+2026-11-21T17:42:19.627648636Z INFO:     127.0.0.1:32980 - "GET /api/orchestrate/migrations/vnf-voc-8b90635a HTTP/1.1" 200 OK
+2026-11-21T17:42:20.637982107Z INFO:     127.0.0.1:32994 - "GET /api/orchestrate/migrations/vnf-voc-8b90635a HTTP/1.1" 200 OK
+2026-11-21T17:42:21.647894917Z INFO:     127.0.0.1:33006 - "GET /api/orchestrate/migrations/vnf-voc-8b90635a HTTP/1.1" 200 OK
+2026-11-21T17:42:22.653419603Z INFO:     127.0.0.1:33018 - "GET /api/orchestrate/migrations/vnf-voc-8b90635a HTTP/1.1" 200 OK
+2026-11-21T17:42:23.662343604Z INFO:     127.0.0.1:33026 - "GET /api/orchestrate/migrations/vnf-voc-8b90635a HTTP/1.1" 200 OK
+2026-11-21T17:42:24.768645290Z INFO:     127.0.0.1:33042 - "GET /api/orchestrate/migrations/vnf-voc-8b90635a HTTP/1.1" 200 OK
+2026-11-21T17:42:54.699728329Z INFO:     127.0.0.1:41756 - "GET /api/orchestrate/state HTTP/1.1" 200 OK
+2026-11-21T17:42:55.171689833Z INFO:     127.0.0.1:41762 - "POST /api/orchestrate HTTP/1.1" 409 Conflict
+2026-11-21T17:42:55.600288707Z INFO:     127.0.0.1:41764 - "POST /api/orchestrate HTTP/1.1" 409 Conflict
+2026-11-21T17:42:56.011139160Z INFO:     127.0.0.1:41774 - "POST /api/orchestrate HTTP/1.1" 409 Conflict
+2026-11-21T17:42:56.481929530Z INFO:     127.0.0.1:41780 - "POST /api/orchestrate HTTP/1.1" 200 OK
+2026-11-21T17:42:56.497726085Z INFO:OrchestrationService:PHASE 6: AI node 4 mapped to K8s hostname 'worker1'
+2026-11-21T17:42:56.497768940Z INFO:OrchestrationService:PHASE: MAKE - Triggering Tekton for replacement VNF: vnf-lb-849742eb at hue-1
+2026-11-21T17:42:56.533441349Z INFO:OrchestrationService:PHASE: VERIFY - Polling dynamic endpoint/readiness for vnf-lb-849742eb
+2026-11-21T17:42:56.541425921Z INFO:     127.0.0.1:41786 - "GET /api/orchestrate/migrations/vnf-lb-849742eb HTTP/1.1" 200 OK
+2026-11-21T17:42:57.545839438Z INFO:     127.0.0.1:50824 - "GET /api/orchestrate/migrations/vnf-lb-849742eb HTTP/1.1" 200 OK
+2026-11-21T17:42:58.550127266Z INFO:     127.0.0.1:50830 - "GET /api/orchestrate/migrations/vnf-lb-849742eb HTTP/1.1" 200 OK
+2026-11-21T17:42:59.553199040Z INFO:     127.0.0.1:50838 - "GET /api/orchestrate/migrations/vnf-lb-849742eb HTTP/1.1" 200 OK
+2026-11-21T17:43:00.557096665Z INFO:     127.0.0.1:50854 - "GET /api/orchestrate/migrations/vnf-lb-849742eb HTTP/1.1" 200 OK
+2026-11-21T17:43:01.561668063Z INFO:     127.0.0.1:50868 - "GET /api/orchestrate/migrations/vnf-lb-849742eb HTTP/1.1" 200 OK
+2026-11-21T17:43:02.565345625Z INFO:     127.0.0.1:50884 - "GET /api/orchestrate/migrations/vnf-lb-849742eb HTTP/1.1" 200 OK
+2026-11-21T17:43:03.569373660Z INFO:     127.0.0.1:50886 - "GET /api/orchestrate/migrations/vnf-lb-849742eb HTTP/1.1" 200 OK
+2026-11-21T17:43:04.574048761Z INFO:     127.0.0.1:50894 - "GET /api/orchestrate/migrations/vnf-lb-849742eb HTTP/1.1" 200 OK
+2026-11-21T17:43:05.577265981Z INFO:     127.0.0.1:50896 - "GET /api/orchestrate/migrations/vnf-lb-849742eb HTTP/1.1" 200 OK
+2026-11-21T17:43:06.581851547Z INFO:     127.0.0.1:50912 - "GET /api/orchestrate/migrations/vnf-lb-849742eb HTTP/1.1" 200 OK
+2026-11-21T17:43:07.585193830Z INFO:     127.0.0.1:41076 - "GET /api/orchestrate/migrations/vnf-lb-849742eb HTTP/1.1" 200 OK
+2026-11-21T17:43:08.589787561Z INFO:     127.0.0.1:41082 - "GET /api/orchestrate/migrations/vnf-lb-849742eb HTTP/1.1" 200 OK
+2026-11-21T17:43:09.593833779Z INFO:     127.0.0.1:41086 - "GET /api/orchestrate/migrations/vnf-lb-849742eb HTTP/1.1" 200 OK
+2026-11-21T17:43:10.645227869Z INFO:     127.0.0.1:41102 - "GET /api/orchestrate/migrations/vnf-lb-849742eb HTTP/1.1" 200 OK
+2026-11-21T17:43:11.649187288Z INFO:     127.0.0.1:41116 - "GET /api/orchestrate/migrations/vnf-lb-849742eb HTTP/1.1" 200 OK
+2026-11-21T17:43:12.707388138Z INFO:OrchestrationService:VNF vnf-lb-849742eb is READY. Pod IP: 10.1.235.179 on worker1
+2026-11-21T17:43:12.707440706Z INFO:OrchestrationService:PHASE: TRANSLATE - Ready endpoint 10.1.235.179:30797 via terminal SID fc00:5::1
+2026-11-21T17:43:12.707577664Z INFO:OrchestrationService:PHASE: STEER - Sending command to SDN Controller at http://localhost:8765
+2026-11-21T17:43:12.742377619Z INFO:     127.0.0.1:41130 - "GET /api/orchestrate/migrations/vnf-lb-849742eb HTTP/1.1" 200 OK
+2026-11-21T17:43:13.747489833Z INFO:     127.0.0.1:41140 - "GET /api/orchestrate/migrations/vnf-lb-849742eb HTTP/1.1" 200 OK
+2026-11-21T17:43:14.745034412Z INFO:OrchestrationService:PHASE 6: Control-plane Steering Overhead = 2037.41 ms (REST→Controller confirmation). Packet loss and data-plane latency are not measured.
+2026-11-21T17:43:14.745085726Z INFO:OrchestrationService:PHASE: BREAK - confirm_steer_done=True. Deleting old VNF: vnf-lb-42157303
+2026-11-21T17:43:14.885418219Z INFO:     127.0.0.1:41150 - "GET /api/orchestrate/migrations/vnf-lb-849742eb HTTP/1.1" 200 OK
+2026-11-21T17:43:15.895160238Z INFO:     127.0.0.1:41154 - "GET /api/orchestrate/migrations/vnf-lb-849742eb HTTP/1.1" 200 OK
+2026-11-21T17:43:16.904477523Z INFO:     127.0.0.1:60594 - "GET /api/orchestrate/migrations/vnf-lb-849742eb HTTP/1.1" 200 OK
+2026-11-21T17:43:18.006997111Z INFO:     127.0.0.1:60598 - "GET /api/orchestrate/migrations/vnf-lb-849742eb HTTP/1.1" 200 OK
+2026-11-21T17:43:48.920282355Z INFO:     127.0.0.1:45568 - "GET /api/orchestrate/state HTTP/1.1" 200 OK
+2026-11-21T17:43:49.379164602Z INFO:     127.0.0.1:45570 - "POST /api/orchestrate HTTP/1.1" 409 Conflict
+2026-11-21T17:43:49.852194426Z INFO:     127.0.0.1:45572 - "POST /api/orchestrate HTTP/1.1" 200 OK
+2026-11-21T17:43:49.872179706Z INFO:OrchestrationService:PHASE 6: AI node 4 mapped to K8s hostname 'worker1'
+2026-11-21T17:43:49.872229716Z INFO:OrchestrationService:PHASE: MAKE - Triggering Tekton for replacement VNF: vnf-data-6ce4038a at hue-1
+2026-11-21T17:43:49.903837649Z INFO:OrchestrationService:PHASE: VERIFY - Polling dynamic endpoint/readiness for vnf-data-6ce4038a
+2026-11-21T17:43:49.911843161Z INFO:     127.0.0.1:45584 - "GET /api/orchestrate/migrations/vnf-data-6ce4038a HTTP/1.1" 200 OK
+2026-11-21T17:43:50.916968430Z INFO:     127.0.0.1:45594 - "GET /api/orchestrate/migrations/vnf-data-6ce4038a HTTP/1.1" 200 OK
+2026-11-21T17:43:51.921205123Z INFO:     127.0.0.1:45600 - "GET /api/orchestrate/migrations/vnf-data-6ce4038a HTTP/1.1" 200 OK
+2026-11-21T17:43:52.926000596Z INFO:     127.0.0.1:45608 - "GET /api/orchestrate/migrations/vnf-data-6ce4038a HTTP/1.1" 200 OK
+2026-11-21T17:43:53.930992264Z INFO:     127.0.0.1:45620 - "GET /api/orchestrate/migrations/vnf-data-6ce4038a HTTP/1.1" 200 OK
+2026-11-21T17:43:54.937016959Z INFO:     127.0.0.1:45632 - "GET /api/orchestrate/migrations/vnf-data-6ce4038a HTTP/1.1" 200 OK
+2026-11-21T17:43:55.951875242Z INFO:     127.0.0.1:45638 - "GET /api/orchestrate/migrations/vnf-data-6ce4038a HTTP/1.1" 200 OK
+2026-11-21T17:43:56.949407034Z INFO:     127.0.0.1:37890 - "GET /api/orchestrate/migrations/vnf-data-6ce4038a HTTP/1.1" 200 OK
+2026-11-21T17:43:57.955227769Z INFO:     127.0.0.1:37902 - "GET /api/orchestrate/migrations/vnf-data-6ce4038a HTTP/1.1" 200 OK
+2026-11-21T17:43:58.961388757Z INFO:     127.0.0.1:37906 - "GET /api/orchestrate/migrations/vnf-data-6ce4038a HTTP/1.1" 200 OK
+2026-11-21T17:43:59.965683312Z INFO:     127.0.0.1:37916 - "GET /api/orchestrate/migrations/vnf-data-6ce4038a HTTP/1.1" 200 OK
+2026-11-21T17:44:00.970649877Z INFO:     127.0.0.1:37918 - "GET /api/orchestrate/migrations/vnf-data-6ce4038a HTTP/1.1" 200 OK
+2026-11-21T17:44:01.975744747Z INFO:     127.0.0.1:37920 - "GET /api/orchestrate/migrations/vnf-data-6ce4038a HTTP/1.1" 200 OK
+2026-11-21T17:44:02.980927077Z INFO:     127.0.0.1:37924 - "GET /api/orchestrate/migrations/vnf-data-6ce4038a HTTP/1.1" 200 OK
+2026-11-21T17:44:03.984949563Z INFO:     127.0.0.1:37934 - "GET /api/orchestrate/migrations/vnf-data-6ce4038a HTTP/1.1" 200 OK
+2026-11-21T17:44:04.989803018Z INFO:     127.0.0.1:37938 - "GET /api/orchestrate/migrations/vnf-data-6ce4038a HTTP/1.1" 200 OK
+2026-11-21T17:44:05.995340381Z INFO:     127.0.0.1:37950 - "GET /api/orchestrate/migrations/vnf-data-6ce4038a HTTP/1.1" 200 OK
+2026-11-21T17:44:06.999790883Z INFO:     127.0.0.1:35932 - "GET /api/orchestrate/migrations/vnf-data-6ce4038a HTTP/1.1" 200 OK
+2026-11-21T17:44:08.040323573Z INFO:OrchestrationService:VNF vnf-data-6ce4038a is READY. Pod IP: 10.1.235.148 on worker1
+2026-11-21T17:44:08.040368453Z INFO:OrchestrationService:PHASE: TRANSLATE - Ready endpoint 10.1.235.148:0 via terminal SID fc00:5::1
+2026-11-21T17:44:08.040377518Z INFO:OrchestrationService:PHASE: STEER - Sending command to SDN Controller at http://localhost:8765
+2026-11-21T17:44:08.076663861Z INFO:     127.0.0.1:35948 - "GET /api/orchestrate/migrations/vnf-data-6ce4038a HTTP/1.1" 200 OK
+2026-11-21T17:44:09.082071101Z INFO:     127.0.0.1:35958 - "GET /api/orchestrate/migrations/vnf-data-6ce4038a HTTP/1.1" 200 OK
+2026-11-21T17:44:10.078278272Z INFO:OrchestrationService:PHASE 6: Control-plane Steering Overhead = 2037.68 ms (REST→Controller confirmation). Packet loss and data-plane latency are not measured.
+2026-11-21T17:44:10.078331075Z INFO:OrchestrationService:PHASE: BREAK - confirm_steer_done=True. Deleting old VNF: vnf-data-2e97c8c5
+2026-11-21T17:44:10.193100015Z INFO:     127.0.0.1:35966 - "GET /api/orchestrate/migrations/vnf-data-6ce4038a HTTP/1.1" 200 OK
+2026-11-21T17:44:11.201475909Z INFO:     127.0.0.1:35976 - "GET /api/orchestrate/migrations/vnf-data-6ce4038a HTTP/1.1" 200 OK
+2026-11-21T17:44:12.313197873Z INFO:     127.0.0.1:35978 - "GET /api/orchestrate/migrations/vnf-data-6ce4038a HTTP/1.1" 200 OK
+2026-11-21T17:44:44.906250902Z INFO:     127.0.0.1:36468 - "GET /api/orchestrate/state HTTP/1.1" 200 OK
+2026-11-21T17:44:45.358427540Z INFO:     127.0.0.1:36472 - "POST /api/orchestrate HTTP/1.1" 409 Conflict
+2026-11-21T17:44:45.791055191Z INFO:     127.0.0.1:36474 - "POST /api/orchestrate HTTP/1.1" 200 OK
+2026-11-21T17:44:45.805698149Z INFO:OrchestrationService:PHASE 6: AI node 4 mapped to K8s hostname 'worker1'
+2026-11-21T17:44:45.805744526Z INFO:OrchestrationService:PHASE: MAKE - Triggering Tekton for replacement VNF: vnf-router-740a9f49 at hue-1
+2026-11-21T17:44:45.828684531Z INFO:OrchestrationService:PHASE: VERIFY - Polling dynamic endpoint/readiness for vnf-router-740a9f49
+2026-11-21T17:44:45.839820142Z INFO:     127.0.0.1:36478 - "GET /api/orchestrate/migrations/vnf-router-740a9f49 HTTP/1.1" 200 OK
+2026-11-21T17:44:46.844397365Z INFO:     127.0.0.1:46000 - "GET /api/orchestrate/migrations/vnf-router-740a9f49 HTTP/1.1" 200 OK
+2026-11-21T17:44:47.849937277Z INFO:     127.0.0.1:46010 - "GET /api/orchestrate/migrations/vnf-router-740a9f49 HTTP/1.1" 200 OK
+2026-11-21T17:44:48.855057238Z INFO:     127.0.0.1:46020 - "GET /api/orchestrate/migrations/vnf-router-740a9f49 HTTP/1.1" 200 OK
+2026-11-21T17:44:49.860324482Z INFO:     127.0.0.1:46028 - "GET /api/orchestrate/migrations/vnf-router-740a9f49 HTTP/1.1" 200 OK
+2026-11-21T17:44:50.866006035Z INFO:     127.0.0.1:46032 - "GET /api/orchestrate/migrations/vnf-router-740a9f49 HTTP/1.1" 200 OK
+2026-11-21T17:44:51.870840378Z INFO:     127.0.0.1:46034 - "GET /api/orchestrate/migrations/vnf-router-740a9f49 HTTP/1.1" 200 OK
+2026-11-21T17:44:52.875686290Z INFO:     127.0.0.1:46044 - "GET /api/orchestrate/migrations/vnf-router-740a9f49 HTTP/1.1" 200 OK
+2026-11-21T17:44:53.880459346Z INFO:     127.0.0.1:46048 - "GET /api/orchestrate/migrations/vnf-router-740a9f49 HTTP/1.1" 200 OK
+2026-11-21T17:44:54.885760715Z INFO:     127.0.0.1:46058 - "GET /api/orchestrate/migrations/vnf-router-740a9f49 HTTP/1.1" 200 OK
+2026-11-21T17:44:55.890442343Z INFO:     127.0.0.1:46072 - "GET /api/orchestrate/migrations/vnf-router-740a9f49 HTTP/1.1" 200 OK
+2026-11-21T17:44:56.896842913Z INFO:     127.0.0.1:40518 - "GET /api/orchestrate/migrations/vnf-router-740a9f49 HTTP/1.1" 200 OK
+2026-11-21T17:44:57.903605692Z INFO:     127.0.0.1:40524 - "GET /api/orchestrate/migrations/vnf-router-740a9f49 HTTP/1.1" 200 OK
+2026-11-21T17:44:58.909702122Z INFO:     127.0.0.1:40536 - "GET /api/orchestrate/migrations/vnf-router-740a9f49 HTTP/1.1" 200 OK
+2026-11-21T17:44:59.914388990Z INFO:     127.0.0.1:40546 - "GET /api/orchestrate/migrations/vnf-router-740a9f49 HTTP/1.1" 200 OK
+2026-11-21T17:45:00.920552269Z INFO:     127.0.0.1:40562 - "GET /api/orchestrate/migrations/vnf-router-740a9f49 HTTP/1.1" 200 OK
+2026-11-21T17:45:01.957703047Z INFO:     127.0.0.1:40564 - "GET /api/orchestrate/migrations/vnf-router-740a9f49 HTTP/1.1" 200 OK
+2026-11-21T17:45:02.962829987Z INFO:     127.0.0.1:40574 - "GET /api/orchestrate/migrations/vnf-router-740a9f49 HTTP/1.1" 200 OK
+2026-11-21T17:45:04.033822116Z INFO:OrchestrationService:VNF vnf-router-740a9f49 is READY. Pod IP: 10.1.235.182 on worker1
+2026-11-21T17:45:04.033873464Z INFO:OrchestrationService:PHASE: TRANSLATE - Ready endpoint 10.1.235.182:0 via terminal SID fc00:5::1
+2026-11-21T17:45:04.033882749Z INFO:OrchestrationService:PHASE: STEER - Sending command to SDN Controller at http://localhost:8765
+2026-11-21T17:45:04.070083828Z INFO:     127.0.0.1:40580 - "GET /api/orchestrate/migrations/vnf-router-740a9f49 HTTP/1.1" 200 OK
+2026-11-21T17:45:05.074933654Z INFO:     127.0.0.1:40592 - "GET /api/orchestrate/migrations/vnf-router-740a9f49 HTTP/1.1" 200 OK
+2026-11-21T17:45:06.075280531Z INFO:OrchestrationService:PHASE 6: Control-plane Steering Overhead = 2041.34 ms (REST→Controller confirmation). Packet loss and data-plane latency are not measured.
+2026-11-21T17:45:06.075332203Z INFO:OrchestrationService:PHASE: BREAK - confirm_steer_done=True. Deleting old VNF: vnf-router-bf3efb0a
+2026-11-21T17:45:06.239002902Z INFO:     127.0.0.1:40598 - "GET /api/orchestrate/migrations/vnf-router-740a9f49 HTTP/1.1" 200 OK
+2026-11-21T17:45:07.247986683Z INFO:     127.0.0.1:53206 - "GET /api/orchestrate/migrations/vnf-router-740a9f49 HTTP/1.1" 200 OK
+2026-11-21T17:45:08.350031769Z INFO:     127.0.0.1:53218 - "GET /api/orchestrate/migrations/vnf-router-740a9f49 HTTP/1.1" 200 OK
+2026-11-21T17:45:38.884945430Z INFO:     127.0.0.1:49182 - "GET /api/orchestrate/state HTTP/1.1" 200 OK
+2026-11-21T17:45:39.368582474Z INFO:     127.0.0.1:49198 - "POST /api/orchestrate HTTP/1.1" 409 Conflict
+2026-11-21T17:45:39.812359771Z INFO:     127.0.0.1:49204 - "POST /api/orchestrate HTTP/1.1" 409 Conflict
+2026-11-21T17:45:40.238699153Z INFO:     127.0.0.1:49210 - "POST /api/orchestrate HTTP/1.1" 409 Conflict
+2026-11-21T17:45:40.672230766Z INFO:     127.0.0.1:49218 - "POST /api/orchestrate HTTP/1.1" 409 Conflict
+2026-11-21T17:45:41.080800438Z INFO:     127.0.0.1:49226 - "POST /api/orchestrate HTTP/1.1" 409 Conflict
+2026-11-21T17:45:41.510914648Z INFO:     127.0.0.1:49230 - "POST /api/orchestrate HTTP/1.1" 409 Conflict
+2026-11-21T17:45:41.917799440Z INFO:     127.0.0.1:49234 - "POST /api/orchestrate HTTP/1.1" 409 Conflict
+2026-11-21T17:45:42.317070414Z INFO:     127.0.0.1:49238 - "POST /api/orchestrate HTTP/1.1" 409 Conflict
+2026-11-21T17:45:42.776884801Z INFO:     127.0.0.1:49248 - "POST /api/orchestrate HTTP/1.1" 409 Conflict
+2026-11-21T17:45:43.262205914Z INFO:     127.0.0.1:49250 - "POST /api/orchestrate HTTP/1.1" 200 OK
+2026-11-21T17:45:43.279101165Z INFO:OrchestrationService:PHASE 6: AI node 4 mapped to K8s hostname 'worker1'
+2026-11-21T17:45:43.279137837Z INFO:OrchestrationService:PHASE: MAKE - Triggering Tekton for replacement VNF: vnf-voc-232fa8db at hue-1
+2026-11-21T17:45:43.303127722Z INFO:OrchestrationService:PHASE: VERIFY - Polling dynamic endpoint/readiness for vnf-voc-232fa8db
+2026-11-21T17:45:43.311011936Z INFO:     127.0.0.1:49258 - "GET /api/orchestrate/migrations/vnf-voc-232fa8db HTTP/1.1" 200 OK
+2026-11-21T17:45:44.316490391Z INFO:     127.0.0.1:49262 - "GET /api/orchestrate/migrations/vnf-voc-232fa8db HTTP/1.1" 200 OK
+2026-11-21T17:45:45.320683722Z INFO:     127.0.0.1:49270 - "GET /api/orchestrate/migrations/vnf-voc-232fa8db HTTP/1.1" 200 OK
+2026-11-21T17:45:46.326395538Z INFO:     127.0.0.1:49282 - "GET /api/orchestrate/migrations/vnf-voc-232fa8db HTTP/1.1" 200 OK
+2026-11-21T17:45:47.331407125Z INFO:     127.0.0.1:51210 - "GET /api/orchestrate/migrations/vnf-voc-232fa8db HTTP/1.1" 200 OK
+2026-11-21T17:45:48.335990833Z INFO:     127.0.0.1:51216 - "GET /api/orchestrate/migrations/vnf-voc-232fa8db HTTP/1.1" 200 OK
+2026-11-21T17:45:49.341069007Z INFO:     127.0.0.1:51232 - "GET /api/orchestrate/migrations/vnf-voc-232fa8db HTTP/1.1" 200 OK
+2026-11-21T17:45:50.346651933Z INFO:     127.0.0.1:51234 - "GET /api/orchestrate/migrations/vnf-voc-232fa8db HTTP/1.1" 200 OK
+2026-11-21T17:45:51.352157685Z INFO:     127.0.0.1:51248 - "GET /api/orchestrate/migrations/vnf-voc-232fa8db HTTP/1.1" 200 OK
+2026-11-21T17:45:52.357537709Z INFO:     127.0.0.1:51250 - "GET /api/orchestrate/migrations/vnf-voc-232fa8db HTTP/1.1" 200 OK
+2026-11-21T17:45:53.362858847Z INFO:     127.0.0.1:51256 - "GET /api/orchestrate/migrations/vnf-voc-232fa8db HTTP/1.1" 200 OK
+2026-11-21T17:45:54.368768365Z INFO:     127.0.0.1:51264 - "GET /api/orchestrate/migrations/vnf-voc-232fa8db HTTP/1.1" 200 OK
+2026-11-21T17:45:55.373412038Z INFO:     127.0.0.1:51276 - "GET /api/orchestrate/migrations/vnf-voc-232fa8db HTTP/1.1" 200 OK
+2026-11-21T17:45:56.378582504Z INFO:     127.0.0.1:51290 - "GET /api/orchestrate/migrations/vnf-voc-232fa8db HTTP/1.1" 200 OK
+2026-11-21T17:45:57.383764402Z INFO:     127.0.0.1:38336 - "GET /api/orchestrate/migrations/vnf-voc-232fa8db HTTP/1.1" 200 OK
+2026-11-21T17:45:58.389415757Z INFO:     127.0.0.1:38344 - "GET /api/orchestrate/migrations/vnf-voc-232fa8db HTTP/1.1" 200 OK
+2026-11-21T17:45:59.366369162Z WARNING:TektonOrchestrator:Service lookup failed for vnf-voc-232fa8db-svc: (404)
+2026-11-21T17:45:59.366421493Z Reason: Not Found
+2026-11-21T17:45:59.366431613Z HTTP response headers: HTTPHeaderDict({'Audit-Id': '5aad5dbf-4bb7-4923-ad2e-4913ef30264b', 'Cache-Control': 'no-cache, private', 'Content-Type': 'application/json', 'X-Kubernetes-Pf-Flowschema-Uid': '71df409d-a7e8-4005-b579-72bcfa35e141', 'X-Kubernetes-Pf-Prioritylevel-Uid': 'c7ab930d-2b79-43be-b7fe-bc326d3493dc', 'Date': 'Sat, 21 Nov 2026 17:45:59 GMT', 'Content-Length': '216'})
+2026-11-21T17:45:59.366443100Z HTTP response body: {"kind":"Status","apiVersion":"v1","metadata":{},"status":"Failure","message":"services \"vnf-voc-232fa8db-svc\" not found","reason":"NotFound","details":{"name":"vnf-voc-232fa8db-svc","kind":"services"},"code":404}
+2026-11-21T17:45:59.366457435Z 
+2026-11-21T17:45:59.366464229Z 
+2026-11-21T17:45:59.434977303Z INFO:     127.0.0.1:38346 - "GET /api/orchestrate/migrations/vnf-voc-232fa8db HTTP/1.1" 200 OK
+2026-11-21T17:46:00.437963132Z INFO:     127.0.0.1:38354 - "GET /api/orchestrate/migrations/vnf-voc-232fa8db HTTP/1.1" 200 OK
+2026-11-21T17:46:01.499480780Z INFO:     127.0.0.1:38358 - "GET /api/orchestrate/migrations/vnf-voc-232fa8db HTTP/1.1" 200 OK
+2026-11-21T17:46:02.503485762Z INFO:     127.0.0.1:38364 - "GET /api/orchestrate/migrations/vnf-voc-232fa8db HTTP/1.1" 200 OK
+2026-11-21T17:46:03.574511790Z INFO:     127.0.0.1:38378 - "GET /api/orchestrate/migrations/vnf-voc-232fa8db HTTP/1.1" 200 OK
+2026-11-21T17:46:04.580258131Z INFO:     127.0.0.1:38394 - "GET /api/orchestrate/migrations/vnf-voc-232fa8db HTTP/1.1" 200 OK
+2026-11-21T17:46:05.670536385Z INFO:     127.0.0.1:38402 - "GET /api/orchestrate/migrations/vnf-voc-232fa8db HTTP/1.1" 200 OK
+2026-11-21T17:46:06.675509291Z INFO:     127.0.0.1:52636 - "GET /api/orchestrate/migrations/vnf-voc-232fa8db HTTP/1.1" 200 OK
+2026-11-21T17:46:07.736574061Z INFO:OrchestrationService:VNF vnf-voc-232fa8db is READY. Pod IP: 10.1.235.162 on worker1
+2026-11-21T17:46:07.736629950Z INFO:OrchestrationService:PHASE: TRANSLATE - Ready endpoint 10.1.235.162:0 via terminal SID fc00:5::1
+2026-11-21T17:46:07.736640096Z INFO:OrchestrationService:PHASE: STEER - Sending command to SDN Controller at http://localhost:8765
+2026-11-21T17:46:07.769710950Z INFO:     127.0.0.1:52642 - "GET /api/orchestrate/migrations/vnf-voc-232fa8db HTTP/1.1" 200 OK
+2026-11-21T17:46:08.773962716Z INFO:     127.0.0.1:52646 - "GET /api/orchestrate/migrations/vnf-voc-232fa8db HTTP/1.1" 200 OK
+2026-11-21T17:46:09.773792348Z INFO:OrchestrationService:PHASE 6: Control-plane Steering Overhead = 2037.05 ms (REST→Controller confirmation). Packet loss and data-plane latency are not measured.
+2026-11-21T17:46:09.773841987Z INFO:OrchestrationService:PHASE: BREAK - confirm_steer_done=True. Deleting old VNF: vnf-voc-8b90635a
+2026-11-21T17:46:09.918151654Z INFO:     127.0.0.1:52658 - "GET /api/orchestrate/migrations/vnf-voc-232fa8db HTTP/1.1" 200 OK
+2026-11-21T17:46:10.926143387Z INFO:     127.0.0.1:52672 - "GET /api/orchestrate/migrations/vnf-voc-232fa8db HTTP/1.1" 200 OK
+2026-11-21T17:46:11.934604404Z INFO:     127.0.0.1:52680 - "GET /api/orchestrate/migrations/vnf-voc-232fa8db HTTP/1.1" 200 OK
+2026-11-21T17:46:12.942126102Z INFO:     127.0.0.1:52684 - "GET /api/orchestrate/migrations/vnf-voc-232fa8db HTTP/1.1" 200 OK
+2026-11-21T17:46:13.948114102Z INFO:     127.0.0.1:52692 - "GET /api/orchestrate/migrations/vnf-voc-232fa8db HTTP/1.1" 200 OK
+2026-11-21T17:46:14.955557900Z INFO:     127.0.0.1:52706 - "GET /api/orchestrate/migrations/vnf-voc-232fa8db HTTP/1.1" 200 OK
+2026-11-21T17:46:15.962025642Z INFO:     127.0.0.1:52712 - "GET /api/orchestrate/migrations/vnf-voc-232fa8db HTTP/1.1" 200 OK
+2026-11-21T17:46:16.970769392Z INFO:     127.0.0.1:36480 - "GET /api/orchestrate/migrations/vnf-voc-232fa8db HTTP/1.1" 200 OK
+2026-11-21T17:46:17.978621386Z INFO:     127.0.0.1:36482 - "GET /api/orchestrate/migrations/vnf-voc-232fa8db HTTP/1.1" 200 OK
+2026-11-21T17:46:18.984711963Z INFO:     127.0.0.1:36498 - "GET /api/orchestrate/migrations/vnf-voc-232fa8db HTTP/1.1" 200 OK
+2026-11-21T17:46:19.992228855Z INFO:     127.0.0.1:36514 - "GET /api/orchestrate/migrations/vnf-voc-232fa8db HTTP/1.1" 200 OK
+2026-11-21T17:46:20.998934546Z INFO:     127.0.0.1:36526 - "GET /api/orchestrate/migrations/vnf-voc-232fa8db HTTP/1.1" 200 OK
+2026-11-21T17:46:22.006956818Z INFO:     127.0.0.1:36536 - "GET /api/orchestrate/migrations/vnf-voc-232fa8db HTTP/1.1" 200 OK
+2026-11-21T17:46:23.013182445Z INFO:     127.0.0.1:36542 - "GET /api/orchestrate/migrations/vnf-voc-232fa8db HTTP/1.1" 200 OK
+2026-11-21T17:46:24.021107589Z INFO:     127.0.0.1:36546 - "GET /api/orchestrate/migrations/vnf-voc-232fa8db HTTP/1.1" 200 OK
+2026-11-21T17:46:25.028365973Z INFO:     127.0.0.1:36560 - "GET /api/orchestrate/migrations/vnf-voc-232fa8db HTTP/1.1" 200 OK
+2026-11-21T17:46:26.036827094Z INFO:     127.0.0.1:36576 - "GET /api/orchestrate/migrations/vnf-voc-232fa8db HTTP/1.1" 200 OK
+2026-11-21T17:46:27.045606231Z INFO:     127.0.0.1:44820 - "GET /api/orchestrate/migrations/vnf-voc-232fa8db HTTP/1.1" 200 OK
+2026-11-21T17:46:28.054339583Z INFO:     127.0.0.1:44826 - "GET /api/orchestrate/migrations/vnf-voc-232fa8db HTTP/1.1" 200 OK
+2026-11-21T17:46:29.064438711Z INFO:     127.0.0.1:44838 - "GET /api/orchestrate/migrations/vnf-voc-232fa8db HTTP/1.1" 200 OK
+2026-11-21T17:46:30.074195629Z INFO:     127.0.0.1:44844 - "GET /api/orchestrate/migrations/vnf-voc-232fa8db HTTP/1.1" 200 OK
+2026-11-21T17:46:31.084612035Z INFO:     127.0.0.1:44850 - "GET /api/orchestrate/migrations/vnf-voc-232fa8db HTTP/1.1" 200 OK
+2026-11-21T17:46:32.094911197Z INFO:     127.0.0.1:44856 - "GET /api/orchestrate/migrations/vnf-voc-232fa8db HTTP/1.1" 200 OK
+2026-11-21T17:46:33.101902236Z INFO:     127.0.0.1:44872 - "GET /api/orchestrate/migrations/vnf-voc-232fa8db HTTP/1.1" 200 OK
+2026-11-21T17:46:34.108293635Z INFO:     127.0.0.1:44880 - "GET /api/orchestrate/migrations/vnf-voc-232fa8db HTTP/1.1" 200 OK
+2026-11-21T17:46:35.114872056Z INFO:     127.0.0.1:44890 - "GET /api/orchestrate/migrations/vnf-voc-232fa8db HTTP/1.1" 200 OK
+2026-11-21T17:46:36.121587584Z INFO:     127.0.0.1:44904 - "GET /api/orchestrate/migrations/vnf-voc-232fa8db HTTP/1.1" 200 OK
+2026-11-21T17:46:37.128462768Z INFO:     127.0.0.1:35816 - "GET /api/orchestrate/migrations/vnf-voc-232fa8db HTTP/1.1" 200 OK
+2026-11-21T17:46:38.138383876Z INFO:     127.0.0.1:35818 - "GET /api/orchestrate/migrations/vnf-voc-232fa8db HTTP/1.1" 200 OK
+2026-11-21T17:46:39.149223353Z INFO:     127.0.0.1:35820 - "GET /api/orchestrate/migrations/vnf-voc-232fa8db HTTP/1.1" 200 OK
+2026-11-21T17:46:40.160424760Z INFO:     127.0.0.1:35834 - "GET /api/orchestrate/migrations/vnf-voc-232fa8db HTTP/1.1" 200 OK
+2026-11-21T17:46:41.336621338Z INFO:     127.0.0.1:35836 - "GET /api/orchestrate/migrations/vnf-voc-232fa8db HTTP/1.1" 200 OK
+2026-11-21T17:47:09.823589029Z INFO:     127.0.0.1:57814 - "GET /api/orchestrate/state HTTP/1.1" 200 OK
+2026-11-21T17:47:10.282656873Z INFO:     127.0.0.1:57830 - "POST /api/orchestrate HTTP/1.1" 409 Conflict
+2026-11-21T17:47:10.747004013Z INFO:     127.0.0.1:57832 - "POST /api/orchestrate HTTP/1.1" 200 OK
+2026-11-21T17:47:10.762603187Z INFO:OrchestrationService:PHASE 6: AI node 4 mapped to K8s hostname 'worker1'
+2026-11-21T17:47:10.762637582Z INFO:OrchestrationService:PHASE: MAKE - Triggering Tekton for replacement VNF: vnf-idps-6f9a6794 at hue-1
+2026-11-21T17:47:10.787640307Z INFO:OrchestrationService:PHASE: VERIFY - Polling dynamic endpoint/readiness for vnf-idps-6f9a6794
+2026-11-21T17:47:10.795855943Z INFO:     127.0.0.1:57840 - "GET /api/orchestrate/migrations/vnf-idps-6f9a6794 HTTP/1.1" 200 OK
+2026-11-21T17:47:11.800906189Z INFO:     127.0.0.1:57850 - "GET /api/orchestrate/migrations/vnf-idps-6f9a6794 HTTP/1.1" 200 OK
+2026-11-21T17:47:12.803782836Z INFO:     127.0.0.1:57862 - "GET /api/orchestrate/migrations/vnf-idps-6f9a6794 HTTP/1.1" 200 OK
+2026-11-21T17:47:13.809020809Z INFO:     127.0.0.1:57870 - "GET /api/orchestrate/migrations/vnf-idps-6f9a6794 HTTP/1.1" 200 OK
+2026-11-21T17:47:14.812674310Z INFO:     127.0.0.1:57874 - "GET /api/orchestrate/migrations/vnf-idps-6f9a6794 HTTP/1.1" 200 OK
+2026-11-21T17:47:15.816906341Z INFO:     127.0.0.1:57888 - "GET /api/orchestrate/migrations/vnf-idps-6f9a6794 HTTP/1.1" 200 OK
+2026-11-21T17:47:16.822525597Z INFO:     127.0.0.1:54828 - "GET /api/orchestrate/migrations/vnf-idps-6f9a6794 HTTP/1.1" 200 OK
+2026-11-21T17:47:17.826062350Z INFO:     127.0.0.1:54842 - "GET /api/orchestrate/migrations/vnf-idps-6f9a6794 HTTP/1.1" 200 OK
+2026-11-21T17:47:18.831255968Z INFO:     127.0.0.1:54848 - "GET /api/orchestrate/migrations/vnf-idps-6f9a6794 HTTP/1.1" 200 OK
+2026-11-21T17:47:19.836825243Z INFO:     127.0.0.1:54854 - "GET /api/orchestrate/migrations/vnf-idps-6f9a6794 HTTP/1.1" 200 OK
+2026-11-21T17:47:20.842932754Z INFO:     127.0.0.1:54858 - "GET /api/orchestrate/migrations/vnf-idps-6f9a6794 HTTP/1.1" 200 OK
+2026-11-21T17:47:21.848827665Z INFO:     127.0.0.1:54866 - "GET /api/orchestrate/migrations/vnf-idps-6f9a6794 HTTP/1.1" 200 OK
+2026-11-21T17:47:22.854768462Z INFO:     127.0.0.1:54880 - "GET /api/orchestrate/migrations/vnf-idps-6f9a6794 HTTP/1.1" 200 OK
+2026-11-21T17:47:23.860558754Z INFO:     127.0.0.1:54894 - "GET /api/orchestrate/migrations/vnf-idps-6f9a6794 HTTP/1.1" 200 OK
+2026-11-21T17:47:24.866268146Z INFO:     127.0.0.1:54906 - "GET /api/orchestrate/migrations/vnf-idps-6f9a6794 HTTP/1.1" 200 OK
+2026-11-21T17:47:25.872287280Z INFO:     127.0.0.1:54918 - "GET /api/orchestrate/migrations/vnf-idps-6f9a6794 HTTP/1.1" 200 OK
+2026-11-21T17:47:26.852353621Z WARNING:TektonOrchestrator:Service lookup failed for vnf-idps-6f9a6794-svc: (404)
+2026-11-21T17:47:26.852422543Z Reason: Not Found
+2026-11-21T17:47:26.852437395Z HTTP response headers: HTTPHeaderDict({'Audit-Id': '86c0bec2-61d7-4d2a-aae6-47fa33059de4', 'Cache-Control': 'no-cache, private', 'Content-Type': 'application/json', 'X-Kubernetes-Pf-Flowschema-Uid': '71df409d-a7e8-4005-b579-72bcfa35e141', 'X-Kubernetes-Pf-Prioritylevel-Uid': 'c7ab930d-2b79-43be-b7fe-bc326d3493dc', 'Date': 'Sat, 21 Nov 2026 17:47:26 GMT', 'Content-Length': '218'})
+2026-11-21T17:47:26.852451066Z HTTP response body: {"kind":"Status","apiVersion":"v1","metadata":{},"status":"Failure","message":"services \"vnf-idps-6f9a6794-svc\" not found","reason":"NotFound","details":{"name":"vnf-idps-6f9a6794-svc","kind":"services"},"code":404}
+2026-11-21T17:47:26.852469196Z 
+2026-11-21T17:47:26.852479480Z 
+2026-11-21T17:47:26.935638525Z INFO:     127.0.0.1:43384 - "GET /api/orchestrate/migrations/vnf-idps-6f9a6794 HTTP/1.1" 200 OK
+2026-11-21T17:47:27.940805279Z INFO:     127.0.0.1:43398 - "GET /api/orchestrate/migrations/vnf-idps-6f9a6794 HTTP/1.1" 200 OK
+2026-11-21T17:47:29.011233023Z INFO:OrchestrationService:VNF vnf-idps-6f9a6794 is READY. Pod IP: 10.1.235.184 on worker1
+2026-11-21T17:47:29.011271086Z INFO:OrchestrationService:PHASE: TRANSLATE - Ready endpoint 10.1.235.184:0 via terminal SID fc00:5::1
+2026-11-21T17:47:29.011277325Z INFO:OrchestrationService:PHASE: STEER - Sending command to SDN Controller at http://localhost:8765
+2026-11-21T17:47:29.055007803Z INFO:     127.0.0.1:43402 - "GET /api/orchestrate/migrations/vnf-idps-6f9a6794 HTTP/1.1" 200 OK
+2026-11-21T17:47:30.058460843Z INFO:     127.0.0.1:43410 - "GET /api/orchestrate/migrations/vnf-idps-6f9a6794 HTTP/1.1" 200 OK
+2026-11-21T17:47:31.054960958Z INFO:OrchestrationService:PHASE 6: Control-plane Steering Overhead = 2043.37 ms (REST→Controller confirmation). Packet loss and data-plane latency are not measured.
+2026-11-21T17:47:31.055005386Z INFO:OrchestrationService:PHASE: BREAK - confirm_steer_done=True. Deleting old VNF: vnf-idps-0bbfc73a
+2026-11-21T17:47:31.182924850Z INFO:     127.0.0.1:43420 - "GET /api/orchestrate/migrations/vnf-idps-6f9a6794 HTTP/1.1" 200 OK
+2026-11-21T17:47:32.191201896Z INFO:     127.0.0.1:43436 - "GET /api/orchestrate/migrations/vnf-idps-6f9a6794 HTTP/1.1" 200 OK
+2026-11-21T17:47:33.197451716Z INFO:     127.0.0.1:43444 - "GET /api/orchestrate/migrations/vnf-idps-6f9a6794 HTTP/1.1" 200 OK
+2026-11-21T17:47:34.205298296Z INFO:     127.0.0.1:43458 - "GET /api/orchestrate/migrations/vnf-idps-6f9a6794 HTTP/1.1" 200 OK
+2026-11-21T17:47:35.216134986Z INFO:     127.0.0.1:43464 - "GET /api/orchestrate/migrations/vnf-idps-6f9a6794 HTTP/1.1" 200 OK
+2026-11-21T17:47:36.222434829Z INFO:     127.0.0.1:43476 - "GET /api/orchestrate/migrations/vnf-idps-6f9a6794 HTTP/1.1" 200 OK
+2026-11-21T17:47:37.230766218Z INFO:     127.0.0.1:43162 - "GET /api/orchestrate/migrations/vnf-idps-6f9a6794 HTTP/1.1" 200 OK
+2026-11-21T17:47:38.238351348Z INFO:     127.0.0.1:43172 - "GET /api/orchestrate/migrations/vnf-idps-6f9a6794 HTTP/1.1" 200 OK
+2026-11-21T17:47:39.246057072Z INFO:     127.0.0.1:43186 - "GET /api/orchestrate/migrations/vnf-idps-6f9a6794 HTTP/1.1" 200 OK
+2026-11-21T17:47:40.253946385Z INFO:     127.0.0.1:43196 - "GET /api/orchestrate/migrations/vnf-idps-6f9a6794 HTTP/1.1" 200 OK
+2026-11-21T17:47:41.262823649Z INFO:     127.0.0.1:43200 - "GET /api/orchestrate/migrations/vnf-idps-6f9a6794 HTTP/1.1" 200 OK
+2026-11-21T17:47:42.269266304Z INFO:     127.0.0.1:43216 - "GET /api/orchestrate/migrations/vnf-idps-6f9a6794 HTTP/1.1" 200 OK
+2026-11-21T17:47:43.276993531Z INFO:     127.0.0.1:43218 - "GET /api/orchestrate/migrations/vnf-idps-6f9a6794 HTTP/1.1" 200 OK
+2026-11-21T17:47:44.283904399Z INFO:     127.0.0.1:43222 - "GET /api/orchestrate/migrations/vnf-idps-6f9a6794 HTTP/1.1" 200 OK
+2026-11-21T17:47:45.290596091Z INFO:     127.0.0.1:43230 - "GET /api/orchestrate/migrations/vnf-idps-6f9a6794 HTTP/1.1" 200 OK
+2026-11-21T17:47:46.299160654Z INFO:     127.0.0.1:43246 - "GET /api/orchestrate/migrations/vnf-idps-6f9a6794 HTTP/1.1" 200 OK
+2026-11-21T17:47:47.307212620Z INFO:     127.0.0.1:34934 - "GET /api/orchestrate/migrations/vnf-idps-6f9a6794 HTTP/1.1" 200 OK
+2026-11-21T17:47:48.315650348Z INFO:     127.0.0.1:34944 - "GET /api/orchestrate/migrations/vnf-idps-6f9a6794 HTTP/1.1" 200 OK
+2026-11-21T17:47:49.323262975Z INFO:     127.0.0.1:34948 - "GET /api/orchestrate/migrations/vnf-idps-6f9a6794 HTTP/1.1" 200 OK
+2026-11-21T17:47:50.330208277Z INFO:     127.0.0.1:34958 - "GET /api/orchestrate/migrations/vnf-idps-6f9a6794 HTTP/1.1" 200 OK
+2026-11-21T17:47:51.338876543Z INFO:     127.0.0.1:34962 - "GET /api/orchestrate/migrations/vnf-idps-6f9a6794 HTTP/1.1" 200 OK
+2026-11-21T17:47:52.346624831Z INFO:     127.0.0.1:34966 - "GET /api/orchestrate/migrations/vnf-idps-6f9a6794 HTTP/1.1" 200 OK
+2026-11-21T17:47:53.355873539Z INFO:     127.0.0.1:34980 - "GET /api/orchestrate/migrations/vnf-idps-6f9a6794 HTTP/1.1" 200 OK
+2026-11-21T17:47:54.361637977Z INFO:     127.0.0.1:34988 - "GET /api/orchestrate/migrations/vnf-idps-6f9a6794 HTTP/1.1" 200 OK
+2026-11-21T17:47:55.372723724Z INFO:     127.0.0.1:34992 - "GET /api/orchestrate/migrations/vnf-idps-6f9a6794 HTTP/1.1" 200 OK
+2026-11-21T17:47:56.434215951Z INFO:     127.0.0.1:35002 - "GET /api/orchestrate/migrations/vnf-idps-6f9a6794 HTTP/1.1" 200 OK
+2026-11-21T17:47:57.443476376Z INFO:     127.0.0.1:58330 - "GET /api/orchestrate/migrations/vnf-idps-6f9a6794 HTTP/1.1" 200 OK
+2026-11-21T17:47:58.451864539Z INFO:     127.0.0.1:58346 - "GET /api/orchestrate/migrations/vnf-idps-6f9a6794 HTTP/1.1" 200 OK
+2026-11-21T17:47:59.460304596Z INFO:     127.0.0.1:58348 - "GET /api/orchestrate/migrations/vnf-idps-6f9a6794 HTTP/1.1" 200 OK
+2026-11-21T17:48:00.466367214Z INFO:     127.0.0.1:58356 - "GET /api/orchestrate/migrations/vnf-idps-6f9a6794 HTTP/1.1" 200 OK
+2026-11-21T17:48:01.473165249Z INFO:     127.0.0.1:58364 - "GET /api/orchestrate/migrations/vnf-idps-6f9a6794 HTTP/1.1" 200 OK
+2026-11-21T17:48:02.482162893Z INFO:     127.0.0.1:58376 - "GET /api/orchestrate/migrations/vnf-idps-6f9a6794 HTTP/1.1" 200 OK
+2026-11-21T17:48:03.583667716Z INFO:     127.0.0.1:58386 - "GET /api/orchestrate/migrations/vnf-idps-6f9a6794 HTTP/1.1" 200 OK
+2026-11-21T17:48:36.134957011Z INFO:     127.0.0.1:41208 - "GET /api/orchestrate/state HTTP/1.1" 200 OK
+2026-11-21T17:48:36.556578591Z INFO:     127.0.0.1:41212 - "POST /api/orchestrate HTTP/1.1" 409 Conflict
+2026-11-21T17:48:36.971813482Z INFO:     127.0.0.1:47008 - "POST /api/orchestrate HTTP/1.1" 200 OK
+2026-11-21T17:48:36.986245053Z INFO:OrchestrationService:PHASE 6: AI node 4 mapped to K8s hostname 'worker1'
+2026-11-21T17:48:36.986306317Z INFO:OrchestrationService:PHASE: MAKE - Triggering Tekton for replacement VNF: vnf-lb-c7266b57 at hue-1
+2026-11-21T17:48:37.009622321Z INFO:OrchestrationService:PHASE: VERIFY - Polling dynamic endpoint/readiness for vnf-lb-c7266b57
+2026-11-21T17:48:37.017435393Z INFO:     127.0.0.1:47024 - "GET /api/orchestrate/migrations/vnf-lb-c7266b57 HTTP/1.1" 200 OK
+2026-11-21T17:48:38.021735564Z INFO:     127.0.0.1:47032 - "GET /api/orchestrate/migrations/vnf-lb-c7266b57 HTTP/1.1" 200 OK
+2026-11-21T17:48:39.025836092Z INFO:     127.0.0.1:47038 - "GET /api/orchestrate/migrations/vnf-lb-c7266b57 HTTP/1.1" 200 OK
+2026-11-21T17:48:40.030022111Z INFO:     127.0.0.1:47044 - "GET /api/orchestrate/migrations/vnf-lb-c7266b57 HTTP/1.1" 200 OK
+2026-11-21T17:48:41.035851622Z INFO:     127.0.0.1:47054 - "GET /api/orchestrate/migrations/vnf-lb-c7266b57 HTTP/1.1" 200 OK
+2026-11-21T17:48:42.041423503Z INFO:     127.0.0.1:47064 - "GET /api/orchestrate/migrations/vnf-lb-c7266b57 HTTP/1.1" 200 OK
+2026-11-21T17:48:43.045308827Z INFO:     127.0.0.1:47078 - "GET /api/orchestrate/migrations/vnf-lb-c7266b57 HTTP/1.1" 200 OK
+2026-11-21T17:48:44.050297474Z INFO:     127.0.0.1:47092 - "GET /api/orchestrate/migrations/vnf-lb-c7266b57 HTTP/1.1" 200 OK
+2026-11-21T17:48:45.055044551Z INFO:     127.0.0.1:47094 - "GET /api/orchestrate/migrations/vnf-lb-c7266b57 HTTP/1.1" 200 OK
+2026-11-21T17:48:46.059921781Z INFO:     127.0.0.1:47102 - "GET /api/orchestrate/migrations/vnf-lb-c7266b57 HTTP/1.1" 200 OK
+2026-11-21T17:48:47.064618953Z INFO:     127.0.0.1:40946 - "GET /api/orchestrate/migrations/vnf-lb-c7266b57 HTTP/1.1" 200 OK
+2026-11-21T17:48:48.076001389Z INFO:     127.0.0.1:40962 - "GET /api/orchestrate/migrations/vnf-lb-c7266b57 HTTP/1.1" 200 OK
+2026-11-21T17:48:49.080447974Z INFO:     127.0.0.1:40970 - "GET /api/orchestrate/migrations/vnf-lb-c7266b57 HTTP/1.1" 200 OK
+2026-11-21T17:48:50.085597717Z INFO:     127.0.0.1:40986 - "GET /api/orchestrate/migrations/vnf-lb-c7266b57 HTTP/1.1" 200 OK
+2026-11-21T17:48:51.090291316Z INFO:     127.0.0.1:40992 - "GET /api/orchestrate/migrations/vnf-lb-c7266b57 HTTP/1.1" 200 OK
+2026-11-21T17:48:52.095846286Z INFO:     127.0.0.1:41004 - "GET /api/orchestrate/migrations/vnf-lb-c7266b57 HTTP/1.1" 200 OK
+2026-11-21T17:48:53.103229699Z INFO:     127.0.0.1:41016 - "GET /api/orchestrate/migrations/vnf-lb-c7266b57 HTTP/1.1" 200 OK
+2026-11-21T17:48:54.107046836Z INFO:     127.0.0.1:41020 - "GET /api/orchestrate/migrations/vnf-lb-c7266b57 HTTP/1.1" 200 OK
+2026-11-21T17:48:55.155100760Z INFO:     127.0.0.1:41032 - "GET /api/orchestrate/migrations/vnf-lb-c7266b57 HTTP/1.1" 200 OK
+2026-11-21T17:48:56.158503971Z INFO:     127.0.0.1:41036 - "GET /api/orchestrate/migrations/vnf-lb-c7266b57 HTTP/1.1" 200 OK
+2026-11-21T17:48:57.231075272Z INFO:OrchestrationService:VNF vnf-lb-c7266b57 is READY. Pod IP: 10.1.235.175 on worker1
+2026-11-21T17:48:57.231133240Z INFO:OrchestrationService:PHASE: TRANSLATE - Ready endpoint 10.1.235.175:31396 via terminal SID fc00:5::1
+2026-11-21T17:48:57.231142616Z INFO:OrchestrationService:PHASE: STEER - Sending command to SDN Controller at http://localhost:8765
+2026-11-21T17:48:57.267140895Z INFO:     127.0.0.1:51998 - "GET /api/orchestrate/migrations/vnf-lb-c7266b57 HTTP/1.1" 200 OK
+2026-11-21T17:48:58.271392146Z INFO:     127.0.0.1:52002 - "GET /api/orchestrate/migrations/vnf-lb-c7266b57 HTTP/1.1" 200 OK
+2026-11-21T17:48:59.271318603Z INFO:OrchestrationService:PHASE 6: Control-plane Steering Overhead = 2039.89 ms (REST→Controller confirmation). Packet loss and data-plane latency are not measured.
+2026-11-21T17:48:59.271409002Z INFO:OrchestrationService:PHASE: BREAK - confirm_steer_done=True. Deleting old VNF: vnf-lb-849742eb
+2026-11-21T17:48:59.436172938Z INFO:     127.0.0.1:52018 - "GET /api/orchestrate/migrations/vnf-lb-c7266b57 HTTP/1.1" 200 OK
+2026-11-21T17:49:00.442508286Z INFO:     127.0.0.1:52030 - "GET /api/orchestrate/migrations/vnf-lb-c7266b57 HTTP/1.1" 200 OK
+2026-11-21T17:49:01.582048063Z INFO:     127.0.0.1:52036 - "GET /api/orchestrate/migrations/vnf-lb-c7266b57 HTTP/1.1" 200 OK
+2026-11-21T17:49:32.366922785Z INFO:     127.0.0.1:52944 - "GET /api/orchestrate/state HTTP/1.1" 200 OK
+2026-11-21T17:49:32.789930457Z INFO:     127.0.0.1:52956 - "POST /api/orchestrate HTTP/1.1" 409 Conflict
+2026-11-21T17:49:33.235164535Z INFO:     127.0.0.1:52960 - "POST /api/orchestrate HTTP/1.1" 409 Conflict
+2026-11-21T17:49:33.672190617Z INFO:     127.0.0.1:52974 - "POST /api/orchestrate HTTP/1.1" 409 Conflict
+2026-11-21T17:49:34.096877072Z INFO:     127.0.0.1:52980 - "POST /api/orchestrate HTTP/1.1" 409 Conflict
+2026-11-21T17:49:34.504607785Z INFO:     127.0.0.1:52986 - "POST /api/orchestrate HTTP/1.1" 409 Conflict
+2026-11-21T17:49:34.988970079Z INFO:     127.0.0.1:52996 - "POST /api/orchestrate HTTP/1.1" 200 OK
+2026-11-21T17:49:35.012901694Z INFO:OrchestrationService:PHASE 6: AI node 4 mapped to K8s hostname 'worker1'
+2026-11-21T17:49:35.012949158Z INFO:OrchestrationService:PHASE: MAKE - Triggering Tekton for replacement VNF: vnf-voc-d9eb8c7f at hue-1
+2026-11-21T17:49:35.037940091Z INFO:OrchestrationService:PHASE: VERIFY - Polling dynamic endpoint/readiness for vnf-voc-d9eb8c7f
+2026-11-21T17:49:35.045867309Z INFO:     127.0.0.1:53010 - "GET /api/orchestrate/migrations/vnf-voc-d9eb8c7f HTTP/1.1" 200 OK
+2026-11-21T17:49:36.050165779Z INFO:     127.0.0.1:53026 - "GET /api/orchestrate/migrations/vnf-voc-d9eb8c7f HTTP/1.1" 200 OK
+2026-11-21T17:49:37.055358532Z INFO:     127.0.0.1:35906 - "GET /api/orchestrate/migrations/vnf-voc-d9eb8c7f HTTP/1.1" 200 OK
+2026-11-21T17:49:38.060915151Z INFO:     127.0.0.1:35920 - "GET /api/orchestrate/migrations/vnf-voc-d9eb8c7f HTTP/1.1" 200 OK
+2026-11-21T17:49:39.066535389Z INFO:     127.0.0.1:35932 - "GET /api/orchestrate/migrations/vnf-voc-d9eb8c7f HTTP/1.1" 200 OK
+2026-11-21T17:49:40.071767251Z INFO:     127.0.0.1:35940 - "GET /api/orchestrate/migrations/vnf-voc-d9eb8c7f HTTP/1.1" 200 OK
+2026-11-21T17:49:41.076521046Z INFO:     127.0.0.1:35942 - "GET /api/orchestrate/migrations/vnf-voc-d9eb8c7f HTTP/1.1" 200 OK
+2026-11-21T17:49:42.080162567Z INFO:     127.0.0.1:35944 - "GET /api/orchestrate/migrations/vnf-voc-d9eb8c7f HTTP/1.1" 200 OK
+2026-11-21T17:49:43.085316677Z INFO:     127.0.0.1:35946 - "GET /api/orchestrate/migrations/vnf-voc-d9eb8c7f HTTP/1.1" 200 OK
+2026-11-21T17:49:44.090927692Z INFO:     127.0.0.1:35950 - "GET /api/orchestrate/migrations/vnf-voc-d9eb8c7f HTTP/1.1" 200 OK
+2026-11-21T17:49:45.095186177Z INFO:     127.0.0.1:35954 - "GET /api/orchestrate/migrations/vnf-voc-d9eb8c7f HTTP/1.1" 200 OK
+2026-11-21T17:49:46.100011894Z INFO:     127.0.0.1:35968 - "GET /api/orchestrate/migrations/vnf-voc-d9eb8c7f HTTP/1.1" 200 OK
+2026-11-21T17:49:47.105313401Z INFO:     127.0.0.1:48608 - "GET /api/orchestrate/migrations/vnf-voc-d9eb8c7f HTTP/1.1" 200 OK
+2026-11-21T17:49:48.109291794Z INFO:     127.0.0.1:48622 - "GET /api/orchestrate/migrations/vnf-voc-d9eb8c7f HTTP/1.1" 200 OK
+2026-11-21T17:49:49.115441384Z INFO:     127.0.0.1:48636 - "GET /api/orchestrate/migrations/vnf-voc-d9eb8c7f HTTP/1.1" 200 OK
+2026-11-21T17:49:50.122191503Z INFO:     127.0.0.1:48638 - "GET /api/orchestrate/migrations/vnf-voc-d9eb8c7f HTTP/1.1" 200 OK
+2026-11-21T17:49:51.168957248Z INFO:     127.0.0.1:48640 - "GET /api/orchestrate/migrations/vnf-voc-d9eb8c7f HTTP/1.1" 200 OK
+2026-11-21T17:49:52.174324011Z INFO:     127.0.0.1:48652 - "GET /api/orchestrate/migrations/vnf-voc-d9eb8c7f HTTP/1.1" 200 OK
+2026-11-21T17:49:53.254636486Z INFO:     127.0.0.1:48656 - "GET /api/orchestrate/migrations/vnf-voc-d9eb8c7f HTTP/1.1" 200 OK
+2026-11-21T17:49:54.259457388Z INFO:     127.0.0.1:48658 - "GET /api/orchestrate/migrations/vnf-voc-d9eb8c7f HTTP/1.1" 200 OK
+2026-11-21T17:49:55.323908525Z INFO:     127.0.0.1:48666 - "GET /api/orchestrate/migrations/vnf-voc-d9eb8c7f HTTP/1.1" 200 OK
+2026-11-21T17:49:56.329225932Z INFO:     127.0.0.1:48682 - "GET /api/orchestrate/migrations/vnf-voc-d9eb8c7f HTTP/1.1" 200 OK
+2026-11-21T17:49:57.405378564Z INFO:     127.0.0.1:46782 - "GET /api/orchestrate/migrations/vnf-voc-d9eb8c7f HTTP/1.1" 200 OK
+2026-11-21T17:49:58.410762071Z INFO:     127.0.0.1:46788 - "GET /api/orchestrate/migrations/vnf-voc-d9eb8c7f HTTP/1.1" 200 OK
+2026-11-21T17:49:59.474961611Z INFO:OrchestrationService:VNF vnf-voc-d9eb8c7f is READY. Pod IP: 10.1.235.160 on worker1
+2026-11-21T17:49:59.475011259Z INFO:OrchestrationService:PHASE: TRANSLATE - Ready endpoint 10.1.235.160:0 via terminal SID fc00:5::1
+2026-11-21T17:49:59.475020761Z INFO:OrchestrationService:PHASE: STEER - Sending command to SDN Controller at http://localhost:8765
+2026-11-21T17:49:59.515689504Z INFO:     127.0.0.1:46796 - "GET /api/orchestrate/migrations/vnf-voc-d9eb8c7f HTTP/1.1" 200 OK
+2026-11-21T17:50:00.519668192Z INFO:     127.0.0.1:46806 - "GET /api/orchestrate/migrations/vnf-voc-d9eb8c7f HTTP/1.1" 200 OK
+2026-11-21T17:50:01.519531022Z INFO:OrchestrationService:PHASE 6: Control-plane Steering Overhead = 2044.42 ms (REST→Controller confirmation). Packet loss and data-plane latency are not measured.
+2026-11-21T17:50:01.519596476Z INFO:OrchestrationService:PHASE: BREAK - confirm_steer_done=True. Deleting old VNF: vnf-voc-232fa8db
+2026-11-21T17:50:01.635592126Z INFO:     127.0.0.1:46814 - "GET /api/orchestrate/migrations/vnf-voc-d9eb8c7f HTTP/1.1" 200 OK
+2026-11-21T17:50:02.645470564Z INFO:     127.0.0.1:46826 - "GET /api/orchestrate/migrations/vnf-voc-d9eb8c7f HTTP/1.1" 200 OK
+2026-11-21T17:50:03.653352864Z INFO:     127.0.0.1:46838 - "GET /api/orchestrate/migrations/vnf-voc-d9eb8c7f HTTP/1.1" 200 OK
+2026-11-21T17:50:04.660925683Z INFO:     127.0.0.1:46850 - "GET /api/orchestrate/migrations/vnf-voc-d9eb8c7f HTTP/1.1" 200 OK
+2026-11-21T17:50:05.670948605Z INFO:     127.0.0.1:46866 - "GET /api/orchestrate/migrations/vnf-voc-d9eb8c7f HTTP/1.1" 200 OK
+2026-11-21T17:50:06.680811778Z INFO:     127.0.0.1:44954 - "GET /api/orchestrate/migrations/vnf-voc-d9eb8c7f HTTP/1.1" 200 OK
+2026-11-21T17:50:07.688895350Z INFO:     127.0.0.1:44964 - "GET /api/orchestrate/migrations/vnf-voc-d9eb8c7f HTTP/1.1" 200 OK
+2026-11-21T17:50:08.695920359Z INFO:     127.0.0.1:44966 - "GET /api/orchestrate/migrations/vnf-voc-d9eb8c7f HTTP/1.1" 200 OK
+2026-11-21T17:50:09.704960496Z INFO:     127.0.0.1:44972 - "GET /api/orchestrate/migrations/vnf-voc-d9eb8c7f HTTP/1.1" 200 OK
+2026-11-21T17:50:10.712732821Z INFO:     127.0.0.1:44986 - "GET /api/orchestrate/migrations/vnf-voc-d9eb8c7f HTTP/1.1" 200 OK
+2026-11-21T17:50:11.720631043Z INFO:     127.0.0.1:44992 - "GET /api/orchestrate/migrations/vnf-voc-d9eb8c7f HTTP/1.1" 200 OK
+2026-11-21T17:50:12.729813366Z INFO:     127.0.0.1:45002 - "GET /api/orchestrate/migrations/vnf-voc-d9eb8c7f HTTP/1.1" 200 OK
+2026-11-21T17:50:13.739296631Z INFO:     127.0.0.1:45010 - "GET /api/orchestrate/migrations/vnf-voc-d9eb8c7f HTTP/1.1" 200 OK
+2026-11-21T17:50:14.747564172Z INFO:     127.0.0.1:45016 - "GET /api/orchestrate/migrations/vnf-voc-d9eb8c7f HTTP/1.1" 200 OK
+2026-11-21T17:50:15.753289685Z INFO:     127.0.0.1:45026 - "GET /api/orchestrate/migrations/vnf-voc-d9eb8c7f HTTP/1.1" 200 OK
+2026-11-21T17:50:16.758952650Z INFO:     127.0.0.1:39128 - "GET /api/orchestrate/migrations/vnf-voc-d9eb8c7f HTTP/1.1" 200 OK
+2026-11-21T17:50:17.768159471Z INFO:     127.0.0.1:39136 - "GET /api/orchestrate/migrations/vnf-voc-d9eb8c7f HTTP/1.1" 200 OK
+2026-11-21T17:50:18.778475512Z INFO:     127.0.0.1:39152 - "GET /api/orchestrate/migrations/vnf-voc-d9eb8c7f HTTP/1.1" 200 OK
+2026-11-21T17:50:19.786800649Z INFO:     127.0.0.1:39164 - "GET /api/orchestrate/migrations/vnf-voc-d9eb8c7f HTTP/1.1" 200 OK
+2026-11-21T17:50:20.796047704Z INFO:     127.0.0.1:39174 - "GET /api/orchestrate/migrations/vnf-voc-d9eb8c7f HTTP/1.1" 200 OK
+2026-11-21T17:50:21.804071817Z INFO:     127.0.0.1:39178 - "GET /api/orchestrate/migrations/vnf-voc-d9eb8c7f HTTP/1.1" 200 OK
+2026-11-21T17:50:22.813941375Z INFO:     127.0.0.1:39186 - "GET /api/orchestrate/migrations/vnf-voc-d9eb8c7f HTTP/1.1" 200 OK
+2026-11-21T17:50:23.823578808Z INFO:     127.0.0.1:39194 - "GET /api/orchestrate/migrations/vnf-voc-d9eb8c7f HTTP/1.1" 200 OK
+2026-11-21T17:50:24.833511938Z INFO:     127.0.0.1:39210 - "GET /api/orchestrate/migrations/vnf-voc-d9eb8c7f HTTP/1.1" 200 OK
+2026-11-21T17:50:25.842512612Z INFO:     127.0.0.1:39216 - "GET /api/orchestrate/migrations/vnf-voc-d9eb8c7f HTTP/1.1" 200 OK
+2026-11-21T17:50:26.849188291Z INFO:     127.0.0.1:42006 - "GET /api/orchestrate/migrations/vnf-voc-d9eb8c7f HTTP/1.1" 200 OK
+2026-11-21T17:50:27.856816567Z INFO:     127.0.0.1:42010 - "GET /api/orchestrate/migrations/vnf-voc-d9eb8c7f HTTP/1.1" 200 OK
+2026-11-21T17:50:28.864756589Z INFO:     127.0.0.1:42014 - "GET /api/orchestrate/migrations/vnf-voc-d9eb8c7f HTTP/1.1" 200 OK
+2026-11-21T17:50:29.871611813Z INFO:     127.0.0.1:42020 - "GET /api/orchestrate/migrations/vnf-voc-d9eb8c7f HTTP/1.1" 200 OK
+2026-11-21T17:50:30.881465785Z INFO:     127.0.0.1:42022 - "GET /api/orchestrate/migrations/vnf-voc-d9eb8c7f HTTP/1.1" 200 OK
+2026-11-21T17:50:31.888537909Z INFO:     127.0.0.1:42036 - "GET /api/orchestrate/migrations/vnf-voc-d9eb8c7f HTTP/1.1" 200 OK
+2026-11-21T17:50:32.991306946Z INFO:     127.0.0.1:42042 - "GET /api/orchestrate/migrations/vnf-voc-d9eb8c7f HTTP/1.1" 200 OK
+2026-11-21T17:51:00.007054542Z INFO:     127.0.0.1:37544 - "GET /api/orchestrate/state HTTP/1.1" 200 OK
+2026-11-21T17:51:00.458759488Z INFO:     127.0.0.1:37556 - "POST /api/orchestrate HTTP/1.1" 409 Conflict
+2026-11-21T17:51:00.882730742Z INFO:     127.0.0.1:37564 - "POST /api/orchestrate HTTP/1.1" 409 Conflict
+2026-11-21T17:51:01.284440803Z INFO:     127.0.0.1:37574 - "POST /api/orchestrate HTTP/1.1" 409 Conflict
+2026-11-21T17:51:01.700168210Z INFO:     127.0.0.1:37580 - "POST /api/orchestrate HTTP/1.1" 409 Conflict
+2026-11-21T17:51:02.101860634Z INFO:     127.0.0.1:37594 - "POST /api/orchestrate HTTP/1.1" 409 Conflict
+2026-11-21T17:51:02.528522723Z INFO:     127.0.0.1:37610 - "POST /api/orchestrate HTTP/1.1" 409 Conflict
+2026-11-21T17:51:02.948502306Z INFO:     127.0.0.1:37622 - "POST /api/orchestrate HTTP/1.1" 409 Conflict
+2026-11-21T17:51:03.368553533Z INFO:     127.0.0.1:37626 - "POST /api/orchestrate HTTP/1.1" 409 Conflict
+2026-11-21T17:51:03.800980604Z INFO:     127.0.0.1:37636 - "POST /api/orchestrate HTTP/1.1" 200 OK
+2026-11-21T17:51:03.815824766Z INFO:OrchestrationService:PHASE 6: AI node 4 mapped to K8s hostname 'worker1'
+2026-11-21T17:51:03.815853342Z INFO:OrchestrationService:PHASE: MAKE - Triggering Tekton for replacement VNF: vnf-voc-f6b1a5cf at hue-1
+2026-11-21T17:51:03.845187277Z INFO:OrchestrationService:PHASE: VERIFY - Polling dynamic endpoint/readiness for vnf-voc-f6b1a5cf
+2026-11-21T17:51:03.851266698Z INFO:     127.0.0.1:37646 - "GET /api/orchestrate/migrations/vnf-voc-f6b1a5cf HTTP/1.1" 200 OK
+2026-11-21T17:51:04.856780095Z INFO:     127.0.0.1:37660 - "GET /api/orchestrate/migrations/vnf-voc-f6b1a5cf HTTP/1.1" 200 OK
+2026-11-21T17:51:05.861458331Z INFO:     127.0.0.1:37672 - "GET /api/orchestrate/migrations/vnf-voc-f6b1a5cf HTTP/1.1" 200 OK
+2026-11-21T17:51:06.866235990Z INFO:     127.0.0.1:55028 - "GET /api/orchestrate/migrations/vnf-voc-f6b1a5cf HTTP/1.1" 200 OK
+2026-11-21T17:51:07.870441892Z INFO:     127.0.0.1:55030 - "GET /api/orchestrate/migrations/vnf-voc-f6b1a5cf HTTP/1.1" 200 OK
+2026-11-21T17:51:08.876885181Z INFO:     127.0.0.1:55034 - "GET /api/orchestrate/migrations/vnf-voc-f6b1a5cf HTTP/1.1" 200 OK
+2026-11-21T17:51:09.881670869Z INFO:     127.0.0.1:55050 - "GET /api/orchestrate/migrations/vnf-voc-f6b1a5cf HTTP/1.1" 200 OK
+2026-11-21T17:51:10.886407552Z INFO:     127.0.0.1:55060 - "GET /api/orchestrate/migrations/vnf-voc-f6b1a5cf HTTP/1.1" 200 OK
+2026-11-21T17:51:11.890356810Z INFO:     127.0.0.1:55070 - "GET /api/orchestrate/migrations/vnf-voc-f6b1a5cf HTTP/1.1" 200 OK
+2026-11-21T17:51:12.894756071Z INFO:     127.0.0.1:55076 - "GET /api/orchestrate/migrations/vnf-voc-f6b1a5cf HTTP/1.1" 200 OK
+2026-11-21T17:51:13.900539617Z INFO:     127.0.0.1:55088 - "GET /api/orchestrate/migrations/vnf-voc-f6b1a5cf HTTP/1.1" 200 OK
+2026-11-21T17:51:14.905821895Z INFO:     127.0.0.1:55104 - "GET /api/orchestrate/migrations/vnf-voc-f6b1a5cf HTTP/1.1" 200 OK
+2026-11-21T17:51:15.909091717Z INFO:     127.0.0.1:55112 - "GET /api/orchestrate/migrations/vnf-voc-f6b1a5cf HTTP/1.1" 200 OK
+2026-11-21T17:51:16.914351998Z INFO:     127.0.0.1:59106 - "GET /api/orchestrate/migrations/vnf-voc-f6b1a5cf HTTP/1.1" 200 OK
+2026-11-21T17:51:17.919921397Z INFO:     127.0.0.1:59108 - "GET /api/orchestrate/migrations/vnf-voc-f6b1a5cf HTTP/1.1" 200 OK
+2026-11-21T17:51:18.925238838Z INFO:     127.0.0.1:59112 - "GET /api/orchestrate/migrations/vnf-voc-f6b1a5cf HTTP/1.1" 200 OK
+2026-11-21T17:51:19.930320775Z INFO:     127.0.0.1:59120 - "GET /api/orchestrate/migrations/vnf-voc-f6b1a5cf HTTP/1.1" 200 OK
+2026-11-21T17:51:20.934896320Z INFO:     127.0.0.1:59132 - "GET /api/orchestrate/migrations/vnf-voc-f6b1a5cf HTTP/1.1" 200 OK
+2026-11-21T17:51:21.990824146Z INFO:     127.0.0.1:59146 - "GET /api/orchestrate/migrations/vnf-voc-f6b1a5cf HTTP/1.1" 200 OK
+2026-11-21T17:51:22.996499158Z INFO:     127.0.0.1:59156 - "GET /api/orchestrate/migrations/vnf-voc-f6b1a5cf HTTP/1.1" 200 OK
+2026-11-21T17:51:24.075964659Z INFO:     127.0.0.1:59160 - "GET /api/orchestrate/migrations/vnf-voc-f6b1a5cf HTTP/1.1" 200 OK
+2026-11-21T17:51:25.080488387Z INFO:     127.0.0.1:59164 - "GET /api/orchestrate/migrations/vnf-voc-f6b1a5cf HTTP/1.1" 200 OK
+2026-11-21T17:51:26.153986545Z INFO:     127.0.0.1:59174 - "GET /api/orchestrate/migrations/vnf-voc-f6b1a5cf HTTP/1.1" 200 OK
+2026-11-21T17:51:27.159550396Z INFO:     127.0.0.1:57134 - "GET /api/orchestrate/migrations/vnf-voc-f6b1a5cf HTTP/1.1" 200 OK
+2026-11-21T17:51:28.239930633Z INFO:     127.0.0.1:57146 - "GET /api/orchestrate/migrations/vnf-voc-f6b1a5cf HTTP/1.1" 200 OK
+2026-11-21T17:51:29.245944414Z INFO:     127.0.0.1:57150 - "GET /api/orchestrate/migrations/vnf-voc-f6b1a5cf HTTP/1.1" 200 OK
+2026-11-21T17:51:30.307673976Z INFO:OrchestrationService:VNF vnf-voc-f6b1a5cf is READY. Pod IP: 10.1.235.183 on worker1
+2026-11-21T17:51:30.307714606Z INFO:OrchestrationService:PHASE: TRANSLATE - Ready endpoint 10.1.235.183:0 via terminal SID fc00:5::1
+2026-11-21T17:51:30.307719407Z INFO:OrchestrationService:PHASE: STEER - Sending command to SDN Controller at http://localhost:8765
+2026-11-21T17:51:30.338066897Z INFO:     127.0.0.1:57156 - "GET /api/orchestrate/migrations/vnf-voc-f6b1a5cf HTTP/1.1" 200 OK
+2026-11-21T17:51:31.343980533Z INFO:     127.0.0.1:57170 - "GET /api/orchestrate/migrations/vnf-voc-f6b1a5cf HTTP/1.1" 200 OK
+2026-11-21T17:51:32.342284299Z INFO:OrchestrationService:PHASE 6: Control-plane Steering Overhead = 2034.38 ms (REST→Controller confirmation). Packet loss and data-plane latency are not measured.
+2026-11-21T17:51:32.342349269Z INFO:OrchestrationService:PHASE: BREAK - confirm_steer_done=True. Deleting old VNF: vnf-voc-d9eb8c7f
+2026-11-21T17:51:32.455301101Z INFO:     127.0.0.1:57184 - "GET /api/orchestrate/migrations/vnf-voc-f6b1a5cf HTTP/1.1" 200 OK
+2026-11-21T17:51:33.462656948Z INFO:     127.0.0.1:57198 - "GET /api/orchestrate/migrations/vnf-voc-f6b1a5cf HTTP/1.1" 200 OK
+2026-11-21T17:51:34.473670918Z INFO:     127.0.0.1:57208 - "GET /api/orchestrate/migrations/vnf-voc-f6b1a5cf HTTP/1.1" 200 OK
+2026-11-21T17:51:35.482053762Z INFO:     127.0.0.1:57216 - "GET /api/orchestrate/migrations/vnf-voc-f6b1a5cf HTTP/1.1" 200 OK
+2026-11-21T17:51:36.492392593Z INFO:     127.0.0.1:57224 - "GET /api/orchestrate/migrations/vnf-voc-f6b1a5cf HTTP/1.1" 200 OK
+2026-11-21T17:51:37.499397414Z INFO:     127.0.0.1:34210 - "GET /api/orchestrate/migrations/vnf-voc-f6b1a5cf HTTP/1.1" 200 OK
+2026-11-21T17:51:38.504835666Z INFO:     127.0.0.1:34216 - "GET /api/orchestrate/migrations/vnf-voc-f6b1a5cf HTTP/1.1" 200 OK
+2026-11-21T17:51:39.515277619Z INFO:     127.0.0.1:34228 - "GET /api/orchestrate/migrations/vnf-voc-f6b1a5cf HTTP/1.1" 200 OK
+2026-11-21T17:51:40.525852860Z INFO:     127.0.0.1:34242 - "GET /api/orchestrate/migrations/vnf-voc-f6b1a5cf HTTP/1.1" 200 OK
+2026-11-21T17:51:41.530339359Z INFO:     127.0.0.1:34244 - "GET /api/orchestrate/migrations/vnf-voc-f6b1a5cf HTTP/1.1" 200 OK
+2026-11-21T17:51:42.538918829Z INFO:     127.0.0.1:34246 - "GET /api/orchestrate/migrations/vnf-voc-f6b1a5cf HTTP/1.1" 200 OK
+2026-11-21T17:51:43.546738472Z INFO:     127.0.0.1:34254 - "GET /api/orchestrate/migrations/vnf-voc-f6b1a5cf HTTP/1.1" 200 OK
+2026-11-21T17:51:44.553625325Z INFO:     127.0.0.1:34256 - "GET /api/orchestrate/migrations/vnf-voc-f6b1a5cf HTTP/1.1" 200 OK
+2026-11-21T17:51:45.564417690Z INFO:     127.0.0.1:34268 - "GET /api/orchestrate/migrations/vnf-voc-f6b1a5cf HTTP/1.1" 200 OK
+2026-11-21T17:51:46.573711162Z INFO:     127.0.0.1:34272 - "GET /api/orchestrate/migrations/vnf-voc-f6b1a5cf HTTP/1.1" 200 OK
+2026-11-21T17:51:47.581424739Z INFO:     127.0.0.1:36210 - "GET /api/orchestrate/migrations/vnf-voc-f6b1a5cf HTTP/1.1" 200 OK
+2026-11-21T17:51:48.591403260Z INFO:     127.0.0.1:36220 - "GET /api/orchestrate/migrations/vnf-voc-f6b1a5cf HTTP/1.1" 200 OK
+2026-11-21T17:51:49.600117884Z INFO:     127.0.0.1:36234 - "GET /api/orchestrate/migrations/vnf-voc-f6b1a5cf HTTP/1.1" 200 OK
+2026-11-21T17:51:50.609916959Z INFO:     127.0.0.1:36240 - "GET /api/orchestrate/migrations/vnf-voc-f6b1a5cf HTTP/1.1" 200 OK
+2026-11-21T17:51:51.619537407Z INFO:     127.0.0.1:36248 - "GET /api/orchestrate/migrations/vnf-voc-f6b1a5cf HTTP/1.1" 200 OK
+2026-11-21T17:51:52.628507740Z INFO:     127.0.0.1:36260 - "GET /api/orchestrate/migrations/vnf-voc-f6b1a5cf HTTP/1.1" 200 OK
+2026-11-21T17:51:53.638073331Z INFO:     127.0.0.1:36264 - "GET /api/orchestrate/migrations/vnf-voc-f6b1a5cf HTTP/1.1" 200 OK
+2026-11-21T17:51:54.647490291Z INFO:     127.0.0.1:36274 - "GET /api/orchestrate/migrations/vnf-voc-f6b1a5cf HTTP/1.1" 200 OK
+2026-11-21T17:51:55.656639355Z INFO:     127.0.0.1:36288 - "GET /api/orchestrate/migrations/vnf-voc-f6b1a5cf HTTP/1.1" 200 OK
+2026-11-21T17:51:56.661182840Z INFO:     127.0.0.1:34104 - "GET /api/orchestrate/migrations/vnf-voc-f6b1a5cf HTTP/1.1" 200 OK
+2026-11-21T17:51:57.670567464Z INFO:     127.0.0.1:34108 - "GET /api/orchestrate/migrations/vnf-voc-f6b1a5cf HTTP/1.1" 200 OK
+2026-11-21T17:51:58.679995824Z INFO:     127.0.0.1:34112 - "GET /api/orchestrate/migrations/vnf-voc-f6b1a5cf HTTP/1.1" 200 OK
+2026-11-21T17:51:59.689505590Z INFO:     127.0.0.1:34114 - "GET /api/orchestrate/migrations/vnf-voc-f6b1a5cf HTTP/1.1" 200 OK
+2026-11-21T17:52:00.717169015Z INFO:     127.0.0.1:34120 - "GET /api/orchestrate/migrations/vnf-voc-f6b1a5cf HTTP/1.1" 200 OK
+2026-11-21T17:52:01.724767901Z INFO:     127.0.0.1:34130 - "GET /api/orchestrate/migrations/vnf-voc-f6b1a5cf HTTP/1.1" 200 OK
+2026-11-21T17:52:02.733475350Z INFO:     127.0.0.1:34144 - "GET /api/orchestrate/migrations/vnf-voc-f6b1a5cf HTTP/1.1" 200 OK
+2026-11-21T17:52:03.860531943Z INFO:     127.0.0.1:34156 - "GET /api/orchestrate/migrations/vnf-voc-f6b1a5cf HTTP/1.1" 200 OK
+2026-11-21T17:52:32.448512890Z INFO:     127.0.0.1:39682 - "GET /api/orchestrate/state HTTP/1.1" 200 OK
+2026-11-21T17:52:32.876072009Z INFO:     127.0.0.1:39686 - "POST /api/orchestrate HTTP/1.1" 409 Conflict
+2026-11-21T17:52:33.334726209Z INFO:     127.0.0.1:39696 - "POST /api/orchestrate HTTP/1.1" 409 Conflict
+2026-11-21T17:52:33.746556404Z INFO:     127.0.0.1:39710 - "POST /api/orchestrate HTTP/1.1" 409 Conflict
+2026-11-21T17:52:34.170988502Z INFO:     127.0.0.1:39714 - "POST /api/orchestrate HTTP/1.1" 409 Conflict
+2026-11-21T17:52:34.616364765Z INFO:     127.0.0.1:39728 - "POST /api/orchestrate HTTP/1.1" 200 OK
+2026-11-21T17:52:34.631645037Z INFO:OrchestrationService:PHASE 6: AI node 4 mapped to K8s hostname 'worker1'
+2026-11-21T17:52:34.631692310Z INFO:OrchestrationService:PHASE: MAKE - Triggering Tekton for replacement VNF: vnf-data-2042e77d at hue-1
+2026-11-21T17:52:34.667052417Z INFO:OrchestrationService:PHASE: VERIFY - Polling dynamic endpoint/readiness for vnf-data-2042e77d
+2026-11-21T17:52:34.674734626Z INFO:     127.0.0.1:39734 - "GET /api/orchestrate/migrations/vnf-data-2042e77d HTTP/1.1" 200 OK
+2026-11-21T17:52:35.679954505Z INFO:     127.0.0.1:39738 - "GET /api/orchestrate/migrations/vnf-data-2042e77d HTTP/1.1" 200 OK
+2026-11-21T17:52:36.728798400Z INFO:     127.0.0.1:53732 - "GET /api/orchestrate/migrations/vnf-data-2042e77d HTTP/1.1" 200 OK
+2026-11-21T17:52:37.734655020Z INFO:     127.0.0.1:53744 - "GET /api/orchestrate/migrations/vnf-data-2042e77d HTTP/1.1" 200 OK
+2026-11-21T17:52:38.739656935Z INFO:     127.0.0.1:53746 - "GET /api/orchestrate/migrations/vnf-data-2042e77d HTTP/1.1" 200 OK
+2026-11-21T17:52:39.744718924Z INFO:     127.0.0.1:53756 - "GET /api/orchestrate/migrations/vnf-data-2042e77d HTTP/1.1" 200 OK
+2026-11-21T17:52:40.749873733Z INFO:     127.0.0.1:53760 - "GET /api/orchestrate/migrations/vnf-data-2042e77d HTTP/1.1" 200 OK
+2026-11-21T17:52:41.754321450Z INFO:     127.0.0.1:53776 - "GET /api/orchestrate/migrations/vnf-data-2042e77d HTTP/1.1" 200 OK
+2026-11-21T17:52:42.760172092Z INFO:     127.0.0.1:53780 - "GET /api/orchestrate/migrations/vnf-data-2042e77d HTTP/1.1" 200 OK
+2026-11-21T17:52:43.763585865Z INFO:     127.0.0.1:53784 - "GET /api/orchestrate/migrations/vnf-data-2042e77d HTTP/1.1" 200 OK
+2026-11-21T17:52:44.769688347Z INFO:     127.0.0.1:53794 - "GET /api/orchestrate/migrations/vnf-data-2042e77d HTTP/1.1" 200 OK
+2026-11-21T17:52:45.773203706Z INFO:     127.0.0.1:53810 - "GET /api/orchestrate/migrations/vnf-data-2042e77d HTTP/1.1" 200 OK
+2026-11-21T17:52:46.778474681Z INFO:     127.0.0.1:43660 - "GET /api/orchestrate/migrations/vnf-data-2042e77d HTTP/1.1" 200 OK
+2026-11-21T17:52:47.782841639Z INFO:     127.0.0.1:43672 - "GET /api/orchestrate/migrations/vnf-data-2042e77d HTTP/1.1" 200 OK
+2026-11-21T17:52:48.786846767Z INFO:     127.0.0.1:43686 - "GET /api/orchestrate/migrations/vnf-data-2042e77d HTTP/1.1" 200 OK
+2026-11-21T17:52:49.793286272Z INFO:     127.0.0.1:43694 - "GET /api/orchestrate/migrations/vnf-data-2042e77d HTTP/1.1" 200 OK
+2026-11-21T17:52:50.832862739Z INFO:     127.0.0.1:43696 - "GET /api/orchestrate/migrations/vnf-data-2042e77d HTTP/1.1" 200 OK
+2026-11-21T17:52:51.837848241Z INFO:     127.0.0.1:43702 - "GET /api/orchestrate/migrations/vnf-data-2042e77d HTTP/1.1" 200 OK
+2026-11-21T17:52:52.911332378Z INFO:OrchestrationService:VNF vnf-data-2042e77d is READY. Pod IP: 10.1.235.128 on worker1
+2026-11-21T17:52:52.911367455Z INFO:OrchestrationService:PHASE: TRANSLATE - Ready endpoint 10.1.235.128:0 via terminal SID fc00:5::1
+2026-11-21T17:52:52.911372275Z INFO:OrchestrationService:PHASE: STEER - Sending command to SDN Controller at http://localhost:8765
+2026-11-21T17:52:52.948366947Z INFO:     127.0.0.1:43712 - "GET /api/orchestrate/migrations/vnf-data-2042e77d HTTP/1.1" 200 OK
+2026-11-21T17:52:53.953501818Z INFO:     127.0.0.1:43722 - "GET /api/orchestrate/migrations/vnf-data-2042e77d HTTP/1.1" 200 OK
+2026-11-21T17:52:54.951993576Z INFO:OrchestrationService:PHASE 6: Control-plane Steering Overhead = 2040.29 ms (REST→Controller confirmation). Packet loss and data-plane latency are not measured.
+2026-11-21T17:52:54.952043614Z INFO:OrchestrationService:PHASE: BREAK - confirm_steer_done=True. Deleting old VNF: vnf-data-6ce4038a
+2026-11-21T17:52:55.071645381Z INFO:     127.0.0.1:43728 - "GET /api/orchestrate/migrations/vnf-data-2042e77d HTTP/1.1" 200 OK
+2026-11-21T17:52:56.080227051Z INFO:     127.0.0.1:43740 - "GET /api/orchestrate/migrations/vnf-data-2042e77d HTTP/1.1" 200 OK
+2026-11-21T17:52:57.176496058Z INFO:     127.0.0.1:33630 - "GET /api/orchestrate/migrations/vnf-data-2042e77d HTTP/1.1" 200 OK
+2026-11-21T17:53:26.500619871Z INFO:     127.0.0.1:34638 - "GET /api/orchestrate/status HTTP/1.1" 200 OK
+2026-11-21T17:54:12.042089501Z INFO:     127.0.0.1:38206 - "GET /api/orchestrate/status HTTP/1.1" 200 OK
+2026-11-21T17:54:12.084767243Z INFO:     127.0.0.1:38220 - "POST /api/orchestrate/alert?alert=false HTTP/1.1" 200 OK
+2026-11-21T17:54:12.148583498Z INFO:     127.0.0.1:38232 - "GET /api/orchestrate/state HTTP/1.1" 200 OK
+2026-11-21T17:54:55.356928323Z INFO:     127.0.0.1:36926 - "POST /api/orchestrate HTTP/1.1" 409 Conflict
+2026-11-21T17:54:55.393535186Z INFO:     127.0.0.1:36942 - "GET /api/orchestrate/state HTTP/1.1" 200 OK
+2026-11-21T17:54:55.770523684Z INFO:     127.0.0.1:36950 - "POST /api/orchestrate HTTP/1.1" 409 Conflict
+2026-11-21T17:54:55.809634104Z INFO:     127.0.0.1:36960 - "GET /api/orchestrate/state HTTP/1.1" 200 OK
+2026-11-21T17:54:56.258447956Z INFO:     127.0.0.1:36976 - "POST /api/orchestrate HTTP/1.1" 409 Conflict
+2026-11-21T17:54:56.298487400Z INFO:     127.0.0.1:36988 - "GET /api/orchestrate/state HTTP/1.1" 200 OK
+2026-11-21T17:54:56.746816975Z INFO:     127.0.0.1:57182 - "POST /api/orchestrate HTTP/1.1" 409 Conflict
+2026-11-21T17:54:56.784712784Z INFO:     127.0.0.1:57190 - "GET /api/orchestrate/state HTTP/1.1" 200 OK
+2026-11-21T17:54:57.236724770Z INFO:     127.0.0.1:57202 - "POST /api/orchestrate HTTP/1.1" 409 Conflict
+2026-11-21T17:54:57.286917777Z INFO:     127.0.0.1:57210 - "GET /api/orchestrate/state HTTP/1.1" 200 OK
+2026-11-21T17:54:57.713981178Z INFO:     127.0.0.1:57226 - "POST /api/orchestrate HTTP/1.1" 409 Conflict
+2026-11-21T17:54:57.765237324Z INFO:     127.0.0.1:57230 - "GET /api/orchestrate/state HTTP/1.1" 200 OK
+2026-11-21T17:54:58.184148624Z INFO:     127.0.0.1:57234 - "POST /api/orchestrate HTTP/1.1" 409 Conflict
+2026-11-21T17:54:58.234040839Z INFO:     127.0.0.1:57240 - "GET /api/orchestrate/state HTTP/1.1" 200 OK
+2026-11-21T17:54:58.670269261Z INFO:     127.0.0.1:57256 - "POST /api/orchestrate HTTP/1.1" 409 Conflict
+2026-11-21T17:54:58.708227747Z INFO:     127.0.0.1:57258 - "GET /api/orchestrate/state HTTP/1.1" 200 OK
+2026-11-21T17:54:59.131683731Z INFO:     127.0.0.1:57272 - "POST /api/orchestrate HTTP/1.1" 409 Conflict
+2026-11-21T17:54:59.174392018Z INFO:     127.0.0.1:57278 - "GET /api/orchestrate/state HTTP/1.1" 200 OK
+2026-11-21T17:54:59.631430566Z INFO:     127.0.0.1:57286 - "POST /api/orchestrate HTTP/1.1" 200 OK
+2026-11-21T17:54:59.671004424Z INFO:     127.0.0.1:57288 - "POST /api/deploy HTTP/1.1" 200 OK
+2026-11-21T17:55:10.198549531Z INFO:     127.0.0.1:58496 - "GET /api/orchestrate/state HTTP/1.1" 200 OK
+2026-11-21T17:56:13.838148459Z INFO:     127.0.0.1:42284 - "GET /api/orchestrate/state HTTP/1.1" 200 OK
+2026-11-21T17:56:22.078063901Z INFO:     127.0.0.1:34354 - "POST /api/orchestrate HTTP/1.1" 409 Conflict
+2026-11-21T17:56:22.120154284Z INFO:     127.0.0.1:34366 - "GET /api/orchestrate/state HTTP/1.1" 200 OK
+2026-11-21T17:56:22.536498997Z INFO:     127.0.0.1:34372 - "POST /api/orchestrate HTTP/1.1" 409 Conflict
+2026-11-21T17:56:22.572855630Z INFO:     127.0.0.1:34376 - "GET /api/orchestrate/state HTTP/1.1" 200 OK
+2026-11-21T17:56:22.993415604Z INFO:     127.0.0.1:34380 - "POST /api/orchestrate HTTP/1.1" 409 Conflict
+2026-11-21T17:56:23.029183157Z INFO:     127.0.0.1:34396 - "GET /api/orchestrate/state HTTP/1.1" 200 OK
+2026-11-21T17:56:23.453199076Z INFO:     127.0.0.1:34398 - "POST /api/orchestrate HTTP/1.1" 409 Conflict
+2026-11-21T17:56:23.497287905Z INFO:     127.0.0.1:34400 - "GET /api/orchestrate/state HTTP/1.1" 200 OK
+2026-11-21T17:56:23.915085166Z INFO:     127.0.0.1:34406 - "POST /api/orchestrate HTTP/1.1" 409 Conflict
+2026-11-21T17:56:23.957871599Z INFO:     127.0.0.1:34422 - "GET /api/orchestrate/state HTTP/1.1" 200 OK
+2026-11-21T17:56:24.379648642Z INFO:     127.0.0.1:34438 - "POST /api/orchestrate HTTP/1.1" 409 Conflict
+2026-11-21T17:56:24.416628811Z INFO:     127.0.0.1:34448 - "GET /api/orchestrate/state HTTP/1.1" 200 OK
+2026-11-21T17:56:24.830628836Z INFO:     127.0.0.1:34462 - "POST /api/orchestrate HTTP/1.1" 409 Conflict
+2026-11-21T17:56:24.868806687Z INFO:     127.0.0.1:34478 - "GET /api/orchestrate/state HTTP/1.1" 200 OK
+2026-11-21T17:56:25.333002180Z INFO:     127.0.0.1:34490 - "POST /api/orchestrate HTTP/1.1" 200 OK
+2026-11-21T17:56:25.362940790Z INFO:     127.0.0.1:34506 - "POST /api/deploy HTTP/1.1" 200 OK
+2026-11-21T17:56:33.135792766Z INFO:     127.0.0.1:60802 - "GET /api/orchestrate/migrations/vnf-data-2042e77d HTTP/1.1" 200 OK
+2026-11-21T17:57:16.069768389Z INFO:     127.0.0.1:32776 - "GET /api/orchestrate/state HTTP/1.1" 200 OK
+2026-11-21T17:57:16.480902832Z INFO:     127.0.0.1:32792 - "POST /api/orchestrate HTTP/1.1" 409 Conflict
+2026-11-21T17:57:16.527611424Z INFO:     127.0.0.1:32794 - "GET /api/orchestrate/state HTTP/1.1" 200 OK
+2026-11-21T17:57:16.940170444Z INFO:     127.0.0.1:41866 - "POST /api/orchestrate HTTP/1.1" 409 Conflict
+2026-11-21T17:57:16.983294130Z INFO:     127.0.0.1:41868 - "GET /api/orchestrate/state HTTP/1.1" 200 OK
+2026-11-21T17:57:17.408657506Z INFO:     127.0.0.1:41882 - "POST /api/orchestrate HTTP/1.1" 409 Conflict
+2026-11-21T17:57:17.446440209Z INFO:     127.0.0.1:41886 - "GET /api/orchestrate/state HTTP/1.1" 200 OK
+2026-11-21T17:57:17.834222738Z INFO:     127.0.0.1:41892 - "POST /api/orchestrate HTTP/1.1" 409 Conflict
+2026-11-21T17:57:17.870852928Z INFO:     127.0.0.1:41898 - "GET /api/orchestrate/state HTTP/1.1" 200 OK
+2026-11-21T17:57:18.324601867Z INFO:     127.0.0.1:41904 - "POST /api/orchestrate HTTP/1.1" 409 Conflict
+2026-11-21T17:57:18.360208738Z INFO:     127.0.0.1:41916 - "GET /api/orchestrate/state HTTP/1.1" 200 OK
+2026-11-21T17:57:18.770486446Z INFO:     127.0.0.1:41924 - "POST /api/orchestrate HTTP/1.1" 409 Conflict
+2026-11-21T17:57:18.831239947Z INFO:     127.0.0.1:41940 - "GET /api/orchestrate/state HTTP/1.1" 200 OK
+2026-11-21T17:57:19.256481208Z INFO:     127.0.0.1:41954 - "POST /api/orchestrate HTTP/1.1" 409 Conflict
+2026-11-21T17:57:19.311960727Z INFO:     127.0.0.1:41962 - "GET /api/orchestrate/state HTTP/1.1" 200 OK
+2026-11-21T17:57:19.736856779Z INFO:     127.0.0.1:41966 - "POST /api/orchestrate HTTP/1.1" 409 Conflict
+2026-11-21T17:57:19.782646463Z INFO:     127.0.0.1:41970 - "GET /api/orchestrate/state HTTP/1.1" 200 OK
+2026-11-21T17:57:20.261266440Z INFO:     127.0.0.1:41976 - "POST /api/orchestrate HTTP/1.1" 409 Conflict
+2026-11-21T17:57:20.313630795Z INFO:     127.0.0.1:41982 - "GET /api/orchestrate/state HTTP/1.1" 200 OK
+2026-11-21T17:57:20.760904801Z INFO:     127.0.0.1:41996 - "POST /api/orchestrate HTTP/1.1" 409 Conflict
+2026-11-21T17:57:20.812788396Z INFO:     127.0.0.1:42010 - "GET /api/orchestrate/state HTTP/1.1" 200 OK
+2026-11-21T17:57:21.223261472Z INFO:     127.0.0.1:42014 - "POST /api/orchestrate HTTP/1.1" 409 Conflict
+2026-11-21T17:57:21.619608487Z INFO:     127.0.0.1:42030 - "GET /api/orchestrate/state HTTP/1.1" 200 OK
+2026-11-21T17:57:22.022574061Z INFO:     127.0.0.1:42046 - "POST /api/orchestrate HTTP/1.1" 409 Conflict
+2026-11-21T17:57:22.059934855Z INFO:     127.0.0.1:42060 - "GET /api/orchestrate/state HTTP/1.1" 200 OK
+2026-11-21T17:57:22.488243361Z INFO:     127.0.0.1:42064 - "POST /api/orchestrate HTTP/1.1" 409 Conflict
+2026-11-21T17:57:22.530128810Z INFO:     127.0.0.1:42080 - "GET /api/orchestrate/state HTTP/1.1" 200 OK
+2026-11-21T17:57:22.962855288Z INFO:     127.0.0.1:42092 - "POST /api/orchestrate HTTP/1.1" 200 OK
+2026-11-21T17:57:22.986889945Z INFO:     127.0.0.1:42106 - "POST /api/deploy HTTP/1.1" 200 OK
+2026-11-21T17:58:11.177565655Z INFO:     127.0.0.1:39174 - "GET /api/orchestrate/state HTTP/1.1" 200 OK
+2026-11-21T17:58:11.612529129Z INFO:     127.0.0.1:39182 - "POST /api/orchestrate HTTP/1.1" 409 Conflict
+2026-11-21T17:58:11.648816707Z INFO:     127.0.0.1:39184 - "GET /api/orchestrate/state HTTP/1.1" 200 OK
+2026-11-21T17:58:12.093898216Z INFO:     127.0.0.1:39190 - "POST /api/orchestrate HTTP/1.1" 200 OK
+2026-11-21T17:58:12.119156668Z INFO:     127.0.0.1:39198 - "POST /api/deploy HTTP/1.1" 200 OK
+2026-11-21T17:59:02.395940965Z INFO:     127.0.0.1:51498 - "GET /api/orchestrate/state HTTP/1.1" 200 OK
+2026-11-21T17:59:02.846347407Z INFO:     127.0.0.1:51502 - "POST /api/orchestrate HTTP/1.1" 200 OK
+2026-11-21T17:59:02.872162885Z INFO:     127.0.0.1:51504 - "POST /api/deploy HTTP/1.1" 200 OK
+2026-11-21T17:59:52.189384948Z INFO:     127.0.0.1:40192 - "GET /api/orchestrate/state HTTP/1.1" 200 OK
+2026-11-21T17:59:52.658215649Z INFO:     127.0.0.1:40208 - "POST /api/orchestrate HTTP/1.1" 409 Conflict
+2026-11-21T17:59:52.720444040Z INFO:     127.0.0.1:40218 - "GET /api/orchestrate/state HTTP/1.1" 200 OK
+2026-11-21T17:59:53.144489698Z INFO:     127.0.0.1:40222 - "POST /api/orchestrate HTTP/1.1" 409 Conflict
+2026-11-21T17:59:53.200073093Z INFO:     127.0.0.1:40232 - "GET /api/orchestrate/state HTTP/1.1" 200 OK
+2026-11-21T17:59:53.622499542Z INFO:     127.0.0.1:40234 - "POST /api/orchestrate HTTP/1.1" 409 Conflict
+2026-11-21T17:59:53.676989309Z INFO:     127.0.0.1:40242 - "GET /api/orchestrate/state HTTP/1.1" 200 OK
+2026-11-21T17:59:54.105874945Z INFO:     127.0.0.1:40254 - "POST /api/orchestrate HTTP/1.1" 409 Conflict
+2026-11-21T17:59:54.151314617Z INFO:     127.0.0.1:40268 - "GET /api/orchestrate/state HTTP/1.1" 200 OK
+2026-11-21T17:59:54.568531197Z INFO:     127.0.0.1:40280 - "POST /api/orchestrate HTTP/1.1" 409 Conflict
+2026-11-21T17:59:54.610313176Z INFO:     127.0.0.1:40292 - "GET /api/orchestrate/state HTTP/1.1" 200 OK
+2026-11-21T17:59:55.080024468Z INFO:     127.0.0.1:40296 - "POST /api/orchestrate HTTP/1.1" 200 OK
+2026-11-21T17:59:55.108144125Z INFO:     127.0.0.1:40308 - "POST /api/deploy HTTP/1.1" 200 OK
+2026-11-21T18:00:42.890015002Z INFO:     127.0.0.1:42238 - "GET /api/orchestrate/state HTTP/1.1" 200 OK
+2026-11-21T18:00:43.333224108Z INFO:     127.0.0.1:42254 - "POST /api/orchestrate HTTP/1.1" 409 Conflict
+2026-11-21T18:00:43.411232409Z INFO:     127.0.0.1:42268 - "GET /api/orchestrate/state HTTP/1.1" 200 OK
+2026-11-21T18:00:43.837380870Z INFO:     127.0.0.1:42278 - "POST /api/orchestrate HTTP/1.1" 200 OK
+2026-11-21T18:00:43.863994065Z INFO:     127.0.0.1:42290 - "POST /api/deploy HTTP/1.1" 200 OK
+2026-11-21T18:01:35.932297140Z INFO:     127.0.0.1:35634 - "GET /api/orchestrate/state HTTP/1.1" 200 OK
+2026-11-21T18:01:36.403002469Z INFO:     127.0.0.1:35640 - "POST /api/orchestrate HTTP/1.1" 409 Conflict
+2026-11-21T18:01:36.439169023Z INFO:     127.0.0.1:35652 - "GET /api/orchestrate/state HTTP/1.1" 200 OK
+2026-11-21T18:01:36.877578696Z INFO:     127.0.0.1:34870 - "POST /api/orchestrate HTTP/1.1" 200 OK
+2026-11-21T18:01:36.904983230Z INFO:     127.0.0.1:34878 - "POST /api/deploy HTTP/1.1" 200 OK
+2026-11-21T18:02:06.242424159Z INFO:     127.0.0.1:36908 - "GET /api/orchestrate/state HTTP/1.1" 200 OK
+2026-11-21T18:02:06.667822905Z INFO:     127.0.0.1:36912 - "POST /api/orchestrate HTTP/1.1" 409 Conflict
+2026-11-21T18:02:06.719014589Z INFO:     127.0.0.1:43266 - "GET /api/orchestrate/state HTTP/1.1" 200 OK
+2026-11-21T18:02:07.126032203Z INFO:     127.0.0.1:43268 - "POST /api/orchestrate HTTP/1.1" 409 Conflict
+2026-11-21T18:02:07.171424171Z INFO:     127.0.0.1:43280 - "GET /api/orchestrate/state HTTP/1.1" 200 OK
+2026-11-21T18:02:07.639770930Z INFO:     127.0.0.1:43292 - "POST /api/orchestrate HTTP/1.1" 200 OK
+2026-11-21T18:02:07.675713544Z INFO:     127.0.0.1:43298 - "POST /api/deploy HTTP/1.1" 200 OK
+2026-11-21T18:03:05.107281966Z INFO:     127.0.0.1:41712 - "GET /api/orchestrate/state HTTP/1.1" 200 OK
+2026-11-21T18:03:05.541058140Z INFO:     127.0.0.1:41726 - "POST /api/orchestrate HTTP/1.1" 409 Conflict
+2026-11-21T18:03:05.591559428Z INFO:     127.0.0.1:41738 - "GET /api/orchestrate/state HTTP/1.1" 200 OK
+2026-11-21T18:03:06.060751977Z INFO:     127.0.0.1:41742 - "POST /api/orchestrate HTTP/1.1" 409 Conflict
+2026-11-21T18:03:06.107765459Z INFO:     127.0.0.1:41748 - "GET /api/orchestrate/state HTTP/1.1" 200 OK
+2026-11-21T18:03:06.562092517Z INFO:     127.0.0.1:41764 - "POST /api/orchestrate HTTP/1.1" 409 Conflict
+2026-11-21T18:03:06.614842586Z INFO:     127.0.0.1:41766 - "GET /api/orchestrate/state HTTP/1.1" 200 OK
+2026-11-21T18:03:07.054715767Z INFO:     127.0.0.1:56030 - "POST /api/orchestrate HTTP/1.1" 200 OK
+2026-11-21T18:03:07.082521647Z INFO:     127.0.0.1:56034 - "POST /api/deploy HTTP/1.1" 200 OK
+2026-11-21T18:03:54.037888921Z INFO:     127.0.0.1:45242 - "GET /api/orchestrate/state HTTP/1.1" 200 OK
+2026-11-21T18:03:54.461266092Z INFO:     127.0.0.1:45254 - "POST /api/orchestrate HTTP/1.1" 409 Conflict
+2026-11-21T18:03:54.506479370Z INFO:     127.0.0.1:45264 - "GET /api/orchestrate/state HTTP/1.1" 200 OK
+2026-11-21T18:03:54.935332418Z INFO:     127.0.0.1:45272 - "POST /api/orchestrate HTTP/1.1" 409 Conflict
+2026-11-21T18:03:54.982653830Z INFO:     127.0.0.1:45282 - "GET /api/orchestrate/state HTTP/1.1" 200 OK
+2026-11-21T18:03:55.394409250Z INFO:     127.0.0.1:45298 - "POST /api/orchestrate HTTP/1.1" 409 Conflict
+2026-11-21T18:03:55.436890758Z INFO:     127.0.0.1:45306 - "GET /api/orchestrate/state HTTP/1.1" 200 OK
+2026-11-21T18:03:55.909597968Z INFO:     127.0.0.1:45310 - "POST /api/orchestrate HTTP/1.1" 200 OK
+2026-11-21T18:03:55.937697030Z INFO:     127.0.0.1:45322 - "POST /api/deploy HTTP/1.1" 200 OK
+2026-11-21T18:04:19.525853099Z INFO:     127.0.0.1:60264 - "GET /api/orchestrate/state HTTP/1.1" 200 OK
+2026-11-21T18:04:19.956971016Z INFO:     127.0.0.1:60268 - "POST /api/orchestrate HTTP/1.1" 409 Conflict
+2026-11-21T18:04:20.013135049Z INFO:     127.0.0.1:60282 - "GET /api/orchestrate/state HTTP/1.1" 200 OK
+2026-11-21T18:04:20.440773799Z INFO:     127.0.0.1:60292 - "POST /api/orchestrate HTTP/1.1" 409 Conflict
+2026-11-21T18:04:20.483506139Z INFO:     127.0.0.1:60294 - "GET /api/orchestrate/state HTTP/1.1" 200 OK
+2026-11-21T18:04:20.917908189Z INFO:     127.0.0.1:60304 - "POST /api/orchestrate HTTP/1.1" 409 Conflict
+2026-11-21T18:04:20.963921780Z INFO:     127.0.0.1:60320 - "GET /api/orchestrate/state HTTP/1.1" 200 OK
+2026-11-21T18:04:21.358766010Z INFO:     127.0.0.1:60336 - "POST /api/orchestrate HTTP/1.1" 409 Conflict
+2026-11-21T18:04:21.402269681Z INFO:     127.0.0.1:60350 - "GET /api/orchestrate/state HTTP/1.1" 200 OK
+2026-11-21T18:04:21.837340509Z INFO:     127.0.0.1:60364 - "POST /api/orchestrate HTTP/1.1" 409 Conflict
+2026-11-21T18:04:21.885421392Z INFO:     127.0.0.1:60370 - "GET /api/orchestrate/state HTTP/1.1" 200 OK
+2026-11-21T18:04:22.317801390Z INFO:     127.0.0.1:60380 - "POST /api/orchestrate HTTP/1.1" 409 Conflict
+2026-11-21T18:04:22.365820360Z INFO:     127.0.0.1:60382 - "GET /api/orchestrate/state HTTP/1.1" 200 OK
+2026-11-21T18:04:22.808064064Z INFO:     127.0.0.1:60392 - "POST /api/orchestrate HTTP/1.1" 409 Conflict
+2026-11-21T18:04:22.849859061Z INFO:     127.0.0.1:60404 - "GET /api/orchestrate/state HTTP/1.1" 200 OK
+2026-11-21T18:04:23.328343887Z INFO:     127.0.0.1:60410 - "POST /api/orchestrate HTTP/1.1" 409 Conflict
+2026-11-21T18:04:23.374750576Z INFO:     127.0.0.1:60412 - "GET /api/orchestrate/state HTTP/1.1" 200 OK
+2026-11-21T18:04:23.803588605Z INFO:     127.0.0.1:60418 - "POST /api/orchestrate HTTP/1.1" 409 Conflict
+2026-11-21T18:04:23.848208529Z INFO:     127.0.0.1:60432 - "GET /api/orchestrate/state HTTP/1.1" 200 OK
+2026-11-21T18:04:24.280894390Z INFO:     127.0.0.1:60436 - "POST /api/orchestrate HTTP/1.1" 409 Conflict
+2026-11-21T18:04:24.338363066Z INFO:     127.0.0.1:60438 - "GET /api/orchestrate/state HTTP/1.1" 200 OK
+2026-11-21T18:04:24.755436732Z INFO:     127.0.0.1:60442 - "POST /api/orchestrate HTTP/1.1" 409 Conflict
+2026-11-21T18:04:24.799449039Z INFO:     127.0.0.1:60458 - "GET /api/orchestrate/state HTTP/1.1" 200 OK
+2026-11-21T18:04:25.234912571Z INFO:     127.0.0.1:60466 - "POST /api/orchestrate HTTP/1.1" 409 Conflict
+2026-11-21T18:04:25.289593065Z INFO:     127.0.0.1:60476 - "GET /api/orchestrate/state HTTP/1.1" 200 OK
+2026-11-21T18:04:25.715019972Z INFO:     127.0.0.1:60488 - "POST /api/orchestrate HTTP/1.1" 409 Conflict
+2026-11-21T18:04:25.764481022Z INFO:     127.0.0.1:60490 - "GET /api/orchestrate/state HTTP/1.1" 200 OK
+2026-11-21T18:04:26.186403208Z INFO:     127.0.0.1:60502 - "POST /api/orchestrate HTTP/1.1" 409 Conflict
+2026-11-21T18:04:26.227970717Z INFO:     127.0.0.1:60510 - "GET /api/orchestrate/state HTTP/1.1" 200 OK
+2026-11-21T18:04:26.678974497Z INFO:     127.0.0.1:60514 - "POST /api/orchestrate HTTP/1.1" 200 OK
+2026-11-21T18:04:26.705272201Z INFO:     127.0.0.1:46906 - "POST /api/deploy HTTP/1.1" 200 OK
+2026-11-21T18:05:13.748753342Z INFO:     127.0.0.1:38164 - "GET /api/orchestrate/state HTTP/1.1" 200 OK
+2026-11-21T18:05:14.168183156Z INFO:     127.0.0.1:38174 - "POST /api/orchestrate HTTP/1.1" 409 Conflict
+2026-11-21T18:05:14.211502310Z INFO:     127.0.0.1:38188 - "GET /api/orchestrate/state HTTP/1.1" 200 OK
+2026-11-21T18:05:14.657613291Z INFO:     127.0.0.1:38194 - "POST /api/orchestrate HTTP/1.1" 200 OK
+2026-11-21T18:05:14.687698521Z INFO:     127.0.0.1:38196 - "POST /api/deploy HTTP/1.1" 200 OK
+2026-11-21T18:05:43.790064204Z INFO:     127.0.0.1:39742 - "GET /api/orchestrate/state HTTP/1.1" 200 OK
+2026-11-21T18:05:44.251382499Z INFO:     127.0.0.1:39750 - "POST /api/orchestrate HTTP/1.1" 200 OK
+2026-11-21T18:05:44.282499356Z INFO:     127.0.0.1:39758 - "POST /api/deploy HTTP/1.1" 200 OK
+2026-11-21T18:06:40.083816590Z INFO:     127.0.0.1:60798 - "GET /api/orchestrate/state HTTP/1.1" 200 OK
+2026-11-21T18:06:40.565815079Z INFO:     127.0.0.1:60804 - "POST /api/orchestrate HTTP/1.1" 409 Conflict
+2026-11-21T18:06:40.619426378Z INFO:     127.0.0.1:60810 - "GET /api/orchestrate/state HTTP/1.1" 200 OK
+2026-11-21T18:06:41.058678484Z INFO:     127.0.0.1:60812 - "POST /api/orchestrate HTTP/1.1" 409 Conflict
+2026-11-21T18:06:41.108622356Z INFO:     127.0.0.1:60814 - "GET /api/orchestrate/state HTTP/1.1" 200 OK
+2026-11-21T18:06:41.542827680Z INFO:     127.0.0.1:60828 - "POST /api/orchestrate HTTP/1.1" 409 Conflict
+2026-11-21T18:06:41.601554266Z INFO:     127.0.0.1:60834 - "GET /api/orchestrate/state HTTP/1.1" 200 OK
+2026-11-21T18:06:42.032199623Z INFO:     127.0.0.1:60848 - "POST /api/orchestrate HTTP/1.1" 409 Conflict
+2026-11-21T18:06:42.074821557Z INFO:     127.0.0.1:60860 - "GET /api/orchestrate/state HTTP/1.1" 200 OK
+2026-11-21T18:06:42.500532750Z INFO:     127.0.0.1:60876 - "POST /api/orchestrate HTTP/1.1" 409 Conflict
+2026-11-21T18:06:42.549278115Z INFO:     127.0.0.1:60882 - "GET /api/orchestrate/state HTTP/1.1" 200 OK
+2026-11-21T18:06:42.980511042Z INFO:     127.0.0.1:60894 - "POST /api/orchestrate HTTP/1.1" 409 Conflict
+2026-11-21T18:06:43.033223700Z INFO:     127.0.0.1:60896 - "GET /api/orchestrate/state HTTP/1.1" 200 OK
+2026-11-21T18:06:43.512542006Z INFO:     127.0.0.1:60900 - "POST /api/orchestrate HTTP/1.1" 200 OK
+2026-11-21T18:06:43.536670976Z INFO:     127.0.0.1:60902 - "POST /api/deploy HTTP/1.1" 200 OK
+2026-11-21T18:09:19.746941403Z INFO:     127.0.0.1:33694 - "GET /api/orchestrate/state HTTP/1.1" 200 OK
+2026-11-21T18:09:20.252793529Z INFO:     127.0.0.1:33708 - "POST /api/orchestrate HTTP/1.1" 409 Conflict
+2026-11-21T18:09:20.296269339Z INFO:     127.0.0.1:33720 - "GET /api/orchestrate/state HTTP/1.1" 200 OK
+2026-11-21T18:09:20.777207452Z INFO:     127.0.0.1:33732 - "POST /api/orchestrate HTTP/1.1" 409 Conflict
+2026-11-21T18:09:20.835582654Z INFO:     127.0.0.1:33748 - "GET /api/orchestrate/state HTTP/1.1" 200 OK
+2026-11-21T18:09:21.330903680Z INFO:     127.0.0.1:33760 - "POST /api/orchestrate HTTP/1.1" 200 OK
+2026-11-21T18:09:21.370945532Z INFO:     127.0.0.1:33762 - "POST /api/deploy HTTP/1.1" 200 OK
+2026-11-21T18:10:31.250278834Z INFO:     127.0.0.1:38468 - "GET /api/orchestrate/state HTTP/1.1" 200 OK
+2026-11-21T18:10:31.724631413Z INFO:     127.0.0.1:38474 - "POST /api/orchestrate HTTP/1.1" 409 Conflict
+2026-11-21T18:10:31.775824358Z INFO:     127.0.0.1:38482 - "GET /api/orchestrate/state HTTP/1.1" 200 OK
+2026-11-21T18:10:32.222705212Z INFO:     127.0.0.1:38494 - "POST /api/orchestrate HTTP/1.1" 200 OK
+2026-11-21T18:10:32.250734212Z INFO:     127.0.0.1:38502 - "POST /api/deploy HTTP/1.1" 200 OK
+2026-11-21T18:11:15.856057899Z INFO:     127.0.0.1:33090 - "GET /api/orchestrate/state HTTP/1.1" 200 OK
+2026-11-21T18:11:16.281250068Z INFO:     127.0.0.1:33100 - "POST /api/orchestrate HTTP/1.1" 409 Conflict
+2026-11-21T18:11:16.328677421Z INFO:     127.0.0.1:33112 - "GET /api/orchestrate/state HTTP/1.1" 200 OK
+2026-11-21T18:11:17.056498117Z INFO:     127.0.0.1:52276 - "POST /api/orchestrate HTTP/1.1" 409 Conflict
+2026-11-21T18:11:17.102865184Z INFO:     127.0.0.1:52280 - "GET /api/orchestrate/state HTTP/1.1" 200 OK
+2026-11-21T18:11:17.572521491Z INFO:     127.0.0.1:52296 - "POST /api/orchestrate HTTP/1.1" 200 OK
+2026-11-21T18:11:17.612418403Z INFO:     127.0.0.1:52300 - "POST /api/deploy HTTP/1.1" 200 OK
+2026-11-21T18:12:03.399147167Z INFO:     127.0.0.1:55782 - "GET /api/orchestrate/state HTTP/1.1" 200 OK
+2026-11-21T18:12:03.820726402Z INFO:     127.0.0.1:55798 - "POST /api/orchestrate HTTP/1.1" 409 Conflict
+2026-11-21T18:12:03.877654351Z INFO:     127.0.0.1:55808 - "GET /api/orchestrate/state HTTP/1.1" 200 OK
+2026-11-21T18:12:04.320795207Z INFO:     127.0.0.1:55814 - "POST /api/orchestrate HTTP/1.1" 200 OK
+2026-11-21T18:12:04.344698592Z INFO:     127.0.0.1:55822 - "POST /api/deploy HTTP/1.1" 200 OK
+2026-11-21T18:12:56.647415833Z INFO:     127.0.0.1:49808 - "GET /api/orchestrate/state HTTP/1.1" 200 OK
+2026-11-21T18:13:07.222525124Z INFO:     127.0.0.1:53358 - "GET /api/orchestrate/state HTTP/1.1" 200 OK
+2026-11-21T18:17:16.531462773Z INFO:     127.0.0.1:32876 - "POST /api/orchestrate HTTP/1.1" 409 Conflict
+2026-11-21T18:17:16.656996769Z INFO:     127.0.0.1:32860 - "POST /api/orchestrate HTTP/1.1" 409 Conflict
+2026-11-21T18:17:16.774950172Z INFO:     127.0.0.1:32884 - "POST /api/orchestrate HTTP/1.1" 409 Conflict
+2026-11-21T18:17:16.854559198Z INFO:     127.0.0.1:32888 - "POST /api/orchestrate HTTP/1.1" 409 Conflict
+2026-11-21T18:17:16.958804919Z INFO:     127.0.0.1:32892 - "POST /api/orchestrate HTTP/1.1" 409 Conflict
+2026-11-21T18:17:17.032950164Z INFO:     127.0.0.1:32896 - "POST /api/orchestrate HTTP/1.1" 409 Conflict
+2026-11-21T18:17:17.155603585Z INFO:     127.0.0.1:32898 - "POST /api/orchestrate HTTP/1.1" 409 Conflict
+2026-11-21T18:17:17.297909678Z INFO:     127.0.0.1:32912 - "POST /api/orchestrate HTTP/1.1" 409 Conflict
+2026-11-21T18:17:17.433363998Z INFO:     127.0.0.1:32928 - "POST /api/orchestrate HTTP/1.1" 409 Conflict
+2026-11-21T18:17:17.576418786Z INFO:     127.0.0.1:44078 - "POST /api/orchestrate HTTP/1.1" 409 Conflict
+2026-11-21T18:17:17.742311098Z INFO:     127.0.0.1:44084 - "POST /api/orchestrate HTTP/1.1" 200 OK
+2026-11-21T18:17:17.756999761Z INFO:OrchestrationService:PHASE 6: AI node 7 mapped to K8s hostname 'worker2'
+2026-11-21T18:17:17.757033319Z INFO:OrchestrationService:PHASE: MAKE - Triggering Tekton for replacement VNF: vnf-idps-fd4abe1f at nhatrang-1
+2026-11-21T18:17:17.804676778Z INFO:OrchestrationService:PHASE: VERIFY - Polling dynamic endpoint/readiness for vnf-idps-fd4abe1f
+2026-11-21T18:17:17.954644760Z INFO:     127.0.0.1:44094 - "POST /api/orchestrate HTTP/1.1" 409 Conflict
+2026-11-21T18:17:18.160409075Z INFO:     127.0.0.1:44106 - "POST /api/orchestrate HTTP/1.1" 200 OK
+2026-11-21T18:17:18.300251822Z INFO:     127.0.0.1:44116 - "POST /api/orchestrate HTTP/1.1" 409 Conflict
+2026-11-21T18:17:18.466168872Z INFO:     127.0.0.1:44120 - "POST /api/orchestrate HTTP/1.1" 409 Conflict
+2026-11-21T18:17:18.604386451Z INFO:     127.0.0.1:44126 - "POST /api/orchestrate HTTP/1.1" 409 Conflict
+2026-11-21T18:17:18.784937514Z INFO:     127.0.0.1:44134 - "POST /api/orchestrate HTTP/1.1" 409 Conflict
+2026-11-21T18:17:19.002348876Z INFO:     127.0.0.1:44140 - "POST /api/orchestrate HTTP/1.1" 409 Conflict
+2026-11-21T18:17:19.168517652Z INFO:     127.0.0.1:44154 - "POST /api/orchestrate HTTP/1.1" 409 Conflict
+2026-11-21T18:17:19.352806014Z INFO:     127.0.0.1:44158 - "POST /api/orchestrate HTTP/1.1" 409 Conflict
+2026-11-21T18:17:19.463879526Z INFO:     127.0.0.1:44172 - "POST /api/orchestrate HTTP/1.1" 409 Conflict
+2026-11-21T18:17:19.578597363Z INFO:     127.0.0.1:44174 - "POST /api/orchestrate HTTP/1.1" 409 Conflict
+2026-11-21T18:17:19.701655854Z INFO:     127.0.0.1:44184 - "POST /api/orchestrate HTTP/1.1" 409 Conflict
+2026-11-21T18:17:19.888417942Z INFO:     127.0.0.1:44190 - "POST /api/orchestrate HTTP/1.1" 200 OK
+2026-11-21T18:17:19.898158871Z INFO:     127.0.0.1:44196 - "GET /api/orchestrate/migrations/vnf-idps-fd4abe1f HTTP/1.1" 200 OK
+2026-11-21T18:17:21.904664241Z INFO:     127.0.0.1:44198 - "GET /api/orchestrate/migrations/vnf-idps-fd4abe1f HTTP/1.1" 200 OK
+2026-11-21T18:17:23.909457067Z INFO:     127.0.0.1:44210 - "GET /api/orchestrate/migrations/vnf-idps-fd4abe1f HTTP/1.1" 200 OK
+2026-11-21T18:17:25.914353599Z INFO:     127.0.0.1:44222 - "GET /api/orchestrate/migrations/vnf-idps-fd4abe1f HTTP/1.1" 200 OK
+2026-11-21T18:17:27.919846024Z INFO:     127.0.0.1:52302 - "GET /api/orchestrate/migrations/vnf-idps-fd4abe1f HTTP/1.1" 200 OK
+2026-11-21T18:17:29.925111748Z INFO:     127.0.0.1:52314 - "GET /api/orchestrate/migrations/vnf-idps-fd4abe1f HTTP/1.1" 200 OK
+2026-11-21T18:17:31.929521388Z INFO:     127.0.0.1:52328 - "GET /api/orchestrate/migrations/vnf-idps-fd4abe1f HTTP/1.1" 200 OK
+2026-11-21T18:17:34.034880533Z INFO:     127.0.0.1:52344 - "GET /api/orchestrate/migrations/vnf-idps-fd4abe1f HTTP/1.1" 200 OK
+2026-11-21T18:17:36.105043344Z INFO:OrchestrationService:VNF vnf-idps-fd4abe1f is READY. Pod IP: 10.1.189.129 on worker2
+2026-11-21T18:17:36.105079352Z INFO:OrchestrationService:PHASE: TRANSLATE - Ready endpoint 10.1.189.129:0 via terminal SID fc00:8::1
+2026-11-21T18:17:36.105084774Z INFO:OrchestrationService:PHASE: STEER - Sending command to SDN Controller at http://localhost:8765
+2026-11-21T18:17:36.165542540Z INFO:     127.0.0.1:52350 - "GET /api/orchestrate/migrations/vnf-idps-fd4abe1f HTTP/1.1" 200 OK
+2026-11-21T18:17:38.168114495Z INFO:OrchestrationService:PHASE 6: Control-plane Steering Overhead = 2062.9 ms (REST→Controller confirmation). Packet loss and data-plane latency are not measured.
+2026-11-21T18:17:38.168185093Z INFO:OrchestrationService:PHASE: BREAK - confirm_steer_done=True. Deleting old VNF: vnf-idps-6f9a6794
+2026-11-21T18:17:38.302225951Z INFO:     127.0.0.1:44890 - "GET /api/orchestrate/migrations/vnf-idps-fd4abe1f HTTP/1.1" 200 OK
+2026-11-21T18:17:40.307770587Z INFO:     127.0.0.1:44906 - "GET /api/orchestrate/migrations/vnf-idps-fd4abe1f HTTP/1.1" 200 OK
+2026-11-21T18:17:42.313847696Z INFO:     127.0.0.1:44916 - "GET /api/orchestrate/migrations/vnf-idps-fd4abe1f HTTP/1.1" 200 OK
+2026-11-21T18:17:44.319084230Z INFO:     127.0.0.1:44932 - "GET /api/orchestrate/migrations/vnf-idps-fd4abe1f HTTP/1.1" 200 OK
+2026-11-21T18:17:46.326420213Z INFO:     127.0.0.1:44934 - "GET /api/orchestrate/migrations/vnf-idps-fd4abe1f HTTP/1.1" 200 OK
+2026-11-21T18:17:48.333089713Z INFO:     127.0.0.1:33134 - "GET /api/orchestrate/migrations/vnf-idps-fd4abe1f HTTP/1.1" 200 OK
+2026-11-21T18:17:50.339053109Z INFO:     127.0.0.1:33148 - "GET /api/orchestrate/migrations/vnf-idps-fd4abe1f HTTP/1.1" 200 OK
+2026-11-21T18:17:52.345912383Z INFO:     127.0.0.1:33154 - "GET /api/orchestrate/migrations/vnf-idps-fd4abe1f HTTP/1.1" 200 OK
+2026-11-21T18:17:54.349760836Z INFO:     127.0.0.1:33168 - "GET /api/orchestrate/migrations/vnf-idps-fd4abe1f HTTP/1.1" 200 OK
+2026-11-21T18:17:56.356117080Z INFO:     127.0.0.1:33172 - "GET /api/orchestrate/migrations/vnf-idps-fd4abe1f HTTP/1.1" 200 OK
+2026-11-21T18:17:58.362299883Z INFO:     127.0.0.1:38376 - "GET /api/orchestrate/migrations/vnf-idps-fd4abe1f HTTP/1.1" 200 OK
+2026-11-21T18:18:00.367986876Z INFO:     127.0.0.1:38390 - "GET /api/orchestrate/migrations/vnf-idps-fd4abe1f HTTP/1.1" 200 OK
+2026-11-21T18:18:02.373443652Z INFO:     127.0.0.1:38400 - "GET /api/orchestrate/migrations/vnf-idps-fd4abe1f HTTP/1.1" 200 OK
+2026-11-21T18:18:04.377796454Z INFO:     127.0.0.1:38412 - "GET /api/orchestrate/migrations/vnf-idps-fd4abe1f HTTP/1.1" 200 OK
+2026-11-21T18:18:06.382867440Z INFO:     127.0.0.1:38424 - "GET /api/orchestrate/migrations/vnf-idps-fd4abe1f HTTP/1.1" 200 OK
+2026-11-21T18:18:08.388097987Z INFO:     127.0.0.1:55742 - "GET /api/orchestrate/migrations/vnf-idps-fd4abe1f HTTP/1.1" 200 OK
+2026-11-21T18:18:10.394152811Z INFO:     127.0.0.1:55756 - "GET /api/orchestrate/migrations/vnf-idps-fd4abe1f HTTP/1.1" 200 OK
+2026-11-21T18:18:10.682093088Z INFO:OrchestrationService:PHASE 6: AI node 1 mapped to K8s hostname 'k8s-master'
+2026-11-21T18:18:10.682127378Z INFO:OrchestrationService:PHASE: MAKE - Triggering Tekton for replacement VNF: vnf-lb-67673667 at haiphong-1
+2026-11-21T18:18:10.709967849Z INFO:OrchestrationService:PHASE: VERIFY - Polling dynamic endpoint/readiness for vnf-lb-67673667
+2026-11-21T18:18:12.398303363Z INFO:     127.0.0.1:55762 - "GET /api/orchestrate/migrations/vnf-idps-fd4abe1f HTTP/1.1" 200 OK
+2026-11-21T18:18:12.400387276Z INFO:     127.0.0.1:55766 - "GET /api/orchestrate/migrations/vnf-lb-67673667 HTTP/1.1" 200 OK
+2026-11-21T18:18:14.406649198Z INFO:     127.0.0.1:55778 - "GET /api/orchestrate/migrations/vnf-lb-67673667 HTTP/1.1" 200 OK
+2026-11-21T18:18:16.412354915Z INFO:     127.0.0.1:55786 - "GET /api/orchestrate/migrations/vnf-lb-67673667 HTTP/1.1" 200 OK
+2026-11-21T18:18:18.418850558Z INFO:     127.0.0.1:44694 - "GET /api/orchestrate/migrations/vnf-lb-67673667 HTTP/1.1" 200 OK
+2026-11-21T18:18:20.425507095Z INFO:     127.0.0.1:44708 - "GET /api/orchestrate/migrations/vnf-lb-67673667 HTTP/1.1" 200 OK
+2026-11-21T18:18:22.430894890Z INFO:     127.0.0.1:44722 - "GET /api/orchestrate/migrations/vnf-lb-67673667 HTTP/1.1" 200 OK
+2026-11-21T18:18:24.436908411Z INFO:     127.0.0.1:44730 - "GET /api/orchestrate/migrations/vnf-lb-67673667 HTTP/1.1" 200 OK
+2026-11-21T18:18:26.442794756Z INFO:     127.0.0.1:44742 - "GET /api/orchestrate/migrations/vnf-lb-67673667 HTTP/1.1" 200 OK
+2026-11-21T18:18:28.447868841Z INFO:     127.0.0.1:34184 - "GET /api/orchestrate/migrations/vnf-lb-67673667 HTTP/1.1" 200 OK
+2026-11-21T18:18:28.957529125Z INFO:OrchestrationService:VNF vnf-lb-67673667 is READY. Pod IP: 10.1.235.211 on k8s-master
+2026-11-21T18:18:28.957573935Z INFO:OrchestrationService:PHASE: TRANSLATE - Ready endpoint 10.1.235.211:32274 via terminal SID fc00:2::1
+2026-11-21T18:18:28.957581625Z INFO:OrchestrationService:PHASE: STEER - Sending command to SDN Controller at http://localhost:8765
+2026-11-21T18:18:30.453440542Z INFO:     127.0.0.1:34188 - "GET /api/orchestrate/migrations/vnf-lb-67673667 HTTP/1.1" 200 OK
+2026-11-21T18:18:30.995928853Z INFO:OrchestrationService:PHASE 6: Control-plane Steering Overhead = 2038.25 ms (REST→Controller confirmation). Packet loss and data-plane latency are not measured.
+2026-11-21T18:18:30.995985565Z INFO:OrchestrationService:PHASE: BREAK - confirm_steer_done=True. Deleting old VNF: None
+2026-11-21T18:18:31.026217798Z INFO:OrchestrationService:PHASE 6: AI node 1 mapped to K8s hostname 'k8s-master'
+2026-11-21T18:18:31.026263880Z INFO:OrchestrationService:PHASE: MAKE - Triggering Tekton for replacement VNF: vnf-data-b6fad338 at haiphong-1
+2026-11-21T18:18:31.048032539Z INFO:OrchestrationService:PHASE: VERIFY - Polling dynamic endpoint/readiness for vnf-data-b6fad338
+2026-11-21T18:18:32.459916876Z INFO:     127.0.0.1:34204 - "GET /api/orchestrate/migrations/vnf-lb-67673667 HTTP/1.1" 200 OK
+2026-11-21T18:18:32.463620087Z INFO:     127.0.0.1:34220 - "GET /api/orchestrate/migrations/vnf-data-b6fad338 HTTP/1.1" 200 OK
+2026-11-21T18:18:34.469144203Z INFO:     127.0.0.1:34222 - "GET /api/orchestrate/migrations/vnf-data-b6fad338 HTTP/1.1" 200 OK
+2026-11-21T18:18:36.475655273Z INFO:     127.0.0.1:34236 - "GET /api/orchestrate/migrations/vnf-data-b6fad338 HTTP/1.1" 200 OK
+2026-11-21T18:18:38.481699404Z INFO:     127.0.0.1:57892 - "GET /api/orchestrate/migrations/vnf-data-b6fad338 HTTP/1.1" 200 OK
+2026-11-21T18:18:40.486166471Z INFO:     127.0.0.1:57902 - "GET /api/orchestrate/migrations/vnf-data-b6fad338 HTTP/1.1" 200 OK
+2026-11-21T18:18:42.497514868Z INFO:     127.0.0.1:57918 - "GET /api/orchestrate/migrations/vnf-data-b6fad338 HTTP/1.1" 200 OK
+2026-11-21T18:18:44.501525235Z INFO:     127.0.0.1:57924 - "GET /api/orchestrate/migrations/vnf-data-b6fad338 HTTP/1.1" 200 OK
+2026-11-21T18:18:46.507602983Z INFO:     127.0.0.1:57936 - "GET /api/orchestrate/migrations/vnf-data-b6fad338 HTTP/1.1" 200 OK
+2026-11-21T18:18:48.514138644Z INFO:     127.0.0.1:51378 - "GET /api/orchestrate/migrations/vnf-data-b6fad338 HTTP/1.1" 200 OK
+2026-11-21T18:18:49.340433335Z INFO:OrchestrationService:VNF vnf-data-b6fad338 is READY. Pod IP: 10.1.235.212 on k8s-master
+2026-11-21T18:18:49.340471645Z INFO:OrchestrationService:PHASE: TRANSLATE - Ready endpoint 10.1.235.212:0 via terminal SID fc00:2::1
+2026-11-21T18:18:49.340476357Z INFO:OrchestrationService:PHASE: STEER - Sending command to SDN Controller at http://localhost:8765
+2026-11-21T18:18:50.521092305Z INFO:     127.0.0.1:51392 - "GET /api/orchestrate/migrations/vnf-data-b6fad338 HTTP/1.1" 200 OK
+2026-11-21T18:18:51.373135025Z INFO:OrchestrationService:PHASE 6: Control-plane Steering Overhead = 2032.88 ms (REST→Controller confirmation). Packet loss and data-plane latency are not measured.
+2026-11-21T18:18:51.373183996Z INFO:OrchestrationService:PHASE: BREAK - confirm_steer_done=True. Deleting old VNF: None
+2026-11-21T18:18:52.525393726Z INFO:     127.0.0.1:51404 - "GET /api/orchestrate/migrations/vnf-data-b6fad338 HTTP/1.1" 200 OK
+2026-11-21T18:18:53.363824252Z INFO:     127.0.0.1:51410 - "POST /api/orchestrate/alert?alert=false HTTP/1.1" 200 OK
+2026-11-21T18:21:21.899800552Z INFO:     127.0.0.1:53158 - "GET /api/orchestrate/state HTTP/1.1" 200 OK
+2026-11-21T18:21:24.020588805Z INFO:     127.0.0.1:53162 - "GET /api/health HTTP/1.1" 200 OK
+2026-11-21T18:21:27.784219889Z INFO:     127.0.0.1:49612 - "POST /api/orchestrate HTTP/1.1" 200 OK
+2026-11-21T18:21:31.234796918Z INFO:     127.0.0.1:49614 - "POST /api/orchestrate HTTP/1.1" 409 Conflict
+2026-11-21T18:21:34.752722890Z INFO:     127.0.0.1:49628 - "POST /api/orchestrate HTTP/1.1" 409 Conflict
+2026-11-21T18:21:38.266474420Z INFO:     127.0.0.1:46408 - "POST /api/orchestrate HTTP/1.1" 409 Conflict
+2026-11-21T18:21:41.628800428Z INFO:     127.0.0.1:46414 - "POST /api/orchestrate/free HTTP/1.1" 200 OK
+2026-11-21T18:21:41.784586200Z INFO:     127.0.0.1:46420 - "POST /api/orchestrate HTTP/1.1" 409 Conflict
+2026-11-21T18:21:45.309043813Z INFO:     127.0.0.1:46424 - "POST /api/orchestrate HTTP/1.1" 409 Conflict
+2026-11-21T18:21:48.763262208Z INFO:     127.0.0.1:56508 - "POST /api/orchestrate HTTP/1.1" 409 Conflict
+2026-11-21T18:21:52.283800109Z INFO:     127.0.0.1:56520 - "POST /api/orchestrate HTTP/1.1" 409 Conflict
+2026-11-21T18:21:55.767628763Z INFO:     127.0.0.1:56528 - "POST /api/orchestrate HTTP/1.1" 409 Conflict
+2026-11-21T18:21:59.264522111Z INFO:     127.0.0.1:32848 - "POST /api/orchestrate HTTP/1.1" 409 Conflict
+2026-11-21T18:22:02.809550329Z INFO:     127.0.0.1:32864 - "POST /api/orchestrate HTTP/1.1" 409 Conflict
+2026-11-21T18:22:06.282393658Z INFO:     127.0.0.1:32880 - "POST /api/orchestrate HTTP/1.1" 409 Conflict
+2026-11-21T18:22:09.772370651Z INFO:     127.0.0.1:52214 - "POST /api/orchestrate HTTP/1.1" 409 Conflict
+2026-11-21T18:22:13.285214337Z INFO:     127.0.0.1:52228 - "POST /api/orchestrate HTTP/1.1" 409 Conflict
+2026-11-21T18:22:16.793406390Z INFO:     127.0.0.1:42800 - "POST /api/orchestrate HTTP/1.1" 409 Conflict
+2026-11-21T18:22:20.319943333Z INFO:     127.0.0.1:42816 - "POST /api/orchestrate HTTP/1.1" 200 OK
+2026-11-21T18:22:23.788256619Z INFO:     127.0.0.1:42826 - "POST /api/orchestrate HTTP/1.1" 409 Conflict
+2026-11-21T18:22:27.298757368Z INFO:     127.0.0.1:41232 - "POST /api/orchestrate HTTP/1.1" 409 Conflict
+2026-11-21T18:22:30.830774314Z INFO:     127.0.0.1:41246 - "POST /api/orchestrate HTTP/1.1" 409 Conflict
+2026-11-21T18:22:34.187389454Z INFO:     127.0.0.1:41252 - "POST /api/orchestrate/free HTTP/1.1" 200 OK
+2026-11-21T18:22:34.335910216Z INFO:     127.0.0.1:41264 - "POST /api/orchestrate HTTP/1.1" 409 Conflict
+2026-11-21T18:22:37.782769113Z INFO:     127.0.0.1:42630 - "POST /api/orchestrate HTTP/1.1" 409 Conflict
+2026-11-21T18:22:41.306881664Z INFO:     127.0.0.1:42636 - "POST /api/orchestrate HTTP/1.1" 409 Conflict
+2026-11-21T18:22:44.812886519Z INFO:     127.0.0.1:42646 - "POST /api/orchestrate HTTP/1.1" 409 Conflict
+2026-11-21T18:22:48.323271309Z INFO:     127.0.0.1:46446 - "POST /api/orchestrate HTTP/1.1" 409 Conflict
+2026-11-21T18:22:51.798641846Z INFO:     127.0.0.1:46460 - "POST /api/orchestrate HTTP/1.1" 409 Conflict
+2026-11-21T18:22:55.323062820Z INFO:     127.0.0.1:46468 - "POST /api/orchestrate HTTP/1.1" 409 Conflict
+2026-11-21T18:22:58.817055007Z INFO:     127.0.0.1:50460 - "POST /api/orchestrate HTTP/1.1" 409 Conflict
+2026-11-21T18:23:02.282793144Z INFO:     127.0.0.1:50468 - "POST /api/orchestrate HTTP/1.1" 409 Conflict
+2026-11-21T18:23:05.840574856Z INFO:     127.0.0.1:50482 - "POST /api/orchestrate HTTP/1.1" 200 OK
+2026-11-21T18:23:09.340972257Z INFO:     127.0.0.1:36666 - "POST /api/orchestrate HTTP/1.1" 409 Conflict
+2026-11-21T18:23:13.198180058Z INFO:     127.0.0.1:36668 - "POST /api/orchestrate HTTP/1.1" 409 Conflict

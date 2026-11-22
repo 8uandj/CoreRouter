@@ -1,0 +1,6 @@
+Obtaining JSON from switch...
+Done
+Control utility for runtime P4 table manipulation
+RuntimeCmd: Delete entry from a match table: table_delete <table name> <entry handle>
+RuntimeCmd: Display some information about a table entry: table_dump_entry_from_key <table name> <match fields> [priority]
+RuntimeCmd: 

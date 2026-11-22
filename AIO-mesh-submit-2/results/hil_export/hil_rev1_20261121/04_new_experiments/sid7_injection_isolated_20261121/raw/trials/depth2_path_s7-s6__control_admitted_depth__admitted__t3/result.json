@@ -1,0 +1,100 @@
+{
+  "switch_path": [
+    "s7",
+    "s6"
+  ],
+  "per_hop_egress_captured": {
+    "s7-p2": 100,
+    "sink0": 100
+  },
+  "mode": "admitted",
+  "packets_received_sink": 100,
+  "case": "depth2_path_s7-s6__control_admitted_depth",
+  "sid_stack_final_to_first": [
+    "fc00:6::1",
+    "fc00:7::1"
+  ],
+  "sink_inner_ipv4_frames": 100,
+  "install_ms": 141.898,
+  "unexpected_entries": 0,
+  "msd_drops_total_delta": 0,
+  "stamps": {
+    "switches_ready_utc": "2026-11-21T16:50:13.338579Z",
+    "send_start_utc": "2026-11-21T16:50:14.896994Z",
+    "capture_end_utc": "2026-11-21T16:50:18.335084Z",
+    "send_end_utc": "2026-11-21T16:50:16.074806Z",
+    "rules_installed_utc": "2026-11-21T16:50:13.607176Z",
+    "readback_done_utc": "2026-11-21T16:50:14.053820Z",
+    "trial_start_utc": "2026-11-21T16:50:12.804861Z"
+  },
+  "readback": [
+    {
+      "installed_by_plan": true,
+      "present": true,
+      "key": "fc000006000000000000000000000001",
+      "action": "ipv6_forward",
+      "table": "routing_v6",
+      "switch": "s7"
+    },
+    {
+      "installed_by_plan": true,
+      "present": true,
+      "key": "fc000006000000000000000000000001",
+      "action": "srv6_end_dx4",
+      "table": "srv6_end_dx4_table",
+      "switch": "s6"
+    }
+  ],
+  "loss": 0,
+  "trial": 3,
+  "unique_sink_seqs": 100,
+  "switch_msd": {
+    "s7": 4.0,
+    "s6": 8.0
+  },
+  "admission_error": null,
+  "packets_sent": 100,
+  "counters_before": {
+    "s7": {
+      "srv6_terminal_counter": 0,
+      "srv6_advance_counter": 0,
+      "msd_violation_counter": 0
+    },
+    "s6": {
+      "srv6_terminal_counter": 0,
+      "srv6_advance_counter": 0,
+      "msd_violation_counter": 0
+    }
+  },
+  "readback_ms": 446.642,
+  "sid_depth": 2,
+  "counter_delta": {
+    "s7": {
+      "srv6_terminal_counter": 0,
+      "srv6_advance_counter": 100,
+      "msd_violation_counter": 0
+    },
+    "s6": {
+      "srv6_terminal_counter": 100,
+      "srv6_advance_counter": 0,
+      "msd_violation_counter": 0
+    }
+  },
+  "counters_after": {
+    "s7": {
+      "srv6_terminal_counter": 0,
+      "srv6_advance_counter": 100,
+      "msd_violation_counter": 0
+    },
+    "s6": {
+      "srv6_terminal_counter": 100,
+      "srv6_advance_counter": 0,
+      "msd_violation_counter": 0
+    }
+  },
+  "admission_decision": "admit",
+  "rules_installed": 2,
+  "rejected_rules_absent": true,
+  "rules_readback_present": 2,
+  "admitted_path_depth": 2
+}

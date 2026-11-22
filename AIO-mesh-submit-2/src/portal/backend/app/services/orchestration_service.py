@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import asyncio
+import os
 import time
 import logging
 from typing import Dict, Any, List, Optional
@@ -184,7 +185,10 @@ class OrchestrationService:
         logger.info(f"PHASE: VERIFY - Polling dynamic endpoint/readiness for {new_name}")
         endpoint_info = None
         attempts = 0
-        max_attempts = 15 # 15 * 2s = 30s Timeout
+        # Tekton deploys observed on the HIL testbed take 25-30 s and the
+        # kubectl-wait Task allows 180 s; poll every 2 s up to that bound.
+        ready_timeout_s = float(os.environ.get("CORE_ROUTER_READY_TIMEOUT_S", "180"))
+        max_attempts = max(1, int(ready_timeout_s // 2))
         
         while attempts < max_attempts:
             status = self.orchestrator.get_replacement_endpoint(new_name)

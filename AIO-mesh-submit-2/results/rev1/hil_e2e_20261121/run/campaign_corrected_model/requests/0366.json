@@ -1,0 +1,252 @@
+{
+  "index": 366,
+  "request": {
+    "service_type": "video",
+    "cpu_req": 6.0,
+    "ram_req": 3.0,
+    "msd_req": 3,
+    "alert_flag": true,
+    "source_node": 8,
+    "destination_node": 7,
+    "flow_id": "e2e-0366"
+  },
+  "profile": "VoIP",
+  "t": {
+    "submit_utc": "2026-11-21T20:07:20.961103+00:00",
+    "response_utc": "2026-11-21T20:07:21.508954+00:00",
+    "status_terminal_seen_utc": "2026-11-21T20:07:48.070958+00:00",
+    "backend_make_utc": "2026-11-21T20:07:21.523402806Z",
+    "backend_ready_utc": "2026-11-21T20:07:43.783521073Z",
+    "controller_steer_start_utc": "2026-11-21T20:07:43.806028191Z",
+    "controller_confirm_utc": "2026-11-21T20:07:44.352390532Z",
+    "readback_utc": "2026-11-21T20:07:50.140164+00:00",
+    "probe_start_utc": "2026-11-21T20:07:53.014310+00:00"
+  },
+  "http_status": 200,
+  "api_rtt_ms": 547.634,
+  "vnf_name": "vnf-video-54d8610d",
+  "placement": {
+    "id": 4,
+    "name": "Hue"
+  },
+  "route": {
+    "id": 5,
+    "name": "DaNang"
+  },
+  "realization": {
+    "request_id": "vnf-video-54d8610d",
+    "operation_id": "c62f9733-3f34-49c1-9e5c-5cf7025d4af1",
+    "topology_hash": "67131a546450606da19276263b00d23988d13fd71c17be38cb24a12637fe9f11",
+    "p4_topology_hash": "ee00b35ebeff5a46d428340fdfd984ecabf2047a4ef0cd79318a81ad732b4dbf",
+    "profile_id": "p4-path-candidate-v1",
+    "switch_path": [
+      9,
+      6,
+      5
+    ],
+    "sid_stack": [
+      "fc00:5::1",
+      "fc00:6::1",
+      "fc00:9::1"
+    ]
+  },
+  "migration_result": {
+    "status": "triggered",
+    "old_vnf": "vnf-video-e27db4fe",
+    "new_vnf": "vnf-video-54d8610d",
+    "status_path": "/orchestrate/migrations/vnf-video-54d8610d"
+  },
+  "server_timings_ms": {
+    "state_sync_ms": 475.78812297433615,
+    "state_snapshot_ms": 1.188362017273903,
+    "state_construction_ms": 0.21625892259180546,
+    "mask_construction_ms": 0.04556681960821152,
+    "normalization_ms": 0.07421709597110748,
+    "policy_inference_ms": 21.153307054191828,
+    "total_policy_ms": 21.55313896946609,
+    "admission_validation_ms": 18.223328050225973,
+    "decision_policy_and_admission_ms": 41.15403792820871,
+    "controller_handoff_ms": 0.03787013702094555,
+    "server_decision_ms": 537.8270149230957
+  },
+  "actuation_status": {
+    "status": "success",
+    "message": "Hybrid Orchestration Phase 5/6 sequence COMPLETED",
+    "data": {
+      "old_vnf": "vnf-video-e27db4fe",
+      "new_vnf": "vnf-video-54d8610d",
+      "recovery_state": "COMPLETED",
+      "dynamic_endpoint": {
+        "ip": "10.1.235.142",
+        "port": 0
+      },
+      "sid_list": [
+        "fc00:5::1",
+        "fc00:6::1",
+        "fc00:9::1"
+      ],
+      "switch_path": [
+        9,
+        6,
+        5
+      ],
+      "steer_status": "CONFIRMED",
+      "steer_operation_id": "c62f9733-3f34-49c1-9e5c-5cf7025d4af1",
+      "break_result": {
+        "status": "success",
+        "phase": "BREAK",
+        "oldDeployName": "vnf-video-e27db4fe",
+        "namespace": "core-router",
+        "message": "Old VNF 'vnf-video-e27db4fe' deleted."
+      },
+      "cp_steering_overhead_ms": 2037.33,
+      "k8s_node_hostname": "worker1"
+    }
+  },
+  "controller_rule_log": [
+    "2026-11-21T20:07:43.979819256Z 2026-11-21 20:07:43,979 [sdn.controller] INFO: [s9] route +fc00:6::1/128 \u2192 port4",
+    "2026-11-21T20:07:44.163265094Z 2026-11-21 20:07:44,162 [sdn.controller] INFO: [s6] route +fc00:5::1/128 \u2192 port2"
+  ],
+  "backend_log": [
+    "2026-11-21T20:07:21.557851665Z INFO:     127.0.0.1:38246 - \"GET /api/orchestrate/migrations/vnf-video-54d8610d HTTP/1.1\" 200 OK",
+    "2026-11-21T20:07:22.561799262Z INFO:     127.0.0.1:38252 - \"GET /api/orchestrate/migrations/vnf-video-54d8610d HTTP/1.1\" 200 OK",
+    "2026-11-21T20:07:23.566627581Z INFO:     127.0.0.1:38256 - \"GET /api/orchestrate/migrations/vnf-video-54d8610d HTTP/1.1\" 200 OK",
+    "2026-11-21T20:07:24.571531182Z INFO:     127.0.0.1:38270 - \"GET /api/orchestrate/migrations/vnf-video-54d8610d HTTP/1.1\" 200 OK",
+    "2026-11-21T20:07:25.576102381Z INFO:     127.0.0.1:38280 - \"GET /api/orchestrate/migrations/vnf-video-54d8610d HTTP/1.1\" 200 OK",
+    "2026-11-21T20:07:26.579231740Z INFO:     127.0.0.1:38282 - \"GET /api/orchestrate/migrations/vnf-video-54d8610d HTTP/1.1\" 200 OK",
+    "2026-11-21T20:07:27.583585128Z INFO:     127.0.0.1:43166 - \"GET /api/orchestrate/migrations/vnf-video-54d8610d HTTP/1.1\" 200 OK",
+    "2026-11-21T20:07:28.588231824Z INFO:     127.0.0.1:43168 - \"GET /api/orchestrate/migrations/vnf-video-54d8610d HTTP/1.1\" 200 OK",
+    "2026-11-21T20:07:29.592695333Z INFO:     127.0.0.1:43170 - \"GET /api/orchestrate/migrations/vnf-video-54d8610d HTTP/1.1\" 200 OK",
+    "2026-11-21T20:07:30.597681008Z INFO:     127.0.0.1:43174 - \"GET /api/orchestrate/migrations/vnf-video-54d8610d HTTP/1.1\" 200 OK",
+    "2026-11-21T20:07:31.603635914Z INFO:     127.0.0.1:43180 - \"GET /api/orchestrate/migrations/vnf-video-54d8610d HTTP/1.1\" 200 OK",
+    "2026-11-21T20:07:32.608213784Z INFO:     127.0.0.1:43188 - \"GET /api/orchestrate/migrations/vnf-video-54d8610d HTTP/1.1\" 200 OK",
+    "2026-11-21T20:07:33.612327697Z INFO:     127.0.0.1:43194 - \"GET /api/orchestrate/migrations/vnf-video-54d8610d HTTP/1.1\" 200 OK",
+    "2026-11-21T20:07:34.617094182Z INFO:     127.0.0.1:43206 - \"GET /api/orchestrate/migrations/vnf-video-54d8610d HTTP/1.1\" 200 OK",
+    "2026-11-21T20:07:35.622138177Z INFO:     127.0.0.1:43208 - \"GET /api/orchestrate/migrations/vnf-video-54d8610d HTTP/1.1\" 200 OK",
+    "2026-11-21T20:07:36.629035501Z INFO:     127.0.0.1:50866 - \"GET /api/orchestrate/migrations/vnf-video-54d8610d HTTP/1.1\" 200 OK",
+    "2026-11-21T20:07:37.632705092Z INFO:     127.0.0.1:50876 - \"GET /api/orchestrate/migrations/vnf-video-54d8610d HTTP/1.1\" 200 OK",
+    "2026-11-21T20:07:38.637799280Z INFO:     127.0.0.1:50880 - \"GET /api/orchestrate/migrations/vnf-video-54d8610d HTTP/1.1\" 200 OK",
+    "2026-11-21T20:07:39.642501256Z INFO:     127.0.0.1:50888 - \"GET /api/orchestrate/migrations/vnf-video-54d8610d HTTP/1.1\" 200 OK",
+    "2026-11-21T20:07:40.647889557Z INFO:     127.0.0.1:50904 - \"GET /api/orchestrate/migrations/vnf-video-54d8610d HTTP/1.1\" 200 OK",
+    "2026-11-21T20:07:41.698493129Z INFO:     127.0.0.1:50906 - \"GET /api/orchestrate/migrations/vnf-video-54d8610d HTTP/1.1\" 200 OK",
+    "2026-11-21T20:07:42.703296807Z INFO:     127.0.0.1:50916 - \"GET /api/orchestrate/migrations/vnf-video-54d8610d HTTP/1.1\" 200 OK",
+    "2026-11-21T20:07:43.817160709Z INFO:     127.0.0.1:50922 - \"GET /api/orchestrate/migrations/vnf-video-54d8610d HTTP/1.1\" 200 OK",
+    "2026-11-21T20:07:44.822982837Z INFO:     127.0.0.1:50926 - \"GET /api/orchestrate/migrations/vnf-video-54d8610d HTTP/1.1\" 200 OK",
+    "2026-11-21T20:07:45.955877218Z INFO:     127.0.0.1:50932 - \"GET /api/orchestrate/migrations/vnf-video-54d8610d HTTP/1.1\" 200 OK",
+    "2026-11-21T20:07:46.962758429Z INFO:     127.0.0.1:54592 - \"GET /api/orchestrate/migrations/vnf-video-54d8610d HTTP/1.1\" 200 OK",
+    "2026-11-21T20:07:48.070147214Z INFO:     127.0.0.1:54598 - \"GET /api/orchestrate/migrations/vnf-video-54d8610d HTTP/1.1\" 200 OK",
+    "2026-11-21T20:07:21.523402806Z INFO:OrchestrationService:PHASE: MAKE - Triggering Tekton for replacement VNF: vnf-video-54d8610d at hue-1",
+    "2026-11-21T20:07:21.548716525Z INFO:OrchestrationService:PHASE: VERIFY - Polling dynamic endpoint/readiness for vnf-video-54d8610d",
+    "2026-11-21T20:07:43.783521073Z INFO:OrchestrationService:VNF vnf-video-54d8610d is READY. Pod IP: 10.1.235.142 on worker1"
+  ],
+  "pipelineruns": [
+    {
+      "name": "mig-vnf-video-54d8610d-72b418",
+      "pipeline": "vnf-migrate-single",
+      "created": "2026-11-21T20:07:21Z",
+      "completed": null,
+      "reason": "Running",
+      "params": {
+        "ns": "core-router",
+        "oldDeployName": "vnf-video-e27db4fe",
+        "newDeployName": "vnf-video-54d8610d",
+        "fileName": "vnf-frr.yaml",
+        "targetLocation": "hue-1",
+        "nodeHostname": "worker1",
+        "labelSelector": "app=vnf-video-54d8610d"
+      }
+    }
+  ],
+  "pod": {
+    "pod": "vnf-video-54d8610d-c5865dfc9-drxtj",
+    "created": "2026-11-21T20:07:40Z",
+    "node": "worker1",
+    "ip": "10.1.235.142",
+    "conditions": {
+      "PodReadyToStartContainers": "2026-11-21T20:07:42Z",
+      "Initialized": "2026-11-21T20:07:40Z",
+      "Ready": "2026-11-21T20:07:42Z",
+      "ContainersReady": "2026-11-21T20:07:42Z",
+      "PodScheduled": "2026-11-21T20:07:40Z"
+    }
+  },
+  "readback": [
+    {
+      "switch": "s9",
+      "table": "routing_v6",
+      "key": "fc00:6::1/128",
+      "present": true
+    },
+    {
+      "switch": "s6",
+      "table": "routing_v6",
+      "key": "fc00:5::1/128",
+      "present": true
+    },
+    {
+      "switch": "s5",
+      "table": "srv6_end_dx4_table",
+      "key": "fc00:5::1",
+      "present": true
+    }
+  ],
+  "migration_old_vnf": "vnf-video-e27db4fe",
+  "old_vnf_pod_after": {},
+  "recovery_state": "COMPLETED",
+  "outcome": "steered",
+  "probe": {
+    "mode": "icmp",
+    "sent": 20,
+    "app_received": 20,
+    "loss": 0,
+    "http_codes": [],
+    "rtt_total_ms": [
+      3.89,
+      3.92,
+      3.97,
+      4.01,
+      4.02,
+      4.05,
+      4.06,
+      4.1,
+      4.13,
+      4.15,
+      4.19,
+      4.2,
+      4.21,
+      4.3,
+      4.34,
+      4.37,
+      4.38,
+      4.39,
+      4.4,
+      5.35
+    ],
+    "delta": {
+      "s9": {
+        "advance": 20,
+        "terminal": 0,
+        "msd_violation": 0
+      },
+      "s6": {
+        "advance": 20,
+        "terminal": 0,
+        "msd_violation": 0
+      },
+      "s5": {
+        "advance": 0,
+        "terminal": 20,
+        "msd_violation": 0
+      }
+    },
+    "captured": {
+      "src_egress_srv6": 22,
+      "place_host_decap": 20,
+      "host_vxlan": 40,
+      "src_return": 20
+    },
+    "first_received_utc": null
+  },
+  "active_total_after": 49,
+  "new_vnfs_after": 28
+}

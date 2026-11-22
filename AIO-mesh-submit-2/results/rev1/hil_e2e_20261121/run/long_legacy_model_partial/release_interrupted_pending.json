@@ -1,0 +1,19 @@
+{
+ "utc": "2026-11-21T18:42:15.669059+00:00",
+ "why": "pending reservation left by admission runner interrupted at model switch",
+ "payload": {
+  "vnf_name": "vnf-data-dea19f2a",
+  "v_place": 7,
+  "v_route": 7,
+  "cpu_req": 12.0,
+  "ram_req": 6.0,
+  "msd_req": 2
+ },
+ "http": 200,
+ "body": {
+  "status": "success",
+  "message": "Resources freed"
+ },
+ "active_after": 39,
+ "still_present": false
+}

@@ -1,0 +1,302 @@
+[
+  {
+    "commands": [
+      "table_add srv6_local_sid srv6_advance_segment fc00:2::1 =>"
+    ],
+    "output": "Obtaining JSON from switch...\nDone\nControl utility for runtime P4 table manipulation\nRuntimeCmd: Adding entry to exact match table srv6_local_sid\nmatch key:           EXACT-fc:00:00:02:00:00:00:00:00:00:00:00:00:00:00:01\naction:              srv6_advance_segment\nruntime data:        \nEntry has been added with handle 0\nRuntimeCmd: \n",
+    "thrift_port": 19091,
+    "utc": "2026-11-21T16:38:01.205068Z"
+  },
+  {
+    "commands": [
+      "table_add srv6_local_sid srv6_advance_segment fc00:1::1 =>"
+    ],
+    "output": "Obtaining JSON from switch...\nDone\nControl utility for runtime P4 table manipulation\nRuntimeCmd: Adding entry to exact match table srv6_local_sid\nmatch key:           EXACT-fc:00:00:01:00:00:00:00:00:00:00:00:00:00:00:01\naction:              srv6_advance_segment\nruntime data:        \nEntry has been added with handle 0\nRuntimeCmd: \n",
+    "thrift_port": 19092,
+    "utc": "2026-11-21T16:38:01.272891Z"
+  },
+  {
+    "commands": [
+      "table_add srv6_local_sid srv6_advance_segment fc00:6::1 =>"
+    ],
+    "output": "Obtaining JSON from switch...\nDone\nControl utility for runtime P4 table manipulation\nRuntimeCmd: Adding entry to exact match table srv6_local_sid\nmatch key:           EXACT-fc:00:00:06:00:00:00:00:00:00:00:00:00:00:00:01\naction:              srv6_advance_segment\nruntime data:        \nEntry has been added with handle 0\nRuntimeCmd: \n",
+    "thrift_port": 19093,
+    "utc": "2026-11-21T16:38:01.339915Z"
+  },
+  {
+    "commands": [
+      "table_add srv6_local_sid srv6_advance_segment fc00:7::1 =>"
+    ],
+    "output": "Obtaining JSON from switch...\nDone\nControl utility for runtime P4 table manipulation\nRuntimeCmd: Adding entry to exact match table srv6_local_sid\nmatch key:           EXACT-fc:00:00:07:00:00:00:00:00:00:00:00:00:00:00:01\naction:              srv6_advance_segment\nruntime data:        \nEntry has been added with handle 0\nRuntimeCmd: \n",
+    "thrift_port": 19094,
+    "utc": "2026-11-21T16:38:01.411636Z"
+  },
+  {
+    "commands": [
+      "table_add srv6_local_sid srv6_advance_segment fc00:8::1 =>"
+    ],
+    "output": "Obtaining JSON from switch...\nDone\nControl utility for runtime P4 table manipulation\nRuntimeCmd: Adding entry to exact match table srv6_local_sid\nmatch key:           EXACT-fc:00:00:08:00:00:00:00:00:00:00:00:00:00:00:01\naction:              srv6_advance_segment\nruntime data:        \nEntry has been added with handle 0\nRuntimeCmd: \n",
+    "thrift_port": 19095,
+    "utc": "2026-11-21T16:38:01.477226Z"
+  },
+  {
+    "commands": [
+      "table_add routing_v6 ipv6_forward fc00:1::1/128 => 02:00:00:00:01:01 02:00:00:00:02:02 2"
+    ],
+    "output": "Obtaining JSON from switch...\nDone\nControl utility for runtime P4 table manipulation\nRuntimeCmd: Adding entry to lpm match table routing_v6\nmatch key:           LPM-fc:00:00:01:00:00:00:00:00:00:00:00:00:00:00:01/128\naction:              ipv6_forward\nruntime data:        02:00:00:00:01:01\t02:00:00:00:02:02\t00:02\nEntry has been added with handle 0\nRuntimeCmd: \n",
+    "thrift_port": 19091,
+    "utc": "2026-11-21T16:38:01.544025Z"
+  },
+  {
+    "commands": [
+      "table_add routing_v6 ipv6_forward fc00:6::1/128 => 02:00:00:00:06:01 02:00:00:00:01:02 2"
+    ],
+    "output": "Obtaining JSON from switch...\nDone\nControl utility for runtime P4 table manipulation\nRuntimeCmd: Adding entry to lpm match table routing_v6\nmatch key:           LPM-fc:00:00:06:00:00:00:00:00:00:00:00:00:00:00:01/128\naction:              ipv6_forward\nruntime data:        02:00:00:00:06:01\t02:00:00:00:01:02\t00:02\nEntry has been added with handle 0\nRuntimeCmd: \n",
+    "thrift_port": 19092,
+    "utc": "2026-11-21T16:38:01.612634Z"
+  },
+  {
+    "commands": [
+      "table_add routing_v6 ipv6_forward fc00:7::1/128 => 02:00:00:00:07:01 02:00:00:00:06:02 2"
+    ],
+    "output": "Obtaining JSON from switch...\nDone\nControl utility for runtime P4 table manipulation\nRuntimeCmd: Adding entry to lpm match table routing_v6\nmatch key:           LPM-fc:00:00:07:00:00:00:00:00:00:00:00:00:00:00:01/128\naction:              ipv6_forward\nruntime data:        02:00:00:00:07:01\t02:00:00:00:06:02\t00:02\nEntry has been added with handle 0\nRuntimeCmd: \n",
+    "thrift_port": 19093,
+    "utc": "2026-11-21T16:38:01.679339Z"
+  },
+  {
+    "commands": [
+      "table_add routing_v6 ipv6_forward fc00:8::1/128 => 02:00:00:00:08:01 02:00:00:00:07:02 2"
+    ],
+    "output": "Obtaining JSON from switch...\nDone\nControl utility for runtime P4 table manipulation\nRuntimeCmd: Adding entry to lpm match table routing_v6\nmatch key:           LPM-fc:00:00:08:00:00:00:00:00:00:00:00:00:00:00:01/128\naction:              ipv6_forward\nruntime data:        02:00:00:00:08:01\t02:00:00:00:07:02\t00:02\nEntry has been added with handle 0\nRuntimeCmd: \n",
+    "thrift_port": 19094,
+    "utc": "2026-11-21T16:38:01.778657Z"
+  },
+  {
+    "commands": [
+      "table_add srv6_end_dx4_table srv6_end_dx4 fc00:8::1 => 02:00:00:00:00:02 02:00:00:00:08:02 2"
+    ],
+    "output": "Obtaining JSON from switch...\nDone\nControl utility for runtime P4 table manipulation\nRuntimeCmd: Adding entry to exact match table srv6_end_dx4_table\nmatch key:           EXACT-fc:00:00:08:00:00:00:00:00:00:00:00:00:00:00:01\naction:              srv6_end_dx4\nruntime data:        02:00:00:00:00:02\t02:00:00:00:08:02\t00:02\nEntry has been added with handle 0\nRuntimeCmd: \n",
+    "thrift_port": 19095,
+    "utc": "2026-11-21T16:38:01.848418Z"
+  },
+  {
+    "commands": [
+      "table_dump srv6_local_sid"
+    ],
+    "output": "Obtaining JSON from switch...\nDone\nControl utility for runtime P4 table manipulation\nRuntimeCmd: ==========\nTABLE ENTRIES\n**********\nDumping entry 0x0\nMatch key:\n* ipv6.dstAddr        : EXACT     fc000002000000000000000000000001\nAction entry: SRv6Ingress.srv6_advance_segment - \n==========\nDumping default entry\nAction entry: SRv6Ingress.drop - \n==========\nRuntimeCmd: \n",
+    "thrift_port": 19091,
+    "utc": "2026-11-21T16:38:01.916330Z"
+  },
+  {
+    "commands": [
+      "table_dump routing_v6"
+    ],
+    "output": "Obtaining JSON from switch...\nDone\nControl utility for runtime P4 table manipulation\nRuntimeCmd: ==========\nTABLE ENTRIES\n**********\nDumping entry 0x0\nMatch key:\n* ipv6.dstAddr        : LPM       fc000001000000000000000000000001/128\nAction entry: SRv6Ingress.ipv6_forward - 020000000101, 020000000202, 02\n==========\nDumping default entry\nAction entry: SRv6Ingress.drop - \n==========\nRuntimeCmd: \n",
+    "thrift_port": 19091,
+    "utc": "2026-11-21T16:38:01.982057Z"
+  },
+  {
+    "commands": [
+      "table_dump srv6_end_dx4_table"
+    ],
+    "output": "Obtaining JSON from switch...\nDone\nControl utility for runtime P4 table manipulation\nRuntimeCmd: ==========\nTABLE ENTRIES\n==========\nDumping default entry\nAction entry: SRv6Ingress.drop - \n==========\nRuntimeCmd: \n",
+    "thrift_port": 19091,
+    "utc": "2026-11-21T16:38:02.046956Z"
+  },
+  {
+    "commands": [
+      "table_dump srv6_local_sid"
+    ],
+    "output": "Obtaining JSON from switch...\nDone\nControl utility for runtime P4 table manipulation\nRuntimeCmd: ==========\nTABLE ENTRIES\n**********\nDumping entry 0x0\nMatch key:\n* ipv6.dstAddr        : EXACT     fc000001000000000000000000000001\nAction entry: SRv6Ingress.srv6_advance_segment - \n==========\nDumping default entry\nAction entry: SRv6Ingress.drop - \n==========\nRuntimeCmd: \n",
+    "thrift_port": 19092,
+    "utc": "2026-11-21T16:38:02.114751Z"
+  },
+  {
+    "commands": [
+      "table_dump routing_v6"
+    ],
+    "output": "Obtaining JSON from switch...\nDone\nControl utility for runtime P4 table manipulation\nRuntimeCmd: ==========\nTABLE ENTRIES\n**********\nDumping entry 0x0\nMatch key:\n* ipv6.dstAddr        : LPM       fc000006000000000000000000000001/128\nAction entry: SRv6Ingress.ipv6_forward - 020000000601, 020000000102, 02\n==========\nDumping default entry\nAction entry: SRv6Ingress.drop - \n==========\nRuntimeCmd: \n",
+    "thrift_port": 19092,
+    "utc": "2026-11-21T16:38:02.185729Z"
+  },
+  {
+    "commands": [
+      "table_dump srv6_end_dx4_table"
+    ],
+    "output": "Obtaining JSON from switch...\nDone\nControl utility for runtime P4 table manipulation\nRuntimeCmd: ==========\nTABLE ENTRIES\n==========\nDumping default entry\nAction entry: SRv6Ingress.drop - \n==========\nRuntimeCmd: \n",
+    "thrift_port": 19092,
+    "utc": "2026-11-21T16:38:02.252804Z"
+  },
+  {
+    "commands": [
+      "table_dump srv6_local_sid"
+    ],
+    "output": "Obtaining JSON from switch...\nDone\nControl utility for runtime P4 table manipulation\nRuntimeCmd: ==========\nTABLE ENTRIES\n**********\nDumping entry 0x0\nMatch key:\n* ipv6.dstAddr        : EXACT     fc000006000000000000000000000001\nAction entry: SRv6Ingress.srv6_advance_segment - \n==========\nDumping default entry\nAction entry: SRv6Ingress.drop - \n==========\nRuntimeCmd: \n",
+    "thrift_port": 19093,
+    "utc": "2026-11-21T16:38:02.322331Z"
+  },
+  {
+    "commands": [
+      "table_dump routing_v6"
+    ],
+    "output": "Obtaining JSON from switch...\nDone\nControl utility for runtime P4 table manipulation\nRuntimeCmd: ==========\nTABLE ENTRIES\n**********\nDumping entry 0x0\nMatch key:\n* ipv6.dstAddr        : LPM       fc000007000000000000000000000001/128\nAction entry: SRv6Ingress.ipv6_forward - 020000000701, 020000000602, 02\n==========\nDumping default entry\nAction entry: SRv6Ingress.drop - \n==========\nRuntimeCmd: \n",
+    "thrift_port": 19093,
+    "utc": "2026-11-21T16:38:02.393774Z"
+  },
+  {
+    "commands": [
+      "table_dump srv6_end_dx4_table"
+    ],
+    "output": "Obtaining JSON from switch...\nDone\nControl utility for runtime P4 table manipulation\nRuntimeCmd: ==========\nTABLE ENTRIES\n==========\nDumping default entry\nAction entry: SRv6Ingress.drop - \n==========\nRuntimeCmd: \n",
+    "thrift_port": 19093,
+    "utc": "2026-11-21T16:38:02.466174Z"
+  },
+  {
+    "commands": [
+      "table_dump srv6_local_sid"
+    ],
+    "output": "Obtaining JSON from switch...\nDone\nControl utility for runtime P4 table manipulation\nRuntimeCmd: ==========\nTABLE ENTRIES\n**********\nDumping entry 0x0\nMatch key:\n* ipv6.dstAddr        : EXACT     fc000007000000000000000000000001\nAction entry: SRv6Ingress.srv6_advance_segment - \n==========\nDumping default entry\nAction entry: SRv6Ingress.drop - \n==========\nRuntimeCmd: \n",
+    "thrift_port": 19094,
+    "utc": "2026-11-21T16:38:02.533588Z"
+  },
+  {
+    "commands": [
+      "table_dump routing_v6"
+    ],
+    "output": "Obtaining JSON from switch...\nDone\nControl utility for runtime P4 table manipulation\nRuntimeCmd: ==========\nTABLE ENTRIES\n**********\nDumping entry 0x0\nMatch key:\n* ipv6.dstAddr        : LPM       fc000008000000000000000000000001/128\nAction entry: SRv6Ingress.ipv6_forward - 020000000801, 020000000702, 02\n==========\nDumping default entry\nAction entry: SRv6Ingress.drop - \n==========\nRuntimeCmd: \n",
+    "thrift_port": 19094,
+    "utc": "2026-11-21T16:38:02.611513Z"
+  },
+  {
+    "commands": [
+      "table_dump srv6_end_dx4_table"
+    ],
+    "output": "Obtaining JSON from switch...\nDone\nControl utility for runtime P4 table manipulation\nRuntimeCmd: ==========\nTABLE ENTRIES\n==========\nDumping default entry\nAction entry: SRv6Ingress.drop - \n==========\nRuntimeCmd: \n",
+    "thrift_port": 19094,
+    "utc": "2026-11-21T16:38:02.673467Z"
+  },
+  {
+    "commands": [
+      "table_dump srv6_local_sid"
+    ],
+    "output": "Obtaining JSON from switch...\nDone\nControl utility for runtime P4 table manipulation\nRuntimeCmd: ==========\nTABLE ENTRIES\n**********\nDumping entry 0x0\nMatch key:\n* ipv6.dstAddr        : EXACT     fc000008000000000000000000000001\nAction entry: SRv6Ingress.srv6_advance_segment - \n==========\nDumping default entry\nAction entry: SRv6Ingress.drop - \n==========\nRuntimeCmd: \n",
+    "thrift_port": 19095,
+    "utc": "2026-11-21T16:38:02.745780Z"
+  },
+  {
+    "commands": [
+      "table_dump routing_v6"
+    ],
+    "output": "Obtaining JSON from switch...\nDone\nControl utility for runtime P4 table manipulation\nRuntimeCmd: ==========\nTABLE ENTRIES\n==========\nDumping default entry\nAction entry: SRv6Ingress.drop - \n==========\nRuntimeCmd: \n",
+    "thrift_port": 19095,
+    "utc": "2026-11-21T16:38:02.808485Z"
+  },
+  {
+    "commands": [
+      "table_dump srv6_end_dx4_table"
+    ],
+    "output": "Obtaining JSON from switch...\nDone\nControl utility for runtime P4 table manipulation\nRuntimeCmd: ==========\nTABLE ENTRIES\n**********\nDumping entry 0x0\nMatch key:\n* ipv6.dstAddr        : EXACT     fc000008000000000000000000000001\nAction entry: SRv6Ingress.srv6_end_dx4 - 020000000002, 020000000802, 02\n==========\nDumping default entry\nAction entry: SRv6Ingress.drop - \n==========\nRuntimeCmd: \n",
+    "thrift_port": 19095,
+    "utc": "2026-11-21T16:38:02.874865Z"
+  },
+  {
+    "commands": [
+      "counter_read srv6_advance_counter 0",
+      "counter_read srv6_terminal_counter 0",
+      "counter_read msd_violation_counter 0"
+    ],
+    "output": "Obtaining JSON from switch...\nDone\nControl utility for runtime P4 table manipulation\nRuntimeCmd: srv6_advance_counter[0]=  BmCounterValue(packets=0, bytes=0)\nRuntimeCmd: srv6_terminal_counter[0]=  BmCounterValue(packets=0, bytes=0)\nRuntimeCmd: msd_violation_counter[0]=  BmCounterValue(packets=0, bytes=0)\nRuntimeCmd: \n",
+    "thrift_port": 19091,
+    "utc": "2026-11-21T16:38:02.940662Z"
+  },
+  {
+    "commands": [
+      "counter_read srv6_advance_counter 0",
+      "counter_read srv6_terminal_counter 0",
+      "counter_read msd_violation_counter 0"
+    ],
+    "output": "Obtaining JSON from switch...\nDone\nControl utility for runtime P4 table manipulation\nRuntimeCmd: srv6_advance_counter[0]=  BmCounterValue(packets=0, bytes=0)\nRuntimeCmd: srv6_terminal_counter[0]=  BmCounterValue(packets=0, bytes=0)\nRuntimeCmd: msd_violation_counter[0]=  BmCounterValue(packets=0, bytes=0)\nRuntimeCmd: \n",
+    "thrift_port": 19092,
+    "utc": "2026-11-21T16:38:03.007468Z"
+  },
+  {
+    "commands": [
+      "counter_read srv6_advance_counter 0",
+      "counter_read srv6_terminal_counter 0",
+      "counter_read msd_violation_counter 0"
+    ],
+    "output": "Obtaining JSON from switch...\nDone\nControl utility for runtime P4 table manipulation\nRuntimeCmd: srv6_advance_counter[0]=  BmCounterValue(packets=0, bytes=0)\nRuntimeCmd: srv6_terminal_counter[0]=  BmCounterValue(packets=0, bytes=0)\nRuntimeCmd: msd_violation_counter[0]=  BmCounterValue(packets=0, bytes=0)\nRuntimeCmd: \n",
+    "thrift_port": 19093,
+    "utc": "2026-11-21T16:38:03.071553Z"
+  },
+  {
+    "commands": [
+      "counter_read srv6_advance_counter 0",
+      "counter_read srv6_terminal_counter 0",
+      "counter_read msd_violation_counter 0"
+    ],
+    "output": "Obtaining JSON from switch...\nDone\nControl utility for runtime P4 table manipulation\nRuntimeCmd: srv6_advance_counter[0]=  BmCounterValue(packets=0, bytes=0)\nRuntimeCmd: srv6_terminal_counter[0]=  BmCounterValue(packets=0, bytes=0)\nRuntimeCmd: msd_violation_counter[0]=  BmCounterValue(packets=0, bytes=0)\nRuntimeCmd: \n",
+    "thrift_port": 19094,
+    "utc": "2026-11-21T16:38:03.150457Z"
+  },
+  {
+    "commands": [
+      "counter_read srv6_advance_counter 0",
+      "counter_read srv6_terminal_counter 0",
+      "counter_read msd_violation_counter 0"
+    ],
+    "output": "Obtaining JSON from switch...\nDone\nControl utility for runtime P4 table manipulation\nRuntimeCmd: srv6_advance_counter[0]=  BmCounterValue(packets=0, bytes=0)\nRuntimeCmd: srv6_terminal_counter[0]=  BmCounterValue(packets=0, bytes=0)\nRuntimeCmd: msd_violation_counter[0]=  BmCounterValue(packets=0, bytes=0)\nRuntimeCmd: \n",
+    "thrift_port": 19095,
+    "utc": "2026-11-21T16:38:03.223907Z"
+  },
+  {
+    "commands": [
+      "counter_read srv6_advance_counter 0",
+      "counter_read srv6_terminal_counter 0",
+      "counter_read msd_violation_counter 0"
+    ],
+    "output": "Obtaining JSON from switch...\nDone\nControl utility for runtime P4 table manipulation\nRuntimeCmd: srv6_advance_counter[0]=  BmCounterValue(packets=100, bytes=21400)\nRuntimeCmd: srv6_terminal_counter[0]=  BmCounterValue(packets=0, bytes=0)\nRuntimeCmd: msd_violation_counter[0]=  BmCounterValue(packets=0, bytes=0)\nRuntimeCmd: \n",
+    "thrift_port": 19091,
+    "utc": "2026-11-21T16:38:07.681141Z"
+  },
+  {
+    "commands": [
+      "counter_read srv6_advance_counter 0",
+      "counter_read srv6_terminal_counter 0",
+      "counter_read msd_violation_counter 0"
+    ],
+    "output": "Obtaining JSON from switch...\nDone\nControl utility for runtime P4 table manipulation\nRuntimeCmd: srv6_advance_counter[0]=  BmCounterValue(packets=100, bytes=21400)\nRuntimeCmd: srv6_terminal_counter[0]=  BmCounterValue(packets=0, bytes=0)\nRuntimeCmd: msd_violation_counter[0]=  BmCounterValue(packets=0, bytes=0)\nRuntimeCmd: \n",
+    "thrift_port": 19092,
+    "utc": "2026-11-21T16:38:07.748221Z"
+  },
+  {
+    "commands": [
+      "counter_read srv6_advance_counter 0",
+      "counter_read srv6_terminal_counter 0",
+      "counter_read msd_violation_counter 0"
+    ],
+    "output": "Obtaining JSON from switch...\nDone\nControl utility for runtime P4 table manipulation\nRuntimeCmd: srv6_advance_counter[0]=  BmCounterValue(packets=100, bytes=21400)\nRuntimeCmd: srv6_terminal_counter[0]=  BmCounterValue(packets=0, bytes=0)\nRuntimeCmd: msd_violation_counter[0]=  BmCounterValue(packets=0, bytes=0)\nRuntimeCmd: \n",
+    "thrift_port": 19093,
+    "utc": "2026-11-21T16:38:07.822459Z"
+  },
+  {
+    "commands": [
+      "counter_read srv6_advance_counter 0",
+      "counter_read srv6_terminal_counter 0",
+      "counter_read msd_violation_counter 0"
+    ],
+    "output": "Obtaining JSON from switch...\nDone\nControl utility for runtime P4 table manipulation\nRuntimeCmd: srv6_advance_counter[0]=  BmCounterValue(packets=0, bytes=0)\nRuntimeCmd: srv6_terminal_counter[0]=  BmCounterValue(packets=0, bytes=0)\nRuntimeCmd: msd_violation_counter[0]=  BmCounterValue(packets=100, bytes=21400)\nRuntimeCmd: \n",
+    "thrift_port": 19094,
+    "utc": "2026-11-21T16:38:07.895770Z"
+  },
+  {
+    "commands": [
+      "counter_read srv6_advance_counter 0",
+      "counter_read srv6_terminal_counter 0",
+      "counter_read msd_violation_counter 0"
+    ],
+    "output": "Obtaining JSON from switch...\nDone\nControl utility for runtime P4 table manipulation\nRuntimeCmd: srv6_advance_counter[0]=  BmCounterValue(packets=0, bytes=0)\nRuntimeCmd: srv6_terminal_counter[0]=  BmCounterValue(packets=0, bytes=0)\nRuntimeCmd: msd_violation_counter[0]=  BmCounterValue(packets=0, bytes=0)\nRuntimeCmd: \n",
+    "thrift_port": 19095,
+    "utc": "2026-11-21T16:38:07.963361Z"
+  }
+]

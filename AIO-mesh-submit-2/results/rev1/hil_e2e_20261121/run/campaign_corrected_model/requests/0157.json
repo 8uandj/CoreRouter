@@ -1,0 +1,28 @@
+{
+  "index": 157,
+  "request": {
+    "service_type": "firewall",
+    "cpu_req": 7.0,
+    "ram_req": 3.5,
+    "msd_req": 5,
+    "alert_flag": true,
+    "source_node": 3,
+    "destination_node": 6,
+    "flow_id": "e2e-0157"
+  },
+  "profile": "VoIP",
+  "t": {
+    "submit_utc": "2026-11-21T19:24:49.995709+00:00",
+    "response_utc": "2026-11-21T19:24:50.138909+00:00"
+  },
+  "http_status": 409,
+  "api_rtt_ms": 142.915,
+  "outcome": "rejected",
+  "error": {
+    "status": "error",
+    "code": "NO_SAFE_ACTION",
+    "reason_key": "msd_violation",
+    "message": "materialized path exceeds physical switch MSD profile"
+  },
+  "new_vnfs_after": 20
+}

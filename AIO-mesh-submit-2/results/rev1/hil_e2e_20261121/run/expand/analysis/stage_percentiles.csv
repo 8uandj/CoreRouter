@@ -1,0 +1,7 @@
+stage,population,n,p50,p95,p99,min,max
+admit_s,all offered,91,0.13,0.179,0.203,0.08,0.426
+deploy_submit_to_object_s,steered,16,17.149,32.109,39.378,15.068,39.378
+deploy_submit_to_ready_s,steered,16,18.226,32.777,39.512,15.641,39.512
+steer_submit_to_confirm_seen_s,steered,16,1.018,1.528,2.028,0.51,2.028
+submit_to_steer_confirm_s,steered,16,20.077,34.216,40.642,17.259,40.642
+probe_rtt_p50_ms,steered,13,4.0,6.6,9.506,2.15,9.506

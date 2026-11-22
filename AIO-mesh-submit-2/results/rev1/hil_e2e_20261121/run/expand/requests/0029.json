@@ -1,0 +1,30 @@
+{
+  "index": 29,
+  "request": {
+    "service_type": "nat",
+    "cpu_req": 21.0,
+    "ram_req": 10.5,
+    "msd_req": 5,
+    "alert_flag": false,
+    "source_node": 8,
+    "destination_node": 2,
+    "flow_id": "expand-0029"
+  },
+  "profile": "Video",
+  "evidence_class": "driver-orchestrated actuation",
+  "t": {
+    "submit_utc": "2026-11-21T17:57:21.921944+00:00",
+    "response_utc": "2026-11-21T17:57:22.023169+00:00"
+  },
+  "http_status": 409,
+  "api_rtt_ms": 101.036,
+  "outcome": "rejected",
+  "error": {
+    "status": "error",
+    "code": "NO_SAFE_ACTION",
+    "reason_key": "no_safe_action",
+    "message": "forwarding requires distinct ingress and placement nodes"
+  },
+  "active_total_after": 20,
+  "ledger_record_after": null
+}

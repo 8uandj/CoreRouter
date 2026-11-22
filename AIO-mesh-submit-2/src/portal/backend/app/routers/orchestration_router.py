@@ -148,10 +148,13 @@ async def orchestrate_sfc(request: SFCRequest, background_tasks: BackgroundTasks
         # Mark intent before queuing, so a concurrent TTL cannot release it.
         state_manager.mark_actuation_requested(vnf_name)
         # Tìm VNF cũ tốn CPU nhất trên node được chọn để migrate
+        # The reservation for vnf_name was just recorded on this node; it is the
+        # replacement being created, never the old instance to migrate from.
         existing_vnfs = [
             vnf for vnf in state_manager.get_vnfs_on_node(choice.v_place)
             if vnf.get("name", "").startswith(
                 "vnf-{}-".format(request.service_type.lower()))
+            and vnf.get("name") != vnf_name
         ]
         old_vnf = existing_vnfs[0]["name"] if existing_vnfs else None
 
@@ -396,6 +399,25 @@ def reset_network_state():
         "message": "Network state reset. All resource usage cleared.",
         "data": state
     }
+
+@router.post("/orchestrate/reconcile/{vnf_name}")
+async def reconcile_absent_vnf(vnf_name: str):
+    """Release a ledger record whose Deployment and Pods are confirmed absent."""
+    async with get_migration_lock():
+        presence = container.orchestrator.deployment_presence(vnf_name)
+        if presence is not False:
+            raise HTTPException(status_code=409, detail={
+                "code": "ABSENCE_NOT_CONFIRMED", "deployment_presence": presence})
+        sm = get_state_manager()
+        try:
+            sm.sync_with_kubernetes(container.orchestrator.list_vnfs())
+        except Exception as exc:
+            raise HTTPException(status_code=409, detail={"code": "SYNC_FAILED", "reason": str(exc)}) from exc
+        released, reason = sm.release_confirmed_absent(vnf_name)
+        if not released:
+            raise HTTPException(status_code=409, detail={"code": "RECONCILE_BLOCKED", "reason_key": reason})
+        return {"status": "success", "vnf_name": vnf_name, "released": True}
+
 
 @router.post("/orchestrate/free")
 def free_network_resources(req: FreeResourceRequest):

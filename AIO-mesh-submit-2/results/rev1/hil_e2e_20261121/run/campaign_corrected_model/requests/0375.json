@@ -1,0 +1,28 @@
+{
+  "index": 375,
+  "request": {
+    "service_type": "video",
+    "cpu_req": 19.0,
+    "ram_req": 9.5,
+    "msd_req": 3,
+    "alert_flag": true,
+    "source_node": 0,
+    "destination_node": 9,
+    "flow_id": "e2e-0375"
+  },
+  "profile": "Video",
+  "t": {
+    "submit_utc": "2026-11-21T20:10:52.484048+00:00",
+    "response_utc": "2026-11-21T20:10:52.553866+00:00"
+  },
+  "http_status": 409,
+  "api_rtt_ms": 69.473,
+  "outcome": "rejected",
+  "error": {
+    "status": "error",
+    "code": "NO_SAFE_ACTION",
+    "reason_key": "no_safe_action",
+    "message": "resilience_no_safe_pair_available"
+  },
+  "new_vnfs_after": 29
+}

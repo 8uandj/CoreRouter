@@ -1,0 +1,5 @@
+# captured_utc=2026-11-21T16:27:03Z
+# cmd: curl -s -m 5 -w \nHTTP %{http_code}\n http://127.0.0.1:8765/steer/status
+{"steer_state": "idle", "new_deploy": null, "operation_id": null, "request_id": null, "topology_hash": null, "profile_id": null, "p4_topology_hash": null, "confirm_steer_done": false}
+HTTP 200
+# exit=0

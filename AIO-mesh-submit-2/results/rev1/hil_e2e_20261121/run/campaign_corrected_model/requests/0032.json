@@ -1,0 +1,249 @@
+{
+  "index": 32,
+  "request": {
+    "service_type": "data",
+    "cpu_req": 5.0,
+    "ram_req": 2.5,
+    "msd_req": 4,
+    "alert_flag": true,
+    "source_node": 4,
+    "destination_node": 7,
+    "flow_id": "e2e-0032"
+  },
+  "profile": "URLLC",
+  "t": {
+    "submit_utc": "2026-11-21T18:55:14.446727+00:00",
+    "response_utc": "2026-11-21T18:55:14.632762+00:00",
+    "status_terminal_seen_utc": "2026-11-21T18:55:43.308670+00:00",
+    "backend_make_utc": "2026-11-21T18:55:14.645787535Z",
+    "backend_ready_utc": "2026-11-21T18:55:38.929854001Z",
+    "controller_steer_start_utc": "2026-11-21T18:55:38.960173207Z",
+    "controller_confirm_utc": "2026-11-21T18:55:39.651363203Z",
+    "readback_utc": "2026-11-21T18:55:44.936974+00:00",
+    "probe_start_utc": "2026-11-21T18:55:49.011107+00:00"
+  },
+  "http_status": 200,
+  "api_rtt_ms": 185.753,
+  "vnf_name": "vnf-data-11525c8e",
+  "placement": {
+    "id": 1,
+    "name": "HaiPhong"
+  },
+  "route": {
+    "id": 0,
+    "name": "Hanoi"
+  },
+  "realization": {
+    "request_id": "vnf-data-11525c8e",
+    "operation_id": "d8e3a32d-ea8c-43fe-a7c7-e62688c8a820",
+    "topology_hash": "67131a546450606da19276263b00d23988d13fd71c17be38cb24a12637fe9f11",
+    "p4_topology_hash": "ee00b35ebeff5a46d428340fdfd984ecabf2047a4ef0cd79318a81ad732b4dbf",
+    "profile_id": "p4-path-candidate-v1",
+    "switch_path": [
+      5,
+      6,
+      1,
+      2
+    ],
+    "sid_stack": [
+      "fc00:2::1",
+      "fc00:1::1",
+      "fc00:6::1",
+      "fc00:5::1"
+    ]
+  },
+  "migration_result": {
+    "status": "triggered",
+    "old_vnf": "vnf-data-b6fad338",
+    "new_vnf": "vnf-data-11525c8e",
+    "status_path": "/orchestrate/migrations/vnf-data-11525c8e"
+  },
+  "server_timings_ms": {
+    "state_sync_ms": 60.96305092796683,
+    "state_snapshot_ms": 2.28692009113729,
+    "state_construction_ms": 0.2727140672504902,
+    "mask_construction_ms": 0.07699313573539257,
+    "normalization_ms": 0.09526684880256653,
+    "policy_inference_ms": 62.709805788472295,
+    "total_policy_ms": 63.221284886822104,
+    "admission_validation_ms": 22.59996486827731,
+    "decision_policy_and_admission_ms": 88.24599208310246,
+    "controller_handoff_ms": 0.04733097739517689,
+    "server_decision_ms": 176.96273210458457
+  },
+  "actuation_status": {
+    "status": "success",
+    "message": "Hybrid Orchestration Phase 5/6 sequence COMPLETED",
+    "data": {
+      "old_vnf": "vnf-data-b6fad338",
+      "new_vnf": "vnf-data-11525c8e",
+      "recovery_state": "COMPLETED",
+      "dynamic_endpoint": {
+        "ip": "10.1.235.216",
+        "port": 0
+      },
+      "sid_list": [
+        "fc00:2::1",
+        "fc00:1::1",
+        "fc00:6::1",
+        "fc00:5::1"
+      ],
+      "switch_path": [
+        5,
+        6,
+        1,
+        2
+      ],
+      "steer_status": "CONFIRMED",
+      "steer_operation_id": "d8e3a32d-ea8c-43fe-a7c7-e62688c8a820",
+      "break_result": {
+        "status": "success",
+        "phase": "BREAK",
+        "oldDeployName": "vnf-data-b6fad338",
+        "namespace": "core-router",
+        "message": "Old VNF 'vnf-data-b6fad338' deleted."
+      },
+      "cp_steering_overhead_ms": 2041.69,
+      "k8s_node_hostname": "k8s-master"
+    }
+  },
+  "controller_rule_log": [
+    "2026-11-21T18:55:39.092609044Z 2026-11-21 18:55:39,091 [sdn.controller] INFO: [s5] route +fc00:6::1/128 \u2192 port3",
+    "2026-11-21T18:55:39.294467487Z 2026-11-21 18:55:39,293 [sdn.controller] INFO: [s6] route +fc00:1::1/128 \u2192 port4",
+    "2026-11-21T18:55:39.476214287Z 2026-11-21 18:55:39,475 [sdn.controller] INFO: [s1] route +fc00:2::1/128 \u2192 port2"
+  ],
+  "backend_log": [
+    "2026-11-21T18:55:14.676510251Z INFO:     127.0.0.1:47994 - \"GET /api/orchestrate/migrations/vnf-data-11525c8e HTTP/1.1\" 200 OK",
+    "2026-11-21T18:55:15.680928280Z INFO:     127.0.0.1:48010 - \"GET /api/orchestrate/migrations/vnf-data-11525c8e HTTP/1.1\" 200 OK",
+    "2026-11-21T18:55:16.685794816Z INFO:     127.0.0.1:48320 - \"GET /api/orchestrate/migrations/vnf-data-11525c8e HTTP/1.1\" 200 OK",
+    "2026-11-21T18:55:17.690201740Z INFO:     127.0.0.1:48332 - \"GET /api/orchestrate/migrations/vnf-data-11525c8e HTTP/1.1\" 200 OK",
+    "2026-11-21T18:55:18.693905180Z INFO:     127.0.0.1:48348 - \"GET /api/orchestrate/migrations/vnf-data-11525c8e HTTP/1.1\" 200 OK",
+    "2026-11-21T18:55:19.697878235Z INFO:     127.0.0.1:48360 - \"GET /api/orchestrate/migrations/vnf-data-11525c8e HTTP/1.1\" 200 OK",
+    "2026-11-21T18:55:20.701512773Z INFO:     127.0.0.1:48370 - \"GET /api/orchestrate/migrations/vnf-data-11525c8e HTTP/1.1\" 200 OK",
+    "2026-11-21T18:55:21.706144903Z INFO:     127.0.0.1:48376 - \"GET /api/orchestrate/migrations/vnf-data-11525c8e HTTP/1.1\" 200 OK",
+    "2026-11-21T18:55:22.711372092Z INFO:     127.0.0.1:48382 - \"GET /api/orchestrate/migrations/vnf-data-11525c8e HTTP/1.1\" 200 OK",
+    "2026-11-21T18:55:23.716313715Z INFO:     127.0.0.1:48388 - \"GET /api/orchestrate/migrations/vnf-data-11525c8e HTTP/1.1\" 200 OK",
+    "2026-11-21T18:55:24.721539221Z INFO:     127.0.0.1:48396 - \"GET /api/orchestrate/migrations/vnf-data-11525c8e HTTP/1.1\" 200 OK",
+    "2026-11-21T18:55:25.725499064Z INFO:     127.0.0.1:48400 - \"GET /api/orchestrate/migrations/vnf-data-11525c8e HTTP/1.1\" 200 OK",
+    "2026-11-21T18:55:26.729818932Z INFO:     127.0.0.1:38572 - \"GET /api/orchestrate/migrations/vnf-data-11525c8e HTTP/1.1\" 200 OK",
+    "2026-11-21T18:55:27.734210011Z INFO:     127.0.0.1:38582 - \"GET /api/orchestrate/migrations/vnf-data-11525c8e HTTP/1.1\" 200 OK",
+    "2026-11-21T18:55:28.738616473Z INFO:     127.0.0.1:38592 - \"GET /api/orchestrate/migrations/vnf-data-11525c8e HTTP/1.1\" 200 OK",
+    "2026-11-21T18:55:29.742876379Z INFO:     127.0.0.1:38602 - \"GET /api/orchestrate/migrations/vnf-data-11525c8e HTTP/1.1\" 200 OK",
+    "2026-11-21T18:55:30.747913355Z INFO:     127.0.0.1:38618 - \"GET /api/orchestrate/migrations/vnf-data-11525c8e HTTP/1.1\" 200 OK",
+    "2026-11-21T18:55:31.753036927Z INFO:     127.0.0.1:38624 - \"GET /api/orchestrate/migrations/vnf-data-11525c8e HTTP/1.1\" 200 OK",
+    "2026-11-21T18:55:32.756918140Z INFO:     127.0.0.1:38626 - \"GET /api/orchestrate/migrations/vnf-data-11525c8e HTTP/1.1\" 200 OK",
+    "2026-11-21T18:55:33.762095908Z INFO:     127.0.0.1:38628 - \"GET /api/orchestrate/migrations/vnf-data-11525c8e HTTP/1.1\" 200 OK",
+    "2026-11-21T18:55:34.766962863Z INFO:     127.0.0.1:38636 - \"GET /api/orchestrate/migrations/vnf-data-11525c8e HTTP/1.1\" 200 OK",
+    "2026-11-21T18:55:35.772774534Z INFO:     127.0.0.1:38648 - \"GET /api/orchestrate/migrations/vnf-data-11525c8e HTTP/1.1\" 200 OK",
+    "2026-11-21T18:55:36.844240101Z INFO:     127.0.0.1:34144 - \"GET /api/orchestrate/migrations/vnf-data-11525c8e HTTP/1.1\" 200 OK",
+    "2026-11-21T18:55:37.849098708Z INFO:     127.0.0.1:34146 - \"GET /api/orchestrate/migrations/vnf-data-11525c8e HTTP/1.1\" 200 OK",
+    "2026-11-21T18:55:38.969382384Z INFO:     127.0.0.1:34150 - \"GET /api/orchestrate/migrations/vnf-data-11525c8e HTTP/1.1\" 200 OK",
+    "2026-11-21T18:55:39.971810770Z INFO:     127.0.0.1:34158 - \"GET /api/orchestrate/migrations/vnf-data-11525c8e HTTP/1.1\" 200 OK",
+    "2026-11-21T18:55:41.198241521Z INFO:     127.0.0.1:34174 - \"GET /api/orchestrate/migrations/vnf-data-11525c8e HTTP/1.1\" 200 OK",
+    "2026-11-21T18:55:42.206048738Z INFO:     127.0.0.1:34182 - \"GET /api/orchestrate/migrations/vnf-data-11525c8e HTTP/1.1\" 200 OK",
+    "2026-11-21T18:55:43.307904457Z INFO:     127.0.0.1:34184 - \"GET /api/orchestrate/migrations/vnf-data-11525c8e HTTP/1.1\" 200 OK",
+    "2026-11-21T18:55:14.645787535Z INFO:OrchestrationService:PHASE: MAKE - Triggering Tekton for replacement VNF: vnf-data-11525c8e at haiphong-1",
+    "2026-11-21T18:55:14.669710778Z INFO:OrchestrationService:PHASE: VERIFY - Polling dynamic endpoint/readiness for vnf-data-11525c8e",
+    "2026-11-21T18:55:38.929854001Z INFO:OrchestrationService:VNF vnf-data-11525c8e is READY. Pod IP: 10.1.235.216 on k8s-master"
+  ],
+  "pipelineruns": [
+    {
+      "name": "mig-vnf-data-11525c8e-0346fb",
+      "pipeline": "vnf-migrate-single",
+      "created": "2026-11-21T18:55:14Z",
+      "completed": null,
+      "reason": "Running",
+      "params": {
+        "ns": "core-router",
+        "oldDeployName": "vnf-data-b6fad338",
+        "newDeployName": "vnf-data-11525c8e",
+        "fileName": "vnf-frr.yaml",
+        "targetLocation": "haiphong-1",
+        "nodeHostname": "k8s-master",
+        "labelSelector": "app=vnf-data-11525c8e"
+      }
+    }
+  ],
+  "pod": {
+    "pod": "vnf-data-11525c8e-584784d44-vv5fg",
+    "created": "2026-11-21T18:55:36Z",
+    "node": "k8s-master",
+    "ip": "10.1.235.216",
+    "conditions": {
+      "PodReadyToStartContainers": "2026-11-21T18:55:38Z",
+      "Initialized": "2026-11-21T18:55:36Z",
+      "Ready": "2026-11-21T18:55:38Z",
+      "ContainersReady": "2026-11-21T18:55:38Z",
+      "PodScheduled": "2026-11-21T18:55:36Z"
+    }
+  },
+  "readback": [
+    {
+      "switch": "s5",
+      "table": "routing_v6",
+      "key": "fc00:6::1/128",
+      "present": true
+    },
+    {
+      "switch": "s6",
+      "table": "routing_v6",
+      "key": "fc00:1::1/128",
+      "present": true
+    },
+    {
+      "switch": "s1",
+      "table": "routing_v6",
+      "key": "fc00:2::1/128",
+      "present": true
+    },
+    {
+      "switch": "s2",
+      "table": "srv6_end_dx4_table",
+      "key": "fc00:2::1",
+      "present": true
+    }
+  ],
+  "migration_old_vnf": "vnf-data-b6fad338",
+  "old_vnf_pod_after": {},
+  "recovery_state": "COMPLETED",
+  "outcome": "steered",
+  "probe": {
+    "mode": "icmp",
+    "sent": 20,
+    "app_received": 0,
+    "loss": 20,
+    "http_codes": [],
+    "rtt_total_ms": [],
+    "delta": {
+      "s5": {
+        "advance": 20,
+        "terminal": 0,
+        "msd_violation": 0
+      },
+      "s6": {
+        "advance": 20,
+        "terminal": 0,
+        "msd_violation": 0
+      },
+      "s1": {
+        "advance": 20,
+        "terminal": 0,
+        "msd_violation": 0
+      },
+      "s2": {
+        "advance": 0,
+        "terminal": 20,
+        "msd_violation": 0
+      }
+    },
+    "captured": {
+      "src_egress_srv6": 22,
+      "place_host_decap": 20,
+      "host_vxlan": 20,
+      "src_return": 0
+    },
+    "first_received_utc": "2026-11-21T18:55:58.326088+00:00"
+  },
+  "active_total_after": 41,
+  "new_vnfs_after": 4
+}

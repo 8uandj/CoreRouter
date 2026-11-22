@@ -1,0 +1,24 @@
+Obtaining JSON from switch...
+Done
+Control utility for runtime P4 table manipulation
+RuntimeCmd: SRv6Ingress.routing_v6         [implementation=None, mk=ipv6.dstAddr(lpm, 128)]
+SRv6Ingress.srv6_end_dx4_table [implementation=None, mk=ipv6.dstAddr(exact, 128)]
+SRv6Ingress.srv6_local_sid     [implementation=None, mk=ipv6.dstAddr(exact, 128)]
+tbl_act                        [implementation=None, mk=]
+tbl_drop                       [implementation=None, mk=]
+tbl_drop_0                     [implementation=None, mk=]
+tbl_srv6_basic330              [implementation=None, mk=]
+tbl_srv6_basic332              [implementation=None, mk=]
+RuntimeCmd: 
+show_tables_exit=0
+Obtaining JSON from switch...
+Done
+Control utility for runtime P4 table manipulation
+RuntimeCmd: ==========
+TABLE ENTRIES
+==========
+Dumping default entry
+Action entry: SRv6Ingress.drop - 
+==========
+RuntimeCmd: 
+route_dump_exit=124

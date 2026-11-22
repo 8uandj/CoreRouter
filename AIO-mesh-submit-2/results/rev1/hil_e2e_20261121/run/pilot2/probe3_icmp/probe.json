@@ -1,0 +1,157 @@
+{
+  "request_id": "vnf-voc-237923df",
+  "src_host": "h6",
+  "place_host": "h7",
+  "switch_path": [
+    6,
+    7
+  ],
+  "sid_stack_final_to_first": [
+    "fc00:7::1",
+    "fc00:6::1"
+  ],
+  "pod_ip": "10.1.189.168",
+  "n": 10,
+  "t": {
+    "counters_before_utc": "2026-11-21T17:13:38.030269+00:00",
+    "send_start_utc": "2026-11-21T17:13:45.257417+00:00",
+    "send_end_utc": "2026-11-21T17:13:47.877595+00:00",
+    "counters_after_utc": "2026-11-21T17:13:47.878627+00:00"
+  },
+  "counters_before": {
+    "s6": {
+      "advance": 80,
+      "terminal": 0,
+      "msd_violation": 0
+    },
+    "s7": {
+      "advance": 0,
+      "terminal": 80,
+      "msd_violation": 0
+    }
+  },
+  "src_setup": {
+    "switch_port": "s6-eth1",
+    "switch_port_mac": "ae:7f:6b:c2:79:48",
+    "seg6_segs_traversal": [
+      "fc00:6::1",
+      "fc00:7::1"
+    ],
+    "commands": "ethtool -K h6-eth0 tx off >/dev/null; ip -6 addr replace 2001:db8:100::6/64 dev h6-eth0 nodad; ip -6 route replace fc00::/16 dev h6-eth0; ip -6 neigh replace fc00:6::1 lladdr ae:7f:6b:c2:79:48 dev h6-eth0 nud permanent; ip route replace 10.1.189.168/32 encap seg6 mode encap segs fc00:6::1,fc00:7::1 dev h6-eth0; ip route get 10.1.189.168",
+    "output": "10.1.189.168 dev h6-eth0 src 10.0.0.6 uid 0 \n    cache \n"
+  },
+  "mode": "icmp",
+  "icmp_pattern_hex": "3ca51fd335a48263335a1d994f7299ee",
+  "icmp_raw": "PATTERN: 0x3ca51fd335a48263335a1d994f7299ee\nPING 10.1.189.168 (10.1.189.168) 56(84) bytes of data.\n64 bytes from 10.1.189.168: icmp_seq=1 ttl=62 time=2.38 ms\n64 bytes from 10.1.189.168: icmp_seq=2 ttl=62 time=2.27 ms\n64 bytes from 10.1.189.168: icmp_seq=3 ttl=62 time=2.21 ms\n64 bytes from 10.1.189.168: icmp_seq=4 ttl=62 time=2.44 ms\n64 bytes from 10.1.189.168: icmp_seq=5 ttl=62 time=2.22 ms\n64 bytes from 10.1.189.168: icmp_seq=6 ttl=62 time=2.04 ms\n64 bytes from 10.1.189.168: icmp_seq=7 ttl=62 time=2.17 ms\n64 bytes from 10.1.189.168: icmp_seq=8 ttl=62 time=2.11 ms\n64 bytes from 10.1.189.168: icmp_seq=9 ttl=62 time=2.03 ms\n64 bytes from 10.1.189.168: icmp_seq=10 ttl=62 time=1.73 ms\n\n--- 10.1.189.168 ping statistics ---\n10 packets transmitted, 10 received, 0% packet loss, time 1806ms\nrtt min/avg/max/mdev = 1.734/2.160/2.435/0.189 ms\n",
+  "http": [
+    {
+      "seq": 1,
+      "http_code": null,
+      "time_total_s": 0.0023799999999999997,
+      "marker_echoed_by_vnf": true
+    },
+    {
+      "seq": 2,
+      "http_code": null,
+      "time_total_s": 0.00227,
+      "marker_echoed_by_vnf": true
+    },
+    {
+      "seq": 3,
+      "http_code": null,
+      "time_total_s": 0.00221,
+      "marker_echoed_by_vnf": true
+    },
+    {
+      "seq": 4,
+      "http_code": null,
+      "time_total_s": 0.00244,
+      "marker_echoed_by_vnf": true
+    },
+    {
+      "seq": 5,
+      "http_code": null,
+      "time_total_s": 0.00222,
+      "marker_echoed_by_vnf": true
+    },
+    {
+      "seq": 6,
+      "http_code": null,
+      "time_total_s": 0.00204,
+      "marker_echoed_by_vnf": true
+    },
+    {
+      "seq": 7,
+      "http_code": null,
+      "time_total_s": 0.00217,
+      "marker_echoed_by_vnf": true
+    },
+    {
+      "seq": 8,
+      "http_code": null,
+      "time_total_s": 0.00211,
+      "marker_echoed_by_vnf": true
+    },
+    {
+      "seq": 9,
+      "http_code": null,
+      "time_total_s": 0.0020299999999999997,
+      "marker_echoed_by_vnf": true
+    },
+    {
+      "seq": 10,
+      "http_code": null,
+      "time_total_s": 0.00173,
+      "marker_echoed_by_vnf": true
+    }
+  ],
+  "counters_after": {
+    "s6": {
+      "advance": 90,
+      "terminal": 0,
+      "msd_violation": 0
+    },
+    "s7": {
+      "advance": 0,
+      "terminal": 90,
+      "msd_violation": 0
+    }
+  },
+  "counter_delta": {
+    "s6": {
+      "advance": 10,
+      "terminal": 0,
+      "msd_violation": 0
+    },
+    "s7": {
+      "advance": 0,
+      "terminal": 10,
+      "msd_violation": 0
+    }
+  },
+  "src_teardown": "10.0.0.0/24 dev h6-eth0 proto kernel scope link src 10.0.0.6 \n10.1.0.0/16 via 10.1.240.1 dev veth-h6-mn \n",
+  "captured_packets": {
+    "src_egress_srv6": 12,
+    "place_host_decap": 10,
+    "host_vxlan": 20,
+    "src_return": 10
+  },
+  "summary": {
+    "sent": 10,
+    "app_received": 10,
+    "loss": 0,
+    "http_codes": [],
+    "rtt_total_ms": [
+      1.73,
+      2.03,
+      2.04,
+      2.11,
+      2.17,
+      2.21,
+      2.22,
+      2.27,
+      2.38,
+      2.44
+    ]
+  }
+}

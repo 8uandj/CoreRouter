@@ -1,0 +1,2800 @@
+{
+ "t_start": "2026-11-21T18:17:16.364194+00:00",
+ "workers": 8,
+ "results": [
+  {
+   "i": 0,
+   "request": {
+    "service_type": "voc",
+    "cpu_req": 11.0,
+    "ram_req": 5.5,
+    "msd_req": 3,
+    "alert_flag": true,
+    "source_node": 3,
+    "destination_node": 3,
+    "flow_id": "burst-000"
+   },
+   "submit_utc": "2026-11-21T18:17:16.364814+00:00",
+   "response_utc": "2026-11-21T18:17:16.532303+00:00",
+   "http": 409,
+   "rtt_ms": 166.516,
+   "body": {
+    "detail": {
+     "status": "error",
+     "code": "NO_SAFE_ACTION",
+     "reason_key": "msd_violation",
+     "message": "requested MSD depth does not match materialized P4 path depth"
+    }
+   }
+  },
+  {
+   "i": 1,
+   "request": {
+    "service_type": "idps",
+    "cpu_req": 5.0,
+    "ram_req": 2.5,
+    "msd_req": 5,
+    "alert_flag": true,
+    "source_node": 8,
+    "destination_node": 9,
+    "flow_id": "burst-001"
+   },
+   "submit_utc": "2026-11-21T18:17:16.368053+00:00",
+   "response_utc": "2026-11-21T18:17:16.855103+00:00",
+   "http": 409,
+   "rtt_ms": 486.865,
+   "body": {
+    "detail": {
+     "status": "error",
+     "code": "NO_SAFE_ACTION",
+     "reason_key": "msd_violation",
+     "message": "requested MSD depth does not match materialized P4 path depth"
+    }
+   }
+  },
+  {
+   "i": 2,
+   "request": {
+    "service_type": "nat",
+    "cpu_req": 6.0,
+    "ram_req": 3.0,
+    "msd_req": 2,
+    "alert_flag": true,
+    "source_node": 4,
+    "destination_node": 0,
+    "flow_id": "burst-002"
+   },
+   "submit_utc": "2026-11-21T18:17:16.369579+00:00",
+   "response_utc": "2026-11-21T18:17:16.657922+00:00",
+   "http": 409,
+   "rtt_ms": 288.054,
+   "body": {
+    "detail": {
+     "status": "error",
+     "code": "NO_SAFE_ACTION",
+     "reason_key": "msd_violation",
+     "message": "requested MSD depth does not match materialized P4 path depth"
+    }
+   }
+  },
+  {
+   "i": 3,
+   "request": {
+    "service_type": "lb",
+    "cpu_req": 19.0,
+    "ram_req": 9.5,
+    "msd_req": 3,
+    "alert_flag": true,
+    "source_node": 8,
+    "destination_node": 6,
+    "flow_id": "burst-003"
+   },
+   "submit_utc": "2026-11-21T18:17:16.371607+00:00",
+   "response_utc": "2026-11-21T18:17:16.775732+00:00",
+   "http": 409,
+   "rtt_ms": 403.925,
+   "body": {
+    "detail": {
+     "status": "error",
+     "code": "NO_SAFE_ACTION",
+     "reason_key": "msd_violation",
+     "message": "requested MSD depth does not match materialized P4 path depth"
+    }
+   }
+  },
+  {
+   "i": 4,
+   "request": {
+    "service_type": "firewall",
+    "cpu_req": 7.0,
+    "ram_req": 3.5,
+    "msd_req": 4,
+    "alert_flag": true,
+    "source_node": 1,
+    "destination_node": 1,
+    "flow_id": "burst-004"
+   },
+   "submit_utc": "2026-11-21T18:17:16.376260+00:00",
+   "response_utc": "2026-11-21T18:17:16.959474+00:00",
+   "http": 409,
+   "rtt_ms": 583.008,
+   "body": {
+    "detail": {
+     "status": "error",
+     "code": "NO_SAFE_ACTION",
+     "reason_key": "msd_violation",
+     "message": "requested MSD depth does not match materialized P4 path depth"
+    }
+   }
+  },
+  {
+   "i": 5,
+   "request": {
+    "service_type": "data",
+    "cpu_req": 12.0,
+    "ram_req": 6.0,
+    "msd_req": 5,
+    "alert_flag": true,
+    "source_node": 3,
+    "destination_node": 3,
+    "flow_id": "burst-005"
+   },
+   "submit_utc": "2026-11-21T18:17:16.377910+00:00",
+   "response_utc": "2026-11-21T18:17:17.033477+00:00",
+   "http": 409,
+   "rtt_ms": 655.464,
+   "body": {
+    "detail": {
+     "status": "error",
+     "code": "NO_SAFE_ACTION",
+     "reason_key": "no_safe_action",
+     "message": "forwarding requires distinct ingress and placement nodes"
+    }
+   }
+  },
+  {
+   "i": 6,
+   "request": {
+    "service_type": "video",
+    "cpu_req": 6.0,
+    "ram_req": 3.0,
+    "msd_req": 2,
+    "alert_flag": true,
+    "source_node": 3,
+    "destination_node": 8,
+    "flow_id": "burst-006"
+   },
+   "submit_utc": "2026-11-21T18:17:16.378731+00:00",
+   "response_utc": "2026-11-21T18:17:17.155865+00:00",
+   "http": 409,
+   "rtt_ms": 777.01,
+   "body": {
+    "detail": {
+     "status": "error",
+     "code": "NO_SAFE_ACTION",
+     "reason_key": "msd_violation",
+     "message": "requested MSD depth does not match materialized P4 path depth"
+    }
+   }
+  },
+  {
+   "i": 7,
+   "request": {
+    "service_type": "router",
+    "cpu_req": 18.0,
+    "ram_req": 9.0,
+    "msd_req": 2,
+    "alert_flag": true,
+    "source_node": 3,
+    "destination_node": 5,
+    "flow_id": "burst-007"
+   },
+   "submit_utc": "2026-11-21T18:17:16.380048+00:00",
+   "response_utc": "2026-11-21T18:17:17.297424+00:00",
+   "http": 409,
+   "rtt_ms": 917.186,
+   "body": {
+    "detail": {
+     "status": "error",
+     "code": "NO_SAFE_ACTION",
+     "reason_key": "msd_violation",
+     "message": "requested MSD depth does not match materialized P4 path depth"
+    }
+   }
+  },
+  {
+   "i": 8,
+   "request": {
+    "service_type": "voc",
+    "cpu_req": 4.0,
+    "ram_req": 2.0,
+    "msd_req": 5,
+    "alert_flag": true,
+    "source_node": 1,
+    "destination_node": 8,
+    "flow_id": "burst-008"
+   },
+   "submit_utc": "2026-11-21T18:17:16.532401+00:00",
+   "response_utc": "2026-11-21T18:17:17.433950+00:00",
+   "http": 409,
+   "rtt_ms": 901.428,
+   "body": {
+    "detail": {
+     "status": "error",
+     "code": "NO_SAFE_ACTION",
+     "reason_key": "msd_violation",
+     "message": "requested MSD depth does not match materialized P4 path depth"
+    }
+   }
+  },
+  {
+   "i": 9,
+   "request": {
+    "service_type": "voc",
+    "cpu_req": 5.0,
+    "ram_req": 2.5,
+    "msd_req": 5,
+    "alert_flag": true,
+    "source_node": 8,
+    "destination_node": 1,
+    "flow_id": "burst-009"
+   },
+   "submit_utc": "2026-11-21T18:17:16.658027+00:00",
+   "response_utc": "2026-11-21T18:17:17.577207+00:00",
+   "http": 409,
+   "rtt_ms": 919.024,
+   "body": {
+    "detail": {
+     "status": "error",
+     "code": "NO_SAFE_ACTION",
+     "reason_key": "msd_violation",
+     "message": "requested MSD depth does not match materialized P4 path depth"
+    }
+   }
+  },
+  {
+   "i": 10,
+   "request": {
+    "service_type": "idps",
+    "cpu_req": 12.0,
+    "ram_req": 6.0,
+    "msd_req": 2,
+    "alert_flag": true,
+    "source_node": 6,
+    "destination_node": 9,
+    "flow_id": "burst-010"
+   },
+   "submit_utc": "2026-11-21T18:17:16.775833+00:00",
+   "response_utc": "2026-11-21T18:17:17.743027+00:00",
+   "http": 200,
+   "rtt_ms": 967.054,
+   "body": {
+    "status": "success",
+    "message": "Hybrid orchestration selected Hybrid:DRL.",
+    "data": {
+     "vnf_name": "vnf-idps-fd4abe1f",
+     "placement_node": {
+      "id": 7,
+      "name": "NhaTrang"
+     },
+     "routing_node": {
+      "id": 7,
+      "name": "NhaTrang"
+     },
+     "srv6_segment_list": [
+      "fc00:8::1",
+      "fc00:7::1"
+     ],
+     "admitted_realization": {
+      "request_id": "vnf-idps-fd4abe1f",
+      "operation_id": "b7c0a9a7-ea47-4982-95c5-1e93ae4f93b6",
+      "topology_hash": "67131a546450606da19276263b00d23988d13fd71c17be38cb24a12637fe9f11",
+      "p4_topology_hash": "ee00b35ebeff5a46d428340fdfd984ecabf2047a4ef0cd79318a81ad732b4dbf",
+      "profile_id": "p4-path-candidate-v1",
+      "switch_path": [
+       7,
+       8
+      ],
+      "sid_stack": [
+       "fc00:8::1",
+       "fc00:7::1"
+      ]
+     },
+     "method_used": "Hybrid:DRL",
+     "hybrid_branch": "drl",
+     "decision_state_version": 22847,
+     "admission_state_version": 22848,
+     "timings_ms": {
+      "state_sync_ms": 50.6083439104259,
+      "state_snapshot_ms": 1.2752409093081951,
+      "state_construction_ms": 0.34535094164311886,
+      "mask_construction_ms": 0.09386218152940273,
+      "normalization_ms": 0.0964989885687828,
+      "policy_inference_ms": 64.97187307104468,
+      "total_policy_ms": 65.57255401276052,
+      "admission_validation_ms": 18.476800061762333,
+      "decision_policy_and_admission_ms": 85.48091212287545,
+      "controller_handoff_ms": 0.04027108661830425,
+      "server_decision_ms": 159.84981996007264
+     },
+     "global_utilization": 0.7879999876022339,
+     "avg_cpu": 0.7879999876022339,
+     "avg_msd_usage": 0.3400000035762787,
+     "alert_flag": true,
+     "forecast": null,
+     "migration_result": {
+      "status": "triggered",
+      "old_vnf": "vnf-idps-6f9a6794",
+      "new_vnf": "vnf-idps-fd4abe1f",
+      "status_path": "/orchestrate/migrations/vnf-idps-fd4abe1f"
+     },
+     "state": {
+      "mode": "drl",
+      "state_version": 22848,
+      "reservation_persistence": "durable",
+      "telemetry_age_s": [
+       null,
+       null,
+       null,
+       null,
+       null,
+       null,
+       null,
+       null,
+       null,
+       null
+      ],
+      "stale_telemetry_nodes": [],
+      "avg_cpu": 0.7879999876022339,
+      "avg_msd_usage": 0.3400000035762787,
+      "global_utilization": 0.7879999876022339,
+      "alert_flag": true,
+      "nodes": [
+       {
+        "id": 0,
+        "name": "Hanoi",
+        "cpu_util": 63.0,
+        "ram_util": 32.0,
+        "msd_util": 0.0,
+        "alert": false
+       },
+       {
+        "id": 1,
+        "name": "HaiPhong",
+        "cpu_util": 57.0,
+        "ram_util": 29.0,
+        "msd_util": 0.0,
+        "alert": false
+       },
+       {
+        "id": 2,
+        "name": "NinhBinh",
+        "cpu_util": 96.0,
+        "ram_util": 48.5,
+        "msd_util": 0.0,
+        "alert": true
+       },
+       {
+        "id": 3,
+        "name": "Vinh",
+        "cpu_util": 79.0,
+        "ram_util": 40.0,
+        "msd_util": 80.0,
+        "alert": false
+       },
+       {
+        "id": 4,
+        "name": "Hue",
+        "cpu_util": 99.0,
+        "ram_util": 49.5,
+        "msd_util": 0.0,
+        "alert": true
+       },
+       {
+        "id": 5,
+        "name": "DaNang",
+        "cpu_util": 64.0,
+        "ram_util": 32.5,
+        "msd_util": 100.0,
+        "alert": false
+       },
+       {
+        "id": 6,
+        "name": "QuyNhon",
+        "cpu_util": 98.0,
+        "ram_util": 49.0,
+        "msd_util": 0.0,
+        "alert": true
+       },
+       {
+        "id": 7,
+        "name": "NhaTrang",
+        "cpu_util": 34.0,
+        "ram_util": 17.0,
+        "msd_util": 100.0,
+        "alert": false
+       },
+       {
+        "id": 8,
+        "name": "HoChiMinh",
+        "cpu_util": 100.0,
+        "ram_util": 50.5,
+        "msd_util": 60.000003814697266,
+        "alert": true
+       },
+       {
+        "id": 9,
+        "name": "CanTho",
+        "cpu_util": 98.0,
+        "ram_util": 49.5,
+        "msd_util": 0.0,
+        "alert": true
+       }
+      ],
+      "unaccounted_vnfs": [],
+      "active_vnfs": [
+       {
+        "name": "vnf-attack-004e219d",
+        "v_place": 8,
+        "v_route": 8,
+        "cpu_req": 64.0,
+        "ram_req": 32.5,
+        "msd_req": 6,
+        "is_pending": false,
+        "presence_unconfirmed": false,
+        "deployment_ready": true,
+        "accounting_unknown": false
+       },
+       {
+        "name": "vnf-attack-0faeed9f",
+        "v_place": 0,
+        "v_route": 8,
+        "cpu_req": 63.0,
+        "ram_req": 32.0,
+        "msd_req": 4,
+        "is_pending": false,
+        "presence_unconfirmed": false,
+        "deployment_ready": true,
+        "accounting_unknown": false
+       },
+       {
+        "name": "vnf-attack-228edabf",
+        "v_place": 1,
+        "v_route": 8,
+        "cpu_req": 57.0,
+        "ram_req": 29.0,
+        "msd_req": 6,
+        "is_pending": false,
+        "presence_unconfirmed": false,
+        "deployment_ready": true,
+        "accounting_unknown": false
+       },
+       {
+        "name": "vnf-attack-2f0aa313",
+        "v_place": 2,
+        "v_route": 8,
+        "cpu_req": 64.0,
+        "ram_req": 32.5,
+        "msd_req": 6,
+        "is_pending": false,
+        "presence_unconfirmed": false,
+        "deployment_ready": true,
+        "accounting_unknown": false
+       },
+       {
+        "name": "vnf-attack-57b6f205",
+        "v_place": 3,
+        "v_route": 3,
+        "cpu_req": 58.0,
+        "ram_req": 29.5,
+        "msd_req": 4,
+        "is_pending": false,
+        "presence_unconfirmed": false,
+        "deployment_ready": true,
+        "accounting_unknown": false
+       },
+       {
+        "name": "vnf-attack-8bf0425e",
+        "v_place": 5,
+        "v_route": 8,
+        "cpu_req": 64.0,
+        "ram_req": 32.5,
+        "msd_req": 6,
+        "is_pending": false,
+        "presence_unconfirmed": false,
+        "deployment_ready": true,
+        "accounting_unknown": false
+       },
+       {
+        "name": "vnf-attack-af13f6df",
+        "v_place": 9,
+        "v_route": 5,
+        "cpu_req": 56.0,
+        "ram_req": 28.5,
+        "msd_req": 8,
+        "is_pending": false,
+        "presence_unconfirmed": false,
+        "deployment_ready": true,
+        "accounting_unknown": false
+       },
+       {
+        "name": "vnf-data-2042e77d",
+        "v_place": 4,
+        "v_route": 7,
+        "cpu_req": 5.0,
+        "ram_req": 2.5,
+        "msd_req": 4,
+        "actuation_requested": true,
+        "is_pending": false,
+        "presence_unconfirmed": false,
+        "deployment_ready": true,
+        "accounting_unknown": false
+       },
+       {
+        "name": "vnf-data-d9296f2b",
+        "v_place": 6,
+        "v_route": 7,
+        "cpu_req": 20.0,
+        "ram_req": 10.0,
+        "msd_req": 2,
+        "actuation_requested": true,
+        "is_pending": false,
+        "presence_unconfirmed": false,
+        "deployment_ready": true,
+        "accounting_unknown": false
+       },
+       {
+        "name": "vnf-firewall-06223c61",
+        "v_place": 7,
+        "v_route": 7,
+        "cpu_req": 12.0,
+        "ram_req": 6.0,
+        "msd_req": 2,
+        "is_pending": false,
+        "presence_unconfirmed": false,
+        "deployment_ready": true,
+        "accounting_unknown": false
+       },
+       {
+        "name": "vnf-firewall-60c82ba3",
+        "v_place": 4,
+        "v_route": 7,
+        "cpu_req": 7.0,
+        "ram_req": 3.5,
+        "msd_req": 3,
+        "is_pending": false,
+        "presence_unconfirmed": false,
+        "deployment_ready": true,
+        "accounting_unknown": false
+       },
+       {
+        "name": "vnf-firewall-977cd493",
+        "v_place": 4,
+        "v_route": 7,
+        "cpu_req": 12.0,
+        "ram_req": 6.0,
+        "msd_req": 3,
+        "actuation_requested": true,
+        "is_pending": false,
+        "presence_unconfirmed": false,
+        "deployment_ready": true,
+        "accounting_unknown": false
+       },
+       {
+        "name": "vnf-firewall-d09bd6c2",
+        "v_place": 4,
+        "v_route": 7,
+        "cpu_req": 5.0,
+        "ram_req": 2.5,
+        "msd_req": 3,
+        "is_pending": false,
+        "presence_unconfirmed": false,
+        "deployment_ready": true,
+        "accounting_unknown": false
+       },
+       {
+        "name": "vnf-idps-6f9a6794",
+        "v_place": 4,
+        "v_route": 7,
+        "cpu_req": 6.0,
+        "ram_req": 3.0,
+        "msd_req": 4,
+        "actuation_requested": true,
+        "is_pending": false,
+        "presence_unconfirmed": false,
+        "deployment_ready": true,
+        "accounting_unknown": false
+       },
+       {
+        "name": "vnf-idps-6ff25e7b",
+        "v_place": 2,
+        "v_route": 7,
+        "cpu_req": 6.0,
+        "ram_req": 3.0,
+        "msd_req": 5,
+        "is_pending": false,
+        "presence_unconfirmed": false,
+        "deployment_ready": true,
+        "accounting_unknown": false
+       },
+       {
+        "name": "vnf-idps-fdd8a8f7",
+        "v_place": 9,
+        "v_route": 7,
+        "cpu_req": 20.0,
+        "ram_req": 10.0,
+        "msd_req": 4,
+        "is_pending": false,
+        "presence_unconfirmed": false,
+        "deployment_ready": true,
+        "accounting_unknown": false
+       },
+       {
+        "name": "vnf-lb-a8f80139",
+        "v_place": 6,
+        "v_route": 7,
+        "cpu_req": 21.0,
+        "ram_req": 10.5,
+        "msd_req": 2,
+        "actuation_requested": true,
+        "is_pending": false,
+        "presence_unconfirmed": false,
+        "deployment_ready": true,
+        "accounting_unknown": false
+       },
+       {
+        "name": "vnf-lb-c7266b57",
+        "v_place": 4,
+        "v_route": 7,
+        "cpu_req": 6.0,
+        "ram_req": 3.0,
+        "msd_req": 3,
+        "actuation_requested": true,
+        "is_pending": false,
+        "presence_unconfirmed": false,
+        "deployment_ready": true,
+        "accounting_unknown": false
+       },
+       {
+        "name": "vnf-nat-240e4b06",
+        "v_place": 6,
+        "v_route": 7,
+        "cpu_req": 6.0,
+        "ram_req": 3.0,
+        "msd_req": 4,
+        "is_pending": false,
+        "presence_unconfirmed": false,
+        "deployment_ready": true,
+        "accounting_unknown": false
+       },
+       {
+        "name": "vnf-nat-9890d9ca",
+        "v_place": 2,
+        "v_route": 7,
+        "cpu_req": 6.0,
+        "ram_req": 3.0,
+        "msd_req": 5,
+        "is_pending": false,
+        "presence_unconfirmed": false,
+        "deployment_ready": true,
+        "accounting_unknown": false
+       },
+       {
+        "name": "vnf-nat-ff43155a",
+        "v_place": 4,
+        "v_route": 7,
+        "cpu_req": 11.0,
+        "ram_req": 5.5,
+        "msd_req": 3,
+        "actuation_requested": true,
+        "is_pending": false,
+        "presence_unconfirmed": false,
+        "deployment_ready": true,
+        "accounting_unknown": false
+       },
+       {
+        "name": "vnf-router-485205ac",
+        "v_place": 8,
+        "v_route": 7,
+        "cpu_req": 6.0,
+        "ram_req": 3.0,
+        "msd_req": 2,
+        "is_pending": false,
+        "presence_unconfirmed": false,
+        "deployment_ready": true,
+        "accounting_unknown": false
+       },
+       {
+        "name": "vnf-router-641b71ca",
+        "v_place": 3,
+        "v_route": 7,
+        "cpu_req": 21.0,
+        "ram_req": 10.5,
+        "msd_req": 3,
+        "is_pending": false,
+        "presence_unconfirmed": false,
+        "deployment_ready": true,
+        "accounting_unknown": false
+       },
+       {
+        "name": "vnf-router-740a9f49",
+        "v_place": 4,
+        "v_route": 7,
+        "cpu_req": 18.0,
+        "ram_req": 9.0,
+        "msd_req": 3,
+        "actuation_requested": true,
+        "is_pending": false,
+        "presence_unconfirmed": false,
+        "deployment_ready": true,
+        "accounting_unknown": false
+       },
+       {
+        "name": "vnf-router-a699951e",
+        "v_place": 6,
+        "v_route": 7,
+        "cpu_req": 20.0,
+        "ram_req": 10.0,
+        "msd_req": 4,
+        "is_pending": false,
+        "presence_unconfirmed": false,
+        "deployment_ready": true,
+        "accounting_unknown": false
+       },
+       {
+        "name": "vnf-video-09771db5",
+        "v_place": 8,
+        "v_route": 7,
+        "cpu_req": 12.0,
+        "ram_req": 6.0,
+        "msd_req": 4,
+        "is_pending": false,
+        "presence_unconfirmed": false,
+        "deployment_ready": true,
+        "accounting_unknown": false
+       },
+       {
+        "name": "vnf-video-20cb7274",
+        "v_place": 8,
+        "v_route": 7,
+        "cpu_req": 18.0,
+        "ram_req": 9.0,
+        "msd_req": 3,
+        "is_pending": false,
+        "presence_unconfirmed": false,
+        "deployment_ready": true,
+        "accounting_unknown": false
+       },
+       {
+        "name": "vnf-video-2d8dea54",
+        "v_place": 6,
+        "v_route": 7,
+        "cpu_req": 11.0,
+        "ram_req": 5.5,
+        "msd_req": 4,
+        "is_pending": false,
+        "presence_unconfirmed": false,
+        "deployment_ready": true,
+        "accounting_unknown": false
+       },
+       {
+        "name": "vnf-video-bcb87148",
+        "v_place": 4,
+        "v_route": 7,
+        "cpu_req": 5.0,
+        "ram_req": 2.5,
+        "msd_req": 2,
+        "actuation_requested": true,
+        "is_pending": false,
+        "presence_unconfirmed": false,
+        "deployment_ready": true,
+        "accounting_unknown": false
+       },
+       {
+        "name": "vnf-voc-1a081337",
+        "v_place": 6,
+        "v_route": 7,
+        "cpu_req": 20.0,
+        "ram_req": 10.0,
+        "msd_req": 4,
+        "actuation_requested": true,
+        "is_pending": false,
+        "presence_unconfirmed": false,
+        "deployment_ready": true,
+        "accounting_unknown": false
+       },
+       {
+        "name": "vnf-voc-46114e18",
+        "v_place": 9,
+        "v_route": 7,
+        "cpu_req": 4.0,
+        "ram_req": 2.0,
+        "msd_req": 3,
+        "is_pending": false,
+        "presence_unconfirmed": false,
+        "deployment_ready": true,
+        "accounting_unknown": false
+       },
+       {
+        "name": "vnf-voc-474040d7",
+        "v_place": 7,
+        "v_route": 7,
+        "cpu_req": 10.0,
+        "ram_req": 5.0,
+        "msd_req": 2,
+        "is_pending": false,
+        "presence_unconfirmed": false,
+        "deployment_ready": true,
+        "accounting_unknown": false
+       },
+       {
+        "name": "vnf-voc-519bcac9",
+        "v_place": 9,
+        "v_route": 7,
+        "cpu_req": 18.0,
+        "ram_req": 9.0,
+        "msd_req": 3,
+        "is_pending": false,
+        "presence_unconfirmed": false,
+        "deployment_ready": true,
+        "accounting_unknown": false
+       },
+       {
+        "name": "vnf-voc-89cf7868",
+        "v_place": 2,
+        "v_route": 7,
+        "cpu_req": 20.0,
+        "ram_req": 10.0,
+        "msd_req": 5,
+        "is_pending": false,
+        "presence_unconfirmed": false,
+        "deployment_ready": true,
+        "accounting_unknown": false
+       },
+       {
+        "name": "vnf-voc-8af9e5bb",
+        "v_place": 4,
+        "v_route": 7,
+        "cpu_req": 12.0,
+        "ram_req": 6.0,
+        "msd_req": 3,
+        "is_pending": false,
+        "presence_unconfirmed": false,
+        "deployment_ready": true,
+        "accounting_unknown": false
+       },
+       {
+        "name": "vnf-voc-f3f8bf18",
+        "v_place": 4,
+        "v_route": 7,
+        "cpu_req": 5.0,
+        "ram_req": 2.5,
+        "msd_req": 3,
+        "is_pending": false,
+        "presence_unconfirmed": false,
+        "deployment_ready": true,
+        "accounting_unknown": false
+       },
+       {
+        "name": "vnf-voc-f6b1a5cf",
+        "v_place": 4,
+        "v_route": 7,
+        "cpu_req": 7.0,
+        "ram_req": 3.5,
+        "msd_req": 3,
+        "actuation_requested": true,
+        "is_pending": false,
+        "presence_unconfirmed": false,
+        "deployment_ready": true,
+        "accounting_unknown": false
+       },
+       {
+        "name": "vnf-idps-fd4abe1f",
+        "v_place": 7,
+        "v_route": 7,
+        "cpu_req": 12.0,
+        "ram_req": 6.0,
+        "msd_req": 2
+       }
+      ],
+      "forecast_alerts": [
+       false,
+       false,
+       false,
+       false,
+       false,
+       false,
+       false,
+       false,
+       false,
+       false
+      ]
+     }
+    },
+    "vnf_name": "vnf-idps-fd4abe1f",
+    "placement_node": {
+     "id": 7,
+     "name": "NhaTrang"
+    },
+    "routing_node": {
+     "id": 7,
+     "name": "NhaTrang"
+    },
+    "srv6_segment_list": [
+     "fc00:8::1",
+     "fc00:7::1"
+    ],
+    "method_used": "Hybrid:DRL",
+    "hybrid_branch": "drl",
+    "decision_state_version": 22847,
+    "admission_state_version": 22848,
+    "timings_ms": {
+     "state_sync_ms": 50.6083439104259,
+     "state_snapshot_ms": 1.2752409093081951,
+     "state_construction_ms": 0.34535094164311886,
+     "mask_construction_ms": 0.09386218152940273,
+     "normalization_ms": 0.0964989885687828,
+     "policy_inference_ms": 64.97187307104468,
+     "total_policy_ms": 65.57255401276052,
+     "admission_validation_ms": 18.476800061762333,
+     "decision_policy_and_admission_ms": 85.48091212287545,
+     "controller_handoff_ms": 0.04027108661830425,
+     "server_decision_ms": 159.84981996007264
+    },
+    "migration_result": {
+     "status": "triggered",
+     "old_vnf": "vnf-idps-6f9a6794",
+     "new_vnf": "vnf-idps-fd4abe1f",
+     "status_path": "/orchestrate/migrations/vnf-idps-fd4abe1f"
+    }
+   },
+   "actuation_status": {
+    "status": "success",
+    "message": "Hybrid Orchestration Phase 5/6 sequence COMPLETED",
+    "data": {
+     "old_vnf": "vnf-idps-6f9a6794",
+     "new_vnf": "vnf-idps-fd4abe1f",
+     "recovery_state": "COMPLETED",
+     "dynamic_endpoint": {
+      "ip": "10.1.189.129",
+      "port": 0
+     },
+     "sid_list": [
+      "fc00:8::1",
+      "fc00:7::1"
+     ],
+     "switch_path": [
+      7,
+      8
+     ],
+     "steer_status": "CONFIRMED",
+     "steer_operation_id": "b7c0a9a7-ea47-4982-95c5-1e93ae4f93b6",
+     "break_result": {
+      "status": "success",
+      "phase": "BREAK",
+      "oldDeployName": "vnf-idps-6f9a6794",
+      "namespace": "core-router",
+      "message": "Old VNF 'vnf-idps-6f9a6794' deleted."
+     },
+     "cp_steering_overhead_ms": 2062.9,
+     "k8s_node_hostname": "worker2"
+    }
+   },
+   "terminal_seen_utc": "2026-11-21T18:18:12.397782+00:00",
+   "backend_make_utc": "2026-11-21T18:17:17.757033319Z",
+   "backend_ready_utc": "2026-11-21T18:17:36.105043344Z",
+   "controller_steer_start_utc": "2026-11-21T18:17:36.156005243Z",
+   "controller_confirm_utc": "2026-11-21T18:17:36.521977010Z",
+   "pod": {
+    "pod": "vnf-idps-fd4abe1f-58f48d8fb-rj5zg",
+    "created": "2026-11-21T18:17:33Z",
+    "node": "worker2",
+    "ip": "10.1.189.129",
+    "conditions": {
+     "PodReadyToStartContainers": "2026-11-21T18:17:35Z",
+     "Initialized": "2026-11-21T18:17:33Z",
+     "Ready": "2026-11-21T18:17:35Z",
+     "ContainersReady": "2026-11-21T18:17:35Z",
+     "PodScheduled": "2026-11-21T18:17:33Z"
+    }
+   }
+  },
+  {
+   "i": 11,
+   "request": {
+    "service_type": "nat",
+    "cpu_req": 6.0,
+    "ram_req": 3.0,
+    "msd_req": 5,
+    "alert_flag": true,
+    "source_node": 6,
+    "destination_node": 2,
+    "flow_id": "burst-011"
+   },
+   "submit_utc": "2026-11-21T18:17:16.855189+00:00",
+   "response_utc": "2026-11-21T18:17:17.955222+00:00",
+   "http": 409,
+   "rtt_ms": 1099.91,
+   "body": {
+    "detail": {
+     "status": "error",
+     "code": "NO_SAFE_ACTION",
+     "reason_key": "msd_violation",
+     "message": "requested MSD depth does not match materialized P4 path depth"
+    }
+   }
+  },
+  {
+   "i": 12,
+   "request": {
+    "service_type": "lb",
+    "cpu_req": 18.0,
+    "ram_req": 9.0,
+    "msd_req": 2,
+    "alert_flag": true,
+    "source_node": 0,
+    "destination_node": 7,
+    "flow_id": "burst-012"
+   },
+   "submit_utc": "2026-11-21T18:17:16.959565+00:00",
+   "response_utc": "2026-11-21T18:17:18.161473+00:00",
+   "http": 200,
+   "rtt_ms": 1201.779,
+   "body": {
+    "status": "success",
+    "message": "Hybrid orchestration selected Hybrid:DRL.",
+    "data": {
+     "vnf_name": "vnf-lb-67673667",
+     "placement_node": {
+      "id": 1,
+      "name": "HaiPhong"
+     },
+     "routing_node": {
+      "id": 7,
+      "name": "NhaTrang"
+     },
+     "srv6_segment_list": [
+      "fc00:2::1",
+      "fc00:1::1"
+     ],
+     "admitted_realization": {
+      "request_id": "vnf-lb-67673667",
+      "operation_id": "31da5570-a852-4d8e-8dfc-74f1f4d5f2c0",
+      "topology_hash": "67131a546450606da19276263b00d23988d13fd71c17be38cb24a12637fe9f11",
+      "p4_topology_hash": "ee00b35ebeff5a46d428340fdfd984ecabf2047a4ef0cd79318a81ad732b4dbf",
+      "profile_id": "p4-path-candidate-v1",
+      "switch_path": [
+       1,
+       2
+      ],
+      "sid_stack": [
+       "fc00:2::1",
+       "fc00:1::1"
+      ]
+     },
+     "method_used": "Hybrid:DRL",
+     "hybrid_branch": "drl",
+     "decision_state_version": 22851,
+     "admission_state_version": 22852,
+     "timings_ms": {
+      "state_sync_ms": 45.32760404981673,
+      "state_snapshot_ms": 1.023727934807539,
+      "state_construction_ms": 0.24758907966315746,
+      "mask_construction_ms": 0.048309098929166794,
+      "normalization_ms": 0.06214110180735588,
+      "policy_inference_ms": 74.42301395349205,
+      "total_policy_ms": 74.84214496798813,
+      "admission_validation_ms": 39.90955906920135,
+      "decision_policy_and_admission_ms": 115.91508099809289,
+      "controller_handoff_ms": 0.033776042982935905,
+      "server_decision_ms": 201.36370998807251
+     },
+     "global_utilization": 0.8059999346733093,
+     "avg_cpu": 0.8059999346733093,
+     "avg_msd_usage": 0.3400000035762787,
+     "alert_flag": true,
+     "forecast": null,
+     "migration_result": {
+      "status": "creating_and_steering",
+      "vnf_name": "vnf-lb-67673667",
+      "operation_id": "31da5570-a852-4d8e-8dfc-74f1f4d5f2c0",
+      "status_path": "/orchestrate/migrations/vnf-lb-67673667"
+     },
+     "state": {
+      "mode": "drl",
+      "state_version": 22852,
+      "reservation_persistence": "durable",
+      "telemetry_age_s": [
+       null,
+       null,
+       null,
+       null,
+       null,
+       null,
+       null,
+       null,
+       null,
+       null
+      ],
+      "stale_telemetry_nodes": [],
+      "avg_cpu": 0.8059999346733093,
+      "avg_msd_usage": 0.3400000035762787,
+      "global_utilization": 0.8059999346733093,
+      "alert_flag": true,
+      "nodes": [
+       {
+        "id": 0,
+        "name": "Hanoi",
+        "cpu_util": 63.0,
+        "ram_util": 32.0,
+        "msd_util": 0.0,
+        "alert": false
+       },
+       {
+        "id": 1,
+        "name": "HaiPhong",
+        "cpu_util": 75.0,
+        "ram_util": 38.0,
+        "msd_util": 0.0,
+        "alert": false
+       },
+       {
+        "id": 2,
+        "name": "NinhBinh",
+        "cpu_util": 96.0,
+        "ram_util": 48.5,
+        "msd_util": 0.0,
+        "alert": true
+       },
+       {
+        "id": 3,
+        "name": "Vinh",
+        "cpu_util": 79.0,
+        "ram_util": 40.0,
+        "msd_util": 80.0,
+        "alert": false
+       },
+       {
+        "id": 4,
+        "name": "Hue",
+        "cpu_util": 99.0,
+        "ram_util": 49.5,
+        "msd_util": 0.0,
+        "alert": true
+       },
+       {
+        "id": 5,
+        "name": "DaNang",
+        "cpu_util": 64.0,
+        "ram_util": 32.5,
+        "msd_util": 100.0,
+        "alert": false
+       },
+       {
+        "id": 6,
+        "name": "QuyNhon",
+        "cpu_util": 98.0,
+        "ram_util": 49.0,
+        "msd_util": 0.0,
+        "alert": true
+       },
+       {
+        "id": 7,
+        "name": "NhaTrang",
+        "cpu_util": 34.0,
+        "ram_util": 17.0,
+        "msd_util": 100.0,
+        "alert": false
+       },
+       {
+        "id": 8,
+        "name": "HoChiMinh",
+        "cpu_util": 100.0,
+        "ram_util": 50.5,
+        "msd_util": 60.000003814697266,
+        "alert": true
+       },
+       {
+        "id": 9,
+        "name": "CanTho",
+        "cpu_util": 98.0,
+        "ram_util": 49.5,
+        "msd_util": 0.0,
+        "alert": true
+       }
+      ],
+      "unaccounted_vnfs": [],
+      "active_vnfs": [
+       {
+        "name": "vnf-attack-004e219d",
+        "v_place": 8,
+        "v_route": 8,
+        "cpu_req": 64.0,
+        "ram_req": 32.5,
+        "msd_req": 6,
+        "is_pending": false,
+        "presence_unconfirmed": false,
+        "deployment_ready": true,
+        "accounting_unknown": false
+       },
+       {
+        "name": "vnf-attack-0faeed9f",
+        "v_place": 0,
+        "v_route": 8,
+        "cpu_req": 63.0,
+        "ram_req": 32.0,
+        "msd_req": 4,
+        "is_pending": false,
+        "presence_unconfirmed": false,
+        "deployment_ready": true,
+        "accounting_unknown": false
+       },
+       {
+        "name": "vnf-attack-228edabf",
+        "v_place": 1,
+        "v_route": 8,
+        "cpu_req": 57.0,
+        "ram_req": 29.0,
+        "msd_req": 6,
+        "is_pending": false,
+        "presence_unconfirmed": false,
+        "deployment_ready": true,
+        "accounting_unknown": false
+       },
+       {
+        "name": "vnf-attack-2f0aa313",
+        "v_place": 2,
+        "v_route": 8,
+        "cpu_req": 64.0,
+        "ram_req": 32.5,
+        "msd_req": 6,
+        "is_pending": false,
+        "presence_unconfirmed": false,
+        "deployment_ready": true,
+        "accounting_unknown": false
+       },
+       {
+        "name": "vnf-attack-57b6f205",
+        "v_place": 3,
+        "v_route": 3,
+        "cpu_req": 58.0,
+        "ram_req": 29.5,
+        "msd_req": 4,
+        "is_pending": false,
+        "presence_unconfirmed": false,
+        "deployment_ready": true,
+        "accounting_unknown": false
+       },
+       {
+        "name": "vnf-attack-8bf0425e",
+        "v_place": 5,
+        "v_route": 8,
+        "cpu_req": 64.0,
+        "ram_req": 32.5,
+        "msd_req": 6,
+        "is_pending": false,
+        "presence_unconfirmed": false,
+        "deployment_ready": true,
+        "accounting_unknown": false
+       },
+       {
+        "name": "vnf-attack-af13f6df",
+        "v_place": 9,
+        "v_route": 5,
+        "cpu_req": 56.0,
+        "ram_req": 28.5,
+        "msd_req": 8,
+        "is_pending": false,
+        "presence_unconfirmed": false,
+        "deployment_ready": true,
+        "accounting_unknown": false
+       },
+       {
+        "name": "vnf-data-2042e77d",
+        "v_place": 4,
+        "v_route": 7,
+        "cpu_req": 5.0,
+        "ram_req": 2.5,
+        "msd_req": 4,
+        "actuation_requested": true,
+        "is_pending": false,
+        "presence_unconfirmed": false,
+        "deployment_ready": true,
+        "accounting_unknown": false
+       },
+       {
+        "name": "vnf-data-d9296f2b",
+        "v_place": 6,
+        "v_route": 7,
+        "cpu_req": 20.0,
+        "ram_req": 10.0,
+        "msd_req": 2,
+        "actuation_requested": true,
+        "is_pending": false,
+        "presence_unconfirmed": false,
+        "deployment_ready": true,
+        "accounting_unknown": false
+       },
+       {
+        "name": "vnf-firewall-06223c61",
+        "v_place": 7,
+        "v_route": 7,
+        "cpu_req": 12.0,
+        "ram_req": 6.0,
+        "msd_req": 2,
+        "is_pending": false,
+        "presence_unconfirmed": false,
+        "deployment_ready": true,
+        "accounting_unknown": false
+       },
+       {
+        "name": "vnf-firewall-60c82ba3",
+        "v_place": 4,
+        "v_route": 7,
+        "cpu_req": 7.0,
+        "ram_req": 3.5,
+        "msd_req": 3,
+        "is_pending": false,
+        "presence_unconfirmed": false,
+        "deployment_ready": true,
+        "accounting_unknown": false
+       },
+       {
+        "name": "vnf-firewall-977cd493",
+        "v_place": 4,
+        "v_route": 7,
+        "cpu_req": 12.0,
+        "ram_req": 6.0,
+        "msd_req": 3,
+        "actuation_requested": true,
+        "is_pending": false,
+        "presence_unconfirmed": false,
+        "deployment_ready": true,
+        "accounting_unknown": false
+       },
+       {
+        "name": "vnf-firewall-d09bd6c2",
+        "v_place": 4,
+        "v_route": 7,
+        "cpu_req": 5.0,
+        "ram_req": 2.5,
+        "msd_req": 3,
+        "is_pending": false,
+        "presence_unconfirmed": false,
+        "deployment_ready": true,
+        "accounting_unknown": false
+       },
+       {
+        "name": "vnf-idps-6f9a6794",
+        "v_place": 4,
+        "v_route": 7,
+        "cpu_req": 6.0,
+        "ram_req": 3.0,
+        "msd_req": 4,
+        "actuation_requested": true,
+        "is_pending": false,
+        "presence_unconfirmed": false,
+        "deployment_ready": true,
+        "accounting_unknown": false
+       },
+       {
+        "name": "vnf-idps-6ff25e7b",
+        "v_place": 2,
+        "v_route": 7,
+        "cpu_req": 6.0,
+        "ram_req": 3.0,
+        "msd_req": 5,
+        "is_pending": false,
+        "presence_unconfirmed": false,
+        "deployment_ready": true,
+        "accounting_unknown": false
+       },
+       {
+        "name": "vnf-idps-fdd8a8f7",
+        "v_place": 9,
+        "v_route": 7,
+        "cpu_req": 20.0,
+        "ram_req": 10.0,
+        "msd_req": 4,
+        "is_pending": false,
+        "presence_unconfirmed": false,
+        "deployment_ready": true,
+        "accounting_unknown": false
+       },
+       {
+        "name": "vnf-lb-a8f80139",
+        "v_place": 6,
+        "v_route": 7,
+        "cpu_req": 21.0,
+        "ram_req": 10.5,
+        "msd_req": 2,
+        "actuation_requested": true,
+        "is_pending": false,
+        "presence_unconfirmed": false,
+        "deployment_ready": true,
+        "accounting_unknown": false
+       },
+       {
+        "name": "vnf-lb-c7266b57",
+        "v_place": 4,
+        "v_route": 7,
+        "cpu_req": 6.0,
+        "ram_req": 3.0,
+        "msd_req": 3,
+        "actuation_requested": true,
+        "is_pending": false,
+        "presence_unconfirmed": false,
+        "deployment_ready": true,
+        "accounting_unknown": false
+       },
+       {
+        "name": "vnf-nat-240e4b06",
+        "v_place": 6,
+        "v_route": 7,
+        "cpu_req": 6.0,
+        "ram_req": 3.0,
+        "msd_req": 4,
+        "is_pending": false,
+        "presence_unconfirmed": false,
+        "deployment_ready": true,
+        "accounting_unknown": false
+       },
+       {
+        "name": "vnf-nat-9890d9ca",
+        "v_place": 2,
+        "v_route": 7,
+        "cpu_req": 6.0,
+        "ram_req": 3.0,
+        "msd_req": 5,
+        "is_pending": false,
+        "presence_unconfirmed": false,
+        "deployment_ready": true,
+        "accounting_unknown": false
+       },
+       {
+        "name": "vnf-nat-ff43155a",
+        "v_place": 4,
+        "v_route": 7,
+        "cpu_req": 11.0,
+        "ram_req": 5.5,
+        "msd_req": 3,
+        "actuation_requested": true,
+        "is_pending": false,
+        "presence_unconfirmed": false,
+        "deployment_ready": true,
+        "accounting_unknown": false
+       },
+       {
+        "name": "vnf-router-485205ac",
+        "v_place": 8,
+        "v_route": 7,
+        "cpu_req": 6.0,
+        "ram_req": 3.0,
+        "msd_req": 2,
+        "is_pending": false,
+        "presence_unconfirmed": false,
+        "deployment_ready": true,
+        "accounting_unknown": false
+       },
+       {
+        "name": "vnf-router-641b71ca",
+        "v_place": 3,
+        "v_route": 7,
+        "cpu_req": 21.0,
+        "ram_req": 10.5,
+        "msd_req": 3,
+        "is_pending": false,
+        "presence_unconfirmed": false,
+        "deployment_ready": true,
+        "accounting_unknown": false
+       },
+       {
+        "name": "vnf-router-740a9f49",
+        "v_place": 4,
+        "v_route": 7,
+        "cpu_req": 18.0,
+        "ram_req": 9.0,
+        "msd_req": 3,
+        "actuation_requested": true,
+        "is_pending": false,
+        "presence_unconfirmed": false,
+        "deployment_ready": true,
+        "accounting_unknown": false
+       },
+       {
+        "name": "vnf-router-a699951e",
+        "v_place": 6,
+        "v_route": 7,
+        "cpu_req": 20.0,
+        "ram_req": 10.0,
+        "msd_req": 4,
+        "is_pending": false,
+        "presence_unconfirmed": false,
+        "deployment_ready": true,
+        "accounting_unknown": false
+       },
+       {
+        "name": "vnf-video-09771db5",
+        "v_place": 8,
+        "v_route": 7,
+        "cpu_req": 12.0,
+        "ram_req": 6.0,
+        "msd_req": 4,
+        "is_pending": false,
+        "presence_unconfirmed": false,
+        "deployment_ready": true,
+        "accounting_unknown": false
+       },
+       {
+        "name": "vnf-video-20cb7274",
+        "v_place": 8,
+        "v_route": 7,
+        "cpu_req": 18.0,
+        "ram_req": 9.0,
+        "msd_req": 3,
+        "is_pending": false,
+        "presence_unconfirmed": false,
+        "deployment_ready": true,
+        "accounting_unknown": false
+       },
+       {
+        "name": "vnf-video-2d8dea54",
+        "v_place": 6,
+        "v_route": 7,
+        "cpu_req": 11.0,
+        "ram_req": 5.5,
+        "msd_req": 4,
+        "is_pending": false,
+        "presence_unconfirmed": false,
+        "deployment_ready": true,
+        "accounting_unknown": false
+       },
+       {
+        "name": "vnf-video-bcb87148",
+        "v_place": 4,
+        "v_route": 7,
+        "cpu_req": 5.0,
+        "ram_req": 2.5,
+        "msd_req": 2,
+        "actuation_requested": true,
+        "is_pending": false,
+        "presence_unconfirmed": false,
+        "deployment_ready": true,
+        "accounting_unknown": false
+       },
+       {
+        "name": "vnf-voc-1a081337",
+        "v_place": 6,
+        "v_route": 7,
+        "cpu_req": 20.0,
+        "ram_req": 10.0,
+        "msd_req": 4,
+        "actuation_requested": true,
+        "is_pending": false,
+        "presence_unconfirmed": false,
+        "deployment_ready": true,
+        "accounting_unknown": false
+       },
+       {
+        "name": "vnf-voc-46114e18",
+        "v_place": 9,
+        "v_route": 7,
+        "cpu_req": 4.0,
+        "ram_req": 2.0,
+        "msd_req": 3,
+        "is_pending": false,
+        "presence_unconfirmed": false,
+        "deployment_ready": true,
+        "accounting_unknown": false
+       },
+       {
+        "name": "vnf-voc-474040d7",
+        "v_place": 7,
+        "v_route": 7,
+        "cpu_req": 10.0,
+        "ram_req": 5.0,
+        "msd_req": 2,
+        "is_pending": false,
+        "presence_unconfirmed": false,
+        "deployment_ready": true,
+        "accounting_unknown": false
+       },
+       {
+        "name": "vnf-voc-519bcac9",
+        "v_place": 9,
+        "v_route": 7,
+        "cpu_req": 18.0,
+        "ram_req": 9.0,
+        "msd_req": 3,
+        "is_pending": false,
+        "presence_unconfirmed": false,
+        "deployment_ready": true,
+        "accounting_unknown": false
+       },
+       {
+        "name": "vnf-voc-89cf7868",
+        "v_place": 2,
+        "v_route": 7,
+        "cpu_req": 20.0,
+        "ram_req": 10.0,
+        "msd_req": 5,
+        "is_pending": false,
+        "presence_unconfirmed": false,
+        "deployment_ready": true,
+        "accounting_unknown": false
+       },
+       {
+        "name": "vnf-voc-8af9e5bb",
+        "v_place": 4,
+        "v_route": 7,
+        "cpu_req": 12.0,
+        "ram_req": 6.0,
+        "msd_req": 3,
+        "is_pending": false,
+        "presence_unconfirmed": false,
+        "deployment_ready": true,
+        "accounting_unknown": false
+       },
+       {
+        "name": "vnf-voc-f3f8bf18",
+        "v_place": 4,
+        "v_route": 7,
+        "cpu_req": 5.0,
+        "ram_req": 2.5,
+        "msd_req": 3,
+        "is_pending": false,
+        "presence_unconfirmed": false,
+        "deployment_ready": true,
+        "accounting_unknown": false
+       },
+       {
+        "name": "vnf-voc-f6b1a5cf",
+        "v_place": 4,
+        "v_route": 7,
+        "cpu_req": 7.0,
+        "ram_req": 3.5,
+        "msd_req": 3,
+        "actuation_requested": true,
+        "is_pending": false,
+        "presence_unconfirmed": false,
+        "deployment_ready": true,
+        "accounting_unknown": false
+       },
+       {
+        "name": "vnf-idps-fd4abe1f",
+        "v_place": 7,
+        "v_route": 7,
+        "cpu_req": 12.0,
+        "ram_req": 6.0,
+        "msd_req": 2,
+        "actuation_requested": true,
+        "is_pending": true
+       },
+       {
+        "name": "vnf-lb-67673667",
+        "v_place": 1,
+        "v_route": 7,
+        "cpu_req": 18.0,
+        "ram_req": 9.0,
+        "msd_req": 2
+       }
+      ],
+      "forecast_alerts": [
+       false,
+       false,
+       false,
+       false,
+       false,
+       false,
+       false,
+       false,
+       false,
+       false
+      ]
+     }
+    },
+    "vnf_name": "vnf-lb-67673667",
+    "placement_node": {
+     "id": 1,
+     "name": "HaiPhong"
+    },
+    "routing_node": {
+     "id": 7,
+     "name": "NhaTrang"
+    },
+    "srv6_segment_list": [
+     "fc00:2::1",
+     "fc00:1::1"
+    ],
+    "method_used": "Hybrid:DRL",
+    "hybrid_branch": "drl",
+    "decision_state_version": 22851,
+    "admission_state_version": 22852,
+    "timings_ms": {
+     "state_sync_ms": 45.32760404981673,
+     "state_snapshot_ms": 1.023727934807539,
+     "state_construction_ms": 0.24758907966315746,
+     "mask_construction_ms": 0.048309098929166794,
+     "normalization_ms": 0.06214110180735588,
+     "policy_inference_ms": 74.42301395349205,
+     "total_policy_ms": 74.84214496798813,
+     "admission_validation_ms": 39.90955906920135,
+     "decision_policy_and_admission_ms": 115.91508099809289,
+     "controller_handoff_ms": 0.033776042982935905,
+     "server_decision_ms": 201.36370998807251
+    },
+    "migration_result": {
+     "status": "creating_and_steering",
+     "vnf_name": "vnf-lb-67673667",
+     "operation_id": "31da5570-a852-4d8e-8dfc-74f1f4d5f2c0",
+     "status_path": "/orchestrate/migrations/vnf-lb-67673667"
+    }
+   },
+   "actuation_status": {
+    "status": "success",
+    "message": "VNF created, ready, and steered; no old VNF required BREAK.",
+    "data": {
+     "old_vnf": null,
+     "new_vnf": "vnf-lb-67673667",
+     "steer_operation_id": "31da5570-a852-4d8e-8dfc-74f1f4d5f2c0",
+     "steer_status": "CONFIRMED",
+     "recovery_state": "STEERED",
+     "dynamic_endpoint": {
+      "ip": "10.1.235.211",
+      "port": 32274
+     },
+     "sid_list": [
+      "fc00:2::1",
+      "fc00:1::1"
+     ],
+     "switch_path": [
+      1,
+      2
+     ],
+     "cp_steering_overhead_ms": 2038.25,
+     "k8s_node_hostname": "k8s-master"
+    }
+   },
+   "terminal_seen_utc": "2026-11-21T18:18:32.460699+00:00",
+   "backend_make_utc": "2026-11-21T18:18:10.682127378Z",
+   "backend_ready_utc": "2026-11-21T18:18:28.957529125Z",
+   "controller_steer_start_utc": "2026-11-21T18:18:28.987008255Z",
+   "controller_confirm_utc": "2026-11-21T18:18:30.106691620Z",
+   "pod": {
+    "pod": "vnf-lb-67673667-d9cb757dd-j4zgc",
+    "created": "2026-11-21T18:18:26Z",
+    "node": "k8s-master",
+    "ip": "10.1.235.211",
+    "conditions": {
+     "PodReadyToStartContainers": "2026-11-21T18:18:28Z",
+     "Initialized": "2026-11-21T18:18:26Z",
+     "Ready": "2026-11-21T18:18:28Z",
+     "ContainersReady": "2026-11-21T18:18:28Z",
+     "PodScheduled": "2026-11-21T18:18:26Z"
+    }
+   }
+  },
+  {
+   "i": 13,
+   "request": {
+    "service_type": "firewall",
+    "cpu_req": 5.0,
+    "ram_req": 2.5,
+    "msd_req": 5,
+    "alert_flag": true,
+    "source_node": 1,
+    "destination_node": 4,
+    "flow_id": "burst-013"
+   },
+   "submit_utc": "2026-11-21T18:17:17.033562+00:00",
+   "response_utc": "2026-11-21T18:17:18.301450+00:00",
+   "http": 409,
+   "rtt_ms": 1267.768,
+   "body": {
+    "detail": {
+     "status": "error",
+     "code": "NO_SAFE_ACTION",
+     "reason_key": "msd_violation",
+     "message": "requested MSD depth does not match materialized P4 path depth"
+    }
+   }
+  },
+  {
+   "i": 14,
+   "request": {
+    "service_type": "data",
+    "cpu_req": 18.0,
+    "ram_req": 9.0,
+    "msd_req": 5,
+    "alert_flag": true,
+    "source_node": 1,
+    "destination_node": 2,
+    "flow_id": "burst-014"
+   },
+   "submit_utc": "2026-11-21T18:17:17.155950+00:00",
+   "response_utc": "2026-11-21T18:17:18.466885+00:00",
+   "http": 409,
+   "rtt_ms": 1310.819,
+   "body": {
+    "detail": {
+     "status": "error",
+     "code": "NO_SAFE_ACTION",
+     "reason_key": "msd_violation",
+     "message": "requested MSD depth does not match materialized P4 path depth"
+    }
+   }
+  },
+  {
+   "i": 15,
+   "request": {
+    "service_type": "video",
+    "cpu_req": 12.0,
+    "ram_req": 6.0,
+    "msd_req": 2,
+    "alert_flag": true,
+    "source_node": 0,
+    "destination_node": 7,
+    "flow_id": "burst-015"
+   },
+   "submit_utc": "2026-11-21T18:17:17.297512+00:00",
+   "response_utc": "2026-11-21T18:17:18.605001+00:00",
+   "http": 409,
+   "rtt_ms": 1307.369,
+   "body": {
+    "detail": {
+     "status": "error",
+     "code": "NO_SAFE_ACTION",
+     "reason_key": "msd_violation",
+     "message": "requested MSD depth does not match materialized P4 path depth"
+    }
+   }
+  },
+  {
+   "i": 16,
+   "request": {
+    "service_type": "router",
+    "cpu_req": 11.0,
+    "ram_req": 5.5,
+    "msd_req": 2,
+    "alert_flag": true,
+    "source_node": 0,
+    "destination_node": 7,
+    "flow_id": "burst-016"
+   },
+   "submit_utc": "2026-11-21T18:17:17.434052+00:00",
+   "response_utc": "2026-11-21T18:17:18.785844+00:00",
+   "http": 409,
+   "rtt_ms": 1351.635,
+   "body": {
+    "detail": {
+     "status": "error",
+     "code": "NO_SAFE_ACTION",
+     "reason_key": "msd_violation",
+     "message": "requested MSD depth does not match materialized P4 path depth"
+    }
+   }
+  },
+  {
+   "i": 17,
+   "request": {
+    "service_type": "voc",
+    "cpu_req": 6.0,
+    "ram_req": 3.0,
+    "msd_req": 2,
+    "alert_flag": true,
+    "source_node": 3,
+    "destination_node": 1,
+    "flow_id": "burst-017"
+   },
+   "submit_utc": "2026-11-21T18:17:17.577323+00:00",
+   "response_utc": "2026-11-21T18:17:18.996822+00:00",
+   "http": 409,
+   "rtt_ms": 1419.346,
+   "body": {
+    "detail": {
+     "status": "error",
+     "code": "NO_SAFE_ACTION",
+     "reason_key": "msd_violation",
+     "message": "requested MSD depth does not match materialized P4 path depth"
+    }
+   }
+  },
+  {
+   "i": 18,
+   "request": {
+    "service_type": "voc",
+    "cpu_req": 18.0,
+    "ram_req": 9.0,
+    "msd_req": 5,
+    "alert_flag": true,
+    "source_node": 7,
+    "destination_node": 1,
+    "flow_id": "burst-018"
+   },
+   "submit_utc": "2026-11-21T18:17:17.743124+00:00",
+   "response_utc": "2026-11-21T18:17:19.169199+00:00",
+   "http": 409,
+   "rtt_ms": 1425.937,
+   "body": {
+    "detail": {
+     "status": "error",
+     "code": "NO_SAFE_ACTION",
+     "reason_key": "msd_violation",
+     "message": "materialized path exceeds physical switch MSD profile"
+    }
+   }
+  },
+  {
+   "i": 19,
+   "request": {
+    "service_type": "idps",
+    "cpu_req": 6.0,
+    "ram_req": 3.0,
+    "msd_req": 4,
+    "alert_flag": true,
+    "source_node": 3,
+    "destination_node": 1,
+    "flow_id": "burst-019"
+   },
+   "submit_utc": "2026-11-21T18:17:17.955311+00:00",
+   "response_utc": "2026-11-21T18:17:19.353496+00:00",
+   "http": 409,
+   "rtt_ms": 1398.069,
+   "body": {
+    "detail": {
+     "status": "error",
+     "code": "NO_SAFE_ACTION",
+     "reason_key": "msd_violation",
+     "message": "requested MSD depth does not match materialized P4 path depth"
+    }
+   }
+  },
+  {
+   "i": 20,
+   "request": {
+    "service_type": "nat",
+    "cpu_req": 6.0,
+    "ram_req": 3.0,
+    "msd_req": 3,
+    "alert_flag": true,
+    "source_node": 0,
+    "destination_node": 0,
+    "flow_id": "burst-020"
+   },
+   "submit_utc": "2026-11-21T18:17:18.161594+00:00",
+   "response_utc": "2026-11-21T18:17:19.464511+00:00",
+   "http": 409,
+   "rtt_ms": 1302.75,
+   "body": {
+    "detail": {
+     "status": "error",
+     "code": "NO_SAFE_ACTION",
+     "reason_key": "msd_violation",
+     "message": "requested MSD depth does not match materialized P4 path depth"
+    }
+   }
+  },
+  {
+   "i": 21,
+   "request": {
+    "service_type": "lb",
+    "cpu_req": 7.0,
+    "ram_req": 3.5,
+    "msd_req": 5,
+    "alert_flag": true,
+    "source_node": 7,
+    "destination_node": 8,
+    "flow_id": "burst-021"
+   },
+   "submit_utc": "2026-11-21T18:17:18.301538+00:00",
+   "response_utc": "2026-11-21T18:17:19.579159+00:00",
+   "http": 409,
+   "rtt_ms": 1277.507,
+   "body": {
+    "detail": {
+     "status": "error",
+     "code": "NO_SAFE_ACTION",
+     "reason_key": "msd_violation",
+     "message": "materialized path exceeds physical switch MSD profile"
+    }
+   }
+  },
+  {
+   "i": 22,
+   "request": {
+    "service_type": "firewall",
+    "cpu_req": 12.0,
+    "ram_req": 6.0,
+    "msd_req": 2,
+    "alert_flag": true,
+    "source_node": 7,
+    "destination_node": 9,
+    "flow_id": "burst-022"
+   },
+   "submit_utc": "2026-11-21T18:17:18.466972+00:00",
+   "response_utc": "2026-11-21T18:17:19.702271+00:00",
+   "http": 409,
+   "rtt_ms": 1235.177,
+   "body": {
+    "detail": {
+     "status": "error",
+     "code": "NO_SAFE_ACTION",
+     "reason_key": "no_safe_action",
+     "message": "forwarding requires distinct ingress and placement nodes"
+    }
+   }
+  },
+  {
+   "i": 23,
+   "request": {
+    "service_type": "data",
+    "cpu_req": 20.0,
+    "ram_req": 10.0,
+    "msd_req": 4,
+    "alert_flag": true,
+    "source_node": 4,
+    "destination_node": 7,
+    "flow_id": "burst-023"
+   },
+   "submit_utc": "2026-11-21T18:17:18.605086+00:00",
+   "response_utc": "2026-11-21T18:17:19.890970+00:00",
+   "http": 200,
+   "rtt_ms": 1285.465,
+   "body": {
+    "status": "success",
+    "message": "Hybrid orchestration selected Hybrid:DRL.",
+    "data": {
+     "vnf_name": "vnf-data-b6fad338",
+     "placement_node": {
+      "id": 1,
+      "name": "HaiPhong"
+     },
+     "routing_node": {
+      "id": 7,
+      "name": "NhaTrang"
+     },
+     "srv6_segment_list": [
+      "fc00:2::1",
+      "fc00:1::1",
+      "fc00:6::1",
+      "fc00:5::1"
+     ],
+     "admitted_realization": {
+      "request_id": "vnf-data-b6fad338",
+      "operation_id": "8648b19e-d25a-49dd-bf2d-dad41e767eef",
+      "topology_hash": "67131a546450606da19276263b00d23988d13fd71c17be38cb24a12637fe9f11",
+      "p4_topology_hash": "ee00b35ebeff5a46d428340fdfd984ecabf2047a4ef0cd79318a81ad732b4dbf",
+      "profile_id": "p4-path-candidate-v1",
+      "switch_path": [
+       5,
+       6,
+       1,
+       2
+      ],
+      "sid_stack": [
+       "fc00:2::1",
+       "fc00:1::1",
+       "fc00:6::1",
+       "fc00:5::1"
+      ]
+     },
+     "method_used": "Hybrid:DRL",
+     "hybrid_branch": "drl",
+     "decision_state_version": 22864,
+     "admission_state_version": 22865,
+     "timings_ms": {
+      "state_sync_ms": 57.655703043565154,
+      "state_snapshot_ms": 1.2689130380749702,
+      "state_construction_ms": 0.24918396957218647,
+      "mask_construction_ms": 0.10593701153993607,
+      "normalization_ms": 0.07907301187515259,
+      "policy_inference_ms": 85.98548406735063,
+      "total_policy_ms": 86.47621003910899,
+      "admission_validation_ms": 16.260128933936357,
+      "decision_policy_and_admission_ms": 104.15393300354481,
+      "controller_handoff_ms": 0.03217114135622978,
+      "server_decision_ms": 182.52259423024952
+     },
+     "global_utilization": 0.8260000348091125,
+     "avg_cpu": 0.8260000348091125,
+     "avg_msd_usage": 0.3400000035762787,
+     "alert_flag": true,
+     "forecast": null,
+     "migration_result": {
+      "status": "creating_and_steering",
+      "vnf_name": "vnf-data-b6fad338",
+      "operation_id": "8648b19e-d25a-49dd-bf2d-dad41e767eef",
+      "status_path": "/orchestrate/migrations/vnf-data-b6fad338"
+     },
+     "state": {
+      "mode": "drl",
+      "state_version": 22865,
+      "reservation_persistence": "durable",
+      "telemetry_age_s": [
+       null,
+       null,
+       null,
+       null,
+       null,
+       null,
+       null,
+       null,
+       null,
+       null
+      ],
+      "stale_telemetry_nodes": [],
+      "avg_cpu": 0.8260000348091125,
+      "avg_msd_usage": 0.3400000035762787,
+      "global_utilization": 0.8260000348091125,
+      "alert_flag": true,
+      "nodes": [
+       {
+        "id": 0,
+        "name": "Hanoi",
+        "cpu_util": 63.0,
+        "ram_util": 32.0,
+        "msd_util": 0.0,
+        "alert": false
+       },
+       {
+        "id": 1,
+        "name": "HaiPhong",
+        "cpu_util": 95.0,
+        "ram_util": 48.0,
+        "msd_util": 0.0,
+        "alert": true
+       },
+       {
+        "id": 2,
+        "name": "NinhBinh",
+        "cpu_util": 96.0,
+        "ram_util": 48.5,
+        "msd_util": 0.0,
+        "alert": true
+       },
+       {
+        "id": 3,
+        "name": "Vinh",
+        "cpu_util": 79.0,
+        "ram_util": 40.0,
+        "msd_util": 80.0,
+        "alert": false
+       },
+       {
+        "id": 4,
+        "name": "Hue",
+        "cpu_util": 99.0,
+        "ram_util": 49.5,
+        "msd_util": 0.0,
+        "alert": true
+       },
+       {
+        "id": 5,
+        "name": "DaNang",
+        "cpu_util": 64.0,
+        "ram_util": 32.5,
+        "msd_util": 100.0,
+        "alert": false
+       },
+       {
+        "id": 6,
+        "name": "QuyNhon",
+        "cpu_util": 98.0,
+        "ram_util": 49.0,
+        "msd_util": 0.0,
+        "alert": true
+       },
+       {
+        "id": 7,
+        "name": "NhaTrang",
+        "cpu_util": 34.0,
+        "ram_util": 17.0,
+        "msd_util": 100.0,
+        "alert": false
+       },
+       {
+        "id": 8,
+        "name": "HoChiMinh",
+        "cpu_util": 100.0,
+        "ram_util": 50.5,
+        "msd_util": 60.000003814697266,
+        "alert": true
+       },
+       {
+        "id": 9,
+        "name": "CanTho",
+        "cpu_util": 98.0,
+        "ram_util": 49.5,
+        "msd_util": 0.0,
+        "alert": true
+       }
+      ],
+      "unaccounted_vnfs": [],
+      "active_vnfs": [
+       {
+        "name": "vnf-attack-004e219d",
+        "v_place": 8,
+        "v_route": 8,
+        "cpu_req": 64.0,
+        "ram_req": 32.5,
+        "msd_req": 6,
+        "is_pending": false,
+        "presence_unconfirmed": false,
+        "deployment_ready": true,
+        "accounting_unknown": false
+       },
+       {
+        "name": "vnf-attack-0faeed9f",
+        "v_place": 0,
+        "v_route": 8,
+        "cpu_req": 63.0,
+        "ram_req": 32.0,
+        "msd_req": 4,
+        "is_pending": false,
+        "presence_unconfirmed": false,
+        "deployment_ready": true,
+        "accounting_unknown": false
+       },
+       {
+        "name": "vnf-attack-228edabf",
+        "v_place": 1,
+        "v_route": 8,
+        "cpu_req": 57.0,
+        "ram_req": 29.0,
+        "msd_req": 6,
+        "is_pending": false,
+        "presence_unconfirmed": false,
+        "deployment_ready": true,
+        "accounting_unknown": false
+       },
+       {
+        "name": "vnf-attack-2f0aa313",
+        "v_place": 2,
+        "v_route": 8,
+        "cpu_req": 64.0,
+        "ram_req": 32.5,
+        "msd_req": 6,
+        "is_pending": false,
+        "presence_unconfirmed": false,
+        "deployment_ready": true,
+        "accounting_unknown": false
+       },
+       {
+        "name": "vnf-attack-57b6f205",
+        "v_place": 3,
+        "v_route": 3,
+        "cpu_req": 58.0,
+        "ram_req": 29.5,
+        "msd_req": 4,
+        "is_pending": false,
+        "presence_unconfirmed": false,
+        "deployment_ready": true,
+        "accounting_unknown": false
+       },
+       {
+        "name": "vnf-attack-8bf0425e",
+        "v_place": 5,
+        "v_route": 8,
+        "cpu_req": 64.0,
+        "ram_req": 32.5,
+        "msd_req": 6,
+        "is_pending": false,
+        "presence_unconfirmed": false,
+        "deployment_ready": true,
+        "accounting_unknown": false
+       },
+       {
+        "name": "vnf-attack-af13f6df",
+        "v_place": 9,
+        "v_route": 5,
+        "cpu_req": 56.0,
+        "ram_req": 28.5,
+        "msd_req": 8,
+        "is_pending": false,
+        "presence_unconfirmed": false,
+        "deployment_ready": true,
+        "accounting_unknown": false
+       },
+       {
+        "name": "vnf-data-2042e77d",
+        "v_place": 4,
+        "v_route": 7,
+        "cpu_req": 5.0,
+        "ram_req": 2.5,
+        "msd_req": 4,
+        "actuation_requested": true,
+        "is_pending": false,
+        "presence_unconfirmed": false,
+        "deployment_ready": true,
+        "accounting_unknown": false
+       },
+       {
+        "name": "vnf-data-d9296f2b",
+        "v_place": 6,
+        "v_route": 7,
+        "cpu_req": 20.0,
+        "ram_req": 10.0,
+        "msd_req": 2,
+        "actuation_requested": true,
+        "is_pending": false,
+        "presence_unconfirmed": false,
+        "deployment_ready": true,
+        "accounting_unknown": false
+       },
+       {
+        "name": "vnf-firewall-06223c61",
+        "v_place": 7,
+        "v_route": 7,
+        "cpu_req": 12.0,
+        "ram_req": 6.0,
+        "msd_req": 2,
+        "is_pending": false,
+        "presence_unconfirmed": false,
+        "deployment_ready": true,
+        "accounting_unknown": false
+       },
+       {
+        "name": "vnf-firewall-60c82ba3",
+        "v_place": 4,
+        "v_route": 7,
+        "cpu_req": 7.0,
+        "ram_req": 3.5,
+        "msd_req": 3,
+        "is_pending": false,
+        "presence_unconfirmed": false,
+        "deployment_ready": true,
+        "accounting_unknown": false
+       },
+       {
+        "name": "vnf-firewall-977cd493",
+        "v_place": 4,
+        "v_route": 7,
+        "cpu_req": 12.0,
+        "ram_req": 6.0,
+        "msd_req": 3,
+        "actuation_requested": true,
+        "is_pending": false,
+        "presence_unconfirmed": false,
+        "deployment_ready": true,
+        "accounting_unknown": false
+       },
+       {
+        "name": "vnf-firewall-d09bd6c2",
+        "v_place": 4,
+        "v_route": 7,
+        "cpu_req": 5.0,
+        "ram_req": 2.5,
+        "msd_req": 3,
+        "is_pending": false,
+        "presence_unconfirmed": false,
+        "deployment_ready": true,
+        "accounting_unknown": false
+       },
+       {
+        "name": "vnf-idps-6f9a6794",
+        "v_place": 4,
+        "v_route": 7,
+        "cpu_req": 6.0,
+        "ram_req": 3.0,
+        "msd_req": 4,
+        "actuation_requested": true,
+        "is_pending": false,
+        "presence_unconfirmed": false,
+        "deployment_ready": true,
+        "accounting_unknown": false
+       },
+       {
+        "name": "vnf-idps-6ff25e7b",
+        "v_place": 2,
+        "v_route": 7,
+        "cpu_req": 6.0,
+        "ram_req": 3.0,
+        "msd_req": 5,
+        "is_pending": false,
+        "presence_unconfirmed": false,
+        "deployment_ready": true,
+        "accounting_unknown": false
+       },
+       {
+        "name": "vnf-idps-fdd8a8f7",
+        "v_place": 9,
+        "v_route": 7,
+        "cpu_req": 20.0,
+        "ram_req": 10.0,
+        "msd_req": 4,
+        "is_pending": false,
+        "presence_unconfirmed": false,
+        "deployment_ready": true,
+        "accounting_unknown": false
+       },
+       {
+        "name": "vnf-lb-a8f80139",
+        "v_place": 6,
+        "v_route": 7,
+        "cpu_req": 21.0,
+        "ram_req": 10.5,
+        "msd_req": 2,
+        "actuation_requested": true,
+        "is_pending": false,
+        "presence_unconfirmed": false,
+        "deployment_ready": true,
+        "accounting_unknown": false
+       },
+       {
+        "name": "vnf-lb-c7266b57",
+        "v_place": 4,
+        "v_route": 7,
+        "cpu_req": 6.0,
+        "ram_req": 3.0,
+        "msd_req": 3,
+        "actuation_requested": true,
+        "is_pending": false,
+        "presence_unconfirmed": false,
+        "deployment_ready": true,
+        "accounting_unknown": false
+       },
+       {
+        "name": "vnf-nat-240e4b06",
+        "v_place": 6,
+        "v_route": 7,
+        "cpu_req": 6.0,
+        "ram_req": 3.0,
+        "msd_req": 4,
+        "is_pending": false,
+        "presence_unconfirmed": false,
+        "deployment_ready": true,
+        "accounting_unknown": false
+       },
+       {
+        "name": "vnf-nat-9890d9ca",
+        "v_place": 2,
+        "v_route": 7,
+        "cpu_req": 6.0,
+        "ram_req": 3.0,
+        "msd_req": 5,
+        "is_pending": false,
+        "presence_unconfirmed": false,
+        "deployment_ready": true,
+        "accounting_unknown": false
+       },
+       {
+        "name": "vnf-nat-ff43155a",
+        "v_place": 4,
+        "v_route": 7,
+        "cpu_req": 11.0,
+        "ram_req": 5.5,
+        "msd_req": 3,
+        "actuation_requested": true,
+        "is_pending": false,
+        "presence_unconfirmed": false,
+        "deployment_ready": true,
+        "accounting_unknown": false
+       },
+       {
+        "name": "vnf-router-485205ac",
+        "v_place": 8,
+        "v_route": 7,
+        "cpu_req": 6.0,
+        "ram_req": 3.0,
+        "msd_req": 2,
+        "is_pending": false,
+        "presence_unconfirmed": false,
+        "deployment_ready": true,
+        "accounting_unknown": false
+       },
+       {
+        "name": "vnf-router-641b71ca",
+        "v_place": 3,
+        "v_route": 7,
+        "cpu_req": 21.0,
+        "ram_req": 10.5,
+        "msd_req": 3,
+        "is_pending": false,
+        "presence_unconfirmed": false,
+        "deployment_ready": true,
+        "accounting_unknown": false
+       },
+       {
+        "name": "vnf-router-740a9f49",
+        "v_place": 4,
+        "v_route": 7,
+        "cpu_req": 18.0,
+        "ram_req": 9.0,
+        "msd_req": 3,
+        "actuation_requested": true,
+        "is_pending": false,
+        "presence_unconfirmed": false,
+        "deployment_ready": true,
+        "accounting_unknown": false
+       },
+       {
+        "name": "vnf-router-a699951e",
+        "v_place": 6,
+        "v_route": 7,
+        "cpu_req": 20.0,
+        "ram_req": 10.0,
+        "msd_req": 4,
+        "is_pending": false,
+        "presence_unconfirmed": false,
+        "deployment_ready": true,
+        "accounting_unknown": false
+       },
+       {
+        "name": "vnf-video-09771db5",
+        "v_place": 8,
+        "v_route": 7,
+        "cpu_req": 12.0,
+        "ram_req": 6.0,
+        "msd_req": 4,
+        "is_pending": false,
+        "presence_unconfirmed": false,
+        "deployment_ready": true,
+        "accounting_unknown": false
+       },
+       {
+        "name": "vnf-video-20cb7274",
+        "v_place": 8,
+        "v_route": 7,
+        "cpu_req": 18.0,
+        "ram_req": 9.0,
+        "msd_req": 3,
+        "is_pending": false,
+        "presence_unconfirmed": false,
+        "deployment_ready": true,
+        "accounting_unknown": false
+       },
+       {
+        "name": "vnf-video-2d8dea54",
+        "v_place": 6,
+        "v_route": 7,
+        "cpu_req": 11.0,
+        "ram_req": 5.5,
+        "msd_req": 4,
+        "is_pending": false,
+        "presence_unconfirmed": false,
+        "deployment_ready": true,
+        "accounting_unknown": false
+       },
+       {
+        "name": "vnf-video-bcb87148",
+        "v_place": 4,
+        "v_route": 7,
+        "cpu_req": 5.0,
+        "ram_req": 2.5,
+        "msd_req": 2,
+        "actuation_requested": true,
+        "is_pending": false,
+        "presence_unconfirmed": false,
+        "deployment_ready": true,
+        "accounting_unknown": false
+       },
+       {
+        "name": "vnf-voc-1a081337",
+        "v_place": 6,
+        "v_route": 7,
+        "cpu_req": 20.0,
+        "ram_req": 10.0,
+        "msd_req": 4,
+        "actuation_requested": true,
+        "is_pending": false,
+        "presence_unconfirmed": false,
+        "deployment_ready": true,
+        "accounting_unknown": false
+       },
+       {
+        "name": "vnf-voc-46114e18",
+        "v_place": 9,
+        "v_route": 7,
+        "cpu_req": 4.0,
+        "ram_req": 2.0,
+        "msd_req": 3,
+        "is_pending": false,
+        "presence_unconfirmed": false,
+        "deployment_ready": true,
+        "accounting_unknown": false
+       },
+       {
+        "name": "vnf-voc-474040d7",
+        "v_place": 7,
+        "v_route": 7,
+        "cpu_req": 10.0,
+        "ram_req": 5.0,
+        "msd_req": 2,
+        "is_pending": false,
+        "presence_unconfirmed": false,
+        "deployment_ready": true,
+        "accounting_unknown": false
+       },
+       {
+        "name": "vnf-voc-519bcac9",
+        "v_place": 9,
+        "v_route": 7,
+        "cpu_req": 18.0,
+        "ram_req": 9.0,
+        "msd_req": 3,
+        "is_pending": false,
+        "presence_unconfirmed": false,
+        "deployment_ready": true,
+        "accounting_unknown": false
+       },
+       {
+        "name": "vnf-voc-89cf7868",
+        "v_place": 2,
+        "v_route": 7,
+        "cpu_req": 20.0,
+        "ram_req": 10.0,
+        "msd_req": 5,
+        "is_pending": false,
+        "presence_unconfirmed": false,
+        "deployment_ready": true,
+        "accounting_unknown": false
+       },
+       {
+        "name": "vnf-voc-8af9e5bb",
+        "v_place": 4,
+        "v_route": 7,
+        "cpu_req": 12.0,
+        "ram_req": 6.0,
+        "msd_req": 3,
+        "is_pending": false,
+        "presence_unconfirmed": false,
+        "deployment_ready": true,
+        "accounting_unknown": false
+       },
+       {
+        "name": "vnf-voc-f3f8bf18",
+        "v_place": 4,
+        "v_route": 7,
+        "cpu_req": 5.0,
+        "ram_req": 2.5,
+        "msd_req": 3,
+        "is_pending": false,
+        "presence_unconfirmed": false,
+        "deployment_ready": true,
+        "accounting_unknown": false
+       },
+       {
+        "name": "vnf-voc-f6b1a5cf",
+        "v_place": 4,
+        "v_route": 7,
+        "cpu_req": 7.0,
+        "ram_req": 3.5,
+        "msd_req": 3,
+        "actuation_requested": true,
+        "is_pending": false,
+        "presence_unconfirmed": false,
+        "deployment_ready": true,
+        "accounting_unknown": false
+       },
+       {
+        "name": "vnf-idps-fd4abe1f",
+        "v_place": 7,
+        "v_route": 7,
+        "cpu_req": 12.0,
+        "ram_req": 6.0,
+        "msd_req": 2,
+        "actuation_requested": true,
+        "is_pending": true
+       },
+       {
+        "name": "vnf-lb-67673667",
+        "v_place": 1,
+        "v_route": 7,
+        "cpu_req": 18.0,
+        "ram_req": 9.0,
+        "msd_req": 2,
+        "actuation_requested": true,
+        "is_pending": true
+       },
+       {
+        "name": "vnf-data-b6fad338",
+        "v_place": 1,
+        "v_route": 7,
+        "cpu_req": 20.0,
+        "ram_req": 10.0,
+        "msd_req": 4
+       }
+      ],
+      "forecast_alerts": [
+       false,
+       false,
+       false,
+       false,
+       false,
+       false,
+       false,
+       false,
+       false,
+       false
+      ]
+     }
+    },
+    "vnf_name": "vnf-data-b6fad338",
+    "placement_node": {
+     "id": 1,
+     "name": "HaiPhong"
+    },
+    "routing_node": {
+     "id": 7,
+     "name": "NhaTrang"
+    },
+    "srv6_segment_list": [
+     "fc00:2::1",
+     "fc00:1::1",
+     "fc00:6::1",
+     "fc00:5::1"
+    ],
+    "method_used": "Hybrid:DRL",
+    "hybrid_branch": "drl",
+    "decision_state_version": 22864,
+    "admission_state_version": 22865,
+    "timings_ms": {
+     "state_sync_ms": 57.655703043565154,
+     "state_snapshot_ms": 1.2689130380749702,
+     "state_construction_ms": 0.24918396957218647,
+     "mask_construction_ms": 0.10593701153993607,
+     "normalization_ms": 0.07907301187515259,
+     "policy_inference_ms": 85.98548406735063,
+     "total_policy_ms": 86.47621003910899,
+     "admission_validation_ms": 16.260128933936357,
+     "decision_policy_and_admission_ms": 104.15393300354481,
+     "controller_handoff_ms": 0.03217114135622978,
+     "server_decision_ms": 182.52259423024952
+    },
+    "migration_result": {
+     "status": "creating_and_steering",
+     "vnf_name": "vnf-data-b6fad338",
+     "operation_id": "8648b19e-d25a-49dd-bf2d-dad41e767eef",
+     "status_path": "/orchestrate/migrations/vnf-data-b6fad338"
+    }
+   },
+   "actuation_status": {
+    "status": "success",
+    "message": "VNF created, ready, and steered; no old VNF required BREAK.",
+    "data": {
+     "old_vnf": null,
+     "new_vnf": "vnf-data-b6fad338",
+     "steer_operation_id": "8648b19e-d25a-49dd-bf2d-dad41e767eef",
+     "steer_status": "CONFIRMED",
+     "recovery_state": "STEERED",
+     "dynamic_endpoint": {
+      "ip": "10.1.235.212",
+      "port": 0
+     },
+     "sid_list": [
+      "fc00:2::1",
+      "fc00:1::1",
+      "fc00:6::1",
+      "fc00:5::1"
+     ],
+     "switch_path": [
+      5,
+      6,
+      1,
+      2
+     ],
+     "cp_steering_overhead_ms": 2032.88,
+     "k8s_node_hostname": "k8s-master"
+    }
+   },
+   "terminal_seen_utc": "2026-11-21T18:18:52.526156+00:00",
+   "backend_make_utc": "2026-11-21T18:18:31.026263880Z",
+   "backend_ready_utc": "2026-11-21T18:18:49.340433335Z",
+   "controller_steer_start_utc": "2026-11-21T18:18:49.361254712Z",
+   "controller_confirm_utc": "2026-11-21T18:18:50.086007418Z",
+   "pod": {
+    "pod": "vnf-data-b6fad338-7976dd8d4f-5tqmk",
+    "created": "2026-11-21T18:18:45Z",
+    "node": "k8s-master",
+    "ip": "10.1.235.212",
+    "conditions": {
+     "PodReadyToStartContainers": "2026-11-21T18:18:47Z",
+     "Initialized": "2026-11-21T18:18:45Z",
+     "Ready": "2026-11-21T18:18:47Z",
+     "ContainersReady": "2026-11-21T18:18:47Z",
+     "PodScheduled": "2026-11-21T18:18:45Z"
+    }
+   }
+  }
+ ]
+}

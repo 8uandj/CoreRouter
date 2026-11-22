@@ -1,0 +1,255 @@
+{
+  "captured_at_utc": "2026-11-17T14:54:00Z",
+  "host": "3s-com",
+  "repo": "/home/CoreRouter",
+  "branch": "HARP",
+  "commit": "7f4a5eb50a938a0540906df32c9c4940a54e803f",
+  "live_inventory": {
+    "deployment_count": 7,
+    "keep_expected": 7,
+    "keep_present": [
+      "vnf-attack-004e219d",
+      "vnf-attack-0faeed9f",
+      "vnf-attack-228edabf",
+      "vnf-attack-2f0aa313",
+      "vnf-attack-57b6f205",
+      "vnf-attack-8bf0425e",
+      "vnf-attack-af13f6df"
+    ],
+    "retire_expected": 43,
+    "retire_present": [],
+    "ready_deployments": 7
+  },
+  "admission": {
+    "state_version": 25,
+    "reservation_persistence": "durable",
+    "active_vnfs": [
+      {
+        "name": "vnf-attack-004e219d",
+        "v_place": 8,
+        "v_route": 8,
+        "cpu_req": 64.0,
+        "ram_req": 32.5,
+        "msd_req": 6,
+        "is_pending": false,
+        "presence_unconfirmed": false,
+        "deployment_ready": true,
+        "accounting_unknown": false
+      },
+      {
+        "name": "vnf-attack-0faeed9f",
+        "v_place": 0,
+        "v_route": 8,
+        "cpu_req": 63.0,
+        "ram_req": 32.0,
+        "msd_req": 4,
+        "is_pending": false,
+        "presence_unconfirmed": false,
+        "deployment_ready": true,
+        "accounting_unknown": false
+      },
+      {
+        "name": "vnf-attack-228edabf",
+        "v_place": 1,
+        "v_route": 8,
+        "cpu_req": 57.0,
+        "ram_req": 29.0,
+        "msd_req": 6,
+        "is_pending": false,
+        "presence_unconfirmed": false,
+        "deployment_ready": true,
+        "accounting_unknown": false
+      },
+      {
+        "name": "vnf-attack-2f0aa313",
+        "v_place": 2,
+        "v_route": 8,
+        "cpu_req": 64.0,
+        "ram_req": 32.5,
+        "msd_req": 6,
+        "is_pending": false,
+        "presence_unconfirmed": false,
+        "deployment_ready": true,
+        "accounting_unknown": false
+      },
+      {
+        "name": "vnf-attack-57b6f205",
+        "v_place": 3,
+        "v_route": 3,
+        "cpu_req": 58.0,
+        "ram_req": 29.5,
+        "msd_req": 4,
+        "is_pending": false,
+        "presence_unconfirmed": false,
+        "deployment_ready": true,
+        "accounting_unknown": false
+      },
+      {
+        "name": "vnf-attack-8bf0425e",
+        "v_place": 5,
+        "v_route": 8,
+        "cpu_req": 64.0,
+        "ram_req": 32.5,
+        "msd_req": 6,
+        "is_pending": false,
+        "presence_unconfirmed": false,
+        "deployment_ready": true,
+        "accounting_unknown": false
+      },
+      {
+        "name": "vnf-attack-af13f6df",
+        "v_place": 9,
+        "v_route": 5,
+        "cpu_req": 56.0,
+        "ram_req": 28.5,
+        "msd_req": 8,
+        "is_pending": false,
+        "presence_unconfirmed": false,
+        "deployment_ready": true,
+        "accounting_unknown": false
+      }
+    ],
+    "unaccounted_vnfs": [],
+    "accounting_unknown_count": 0,
+    "all_baseline_ready": true
+  },
+  "jobs": {
+    "active_pipelineruns": [],
+    "active_jobs": [],
+    "python_process_snapshot": [],
+    "orchestrator_status": {
+      "status": "success",
+      "is_migrating": false,
+      "message": "System Idle",
+      "latest_pipeline": {
+        "name": "deploy-firewall-508c3d",
+        "overallStatus": "Succeeded",
+        "tasks": [
+          {
+            "name": "prepare-manifest",
+            "status": "Succeeded"
+          },
+          {
+            "name": "instantiate",
+            "status": "Succeeded"
+          },
+          {
+            "name": "wait-ready",
+            "status": "Succeeded"
+          },
+          {
+            "name": "observe",
+            "status": "Succeeded"
+          }
+        ]
+      }
+    }
+  },
+  "live_p4_readback": {
+    "1": {
+      "legacy_tables": true,
+      "has_end_dx4": false,
+      "has_advance_counter": false,
+      "has_terminal_counter": false,
+      "msd_counter_readable": true
+    },
+    "2": {
+      "legacy_tables": true,
+      "has_end_dx4": false,
+      "has_advance_counter": false,
+      "has_terminal_counter": false,
+      "msd_counter_readable": true
+    },
+    "3": {
+      "legacy_tables": true,
+      "has_end_dx4": false,
+      "has_advance_counter": false,
+      "has_terminal_counter": false,
+      "msd_counter_readable": true
+    },
+    "4": {
+      "legacy_tables": true,
+      "has_end_dx4": false,
+      "has_advance_counter": false,
+      "has_terminal_counter": false,
+      "msd_counter_readable": true
+    },
+    "5": {
+      "legacy_tables": true,
+      "has_end_dx4": false,
+      "has_advance_counter": false,
+      "has_terminal_counter": false,
+      "msd_counter_readable": true
+    },
+    "6": {
+      "legacy_tables": true,
+      "has_end_dx4": false,
+      "has_advance_counter": false,
+      "has_terminal_counter": false,
+      "msd_counter_readable": true
+    },
+    "7": {
+      "legacy_tables": true,
+      "has_end_dx4": false,
+      "has_advance_counter": false,
+      "has_terminal_counter": false,
+      "msd_counter_readable": true
+    },
+    "8": {
+      "legacy_tables": true,
+      "has_end_dx4": false,
+      "has_advance_counter": false,
+      "has_terminal_counter": false,
+      "msd_counter_readable": true
+    },
+    "9": {
+      "legacy_tables": true,
+      "has_end_dx4": false,
+      "has_advance_counter": false,
+      "has_terminal_counter": false,
+      "msd_counter_readable": true
+    },
+    "10": {
+      "legacy_tables": true,
+      "has_end_dx4": false,
+      "has_advance_counter": false,
+      "has_terminal_counter": false,
+      "msd_counter_readable": true
+    }
+  },
+  "live_p4_gate": "FAIL: profile selection is correct per topology (s1/s2/s9=10; s3/s4/s8/s10=5; s5/s7=4; s6=8), but loaded P4 JSON for every profile is the old build lacking srv6_end_dx4_table and srv6_advance_counter/srv6_terminal_counter.",
+  "offline_isolated_bmv2": "PASS: report.json records boundary RFC8754 packet decapsulation/counters and over-MSD drop/counter.",
+  "mutation": "none at Phase 8; Phase 9 backups/preflight read-only, BMv2 restart is next approved operation.",
+  "gate_status": {
+    "phase0_identity": "PASS",
+    "phase1_current_inventory_and_idle_state": "PASS",
+    "phase2_backup_from_prior_run": "PASS (see Phase 2 artifacts)",
+    "phase3_live_p4_realization": "FAIL",
+    "phase4_baseline": "PASS",
+    "phase5_create_readiness_steering_smoke": "NOT STARTED (stopped at Phase 3 live P4 mismatch)",
+    "phase6_long_hil": "NOT STARTED"
+  },
+  "next_safe_step": "Restore Mininet host links and controller without changing host routes/bridges/firewall, or get explicit approval for the specific host-level setup changes required; then recheck all links and baseline before continuing.",
+  "result": "baseline rebuilt; full HIL blocked \u2014 after the user stopped corerouter-p4, Mininet host-facing switch ports are down and controller REST is unavailable.",
+  "live_p4_profile_selection": {
+    "s1": 10,
+    "s2": 10,
+    "s3": 5,
+    "s4": 5,
+    "s5": 4,
+    "s6": 8,
+    "s7": 4,
+    "s8": 5,
+    "s9": 10,
+    "s10": 5,
+    "matches_topology": true
+  },
+  "phase9_update": {
+    "user_approved_bmv2_reload": true,
+    "s1_canary": "PASS at startup; now host-facing port 1 is DOWN after Mininet session stop",
+    "s2_to_s9": "old P4 build unchanged; port 1 DOWN",
+    "s10": "exited 137, OOM=false",
+    "controller_rest_8765": "connection refused",
+    "remaining_reload": "stopped before mutation on s2-eth1 DOWN"
+  }
+}

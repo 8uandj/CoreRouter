@@ -1,0 +1,8 @@
+/home/CoreRouter/venv/lib/python3.8/site-packages/scapy/config.py:750: CryptographyDeprecationWarning: Python 3.8 is no longer supported by the Python core team and support for it is deprecated in cryptography. The next release of cryptography will remove support for Python 3.8.
+  import cryptography
+Traceback (most recent call last):
+  File "/home/CoreRouter/results/hil/e2e_tools/live_fault_injection.py", line 68, in <module>
+    main()
+  File "/home/CoreRouter/results/hil/e2e_tools/live_fault_injection.py", line 48, in main
+    src_mac = a.src_mac or open("/sys/class/net/%s/address" % a.iface).read().strip()
+FileNotFoundError: [Errno 2] No such file or directory: '/sys/class/net/h2-eth0/address'

@@ -1,0 +1,5 @@
+case,mode,trials,switch_path,switch_msd,admitted_path_depth,packet_sid_depth,admission_decision,rules_installed_per_trial,rules_readback_present_all_trials,packets_sent,packets_received,loss,msd_drops_by_switch,advance_by_switch
+depth4_path_s2-s1-s6-s7__control_admitted_depth,admitted,3,s2-s1-s6-s7,s7=4 s1=10 s2=10 s6=8,4,4,admit,4,True,300,300,0,{},"{""s1"": 300, ""s2"": 300, ""s6"": 300}"
+depth4_path_s2-s1-s6-s7__injected_depth7,fault_injection,3,s2-s1-s6-s7,s7=4 s1=10 s2=10 s6=8,4,7,admit,4,True,300,0,300,"{""s7"": 300}","{""s1"": 300, ""s2"": 300, ""s6"": 300}"
+depth2_path_s7-s6__control_admitted_depth,admitted,3,s7-s6,s7=4 s6=8,2,2,admit,2,True,300,300,0,{},"{""s7"": 300}"
+depth2_path_s7-s6__injected_depth7,fault_injection,3,s7-s6,s7=4 s6=8,2,7,admit,2,True,300,0,300,"{""s7"": 300}",{}

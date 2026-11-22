@@ -1,0 +1,54 @@
+{
+  "run_id": "rebuild_20261117T123405Z",
+  "target": "server 246 (hostname 3s-com, Kubernetes internal IP 10.10.6.231), repo /home/CoreRouter, branch HARP, commit 7f4a5eb50a938a0540906df32c9c4940a54e803f",
+  "preexisting_context_run": "results/hil/rebuild_20261117T122432Z",
+  "placement_approval": "received: apply the explicitly synthetic proposed assignment; not historical",
+  "phases": {
+    "0_target_and_inputs": "PASS: host 246/repo/source hashes verified; the earlier Hanoi-side comparison remains unavailable",
+    "1_read_only_preflight": "PASS: original exact 50-name snapshot; no active unknown jobs; corerouter-p4 Mininet session preserved",
+    "2_backup": "PASS: deployment/service/Tekton/backend evidence plus online and raw pre-seed SQLite backups; migration journal preserved",
+    "3_prepare_and_verify": "PARTIAL/BLOCKED: initializer and focused admission checks valid; verified P4 realization mapping/readback/packet gate not met",
+    "4_retirement_and_persistence": "PASS: exact 43 retirements/35 dedicated ClusterIP Services; 7 retained, all placed per approved synthetic assignment and Ready; persistent mount verified",
+    "4_live_seed": "PASS: Python 3.11 runtime seed topology matched; active SQLite has 7 profiles, 0 unknown, durable after restart",
+    "5_smoke": "PARTIAL: admission-only reserve/release passed; alert request correctly rejected before Tekton as UNSUPPORTED_ADMITTED_REALIZATION; no create-through-admission or migration forwarding proof",
+    "6_load": "NOT RUN: blocked by missing verified P4 realization/forwarding evidence",
+    "7_reconciliation": "PASS for current inventory/ledger/idle state; forwarding/migration reconciliation remains blocked"
+  },
+  "inventory": {
+    "deployments_remaining": 7,
+    "retired_exact_names": 43,
+    "retired_names_absent": true,
+    "dedicated_clusterip_services_removed": 35,
+    "nodeport_services_preserved": 5,
+    "placement_runs_total": 8,
+    "placement_runs_failed_closed_initial_task_bug": 1,
+    "unique_placements_passed": 7,
+    "all_ready": true
+  },
+  "ledger": {
+    "path": "/home/CoreRouter/results/rev1/runtime/reservations.sqlite3",
+    "host_mount": "/home/CoreRouter/results/rev1/runtime:/app/results/rev1/runtime",
+    "persistence": "durable",
+    "profiles": 7,
+    "accounting_unknown": 0,
+    "unaccounted_vnfs": 0,
+    "topology_hash": "67131a546450606da19276263b00d23988d13fd71c17be38cb24a12637fe9f11",
+    "sqlite_integrity": "ok",
+    "old_ledger_and_journal_backed_up": true
+  },
+  "phase3_support": "NodePort 31656 preserved, endpoint count 0 after vnf-voc-phase3 retirement; Phase 3 bridge fixture unavailable",
+  "full_hil": "BLOCKED: baseline rebuilt; full HIL blocked until admitted realization maps to verified P4 rules and packet/counter evidence, enabling request-correlated create/readiness/migration",
+  "admission_smoke": {
+    "admission_only": "PASS: HTTP 200 heuristic reserve then lifecycle release; returned ledger to 7/0 and no Deployment",
+    "unsupported_realization": "PASS: HTTP 409 UNSUPPORTED_ADMITTED_REALIZATION; reservation released; Deployment/PipelineRun sets unchanged; alert cleared"
+  },
+  "forwarding_and_migration": {
+    "controller_health_http_200": true,
+    "bmv2_thrift_ports_19091_19100_reachable": true,
+    "p4_mapping_verified": false,
+    "controller_rule_readback": false,
+    "packet_evidence": false,
+    "counter_delta_evidence": false,
+    "migration_smoke": "NOT RUN"
+  }
+}

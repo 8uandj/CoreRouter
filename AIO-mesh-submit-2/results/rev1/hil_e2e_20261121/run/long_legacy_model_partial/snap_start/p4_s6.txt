@@ -1,0 +1,50 @@
+Obtaining JSON from switch...
+Done
+Control utility for runtime P4 table manipulation
+RuntimeCmd: ==========
+TABLE ENTRIES
+**********
+Dumping entry 0x0
+Match key:
+* ipv6.dstAddr        : EXACT     fc000006000000000000000000000001
+Action entry: SRv6Ingress.srv6_advance_segment - 
+==========
+Dumping default entry
+Action entry: SRv6Ingress.drop - 
+==========
+RuntimeCmd: ==========
+TABLE ENTRIES
+**********
+Dumping entry 0x0
+Match key:
+* ipv6.dstAddr        : LPM       fc000007000000000000000000000001/128
+Action entry: SRv6Ingress.ipv6_forward - 960c9d46fdad, 8646588f99ee, 03
+**********
+Dumping entry 0x1
+Match key:
+* ipv6.dstAddr        : LPM       fc000005000000000000000000000001/128
+Action entry: SRv6Ingress.ipv6_forward - bab1e81a8322, 8a41cd7157bd, 02
+**********
+Dumping entry 0x2
+Match key:
+* ipv6.dstAddr        : LPM       fc000009000000000000000000000001/128
+Action entry: SRv6Ingress.ipv6_forward - 0ac3a15fb10b, a247a229dc88, 05
+**********
+Dumping entry 0x3
+Match key:
+* ipv6.dstAddr        : LPM       fc000001000000000000000000000001/128
+Action entry: SRv6Ingress.ipv6_forward - 965f87bf8a6b, 22f4dcf7a4d0, 04
+==========
+Dumping default entry
+Action entry: SRv6Ingress.drop - 
+==========
+RuntimeCmd: ==========
+TABLE ENTRIES
+==========
+Dumping default entry
+Action entry: SRv6Ingress.drop - 
+==========
+RuntimeCmd: srv6_advance_counter[0]=  BmCounterValue(packets=1653, bytes=321694)
+RuntimeCmd: srv6_terminal_counter[0]=  BmCounterValue(packets=0, bytes=0)
+RuntimeCmd: msd_violation_counter[0]=  BmCounterValue(packets=50, bytes=12500)
+RuntimeCmd: 

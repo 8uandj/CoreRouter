@@ -1,0 +1,4 @@
+-P POSTROUTING ACCEPT
+-A POSTROUTING -s 10.1.240.0/24 -o vxlan.calico -m comment --comment corerouter-hil-e2e -j MASQUERADE
+-A POSTROUTING -s 10.0.0.0/24 -o vxlan.calico -m comment --comment corerouter-hil-e2e -j MASQUERADE
+-A POSTROUTING -m comment --comment "cali:O3lYWMrLQYEMJtB5" -j cali-POSTROUTING

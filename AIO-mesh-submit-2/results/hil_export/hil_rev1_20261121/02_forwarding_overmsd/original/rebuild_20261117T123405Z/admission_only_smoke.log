@@ -1,0 +1,33 @@
+ADMISSION 200 {"status": "success", "message": "Hybrid orchestration selected Hybrid:Heuristic.", "data": {"vnf_name": "vnf-data-ab6279cb", "placement_node": {"id": 4, "name": "Hue"}, "routing_node": {"id": 5, "name": "DaNang"}, "srv6_segment_list": ["2001:db8:04:01::1", "2001:db8:05:02::1", "2001:db8:05:03::1", "2001:db8:05:04::1", "2001:db8:05:05::1", "2001:db8:05:06::1"], "method_used": "Hybrid:Heuristic", "hybrid_branch": "heuristic", "decision_state_version": 11, "admission_state_version": 12, "timings_ms": {"state_sync_ms": 45.37422000430524, "state_snapshot_ms": 1.6177049838006496, "heuristic_inference_ms": 0.26171281933784485, "admission_validation_ms": 14.359185006469488, "decision_policy_and_admission_ms": 16.284479992464185, "controller_handoff_ms": 0.0, "server_decision_ms": 62.93789902701974}, "global_utilization": 0.49000000953674316, "avg_cpu": 0.49000000953674316, "avg_msd_usage": 0.24000000953674316, "alert_flag": false, "forecast": null, "migration_result": null, "state": {"mode": 
+{
+  "http_status": 200,
+  "status": "PASS",
+  "vnf_name": "vnf-data-ab6279cb",
+  "branch": "heuristic",
+  "migration_result": null,
+  "placement": {
+    "id": 4,
+    "name": "Hue"
+  },
+  "route": {
+    "id": 5,
+    "name": "DaNang"
+  },
+  "admitted_entry": {
+    "name": "vnf-data-ab6279cb",
+    "v_place": 4,
+    "v_route": 5,
+    "cpu_req": 64.0,
+    "ram_req": 32.5,
+    "msd_req": 6,
+    "is_pending": true
+  },
+  "deployment_absent": true,
+  "release_http_status": 200,
+  "release_response": {
+    "status": "success",
+    "message": "Resources freed"
+  },
+  "active_count_after_cleanup": 7,
+  "unknown_after_cleanup": 0
+}

@@ -1,0 +1,30 @@
+{
+  "index": 81,
+  "request": {
+    "service_type": "voc",
+    "cpu_req": 18.0,
+    "ram_req": 9.0,
+    "msd_req": 3,
+    "alert_flag": false,
+    "source_node": 4,
+    "destination_node": 2,
+    "flow_id": "expand-0081"
+  },
+  "profile": "Video",
+  "evidence_class": "driver-orchestrated actuation",
+  "t": {
+    "submit_utc": "2026-11-21T18:09:20.050233+00:00",
+    "response_utc": "2026-11-21T18:09:20.253520+00:00"
+  },
+  "http_status": 409,
+  "api_rtt_ms": 203.084,
+  "outcome": "rejected",
+  "error": {
+    "status": "error",
+    "code": "NO_SAFE_ACTION",
+    "reason_key": "msd_violation",
+    "message": "requested MSD depth does not match materialized P4 path depth"
+  },
+  "active_total_after": 33,
+  "ledger_record_after": null
+}

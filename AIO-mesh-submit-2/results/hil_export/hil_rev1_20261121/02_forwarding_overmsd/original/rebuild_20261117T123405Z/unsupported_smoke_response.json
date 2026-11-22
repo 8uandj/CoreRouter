@@ -1,0 +1,12 @@
+{
+  "http_status": 409,
+  "body": {
+    "detail": {
+      "status": "error",
+      "code": "UNSUPPORTED_ADMITTED_REALIZATION",
+      "message": "No verified mapping exists from the admitted SID stack to a forwarding profile.",
+      "reservation_released": true,
+      "reservation_release_reason": null
+    }
+  }
+}

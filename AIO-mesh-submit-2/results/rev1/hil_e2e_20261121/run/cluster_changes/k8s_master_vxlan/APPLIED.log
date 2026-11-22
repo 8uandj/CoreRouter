@@ -1,0 +1,2 @@
+2026-11-21T18:57:53Z applied: firewall-cmd --zone=public --add-port=4789/udp (runtime only) on k8s-master
+2026-11-21T18:58:39Z applied: firewall-cmd --zone=trusted --add-interface=vxlan.calico (runtime only) on k8s-master

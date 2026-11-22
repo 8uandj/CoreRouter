@@ -1,0 +1,29 @@
+# captured_utc=2026-11-21T16:51:24Z
+# cmd: docker ps --format {{.ID}} {{.Names}} {{.Image}} {{.Status}} {{.CreatedAt}}
+203c3fd82667 bmv2-s10 p4lang/p4app:latest Up 3 days 2026-11-17 18:16:49 +0000 UTC
+d762c65fabbd bmv2-s9 p4lang/p4app:latest Up 3 days 2026-11-17 18:16:48 +0000 UTC
+cf6d4dc3aacb bmv2-s8 p4lang/p4app:latest Up 3 days 2026-11-17 18:16:47 +0000 UTC
+dba9499eb667 bmv2-s7 p4lang/p4app:latest Up 3 days 2026-11-17 18:16:46 +0000 UTC
+529fe8e616e6 bmv2-s6 p4lang/p4app:latest Up 3 days 2026-11-17 18:16:45 +0000 UTC
+dceb8508e257 bmv2-s5 p4lang/p4app:latest Up 3 days 2026-11-17 18:16:44 +0000 UTC
+0b077b6ac566 bmv2-s4 p4lang/p4app:latest Up 3 days 2026-11-17 18:16:43 +0000 UTC
+ce6995d6a45e bmv2-s3 p4lang/p4app:latest Up 3 days 2026-11-17 18:16:43 +0000 UTC
+4a86263b9ad6 bmv2-s2 p4lang/p4app:latest Up 3 days 2026-11-17 18:16:42 +0000 UTC
+0b90a73ee56f bmv2-s1 p4lang/p4app:latest Up 3 days 2026-11-17 18:16:41 +0000 UTC
+7f9125928d01 gracious_jackson p4lang/p4app:latest Up 3 days 2026-11-17 18:16:24 +0000 UTC
+0b62be8d9e13 3s-com-backend 3s-com-backend:py311 Up 3 days 2026-11-17 18:07:06 +0000 UTC
+8d9d9eb64bd7 intelligence-layer intelligence-layer:latest Up 4 minutes (healthy) 2026-11-05 05:30:56 +0000 UTC
+97ea3930f776 mongo-express mongo-express:latest Up 2 weeks 2026-10-19 02:45:31 +0000 UTC
+af579b50b50a fe fe:latest Up About a minute (health: starting) 2026-05-31 15:11:34 +0000 UTC
+7d5fca51dd48 onap-tools-backend onap-tools/backend:latest Up 2 weeks 2026-05-19 16:34:56 +0000 UTC
+d40a62810ab8 onap-tools-demo nginx:1.27-alpine Up 2 weeks 2026-05-19 15:16:55 +0000 UTC
+f6c633d0f1b2 ids-agent ids-agent:latest Up About a minute (health: starting) 2026-05-17 12:00:03 +0000 UTC
+3df0960e4e80 onap-tools-redis redis:7-alpine Up 2 weeks 2026-05-16 08:47:40 +0000 UTC
+e0891c653468 zt-neo4j neo4j:5.26-community Up 2 weeks (healthy) 2026-05-09 12:32:30 +0000 UTC
+c401155691e5 zt-postgres pgvector/pgvector:pg16 Up 2 weeks (healthy) 2026-05-09 11:14:25 +0000 UTC
+e6a3c8049280 zt-redis redis:7-alpine Up 2 weeks (healthy) 2026-05-09 11:14:25 +0000 UTC
+4488fad5fcc6 zt-autoheal willfarrell/autoheal:1.2.0 Up 2 weeks (healthy) 2026-05-09 11:14:25 +0000 UTC
+29824bfcbfe1 zt-redisinsight redis/redisinsight:latest Up 2 weeks 2026-05-06 09:56:41 +0000 UTC
+a7a9c727f535 zt-adminer adminer:latest Up 2 weeks 2026-05-06 09:56:19 +0000 UTC
+977432610d9e zt-langfuse langfuse/langfuse:2 Up 2 weeks 2026-05-05 16:07:20 +0000 UTC
+# exit=0

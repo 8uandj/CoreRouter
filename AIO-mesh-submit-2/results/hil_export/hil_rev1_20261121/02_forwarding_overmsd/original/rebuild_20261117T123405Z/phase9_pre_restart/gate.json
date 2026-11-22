@@ -1,0 +1,38 @@
+{
+  "deployment_count": 7,
+  "retained_exact": true,
+  "deployment_names": [
+    "vnf-attack-004e219d",
+    "vnf-attack-0faeed9f",
+    "vnf-attack-228edabf",
+    "vnf-attack-2f0aa313",
+    "vnf-attack-57b6f205",
+    "vnf-attack-8bf0425e",
+    "vnf-attack-af13f6df"
+  ],
+  "active_pipelineruns": [],
+  "active_jobs": [],
+  "orchestration_idle": true,
+  "ledger_durable": true,
+  "accounting_unknown": 0,
+  "unaccounted_vnfs": [],
+  "switches_up": 10,
+  "all_have_expected_old_bootstrap": true,
+  "tmux_after_user_stop": "no tmux server running",
+  "controller_rest_8765": "connection refused",
+  "s1_canary": "new MSD 10 P4 passed initial table/counter/port checks; current port 1 is DOWN",
+  "switch_state_now": {
+    "s1": "new P4 build; p1 DOWN; old container kept stopped",
+    "s2": "old P4; p1 DOWN",
+    "s3": "old P4; p1 DOWN",
+    "s4": "old P4; p1 DOWN",
+    "s5": "old P4; p1 DOWN",
+    "s6": "old P4; p1 DOWN",
+    "s7": "old P4; p1 DOWN",
+    "s8": "old P4; p1 DOWN",
+    "s9": "old P4; p1 DOWN",
+    "s10": "old P4 container exited 137; OOM=false"
+  },
+  "remaining_switch_mutations_after_s1": 0,
+  "stop_reason": "s2 preflight found s2-eth1 DOWN; no s2\u2013s10 restart was performed."
+}

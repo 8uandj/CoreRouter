@@ -1,0 +1,28 @@
+{
+  "index": 8,
+  "request": {
+    "service_type": "voc",
+    "cpu_req": 18.0,
+    "ram_req": 9.0,
+    "msd_req": 5,
+    "alert_flag": true,
+    "source_node": 9,
+    "destination_node": 8,
+    "flow_id": "e2e-0008"
+  },
+  "profile": "Video",
+  "t": {
+    "submit_utc": "2026-11-21T18:53:10.635976+00:00",
+    "response_utc": "2026-11-21T18:53:10.794425+00:00"
+  },
+  "http_status": 409,
+  "api_rtt_ms": 158.179,
+  "outcome": "rejected",
+  "error": {
+    "status": "error",
+    "code": "NO_SAFE_ACTION",
+    "reason_key": "msd_violation",
+    "message": "materialized path exceeds physical switch MSD profile"
+  },
+  "new_vnfs_after": 2
+}

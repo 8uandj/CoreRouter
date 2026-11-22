@@ -1,0 +1,92 @@
+index,service_type,msd_req,http,outcome,vnf,reject_message,placement,k8s_node,switch_path,sid_depth,admit_s,deploy_submit_to_object_s,deploy_submit_to_ready_s,pod_ready_k8s_minus_deploy_submit_s,steer_submit_to_confirm_seen_s,submit_to_steer_confirm_s,readback_all_present,ledger_profile_known,probe_mode,probe_sent,probe_received,probe_rtt_p50_ms,msd_violation_delta
+0,voc,2,409,rejected,,requested MSD depth does not match materialized P4 path depth,,,,0,0.121,,,,,,,,,,,,
+1,idps,5,409,rejected,,requested MSD depth does not match materialized P4 path depth,,,,0,0.08,,,,,,,,,,,,
+2,nat,4,409,rejected,,requested MSD depth does not match materialized P4 path depth,,,,0,0.147,,,,,,,,,,,,
+3,lb,5,409,rejected,,requested MSD depth does not match materialized P4 path depth,,,,0,0.147,,,,,,,,,,,,
+4,firewall,5,409,rejected,,requested MSD depth does not match materialized P4 path depth,,,,0,0.151,,,,,,,,,,,,
+5,data,3,409,rejected,,requested MSD depth does not match materialized P4 path depth,,,,0,0.126,,,,,,,,,,,,
+6,video,3,409,rejected,,requested MSD depth does not match materialized P4 path depth,,,,0,0.117,,,,,,,,,,,,
+7,router,4,409,rejected,,requested MSD depth does not match materialized P4 path depth,,,,0,0.135,,,,,,,,,,,,
+8,voc,2,409,rejected,,requested MSD depth does not match materialized P4 path depth,,,,0,0.122,,,,,,,,,,,,
+9,voc,3,200,steered,vnf-voc-f3f8bf18,,4,worker1,3-4-5,3,0.156,39.378,39.512,24.368,0.774,40.642,True,False,http,20,20,5.84,0
+10,idps,4,409,rejected,,requested MSD depth does not match materialized P4 path depth,,,,0,0.081,,,,,,,,,,,,
+11,nat,3,409,rejected,,forwarding requires distinct ingress and placement nodes,,,,0,0.115,,,,,,,,,,,,
+12,lb,5,409,rejected,,requested MSD depth does not match materialized P4 path depth,,,,0,0.119,,,,,,,,,,,,
+13,firewall,4,409,rejected,,requested MSD depth does not match materialized P4 path depth,,,,0,0.123,,,,,,,,,,,,
+14,data,5,409,rejected,,requested MSD depth does not match materialized P4 path depth,,,,0,0.115,,,,,,,,,,,,
+15,video,4,409,rejected,,requested MSD depth does not match materialized P4 path depth,,,,0,0.12,,,,,,,,,,,,
+16,router,5,409,rejected,,requested MSD depth does not match materialized P4 path depth,,,,0,0.113,,,,,,,,,,,,
+17,voc,3,200,steered,vnf-voc-8af9e5bb,,4,worker1,1-6-5,3,0.163,17.117,24.646,23.666,0.765,25.819,True,True,http,20,20,9.506,0
+18,voc,3,409,rejected,,requested MSD depth does not match materialized P4 path depth,,,,0,0.109,,,,,,,,,,,,
+19,idps,3,409,rejected,,requested MSD depth does not match materialized P4 path depth,,,,0,0.111,,,,,,,,,,,,
+20,nat,3,409,rejected,,requested MSD depth does not match materialized P4 path depth,,,,0,0.124,,,,,,,,,,,,
+21,lb,5,409,rejected,,requested MSD depth does not match materialized P4 path depth,,,,0,0.086,,,,,,,,,,,,
+22,firewall,2,409,rejected,,requested MSD depth does not match materialized P4 path depth,,,,0,0.152,,,,,,,,,,,,
+23,data,5,409,rejected,,requested MSD depth does not match materialized P4 path depth,,,,0,0.109,,,,,,,,,,,,
+24,video,2,409,rejected,,forwarding requires distinct ingress and placement nodes,,,,0,0.124,,,,,,,,,,,,
+25,router,5,409,rejected,,requested MSD depth does not match materialized P4 path depth,,,,0,0.123,,,,,,,,,,,,
+26,voc,3,409,rejected,,forwarding requires distinct ingress and placement nodes,,,,0,0.177,,,,,,,,,,,,
+27,voc,5,409,rejected,,requested MSD depth does not match materialized P4 path depth,,,,0,0.146,,,,,,,,,,,,
+28,idps,5,409,rejected,,requested MSD depth does not match materialized P4 path depth,,,,0,0.108,,,,,,,,,,,,
+29,nat,5,409,rejected,,forwarding requires distinct ingress and placement nodes,,,,0,0.101,,,,,,,,,,,,
+30,lb,5,409,rejected,,requested MSD depth does not match materialized P4 path depth,,,,0,0.127,,,,,,,,,,,,
+31,firewall,3,200,steered,vnf-firewall-60c82ba3,,4,worker1,7-6-5,3,0.131,17.277,18.493,18.036,0.515,19.329,True,True,icmp,20,20,2.64,0
+32,data,3,409,rejected,,requested MSD depth does not match materialized P4 path depth,,,,0,0.133,,,,,,,,,,,,
+33,video,4,200,steered,vnf-video-2d8dea54,,6,worker2,4-5-6-7,4,0.144,17.067,17.444,16.905,1.275,19.071,True,True,icmp,20,20,3.5,0
+34,router,4,200,steered,vnf-router-a699951e,,6,worker2,4-5-6-7,4,0.148,17.083,17.856,17.153,0.768,18.97,True,True,icmp,20,20,3.2,0
+35,voc,5,409,rejected,,requested MSD depth does not match materialized P4 path depth,,,,0,0.166,,,,,,,,,,,,
+36,voc,3,409,rejected,,forwarding requires distinct ingress and placement nodes,,,,0,0.123,,,,,,,,,,,,
+37,idps,3,409,rejected,,requested MSD depth does not match materialized P4 path depth,,,,0,0.121,,,,,,,,,,,,
+38,nat,2,409,rejected,,requested MSD depth does not match materialized P4 path depth,,,,0,0.127,,,,,,,,,,,,
+39,lb,5,409,rejected,,requested MSD depth does not match materialized P4 path depth,,,,0,0.115,,,,,,,,,,,,
+40,firewall,3,200,steered,vnf-firewall-d09bd6c2,,4,worker1,1-6-5,3,0.169,17.252,17.395,15.919,0.764,18.527,True,True,icmp,20,20,4.06,0
+41,data,5,409,rejected,,requested MSD depth does not match materialized P4 path depth,,,,0,0.14,,,,,,,,,,,,
+42,video,4,200,steered,vnf-video-09771db5,,8,worker2,3-1-6-9,4,0.125,17.132,18.226,17.162,1.528,20.077,True,True,icmp,20,20,6.6,0
+43,router,3,409,rejected,,requested MSD depth does not match materialized P4 path depth,,,,0,0.169,,,,,,,,,,,,
+44,voc,3,200,steer_not_confirmed,vnf-voc-46114e18,,9,worker2,6-9-10,3,0.137,19.315,25.402,25.122,1.274,27.008,True,True,,,,,
+45,voc,5,409,rejected,,requested MSD depth does not match materialized P4 path depth,,,,0,0.119,,,,,,,,,,,,
+46,idps,3,409,rejected,,requested MSD depth does not match materialized P4 path depth,,,,0,0.106,,,,,,,,,,,,
+47,nat,4,200,steered,vnf-nat-240e4b06,,6,worker2,2-1-6-7,4,0.167,23.513,23.643,22.359,1.018,25.011,True,True,icmp,20,20,4.77,0
+48,lb,5,409,rejected,,requested MSD depth does not match materialized P4 path depth,,,,0,0.132,,,,,,,,,,,,
+49,firewall,2,409,rejected,,requested MSD depth does not match materialized P4 path depth,,,,0,0.168,,,,,,,,,,,,
+50,data,5,409,rejected,,requested MSD depth does not match materialized P4 path depth,,,,0,0.152,,,,,,,,,,,,
+51,video,3,200,steered,vnf-video-20cb7274,,8,worker2,5-6-9,3,0.141,17.149,17.27,16.944,0.767,18.371,True,True,icmp,20,20,4.0,0
+52,router,4,409,rejected,,requested MSD depth does not match materialized P4 path depth,,,,0,0.12,,,,,,,,,,,,
+53,voc,2,409,rejected,,requested MSD depth does not match materialized P4 path depth,,,,0,0.127,,,,,,,,,,,,
+54,voc,2,409,rejected,,forwarding requires distinct ingress and placement nodes,,,,0,0.109,,,,,,,,,,,,
+55,idps,4,200,steer_not_confirmed,vnf-idps-fdd8a8f7,,9,worker2,1-6-9-10,4,0.171,17.112,19.453,19.089,0.769,20.592,True,True,,,,,
+56,nat,3,409,rejected,,requested MSD depth does not match materialized P4 path depth,,,,0,0.129,,,,,,,,,,,,
+57,lb,4,409,rejected,,requested MSD depth does not match materialized P4 path depth,,,,0,0.126,,,,,,,,,,,,
+58,firewall,3,409,rejected,,requested MSD depth does not match materialized P4 path depth,,,,0,0.13,,,,,,,,,,,,
+59,data,4,409,rejected,,requested MSD depth does not match materialized P4 path depth,,,,0,0.094,,,,,,,,,,,,
+60,video,4,409,rejected,,requested MSD depth does not match materialized P4 path depth,,,,0,0.133,,,,,,,,,,,,
+61,router,2,409,rejected,,requested MSD depth does not match materialized P4 path depth,,,,0,0.13,,,,,,,,,,,,
+62,voc,2,409,rejected,,requested MSD depth does not match materialized P4 path depth,,,,0,0.141,,,,,,,,,,,,
+63,voc,4,409,rejected,,requested MSD depth does not match materialized P4 path depth,,,,0,0.177,,,,,,,,,,,,
+64,idps,2,409,rejected,,requested MSD depth does not match materialized P4 path depth,,,,0,0.128,,,,,,,,,,,,
+65,nat,2,409,rejected,,requested MSD depth does not match materialized P4 path depth,,,,0,0.131,,,,,,,,,,,,
+66,lb,5,409,rejected,,requested MSD depth does not match materialized P4 path depth,,,,0,0.116,,,,,,,,,,,,
+67,firewall,2,409,rejected,,requested MSD depth does not match materialized P4 path depth,,,,0,0.13,,,,,,,,,,,,
+68,data,5,409,rejected,,requested MSD depth does not match materialized P4 path depth,,,,0,0.127,,,,,,,,,,,,
+69,video,5,409,rejected,,requested MSD depth does not match materialized P4 path depth,,,,0,0.119,,,,,,,,,,,,
+70,router,3,200,steered,vnf-router-641b71ca,,3,worker1,6-5-4,3,0.148,17.16,17.296,16.32,1.275,18.916,True,True,icmp,20,20,2.7,0
+71,voc,2,409,rejected,,requested MSD depth does not match materialized P4 path depth,,,,0,0.117,,,,,,,,,,,,
+72,voc,3,200,steer_not_confirmed,vnf-voc-519bcac9,,9,worker2,8-9-10,3,0.145,19.295,25.471,25.342,1.019,26.831,True,True,,,,,
+73,idps,5,200,steered,vnf-idps-6ff25e7b,,2,k8s-master,10-9-6-1-3,5,0.159,17.105,18.184,17.748,2.028,20.586,True,True,icmp,20,0,,0
+74,nat,2,409,rejected,,requested MSD depth does not match materialized P4 path depth,,,,0,0.18,,,,,,,,,,,,
+75,lb,4,409,rejected,,requested MSD depth does not match materialized P4 path depth,,,,0,0.138,,,,,,,,,,,,
+76,firewall,4,409,rejected,,requested MSD depth does not match materialized P4 path depth,,,,0,0.133,,,,,,,,,,,,
+77,data,3,409,rejected,,requested MSD depth does not match materialized P4 path depth,,,,0,0.13,,,,,,,,,,,,
+78,video,2,409,rejected,,requested MSD depth does not match materialized P4 path depth,,,,0,0.123,,,,,,,,,,,,
+79,router,5,409,rejected,,forwarding requires distinct ingress and placement nodes,,,,0,0.129,,,,,,,,,,,,
+80,voc,5,200,steered,vnf-voc-89cf7868,,2,k8s-master,10-9-6-1-3,5,0.178,17.126,25.103,24.487,1.019,26.507,True,True,http,20,0,,0
+81,voc,3,409,rejected,,requested MSD depth does not match materialized P4 path depth,,,,0,0.203,,,,,,,,,,,,
+82,idps,4,409,rejected,,requested MSD depth does not match materialized P4 path depth,,,,0,0.179,,,,,,,,,,,,
+83,nat,5,200,steered,vnf-nat-9890d9ca,,2,k8s-master,10-9-6-1-3,5,0.194,32.109,32.777,31.668,1.019,34.216,True,True,icmp,20,0,,0
+84,lb,3,409,rejected,,requested MSD depth does not match materialized P4 path depth,,,,0,0.171,,,,,,,,,,,,
+85,firewall,2,200,steered,vnf-firewall-06223c61,,7,worker2,7-8,2,0.146,15.068,15.641,14.776,1.271,17.259,True,True,icmp,20,20,2.15,0
+86,data,2,409,rejected,,requested MSD depth does not match materialized P4 path depth,,,,0,0.122,,,,,,,,,,,,
+87,video,5,409,rejected,,requested MSD depth does not match materialized P4 path depth,,,,0,0.426,,,,,,,,,,,,
+88,router,2,200,steered,vnf-router-485205ac,,8,worker2,10-9,2,0.169,17.081,18.204,17.427,0.51,19.115,True,True,icmp,20,20,2.27,0
+89,voc,4,409,rejected,,requested MSD depth does not match materialized P4 path depth,,,,0,0.12,,,,,,,,,,,,
+90,voc,2,200,steered,vnf-voc-474040d7,,7,worker2,7-8,2,0.142,21.44,28.457,27.678,0.513,29.331,True,True,http,20,20,5.31,0

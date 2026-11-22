@@ -1,0 +1,190 @@
+{
+  "index": 85,
+  "request": {
+    "service_type": "firewall",
+    "cpu_req": 12.0,
+    "ram_req": 6.0,
+    "msd_req": 2,
+    "alert_flag": false,
+    "source_node": 6,
+    "destination_node": 3,
+    "flow_id": "expand-0085"
+  },
+  "profile": "Data",
+  "evidence_class": "driver-orchestrated actuation",
+  "t": {
+    "submit_utc": "2026-11-21T18:10:32.078032+00:00",
+    "response_utc": "2026-11-21T18:10:32.223915+00:00",
+    "deploy_submit_utc": "2026-11-21T18:10:32.223964+00:00",
+    "deployment_object_seen_utc": "2026-11-21T18:10:47.291729+00:00",
+    "rollout_done_utc": "2026-11-21T18:10:47.865098+00:00",
+    "steer_submit_utc": "2026-11-21T18:10:48.066412+00:00",
+    "steer_confirm_seen_utc": "2026-11-21T18:10:49.337277+00:00",
+    "readback_utc": "2026-11-21T18:10:49.337304+00:00",
+    "probe_start_utc": "2026-11-21T18:10:50.947155+00:00"
+  },
+  "http_status": 200,
+  "api_rtt_ms": 145.637,
+  "vnf_name": "vnf-firewall-06223c61",
+  "placement": {
+    "id": 7,
+    "name": "NhaTrang"
+  },
+  "route": {
+    "id": 7,
+    "name": "NhaTrang"
+  },
+  "realization": {
+    "request_id": "vnf-firewall-06223c61",
+    "operation_id": "b2f773ac-e870-49f0-950b-243dd1f11f62",
+    "topology_hash": "67131a546450606da19276263b00d23988d13fd71c17be38cb24a12637fe9f11",
+    "p4_topology_hash": "ee00b35ebeff5a46d428340fdfd984ecabf2047a4ef0cd79318a81ad732b4dbf",
+    "profile_id": "p4-path-candidate-v1",
+    "switch_path": [
+      7,
+      8
+    ],
+    "sid_stack": [
+      "fc00:8::1",
+      "fc00:7::1"
+    ]
+  },
+  "server_timings_ms": {
+    "state_sync_ms": 41.99533513747156,
+    "state_snapshot_ms": 0.9491660166531801,
+    "state_construction_ms": 0.17369096167385578,
+    "mask_construction_ms": 0.04335399717092514,
+    "normalization_ms": 0.05677598528563976,
+    "policy_inference_ms": 73.42837494798005,
+    "total_policy_ms": 73.75690690241754,
+    "admission_validation_ms": 16.89901389181614,
+    "decision_policy_and_admission_ms": 91.83122683316469,
+    "controller_handoff_ms": 0.0,
+    "server_decision_ms": 137.99346587620676
+  },
+  "migration_result": null,
+  "deploy_response": {
+    "status": "success",
+    "runName": "deploy-firewall-6d6baf",
+    "message": "Successfully initialized FIREWALL (standard) instance."
+  },
+  "rollout": {
+    "rc": 0,
+    "out": "Waiting for deployment \"vnf-firewall-06223c61\" rollout to finish: 0 of 1 updated replicas are available...\ndeployment \"vnf-firewall-06223c61\" successfully rolled out\n"
+  },
+  "pod": {
+    "pod": "vnf-firewall-06223c61-9dbf47774-9l9jf",
+    "created": "2026-11-21T18:10:46Z",
+    "node": "worker2",
+    "ip": "10.1.189.174",
+    "conditions": {
+      "PodReadyToStartContainers": "2026-11-21T18:10:47Z",
+      "Initialized": "2026-11-21T18:10:46Z",
+      "Ready": "2026-11-21T18:10:47Z",
+      "ContainersReady": "2026-11-21T18:10:47Z",
+      "PodScheduled": "2026-11-21T18:10:46Z"
+    }
+  },
+  "steer_payload": {
+    "request_id": "vnf-firewall-06223c61",
+    "operation_id": "b2f773ac-e870-49f0-950b-243dd1f11f62",
+    "topology_hash": "67131a546450606da19276263b00d23988d13fd71c17be38cb24a12637fe9f11",
+    "profile_id": "p4-path-candidate-v1",
+    "p4_topology_hash": "ee00b35ebeff5a46d428340fdfd984ecabf2047a4ef0cd79318a81ad732b4dbf",
+    "new_deploy": "vnf-firewall-06223c61",
+    "switch_path": [
+      7,
+      8
+    ],
+    "sid_stack": [
+      "fc00:8::1",
+      "fc00:7::1"
+    ]
+  },
+  "steer_http": 202,
+  "steer_status": {
+    "steer_state": "done",
+    "new_deploy": "vnf-firewall-06223c61",
+    "operation_id": "b2f773ac-e870-49f0-950b-243dd1f11f62",
+    "request_id": "vnf-firewall-06223c61",
+    "topology_hash": "67131a546450606da19276263b00d23988d13fd71c17be38cb24a12637fe9f11",
+    "profile_id": "p4-path-candidate-v1",
+    "p4_topology_hash": "ee00b35ebeff5a46d428340fdfd984ecabf2047a4ef0cd79318a81ad732b4dbf",
+    "confirm_steer_done": true
+  },
+  "readback": [
+    {
+      "switch": "s7",
+      "table": "routing_v6",
+      "key": "fc00:8::1/128",
+      "present": true
+    },
+    {
+      "switch": "s8",
+      "table": "srv6_end_dx4_table",
+      "key": "fc00:8::1",
+      "present": true
+    }
+  ],
+  "outcome": "steered",
+  "probe": {
+    "mode": "icmp",
+    "sent": 20,
+    "app_received": 20,
+    "loss": 0,
+    "http_codes": [],
+    "rtt_total_ms": [
+      1.6,
+      1.91,
+      1.93,
+      1.98,
+      2.01,
+      2.06,
+      2.06,
+      2.07,
+      2.08,
+      2.08,
+      2.15,
+      2.19,
+      2.24,
+      2.27,
+      2.29,
+      2.3,
+      2.36,
+      2.39,
+      2.67,
+      2.72
+    ],
+    "delta": {
+      "s7": {
+        "advance": 20,
+        "terminal": 0,
+        "msd_violation": 0
+      },
+      "s8": {
+        "advance": 0,
+        "terminal": 20,
+        "msd_violation": 0
+      }
+    },
+    "captured": {
+      "src_egress_srv6": 22,
+      "place_host_decap": 20,
+      "host_vxlan": 40,
+      "src_return": 20
+    }
+  },
+  "active_total_after": 35,
+  "ledger_record_after": {
+    "name": "vnf-firewall-06223c61",
+    "v_place": 7,
+    "v_route": 7,
+    "cpu_req": 12.0,
+    "ram_req": 6.0,
+    "msd_req": 2,
+    "is_pending": false,
+    "presence_unconfirmed": false,
+    "deployment_ready": true,
+    "accounting_unknown": false
+  }
+}

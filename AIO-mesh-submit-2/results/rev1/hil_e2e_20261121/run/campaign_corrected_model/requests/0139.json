@@ -1,0 +1,28 @@
+{
+  "index": 139,
+  "request": {
+    "service_type": "firewall",
+    "cpu_req": 6.0,
+    "ram_req": 3.0,
+    "msd_req": 3,
+    "alert_flag": true,
+    "source_node": 7,
+    "destination_node": 3,
+    "flow_id": "e2e-0139"
+  },
+  "profile": "VoIP",
+  "t": {
+    "submit_utc": "2026-11-21T19:24:41.977147+00:00",
+    "response_utc": "2026-11-21T19:24:42.073812+00:00"
+  },
+  "http_status": 409,
+  "api_rtt_ms": 96.367,
+  "outcome": "rejected",
+  "error": {
+    "status": "error",
+    "code": "NO_SAFE_ACTION",
+    "reason_key": "no_safe_action",
+    "message": "forwarding requires distinct ingress and placement nodes"
+  },
+  "new_vnfs_after": 20
+}

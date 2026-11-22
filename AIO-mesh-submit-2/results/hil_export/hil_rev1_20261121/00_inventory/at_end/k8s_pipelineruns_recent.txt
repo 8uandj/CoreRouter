@@ -1,0 +1,18 @@
+# captured_utc=2026-11-21T16:51:25Z
+# cmd: bash -c kubectl -n core-router get pipelineruns --sort-by=.metadata.creationTimestamp | tail -15
+deploy-idps-897dda                      True        Succeeded            183d        183d
+deploy-nat-a478f7                       True        Succeeded            183d        183d
+deploy-router-9708e1                    True        Succeeded            183d        183d
+deploy-firewall-be4f4b                  True        Succeeded            183d        183d
+deploy-lb-30adad                        True        Succeeded            179d        179d
+terminate-vnf-firewall-hp-04-1c5987     True        Succeeded            179d        179d
+smoke-1794911901                        True        Succeeded            4d6h        4d6h
+deploy-firewall-f6baf7                  True        Succeeded            4d3h        4d3h
+deploy-firewall-cb6da4                  True        Succeeded            4d3h        4d3h
+deploy-firewall-3c6ea7                  True        Succeeded            4d3h        4d3h
+deploy-firewall-c60325                  True        Succeeded            4d3h        4d3h
+deploy-firewall-9c56a5                  True        Succeeded            4d3h        4d3h
+deploy-firewall-6e4040                  True        Succeeded            4d3h        4d3h
+deploy-firewall-e68008                  True        Succeeded            4d3h        4d3h
+deploy-firewall-508c3d                  True        Succeeded            4d3h        4d3h
+# exit=0

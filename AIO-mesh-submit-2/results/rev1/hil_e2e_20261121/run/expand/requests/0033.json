@@ -1,0 +1,220 @@
+{
+  "index": 33,
+  "request": {
+    "service_type": "video",
+    "cpu_req": 11.0,
+    "ram_req": 5.5,
+    "msd_req": 4,
+    "alert_flag": false,
+    "source_node": 3,
+    "destination_node": 6,
+    "flow_id": "expand-0033"
+  },
+  "profile": "Data",
+  "evidence_class": "driver-orchestrated actuation",
+  "t": {
+    "submit_utc": "2026-11-21T17:58:11.950735+00:00",
+    "response_utc": "2026-11-21T17:58:12.094578+00:00",
+    "deploy_submit_utc": "2026-11-21T17:58:12.094632+00:00",
+    "deployment_object_seen_utc": "2026-11-21T17:58:29.161210+00:00",
+    "rollout_done_utc": "2026-11-21T17:58:29.538396+00:00",
+    "steer_submit_utc": "2026-11-21T17:58:29.746479+00:00",
+    "steer_confirm_seen_utc": "2026-11-21T17:58:31.021364+00:00",
+    "readback_utc": "2026-11-21T17:58:31.021409+00:00",
+    "probe_start_utc": "2026-11-21T17:58:34.484049+00:00"
+  },
+  "http_status": 200,
+  "api_rtt_ms": 143.568,
+  "vnf_name": "vnf-video-2d8dea54",
+  "placement": {
+    "id": 6,
+    "name": "QuyNhon"
+  },
+  "route": {
+    "id": 7,
+    "name": "NhaTrang"
+  },
+  "realization": {
+    "request_id": "vnf-video-2d8dea54",
+    "operation_id": "4360ccae-e34a-4a13-86b0-7c984b19305e",
+    "topology_hash": "67131a546450606da19276263b00d23988d13fd71c17be38cb24a12637fe9f11",
+    "p4_topology_hash": "ee00b35ebeff5a46d428340fdfd984ecabf2047a4ef0cd79318a81ad732b4dbf",
+    "profile_id": "p4-path-candidate-v1",
+    "switch_path": [
+      4,
+      5,
+      6,
+      7
+    ],
+    "sid_stack": [
+      "fc00:7::1",
+      "fc00:6::1",
+      "fc00:5::1",
+      "fc00:4::1"
+    ]
+  },
+  "server_timings_ms": {
+    "state_sync_ms": 58.32115584053099,
+    "state_snapshot_ms": 1.8171260599046946,
+    "state_construction_ms": 0.4182150587439537,
+    "mask_construction_ms": 0.14402298256754875,
+    "normalization_ms": 0.10607903823256493,
+    "policy_inference_ms": 53.45588899217546,
+    "total_policy_ms": 54.19055582024157,
+    "admission_validation_ms": 17.146440921351314,
+    "decision_policy_and_admission_ms": 73.31700902432203,
+    "controller_handoff_ms": 0.0,
+    "server_decision_ms": 137.65260204672813
+  },
+  "migration_result": null,
+  "deploy_response": {
+    "status": "success",
+    "runName": "deploy-router-ce2ec1",
+    "message": "Successfully initialized ROUTER (standard) instance."
+  },
+  "rollout": {
+    "rc": 0,
+    "out": "Waiting for deployment \"vnf-video-2d8dea54\" rollout to finish: 0 of 1 updated replicas are available...\ndeployment \"vnf-video-2d8dea54\" successfully rolled out\n"
+  },
+  "pod": {
+    "pod": "vnf-video-2d8dea54-b7d457845-w52bk",
+    "created": "2026-11-21T17:58:28Z",
+    "node": "worker2",
+    "ip": "10.1.189.137",
+    "conditions": {
+      "PodReadyToStartContainers": "2026-11-21T17:58:29Z",
+      "Initialized": "2026-11-21T17:58:28Z",
+      "Ready": "2026-11-21T17:58:29Z",
+      "ContainersReady": "2026-11-21T17:58:29Z",
+      "PodScheduled": "2026-11-21T17:58:28Z"
+    }
+  },
+  "steer_payload": {
+    "request_id": "vnf-video-2d8dea54",
+    "operation_id": "4360ccae-e34a-4a13-86b0-7c984b19305e",
+    "topology_hash": "67131a546450606da19276263b00d23988d13fd71c17be38cb24a12637fe9f11",
+    "profile_id": "p4-path-candidate-v1",
+    "p4_topology_hash": "ee00b35ebeff5a46d428340fdfd984ecabf2047a4ef0cd79318a81ad732b4dbf",
+    "new_deploy": "vnf-video-2d8dea54",
+    "switch_path": [
+      4,
+      5,
+      6,
+      7
+    ],
+    "sid_stack": [
+      "fc00:7::1",
+      "fc00:6::1",
+      "fc00:5::1",
+      "fc00:4::1"
+    ]
+  },
+  "steer_http": 202,
+  "steer_status": {
+    "steer_state": "done",
+    "new_deploy": "vnf-video-2d8dea54",
+    "operation_id": "4360ccae-e34a-4a13-86b0-7c984b19305e",
+    "request_id": "vnf-video-2d8dea54",
+    "topology_hash": "67131a546450606da19276263b00d23988d13fd71c17be38cb24a12637fe9f11",
+    "profile_id": "p4-path-candidate-v1",
+    "p4_topology_hash": "ee00b35ebeff5a46d428340fdfd984ecabf2047a4ef0cd79318a81ad732b4dbf",
+    "confirm_steer_done": true
+  },
+  "readback": [
+    {
+      "switch": "s4",
+      "table": "routing_v6",
+      "key": "fc00:5::1/128",
+      "present": true
+    },
+    {
+      "switch": "s5",
+      "table": "routing_v6",
+      "key": "fc00:6::1/128",
+      "present": true
+    },
+    {
+      "switch": "s6",
+      "table": "routing_v6",
+      "key": "fc00:7::1/128",
+      "present": true
+    },
+    {
+      "switch": "s7",
+      "table": "srv6_end_dx4_table",
+      "key": "fc00:7::1",
+      "present": true
+    }
+  ],
+  "outcome": "steered",
+  "probe": {
+    "mode": "icmp",
+    "sent": 20,
+    "app_received": 20,
+    "loss": 0,
+    "http_codes": [],
+    "rtt_total_ms": [
+      2.8,
+      2.93,
+      2.93,
+      3.25,
+      3.26,
+      3.38,
+      3.41,
+      3.41,
+      3.45,
+      3.46,
+      3.5,
+      3.53,
+      3.66,
+      3.68,
+      3.68,
+      3.69,
+      3.7,
+      3.79,
+      3.84,
+      4.01
+    ],
+    "delta": {
+      "s4": {
+        "advance": 20,
+        "terminal": 0,
+        "msd_violation": 0
+      },
+      "s5": {
+        "advance": 20,
+        "terminal": 0,
+        "msd_violation": 0
+      },
+      "s6": {
+        "advance": 20,
+        "terminal": 0,
+        "msd_violation": 0
+      },
+      "s7": {
+        "advance": 0,
+        "terminal": 20,
+        "msd_violation": 0
+      }
+    },
+    "captured": {
+      "src_egress_srv6": 22,
+      "place_host_decap": 20,
+      "host_vxlan": 40,
+      "src_return": 20
+    }
+  },
+  "active_total_after": 22,
+  "ledger_record_after": {
+    "name": "vnf-video-2d8dea54",
+    "v_place": 6,
+    "v_route": 7,
+    "cpu_req": 11.0,
+    "ram_req": 5.5,
+    "msd_req": 4,
+    "is_pending": false,
+    "presence_unconfirmed": false,
+    "deployment_ready": true,
+    "accounting_unknown": false
+  }
+}

@@ -1,0 +1,28 @@
+{
+  "index": 190,
+  "request": {
+    "service_type": "idps",
+    "cpu_req": 20.0,
+    "ram_req": 10.0,
+    "msd_req": 3,
+    "alert_flag": true,
+    "source_node": 6,
+    "destination_node": 0,
+    "flow_id": "e2e-0190"
+  },
+  "profile": "Video",
+  "t": {
+    "submit_utc": "2026-11-21T19:29:29.164506+00:00",
+    "response_utc": "2026-11-21T19:29:29.613986+00:00"
+  },
+  "http_status": 409,
+  "api_rtt_ms": 449.212,
+  "outcome": "rejected",
+  "error": {
+    "status": "error",
+    "code": "NO_SAFE_ACTION",
+    "reason_key": "no_safe_action",
+    "message": "forwarding requires distinct ingress and placement nodes"
+  },
+  "new_vnfs_after": 22
+}

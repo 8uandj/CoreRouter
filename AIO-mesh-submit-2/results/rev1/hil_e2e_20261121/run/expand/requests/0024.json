@@ -1,0 +1,30 @@
+{
+  "index": 24,
+  "request": {
+    "service_type": "video",
+    "cpu_req": 11.0,
+    "ram_req": 5.5,
+    "msd_req": 2,
+    "alert_flag": false,
+    "source_node": 4,
+    "destination_node": 3,
+    "flow_id": "expand-0024"
+  },
+  "profile": "Data",
+  "evidence_class": "driver-orchestrated actuation",
+  "t": {
+    "submit_utc": "2026-11-21T17:57:19.132588+00:00",
+    "response_utc": "2026-11-21T17:57:19.257046+00:00"
+  },
+  "http_status": 409,
+  "api_rtt_ms": 124.17,
+  "outcome": "rejected",
+  "error": {
+    "status": "error",
+    "code": "NO_SAFE_ACTION",
+    "reason_key": "no_safe_action",
+    "message": "forwarding requires distinct ingress and placement nodes"
+  },
+  "active_total_after": 20,
+  "ledger_record_after": null
+}

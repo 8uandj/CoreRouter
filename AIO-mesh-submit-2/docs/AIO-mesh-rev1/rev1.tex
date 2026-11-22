@@ -60,6 +60,7 @@
 \journal{Future Generation Computer Systems}
 
 \input{generated/numbers.tex}
+\input{generated/hil_e2e_numbers.tex}
 \begin{document}
 
 \begin{frontmatter}
@@ -108,7 +109,7 @@ country={Vietnam}
 
 
 \begin{abstract}
-\newrev{Cloud-native service orchestration must select placements and routes that satisfy compute and forwarding constraints. AIO-Mesh separates policy proposals from independent runtime admission and infrastructure actuation. Its replaceable Hardware-Aware Reinforcement Policy (HARP) combines a graph attention encoder with a pair mask at inference. In simulation, protected policies admitted no modeled hard violations. Disabling only maximum segment depth (MSD) enforcement admitted violations in two diagnostic ablations. HARP generally accepted fewer requests than the strongest heuristic in the stress benchmark. Under a separate offered-intensity protocol, its advantage over the Segment Routing over IPv6 (SRv6)-aware feasible heuristic (SAF-H) peaked at \SweepPeakGain{} percentage points at intensity 1.2 and declined to \SweepFinalGain{} points at 1.5. Mean seed-level simulator decision P95 was 2.13~ms for HARP and 0.49~ms for SAF-H in the serialized Vietnam comparison. A 12-hour hardware-in-the-loop (HIL) control-plane experiment completed \HILRequests{} application programming interface (API) requests without timeout. These results show how independent admission supports different proposal policies and quantify when learned selection improves acceptance under the measured conditions.}
+\newrev{Cloud-native service orchestration must select placements and routes that satisfy compute and forwarding constraints. AIO-Mesh separates policy proposals from independent runtime admission and infrastructure actuation. Its replaceable Hardware-Aware Reinforcement Policy (HARP) combines a graph attention encoder with a pair mask at inference. In simulation, protected policies admitted no modeled hard violations. Disabling only maximum segment depth (MSD) enforcement admitted violations in two diagnostic ablations. HARP generally accepted fewer requests than the strongest heuristic in the stress benchmark. Under a separate offered-intensity protocol, its advantage over the Segment Routing over IPv6 (SRv6)-aware feasible heuristic (SAF-H) peaked at \SweepPeakGain{} percentage points at intensity 1.2 and declined to \SweepFinalGain{} points at 1.5. Mean seed-level simulator decision P95 was 2.13~ms for HARP and 0.49~ms for SAF-H in the serialized Vietnam comparison. On a hardware-in-the-loop (HIL) testbed with ten Behavioral Model version~2 (BMv2) P4 switches and Kubernetes, all \HILEtoESteered{} requests admitted under the learned policy were deployed, had their installed rules read back, and were confirmed by the steering controller, with submission-to-confirmation P50/P95 of \HILEtoESubmitSteerPF{}/\HILEtoESubmitSteerPNF{}~s; probe packets carried by the admitted Segment Routing over IPv6 (SRv6) segment lists reached every VNF that was still deployed once a host-firewall fault on one node was corrected. A separate 12-hour control-plane run completed \HILRequests{} application programming interface (API) requests without timeout. These results show how independent admission supports different proposal policies and quantify when learned selection improves acceptance under the measured conditions.}
 
 \end{abstract}
 
@@ -377,7 +378,7 @@ This runtime organization follows an MLOps discipline but is specialized for net
 \subsection{Cloud-Native Lifecycle Actuation}
 \label{subsec:cloud_native_actuation}
 
-\newrev{The architecture includes Kubernetes lifecycle control and a network-control interface for SRv6/P4 configuration. The 12-hour HIL in this paper issued no deployment or migration request and did not test steering or packet forwarding. Its measurements cover API decisions and readiness of the seven baseline Deployments only; lifecycle and forwarding performance are outside this experiment.}
+\newrev{The architecture includes Kubernetes lifecycle control and a network-control interface for SRv6/P4 configuration. Section~\ref{subsec:testbed_validation} reports two HIL protocols: a 12-hour control-plane run that issued no deployment or migration, and request-correlated campaigns in which admitted requests were deployed through Tekton, steered through BMv2, and probed with packets.}
 
 \subsection{Programmable Data-Plane Interface}
 \label{subsec:data_plane_interface}
@@ -859,18 +860,18 @@ Variant & CPU & RAM & BW & MSD & Union & Admitted \\
 \end{table}
 }
 
-\newrev{Appendix Figure~\ref{fig:ablation_pruning} compares candidate pruning and safe acceptance. Candidate pruning is the per-step fraction of the flat $N^2$ action set removed before policy sampling. Runtime rejection and safe acceptance use offered, non-skipped requests as the denominator; admitted hard violations are the union of the modeled CPU, RAM, bandwidth, and MSD violations among admitted requests. The full policy prunes 74.72--84.20\% of candidates across the three topologies, including decision states with an empty mask. Table~\ref{tab:mask_admission} separates empty-mask frequency and conditional pruning. Empty masks remove every candidate. With equal-length runs, pruning fraction \(p\) and empty-mask fraction \(e\) give conditional pruning \((p-e)/(1-e)\). Empty-mask frequency and rejection rate are marginal summaries. They do not establish how many proposals from nonempty masks were rejected. The pooled ablation comprises 720,000 simulator steps per variant. Each step in this protocol offers one request. On this evaluation, the no-mask variant proposed a hard-invalid action on 75.17\% of offered requests, compared with 41.64\% for the full policy; the admission check rejected these proposals, and no hard-invalid requests were admitted in either protected condition. Because the policies differ as well as the masks, this comparison does not isolate the causal effect of masking. Per-constraint proposal rates in Table~\ref{tab:proposal_violations} overlap; their union avoids double-counting requests. The MSD reward coefficient is $-50$. With the same NoMask checkpoint, disabling MSD admission admitted 9 MSD-invalid actions over the 720,000-step evaluation (0.00125\%); the SoftMSD checkpoint admitted 182 such actions (0.02528\%) with MSD admission disabled and none with it enabled. CPU, RAM, and bandwidth checks remained active in both MSD-admission-bypass conditions. Although paired variants receive the same offered trace, different admission decisions can change later states, so request outcomes are not per-request counterfactual pairs. The reported latency field measures simulated service latency, not policy-computation overhead. These results characterize simulator predicates; the separate testbed HIL reports control-plane request outcomes and baseline readiness, not packet forwarding.}
+\newrev{Appendix Figure~\ref{fig:ablation_pruning} compares candidate pruning and safe acceptance. Candidate pruning is the per-step fraction of the flat $N^2$ action set removed before policy sampling. Runtime rejection and safe acceptance use offered, non-skipped requests as the denominator; admitted hard violations are the union of the modeled CPU, RAM, bandwidth, and MSD violations among admitted requests. The full policy prunes 74.72--84.20\% of candidates across the three topologies, including decision states with an empty mask. Table~\ref{tab:mask_admission} separates empty-mask frequency and conditional pruning. Empty masks remove every candidate. With equal-length runs, pruning fraction \(p\) and empty-mask fraction \(e\) give conditional pruning \((p-e)/(1-e)\). Empty-mask frequency and rejection rate are marginal summaries. They do not establish how many proposals from nonempty masks were rejected. The pooled ablation comprises 720,000 simulator steps per variant. Each step in this protocol offers one request. On this evaluation, the no-mask variant proposed a hard-invalid action on 75.17\% of offered requests, compared with 41.64\% for the full policy; the admission check rejected these proposals, and no hard-invalid requests were admitted in either protected condition. Because the policies differ as well as the masks, this comparison does not isolate the causal effect of masking. Per-constraint proposal rates in Table~\ref{tab:proposal_violations} overlap; their union avoids double-counting requests. The MSD reward coefficient is $-50$. With the same NoMask checkpoint, disabling MSD admission admitted 9 MSD-invalid actions over the 720,000-step evaluation (0.00125\%); the SoftMSD checkpoint admitted 182 such actions (0.02528\%) with MSD admission disabled and none with it enabled. CPU, RAM, and bandwidth checks remained active in both MSD-admission-bypass conditions. Although paired variants receive the same offered trace, different admission decisions can change later states, so request outcomes are not per-request counterfactual pairs. The reported latency field measures simulated service latency, not policy-computation overhead. These results characterize simulator predicates; forwarding on the BMv2 testbed is reported separately in Section~\ref{subsec:testbed_validation}.}
 
 
 
 \subsection{\newrev{Hardware-in-the-Loop Testbed Validation}}
 \label{subsec:testbed_validation}
-\newrev{Figure~\ref{fig:testbed_architecture_eval} depicts the orchestration backend, policy engine, admission service, MicroK8s/Tekton lifecycle control, Mininet, Behavioral Model version~2 (BMv2) P4 switches, and SRv6 components. The HIL experiment reported here exercises the API and Kubernetes observation path only; it does not send a test packet through P4.}
+\newrev{Figure~\ref{fig:testbed_architecture_eval} depicts the orchestration backend, policy engine, admission service, MicroK8s/Tekton lifecycle control, Mininet, Behavioral Model version~2 (BMv2) P4 switches, and SRv6 components. Two HIL protocols are reported. The 12-hour run exercises the API and Kubernetes observation path only (Table~\ref{tab:hil_12h}). The end-to-end campaigns deploy, steer, and probe admitted requests (Tables~\ref{tab:hil_e2e}--\ref{tab:hil_longrun}). Ten BMv2 switches run in Mininet with the per-switch MSD limits of the Vietnam profile, and the MicroK8s cluster has four nodes; all forwarding results refer to this software data plane.}
 
 \begin{figure*}[t]
     \centering
     \includegraphics[width=\linewidth]{figs/testbed.pdf}
-    \caption{\newrev{AIO-Mesh testbed components, including MicroK8s, Tekton, Mininet, BMv2 P4 switches, SRv6 interfaces, and runtime admission control. The diagram shows architecture and does not imply that the HIL experiment measured packet forwarding.}}
+    \caption{\newrev{AIO-Mesh testbed components, including MicroK8s, Tekton, Mininet, BMv2 P4 switches, SRv6 interfaces, and runtime admission control. The diagram shows architecture; measured quantities are reported in Tables~\ref{tab:hil_12h}--\ref{tab:hil_longrun}.}}
     \label{fig:testbed_architecture_eval}
 \end{figure*}
 
@@ -885,6 +886,45 @@ Variant & CPU & RAM & BW & MSD & Union & Admitted \\
 {\color{revisiongreen}
 \small
 \input{generated/table11.tex}
+}
+\end{table*}
+
+\newrev{\textbf{End-to-end campaigns.} The campaign driver submitted requests with the alert flag set, so the Hybrid DRL branch could request deployment or migration. Requested CPU, RAM, and SID depth (2--5) were drawn by a seeded generator, and a campaign stopped after 30 net new VNFs. Each admitted request kept one identifier from admission to packet observation. For each request we logged the HTTP 200 response with the admitted SID list and switch path, the deployment phase and Tekton PipelineRun, Pod readiness, the controller's rule-installation log, a readback of every expected table entry on each switch of the path, the controller's steering confirmation for that request, and a 20-packet probe. The probe source applied Linux SRv6 encapsulation with the admitted SID list; BMv2 advanced the segments, the placement switch decapsulated the packet with the End.DX4 behaviour (decapsulation and IPv4 cross-connect), and the VNF Pod answered (an HTTP marker for vVOC and an Internet Control Message Protocol (ICMP) echo payload derived from the request identifier otherwise). Table~\ref{tab:hil_e2e} reports the campaign with the corrected checkpoint used in the simulator evaluation and an earlier campaign with the pre-correction checkpoint. The two campaigns started from different testbed states and are not paired.}
+
+\newrev{With the corrected checkpoint, all \HILEtoESteered{} admitted requests reached steering confirmation, and readback found every expected rule on every path switch. \HILEtoEFullProbes{} probes delivered all 20 packets. The other five targeted Pods on the Kubernetes control-plane node, whose host firewall then rejected Calico Virtual Extensible LAN (VXLAN) traffic (UDP port 4789) and forwarding from the VXLAN interface. After that port and interface were allowed, re-probes delivered 20/20 packets to the \HILEtoEReprobeOK{} of these VNFs that were still deployed; the fifth had been replaced by a later migration. Component percentiles are computed separately and must not be summed. Most rejections (231) occurred because the requested SID depth differed from the depth of the materialized shortest path; six occurred because the materialized path exceeded a switch MSD profile, and no rule was installed for them. Of the admitted requests, \HILEtoEMigrations{} replaced an existing VNF. In every migration the new VNF was Ready before steering confirmation, and confirmation preceded the deletion request for the old VNF. Clients address the Pod IP, which changes on migration, and flow continuity across migration was not measured; these data do not support a zero-downtime claim.}
+
+\begin{table*}[t]
+\centering
+\caption{\newrev{Request-correlated end-to-end HIL campaigns. Timed rows give P50 / P95 / P99 over steered requests, except the admission API row, which covers all offered requests. Probe rows count the in-campaign probe; re-probes after the firewall correction are reported in the text.}}
+\label{tab:hil_e2e}
+{\color{revisiongreen}
+\small
+\input{generated/table_hil_e2e.tex}
+}
+\end{table*}
+
+\newrev{\textbf{SID lists deeper than MSD.} Table~\ref{tab:hil_msd} tests SID lists deeper than the configured MSD on BMv2. In an isolated slice of the topology, with three 100-packet trials per mode, admission rejected the depth-5 path through s7 (MSD 4) and installed no rules. With admission bypassed, the rules were installed and s7 dropped all 300 packets, incrementing its MSD-violation counter by 300. Depth-4 paths delivered all packets in both modes. On a live path admitted at depth 4, injected segment routing headers (SRHs) of depth 7, 9, and 11 were each dropped at the first switch whose MSD they exceeded. These counters describe the parser of our P4 program on BMv2 and do not characterize ASIC behaviour.}
+
+\begin{table*}[t]
+\centering
+\caption{\newrev{SID lists deeper than MSD on BMv2. Isolated rows aggregate three 100-packet trials per mode; live rows use 50 ICMP echo requests per SRH depth on an admitted path. Counter increments are per-switch \texttt{msd\_violation} deltas.}}
+\label{tab:hil_msd}
+{\color{revisiongreen}
+\small
+\input{generated/table_hil_msd.tex}
+}
+\end{table*}
+
+\newrev{\textbf{Long run.} Table~\ref{tab:hil_longrun} reports a 3-hour run after the corrected campaign. It combines the sequential admission workload of the 12-hour run with one-minute Kubernetes readiness samples and, every 120~s, a 20-packet probe to one steered VNF in round-robin order. The campaign left 51 VNFs, and ledger CPU utilization was 92--100\% on every node. Admission therefore rejected all \HILLongRequests{} requests, with no timeout and no admitted violation, so this run characterizes fail-closed behaviour under saturation rather than acceptance. All \HILLongRecv{} of \HILLongPackets{} probe packets were received, and every Deployment was Ready in every readiness sample.}
+% HIL-RELEASED-RUN: paragraph for the run after capacity release is added when that run completes.
+
+\begin{table*}[t]
+\centering
+\caption{\newrev{Three-hour HIL long run with the corrected checkpoint. Decision latency is the backend decision time logged by the client; probe counts cover all rounds.}}
+\label{tab:hil_longrun}
+{\color{revisiongreen}
+\small
+\input{generated/table_hil_longrun.tex}
 }
 \end{table*}
 
@@ -1102,7 +1142,7 @@ Nodes & Links & Pair actions ($N^2$) & Feasible-set P50 (ms) & Feasible-set P95 
     \label{fig:policy_cost_scalability}
 \end{figure*}
 
-\newrev{The simulator measurements characterize policy-decision processing. The 12-hour control-plane HIL separately reports API response latency and Kubernetes baseline readiness.}
+\newrev{The simulator measurements characterize policy-decision processing. The 12-hour control-plane HIL separately reports API response latency and Kubernetes baseline readiness. In the end-to-end campaign, submission to steering confirmation took \HILEtoESubmitSteerPF{}/\HILEtoESubmitSteerPNF{}~s at P50/P95 and was dominated by Tekton deployment and Pod readiness, not by policy computation.}
 
 \subsection{\newrev{Operational Interpretation, Overhead, and Limitations}}
 \label{subsec:operational_interpretation}
@@ -1112,11 +1152,11 @@ Nodes & Links & Pair actions ($N^2$) & Feasible-set P50 (ms) & Feasible-set P95 
 
 \newrev{Appendix Table~\ref{tab:stress_qos} reports service latency and SLA outcomes for HARP and SAF-H by workload. Across the nine stress conditions, mean seed-level simulated service latency is 5.25--7.39~ms for HARP and 0.32--0.62~ms for SAF-H; mean seed-level SLA-violation rates are approximately 0.00--0.21\% and zero, respectively. These quantities describe the requests admitted by each policy, whose composition may differ. SAF-H may choose the same node for placement and routing. HARP also permits that pair but its reward includes a bonus for distinct endpoints. They provide no evidence of a HARP service-latency advantage in these conditions and are distinct from policy-computation timing.}
 
-\newrev{Simulation uses complete latency-derived graphs, synthetic workloads, and fixed checkpoints, with no estimate of variability across independent training runs. The primary load and occupancy studies reuse one Bursty offered trace; the supplementary seed-offset intervention covers trace variation. MSD violations were infrequent among simulator proposals. The multilayer perceptron (MLP) was sufficient for the evaluated Vietnam ablations, and graph attention may behave differently on sparse graphs. Synthetic-grid results include HARP and SAF-H; timing from concurrent benchmark runs is not isolated. The software testbed uses BMv2, and the control-plane run sampled existing Kubernetes workloads without invoking deployment or migration. Deployment latency, make-before-break behavior, and transitions between Hybrid modes therefore remain separate evaluation questions.}
+\newrev{Simulation uses complete latency-derived graphs, synthetic workloads, and fixed checkpoints, with no estimate of variability across independent training runs. The primary load and occupancy studies reuse one Bursty offered trace; the supplementary seed-offset intervention covers trace variation. MSD violations were infrequent among simulator proposals. The multilayer perceptron (MLP) was sufficient for the evaluated Vietnam ablations, and graph attention may behave differently on sparse graphs. Synthetic-grid results include HARP and SAF-H; timing from concurrent benchmark runs is not isolated. The testbed uses BMv2 software switches, so its forwarding results do not transfer to hardware ASICs. The end-to-end campaigns cover one testbed and one seeded request generator, whose requested SID depths often differed from the materialized path depth. Migration changes the Pod IP and flow continuity was not measured, so make-before-break ordering is shown but zero downtime is not. Transitions between Hybrid modes remain a separate evaluation question.}
 
 \section{Conclusion}
 \label{sec:conclusion}
-\newrev{AIO-Mesh uses a common admission boundary for heuristic and learned proposals. Protected policies admitted no modeled hard violations in the evaluated simulator conditions. With MSD admission bypassed, NoMask and SoftMSD admitted 9 and 182 MSD-invalid proposals, respectively, over 720,000 decisions per variant. At most 0.352\% of proposals in the matched-trace ablation violated the modeled MSD check. The 12-hour control-plane test processed \HILRequests{} requests without timeout.}
+\newrev{AIO-Mesh uses a common admission boundary for heuristic and learned proposals. Protected policies admitted no modeled hard violations in the evaluated simulator conditions. With MSD admission bypassed, NoMask and SoftMSD admitted 9 and 182 MSD-invalid proposals, respectively, over 720,000 decisions per variant. At most 0.352\% of proposals in the matched-trace ablation violated the modeled MSD check. The 12-hour control-plane test processed \HILRequests{} requests without timeout. On the BMv2 testbed, every admitted request in the end-to-end campaign was deployed, read back, and steered, and SID lists deeper than a switch MSD were rejected by admission or, when admission was bypassed, dropped by the data plane.}
 
 \newrev{HARP generally trailed the strongest heuristic in the stress benchmark. Under the separate refreshed offered-intensity protocol, HARP had higher mean safe acceptance than SAF-H at intensities 1.0--1.5 on all three substrates. Policy selection should weigh these workload-dependent differences against decision cost. Future evaluations will use physical edge lists and measure the transition from admitted requests to deployed and steered services.}
 

@@ -1,0 +1,190 @@
+{
+  "index": 88,
+  "request": {
+    "service_type": "router",
+    "cpu_req": 6.0,
+    "ram_req": 3.0,
+    "msd_req": 2,
+    "alert_flag": false,
+    "source_node": 9,
+    "destination_node": 4,
+    "flow_id": "expand-0088"
+  },
+  "profile": "VoIP",
+  "evidence_class": "driver-orchestrated actuation",
+  "t": {
+    "submit_utc": "2026-11-21T18:11:17.404769+00:00",
+    "response_utc": "2026-11-21T18:11:17.573315+00:00",
+    "deploy_submit_utc": "2026-11-21T18:11:17.573373+00:00",
+    "deployment_object_seen_utc": "2026-11-21T18:11:34.654812+00:00",
+    "rollout_done_utc": "2026-11-21T18:11:35.776985+00:00",
+    "steer_submit_utc": "2026-11-21T18:11:36.010067+00:00",
+    "steer_confirm_seen_utc": "2026-11-21T18:11:36.520008+00:00",
+    "readback_utc": "2026-11-21T18:11:36.520037+00:00",
+    "probe_start_utc": "2026-11-21T18:11:38.222502+00:00"
+  },
+  "http_status": 200,
+  "api_rtt_ms": 168.329,
+  "vnf_name": "vnf-router-485205ac",
+  "placement": {
+    "id": 8,
+    "name": "HoChiMinh"
+  },
+  "route": {
+    "id": 7,
+    "name": "NhaTrang"
+  },
+  "realization": {
+    "request_id": "vnf-router-485205ac",
+    "operation_id": "d68d7997-db8c-4a68-a7be-ddc9a6e6dfce",
+    "topology_hash": "67131a546450606da19276263b00d23988d13fd71c17be38cb24a12637fe9f11",
+    "p4_topology_hash": "ee00b35ebeff5a46d428340fdfd984ecabf2047a4ef0cd79318a81ad732b4dbf",
+    "profile_id": "p4-path-candidate-v1",
+    "switch_path": [
+      10,
+      9
+    ],
+    "sid_stack": [
+      "fc00:9::1",
+      "fc00:10::1"
+    ]
+  },
+  "server_timings_ms": {
+    "state_sync_ms": 54.40618796274066,
+    "state_snapshot_ms": 2.5725208688527346,
+    "state_construction_ms": 0.3332151100039482,
+    "mask_construction_ms": 0.1481689978390932,
+    "normalization_ms": 0.13221683911979198,
+    "policy_inference_ms": 75.30519994907081,
+    "total_policy_ms": 75.99717518314719,
+    "admission_validation_ms": 24.098209105432034,
+    "decision_policy_and_admission_ms": 102.801572997123,
+    "controller_handoff_ms": 0.0,
+    "server_decision_ms": 162.82411688007414
+  },
+  "migration_result": null,
+  "deploy_response": {
+    "status": "success",
+    "runName": "deploy-router-a333bb",
+    "message": "Successfully initialized ROUTER (standard) instance."
+  },
+  "rollout": {
+    "rc": 0,
+    "out": "Waiting for deployment \"vnf-router-485205ac\" rollout to finish: 0 of 1 updated replicas are available...\ndeployment \"vnf-router-485205ac\" successfully rolled out\n"
+  },
+  "pod": {
+    "pod": "vnf-router-485205ac-6b4c5cb7d6-lh66d",
+    "created": "2026-11-21T18:11:34Z",
+    "node": "worker2",
+    "ip": "10.1.189.177",
+    "conditions": {
+      "PodReadyToStartContainers": "2026-11-21T18:11:35Z",
+      "Initialized": "2026-11-21T18:11:34Z",
+      "Ready": "2026-11-21T18:11:35Z",
+      "ContainersReady": "2026-11-21T18:11:35Z",
+      "PodScheduled": "2026-11-21T18:11:34Z"
+    }
+  },
+  "steer_payload": {
+    "request_id": "vnf-router-485205ac",
+    "operation_id": "d68d7997-db8c-4a68-a7be-ddc9a6e6dfce",
+    "topology_hash": "67131a546450606da19276263b00d23988d13fd71c17be38cb24a12637fe9f11",
+    "profile_id": "p4-path-candidate-v1",
+    "p4_topology_hash": "ee00b35ebeff5a46d428340fdfd984ecabf2047a4ef0cd79318a81ad732b4dbf",
+    "new_deploy": "vnf-router-485205ac",
+    "switch_path": [
+      10,
+      9
+    ],
+    "sid_stack": [
+      "fc00:9::1",
+      "fc00:10::1"
+    ]
+  },
+  "steer_http": 202,
+  "steer_status": {
+    "steer_state": "done",
+    "new_deploy": "vnf-router-485205ac",
+    "operation_id": "d68d7997-db8c-4a68-a7be-ddc9a6e6dfce",
+    "request_id": "vnf-router-485205ac",
+    "topology_hash": "67131a546450606da19276263b00d23988d13fd71c17be38cb24a12637fe9f11",
+    "profile_id": "p4-path-candidate-v1",
+    "p4_topology_hash": "ee00b35ebeff5a46d428340fdfd984ecabf2047a4ef0cd79318a81ad732b4dbf",
+    "confirm_steer_done": true
+  },
+  "readback": [
+    {
+      "switch": "s10",
+      "table": "routing_v6",
+      "key": "fc00:9::1/128",
+      "present": true
+    },
+    {
+      "switch": "s9",
+      "table": "srv6_end_dx4_table",
+      "key": "fc00:9::1",
+      "present": true
+    }
+  ],
+  "outcome": "steered",
+  "probe": {
+    "mode": "icmp",
+    "sent": 20,
+    "app_received": 20,
+    "loss": 0,
+    "http_codes": [],
+    "rtt_total_ms": [
+      1.64,
+      1.87,
+      2.04,
+      2.06,
+      2.09,
+      2.14,
+      2.17,
+      2.23,
+      2.26,
+      2.27,
+      2.27,
+      2.3,
+      2.35,
+      2.35,
+      2.36,
+      2.43,
+      2.44,
+      2.47,
+      2.55,
+      2.94
+    ],
+    "delta": {
+      "s10": {
+        "advance": 20,
+        "terminal": 0,
+        "msd_violation": 0
+      },
+      "s9": {
+        "advance": 0,
+        "terminal": 20,
+        "msd_violation": 0
+      }
+    },
+    "captured": {
+      "src_egress_srv6": 24,
+      "place_host_decap": 20,
+      "host_vxlan": 40,
+      "src_return": 20
+    }
+  },
+  "active_total_after": 36,
+  "ledger_record_after": {
+    "name": "vnf-router-485205ac",
+    "v_place": 8,
+    "v_route": 7,
+    "cpu_req": 6.0,
+    "ram_req": 3.0,
+    "msd_req": 2,
+    "is_pending": false,
+    "presence_unconfirmed": false,
+    "deployment_ready": true,
+    "accounting_unknown": false
+  }
+}

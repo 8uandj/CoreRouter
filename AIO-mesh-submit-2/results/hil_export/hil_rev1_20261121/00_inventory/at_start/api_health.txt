@@ -1,0 +1,5 @@
+# captured_utc=2026-11-21T16:26:59Z
+# cmd: curl -s -m 5 -w \nHTTP %{http_code}\n http://127.0.0.1:8000/api/health
+{"status":"online","system":"3S-COM Orchestrator PRO"}
+HTTP 200
+# exit=0

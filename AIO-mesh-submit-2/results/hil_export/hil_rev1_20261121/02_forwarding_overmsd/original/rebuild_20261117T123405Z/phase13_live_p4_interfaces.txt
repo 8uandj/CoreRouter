@@ -1,0 +1,6 @@
+36096: s1-eth4@s6-eth4: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 1500 qdisc netem state UP mode DEFAULT group default qlen 1000\    link/ether 02:60:73:7f:01:05 brd ff:ff:ff:ff:ff:ff
+36105: s9-eth4@s6-eth5: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 1500 qdisc netem state UP mode DEFAULT group default qlen 1000\    link/ether 7e:30:a5:ff:c7:c0 brd ff:ff:ff:ff:ff:ff
+36106: s6-eth5@s9-eth4: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 1500 qdisc netem state UP mode DEFAULT group default qlen 1000\    link/ether da:3d:45:6b:fe:6f brd ff:ff:ff:ff:ff:ff
+36081: s1-eth1@if2: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 1500 qdisc netem state UP mode DEFAULT group default qlen 1000\    link/ether 7e:ae:b1:2a:b3:f2 brd ff:ff:ff:ff:ff:ff link-netnsid 13
+36089: s9-eth1@if2: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 1500 qdisc netem state UP mode DEFAULT group default qlen 1000\    link/ether e2:39:34:f0:74:7e brd ff:ff:ff:ff:ff:ff link-netnsid 31
+36095: s6-eth4@s1-eth4: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 1500 qdisc netem state UP mode DEFAULT group default qlen 1000\    link/ether b6:7f:a3:fc:d3:32 brd ff:ff:ff:ff:ff:ff

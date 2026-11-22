@@ -1,0 +1,15 @@
+Obtaining JSON from switch...
+Done
+Control utility for runtime P4 table manipulation
+RuntimeCmd: ==========
+TABLE ENTRIES
+**********
+Dumping entry 0x0
+Match key:
+* ipv6.dstAddr        : EXACT     fc000003000000000000000000000001
+Action entry: SRv6Ingress.srv6_advance_segment - 
+==========
+Dumping default entry
+Action entry: SRv6Ingress.drop - 
+==========
+RuntimeCmd: 

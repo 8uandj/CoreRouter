@@ -1,0 +1,242 @@
+[
+    {
+        "Id": "e0e3e5934f46f5dfe9d9427f0d5c3484abd03442f95393a47ae3b8f470a32d8a",
+        "Created": "2026-11-21T17:30:59.091636851Z",
+        "Path": "uvicorn",
+        "Args": [
+            "src.portal.backend.app.main:app",
+            "--host",
+            "0.0.0.0",
+            "--port",
+            "8000"
+        ],
+        "State": {
+            "Status": "running",
+            "Running": true,
+            "Paused": false,
+            "Restarting": false,
+            "OOMKilled": false,
+            "Dead": false,
+            "Pid": 1640518,
+            "ExitCode": 0,
+            "Error": "",
+            "StartedAt": "2026-11-21T17:30:59.462192695Z",
+            "FinishedAt": "0001-01-01T00:00:00Z"
+        },
+        "Image": "sha256:3c3c114de4d58a62aca10db123b79bee4747caada2448558be76bcc5abb068a7",
+        "ResolvConfPath": "/var/lib/docker/containers/e0e3e5934f46f5dfe9d9427f0d5c3484abd03442f95393a47ae3b8f470a32d8a/resolv.conf",
+        "HostnamePath": "/var/lib/docker/containers/e0e3e5934f46f5dfe9d9427f0d5c3484abd03442f95393a47ae3b8f470a32d8a/hostname",
+        "HostsPath": "/var/lib/docker/containers/e0e3e5934f46f5dfe9d9427f0d5c3484abd03442f95393a47ae3b8f470a32d8a/hosts",
+        "LogPath": "/var/lib/docker/containers/e0e3e5934f46f5dfe9d9427f0d5c3484abd03442f95393a47ae3b8f470a32d8a/e0e3e5934f46f5dfe9d9427f0d5c3484abd03442f95393a47ae3b8f470a32d8a-json.log",
+        "Name": "/3s-com-backend",
+        "RestartCount": 0,
+        "Driver": "overlay2",
+        "Platform": "linux",
+        "MountLabel": "",
+        "ProcessLabel": "",
+        "AppArmorProfile": "docker-default",
+        "ExecIDs": null,
+        "HostConfig": {
+            "Binds": [
+                "/var/snap/microk8s/current/credentials/client.config:/root/.kube/config:ro",
+                "/home/CoreRouter/results/rev1/runtime:/app/results/rev1/runtime"
+            ],
+            "ContainerIDFile": "",
+            "LogConfig": {
+                "Type": "json-file",
+                "Config": {}
+            },
+            "NetworkMode": "host",
+            "PortBindings": {},
+            "RestartPolicy": {
+                "Name": "unless-stopped",
+                "MaximumRetryCount": 0
+            },
+            "AutoRemove": false,
+            "VolumeDriver": "",
+            "VolumesFrom": null,
+            "ConsoleSize": [
+                0,
+                0
+            ],
+            "CapAdd": null,
+            "CapDrop": null,
+            "CgroupnsMode": "host",
+            "Dns": [],
+            "DnsOptions": [],
+            "DnsSearch": [],
+            "ExtraHosts": null,
+            "GroupAdd": null,
+            "IpcMode": "private",
+            "Cgroup": "",
+            "Links": null,
+            "OomScoreAdj": 0,
+            "PidMode": "",
+            "Privileged": false,
+            "PublishAllPorts": false,
+            "ReadonlyRootfs": false,
+            "SecurityOpt": null,
+            "UTSMode": "",
+            "UsernsMode": "",
+            "ShmSize": 67108864,
+            "Runtime": "runc",
+            "Isolation": "",
+            "CpuShares": 0,
+            "Memory": 0,
+            "NanoCpus": 0,
+            "CgroupParent": "",
+            "BlkioWeight": 0,
+            "BlkioWeightDevice": [],
+            "BlkioDeviceReadBps": [],
+            "BlkioDeviceWriteBps": [],
+            "BlkioDeviceReadIOps": [],
+            "BlkioDeviceWriteIOps": [],
+            "CpuPeriod": 0,
+            "CpuQuota": 0,
+            "CpuRealtimePeriod": 0,
+            "CpuRealtimeRuntime": 0,
+            "CpusetCpus": "",
+            "CpusetMems": "",
+            "Devices": [],
+            "DeviceCgroupRules": null,
+            "DeviceRequests": null,
+            "MemoryReservation": 0,
+            "MemorySwap": 0,
+            "MemorySwappiness": null,
+            "OomKillDisable": false,
+            "PidsLimit": null,
+            "Ulimits": null,
+            "CpuCount": 0,
+            "CpuPercent": 0,
+            "IOMaximumIOps": 0,
+            "IOMaximumBandwidth": 0,
+            "MaskedPaths": [
+                "/proc/asound",
+                "/proc/acpi",
+                "/proc/kcore",
+                "/proc/keys",
+                "/proc/latency_stats",
+                "/proc/timer_list",
+                "/proc/timer_stats",
+                "/proc/sched_debug",
+                "/proc/scsi",
+                "/sys/firmware"
+            ],
+            "ReadonlyPaths": [
+                "/proc/bus",
+                "/proc/fs",
+                "/proc/irq",
+                "/proc/sys",
+                "/proc/sysrq-trigger"
+            ]
+        },
+        "GraphDriver": {
+            "Data": {
+                "LowerDir": "/var/lib/docker/overlay2/1691cc273712b0a55fd934b001c7bbbf5877f8b364b3d18a696285748f0a1249-init/diff:/var/lib/docker/overlay2/do6y2jahveack5wqf7nuhu8pq/diff:/var/lib/docker/overlay2/pi3cw5pvdcohh8l90dzrpafyq/diff:/var/lib/docker/overlay2/qrzcg02ayazx24ficlhz35n2g/diff:/var/lib/docker/overlay2/ooocwx77mahbfa42e0h04iqj0/diff:/var/lib/docker/overlay2/mmeg5dq3v1yg5jrlxvcj1yqdl/diff:/var/lib/docker/overlay2/k8i0z3hp5c443gceebqonofxn/diff:/var/lib/docker/overlay2/mdyxerjz7ihneur8e5qq5v7bg/diff:/var/lib/docker/overlay2/a7ccb3eaf49d3bdba94b3d97550d50fd41317290b2ef259edb1138bb40ccf4f0/diff:/var/lib/docker/overlay2/367e459e7664baf06b6d4607436180bf0955377aec0807a78370eb1adfeeb00e/diff:/var/lib/docker/overlay2/4db55195f09c89b34bf0ddb10140b6bf9c2a995c73a4e33f655fd1da65b6eebc/diff:/var/lib/docker/overlay2/3429d1a07209e94014394378f2ad8389fea9de0c43c687c1ea2951da0c838920/diff",
+                "MergedDir": "/var/lib/docker/overlay2/1691cc273712b0a55fd934b001c7bbbf5877f8b364b3d18a696285748f0a1249/merged",
+                "UpperDir": "/var/lib/docker/overlay2/1691cc273712b0a55fd934b001c7bbbf5877f8b364b3d18a696285748f0a1249/diff",
+                "WorkDir": "/var/lib/docker/overlay2/1691cc273712b0a55fd934b001c7bbbf5877f8b364b3d18a696285748f0a1249/work"
+            },
+            "Name": "overlay2"
+        },
+        "Mounts": [
+            {
+                "Type": "bind",
+                "Source": "/var/snap/microk8s/current/credentials/client.config",
+                "Destination": "/root/.kube/config",
+                "Mode": "ro",
+                "RW": false,
+                "Propagation": "rprivate"
+            },
+            {
+                "Type": "bind",
+                "Source": "/home/CoreRouter/results/rev1/runtime",
+                "Destination": "/app/results/rev1/runtime",
+                "Mode": "",
+                "RW": true,
+                "Propagation": "rprivate"
+            }
+        ],
+        "Config": {
+            "Hostname": "3s-com",
+            "Domainname": "",
+            "User": "",
+            "AttachStdin": false,
+            "AttachStdout": false,
+            "AttachStderr": false,
+            "ExposedPorts": {
+                "8000/tcp": {}
+            },
+            "Tty": false,
+            "OpenStdin": false,
+            "StdinOnce": false,
+            "Env": [
+                "JO_VPPM_SCALER_PATH=results/models/v11/vec_normalize_v11_vietnam.pkl",
+                "JO_VPPM_BIGRU_MODEL_PATH=",
+                "JO_VPPM_FORECAST_PPS_THRESHOLD=800",
+                "CORE_ROUTER_RESERVATION_DB=results/rev1/runtime/reservations.sqlite3",
+                "CORE_ROUTER_MIGRATION_JOURNAL=results/rev1/runtime/migrations.sqlite3",
+                "JO_VPPM_ENABLE_MODEL=1",
+                "JO_VPPM_REQUIRE_MODEL=1",
+                "JO_VPPM_MODEL_PATH=results/models/v11/dgrl_v11_final_vietnam.zip",
+                "PATH=/usr/local/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin",
+                "LANG=C.UTF-8",
+                "GPG_KEY=A035C8C19219BA821ECEA86B64E628F8D684696D",
+                "PYTHON_VERSION=3.11.18",
+                "PYTHON_SHA256=9120e0a653868f6e3698d36cdd99e5a58903ec9469e448f21d98f7b16d8fa290",
+                "PYTHONDONTWRITEBYTECODE=1",
+                "PYTHONUNBUFFERED=1"
+            ],
+            "Cmd": [
+                "uvicorn",
+                "src.portal.backend.app.main:app",
+                "--host",
+                "0.0.0.0",
+                "--port",
+                "8000"
+            ],
+            "Image": "3s-com-backend:py311",
+            "Volumes": null,
+            "WorkingDir": "/app",
+            "Entrypoint": null,
+            "OnBuild": null,
+            "Labels": {}
+        },
+        "NetworkSettings": {
+            "Bridge": "",
+            "SandboxID": "00bafe0ba740e584d05e9fb781e5eb75bbf225ef1dd0820e6e64a1fb7f6300f0",
+            "HairpinMode": false,
+            "LinkLocalIPv6Address": "",
+            "LinkLocalIPv6PrefixLen": 0,
+            "Ports": {},
+            "SandboxKey": "/var/run/docker/netns/default",
+            "SecondaryIPAddresses": null,
+            "SecondaryIPv6Addresses": null,
+            "EndpointID": "",
+            "Gateway": "",
+            "GlobalIPv6Address": "",
+            "GlobalIPv6PrefixLen": 0,
+            "IPAddress": "",
+            "IPPrefixLen": 0,
+            "IPv6Gateway": "",
+            "MacAddress": "",
+            "Networks": {
+                "host": {
+                    "IPAMConfig": null,
+                    "Links": null,
+                    "Aliases": null,
+                    "NetworkID": "caf8ba6da3c3fd13d53ba3bfa4a6b384e244c3f5e8a136038a041141ab3784c6",
+                    "EndpointID": "2fc29c58cca3ed73f8ea036f0d6fad87e73d6c07fd2a16c6ce528d31c38a1375",
+                    "Gateway": "",
+                    "IPAddress": "",
+                    "IPPrefixLen": 0,
+                    "IPv6Gateway": "",
+                    "GlobalIPv6Address": "",
+                    "GlobalIPv6PrefixLen": 0,
+                    "MacAddress": "",
+                    "DriverOpts": null
+                }
+            }
+        }
+    }
+]

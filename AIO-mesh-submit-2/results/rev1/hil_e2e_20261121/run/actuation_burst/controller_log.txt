@@ -1,0 +1,20 @@
+2026-11-21T18:17:36.156005243Z 2026-11-21 18:17:36,155 [sdn.controller] INFO: [MBB-Steer] START: Installing rules for vnf-idps-fd4abe1f
+2026-11-21T18:17:36.156043835Z 2026-11-21 18:17:36,155 [sdn.controller] INFO: [Controller] Bootstrap: populating forwarding tables...
+2026-11-21T18:17:36.346378215Z 2026-11-21 18:17:36,345 [sdn.controller] INFO: [s7] route +fc00:8::1/128 → port3
+2026-11-21T18:17:36.521823807Z 2026-11-21 18:17:36,521 [sdn.controller] INFO: [Controller] Bootstrap complete ✅
+2026-11-21T18:17:36.521977010Z 2026-11-21 18:17:36,521 [sdn.controller] INFO: [MBB-Steer] ✅ confirm_steer_done = True
+2026-11-21T18:17:36.522003131Z 2026-11-21 18:17:36,521 [sdn.controller] INFO: [MBB-Steer] Tekton can now BREAK old VNF
+2026-11-21T18:18:28.987008255Z 2026-11-21 18:18:28,982 [sdn.controller] INFO: [MBB-Steer] START: Installing rules for vnf-lb-67673667
+2026-11-21T18:18:28.987045541Z 2026-11-21 18:18:28,983 [sdn.controller] INFO: [Controller] Bootstrap: populating forwarding tables...
+2026-11-21T18:18:29.514256724Z 2026-11-21 18:18:29,513 [sdn.controller] INFO: [s1] route +fc00:2::1/128 → port2
+2026-11-21T18:18:30.106602764Z 2026-11-21 18:18:30,105 [sdn.controller] INFO: [Controller] Bootstrap complete ✅
+2026-11-21T18:18:30.106691620Z 2026-11-21 18:18:30,106 [sdn.controller] INFO: [MBB-Steer] ✅ confirm_steer_done = True
+2026-11-21T18:18:30.106736722Z 2026-11-21 18:18:30,106 [sdn.controller] INFO: [MBB-Steer] Tekton can now BREAK old VNF
+2026-11-21T18:18:49.361254712Z 2026-11-21 18:18:49,360 [sdn.controller] INFO: [MBB-Steer] START: Installing rules for vnf-data-b6fad338
+2026-11-21T18:18:49.361589369Z 2026-11-21 18:18:49,361 [sdn.controller] INFO: [Controller] Bootstrap: populating forwarding tables...
+2026-11-21T18:18:49.542278697Z 2026-11-21 18:18:49,541 [sdn.controller] INFO: [s5] route +fc00:6::1/128 → port3
+2026-11-21T18:18:49.729725052Z 2026-11-21 18:18:49,729 [sdn.controller] INFO: [s6] route +fc00:1::1/128 → port4
+2026-11-21T18:18:49.893294817Z 2026-11-21 18:18:49,892 [sdn.controller] INFO: [s1] route +fc00:2::1/128 → port2
+2026-11-21T18:18:50.085648926Z 2026-11-21 18:18:50,080 [sdn.controller] INFO: [Controller] Bootstrap complete ✅
+2026-11-21T18:18:50.086007418Z 2026-11-21 18:18:50,080 [sdn.controller] INFO: [MBB-Steer] ✅ confirm_steer_done = True
+2026-11-21T18:18:50.086019914Z 2026-11-21 18:18:50,080 [sdn.controller] INFO: [MBB-Steer] Tekton can now BREAK old VNF

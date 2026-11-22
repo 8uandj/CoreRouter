@@ -1,0 +1,28 @@
+{
+  "migrations": 57,
+  "order_ok": 57,
+  "final_states": {
+    "COMPLETED": 57
+  },
+  "ready_to_confirm_s": {
+    "n": 57,
+    "p50": 0.582,
+    "p95": 0.837,
+    "p99": 1.112,
+    "max": 1.144
+  },
+  "confirm_to_break_s": {
+    "n": 57,
+    "p50": 1.469,
+    "p95": 1.688,
+    "p99": 1.711,
+    "max": 1.718
+  },
+  "break_to_terminal_s": {
+    "n": 57,
+    "p50": 2.542,
+    "p95": 32.662,
+    "p99": 32.709,
+    "max": 32.729
+  }
+}

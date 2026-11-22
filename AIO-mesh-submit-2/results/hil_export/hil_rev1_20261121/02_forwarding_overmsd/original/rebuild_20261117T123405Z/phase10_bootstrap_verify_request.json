@@ -1,0 +1,54 @@
+{
+  "rules": [
+    {
+      "switch": "s1",
+      "type": "srv6_sid",
+      "sid": "fc00:1::1"
+    },
+    {
+      "switch": "s2",
+      "type": "srv6_sid",
+      "sid": "fc00:2::1"
+    },
+    {
+      "switch": "s3",
+      "type": "srv6_sid",
+      "sid": "fc00:3::1"
+    },
+    {
+      "switch": "s4",
+      "type": "srv6_sid",
+      "sid": "fc00:4::1"
+    },
+    {
+      "switch": "s5",
+      "type": "srv6_sid",
+      "sid": "fc00:5::1"
+    },
+    {
+      "switch": "s6",
+      "type": "srv6_sid",
+      "sid": "fc00:6::1"
+    },
+    {
+      "switch": "s7",
+      "type": "srv6_sid",
+      "sid": "fc00:7::1"
+    },
+    {
+      "switch": "s8",
+      "type": "srv6_sid",
+      "sid": "fc00:8::1"
+    },
+    {
+      "switch": "s9",
+      "type": "srv6_sid",
+      "sid": "fc00:9::1"
+    },
+    {
+      "switch": "s10",
+      "type": "srv6_sid",
+      "sid": "fc00:10::1"
+    }
+  ]
+}

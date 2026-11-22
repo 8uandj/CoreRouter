@@ -1,0 +1,39 @@
+{
+  "full_hil": "BLOCKED: no verified admission-to-P4 mapping, controller rule readback, or request-correlated packet evidence",
+  "live_inventory": {
+    "actual": 50,
+    "all_deployments_ready": true,
+    "deleted": 0,
+    "expected": 50,
+    "keep": 7,
+    "retire": 43
+  },
+  "live_ledger": {
+    "accounting_unknown": 50,
+    "active_records": 50,
+    "active_topology_hash": "67131a546450606da19276263b00d23988d13fd71c17be38cb24a12637fe9f11",
+    "baseline_seed_applied": false,
+    "reservation_persistence": "durable"
+  },
+  "offline_seed": {
+    "accounting_unknown": 0,
+    "assignments": 7,
+    "profiles": 7,
+    "runtime_hash_match": "PASS: Python 3.11 runtime seed matches active DB topology hash; host Python 3.8 seed rejected",
+    "status": "seed_ready_not_applied",
+    "topology": "vietnam",
+    "topology_hash": "67131a546450606da19276263b00d23988d13fd71c17be38cb24a12637fe9f11"
+  },
+  "phases": {
+    "0_target_and_inputs": "PASS locally: repo HARP at 7f4a5eb50a938a0540906df32c9c4940a54e803f, clean before edits, JSON valid, source hashes stable; Hanoi-side hash comparison not performed in this shell",
+    "1_read_only_preflight": "PASS: exact 50 Deployment names/readiness; no nonterminal Tekton; only active tmux is topo_p4.py Mininet/P4 CLI; backend idle; BMv2/controller identified and 10 switches reachable",
+    "2_backup": "PASS: Deployment/Service/PipelineRun/vVOC exports and online SQLite backups checksummed and quick_check=ok",
+    "3_prepare_and_verify": "PARTIAL: persistent mount change and guarded offline initializer prepared; runtime-matching seed passes; unsupported actuation rejection verified; P4 mapping/readback/packet gate FAILS",
+    "4_baseline_rebuild": "PREPARED, NOT APPLIED: generated manifest passed server dry-run; all seven current Pods are on 3s-com and proposed assignment moves them to k8s-master/worker1/worker2; explicit placement approval required",
+    "5_smoke": "NOT STARTED",
+    "6_load": "NOT STARTED",
+    "7_reconciliation": "NOT STARTED"
+  },
+  "run_id": "rebuild_20261117T122432Z",
+  "target": "server 246, repo /home/CoreRouter (operator-confirmed; hostname 3s-com, cluster node 10.10.6.231)"
+}
