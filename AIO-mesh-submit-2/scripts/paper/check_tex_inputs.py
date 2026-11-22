@@ -64,6 +64,27 @@ def main():
         raise ValueError(f"Missing bibliography keys: {sorted(citations - bibkeys)}")
     print(f"Checked {len(seen)} manuscript inputs, {len(references)} references, "
           f"{len(assets)} figures, and {len(citations)} citation keys.")
+    supplementary_seen = set()
+    supplement = manuscript_source(PAPER / "supplement.tex", supplementary_seen)
+    supplementary_labels = re.findall(r"\\label\{([^}]+)\}", supplement)
+    if len(set(supplementary_labels)) != len(supplementary_labels):
+        raise ValueError("Duplicate supplementary labels")
+    supplementary_refs = set(re.findall(r"\\(?:ref|eqref|autoref)\{([^}]+)\}", supplement))
+    if supplementary_refs - set(supplementary_labels):
+        raise ValueError(f"Missing supplementary labels: {sorted(supplementary_refs - set(supplementary_labels))}")
+    supplementary_assets = re.findall(r"\\includegraphics(?:\[[^\]]*\])?\{([^}]+)\}", supplement)
+    for asset in supplementary_assets:
+        if not (PAPER / asset).is_file():
+            raise FileNotFoundError(PAPER / asset)
+    supplementary_citations = {
+        key.strip()
+        for group in re.findall(r"\\cite\{([^}]+)\}", supplement)
+        for key in group.split(",")
+    }
+    if supplementary_citations - bibkeys:
+        raise ValueError(f"Missing supplementary bibliography keys: {sorted(supplementary_citations - bibkeys)}")
+    print(f"Checked {len(supplementary_seen)} supplementary inputs, {len(supplementary_refs)} references, "
+          f"{len(supplementary_assets)} figures, and {len(supplementary_citations)} citation keys.")
 
 
 if __name__ == "__main__":

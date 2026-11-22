@@ -632,7 +632,7 @@ Migration is orchestrated by the lifecycle layer rather than emitted as a separa
 \label{subsec:simulation_results}
 \newrev{Table~\ref{tab:simulation_acceptance_summary} reports mean acceptance over 20 evaluation seeds for the protected versions of five algorithms, including the CSPF-style pair baseline. Each topology--workload cell contains 20 paired seed-level trials of 3,000 simulator steps; policies share offered traces within each seed, while the Bursty generator repeats the same offered trace across seeds. Acceptance is not a full-chain safety metric.}
 
-\begin{table*}[t]
+\begin{table}[t]
 \centering
 \caption{\newrev{Protected-policy acceptance (\%; 20 seeds, mean $\pm$ sample SD). Bold marks the highest mean in each row. Profiles: E = Elephant stress, B = Burst surge, C = Chaos.}}
 \label{tab:simulation_acceptance_summary}
@@ -657,7 +657,7 @@ GEANT2 & C & 66.60 $\pm$ 0.48 & 66.60 $\pm$ 0.48 & \textbf{66.70} $\pm$ 0.50 & 6
 \bottomrule
 \end{tabular}%
 }
-\end{table*}
+\end{table}
 
 \newrev{A decision-level audit of Greedy and DAI on the same 20 offered seeds per cell explains their identical protected acceptance in five cells (NSFNET E/B/C and GEANT2 B/C). The placement node matched in all 60,000 decisions in each of those cells; the complete placement--route pair matched in only 3.49--7.19\% of decisions. Both policies had identical seed-level safe acceptance in all 20 seeds of each cell. Greedy chooses maximum residual CPU and DAI chooses minimum CPU load; these criteria select the same placement in the observed trajectories. Their route rules differ, so equality of acceptance does not imply identical actions. The audit compares actions at corresponding steps on the policies' separate trajectories with matched offered traces.}
 
@@ -796,31 +796,32 @@ Variant & CPU & RAM & BW & MSD & Union & Admitted \\
 % Detailed table moved to the separate supplementary document.
 
 
-\newrev{\textbf{End-to-end campaigns.} The campaign driver submitted requests with the alert flag set, so the Hybrid DRL branch could request deployment or migration. Requested CPU, RAM, and SID depth (2--5) were drawn by a seeded generator, and a campaign stopped after 30 net new VNFs. Each admitted request kept one identifier from admission to packet observation. For each request we logged the HTTP 200 response with the admitted SID list and switch path, the deployment phase and Tekton PipelineRun, Pod readiness, the controller's rule-installation log, a readback of every expected table entry on each switch of the path, the controller's steering confirmation for that request, and a 20-packet probe. The probe source applied Linux SRv6 encapsulation with the admitted SID list; BMv2 advanced the segments, the placement switch decapsulated the packet with the End.DX4 behaviour (decapsulation and IPv4 cross-connect), and the VNF Pod answered (an HTTP marker for vVOC and an Internet Control Message Protocol (ICMP) echo payload derived from the request identifier otherwise). Table~\ref{tab:hil_e2e} reports the campaign with the corrected checkpoint used in the simulator evaluation and an earlier campaign with the pre-correction checkpoint. The two campaigns started from different testbed states and are not paired.}
+\newrev{\textbf{End-to-end campaigns.} The campaign driver submitted requests with the alert flag set, so the Hybrid DRL branch could request deployment or migration. Requested CPU, RAM, and SID depth (2--5) were drawn by a seeded generator, and a campaign stopped after 30 net new VNFs. Each admitted request kept one identifier from admission to packet observation. For each request we logged the HTTP 200 response with the admitted SID list and switch path, the deployment phase and Tekton PipelineRun, Pod readiness, the controller's rule-installation log, a readback of every expected table entry on each switch of the path, the controller's steering confirmation for that request, and a 20-packet probe. The probe source applied Linux SRv6 encapsulation with the admitted SID list; BMv2 advanced the segments, the placement switch decapsulated the packet with the End.DX4 behaviour (decapsulation and IPv4 cross-connect), and the VNF Pod answered (an HTTP marker for vVOC and an Internet Control Message Protocol (ICMP) echo payload derived from the request identifier otherwise). Table~\ref{tab:hil_e2e} reports the corrected-checkpoint campaign used in the simulator evaluation. Supplementary Table~S23 preserves the earlier pre-correction campaign for context; the campaigns started from different testbed states and are not paired.}
 
 \newrev{With the corrected checkpoint, all \HILEtoESteered{} admitted requests reached steering confirmation, and readback found every expected rule on every path switch. \HILEtoEFullProbes{} probes delivered all 20 packets. The five remaining probes targeted Pods on the Kubernetes control-plane node before its firewall permitted Calico Virtual Extensible LAN (VXLAN) traffic on UDP port 4789 and forwarding from the VXLAN interface. After this network correction, re-probes delivered 20/20 packets to all four VNFs still deployed; the fifth had been replaced by a later migration. Component percentiles are computed separately and must not be summed. Most rejections (231) occurred because the requested SID depth differed from the depth of the materialized shortest path; six occurred because the materialized path exceeded a switch MSD profile, and no rule was installed for them. Of the admitted requests, \HILEtoEMigrations{} replaced an existing VNF. In every migration the new VNF was Ready before steering confirmation, and confirmation preceded the deletion request for the old VNF. Clients address the Pod IP, which changes on migration, and flow continuity across migration was not measured; these data do not support a zero-downtime claim.}
 
-\begin{table*}[t]
+\begin{table}[t]
 \centering
-\caption{\newrev{Request-correlated end-to-end HIL campaigns. Timed rows give P50 / P95 / P99 over steered requests, except the admission API row, which covers all offered requests. Probe rows count the in-campaign probe; re-probes after the firewall correction are reported in the text.}}
+\caption{\newrev{Corrected-checkpoint HIL campaign. Timed rows show P50 / P95 / P99; the API row covers offered requests, while other timings cover steered requests. Probe counts precede the firewall correction.}}
 \label{tab:hil_e2e}
 {\color{revisiongreen}
-\small
+\footnotesize
 \input{generated/table_hil_e2e.tex}
 }
-\end{table*}
+\end{table}
 
 \newrev{\textbf{SID lists deeper than MSD.} Table~\ref{tab:hil_msd} tests SID lists deeper than the configured MSD on BMv2. In an isolated slice of the topology, with three 100-packet trials per mode, admission rejected the depth-5 path through s7 (MSD 4) and installed no rules. With admission bypassed, the rules were installed and s7 dropped all 300 packets, incrementing its MSD-violation counter by 300. Depth-4 paths delivered all packets in both modes. On a live path admitted at depth 4, injected segment routing headers (SRHs) of depth 7, 9, and 11 were each dropped at the first switch whose MSD they exceeded. These counters describe the parser of our P4 program on BMv2 and do not characterize ASIC behaviour.}
 
-\begin{table*}[t]
+\begin{table}[t]
 \centering
-\caption{\newrev{SID lists deeper than MSD on BMv2. Isolated rows aggregate three 100-packet trials per mode; live rows use 50 ICMP echo requests per SRH depth on an admitted path. Counter increments are per-switch \texttt{msd\_violation} deltas.}}
+\caption{\newrev{BMv2 over-MSD injection. I/P: isolated protected; I/B: isolated bypass (three 100-packet trials each); L: live path (50 packets/depth). Decision/rules and per-switch drop counts are shown; full paths are in Supplementary Table~S24.}}
 \label{tab:hil_msd}
 {\color{revisiongreen}
-\small
+\scriptsize
+\setlength{\tabcolsep}{2.5pt}
 \input{generated/table_hil_msd.tex}
 }
-\end{table*}
+\end{table}
 
 \newrev{\textbf{Long run.} Table~\ref{tab:hil_longrun} reports the three-hour run after lifecycle capacity release. It started with 17 active VNFs and mean ledger CPU utilization of 48.0\%. A sequential workload at 3.5-second intervals admitted 209 of 3,083 requests (6.78\%), with no timeout or admitted modeled violation. Every minute all 17 Deployments were Ready in all 180 samples. Over 90 rounds, 1,800 of 1,800 packets reached nine previously steered VNFs. The admission workload did not deploy or steer the 209 accepted requests. This run measures admission, readiness, and delivery to previously steered single VNFs; it does not measure traversal of an ordered multi-VNF chain or continuity during migration.}
 
@@ -829,7 +830,7 @@ Variant & CPU & RAM & BW & MSD & Union & Admitted \\
 \caption{\newrev{Three-hour HIL run after lifecycle capacity release. Decision latency is backend time logged by the client; packet probes target previously steered VNFs, not the 209 newly admitted requests.}}
 \label{tab:hil_longrun}
 {\color{revisiongreen}
-\small
+\footnotesize
 \input{generated/table_hil_longrun.tex}
 }
 \end{table*}

@@ -1,0 +1,112 @@
+apiVersion: tekton.dev/v1
+kind: Task
+metadata:
+  name: prepare-vnf
+  namespace: core-router
+spec:
+  workspaces:
+    - name: ws
+  params:
+    - name: deployName
+    - name: fileName
+    - name: location
+      default: "auto"
+    - name: nodeHostname
+      description: "kubernetes.io/hostname label của K8s node đích (vd: k8s-master, worker1, worker2). Rỗng = scheduler tự chọn."
+      default: ""
+  steps:
+    - name: fetch-and-process
+      image: localhost:32000/kubectl:1.30  # local registry — deterministic pull latency
+      securityContext:
+        runAsUser: 0
+      command: ["/bin/sh", "-ec"]
+      env:
+        - name: DEPLOY_NAME
+          value: $(params.deployName)
+        - name: TEMPLATE_NAME
+          value: $(params.fileName)
+        - name: LOCATION
+          value: $(params.location)
+        - name: NODE_HOSTNAME
+          value: $(params.nodeHostname)
+      args:
+        - |
+          case "$DEPLOY_NAME" in
+            ''|*[!a-z0-9-]*|[!a-z0-9]*) echo "ERROR: invalid deployment name" >&2; exit 1 ;;
+          esac
+          if [ "${#DEPLOY_NAME}" -gt 63 ]; then echo "ERROR: deployment name is too long" >&2; exit 1; fi
+
+          case "$TEMPLATE_NAME" in
+            vnf-firewall.yaml|vnf-frr.yaml|vnf-idps.yaml|vnf-nat.yaml|vnf-lb.yaml|vnf-voc.yaml) ;;
+            *) echo "ERROR: unsupported VNF template '$TEMPLATE_NAME'" >&2; exit 1 ;;
+          esac
+          case "$LOCATION" in
+            auto|hanoi-1|hanoi-2|haiphong-1|ninhbinh-1|vinh-1|hue-1|danang-1|quynhon-1|nhatrang-1|hcm-1|cantho-1) ;;
+            *) echo "ERROR: unsupported location '$LOCATION'" >&2; exit 1 ;;
+          esac
+          case "$NODE_HOSTNAME" in
+            ''|k8s-master|worker1|worker2) ;;
+            *) echo "ERROR: unsupported Kubernetes node '$NODE_HOSTNAME'" >&2; exit 1 ;;
+          esac
+
+          echo ">>> Fetching template '$TEMPLATE_NAME' from ConfigMap 'vnf-inputs'..."
+          
+          kubectl get cm vnf-inputs -o go-template="{{index .data \"$TEMPLATE_NAME\"}}" > /workspace/ws/final.yaml
+          
+          if [ ! -s /workspace/ws/final.yaml ] || grep -q "<no value>" /workspace/ws/final.yaml; then
+            echo "ERROR: Template '$TEMPLATE_NAME' not found in ConfigMap 'vnf-inputs'." >&2
+            exit 1
+          fi
+
+          sed -i "s/PLACEHOLDER_NAME/$DEPLOY_NAME/g" /workspace/ws/final.yaml
+          
+          sed -i "0,/labels:/ s/labels:/labels:\n    core-router\/location: $LOCATION/" /workspace/ws/final.yaml
+          if ! grep -q "^    core-router/location: $LOCATION$" /workspace/ws/final.yaml; then
+            echo "ERROR: location label was not written to the Deployment" >&2
+            exit 1
+          fi
+
+          if [ -n "$NODE_HOSTNAME" ]; then
+            echo ">>> Injecting nodeSelector via the available awk utility (hostname=$NODE_HOSTNAME)..."
+            awk -v hostname="$NODE_HOSTNAME" '
+              /^---[[:space:]]*$/ { in_deployment = 0; in_template = 0; print; next }
+              /^kind: Deployment$/ { in_deployment = 1; print; next }
+              /^kind: Service$/ { in_deployment = 0; in_template = 0; print; next }
+              in_deployment && /^  template:$/ { in_template = 1; print; next }
+              in_deployment && in_template && /^    spec:$/ {
+                print
+                print "      nodeSelector:"
+                print "        kubernetes.io/hostname: " hostname
+                print "      tolerations:"
+                print "      - key: dedicated"
+                print "        operator: Equal"
+                print "        value: core-router"
+                print "        effect: NoSchedule"
+                print "      - key: node-role.kubernetes.io/control-plane"
+                print "        operator: Exists"
+                print "        effect: NoSchedule"
+                print "      - key: node-role.kubernetes.io/master"
+                print "        operator: Exists"
+                print "        effect: NoSchedule"
+                patched++
+                in_template = 0
+                next
+              }
+              { print }
+              END { if (patched != 1) exit 42 }
+            ' /workspace/ws/final.yaml > /workspace/ws/final.yaml.patched
+            mv /workspace/ws/final.yaml.patched /workspace/ws/final.yaml
+
+            selector_count=$(grep -c '^      nodeSelector:$' /workspace/ws/final.yaml || true)
+            tolerance_count=$(grep -c '^      - key:' /workspace/ws/final.yaml || true)
+            if [ "$selector_count" -ne 1 ] || [ "$tolerance_count" -ne 3 ] || \
+                ! grep -Fq "kubernetes.io/hostname: $NODE_HOSTNAME" /workspace/ws/final.yaml; then
+              echo "ERROR: node placement patch did not produce exactly one selector and three tolerations" >&2
+              exit 1
+            fi
+          else
+            echo ">>> PHASE 6: nodeHostname not specified. K8s scheduler decides (floating placement)."
+          fi
+
+          echo ">>> SUCCESS: Manifest prepared with location=$LOCATION, nodeHostname=$NODE_HOSTNAME."
+          sed -n '1,40p' /workspace/ws/final.yaml

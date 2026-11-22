@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Regenerate the eight manuscript figures from their pinned experiment sources."""
+"""Regenerate five main and three supplementary figures from pinned sources."""
 import csv
 import hashlib
 import json
@@ -66,11 +66,11 @@ def main():
     }
     scripts = [Path(__file__), *[ROOT/p for p in ('scripts/paper/make_architecture_figures.py','scripts/rev1/plot_manuscript_benchmark.py','scripts/paper/make_load_sweep_figure.py','scripts/rev1/plot_manuscript_ablation.py','scripts/rev1/plot_nonhil_studies.py')]]
     manifest = {'command':'python scripts/paper/refresh_final_figures.py',
-                'scope':'Eight manuscript figures; distinct experiment protocols are preserved. Final 2M training variation is reported in its own table.',
+                'scope':'Five main and three supplementary figures; distinct experiment protocols are preserved. Final 2M training variation is reported in Supplementary Table S22.',
                 'generators_sha256':{str(p.relative_to(ROOT)):digest(p) for p in scripts},
                 'figures':{name:{'sha256':digest(FIG/name),'inputs_sha256':{str(p.relative_to(ROOT)):digest(p) for p in paths}} for name,paths in inputs.items()}}
     (FIG/'final_figures_manifest.json').write_text(json.dumps(manifest,indent=2)+'\n')
-    print(f'Regenerated and indexed {len(inputs)} manuscript figures')
+    print(f'Regenerated and indexed {len(inputs)} figures (five main, three supplementary)')
 
 if __name__ == '__main__':
     main()

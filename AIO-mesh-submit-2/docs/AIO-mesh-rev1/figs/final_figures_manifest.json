@@ -1,9 +1,9 @@
 {
   "command": "python scripts/paper/refresh_final_figures.py",
-  "scope": "Eight manuscript figures; distinct experiment protocols are preserved. Final 2M training variation is reported in its own table.",
+  "scope": "Five main and three supplementary figures; distinct experiment protocols are preserved. Final 2M training variation is reported in Supplementary Table S22.",
   "generators_sha256": {
-    "scripts/paper/refresh_final_figures.py": "b3eca2e7a09987b948bb180e130a9ec07cbcaaafbc66b4dacd954f097254e838",
-    "scripts/paper/make_architecture_figures.py": "a18fdd58e386a11371ca3e56300e55e3f82a4a21448e661fa61c8daa684ec100",
+    "scripts/paper/refresh_final_figures.py": "99308eef2548c7324006bcf75ce18eb4da181ce15ae6b0dc7fdbffb18c7f84c0",
+    "scripts/paper/make_architecture_figures.py": "319be2b6a10a58f68919a2d6fb07c474e6d7792e3af78401ffec69545589f138",
     "scripts/rev1/plot_manuscript_benchmark.py": "289172a3d62aae0d8172757c865b3f1df6b71318bcb56eb5b8382bc9d7e41642",
     "scripts/paper/make_load_sweep_figure.py": "bc72b603bfa51611836e376648ec8868b6179e0ca447b8887561987ef02ca5e7",
     "scripts/rev1/plot_manuscript_ablation.py": "d77a1458929d491006f85e320888ff3d46a165e5959a732833821c2139f0fb90",
@@ -11,53 +11,53 @@
   },
   "figures": {
     "overview.pdf": {
-      "sha256": "7df9ae0611c4c60aeb1b883cf2f5baf0303c1f4fbdbebb8d62a5f98795d51a88",
+      "sha256": "ebdd7335a1b141d30e712ae8b0a001c6cacd419c6bd6d79bda18d04c597c9f24",
       "inputs_sha256": {
-        "scripts/paper/make_architecture_figures.py": "a18fdd58e386a11371ca3e56300e55e3f82a4a21448e661fa61c8daa684ec100"
+        "scripts/paper/make_architecture_figures.py": "319be2b6a10a58f68919a2d6fb07c474e6d7792e3af78401ffec69545589f138"
       }
     },
     "testbed.pdf": {
-      "sha256": "c73ea6f06bbbae858af8ac586d2dfff4a7cbc4b65b3138b8a205e3e35e1a1286",
+      "sha256": "c825a8f842fd2eef85e2f6d96b423b5c22a60b96371c1d4d8a9cb5403342f207",
       "inputs_sha256": {
-        "scripts/paper/make_architecture_figures.py": "a18fdd58e386a11371ca3e56300e55e3f82a4a21448e661fa61c8daa684ec100"
+        "scripts/paper/make_architecture_figures.py": "319be2b6a10a58f68919a2d6fb07c474e6d7792e3af78401ffec69545589f138"
       }
     },
     "arrival_rate_only.pdf": {
-      "sha256": "7813debfb0228e067d9422ca68e402d4a4e95419fd9bc2d54acf33af7ed8858e",
+      "sha256": "efddb4f0e5e063732ac3442b41284f7de28c68a6952fcb62c285cb0a3da1f258",
       "inputs_sha256": {
         "results/evidence/mentor_completion_20261121/arrival_rate_only/arrival_rate_aggregate.csv": "19747d3cf136c91a689b9acf4d0affdd3b3d5de94042a6822a03f7940616ffa1",
         "results/evidence/mentor_completion_20261121/arrival_rate_only/arrival_rate_manifest.json": "00c061593843e9d50d986bdc14c60e9d4260f9c2bdec00649033bc23ce7329fb"
       }
     },
     "benchmark_paired_effects.pdf": {
-      "sha256": "63b86905b72e8591335f3103954903b7311164d00f2ca5c223a46eb92ba0ad7a",
+      "sha256": "1cbe89ca3be2900f7e05fe044754d0c40742e1daea3890e12ec38d0b4cea2bfa",
       "inputs_sha256": {
         "docs/AIO-mesh-rev1/evidence/model_refresh_20261120/stress_paired_statistics.csv": "9e0f8360cd08ceccadf2b708fb900ec7cf4732c5a9275b64022ae7bcfaf9d145",
         "docs/AIO-mesh-rev1/evidence/model_refresh_20261120/stress_per_seed_all_topologies.csv": "cd65885a4f09e15ac3583bc6831bc0f917b93b24243006c7338bc5a0955fcd4e"
       }
     },
     "load_sweep_three_topologies.pdf": {
-      "sha256": "ed38bb053e22290b27202d63afafaddb098eda246d108041f0fd0e9b17621454",
+      "sha256": "5cee04bf89d318454a04572f8d0e64215a56c8d4e58b1c7c4407b7387275586b",
       "inputs_sha256": {
         "docs/AIO-mesh-rev1/evidence/model_refresh_20261120/load_chain_per_seed.csv": "9204b3c7a89a09d1da187cb112c1df521412b47875c846a01260a5bc0dc4f1c0"
       }
     },
     "policy_cost_scalability.pdf": {
-      "sha256": "566393ed7ea93743aaf1fe68edd8142ac3c01b3b8d8e3701e0492bbd23c9589e",
+      "sha256": "89b75017dcc138b1f14de93f6110760302e8b7ff3cdafbe414ad53f8afa89d3d",
       "inputs_sha256": {
         "results/rev1/nonhil_studies/20261117_233441/controlled_policy_cost.json": "e2eebcdbdc6daccb2d458034d2dc82b352bff7917f332094763d269b62a36e11",
         "results/rev1/nonhil_studies/20261117_235132/topology_scalability.json": "461ee1dce04766d701e7cb51c6afd0f90647991b3cedac0e166d721bd6061bae"
       }
     },
     "ablation_mask_admission.pdf": {
-      "sha256": "fd5447c70a5639eca3ab42154f05c7a46ab93392af386cd3204a25f1aa06ab3d",
+      "sha256": "d56c2cd94c69b93757adcc055e79134d924a3487d592f5cf2567ca5fe0d1439f",
       "inputs_sha256": {
         "docs/AIO-mesh-rev1/evidence/e3/ablation_admission_summary.csv": "f2df024a13dd8068ba241af0ee14099059c6e00d8961fa0fce1d3368c1d9b0f2",
         "docs/AIO-mesh-rev1/evidence/e3/manifest.json": "f9afccbdae75c6815af8b8e25bf29e2d9d8c39a8268699188c2ac37cbfbe76c5"
       }
     },
     "ablation_compute_cost.pdf": {
-      "sha256": "fce848e8c36cceba4f2850f524fad2b6d88be2e65e5c5229bec28f68d734cdbc",
+      "sha256": "58218051a3c9999c543f628f667a6ca5f8a79a66d9f29e113e3afab046408772",
       "inputs_sha256": {
         "results/rev1/e3_timed/vietnam/uniform/harp_ablation_summary.csv": "b1912bc868a9af19c5f3abe3e0fb78a4cc9afc09803da38ec0609a93e829beec",
         "results/rev1/e3_timed/vietnam/bursty/harp_ablation_summary.csv": "5bfb6fd4e2fde2cd9866b673b93f46cc24a98421514956b7da84942eb17f0461"

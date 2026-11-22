@@ -89,6 +89,8 @@ We sincerely thank you for your careful evaluation, constructive comments, and t
 
 \textcolor{replyblue}{The evaluation uses fixed, topology-specific checkpoints with matched simulator traces, a 12-hour control-plane testbed run, request-correlated end-to-end campaigns, and one three-hour stability run after capacity release. The results identify the conditions in which the heuristic leads and those in which HARP improves acceptance. The HIL tables distinguish API outcomes, deployment and steering, packet delivery to individual VNFs, and data-plane MSD tests. Ordered traversal of a multi-VNF chain is not established by these records.}
 
+\textcolor{replyblue}{For a focused journal manuscript, we retained ten tables with the principal safety, policy-comparison, HIL, and scaling results. Detailed protocols, secondary analyses, and full sweeps are supplied in a separately submitted supplementary document. All locations below refer to this shortened manuscript and the separately numbered supplementary tables.}
+
 \textcolor{replyblue}{All author response text and locations of revisions are shown in blue below. Reviewer comments are reproduced in their original form.}
 
 \section*{Response to the Editor-in-Chief}
@@ -178,7 +180,7 @@ The evaluation raises further questions of interpretation. Safe acceptance stays
 \end{point}
 \begin{reply}
 The offered-intensity figure presents four protected policies across seven settings; Supplementary Table~S7 also includes CSPF. Section~6 distinguishes proposed hard-invalid actions, runtime rejections, and admitted violations. Supplementary Table~S5 distinguishes pruning over all masks from pruning conditioned on a nonempty mask. It gives the marginal empty-mask rate. A supplementary audit of the corrected main checkpoints cross-tabulates mask emptiness and rejection across 20 Bursty stress seeds per topology; no rejection occurred when the pre-step mask was nonempty in those runs. A further 60-cell simulator intervention computes the action mask after pending TTL expiry while retaining the pre-expiry observation. Its mean paired safe-acceptance changes are +0.065, -0.005, and +0.085 percentage points across Vietnam, NSFNET, and GEANT2, respectively; all three bootstrap CIs include zero. We therefore retain the current runtime order and report this as a limited simulator sensitivity check, not a deployed fix. The ablation aggregate remains a separate experiment. Enforcement is attributed to the common admission predicate. In the Vietnam Bursty ablation (Table~4), Full and NoMask have safe acceptance of \(56.83\pm0.78\%\) and \(13.06\pm0.75\%\), respectively, with runtime admission enabled. Table~5 reports nonzero admitted MSD-violation rates when MSD admission is disabled: 0.001\% for NoMask and 0.025\% for SoftMSD across the pooled simulator steps. These comparisons are descriptive and are not a fully paired causal isolation of each mechanism.
-\location{Sections~5.3--5.5, 6.5--6.6, and 6.8; Tables~4--6 and Supplementary Table~S5; arrival-rate and offered-intensity figures.}
+\location{Sections~5.3--5.5, 6.5--6.6, and 6.8; Tables~4--5 and Supplementary Table~S5; arrival-rate and offered-intensity figures.}
 \end{reply}
 
 \begin{point}

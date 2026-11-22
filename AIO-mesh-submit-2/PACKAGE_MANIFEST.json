@@ -19,9 +19,9 @@
     "unrelated Kubernetes Job dump containing other-namespace credentials (see provenance/HIL_EXPORT_EXCLUSION.md)"
   ],
   "hash_inventory_status": "point-in-time; refresh again if live processes were still writing",
-  "hash_inventory_generated_utc": "2026-11-22T11:57:51.807539+00:00",
+  "hash_inventory_generated_utc": "2026-11-22T12:33:40.318679+00:00",
   "hash_inventory_file": "FILE_SHA256SUMS",
-  "hash_inventory_entries": 5500,
+  "hash_inventory_entries": 5568,
   "source_snapshot_file_count": 293,
   "included_source_paths": [
     "src/",
@@ -38,5 +38,5 @@
   "hil_e2e_updated_utc": "2026-11-22",
   "hil_e2e_path": "results/rev1/hil_e2e_20261121/run",
   "hil_legacy_export_path": "results/hil_export/hil_rev1_20261121",
-  "hil_evidence_scope": "12h control-plane plus E2E campaigns and two 3h long runs; no 24h E2E or ordered multi-VNF chain evidence"
+  "hil_evidence_scope": "12h control-plane, E2E campaigns, and one reported post-release 3h run; the earlier 3h run remains archived but is excluded from manuscript and response; no 24h E2E or ordered multi-VNF chain evidence"
 }

@@ -65,9 +65,10 @@
 \input{generated/hil_e2e_numbers.tex}
 \input{generated/independent_training_numbers.tex}
 \begin{document}
+\begin{frontmatter}
 \title{AIO-Mesh: Supplementary Results}
 \author{Hanh P. Du et al.}
-\maketitle
+\end{frontmatter}
 \setcounter{table}{0}
 \renewcommand{\thetable}{S\arabic{table}}
 \renewcommand{\theHtable}{supplement.\arabic{table}}
@@ -407,4 +408,21 @@ Training seed & Saved transitions & Mean safe acceptance (\%) & Evaluation SD (p
 \end{table*}
 \clearpage
 \endgroup
+
+\begin{table*}[p]
+\centering
+\caption{Full request-correlated HIL campaign comparison. The corrected and pre-correction campaigns started from different testbed states and are not paired. Timed entries are P50 / P95 / P99.}
+\label{tab:hil_e2e_detailed}
+{\scriptsize\input{generated/table_hil_e2e_detailed.tex}}
+\end{table*}
+
+\begin{table*}[p]
+\centering
+\caption{Full BMv2 over-MSD trials, including the per-switch path profiles. Isolated rows aggregate three 100-packet trials per mode; live rows use 50 packets per depth.}
+\label{tab:hil_msd_detailed}
+{\scriptsize\input{generated/table_hil_msd_detailed.tex}}
+\end{table*}
+\clearpage
+\bibliographystyle{elsarticle-num}
+\bibliography{refs}
 \end{document}
