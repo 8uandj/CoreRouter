@@ -1,0 +1,4 @@
+# captured_utc=2026-11-21T16:51:24Z
+# cmd: docker inspect 3s-com-backend --format {{.Id}} image={{.Image}} created={{.Created}} started={{.State.StartedAt}} restarts={{.RestartCount}} mounts={{json .Mounts}}
+0b62be8d9e13616cec82bf2e505ab4848503e07bdbadd621e8ddb2811d9fd88d image=sha256:2967e0e157cf61bc63b261a2223a7f87022eb4c07fdcbbb191dcfa1b94bf2310 created=2026-11-17T18:07:06.693954681Z started=2026-11-17T18:07:07.068666985Z restarts=0 mounts=[{"Destination":"/root/.kube/config","Mode":"ro","Propagation":"rprivate","RW":false,"Source":"/var/snap/microk8s/current/credentials/client.config","Type":"bind"},{"Destination":"/app/results/rev1/runtime","Mode":"","Propagation":"rprivate","RW":true,"Source":"/home/CoreRouter/results/rev1/runtime","Type":"bind"}]
+# exit=0

@@ -1,0 +1,166 @@
+apiVersion: tekton.dev/v1
+kind: Pipeline
+metadata:
+  annotations:
+    kubectl.kubernetes.io/last-applied-configuration: |
+      {"apiVersion":"tekton.dev/v1","kind":"Pipeline","metadata":{"annotations":{},"labels":{"core-router/lifecycle":"make-before-break","core-router/phase":"2"},"name":"vnf-migrate-single","namespace":"core-router"},"spec":{"description":"Single-VNF Make-Before-Break — MAKE STEP ONLY.\n\nTạo 1 bản sao VNF (replacement) tại node đích (target location). KHÔNG bẻ lái\ntraffic. KHÔNG xóa VNF cũ. Pipeline chỉ thực hiện:\n  1. prepare-replacement: render template từ ConfigMap vnf-inputs với\n     deployName mới + label core-router/location = targetLocation.\n  2. instantiate-replacement: kubectl apply manifest đã render.\n  3. wait-replacement-ready: chờ Deployment Ready (rollout status, timeout 180s).\n  4. observe-replacement: kubectl get pods để Backend đọc IP/NodePort của replacement.\n\nSau khi pipeline kết thúc Succeeded, Backend / SDN Controller sẽ thực hiện:\n  (Steer) — rewrite luật SRv6 ở Ingress để bẻ luồng sang replacement.\n  (Break) — gọi pipeline `vnf-terminate` để xóa VNF cũ. KHÔNG được trigger\n  trong pipeline này, vì nếu xóa VNF cũ trước khi traffic đã switch sẽ vi\n  phạm Zero-Downtime SLA của Make-Before-Break.\n","params":[{"default":"core-router","name":"ns"},{"description":"Tên VNF hiện tại (chỉ dùng để log/metadata; KHÔNG bị pipeline này xóa)","name":"oldDeployName"},{"description":"Tên VNF replacement, ví dụ: vnf-frr-001-mig-hanoi2","name":"newDeployName"},{"description":"Tên template trong ConfigMap vnf-inputs (vd vnf-frr.yaml, vnf-nat.yaml, vnf-voc.yaml)","name":"fileName"},{"default":"auto","description":"Node-location đích (ví dụ hanoi-2, danang-1) — gán vào label core-router/location","name":"targetLocation"},{"default":"","description":"kubernetes.io/hostname của K8s worker node (vd: k8s-master, worker1, worker2). Từ AI→K8s Mapping Dictionary.","name":"nodeHostname"},{"default":"","description":"Selector used by kubectl wait/get for the replacement pod.","name":"labelSelector"}],"results":[{"description":"Echo oldDeployName để Backend gọi vnf-terminate sau khi đã Steer xong","name":"oldDeployName","value":"$(tasks.emit-results.results.oldDeployName)"},{"description":"Tên replacement vừa được tạo và Ready","name":"newDeployName","value":"$(tasks.emit-results.results.newDeployName)"},{"description":"Location của replacement đã gắn label core-router/location","name":"targetLocation","value":"$(tasks.emit-results.results.targetLocation)"}],"tasks":[{"name":"prepare-replacement","params":[{"name":"deployName","value":"$(params.newDeployName)"},{"name":"fileName","value":"$(params.fileName)"},{"name":"location","value":"$(params.targetLocation)"},{"name":"nodeHostname","value":"$(params.nodeHostname)"}],"taskRef":{"name":"prepare-vnf"},"workspaces":[{"name":"ws","workspace":"ws"}]},{"name":"instantiate-replacement","params":[{"name":"filePath","value":"/workspace/ws/final.yaml"},{"name":"namespace","value":"$(params.ns)"}],"runAfter":["prepare-replacement"],"taskRef":{"name":"kubectl-apply-file"},"workspaces":[{"name":"ws","workspace":"ws"}]},{"name":"wait-replacement-ready","params":[{"name":"namespace","value":"$(params.ns)"},{"name":"labelSelector","value":"app=$(params.newDeployName)"}],"runAfter":["instantiate-replacement"],"taskRef":{"name":"kubectl-wait"}},{"name":"observe-replacement","params":[{"name":"namespace","value":"$(params.ns)"},{"name":"labelSelector","value":"app=$(params.newDeployName)"}],"runAfter":["wait-replacement-ready"],"taskRef":{"name":"kubectl-get"}},{"name":"emit-results","params":[{"name":"oldDeployName","value":"$(params.oldDeployName)"},{"name":"newDeployName","value":"$(params.newDeployName)"},{"name":"targetLocation","value":"$(params.targetLocation)"}],"runAfter":["observe-replacement"],"taskSpec":{"params":[{"name":"oldDeployName"},{"name":"newDeployName"},{"name":"targetLocation"}],"results":[{"description":"Echo oldDeployName cho Backend gọi vnf-terminate sau khi Steer","name":"oldDeployName"},{"description":"Tên replacement vừa được tạo và Ready","name":"newDeployName"},{"description":"Location của replacement đã gắn label core-router/location","name":"targetLocation"}],"steps":[{"image":"localhost:32000/alpine:latest","name":"write","script":"#!/bin/sh\nset -e\nprintf '%s' \"$(params.oldDeployName)\"  \u003e \"$(results.oldDeployName.path)\"\nprintf '%s' \"$(params.newDeployName)\"  \u003e \"$(results.newDeployName.path)\"\nprintf '%s' \"$(params.targetLocation)\" \u003e \"$(results.targetLocation.path)\"\n"}]}}],"workspaces":[{"name":"ws"}]}}
+  creationTimestamp: "2026-05-09T09:37:22Z"
+  generation: 7
+  labels:
+    core-router/lifecycle: make-before-break
+    core-router/phase: "2"
+  name: vnf-migrate-single
+  namespace: core-router
+  resourceVersion: "88879036"
+  uid: a44f1308-29d2-4dcb-b928-580837140284
+spec:
+  description: |
+    Single-VNF Make-Before-Break — MAKE STEP ONLY.
+
+    Tạo 1 bản sao VNF (replacement) tại node đích (target location). KHÔNG bẻ lái
+    traffic. KHÔNG xóa VNF cũ. Pipeline chỉ thực hiện:
+      1. prepare-replacement: render template từ ConfigMap vnf-inputs với
+         deployName mới + label core-router/location = targetLocation.
+      2. instantiate-replacement: kubectl apply manifest đã render.
+      3. wait-replacement-ready: chờ Deployment Ready (rollout status, timeout 180s).
+      4. observe-replacement: kubectl get pods để Backend đọc IP/NodePort của replacement.
+
+    Sau khi pipeline kết thúc Succeeded, Backend / SDN Controller sẽ thực hiện:
+      (Steer) — rewrite luật SRv6 ở Ingress để bẻ luồng sang replacement.
+      (Break) — gọi pipeline `vnf-terminate` để xóa VNF cũ. KHÔNG được trigger
+      trong pipeline này, vì nếu xóa VNF cũ trước khi traffic đã switch sẽ vi
+      phạm Zero-Downtime SLA của Make-Before-Break.
+  params:
+  - default: core-router
+    name: ns
+    type: string
+  - description: Tên VNF hiện tại (chỉ dùng để log/metadata; KHÔNG bị pipeline này
+      xóa)
+    name: oldDeployName
+    type: string
+  - description: 'Tên VNF replacement, ví dụ: vnf-frr-001-mig-hanoi2'
+    name: newDeployName
+    type: string
+  - description: Tên template trong ConfigMap vnf-inputs (vd vnf-frr.yaml, vnf-nat.yaml,
+      vnf-voc.yaml)
+    name: fileName
+    type: string
+  - default: auto
+    description: Node-location đích (ví dụ hanoi-2, danang-1) — gán vào label core-router/location
+    name: targetLocation
+    type: string
+  - default: ""
+    description: 'kubernetes.io/hostname của K8s worker node (vd: k8s-master, worker1,
+      worker2). Từ AI→K8s Mapping Dictionary.'
+    name: nodeHostname
+    type: string
+  - default: ""
+    description: Selector used by kubectl wait/get for the replacement pod.
+    name: labelSelector
+    type: string
+  results:
+  - description: Echo oldDeployName để Backend gọi vnf-terminate sau khi đã Steer
+      xong
+    name: oldDeployName
+    value: $(tasks.emit-results.results.oldDeployName)
+  - description: Tên replacement vừa được tạo và Ready
+    name: newDeployName
+    value: $(tasks.emit-results.results.newDeployName)
+  - description: Location của replacement đã gắn label core-router/location
+    name: targetLocation
+    value: $(tasks.emit-results.results.targetLocation)
+  tasks:
+  - name: prepare-replacement
+    params:
+    - name: deployName
+      value: $(params.newDeployName)
+    - name: fileName
+      value: $(params.fileName)
+    - name: location
+      value: $(params.targetLocation)
+    - name: nodeHostname
+      value: $(params.nodeHostname)
+    taskRef:
+      kind: Task
+      name: prepare-vnf
+    workspaces:
+    - name: ws
+      workspace: ws
+  - name: instantiate-replacement
+    params:
+    - name: filePath
+      value: /workspace/ws/final.yaml
+    - name: namespace
+      value: $(params.ns)
+    runAfter:
+    - prepare-replacement
+    taskRef:
+      kind: Task
+      name: kubectl-apply-file
+    workspaces:
+    - name: ws
+      workspace: ws
+  - name: wait-replacement-ready
+    params:
+    - name: namespace
+      value: $(params.ns)
+    - name: labelSelector
+      value: app=$(params.newDeployName)
+    runAfter:
+    - instantiate-replacement
+    taskRef:
+      kind: Task
+      name: kubectl-wait
+  - name: observe-replacement
+    params:
+    - name: namespace
+      value: $(params.ns)
+    - name: labelSelector
+      value: app=$(params.newDeployName)
+    runAfter:
+    - wait-replacement-ready
+    taskRef:
+      kind: Task
+      name: kubectl-get
+  - name: emit-results
+    params:
+    - name: oldDeployName
+      value: $(params.oldDeployName)
+    - name: newDeployName
+      value: $(params.newDeployName)
+    - name: targetLocation
+      value: $(params.targetLocation)
+    runAfter:
+    - observe-replacement
+    taskSpec:
+      metadata: {}
+      params:
+      - name: oldDeployName
+        type: string
+      - name: newDeployName
+        type: string
+      - name: targetLocation
+        type: string
+      results:
+      - description: Echo oldDeployName cho Backend gọi vnf-terminate sau khi Steer
+        name: oldDeployName
+        type: string
+      - description: Tên replacement vừa được tạo và Ready
+        name: newDeployName
+        type: string
+      - description: Location của replacement đã gắn label core-router/location
+        name: targetLocation
+        type: string
+      spec: null
+      steps:
+      - computeResources: {}
+        image: localhost:32000/alpine:latest
+        name: write
+        script: |
+          #!/bin/sh
+          set -e
+          printf '%s' "$(params.oldDeployName)"  > "$(results.oldDeployName.path)"
+          printf '%s' "$(params.newDeployName)"  > "$(results.newDeployName.path)"
+          printf '%s' "$(params.targetLocation)" > "$(results.targetLocation.path)"
+  workspaces:
+  - name: ws

@@ -1,0 +1,124 @@
+mininet> 
+mininet> h1 ip -4 addr show
+bash: hip: command not found
+mininet> h1 ip -4 route show
+bash: 1ip: command not found
+mininet> h1 sysctl net.ipv4.ip_forward
+net.ipv4.ip_forward = 1
+mininet> h1 ping -c 1 -W 2 10.1.240.1
+bash: iping: command not found
+mininet> h1 ip -4 addr show
+1: lo: <LOOPBACK,UP,LOWER_UP> mtu 65536 qdisc noqueue state UNKNOWN group default qlen 1000
+    inet 127.0.0.1/8 scope host lo
+       valid_lft forever preferred_lft forever
+2: h1-eth0@if35895: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 1500 qdisc netem state UP group default qlen 1000 link-netnsid 0
+    inet 10.0.0.1/24 brd 10.0.0.255 scope global h1-eth0
+       valid_lft forever preferred_lft forever
+35937: veth-h1-mn@if35938: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 1500 qdisc noqueue state UP group default qlen 1000 link-netnsid 0
+    inet 10.1.240.91/16 scope global veth-h1-mn
+       valid_lft forever preferred_lft forever
+mininet> h1 ip -4 route show
+default via 10.1.240.1 dev veth-h1-mn src 10.0.0.1 
+10.0.0.0/24 dev h1-eth0 proto kernel scope link src 10.0.0.1 
+10.1.0.0/16 dev veth-h1-mn proto kernel scope link src 10.1.240.91 
+mininet> h1 ping -c 1 -W 2 10.1.240.1
+PING 10.1.240.1 (10.1.240.1) 56(84) bytes of data.
+64 bytes from 10.1.240.1: icmp_seq=1 ttl=64 time=0.095 ms
+
+--- 10.1.240.1 ping statistics ---
+1 packets transmitted, 1 received, 0% packet loss, time 0ms
+rtt min/avg/max/mdev = 0.095/0.095/0.095/0.000 ms
+mininet> sh curl -sS --max-time 5 http://127.0.0.1:8765/health
+{"s1": {"thrift_port": 19091, "reachable": true}, "s2": {"thrift_port": 19092, "reachable": true}, "s3": {"thrift_port": 19093, "reachable": true}, "s4": {"thrift_port": 19094, "reachable": true}, "s5": {"thrift_port": 19095, "reachable": true}, "s6": {"thrift_port": 19096, "reachable": true}, "s7": {"thrift_port": 19097, "reachable": true}, "s8": {"thrift_port": 19098, "reachable": true}, "s9": {"thrift_port": 19099, "reachable": true}, "s10": {"thrift_port": 19100, "reachable": true}}mininet> sh curl -i -sS --max-time 5 http://127.0.0.1:8000/health
+HTTP/1.1 404 Not Found
+[1mdate[0m: Tue, 17 Nov 2026 15:55:46 GMT
+[1mserver[0m: uvicorn
+[1mcontent-length[0m: 22
+[1mcontent-type[0m: application/json
+[1mvary[0m: Origin
+
+{"detail":"Not Found"}mininet> sh curl -i -sS --max-time 5 http://127.0.0.1:8000/api/health
+HTTP/1.1 200 OK
+[1mdate[0m: Tue, 17 Nov 2026 15:55:54 GMT
+[1mserver[0m: uvicorn
+[1mcontent-length[0m: 54
+[1mcontent-type[0m: application/json
+[1mvary[0m: Origin
+
+{"status":"online","system":"3S-COM Orchestrator PRO"}mininet> sh curl -sS --max-time 5 http://127.0.0.1:8000/openapi.json > /tmp/hil-openapi.json; sh python3 -c 'import json; d=json.load(open("/tmp/hil-openapi.json")); print("\n".join(sorted(d["paths"])))'
+sh: 0: Can't open python3
+mininet> sh python -c 'import json; d=json.load(open("/tmp/hil-openapi.json")); print("\n".join(sorted(d["paths"])))'
+/bin/sh: 1: python: not found
+mininet> sh /home/CoreRouter/venv/bin/python3 -c 'import json; d=json.load(open("/tmp/hil-openapi.json")); print("\n".join(sorted(d["paths"])))'
+/
+/api/ai/simulation/start
+/api/ai/simulation/stop
+/api/ai/status
+/api/deploy
+/api/health
+/api/metrics/router
+/api/orchestrate
+/api/orchestrate/alert
+/api/orchestrate/free
+/api/orchestrate/migrate-single-vnf
+/api/orchestrate/migrate-single-vnf/break
+/api/orchestrate/migrate-single-vnf/endpoint
+/api/orchestrate/migrate-single-vnf/status
+/api/orchestrate/migrations/{replacement}
+/api/orchestrate/reset
+/api/orchestrate/state
+/api/orchestrate/status
+/api/orchestrate/telemetry
+/api/p4/rules
+/api/pipelineruns/latest
+/api/vnfs
+/api/vnfs/{vnf_name}
+mininet> sh curl -sS --max-time 5 http://127.0.0.1:8000/api/vnfs
+{"nodes":[{"id":"vnf-attack-004e219d","type":"customNode","data":{"label":"vnf-attack-004e219d","role":"firewall","location":"hcm-1","status":"Running","ready":"1/1"},"position":{"x":0,"y":0},"draggable":true},{"id":"vnf-attack-0faeed9f","type":"customNode","data":{"label":"vnf-attack-0faeed9f","role":"firewall","location":"hanoi-1","status":"Running","ready":"1/1"},"position":{"x":0,"y":0},"draggable":true},{"id":"vnf-attack-228edabf","type":"customNode","data":{"label":"vnf-attack-228edabf","role":"firewall","location":"haiphong-1","status":"Running","ready":"1/1"},"position":{"x":0,"y":0},"draggable":true},{"id":"vnf-attack-2f0aa313","type":"customNode","data":{"label":"vnf-attack-2f0aa313","role":"firewall","location":"ninhbinh-1","status":"Running","ready":"1/1"},"position":{"x":0,"y":0},"draggable":true},{"id":"vnf-attack-57b6f205","type":"customNode","data":{"label":"vnf-attack-57b6f205","role":"firewall","location":"vinh-1","status":"Running","ready":"1/1"},"position":{"x":0,"y":0},"draggable":true},{"id":"vnf-attack-8bf0425e","type":"customNode","data":{"label":"vnf-attack-8bf0425e","role":"firewall","location":"danang-1","status":"Running","ready":"1/1"},"position":{"x":0,"y":0},"draggable":true},{"id":"vnf-attack-af13f6df","type":"customNode","data":{"label":"vnf-attack-af13f6df","role":"firewall","location":"cantho-1","status":"Running","ready":"1/1"},"position":{"x":0,"y":0},"draggable":true}],"edges":[]}mininet> sh curl -sS --max-time 5 http://127.0.0.1:8000/api/orchestrate/state
+{"status":"success","message":"Hybrid state snapshot","data":{"mode":"drl","state_version":27,"reservation_persistence":"durable","telemetry_age_s":[null,null,null,null,null,null,null,null,null,null],"stale_telemetry_nodes":[],"avg_cpu":0.4259999692440033,"avg_msd_usage":0.24000000953674316,"global_utilization":0.4259999692440033,"alert_flag":false,"nodes":[{"id":0,"name":"Hanoi","cpu_util":63.0,"ram_util":32.0,"msd_util":0.0,"alert":false},{"id":1,"name":"HaiPhong","cpu_util":57.0,"ram_util":29.0,"msd_util":0.0,"alert":false},{"id":2,"name":"NinhBinh","cpu_util":64.0,"ram_util":32.5,"msd_util":0.0,"alert":false},{"id":3,"name":"Vinh","cpu_util":58.0,"ram_util":29.499998092651367,"msd_util":80.0,"alert":false},{"id":4,"name":"Hue","cpu_util":0.0,"ram_util":0.0,"msd_util":0.0,"alert":false},{"id":5,"name":"DaNang","cpu_util":64.0,"ram_util":32.5,"msd_util":100.0,"alert":false},{"id":6,"name":"QuyNhon","cpu_util":0.0,"ram_util":0.0,"msd_util":0.0,"alert":false},{"id":7,"name":"NhaTrang","cpu_util":0.0,"ram_util":0.0,"msd_util":0.0,"alert":false},{"id":8,"name":"HoChiMinh","cpu_util":64.0,"ram_util":32.5,"msd_util":60.000003814697266,"alert":false},{"id":9,"name":"CanTho","cpu_util":56.0,"ram_util":28.5,"msd_util":0.0,"alert":false}],"unaccounted_vnfs":[],"active_vnfs":[{"name":"vnf-attack-004e219d","v_place":8,"v_route":8,"cpu_req":64.0,"ram_req":32.5,"msd_req":6,"is_pending":false,"presence_unconfirmed":false,"deployment_ready":true,"accounting_unknown":false},{"name":"vnf-attack-0faeed9f","v_place":0,"v_route":8,"cpu_req":63.0,"ram_req":32.0,"msd_req":4,"is_pending":false,"presence_unconfirmed":false,"deployment_ready":true,"accounting_unknown":false},{"name":"vnf-attack-228edabf","v_place":1,"v_route":8,"cpu_req":57.0,"ram_req":29.0,"msd_req":6,"is_pending":false,"presence_unconfirmed":false,"deployment_ready":true,"accounting_unknown":false},{"name":"vnf-attack-2f0aa313","v_place":2,"v_route":8,"cpu_req":64.0,"ram_req":32.5,"msd_req":6,"is_pending":false,"presence_unconfirmed":false,"deployment_ready":true,"accounting_unknown":false},{"name":"vnf-attack-57b6f205","v_place":3,"v_route":3,"cpu_req":58.0,"ram_req":29.5,"msd_req":4,"is_pending":false,"presence_unconfirmed":false,"deployment_ready":true,"accounting_unknown":false},{"name":"vnf-attack-8bf0425e","v_place":5,"v_route":8,"cpu_req":64.0,"ram_req":32.5,"msd_req":6,"is_pending":false,"presence_unconfirmed":false,"deployment_ready":true,"accounting_unknown":false},{"name":"vnf-attack-af13f6df","v_place":9,"v_route":5,"cpu_req":56.0,"ram_req":28.5,"msd_req":8,"is_pending":false,"presence_unconfirmed":false,"deployment_ready":true,"accounting_unknown":false}],"forecast_alerts":[false,false,false,false,false,false,false,false,false,false]},"forecast":{"threshold":800.0,"window_size":5,"model_loaded":false,"alerts":{}}}mininet> sh curl -i -sS --max-time 5 http://127.0.0.1:8000/api/p4/rules
+HTTP/1.1 405 Method Not Allowed
+[1mdate[0m: Tue, 17 Nov 2026 15:57:34 GMT
+[1mserver[0m: uvicorn
+[1mallow[0m: POST
+[1mcontent-length[0m: 31
+[1mcontent-type[0m: application/json
+[1mvary[0m: Origin
+
+{"detail":"Method Not Allowed"}mininet> sh curl -sS --max-time 5 http://127.0.0.1:8000/api/pipelineruns/latest
+{"name":"deploy-firewall-508c3d","overallStatus":"Succeeded","tasks":[{"name":"prepare-manifest","status":"Succeeded"},{"name":"instantiate","status":"Succeeded"},{"name":"wait-ready","status":"Succeeded"},{"name":"observe","status":"Succeeded"}]}mininet> sh chroot /host /bin/bash -lc 'kubectl -n core-router get pods -o wide' [A[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[K'
+chroot: cannot change root directory to '/host': No such file or directory
+mininet> sh which kubectl
+/usr/local/bin/kubectl
+mininet> sh kubectl -n core-router get pods -o wide
+E1117 15:58:37.828172 2741454 memcache.go:265] "Unhandled Error" err="couldn't get current server API group list: invalid character '<' looking for beginning of value"
+E1117 15:58:37.844162 2741454 memcache.go:265] "Unhandled Error" err="couldn't get current server API group list: invalid character '<' looking for beginning of value"
+E1117 15:58:37.850885 2741454 memcache.go:265] "Unhandled Error" err="couldn't get current server API group list: invalid character '<' looking for beginning of value"
+E1117 15:58:37.856948 2741454 memcache.go:265] "Unhandled Error" err="couldn't get current server API group list: invalid character '<' looking for beginning of value"
+E1117 15:58:37.863467 2741454 memcache.go:265] "Unhandled Error" err="couldn't get current server API group list: invalid character '<' looking for beginning of value"
+error: invalid character '<' looking for beginning of value
+mininet> h1 ip -o link show h1-eth0
+2: h1-eth0@if35895: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 1500 qdisc netem state UP mode DEFAULT group default qlen 1000\    link/ether 00:00:00:00:00:01 brd ff:ff:ff:ff:ff:ff link-netnsid 0
+bash: p: command not found
+bash: h1: command not found
+bash: h1: command not found
+mininet> h1 which python3
+bash: hwhich: command not found
+mininet> h1 python3 --version
+Python 3.8.10
+mininet> h1 python3 -c 'import scapy.all; print("scapy-present")'
+Traceback (most recent call last):
+  File "<string>", line 1, in <module>
+ModuleNotFoundError: No module named 'scapy'
+mininet> 2026-11-17 16:06:57,442 [sdn.controller] INFO: [Controller] Bootstrap: populating forwarding tables...
+2026-11-17 16:06:58,057 [sdn.controller] INFO: [s1] route +fc00:6::1/128 → port4
+2026-11-17 16:06:58,633 [sdn.controller] INFO: [s6] route +fc00:9::1/128 → port5
+2026-11-17 16:06:59,143 [sdn.controller] ERROR: [s9] End.DX4 readback mismatch (CLI rc=0): Obtaining JSON from switch...
+Done
+Control utility for runtime P4 table manipulation
+RuntimeCmd: Adding entry to exact match table srv6_end_dx4_table
+match key:           EXACT-fc:00:00:09:00:00:00:00:00:00:00:00:00:00:00:01
+action:              srv6_end_dx4
+runtime data:        00:00:00:00:00:09	8a:ad:e9:47:ad:01	00:01
+Entry has been added with handle 0
+RuntimeCmd:
+2026-11-17 16:06:59,143 [sdn.controller] ERROR: [Controller] Bootstrap had errors ❌

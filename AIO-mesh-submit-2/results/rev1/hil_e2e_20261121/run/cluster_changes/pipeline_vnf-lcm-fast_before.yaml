@@ -1,0 +1,85 @@
+apiVersion: tekton.dev/v1
+kind: Pipeline
+metadata:
+  annotations:
+    kubectl.kubernetes.io/last-applied-configuration: |
+      {"apiVersion":"tekton.dev/v1","kind":"Pipeline","metadata":{"annotations":{},"name":"vnf-lcm-fast","namespace":"core-router"},"spec":{"params":[{"default":"core-router","name":"ns"},{"name":"deployName"},{"name":"labelSelector"},{"default":"vnf-frr.yaml","name":"fileName"},{"default":"auto","name":"location"},{"default":"","name":"nodeHostname"}],"tasks":[{"name":"prepare-manifest","params":[{"name":"deployName","value":"$(params.deployName)"},{"name":"fileName","value":"$(params.fileName)"},{"name":"location","value":"$(params.location)"},{"name":"nodeHostname","value":"$(params.nodeHostname)"}],"taskRef":{"name":"prepare-vnf"},"workspaces":[{"name":"ws","workspace":"ws"}]},{"name":"instantiate","params":[{"name":"filePath","value":"/workspace/ws/final.yaml"},{"name":"namespace","value":"$(params.ns)"}],"runAfter":["prepare-manifest"],"taskRef":{"name":"kubectl-apply-file"},"workspaces":[{"name":"ws","workspace":"ws"}]},{"name":"wait-ready","params":[{"name":"namespace","value":"$(params.ns)"},{"name":"deploymentName","value":"$(params.deployName)"}],"runAfter":["instantiate"],"taskRef":{"name":"kubectl-wait"}},{"name":"observe","params":[{"name":"namespace","value":"$(params.ns)"},{"name":"labelSelector","value":"$(params.labelSelector)"}],"runAfter":["wait-ready"],"taskRef":{"name":"kubectl-get"}}],"workspaces":[{"name":"ws"}]}}
+  creationTimestamp: "2026-05-09T09:37:22Z"
+  generation: 3
+  name: vnf-lcm-fast
+  namespace: core-router
+  resourceVersion: "218001247"
+  uid: 1f17f42c-5c00-4b28-a9af-96cbb6019f25
+spec:
+  params:
+  - default: core-router
+    name: ns
+    type: string
+  - name: deployName
+    type: string
+  - name: labelSelector
+    type: string
+  - default: vnf-frr.yaml
+    name: fileName
+    type: string
+  - default: auto
+    name: location
+    type: string
+  - default: ""
+    name: nodeHostname
+    type: string
+  tasks:
+  - name: prepare-manifest
+    params:
+    - name: deployName
+      value: $(params.deployName)
+    - name: fileName
+      value: $(params.fileName)
+    - name: location
+      value: $(params.location)
+    - name: nodeHostname
+      value: $(params.nodeHostname)
+    taskRef:
+      kind: Task
+      name: prepare-vnf
+    workspaces:
+    - name: ws
+      workspace: ws
+  - name: instantiate
+    params:
+    - name: filePath
+      value: /workspace/ws/final.yaml
+    - name: namespace
+      value: $(params.ns)
+    runAfter:
+    - prepare-manifest
+    taskRef:
+      kind: Task
+      name: kubectl-apply-file
+    workspaces:
+    - name: ws
+      workspace: ws
+  - name: wait-ready
+    params:
+    - name: namespace
+      value: $(params.ns)
+    - name: deploymentName
+      value: $(params.deployName)
+    runAfter:
+    - instantiate
+    taskRef:
+      kind: Task
+      name: kubectl-wait
+  - name: observe
+    params:
+    - name: namespace
+      value: $(params.ns)
+    - name: labelSelector
+      value: $(params.labelSelector)
+    runAfter:
+    - wait-ready
+    taskRef:
+      kind: Task
+      name: kubectl-get
+  workspaces:
+  - name: ws

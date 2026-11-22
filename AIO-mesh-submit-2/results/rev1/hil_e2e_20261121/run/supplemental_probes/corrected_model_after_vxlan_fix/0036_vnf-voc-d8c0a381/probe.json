@@ -1,0 +1,305 @@
+{
+  "request_id": "vnf-voc-d8c0a381",
+  "src_host": "h3",
+  "place_host": "h2",
+  "switch_path": [
+    3,
+    1,
+    2
+  ],
+  "sid_stack_final_to_first": [
+    "fc00:2::1",
+    "fc00:1::1",
+    "fc00:3::1"
+  ],
+  "pod_ip": "10.1.235.217",
+  "n": 20,
+  "t": {
+    "counters_before_utc": "2026-11-21T20:15:53.168717+00:00",
+    "send_start_utc": "2026-11-21T20:16:01.223631+00:00",
+    "send_end_utc": "2026-11-21T20:16:02.626295+00:00",
+    "counters_after_utc": "2026-11-21T20:16:02.627576+00:00"
+  },
+  "counters_before": {
+    "s3": {
+      "advance": 586,
+      "terminal": 120,
+      "msd_violation": 0
+    },
+    "s1": {
+      "advance": 1858,
+      "terminal": 60,
+      "msd_violation": 0
+    },
+    "s2": {
+      "advance": 972,
+      "terminal": 206,
+      "msd_violation": 50
+    }
+  },
+  "src_setup": {
+    "switch_port": "s3-eth1",
+    "switch_port_mac": "fe:63:eb:c1:be:a8",
+    "seg6_segs_traversal": [
+      "fc00:3::1",
+      "fc00:1::1",
+      "fc00:2::1"
+    ],
+    "commands": "ethtool -K h3-eth0 tx off >/dev/null; ip -6 addr replace 2001:db8:100::3/64 dev h3-eth0 nodad; ip -6 route replace fc00::/16 dev h3-eth0; ip -6 neigh replace fc00:3::1 lladdr fe:63:eb:c1:be:a8 dev h3-eth0 nud permanent; ip route replace 10.1.235.217/32 encap seg6 mode encap segs fc00:3::1,fc00:1::1,fc00:2::1 dev h3-eth0; ip route get 10.1.235.217",
+    "output": "10.1.235.217 dev h3-eth0 src 10.0.0.3 uid 0 \n    cache \n"
+  },
+  "mode": "http",
+  "http": [
+    {
+      "seq": 1,
+      "sent_utc": "2026-11-21T20:16:01.731153302",
+      "http_code": 404,
+      "time_connect_s": 0.004107,
+      "time_total_s": 0.007085,
+      "body": "{\"error\": \"not_found\", \"path\": \"/e2e/vnf-voc-d8c0a381/01\"}",
+      "marker_echoed_by_vnf": true
+    },
+    {
+      "seq": 2,
+      "sent_utc": "2026-11-21T20:16:01.761729919",
+      "http_code": 404,
+      "time_connect_s": 0.003163,
+      "time_total_s": 0.006033,
+      "body": "{\"error\": \"not_found\", \"path\": \"/e2e/vnf-voc-d8c0a381/02\"}",
+      "marker_echoed_by_vnf": true
+    },
+    {
+      "seq": 3,
+      "sent_utc": "2026-11-21T20:16:01.817447856",
+      "http_code": 404,
+      "time_connect_s": 0.003013,
+      "time_total_s": 0.006145,
+      "body": "{\"error\": \"not_found\", \"path\": \"/e2e/vnf-voc-d8c0a381/03\"}",
+      "marker_echoed_by_vnf": true
+    },
+    {
+      "seq": 4,
+      "sent_utc": "2026-11-21T20:16:01.849401931",
+      "http_code": 404,
+      "time_connect_s": 0.003351,
+      "time_total_s": 0.006495,
+      "body": "{\"error\": \"not_found\", \"path\": \"/e2e/vnf-voc-d8c0a381/04\"}",
+      "marker_echoed_by_vnf": true
+    },
+    {
+      "seq": 5,
+      "sent_utc": "2026-11-21T20:16:01.875589650",
+      "http_code": 404,
+      "time_connect_s": 0.010401,
+      "time_total_s": 0.013828,
+      "body": "{\"error\": \"not_found\", \"path\": \"/e2e/vnf-voc-d8c0a381/05\"}",
+      "marker_echoed_by_vnf": true
+    },
+    {
+      "seq": 6,
+      "sent_utc": "2026-11-21T20:16:01.906906494",
+      "http_code": 404,
+      "time_connect_s": 0.004764,
+      "time_total_s": 0.007659,
+      "body": "{\"error\": \"not_found\", \"path\": \"/e2e/vnf-voc-d8c0a381/06\"}",
+      "marker_echoed_by_vnf": true
+    },
+    {
+      "seq": 7,
+      "sent_utc": "2026-11-21T20:16:01.936479582",
+      "http_code": 404,
+      "time_connect_s": 0.00313,
+      "time_total_s": 0.006246,
+      "body": "{\"error\": \"not_found\", \"path\": \"/e2e/vnf-voc-d8c0a381/07\"}",
+      "marker_echoed_by_vnf": true
+    },
+    {
+      "seq": 8,
+      "sent_utc": "2026-11-21T20:16:01.963462222",
+      "http_code": 404,
+      "time_connect_s": 0.013717,
+      "time_total_s": 0.016701,
+      "body": "{\"error\": \"not_found\", \"path\": \"/e2e/vnf-voc-d8c0a381/08\"}",
+      "marker_echoed_by_vnf": true
+    },
+    {
+      "seq": 9,
+      "sent_utc": "2026-11-21T20:16:02.006893294",
+      "http_code": 404,
+      "time_connect_s": 0.002658,
+      "time_total_s": 0.006492,
+      "body": "{\"error\": \"not_found\", \"path\": \"/e2e/vnf-voc-d8c0a381/09\"}",
+      "marker_echoed_by_vnf": true
+    },
+    {
+      "seq": 10,
+      "sent_utc": "2026-11-21T20:16:02.030760305",
+      "http_code": 404,
+      "time_connect_s": 0.002949,
+      "time_total_s": 0.006135,
+      "body": "{\"error\": \"not_found\", \"path\": \"/e2e/vnf-voc-d8c0a381/10\"}",
+      "marker_echoed_by_vnf": true
+    },
+    {
+      "seq": 11,
+      "sent_utc": "2026-11-21T20:16:02.057815656",
+      "http_code": 404,
+      "time_connect_s": 0.003192,
+      "time_total_s": 0.00647,
+      "body": "{\"error\": \"not_found\", \"path\": \"/e2e/vnf-voc-d8c0a381/11\"}",
+      "marker_echoed_by_vnf": true
+    },
+    {
+      "seq": 12,
+      "sent_utc": "2026-11-21T20:16:02.083251062",
+      "http_code": 404,
+      "time_connect_s": 0.003413,
+      "time_total_s": 0.006818,
+      "body": "{\"error\": \"not_found\", \"path\": \"/e2e/vnf-voc-d8c0a381/12\"}",
+      "marker_echoed_by_vnf": true
+    },
+    {
+      "seq": 13,
+      "sent_utc": "2026-11-21T20:16:02.110804670",
+      "http_code": 404,
+      "time_connect_s": 0.003692,
+      "time_total_s": 0.00711,
+      "body": "{\"error\": \"not_found\", \"path\": \"/e2e/vnf-voc-d8c0a381/13\"}",
+      "marker_echoed_by_vnf": true
+    },
+    {
+      "seq": 14,
+      "sent_utc": "2026-11-21T20:16:02.137982190",
+      "http_code": 404,
+      "time_connect_s": 0.004379,
+      "time_total_s": 0.007924,
+      "body": "{\"error\": \"not_found\", \"path\": \"/e2e/vnf-voc-d8c0a381/14\"}",
+      "marker_echoed_by_vnf": true
+    },
+    {
+      "seq": 15,
+      "sent_utc": "2026-11-21T20:16:02.171780088",
+      "http_code": 404,
+      "time_connect_s": 0.00369,
+      "time_total_s": 0.006833,
+      "body": "{\"error\": \"not_found\", \"path\": \"/e2e/vnf-voc-d8c0a381/15\"}",
+      "marker_echoed_by_vnf": true
+    },
+    {
+      "seq": 16,
+      "sent_utc": "2026-11-21T20:16:02.199686344",
+      "http_code": 404,
+      "time_connect_s": 0.003245,
+      "time_total_s": 0.00659,
+      "body": "{\"error\": \"not_found\", \"path\": \"/e2e/vnf-voc-d8c0a381/16\"}",
+      "marker_echoed_by_vnf": true
+    },
+    {
+      "seq": 17,
+      "sent_utc": "2026-11-21T20:16:02.228127308",
+      "http_code": 404,
+      "time_connect_s": 0.003663,
+      "time_total_s": 0.007258,
+      "body": "{\"error\": \"not_found\", \"path\": \"/e2e/vnf-voc-d8c0a381/17\"}",
+      "marker_echoed_by_vnf": true
+    },
+    {
+      "seq": 18,
+      "sent_utc": "2026-11-21T20:16:02.256283195",
+      "http_code": 404,
+      "time_connect_s": 0.003251,
+      "time_total_s": 0.006453,
+      "body": "{\"error\": \"not_found\", \"path\": \"/e2e/vnf-voc-d8c0a381/18\"}",
+      "marker_echoed_by_vnf": true
+    },
+    {
+      "seq": 19,
+      "sent_utc": "2026-11-21T20:16:02.285560685",
+      "http_code": 404,
+      "time_connect_s": 0.003423,
+      "time_total_s": 0.006936,
+      "body": "{\"error\": \"not_found\", \"path\": \"/e2e/vnf-voc-d8c0a381/19\"}",
+      "marker_echoed_by_vnf": true
+    },
+    {
+      "seq": 20,
+      "sent_utc": "2026-11-21T20:16:02.312888413",
+      "http_code": 404,
+      "time_connect_s": 0.003392,
+      "time_total_s": 0.007308,
+      "body": "{\"error\": \"not_found\", \"path\": \"/e2e/vnf-voc-d8c0a381/20\"}",
+      "marker_echoed_by_vnf": true
+    }
+  ],
+  "counters_after": {
+    "s3": {
+      "advance": 686,
+      "terminal": 120,
+      "msd_violation": 0
+    },
+    "s1": {
+      "advance": 1958,
+      "terminal": 60,
+      "msd_violation": 0
+    },
+    "s2": {
+      "advance": 972,
+      "terminal": 306,
+      "msd_violation": 50
+    }
+  },
+  "counter_delta": {
+    "s3": {
+      "advance": 100,
+      "terminal": 0,
+      "msd_violation": 0
+    },
+    "s1": {
+      "advance": 100,
+      "terminal": 0,
+      "msd_violation": 0
+    },
+    "s2": {
+      "advance": 0,
+      "terminal": 100,
+      "msd_violation": 0
+    }
+  },
+  "src_teardown": "10.0.0.0/24 dev h3-eth0 proto kernel scope link src 10.0.0.3 \n10.1.0.0/16 via 10.1.240.1 dev veth-h3-mn \n",
+  "captured_packets": {
+    "src_egress_srv6": 102,
+    "place_host_decap": 100,
+    "host_vxlan": 200,
+    "src_return": 100
+  },
+  "summary": {
+    "sent": 20,
+    "app_received": 20,
+    "loss": 0,
+    "http_codes": [
+      404
+    ],
+    "rtt_total_ms": [
+      6.033,
+      6.135,
+      6.145,
+      6.246,
+      6.453,
+      6.47,
+      6.492,
+      6.495,
+      6.59,
+      6.818,
+      6.833,
+      6.936,
+      7.085,
+      7.11,
+      7.258,
+      7.308,
+      7.659,
+      7.924,
+      13.828,
+      16.701
+    ]
+  }
+}

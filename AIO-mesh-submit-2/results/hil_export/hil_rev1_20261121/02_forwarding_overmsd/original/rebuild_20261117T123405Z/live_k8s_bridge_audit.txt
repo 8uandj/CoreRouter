@@ -1,0 +1,239 @@
+=== UTC ===
+2026-11-17T14:16:25Z
+=== bridge ===
+34980: br-k8s-mn: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 1500 qdisc noqueue state UP mode DEFAULT group default qlen 1000\    link/ether 0e:b9:34:8f:db:e7 brd ff:ff:ff:ff:ff:ff promiscuity 0 minmtu 68 maxmtu 65535 \    bridge forward_delay 1500 hello_time 200 max_age 2000 ageing_time 30000 stp_state 0 priority 32768 vlan_filtering 0 vlan_protocol 802.1Q bridge_id 8000.e:b9:34:8f:db:e7 designated_root 8000.e:b9:34:8f:db:e7 root_port 0 root_path_cost 0 topology_change 0 topology_change_detected 0 hello_timer    0.00 tcn_timer    0.00 topology_change_timer    0.00 gc_timer   91.28 vlan_default_pvid 1 vlan_stats_enabled 0 vlan_stats_per_port 0 group_fwd_mask 0 group_address 01:80:c2:00:00:00 mcast_snooping 1 mcast_router 1 mcast_query_use_ifaddr 0 mcast_querier 0 mcast_hash_elasticity 16 mcast_hash_max 4096 mcast_last_member_count 2 mcast_startup_query_count 2 mcast_last_member_interval 100 mcast_membership_interval 26000 mcast_querier_interval 25500 mcast_query_interval 12500 mcast_query_response_interval 1000 mcast_startup_query_interval 3124 mcast_stats_enabled 0 mcast_igmp_version 2 mcast_mld_version 1 nf_call_iptables 0 nf_call_ip6tables 0 nf_call_arptables 0 addrgenmode eui64 numtxqueues 1 numrxqueues 1 gso_max_size 65536 gso_max_segs 65535 
+=== bridge address ===
+34980: br-k8s-mn    inet 10.1.240.1/16 scope global br-k8s-mn\       valid_lft forever preferred_lft forever
+34980: br-k8s-mn    inet6 fe80::9c3a:83ff:fecb:dce/64 scope link \       valid_lft forever preferred_lft forever
+=== bridge member links ===
+20: veth86c07f4@if19: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 1500 master br-e624a8d3ed98 state forwarding priority 32 cost 2 
+22: veth287e29f@if21: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 1500 master br-7b584a9f10f6 state forwarding priority 32 cost 2 
+26: vethfe4e1b1@if25: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 1500 master br-7b584a9f10f6 state forwarding priority 32 cost 2 
+28: vethdbbce51@if27: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 1500 master br-c27b508a7011 state forwarding priority 32 cost 2 
+30: veth18440ef@if29: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 1500 master br-c27b508a7011 state forwarding priority 32 cost 2 
+32: veth6fb279a@if31: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 1500 master br-7b584a9f10f6 state forwarding priority 32 cost 2 
+38: veth58baec0@if37: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 1500 master br-c27b508a7011 state forwarding priority 32 cost 2 
+40: vethf0bafca@if39: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 1500 master br-c27b508a7011 state forwarding priority 32 cost 2 
+42: vetha0f4515@if41: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 1500 master br-c27b508a7011 state forwarding priority 32 cost 2 
+44: vethd82030f@if43: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 1500 master br-c27b508a7011 state forwarding priority 32 cost 2 
+35450: veth-h1-k8s@if35449: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 1500 master br-k8s-mn state forwarding priority 32 cost 2 
+35452: veth-h2-k8s@if35451: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 1500 master br-k8s-mn state forwarding priority 32 cost 2 
+35454: veth-h3-k8s@if35453: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 1500 master br-k8s-mn state forwarding priority 32 cost 2 
+35456: veth-h4-k8s@if35455: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 1500 master br-k8s-mn state forwarding priority 32 cost 2 
+35458: veth-h5-k8s@if35457: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 1500 master br-k8s-mn state forwarding priority 32 cost 2 
+35460: veth-h6-k8s@if35459: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 1500 master br-k8s-mn state forwarding priority 32 cost 2 
+35462: veth-h7-k8s@if35461: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 1500 master br-k8s-mn state forwarding priority 32 cost 2 
+35464: veth-h8-k8s@if35463: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 1500 master br-k8s-mn state forwarding priority 32 cost 2 
+35466: veth-h9-k8s@if35465: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 1500 master br-k8s-mn state forwarding priority 32 cost 2 
+35468: veth-h10-k8s@if35467: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 1500 master br-k8s-mn state forwarding priority 32 cost 2 
+35628: vethb3af7aa@if35627: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 1500 master br-c27b508a7011 state forwarding priority 32 cost 2 
+35698: veth4221f87@if35697: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 1500 master br-c27b508a7011 state forwarding priority 32 cost 2 
+35700: veth23d7539@if35699: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 1500 master br-c27b508a7011 state forwarding priority 32 cost 2 
+=== Mininet/K8s routes ===
+10.0.0.0/24 via 10.1.240.91 dev br-k8s-mn 
+10.1.0.0/16 dev br-k8s-mn proto kernel scope link src 10.1.240.1 
+=== namespace IDs ===
+nsid 0 
+nsid 1 
+nsid 2 
+nsid 3 
+nsid 4 
+nsid 5 
+nsid 6 
+nsid 7 
+nsid 8 
+nsid 9 
+nsid 10 
+nsid 11 
+nsid 12 
+nsid 14 (iproute2 netns name: cni-826a385e-54a7-3496-b30c-7dbd267c244f)
+nsid 15 (iproute2 netns name: cni-ac7cbee7-ba9f-7674-75a5-01e3db2a92dc)
+nsid 16 (iproute2 netns name: cni-3007a5e5-df30-2b15-f53c-b331a8774840)
+nsid 17 (iproute2 netns name: cni-2acde3ba-c8a9-4dc2-f1e2-2996102a9e6a)
+nsid 18 (iproute2 netns name: cni-05eac6a5-beb6-b17e-f14e-0394dc8ba909)
+nsid 21 (iproute2 netns name: cni-6996fcfa-624f-4df8-5de4-b634b13ec2dc)
+nsid 25 (iproute2 netns name: cni-19a09728-a4c3-864b-8f37-4f6d732264f5)
+nsid 27 (iproute2 netns name: cni-78740c0a-e4d9-8ed9-5c84-d9a8bb7562b3)
+nsid 29 (iproute2 netns name: cni-6628264f-16d6-4390-834d-0016080681be)
+nsid 30 (iproute2 netns name: cni-074ae1ad-7350-7634-ad30-03f3319f9a4a)
+nsid 32 (iproute2 netns name: cni-3c90de98-df65-990b-fc0b-10816388f5e9)
+nsid 33 (iproute2 netns name: cni-d57aa4cf-622b-044f-fd5e-72a98e48bf07)
+nsid 35 (iproute2 netns name: cni-6e4835db-6de9-3b2f-1739-8e9126bf72ef)
+nsid 39 (iproute2 netns name: cni-e3d93172-c4c8-9588-cda9-03adcb40895d)
+nsid 41 (iproute2 netns name: cni-8338af36-4bfd-a70c-44fc-8487efbdc5d5)
+nsid 43 (iproute2 netns name: cni-d0f98c57-d59f-cd66-0338-48e5be5dfa7e)
+nsid 44 (iproute2 netns name: cni-03ebc4b0-4de9-776c-7816-2702745e122d)
+nsid 45 (iproute2 netns name: cni-6325d61b-fd07-877d-e2d3-4e5513140184)
+nsid 47 (iproute2 netns name: cni-771290f4-ff92-e08e-ce11-51c01ebfb6d3)
+nsid 49 (iproute2 netns name: cni-0ce11a78-4157-647b-9f2e-0b6d39f3d376)
+nsid 50 (iproute2 netns name: cni-321c6e86-7f62-9823-d14b-686a5cd50891)
+nsid 51 (iproute2 netns name: cni-c3cded71-8e60-5d7f-b13a-75a291702c10)
+nsid 53 (iproute2 netns name: cni-10648c20-b79d-64ec-1fd5-dc5a40bc36fc)
+nsid 59 (iproute2 netns name: cni-32fc67f2-5653-3e80-db2a-e1027eac8a3a)
+nsid 66 (iproute2 netns name: cni-d9d719a7-3fff-719c-0e10-8f2b363371ca)
+nsid 67 (iproute2 netns name: cni-92694e37-8e6c-4ca1-4db7-b13a7dd79b29)
+nsid 69 (iproute2 netns name: cni-2b529b14-9ac8-ae3c-9802-49cce75e3230)
+nsid 70 (iproute2 netns name: cni-b25df889-5f03-273d-2eda-82d96f437a70)
+nsid 71 (iproute2 netns name: cni-2f8bf2e7-4528-e8c5-f221-ef9e24e0ab80)
+nsid 76 (iproute2 netns name: cni-b1ed8f81-c36d-c122-9a80-c383e230160c)
+nsid 83 (iproute2 netns name: cni-e6885f5f-b4e1-fd67-c025-7fcc04d33e40)
+nsid 86 (iproute2 netns name: cni-0a3caf33-4498-c24f-f7f2-bca71147b932)
+nsid 88 (iproute2 netns name: cni-142dfe14-4f79-6bff-c0ae-ad9309817e17)
+nsid 89 (iproute2 netns name: cni-81f55659-a822-400f-79bd-d0a2e4bc1216)
+nsid 90 (iproute2 netns name: cni-9af7e070-19ff-753d-b71d-d58575f5f6b8)
+nsid 94 (iproute2 netns name: cni-fd55ca7e-939b-5eca-070d-e9e6dac992a4)
+nsid 95 (iproute2 netns name: cni-88055096-3e44-e85c-37a3-dc8e305476a1)
+nsid 97 (iproute2 netns name: cni-d678290f-5973-a328-9758-fcf404aa135d)
+nsid 98 (iproute2 netns name: cni-8a24358c-6233-863e-9d6e-db2951bcef2c)
+nsid 99 (iproute2 netns name: cni-6296144f-f78e-9715-24ea-9e10005d5a52)
+nsid 101 (iproute2 netns name: cni-1d208c05-251d-1ddf-cd28-f45ce3f08d3e)
+nsid 102 (iproute2 netns name: cni-11e71f76-2f1b-cb32-19f5-8b28e0a6a3e2)
+nsid 103 (iproute2 netns name: cni-f6fc3719-01ff-b2a1-6b7a-5afd8c52f08a)
+nsid 104 (iproute2 netns name: cni-fe61ad6e-2e60-012e-7846-3e08e8259f7a)
+nsid 105 (iproute2 netns name: cni-1f62a65e-0b0a-4067-4ba7-3238e203c03e)
+nsid 106 (iproute2 netns name: cni-04d49baf-44ee-f6b0-b2ab-1130411baf21)
+nsid 107 (iproute2 netns name: cni-72662a76-32da-e542-89f4-9717556299bb)
+nsid 108 (iproute2 netns name: cni-4b723ee3-c009-9cef-18ec-d36d93ea1815)
+nsid 109 (iproute2 netns name: cni-d7c7fa54-e457-5d83-9f6a-d42ee214cc08)
+nsid 110 (iproute2 netns name: cni-2ad10e37-79b1-012d-0d8e-7b687c26d65b)
+nsid 111 (iproute2 netns name: cni-3b6a2df8-4cc7-6088-6e7a-dff662d0f2c9)
+nsid 112 (iproute2 netns name: cni-4519812f-b0d4-458b-099d-b2d038e3caee)
+nsid 113 (iproute2 netns name: cni-5fbd7141-23e9-363a-f5a5-b5fea0843192)
+nsid 114 (iproute2 netns name: cni-58ce1b1b-9541-05ad-cb4a-1d40645b8acd)
+nsid 115 (iproute2 netns name: cni-4ab72315-1514-0f14-ca3e-ddfc47633c5f)
+nsid 116 (iproute2 netns name: cni-f9281ebd-85bd-591a-9573-74cfe0b5fa1d)
+nsid 117 (iproute2 netns name: cni-d1c4bffd-3de7-c6de-9fa9-df1f8df6a9f3)
+nsid 118 (iproute2 netns name: cni-af1b2995-2b0a-e578-df46-6f1d58d13afa)
+nsid 119 (iproute2 netns name: cni-e1d3c97b-96bd-cfc9-2966-faa81e169b3b)
+nsid 120 (iproute2 netns name: cni-8ddafe7f-5cf2-450d-ce64-c71e3911b6a3)
+nsid 121 (iproute2 netns name: cni-547c9c48-1bb9-dc05-a70a-749fec0fbdbd)
+nsid 122 (iproute2 netns name: cni-299516f3-8344-d442-11d1-281982b1167c)
+nsid 123 (iproute2 netns name: cni-d5d99b05-d5ef-db37-e1b8-3dd54b9ba1d4)
+nsid 124 (iproute2 netns name: cni-097c766e-3849-6f32-9e46-ffe66d7583ad)
+nsid 125 (iproute2 netns name: cni-d4923fb6-8696-200a-f3dc-41ee5be65883)
+nsid 126 (iproute2 netns name: cni-0ca8b8bd-95f1-dc36-0295-834d867418ce)
+nsid 127 (iproute2 netns name: cni-d6fcc817-aeb2-c13c-8b88-6ccf7d2ea2ba)
+nsid 128 (iproute2 netns name: cni-c6e26299-199b-08dd-e963-99e3a5aa0cb6)
+nsid 129 (iproute2 netns name: cni-0e92a6d4-4e48-b90f-04b4-cab14cdae20d)
+nsid 130 (iproute2 netns name: cni-f5b457cd-07c6-27eb-a3ad-0e4e3ccbdc67)
+nsid 131 (iproute2 netns name: cni-466356f1-7a29-97ad-af91-eeb22dc7008c)
+nsid 132 (iproute2 netns name: cni-f217d3b0-dd37-43b5-b239-2a6dea7d6be6)
+nsid 133 (iproute2 netns name: cni-a6941a1e-4ba2-81a2-54a8-a115d8621217)
+nsid 134 (iproute2 netns name: cni-e5e3124e-8336-2200-457d-cfd84bfc2342)
+nsid 135 (iproute2 netns name: cni-1e62b99e-e024-976e-5ea1-d815667f3bd5)
+nsid 136 (iproute2 netns name: cni-4bc7b259-6131-d13b-0069-de2f63e1e919)
+nsid 137 (iproute2 netns name: cni-af012269-af0d-90fd-b8a3-5df4af022f71)
+nsid 138 (iproute2 netns name: cni-e95ce947-e4e1-bff8-b4f6-ffd4d3cdbfe7)
+nsid 139 (iproute2 netns name: cni-72550214-0bdc-a874-9393-ba941ec7de32)
+nsid 140 (iproute2 netns name: cni-a184be20-59ed-3785-975b-d9c01dca5e8f)
+nsid 141 (iproute2 netns name: cni-e313e7ab-255e-7013-0877-eba08c55359d)
+nsid 142 (iproute2 netns name: cni-db0743d6-f1a0-2354-9c1d-32c8c6834a83)
+nsid 143 (iproute2 netns name: cni-d3a7c4ee-3d3c-616f-5178-6d41b8ca02d9)
+nsid 144 (iproute2 netns name: cni-8b96b345-eede-a229-3e85-11f3f4640f46)
+nsid 145 (iproute2 netns name: cni-4b05aec9-32cf-1d14-32d4-29656a15f7bb)
+nsid 146 (iproute2 netns name: cni-f72bd5f0-07ac-75ab-e72d-2b00c77eb0be)
+nsid 147 (iproute2 netns name: cni-c1405057-ce83-9cd6-5138-b5225de0aafe)
+nsid 148 (iproute2 netns name: cni-59fe6ab6-2334-45df-f368-aaa4e5e8f6bc)
+nsid 149 (iproute2 netns name: cni-275e0e07-91fb-33f9-b5de-ed6ecab9736b)
+nsid 150 (iproute2 netns name: cni-8a6bee62-efe0-54e5-623e-f127447dc7e5)
+nsid 151 (iproute2 netns name: cni-16b435b5-c0e5-7b11-fc56-d1c78a66da90)
+nsid 152 (iproute2 netns name: cni-85e9f301-5490-940f-2f2a-352707b7d9eb)
+nsid 153 (iproute2 netns name: cni-ce313db7-73f9-1dd7-7962-af60984b73f2)
+nsid 154 (iproute2 netns name: cni-b35dc97b-3fb4-add6-0506-886375e744bd)
+nsid 155 (iproute2 netns name: cni-28d4512d-851a-b5c1-4feb-6e1f1572ba46)
+nsid 156 (iproute2 netns name: cni-895fcf77-d092-52c6-7efa-1b7bb5d8447f)
+nsid 157 (iproute2 netns name: cni-b8abdfd2-8b52-093f-1f90-7000979bca3f)
+nsid 158 (iproute2 netns name: cni-c1ea62f1-d369-a43e-e697-5094bbee9716)
+nsid 159 (iproute2 netns name: cni-84724446-f33c-1a69-72d9-58746fc4dce7)
+nsid 160 (iproute2 netns name: cni-d6c98d81-4db9-62a9-ef3a-640b3677ef7f)
+nsid 161 
+nsid 162 
+nsid 163 
+nsid 164 
+nsid 165 
+nsid 166 
+nsid 167 
+nsid 168 
+nsid 169 
+nsid 170 
+=== namespace processes (names only) ===
+   1990 bash
+   2000 bash
+   2071 sshd
+   3485 containerd-shim
+   3719 containerd-shim
+   3816 sh
+   3924 containerd-shim
+   4238 containerd-shim
+   4316 containerd-shim
+   4529 containerd-shim
+   4666 containerd-shim
+   5062 containerd-shim
+   5458 containerd-shim
+   5657 containerd-shim
+   6129 containerd-shim
+  11241 containerd-shim
+  14452 containerd-shim
+  14564 containerd-shim
+  17735 containerd-shim
+  18094 containerd-shim
+  18708 containerd-shim
+  19456 containerd-shim
+  20167 containerd-shim
+  23600 containerd-shim
+  24528 containerd-shim
+  25511 containerd-shim
+  26031 containerd-shim
+  26641 containerd-shim
+  26906 containerd-shim
+  26971 containerd-shim
+  27456 containerd-shim
+  28254 containerd-shim
+  28677 containerd-shim
+  29098 containerd-shim
+  29260 containerd-shim
+  29532 containerd-shim
+  29905 sh
+  30101 containerd-shim
+  30145 start.sh
+  30188 python
+  30647 containerd-shim
+  30908 containerd-shim
+  31080 containerd-shim
+  31610 containerd-shim
+  32707 start.sh
+  32708 start.sh
+  32983 containerd-shim
+  34601 containerd-shim
+  34783 containerd-shim
+  35062 containerd-shim
+  35324 containerd-shim
+  35544 containerd-shim
+  36638 containerd-shim
+  37073 sh
+  37406 start-app.sh
+  38066 containerd-shim
+  38591 containerd-shim
+  38973 containerd-shim
+  39125 containerd-shim
+  39284 containerd-shim
+  40048 containerd-shim
+  40202 containerd-shim
+  40557 containerd-shim
+  40842 containerd-shim
+  41152 containerd-shim
+  41774 containerd-shim
+  42020 containerd-shim
+  42245 containerd-shim
+  42560 start.sh
+  42575 containerd-shim
+  42747 python
+  42877 containerd-shim
+  43206 containerd-shim
+  43316 run.sh
+  43347 containerd-shim
+  43714 containerd-shim
+  43820 bash
+  44008 containerd-shim
+  44164 start.sh
+  44388 containerd-shim

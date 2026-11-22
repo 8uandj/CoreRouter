@@ -1,0 +1,206 @@
+{
+  "accepted_backend_component_percentiles_ms": {
+    "admission_validation_ms": {
+      "p50": 18.27657804824412,
+      "p95": 29.465224826708436,
+      "p99": 41.52963706292212
+    },
+    "controller_handoff_ms": {
+      "p50": 0.0,
+      "p95": 0.0,
+      "p99": 0.0
+    },
+    "decision_policy_and_admission_ms": {
+      "p50": 96.65138809941709,
+      "p95": 144.88907693885267,
+      "p99": 183.38708486407995
+    },
+    "mask_construction_ms": {
+      "p50": 0.10251905769109726,
+      "p95": 0.18242793157696724,
+      "p99": 0.26338896714150906
+    },
+    "normalization_ms": {
+      "p50": 0.07638707756996155,
+      "p95": 0.12399302795529366,
+      "p99": 0.1699679996818304
+    },
+    "policy_inference_ms": {
+      "p50": 74.89113812334836,
+      "p95": 117.72991390898824,
+      "p99": 154.41776579245925
+    },
+    "server_decision_ms": {
+      "p50": 132.94751406647265,
+      "p95": 187.14635912328959,
+      "p99": 281.028094002977
+    },
+    "state_construction_ms": {
+      "p50": 0.2415110357105732,
+      "p95": 0.385096063837409,
+      "p99": 0.5231818649917841
+    },
+    "state_snapshot_ms": {
+      "p50": 1.3177588116377592,
+      "p95": 1.9657860975712538,
+      "p99": 2.3367160465568304
+    },
+    "state_sync_ms": {
+      "p50": 30.290872091427445,
+      "p95": 43.701088055968285,
+      "p99": 74.55683499574661
+    },
+    "total_policy_ms": {
+      "p50": 75.3507879562676,
+      "p95": 118.16529114730656,
+      "p99": 154.86022201366723
+    }
+  },
+  "accepted_hybrid_branches": {
+    "drl": 1455
+  },
+  "accepted_policy_methods": {
+    "Hybrid:DRL": 1455
+  },
+  "actuation_requested": 0,
+  "api_rtt_ms": {
+    "p50": 118.195,
+    "p95": 169.95,
+    "p99": 229.399
+  },
+  "deployed_requests": 0,
+  "duration_hours": 12.0,
+  "evidence_class": "control_plane_hil",
+  "forwarding_evidence": "none from this run; traffic_through_p4=false",
+  "hourly_admission_rates_percent": {
+    "0": {
+      "admitted": 122,
+      "rate_percent": 11.879259980525804,
+      "requests": 1027
+    },
+    "1": {
+      "admitted": 143,
+      "rate_percent": 13.924050632911392,
+      "requests": 1027
+    },
+    "10": {
+      "admitted": 138,
+      "rate_percent": 13.437195715676728,
+      "requests": 1027
+    },
+    "11": {
+      "admitted": 131,
+      "rate_percent": 12.755598831548198,
+      "requests": 1027
+    },
+    "2": {
+      "admitted": 122,
+      "rate_percent": 11.879259980525804,
+      "requests": 1027
+    },
+    "3": {
+      "admitted": 111,
+      "rate_percent": 10.797665369649806,
+      "requests": 1028
+    },
+    "4": {
+      "admitted": 127,
+      "rate_percent": 12.366114897760468,
+      "requests": 1027
+    },
+    "5": {
+      "admitted": 97,
+      "rate_percent": 9.444985394352482,
+      "requests": 1027
+    },
+    "6": {
+      "admitted": 131,
+      "rate_percent": 12.755598831548198,
+      "requests": 1027
+    },
+    "7": {
+      "admitted": 102,
+      "rate_percent": 9.931840311587147,
+      "requests": 1027
+    },
+    "8": {
+      "admitted": 111,
+      "rate_percent": 10.808179162609543,
+      "requests": 1027
+    },
+    "9": {
+      "admitted": 120,
+      "rate_percent": 11.684518013631937,
+      "requests": 1027
+    }
+  },
+  "hourly_api_rtt_p95_ms": {
+    "count": 12,
+    "max": 175.298,
+    "min": 164.603,
+    "values": [
+      172.254,
+      165.352,
+      170.039,
+      171.359,
+      175.298,
+      165.222,
+      174.716,
+      171.218,
+      170.598,
+      164.603,
+      167.287,
+      172.244
+    ]
+  },
+  "http_status_counts": {
+    "200": 1455,
+    "409": 10870
+  },
+  "msd_drop_measurement": "not measured during this run; preflight-only counter reads are excluded",
+  "msd_limits_sid_by_node": [
+    10.0,
+    10.0,
+    5.0,
+    5.0,
+    4.0,
+    8.0,
+    4.0,
+    5.0,
+    10.0,
+    5.0
+  ],
+  "readiness": {
+    "all_samples_clean": true,
+    "deployment_count": 7,
+    "desired_replicas": 7,
+    "end_elapsed_s": 43177.79,
+    "ready_deployments": 7,
+    "ready_replicas": 7,
+    "samples": 720,
+    "snapshot_errors": 0,
+    "start_elapsed_s": 0.0
+  },
+  "reject_reason_counts": {
+    "": 1455,
+    "msd_violation": 9672,
+    "no_safe_action": 1198
+  },
+  "request_interval_s": 3.5,
+  "requested_sid_depth_counts": {
+    "1": 4964,
+    "2": 7361
+  },
+  "requests": 12325,
+  "run_start_utc": "2026-11-17T19:02:44.506169+00:00",
+  "source_run": "results/export/hil_rev1_20261121/01_hil12h/original/e6_12h_control_plane/runs/20261117_190242",
+  "source_sha256": {
+    "CONTROL_PLANE_SCOPE.json": "4c2f3e28c9f1347fd37214addd3a89d6d81c33dd6c87c7d178c69e251e130329",
+    "all_records.csv": "8e8f1945a44f725b77234d1399d6bda2368c189aaa0eb6b8a43a3d53222d1601",
+    "kubernetes_readiness.csv": "00b626a816e3b07f0ee68ade5dfac13643892c205543844dadbe6682b1c4a35f",
+    "run_manifest.json": "6c2fb646d6ebe672375022c50b61a5e78279f294352736b2a8312b27a1b5fd83"
+  },
+  "topology": "vietnam",
+  "topology_nodes": 10,
+  "workers": 1
+}

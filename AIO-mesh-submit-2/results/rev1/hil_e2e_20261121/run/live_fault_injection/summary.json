@@ -1,0 +1,58 @@
+{
+  "path": "s2(10)-s1(10)-s6(8)-s5(4)",
+  "admitted_depth": 4,
+  "pod": "10.1.235.128 (vnf-data-2042e77d, worker1)",
+  "cases": [
+    {
+      "srh_depth": 4,
+      "segments_left": 3,
+      "sent": 50,
+      "echo_replies": 50,
+      "send_start_epoch": 1795284966.0467472
+    },
+    {
+      "srh_depth": 7,
+      "segments_left": 3,
+      "sent": 50,
+      "echo_replies": 0,
+      "send_start_epoch": 1795284971.1255374
+    },
+    {
+      "srh_depth": 9,
+      "segments_left": 3,
+      "sent": 50,
+      "echo_replies": 0,
+      "send_start_epoch": 1795284976.1904755
+    },
+    {
+      "srh_depth": 11,
+      "segments_left": 3,
+      "sent": 50,
+      "echo_replies": 0,
+      "send_start_epoch": 1795284981.2468936
+    }
+  ],
+  "counter_delta": {
+    "s2": {
+      "advance": 150,
+      "terminal": 0,
+      "msd_violation": 50
+    },
+    "s1": {
+      "advance": 150,
+      "terminal": 0,
+      "msd_violation": 0
+    },
+    "s6": {
+      "advance": 100,
+      "terminal": 0,
+      "msd_violation": 50
+    },
+    "s5": {
+      "advance": 0,
+      "terminal": 50,
+      "msd_violation": 50
+    }
+  },
+  "note": "h5-eth0 capture not recorded (helper container name conflict from aborted attempt 1); attempt 1 sent no packets (src MAC lookup failed)"
+}

@@ -377,6 +377,27 @@ class NetworkStateManager:
             self._checkpoint()
             return True, None
 
+    def release_confirmed_absent(self, vnf_name: str) -> Tuple[bool, Optional[str]]:
+        """Release a deployed record only after the caller observed its absence.
+
+        Kubernetes sync keeps vanished deployed records as presence_unconfirmed;
+        this is the explicit lifecycle cleanup for that state. Pending
+        (in-flight) reservations and records still listed by Kubernetes are kept.
+        """
+        with self._lock:
+            record = self._active_vnfs.get(vnf_name)
+            if record is None:
+                return True, None
+            if vnf_name in self._pending_reservations or record.get("is_pending", False):
+                return False, "actuation_in_flight"
+            if not record.get("presence_unconfirmed"):
+                return False, "still_listed_by_kubernetes"
+            self._active_vnfs.pop(vnf_name)
+            self._subtract_placement(record)
+            self._recompute_msd()
+            self._checkpoint()
+            return True, None
+
     def release_resources(self, vnf_name: str) -> None:
         with self._lock:
             if vnf_name in self._pending_reservations:

@@ -1,0 +1,23 @@
+{
+  "offered": 148,
+  "admitted_http200": 31,
+  "outcomes": {
+    "rejected": 117,
+    "steered": 27,
+    "actuation_warning_BREAK_UNCONFIRMED": 4
+  },
+  "reject_messages": {
+    "requested MSD depth does not match materialized P4 path depth": 105,
+    "forwarding requires distinct ingress and placement nodes": 12
+  },
+  "steered": 27,
+  "migrations": 22,
+  "readback_all_present": 27,
+  "probe_packets_sent": 540,
+  "probe_packets_received": 540,
+  "probes_with_full_delivery": 27,
+  "by_k8s_node": {
+    "worker1|full_delivery=True": 22,
+    "worker2|full_delivery=True": 5
+  }
+}

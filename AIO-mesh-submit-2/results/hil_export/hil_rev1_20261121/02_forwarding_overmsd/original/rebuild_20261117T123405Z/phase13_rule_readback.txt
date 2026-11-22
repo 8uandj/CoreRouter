@@ -1,0 +1,3 @@
+s1 routing_v6 fc00:6::1/128 readback=True
+s6 routing_v6 fc00:9::1/128 readback=True
+s9 srv6_end_dx4_table fc00:9::1 readback=True

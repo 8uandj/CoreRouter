@@ -1,0 +1,13 @@
+267bb90744967b5802212e8bd16c35e7e39359985b5e254e453c92000716f2f6  /home/CoreRouter/results/hil/rebuild_20261117T123405Z/offline_p4_build/msd_10/srv6_msd_10.json
+bmv2-s1
+8dd3f63c8cd88dc77b7aa8af4e41fa773aa54184ca0c4746fb5f9a714d2019d2
+Obtaining JSON from switch...
+Done
+Control utility for runtime P4 table manipulation
+RuntimeCmd: Adding entry to exact match table srv6_local_sid
+match key:           EXACT-fc:00:00:01:00:00:00:00:00:00:00:00:00:00:00:01
+action:              srv6_advance_segment
+runtime data:        
+Entry has been added with handle 0
+RuntimeCmd: 
+CANARY_PASS: s1 uses candidate MSD 10, expected tables/counters, all four original ports UP, bootstrap SID restored; route table remains empty/default-drop.

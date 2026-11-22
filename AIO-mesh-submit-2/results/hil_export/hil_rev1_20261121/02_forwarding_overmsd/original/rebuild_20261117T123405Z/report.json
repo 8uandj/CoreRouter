@@ -1,0 +1,28 @@
+{
+  "boundary_forward": {
+    "terminal_counter_delta": 1,
+    "passed": true,
+    "captured_packets": 1,
+    "ether_type": "0x0800",
+    "inner_ipv4": true,
+    "advance_counter_delta": 1
+  },
+  "passed": true,
+  "switches": [
+    "s1",
+    "s2"
+  ],
+  "compiled_profile": "/build/srv6_msd_4.json",
+  "over_msd_drop": {
+    "violation_counter_delta": 1,
+    "passed": true,
+    "captured_packets": 0,
+    "sid_depth": 5,
+    "compiled_msd": 4
+  },
+  "wire_sids": [
+    "fc00:6::1",
+    "fc00:1::1"
+  ],
+  "test": "isolated-bmv2-srv6-end-dx4-v1"
+}

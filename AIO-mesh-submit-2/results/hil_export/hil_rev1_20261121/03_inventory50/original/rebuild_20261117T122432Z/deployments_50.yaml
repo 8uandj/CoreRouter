@@ -1,0 +1,3815 @@
+apiVersion: v1
+items:
+- apiVersion: apps/v1
+  kind: Deployment
+  metadata:
+    annotations:
+      deployment.kubernetes.io/revision: "1"
+      kubectl.kubernetes.io/last-applied-configuration: |
+        {"apiVersion":"apps/v1","kind":"Deployment","metadata":{"annotations":{},"labels":{"core-router/location":"hcm-1","core-router/role":"firewall"},"name":"vnf-attack-004e219d","namespace":"core-router"},"spec":{"replicas":1,"selector":{"matchLabels":{"app":"vnf-attack-004e219d"}},"template":{"metadata":{"labels":{"app":"vnf-attack-004e219d","core-router/role":"firewall"}},"spec":{"containers":[{"command":["/bin/sh","-c","echo 'Firewall Running'; sleep infinity"],"image":"localhost:32000/alpine:latest","imagePullPolicy":"IfNotPresent","name":"firewall"}]}}}}
+    creationTimestamp: "2026-05-17T19:46:37Z"
+    generation: 1
+    labels:
+      core-router/location: hcm-1
+      core-router/role: firewall
+    name: vnf-attack-004e219d
+    namespace: core-router
+    resourceVersion: "159479116"
+    uid: 775c32f5-46f2-4921-b29b-c1883470c62a
+  spec:
+    progressDeadlineSeconds: 600
+    replicas: 1
+    revisionHistoryLimit: 10
+    selector:
+      matchLabels:
+        app: vnf-attack-004e219d
+    strategy:
+      rollingUpdate:
+        maxSurge: 25%
+        maxUnavailable: 25%
+      type: RollingUpdate
+    template:
+      metadata:
+        creationTimestamp: null
+        labels:
+          app: vnf-attack-004e219d
+          core-router/role: firewall
+      spec:
+        containers:
+        - command:
+          - /bin/sh
+          - -c
+          - echo 'Firewall Running'; sleep infinity
+          image: localhost:32000/alpine:latest
+          imagePullPolicy: IfNotPresent
+          name: firewall
+          resources: {}
+          terminationMessagePath: /dev/termination-log
+          terminationMessagePolicy: File
+        dnsPolicy: ClusterFirst
+        restartPolicy: Always
+        schedulerName: default-scheduler
+        securityContext: {}
+        terminationGracePeriodSeconds: 30
+  status:
+    availableReplicas: 1
+    conditions:
+    - lastTransitionTime: "2026-05-17T19:46:37Z"
+      lastUpdateTime: "2026-05-17T19:46:42Z"
+      message: ReplicaSet "vnf-attack-004e219d-594d4564bb" has successfully progressed.
+      reason: NewReplicaSetAvailable
+      status: "True"
+      type: Progressing
+    - lastTransitionTime: "2026-08-28T22:45:03Z"
+      lastUpdateTime: "2026-08-28T22:45:03Z"
+      message: Deployment has minimum availability.
+      reason: MinimumReplicasAvailable
+      status: "True"
+      type: Available
+    observedGeneration: 1
+    readyReplicas: 1
+    replicas: 1
+    updatedReplicas: 1
+- apiVersion: apps/v1
+  kind: Deployment
+  metadata:
+    annotations:
+      deployment.kubernetes.io/revision: "1"
+      kubectl.kubernetes.io/last-applied-configuration: |
+        {"apiVersion":"apps/v1","kind":"Deployment","metadata":{"annotations":{},"labels":{"core-router/location":"hcm-1","core-router/role":"firewall"},"name":"vnf-attack-0faeed9f","namespace":"core-router"},"spec":{"replicas":1,"selector":{"matchLabels":{"app":"vnf-attack-0faeed9f"}},"template":{"metadata":{"labels":{"app":"vnf-attack-0faeed9f","core-router/role":"firewall"}},"spec":{"containers":[{"command":["/bin/sh","-c","echo 'Firewall Running'; sleep infinity"],"image":"localhost:32000/alpine:latest","imagePullPolicy":"IfNotPresent","name":"firewall"}]}}}}
+    creationTimestamp: "2026-05-17T17:09:32Z"
+    generation: 1
+    labels:
+      core-router/location: hcm-1
+      core-router/role: firewall
+    name: vnf-attack-0faeed9f
+    namespace: core-router
+    resourceVersion: "159478726"
+    uid: 5d80407d-0b55-4657-86ac-6e85e2d5bfe2
+  spec:
+    progressDeadlineSeconds: 600
+    replicas: 1
+    revisionHistoryLimit: 10
+    selector:
+      matchLabels:
+        app: vnf-attack-0faeed9f
+    strategy:
+      rollingUpdate:
+        maxSurge: 25%
+        maxUnavailable: 25%
+      type: RollingUpdate
+    template:
+      metadata:
+        creationTimestamp: null
+        labels:
+          app: vnf-attack-0faeed9f
+          core-router/role: firewall
+      spec:
+        containers:
+        - command:
+          - /bin/sh
+          - -c
+          - echo 'Firewall Running'; sleep infinity
+          image: localhost:32000/alpine:latest
+          imagePullPolicy: IfNotPresent
+          name: firewall
+          resources: {}
+          terminationMessagePath: /dev/termination-log
+          terminationMessagePolicy: File
+        dnsPolicy: ClusterFirst
+        restartPolicy: Always
+        schedulerName: default-scheduler
+        securityContext: {}
+        terminationGracePeriodSeconds: 30
+  status:
+    availableReplicas: 1
+    conditions:
+    - lastTransitionTime: "2026-05-17T17:09:32Z"
+      lastUpdateTime: "2026-05-17T17:09:36Z"
+      message: ReplicaSet "vnf-attack-0faeed9f-67f5b774cc" has successfully progressed.
+      reason: NewReplicaSetAvailable
+      status: "True"
+      type: Progressing
+    - lastTransitionTime: "2026-08-28T22:44:56Z"
+      lastUpdateTime: "2026-08-28T22:44:56Z"
+      message: Deployment has minimum availability.
+      reason: MinimumReplicasAvailable
+      status: "True"
+      type: Available
+    observedGeneration: 1
+    readyReplicas: 1
+    replicas: 1
+    updatedReplicas: 1
+- apiVersion: apps/v1
+  kind: Deployment
+  metadata:
+    annotations:
+      deployment.kubernetes.io/revision: "1"
+      kubectl.kubernetes.io/last-applied-configuration: |
+        {"apiVersion":"apps/v1","kind":"Deployment","metadata":{"annotations":{},"labels":{"core-router/location":"hcm-1","core-router/role":"firewall"},"name":"vnf-attack-228edabf","namespace":"core-router"},"spec":{"replicas":1,"selector":{"matchLabels":{"app":"vnf-attack-228edabf"}},"template":{"metadata":{"labels":{"app":"vnf-attack-228edabf","core-router/role":"firewall"}},"spec":{"containers":[{"command":["/bin/sh","-c","echo 'Firewall Running'; sleep infinity"],"image":"localhost:32000/alpine:latest","imagePullPolicy":"IfNotPresent","name":"firewall"}]}}}}
+    creationTimestamp: "2026-05-17T16:01:14Z"
+    generation: 1
+    labels:
+      core-router/location: hcm-1
+      core-router/role: firewall
+    name: vnf-attack-228edabf
+    namespace: core-router
+    resourceVersion: "159479146"
+    uid: fb69ab0d-17d9-4ad4-86d4-07e71c50fb1a
+  spec:
+    progressDeadlineSeconds: 600
+    replicas: 1
+    revisionHistoryLimit: 10
+    selector:
+      matchLabels:
+        app: vnf-attack-228edabf
+    strategy:
+      rollingUpdate:
+        maxSurge: 25%
+        maxUnavailable: 25%
+      type: RollingUpdate
+    template:
+      metadata:
+        creationTimestamp: null
+        labels:
+          app: vnf-attack-228edabf
+          core-router/role: firewall
+      spec:
+        containers:
+        - command:
+          - /bin/sh
+          - -c
+          - echo 'Firewall Running'; sleep infinity
+          image: localhost:32000/alpine:latest
+          imagePullPolicy: IfNotPresent
+          name: firewall
+          resources: {}
+          terminationMessagePath: /dev/termination-log
+          terminationMessagePolicy: File
+        dnsPolicy: ClusterFirst
+        restartPolicy: Always
+        schedulerName: default-scheduler
+        securityContext: {}
+        terminationGracePeriodSeconds: 30
+  status:
+    availableReplicas: 1
+    conditions:
+    - lastTransitionTime: "2026-05-17T16:01:15Z"
+      lastUpdateTime: "2026-05-17T16:01:18Z"
+      message: ReplicaSet "vnf-attack-228edabf-79cc54c9" has successfully progressed.
+      reason: NewReplicaSetAvailable
+      status: "True"
+      type: Progressing
+    - lastTransitionTime: "2026-08-28T22:45:03Z"
+      lastUpdateTime: "2026-08-28T22:45:03Z"
+      message: Deployment has minimum availability.
+      reason: MinimumReplicasAvailable
+      status: "True"
+      type: Available
+    observedGeneration: 1
+    readyReplicas: 1
+    replicas: 1
+    updatedReplicas: 1
+- apiVersion: apps/v1
+  kind: Deployment
+  metadata:
+    annotations:
+      deployment.kubernetes.io/revision: "1"
+      kubectl.kubernetes.io/last-applied-configuration: |
+        {"apiVersion":"apps/v1","kind":"Deployment","metadata":{"annotations":{},"labels":{"core-router/location":"hcm-1","core-router/role":"firewall"},"name":"vnf-attack-2f0aa313","namespace":"core-router"},"spec":{"replicas":1,"selector":{"matchLabels":{"app":"vnf-attack-2f0aa313"}},"template":{"metadata":{"labels":{"app":"vnf-attack-2f0aa313","core-router/role":"firewall"}},"spec":{"containers":[{"command":["/bin/sh","-c","echo 'Firewall Running'; sleep infinity"],"image":"localhost:32000/alpine:latest","imagePullPolicy":"IfNotPresent","name":"firewall"}]}}}}
+    creationTimestamp: "2026-05-17T19:01:30Z"
+    generation: 1
+    labels:
+      core-router/location: hcm-1
+      core-router/role: firewall
+    name: vnf-attack-2f0aa313
+    namespace: core-router
+    resourceVersion: "159478999"
+    uid: 7ddd8b24-680d-4561-977c-d06d2b079b1b
+  spec:
+    progressDeadlineSeconds: 600
+    replicas: 1
+    revisionHistoryLimit: 10
+    selector:
+      matchLabels:
+        app: vnf-attack-2f0aa313
+    strategy:
+      rollingUpdate:
+        maxSurge: 25%
+        maxUnavailable: 25%
+      type: RollingUpdate
+    template:
+      metadata:
+        creationTimestamp: null
+        labels:
+          app: vnf-attack-2f0aa313
+          core-router/role: firewall
+      spec:
+        containers:
+        - command:
+          - /bin/sh
+          - -c
+          - echo 'Firewall Running'; sleep infinity
+          image: localhost:32000/alpine:latest
+          imagePullPolicy: IfNotPresent
+          name: firewall
+          resources: {}
+          terminationMessagePath: /dev/termination-log
+          terminationMessagePolicy: File
+        dnsPolicy: ClusterFirst
+        restartPolicy: Always
+        schedulerName: default-scheduler
+        securityContext: {}
+        terminationGracePeriodSeconds: 30
+  status:
+    availableReplicas: 1
+    conditions:
+    - lastTransitionTime: "2026-05-17T19:01:30Z"
+      lastUpdateTime: "2026-05-17T19:01:36Z"
+      message: ReplicaSet "vnf-attack-2f0aa313-857c9594f8" has successfully progressed.
+      reason: NewReplicaSetAvailable
+      status: "True"
+      type: Progressing
+    - lastTransitionTime: "2026-08-28T22:45:00Z"
+      lastUpdateTime: "2026-08-28T22:45:00Z"
+      message: Deployment has minimum availability.
+      reason: MinimumReplicasAvailable
+      status: "True"
+      type: Available
+    observedGeneration: 1
+    readyReplicas: 1
+    replicas: 1
+    updatedReplicas: 1
+- apiVersion: apps/v1
+  kind: Deployment
+  metadata:
+    annotations:
+      deployment.kubernetes.io/revision: "1"
+      kubectl.kubernetes.io/last-applied-configuration: |
+        {"apiVersion":"apps/v1","kind":"Deployment","metadata":{"annotations":{},"labels":{"core-router/location":"danang-1","core-router/role":"firewall"},"name":"vnf-attack-57b6f205","namespace":"core-router"},"spec":{"replicas":1,"selector":{"matchLabels":{"app":"vnf-attack-57b6f205"}},"template":{"metadata":{"labels":{"app":"vnf-attack-57b6f205","core-router/role":"firewall"}},"spec":{"containers":[{"command":["/bin/sh","-c","echo 'Firewall Running'; sleep infinity"],"image":"localhost:32000/alpine:latest","imagePullPolicy":"IfNotPresent","name":"firewall"}]}}}}
+    creationTimestamp: "2026-05-17T16:23:51Z"
+    generation: 1
+    labels:
+      core-router/location: danang-1
+      core-router/role: firewall
+    name: vnf-attack-57b6f205
+    namespace: core-router
+    resourceVersion: "159479114"
+    uid: ffc7e53b-3ae1-48ee-9e88-93eb80c8301f
+  spec:
+    progressDeadlineSeconds: 600
+    replicas: 1
+    revisionHistoryLimit: 10
+    selector:
+      matchLabels:
+        app: vnf-attack-57b6f205
+    strategy:
+      rollingUpdate:
+        maxSurge: 25%
+        maxUnavailable: 25%
+      type: RollingUpdate
+    template:
+      metadata:
+        creationTimestamp: null
+        labels:
+          app: vnf-attack-57b6f205
+          core-router/role: firewall
+      spec:
+        containers:
+        - command:
+          - /bin/sh
+          - -c
+          - echo 'Firewall Running'; sleep infinity
+          image: localhost:32000/alpine:latest
+          imagePullPolicy: IfNotPresent
+          name: firewall
+          resources: {}
+          terminationMessagePath: /dev/termination-log
+          terminationMessagePolicy: File
+        dnsPolicy: ClusterFirst
+        restartPolicy: Always
+        schedulerName: default-scheduler
+        securityContext: {}
+        terminationGracePeriodSeconds: 30
+  status:
+    availableReplicas: 1
+    conditions:
+    - lastTransitionTime: "2026-05-17T16:23:51Z"
+      lastUpdateTime: "2026-05-17T16:23:55Z"
+      message: ReplicaSet "vnf-attack-57b6f205-59d84c89c8" has successfully progressed.
+      reason: NewReplicaSetAvailable
+      status: "True"
+      type: Progressing
+    - lastTransitionTime: "2026-08-28T22:45:03Z"
+      lastUpdateTime: "2026-08-28T22:45:03Z"
+      message: Deployment has minimum availability.
+      reason: MinimumReplicasAvailable
+      status: "True"
+      type: Available
+    observedGeneration: 1
+    readyReplicas: 1
+    replicas: 1
+    updatedReplicas: 1
+- apiVersion: apps/v1
+  kind: Deployment
+  metadata:
+    annotations:
+      deployment.kubernetes.io/revision: "1"
+      kubectl.kubernetes.io/last-applied-configuration: |
+        {"apiVersion":"apps/v1","kind":"Deployment","metadata":{"annotations":{},"labels":{"core-router/location":"hcm-1","core-router/role":"firewall"},"name":"vnf-attack-8bf0425e","namespace":"core-router"},"spec":{"replicas":1,"selector":{"matchLabels":{"app":"vnf-attack-8bf0425e"}},"template":{"metadata":{"labels":{"app":"vnf-attack-8bf0425e","core-router/role":"firewall"}},"spec":{"containers":[{"command":["/bin/sh","-c","echo 'Firewall Running'; sleep infinity"],"image":"localhost:32000/alpine:latest","imagePullPolicy":"IfNotPresent","name":"firewall"}]}}}}
+    creationTimestamp: "2026-05-17T16:17:14Z"
+    generation: 1
+    labels:
+      core-router/location: hcm-1
+      core-router/role: firewall
+    name: vnf-attack-8bf0425e
+    namespace: core-router
+    resourceVersion: "159478816"
+    uid: ac0ab19b-c597-4b83-b108-eb1627127bdf
+  spec:
+    progressDeadlineSeconds: 600
+    replicas: 1
+    revisionHistoryLimit: 10
+    selector:
+      matchLabels:
+        app: vnf-attack-8bf0425e
+    strategy:
+      rollingUpdate:
+        maxSurge: 25%
+        maxUnavailable: 25%
+      type: RollingUpdate
+    template:
+      metadata:
+        creationTimestamp: null
+        labels:
+          app: vnf-attack-8bf0425e
+          core-router/role: firewall
+      spec:
+        containers:
+        - command:
+          - /bin/sh
+          - -c
+          - echo 'Firewall Running'; sleep infinity
+          image: localhost:32000/alpine:latest
+          imagePullPolicy: IfNotPresent
+          name: firewall
+          resources: {}
+          terminationMessagePath: /dev/termination-log
+          terminationMessagePolicy: File
+        dnsPolicy: ClusterFirst
+        restartPolicy: Always
+        schedulerName: default-scheduler
+        securityContext: {}
+        terminationGracePeriodSeconds: 30
+  status:
+    availableReplicas: 1
+    conditions:
+    - lastTransitionTime: "2026-05-17T16:17:14Z"
+      lastUpdateTime: "2026-05-17T16:17:17Z"
+      message: ReplicaSet "vnf-attack-8bf0425e-6cd75784c9" has successfully progressed.
+      reason: NewReplicaSetAvailable
+      status: "True"
+      type: Progressing
+    - lastTransitionTime: "2026-08-28T22:44:57Z"
+      lastUpdateTime: "2026-08-28T22:44:57Z"
+      message: Deployment has minimum availability.
+      reason: MinimumReplicasAvailable
+      status: "True"
+      type: Available
+    observedGeneration: 1
+    readyReplicas: 1
+    replicas: 1
+    updatedReplicas: 1
+- apiVersion: apps/v1
+  kind: Deployment
+  metadata:
+    annotations:
+      deployment.kubernetes.io/revision: "1"
+      kubectl.kubernetes.io/last-applied-configuration: |
+        {"apiVersion":"apps/v1","kind":"Deployment","metadata":{"annotations":{},"labels":{"core-router/location":"danang-1","core-router/role":"firewall"},"name":"vnf-attack-af13f6df","namespace":"core-router"},"spec":{"replicas":1,"selector":{"matchLabels":{"app":"vnf-attack-af13f6df"}},"template":{"metadata":{"labels":{"app":"vnf-attack-af13f6df","core-router/role":"firewall"}},"spec":{"containers":[{"command":["/bin/sh","-c","echo 'Firewall Running'; sleep infinity"],"image":"localhost:32000/alpine:latest","imagePullPolicy":"IfNotPresent","name":"firewall"}]}}}}
+    creationTimestamp: "2026-05-17T16:18:16Z"
+    generation: 1
+    labels:
+      core-router/location: danang-1
+      core-router/role: firewall
+    name: vnf-attack-af13f6df
+    namespace: core-router
+    resourceVersion: "159479091"
+    uid: 79072bbd-b475-488a-8f7f-f40545188a52
+  spec:
+    progressDeadlineSeconds: 600
+    replicas: 1
+    revisionHistoryLimit: 10
+    selector:
+      matchLabels:
+        app: vnf-attack-af13f6df
+    strategy:
+      rollingUpdate:
+        maxSurge: 25%
+        maxUnavailable: 25%
+      type: RollingUpdate
+    template:
+      metadata:
+        creationTimestamp: null
+        labels:
+          app: vnf-attack-af13f6df
+          core-router/role: firewall
+      spec:
+        containers:
+        - command:
+          - /bin/sh
+          - -c
+          - echo 'Firewall Running'; sleep infinity
+          image: localhost:32000/alpine:latest
+          imagePullPolicy: IfNotPresent
+          name: firewall
+          resources: {}
+          terminationMessagePath: /dev/termination-log
+          terminationMessagePolicy: File
+        dnsPolicy: ClusterFirst
+        restartPolicy: Always
+        schedulerName: default-scheduler
+        securityContext: {}
+        terminationGracePeriodSeconds: 30
+  status:
+    availableReplicas: 1
+    conditions:
+    - lastTransitionTime: "2026-05-17T16:18:17Z"
+      lastUpdateTime: "2026-05-17T16:18:19Z"
+      message: ReplicaSet "vnf-attack-af13f6df-b9449db8d" has successfully progressed.
+      reason: NewReplicaSetAvailable
+      status: "True"
+      type: Progressing
+    - lastTransitionTime: "2026-08-28T22:45:03Z"
+      lastUpdateTime: "2026-08-28T22:45:03Z"
+      message: Deployment has minimum availability.
+      reason: MinimumReplicasAvailable
+      status: "True"
+      type: Available
+    observedGeneration: 1
+    readyReplicas: 1
+    replicas: 1
+    updatedReplicas: 1
+- apiVersion: apps/v1
+  kind: Deployment
+  metadata:
+    annotations:
+      deployment.kubernetes.io/revision: "1"
+      kubectl.kubernetes.io/last-applied-configuration: |
+        {"apiVersion":"apps/v1","kind":"Deployment","metadata":{"annotations":{},"labels":{"core-router/location":"ct","core-router/role":"idps"},"name":"scale-idps-42","namespace":"core-router"},"spec":{"replicas":1,"selector":{"matchLabels":{"app":"scale-idps-42"}},"template":{"metadata":{"labels":{"app":"scale-idps-42","core-router/role":"idps"}},"spec":{"containers":[{"command":["/bin/sh","-c","echo 'IDPS Running'; sleep infinity"],"image":"localhost:32000/alpine:latest","imagePullPolicy":"IfNotPresent","name":"idps"}]}}}}
+    creationTimestamp: "2026-05-21T18:32:15Z"
+    generation: 1
+    labels:
+      core-router/location: ct
+      core-router/role: idps
+    name: scale-idps-42
+    namespace: core-router
+    resourceVersion: "159478841"
+    uid: 5e0eba96-7eae-4b80-ac4b-851d0461965c
+  spec:
+    progressDeadlineSeconds: 600
+    replicas: 1
+    revisionHistoryLimit: 10
+    selector:
+      matchLabels:
+        app: scale-idps-42
+    strategy:
+      rollingUpdate:
+        maxSurge: 25%
+        maxUnavailable: 25%
+      type: RollingUpdate
+    template:
+      metadata:
+        creationTimestamp: null
+        labels:
+          app: scale-idps-42
+          core-router/role: idps
+      spec:
+        containers:
+        - command:
+          - /bin/sh
+          - -c
+          - echo 'IDPS Running'; sleep infinity
+          image: localhost:32000/alpine:latest
+          imagePullPolicy: IfNotPresent
+          name: idps
+          resources: {}
+          terminationMessagePath: /dev/termination-log
+          terminationMessagePolicy: File
+        dnsPolicy: ClusterFirst
+        restartPolicy: Always
+        schedulerName: default-scheduler
+        securityContext: {}
+        terminationGracePeriodSeconds: 30
+  status:
+    availableReplicas: 1
+    conditions:
+    - lastTransitionTime: "2026-05-21T18:32:15Z"
+      lastUpdateTime: "2026-05-21T18:32:18Z"
+      message: ReplicaSet "scale-idps-42-bc4658c7" has successfully progressed.
+      reason: NewReplicaSetAvailable
+      status: "True"
+      type: Progressing
+    - lastTransitionTime: "2026-08-28T22:44:58Z"
+      lastUpdateTime: "2026-08-28T22:44:58Z"
+      message: Deployment has minimum availability.
+      reason: MinimumReplicasAvailable
+      status: "True"
+      type: Available
+    observedGeneration: 1
+    readyReplicas: 1
+    replicas: 1
+    updatedReplicas: 1
+- apiVersion: apps/v1
+  kind: Deployment
+  metadata:
+    annotations:
+      deployment.kubernetes.io/revision: "1"
+      kubectl.kubernetes.io/last-applied-configuration: |
+        {"apiVersion":"apps/v1","kind":"Deployment","metadata":{"annotations":{},"labels":{"core-router/location":"hn","core-router/role":"router"},"name":"scale-router-90","namespace":"core-router"},"spec":{"replicas":1,"selector":{"matchLabels":{"app":"scale-router-90"}},"template":{"metadata":{"labels":{"app":"scale-router-90","core-router/role":"router"}},"spec":{"containers":[{"image":"localhost:32000/frr:9.1.1","imagePullPolicy":"IfNotPresent","name":"frr","ports":[{"containerPort":2601}],"securityContext":{"capabilities":{"add":["NET_ADMIN","SYS_ADMIN"]}}}]}}}}
+    creationTimestamp: "2026-05-21T18:40:07Z"
+    generation: 1
+    labels:
+      core-router/location: hn
+      core-router/role: router
+    name: scale-router-90
+    namespace: core-router
+    resourceVersion: "159478014"
+    uid: e0e0fdcf-f4f7-4e00-83ae-4390996df9a2
+  spec:
+    progressDeadlineSeconds: 600
+    replicas: 1
+    revisionHistoryLimit: 10
+    selector:
+      matchLabels:
+        app: scale-router-90
+    strategy:
+      rollingUpdate:
+        maxSurge: 25%
+        maxUnavailable: 25%
+      type: RollingUpdate
+    template:
+      metadata:
+        creationTimestamp: null
+        labels:
+          app: scale-router-90
+          core-router/role: router
+      spec:
+        containers:
+        - image: localhost:32000/frr:9.1.1
+          imagePullPolicy: IfNotPresent
+          name: frr
+          ports:
+          - containerPort: 2601
+            protocol: TCP
+          resources: {}
+          securityContext:
+            capabilities:
+              add:
+              - NET_ADMIN
+              - SYS_ADMIN
+          terminationMessagePath: /dev/termination-log
+          terminationMessagePolicy: File
+        dnsPolicy: ClusterFirst
+        restartPolicy: Always
+        schedulerName: default-scheduler
+        securityContext: {}
+        terminationGracePeriodSeconds: 30
+  status:
+    availableReplicas: 1
+    conditions:
+    - lastTransitionTime: "2026-05-21T18:40:07Z"
+      lastUpdateTime: "2026-05-21T18:40:14Z"
+      message: ReplicaSet "scale-router-90-7cdd5d6b77" has successfully progressed.
+      reason: NewReplicaSetAvailable
+      status: "True"
+      type: Progressing
+    - lastTransitionTime: "2026-08-28T22:44:46Z"
+      lastUpdateTime: "2026-08-28T22:44:46Z"
+      message: Deployment has minimum availability.
+      reason: MinimumReplicasAvailable
+      status: "True"
+      type: Available
+    observedGeneration: 1
+    readyReplicas: 1
+    replicas: 1
+    updatedReplicas: 1
+- apiVersion: apps/v1
+  kind: Deployment
+  metadata:
+    annotations:
+      deployment.kubernetes.io/revision: "1"
+      kubectl.kubernetes.io/last-applied-configuration: |
+        {"apiVersion":"apps/v1","kind":"Deployment","metadata":{"annotations":{},"labels":{"core-router/location":"hue-1","core-router/role":"router"},"name":"scale-router-90-mig","namespace":"core-router"},"spec":{"replicas":1,"selector":{"matchLabels":{"app":"scale-router-90-mig"}},"template":{"metadata":{"labels":{"app":"scale-router-90-mig","core-router/role":"router"}},"spec":{"containers":[{"image":"localhost:32000/frr:9.1.1","imagePullPolicy":"IfNotPresent","name":"frr","ports":[{"containerPort":2601}],"securityContext":{"capabilities":{"add":["NET_ADMIN","SYS_ADMIN"]}}}]}}}}
+    creationTimestamp: "2026-05-22T09:46:12Z"
+    generation: 2
+    labels:
+      core-router/location: hue-1
+      core-router/role: router
+    name: scale-router-90-mig
+    namespace: core-router
+    resourceVersion: "159478506"
+    uid: 8656e719-8318-4f7c-9398-967f0c09f06a
+  spec:
+    progressDeadlineSeconds: 600
+    replicas: 1
+    revisionHistoryLimit: 10
+    selector:
+      matchLabels:
+        app: scale-router-90-mig
+    strategy:
+      rollingUpdate:
+        maxSurge: 25%
+        maxUnavailable: 25%
+      type: RollingUpdate
+    template:
+      metadata:
+        creationTimestamp: null
+        labels:
+          app: scale-router-90-mig
+          core-router/role: router
+      spec:
+        containers:
+        - image: localhost:32000/frr:9.1.1
+          imagePullPolicy: IfNotPresent
+          name: frr
+          ports:
+          - containerPort: 2601
+            protocol: TCP
+          resources: {}
+          securityContext:
+            capabilities:
+              add:
+              - NET_ADMIN
+              - SYS_ADMIN
+          terminationMessagePath: /dev/termination-log
+          terminationMessagePolicy: File
+        dnsPolicy: ClusterFirst
+        restartPolicy: Always
+        schedulerName: default-scheduler
+        securityContext: {}
+        terminationGracePeriodSeconds: 30
+  status:
+    availableReplicas: 1
+    conditions:
+    - lastTransitionTime: "2026-05-22T09:46:12Z"
+      lastUpdateTime: "2026-05-22T09:46:15Z"
+      message: ReplicaSet "scale-router-90-mig-5cf4bb65f" has successfully progressed.
+      reason: NewReplicaSetAvailable
+      status: "True"
+      type: Progressing
+    - lastTransitionTime: "2026-08-28T22:44:53Z"
+      lastUpdateTime: "2026-08-28T22:44:53Z"
+      message: Deployment has minimum availability.
+      reason: MinimumReplicasAvailable
+      status: "True"
+      type: Available
+    observedGeneration: 2
+    readyReplicas: 1
+    replicas: 1
+    updatedReplicas: 1
+- apiVersion: apps/v1
+  kind: Deployment
+  metadata:
+    annotations:
+      deployment.kubernetes.io/revision: "1"
+      kubectl.kubernetes.io/last-applied-configuration: |
+        {"apiVersion":"apps/v1","kind":"Deployment","metadata":{"annotations":{},"labels":{"core-router/location":"hanoi-1","core-router/role":"router"},"name":"vnf-attack-13fca5cb","namespace":"core-router"},"spec":{"replicas":1,"selector":{"matchLabels":{"app":"vnf-attack-13fca5cb"}},"template":{"metadata":{"labels":{"app":"vnf-attack-13fca5cb","core-router/role":"router"}},"spec":{"containers":[{"image":"localhost:32000/frr:9.1.1","imagePullPolicy":"IfNotPresent","name":"frr","ports":[{"containerPort":2601}],"securityContext":{"capabilities":{"add":["NET_ADMIN","SYS_ADMIN"]}}}]}}}}
+    creationTimestamp: "2026-05-22T09:43:29Z"
+    generation: 1
+    labels:
+      core-router/location: hanoi-1
+      core-router/role: router
+    name: vnf-attack-13fca5cb
+    namespace: core-router
+    resourceVersion: "159479135"
+    uid: 14547635-037f-474c-ab2b-3c191c36c5ae
+  spec:
+    progressDeadlineSeconds: 600
+    replicas: 1
+    revisionHistoryLimit: 10
+    selector:
+      matchLabels:
+        app: vnf-attack-13fca5cb
+    strategy:
+      rollingUpdate:
+        maxSurge: 25%
+        maxUnavailable: 25%
+      type: RollingUpdate
+    template:
+      metadata:
+        creationTimestamp: null
+        labels:
+          app: vnf-attack-13fca5cb
+          core-router/role: router
+      spec:
+        containers:
+        - image: localhost:32000/frr:9.1.1
+          imagePullPolicy: IfNotPresent
+          name: frr
+          ports:
+          - containerPort: 2601
+            protocol: TCP
+          resources: {}
+          securityContext:
+            capabilities:
+              add:
+              - NET_ADMIN
+              - SYS_ADMIN
+          terminationMessagePath: /dev/termination-log
+          terminationMessagePolicy: File
+        dnsPolicy: ClusterFirst
+        restartPolicy: Always
+        schedulerName: default-scheduler
+        securityContext: {}
+        terminationGracePeriodSeconds: 30
+  status:
+    availableReplicas: 1
+    conditions:
+    - lastTransitionTime: "2026-05-22T09:43:29Z"
+      lastUpdateTime: "2026-05-22T09:43:33Z"
+      message: ReplicaSet "vnf-attack-13fca5cb-5bf9bbc48c" has successfully progressed.
+      reason: NewReplicaSetAvailable
+      status: "True"
+      type: Progressing
+    - lastTransitionTime: "2026-08-28T22:45:03Z"
+      lastUpdateTime: "2026-08-28T22:45:03Z"
+      message: Deployment has minimum availability.
+      reason: MinimumReplicasAvailable
+      status: "True"
+      type: Available
+    observedGeneration: 1
+    readyReplicas: 1
+    replicas: 1
+    updatedReplicas: 1
+- apiVersion: apps/v1
+  kind: Deployment
+  metadata:
+    annotations:
+      deployment.kubernetes.io/revision: "1"
+      kubectl.kubernetes.io/last-applied-configuration: |
+        {"apiVersion":"apps/v1","kind":"Deployment","metadata":{"annotations":{},"labels":{"core-router/location":"cantho-1","core-router/role":"firewall"},"name":"vnf-firewall-ct-04","namespace":"core-router"},"spec":{"replicas":1,"selector":{"matchLabels":{"app":"vnf-firewall-ct-04"}},"template":{"metadata":{"labels":{"app":"vnf-firewall-ct-04","core-router/role":"firewall"}},"spec":{"containers":[{"command":["/bin/sh","-c","echo 'Firewall Running'; sleep infinity"],"image":"localhost:32000/alpine:latest","imagePullPolicy":"IfNotPresent","name":"firewall"}]}}}}
+    creationTimestamp: "2026-05-22T12:01:16Z"
+    generation: 1
+    labels:
+      core-router/location: cantho-1
+      core-router/role: firewall
+    name: vnf-firewall-ct-04
+    namespace: core-router
+    resourceVersion: "159478002"
+    uid: 7a6ec3a8-eb7e-4849-a386-9410e8eb2d4b
+  spec:
+    progressDeadlineSeconds: 600
+    replicas: 1
+    revisionHistoryLimit: 10
+    selector:
+      matchLabels:
+        app: vnf-firewall-ct-04
+    strategy:
+      rollingUpdate:
+        maxSurge: 25%
+        maxUnavailable: 25%
+      type: RollingUpdate
+    template:
+      metadata:
+        creationTimestamp: null
+        labels:
+          app: vnf-firewall-ct-04
+          core-router/role: firewall
+      spec:
+        containers:
+        - command:
+          - /bin/sh
+          - -c
+          - echo 'Firewall Running'; sleep infinity
+          image: localhost:32000/alpine:latest
+          imagePullPolicy: IfNotPresent
+          name: firewall
+          resources: {}
+          terminationMessagePath: /dev/termination-log
+          terminationMessagePolicy: File
+        dnsPolicy: ClusterFirst
+        restartPolicy: Always
+        schedulerName: default-scheduler
+        securityContext: {}
+        terminationGracePeriodSeconds: 30
+  status:
+    availableReplicas: 1
+    conditions:
+    - lastTransitionTime: "2026-05-22T12:01:17Z"
+      lastUpdateTime: "2026-05-22T12:01:30Z"
+      message: ReplicaSet "vnf-firewall-ct-04-865d976f6f" has successfully progressed.
+      reason: NewReplicaSetAvailable
+      status: "True"
+      type: Progressing
+    - lastTransitionTime: "2026-08-28T22:44:46Z"
+      lastUpdateTime: "2026-08-28T22:44:46Z"
+      message: Deployment has minimum availability.
+      reason: MinimumReplicasAvailable
+      status: "True"
+      type: Available
+    observedGeneration: 1
+    readyReplicas: 1
+    replicas: 1
+    updatedReplicas: 1
+- apiVersion: apps/v1
+  kind: Deployment
+  metadata:
+    annotations:
+      deployment.kubernetes.io/revision: "1"
+      kubectl.kubernetes.io/last-applied-configuration: |
+        {"apiVersion":"apps/v1","kind":"Deployment","metadata":{"annotations":{},"labels":{"core-router/location":"danang-1","core-router/role":"firewall"},"name":"vnf-firewall-dn-02","namespace":"core-router"},"spec":{"replicas":1,"selector":{"matchLabels":{"app":"vnf-firewall-dn-02"}},"template":{"metadata":{"labels":{"app":"vnf-firewall-dn-02","core-router/role":"firewall"}},"spec":{"containers":[{"command":["/bin/sh","-c","echo 'Firewall Running'; sleep infinity"],"image":"localhost:32000/alpine:latest","imagePullPolicy":"IfNotPresent","name":"firewall"}]}}}}
+    creationTimestamp: "2026-05-22T12:00:05Z"
+    generation: 1
+    labels:
+      core-router/location: danang-1
+      core-router/role: firewall
+    name: vnf-firewall-dn-02
+    namespace: core-router
+    resourceVersion: "159478771"
+    uid: 8fce6d7b-b0d5-4f1d-89fd-c37a1a9fd396
+  spec:
+    progressDeadlineSeconds: 600
+    replicas: 1
+    revisionHistoryLimit: 10
+    selector:
+      matchLabels:
+        app: vnf-firewall-dn-02
+    strategy:
+      rollingUpdate:
+        maxSurge: 25%
+        maxUnavailable: 25%
+      type: RollingUpdate
+    template:
+      metadata:
+        creationTimestamp: null
+        labels:
+          app: vnf-firewall-dn-02
+          core-router/role: firewall
+      spec:
+        containers:
+        - command:
+          - /bin/sh
+          - -c
+          - echo 'Firewall Running'; sleep infinity
+          image: localhost:32000/alpine:latest
+          imagePullPolicy: IfNotPresent
+          name: firewall
+          resources: {}
+          terminationMessagePath: /dev/termination-log
+          terminationMessagePolicy: File
+        dnsPolicy: ClusterFirst
+        restartPolicy: Always
+        schedulerName: default-scheduler
+        securityContext: {}
+        terminationGracePeriodSeconds: 30
+  status:
+    availableReplicas: 1
+    conditions:
+    - lastTransitionTime: "2026-05-22T12:00:06Z"
+      lastUpdateTime: "2026-05-22T12:00:27Z"
+      message: ReplicaSet "vnf-firewall-dn-02-5d69c5ddf4" has successfully progressed.
+      reason: NewReplicaSetAvailable
+      status: "True"
+      type: Progressing
+    - lastTransitionTime: "2026-08-28T22:44:57Z"
+      lastUpdateTime: "2026-08-28T22:44:57Z"
+      message: Deployment has minimum availability.
+      reason: MinimumReplicasAvailable
+      status: "True"
+      type: Available
+    observedGeneration: 1
+    readyReplicas: 1
+    replicas: 1
+    updatedReplicas: 1
+- apiVersion: apps/v1
+  kind: Deployment
+  metadata:
+    annotations:
+      deployment.kubernetes.io/revision: "1"
+      kubectl.kubernetes.io/last-applied-configuration: |
+        {"apiVersion":"apps/v1","kind":"Deployment","metadata":{"annotations":{},"labels":{"core-router/location":"hcm-1","core-router/role":"firewall"},"name":"vnf-firewall-hcm-01","namespace":"core-router"},"spec":{"replicas":1,"selector":{"matchLabels":{"app":"vnf-firewall-hcm-01"}},"template":{"metadata":{"labels":{"app":"vnf-firewall-hcm-01","core-router/role":"firewall"}},"spec":{"containers":[{"command":["/bin/sh","-c","echo 'Firewall Running'; sleep infinity"],"image":"localhost:32000/alpine:latest","imagePullPolicy":"IfNotPresent","name":"firewall"}]}}}}
+    creationTimestamp: "2026-05-22T12:00:59Z"
+    generation: 1
+    labels:
+      core-router/location: hcm-1
+      core-router/role: firewall
+    name: vnf-firewall-hcm-01
+    namespace: core-router
+    resourceVersion: "159478581"
+    uid: 09ee5c7d-4b70-4ac9-b7fd-f014a4837376
+  spec:
+    progressDeadlineSeconds: 600
+    replicas: 1
+    revisionHistoryLimit: 10
+    selector:
+      matchLabels:
+        app: vnf-firewall-hcm-01
+    strategy:
+      rollingUpdate:
+        maxSurge: 25%
+        maxUnavailable: 25%
+      type: RollingUpdate
+    template:
+      metadata:
+        creationTimestamp: null
+        labels:
+          app: vnf-firewall-hcm-01
+          core-router/role: firewall
+      spec:
+        containers:
+        - command:
+          - /bin/sh
+          - -c
+          - echo 'Firewall Running'; sleep infinity
+          image: localhost:32000/alpine:latest
+          imagePullPolicy: IfNotPresent
+          name: firewall
+          resources: {}
+          terminationMessagePath: /dev/termination-log
+          terminationMessagePolicy: File
+        dnsPolicy: ClusterFirst
+        restartPolicy: Always
+        schedulerName: default-scheduler
+        securityContext: {}
+        terminationGracePeriodSeconds: 30
+  status:
+    availableReplicas: 1
+    conditions:
+    - lastTransitionTime: "2026-05-22T12:01:01Z"
+      lastUpdateTime: "2026-05-22T12:01:17Z"
+      message: ReplicaSet "vnf-firewall-hcm-01-6f6f8b76f5" has successfully progressed.
+      reason: NewReplicaSetAvailable
+      status: "True"
+      type: Progressing
+    - lastTransitionTime: "2026-08-28T22:44:54Z"
+      lastUpdateTime: "2026-08-28T22:44:54Z"
+      message: Deployment has minimum availability.
+      reason: MinimumReplicasAvailable
+      status: "True"
+      type: Available
+    observedGeneration: 1
+    readyReplicas: 1
+    replicas: 1
+    updatedReplicas: 1
+- apiVersion: apps/v1
+  kind: Deployment
+  metadata:
+    annotations:
+      deployment.kubernetes.io/revision: "1"
+      kubectl.kubernetes.io/last-applied-configuration: |
+        {"apiVersion":"apps/v1","kind":"Deployment","metadata":{"annotations":{},"labels":{"core-router/location":"nhatrang-1","core-router/role":"firewall"},"name":"vnf-firewall-nt-03","namespace":"core-router"},"spec":{"replicas":1,"selector":{"matchLabels":{"app":"vnf-firewall-nt-03"}},"template":{"metadata":{"labels":{"app":"vnf-firewall-nt-03","core-router/role":"firewall"}},"spec":{"containers":[{"command":["/bin/sh","-c","echo 'Firewall Running'; sleep infinity"],"image":"localhost:32000/alpine:latest","imagePullPolicy":"IfNotPresent","name":"firewall"}]}}}}
+    creationTimestamp: "2026-05-22T12:00:56Z"
+    generation: 1
+    labels:
+      core-router/location: nhatrang-1
+      core-router/role: firewall
+    name: vnf-firewall-nt-03
+    namespace: core-router
+    resourceVersion: "159478603"
+    uid: eab28189-bf11-4d90-b338-7b54995e121c
+  spec:
+    progressDeadlineSeconds: 600
+    replicas: 1
+    revisionHistoryLimit: 10
+    selector:
+      matchLabels:
+        app: vnf-firewall-nt-03
+    strategy:
+      rollingUpdate:
+        maxSurge: 25%
+        maxUnavailable: 25%
+      type: RollingUpdate
+    template:
+      metadata:
+        creationTimestamp: null
+        labels:
+          app: vnf-firewall-nt-03
+          core-router/role: firewall
+      spec:
+        containers:
+        - command:
+          - /bin/sh
+          - -c
+          - echo 'Firewall Running'; sleep infinity
+          image: localhost:32000/alpine:latest
+          imagePullPolicy: IfNotPresent
+          name: firewall
+          resources: {}
+          terminationMessagePath: /dev/termination-log
+          terminationMessagePolicy: File
+        dnsPolicy: ClusterFirst
+        restartPolicy: Always
+        schedulerName: default-scheduler
+        securityContext: {}
+        terminationGracePeriodSeconds: 30
+  status:
+    availableReplicas: 1
+    conditions:
+    - lastTransitionTime: "2026-05-22T12:00:57Z"
+      lastUpdateTime: "2026-05-22T12:01:13Z"
+      message: ReplicaSet "vnf-firewall-nt-03-67878dd859" has successfully progressed.
+      reason: NewReplicaSetAvailable
+      status: "True"
+      type: Progressing
+    - lastTransitionTime: "2026-08-28T22:44:54Z"
+      lastUpdateTime: "2026-08-28T22:44:54Z"
+      message: Deployment has minimum availability.
+      reason: MinimumReplicasAvailable
+      status: "True"
+      type: Available
+    observedGeneration: 1
+    readyReplicas: 1
+    replicas: 1
+    updatedReplicas: 1
+- apiVersion: apps/v1
+  kind: Deployment
+  metadata:
+    annotations:
+      deployment.kubernetes.io/revision: "1"
+      kubectl.kubernetes.io/last-applied-configuration: |
+        {"apiVersion":"apps/v1","kind":"Deployment","metadata":{"annotations":{},"labels":{"core-router/location":"cantho-1","core-router/role":"idps"},"name":"vnf-idps-ct-01","namespace":"core-router"},"spec":{"replicas":1,"selector":{"matchLabels":{"app":"vnf-idps-ct-01"}},"template":{"metadata":{"labels":{"app":"vnf-idps-ct-01","core-router/role":"idps"}},"spec":{"containers":[{"command":["/bin/sh","-c","echo 'IDPS Running'; sleep infinity"],"image":"localhost:32000/alpine:latest","imagePullPolicy":"IfNotPresent","name":"idps"}]}}}}
+    creationTimestamp: "2026-05-22T12:01:09Z"
+    generation: 1
+    labels:
+      core-router/location: cantho-1
+      core-router/role: idps
+    name: vnf-idps-ct-01
+    namespace: core-router
+    resourceVersion: "159478989"
+    uid: 4a0b22c6-f72d-4c43-bd6b-ffcb0618866d
+  spec:
+    progressDeadlineSeconds: 600
+    replicas: 1
+    revisionHistoryLimit: 10
+    selector:
+      matchLabels:
+        app: vnf-idps-ct-01
+    strategy:
+      rollingUpdate:
+        maxSurge: 25%
+        maxUnavailable: 25%
+      type: RollingUpdate
+    template:
+      metadata:
+        creationTimestamp: null
+        labels:
+          app: vnf-idps-ct-01
+          core-router/role: idps
+      spec:
+        containers:
+        - command:
+          - /bin/sh
+          - -c
+          - echo 'IDPS Running'; sleep infinity
+          image: localhost:32000/alpine:latest
+          imagePullPolicy: IfNotPresent
+          name: idps
+          resources: {}
+          terminationMessagePath: /dev/termination-log
+          terminationMessagePolicy: File
+        dnsPolicy: ClusterFirst
+        restartPolicy: Always
+        schedulerName: default-scheduler
+        securityContext: {}
+        terminationGracePeriodSeconds: 30
+  status:
+    availableReplicas: 1
+    conditions:
+    - lastTransitionTime: "2026-05-22T12:01:10Z"
+      lastUpdateTime: "2026-05-22T12:01:24Z"
+      message: ReplicaSet "vnf-idps-ct-01-558f5778d8" has successfully progressed.
+      reason: NewReplicaSetAvailable
+      status: "True"
+      type: Progressing
+    - lastTransitionTime: "2026-08-28T22:45:00Z"
+      lastUpdateTime: "2026-08-28T22:45:00Z"
+      message: Deployment has minimum availability.
+      reason: MinimumReplicasAvailable
+      status: "True"
+      type: Available
+    observedGeneration: 1
+    readyReplicas: 1
+    replicas: 1
+    updatedReplicas: 1
+- apiVersion: apps/v1
+  kind: Deployment
+  metadata:
+    annotations:
+      deployment.kubernetes.io/revision: "1"
+      kubectl.kubernetes.io/last-applied-configuration: |
+        {"apiVersion":"apps/v1","kind":"Deployment","metadata":{"annotations":{},"labels":{"core-router/location":"danang-1","core-router/role":"idps"},"name":"vnf-idps-dn-03","namespace":"core-router"},"spec":{"replicas":1,"selector":{"matchLabels":{"app":"vnf-idps-dn-03"}},"template":{"metadata":{"labels":{"app":"vnf-idps-dn-03","core-router/role":"idps"}},"spec":{"containers":[{"command":["/bin/sh","-c","echo 'IDPS Running'; sleep infinity"],"image":"localhost:32000/alpine:latest","imagePullPolicy":"IfNotPresent","name":"idps"}]}}}}
+    creationTimestamp: "2026-05-22T12:00:29Z"
+    generation: 1
+    labels:
+      core-router/location: danang-1
+      core-router/role: idps
+    name: vnf-idps-dn-03
+    namespace: core-router
+    resourceVersion: "159478888"
+    uid: 783f86ab-cf18-4569-a779-de91c86c29e6
+  spec:
+    progressDeadlineSeconds: 600
+    replicas: 1
+    revisionHistoryLimit: 10
+    selector:
+      matchLabels:
+        app: vnf-idps-dn-03
+    strategy:
+      rollingUpdate:
+        maxSurge: 25%
+        maxUnavailable: 25%
+      type: RollingUpdate
+    template:
+      metadata:
+        creationTimestamp: null
+        labels:
+          app: vnf-idps-dn-03
+          core-router/role: idps
+      spec:
+        containers:
+        - command:
+          - /bin/sh
+          - -c
+          - echo 'IDPS Running'; sleep infinity
+          image: localhost:32000/alpine:latest
+          imagePullPolicy: IfNotPresent
+          name: idps
+          resources: {}
+          terminationMessagePath: /dev/termination-log
+          terminationMessagePolicy: File
+        dnsPolicy: ClusterFirst
+        restartPolicy: Always
+        schedulerName: default-scheduler
+        securityContext: {}
+        terminationGracePeriodSeconds: 30
+  status:
+    availableReplicas: 1
+    conditions:
+    - lastTransitionTime: "2026-05-22T12:00:29Z"
+      lastUpdateTime: "2026-05-22T12:00:39Z"
+      message: ReplicaSet "vnf-idps-dn-03-74ff6f795f" has successfully progressed.
+      reason: NewReplicaSetAvailable
+      status: "True"
+      type: Progressing
+    - lastTransitionTime: "2026-08-28T22:44:58Z"
+      lastUpdateTime: "2026-08-28T22:44:58Z"
+      message: Deployment has minimum availability.
+      reason: MinimumReplicasAvailable
+      status: "True"
+      type: Available
+    observedGeneration: 1
+    readyReplicas: 1
+    replicas: 1
+    updatedReplicas: 1
+- apiVersion: apps/v1
+  kind: Deployment
+  metadata:
+    annotations:
+      deployment.kubernetes.io/revision: "1"
+      kubectl.kubernetes.io/last-applied-configuration: |
+        {"apiVersion":"apps/v1","kind":"Deployment","metadata":{"annotations":{},"labels":{"core-router/location":"hanoi-1","core-router/role":"idps"},"name":"vnf-idps-hn-01","namespace":"core-router"},"spec":{"replicas":1,"selector":{"matchLabels":{"app":"vnf-idps-hn-01"}},"template":{"metadata":{"labels":{"app":"vnf-idps-hn-01","core-router/role":"idps"}},"spec":{"containers":[{"command":["/bin/sh","-c","echo 'IDPS Running'; sleep infinity"],"image":"localhost:32000/alpine:latest","imagePullPolicy":"IfNotPresent","name":"idps"}]}}}}
+    creationTimestamp: "2026-05-22T11:58:38Z"
+    generation: 1
+    labels:
+      core-router/location: hanoi-1
+      core-router/role: idps
+    name: vnf-idps-hn-01
+    namespace: core-router
+    resourceVersion: "159478509"
+    uid: 9c2433a3-65c3-4782-8383-2140275fd3ca
+  spec:
+    progressDeadlineSeconds: 600
+    replicas: 1
+    revisionHistoryLimit: 10
+    selector:
+      matchLabels:
+        app: vnf-idps-hn-01
+    strategy:
+      rollingUpdate:
+        maxSurge: 25%
+        maxUnavailable: 25%
+      type: RollingUpdate
+    template:
+      metadata:
+        creationTimestamp: null
+        labels:
+          app: vnf-idps-hn-01
+          core-router/role: idps
+      spec:
+        containers:
+        - command:
+          - /bin/sh
+          - -c
+          - echo 'IDPS Running'; sleep infinity
+          image: localhost:32000/alpine:latest
+          imagePullPolicy: IfNotPresent
+          name: idps
+          resources: {}
+          terminationMessagePath: /dev/termination-log
+          terminationMessagePolicy: File
+        dnsPolicy: ClusterFirst
+        restartPolicy: Always
+        schedulerName: default-scheduler
+        securityContext: {}
+        terminationGracePeriodSeconds: 30
+  status:
+    availableReplicas: 1
+    conditions:
+    - lastTransitionTime: "2026-05-22T11:58:38Z"
+      lastUpdateTime: "2026-05-22T11:58:40Z"
+      message: ReplicaSet "vnf-idps-hn-01-5c5c8dcfc" has successfully progressed.
+      reason: NewReplicaSetAvailable
+      status: "True"
+      type: Progressing
+    - lastTransitionTime: "2026-08-28T22:44:53Z"
+      lastUpdateTime: "2026-08-28T22:44:53Z"
+      message: Deployment has minimum availability.
+      reason: MinimumReplicasAvailable
+      status: "True"
+      type: Available
+    observedGeneration: 1
+    readyReplicas: 1
+    replicas: 1
+    updatedReplicas: 1
+- apiVersion: apps/v1
+  kind: Deployment
+  metadata:
+    annotations:
+      deployment.kubernetes.io/revision: "1"
+      kubectl.kubernetes.io/last-applied-configuration: |
+        {"apiVersion":"apps/v1","kind":"Deployment","metadata":{"annotations":{},"labels":{"core-router/location":"nhatrang-1","core-router/role":"idps"},"name":"vnf-idps-nt-02","namespace":"core-router"},"spec":{"replicas":1,"selector":{"matchLabels":{"app":"vnf-idps-nt-02"}},"template":{"metadata":{"labels":{"app":"vnf-idps-nt-02","core-router/role":"idps"}},"spec":{"containers":[{"command":["/bin/sh","-c","echo 'IDPS Running'; sleep infinity"],"image":"localhost:32000/alpine:latest","imagePullPolicy":"IfNotPresent","name":"idps"}]}}}}
+    creationTimestamp: "2026-05-22T12:00:48Z"
+    generation: 1
+    labels:
+      core-router/location: nhatrang-1
+      core-router/role: idps
+    name: vnf-idps-nt-02
+    namespace: core-router
+    resourceVersion: "159478770"
+    uid: 61b0bdec-10df-4591-8cb3-fe306eb36945
+  spec:
+    progressDeadlineSeconds: 600
+    replicas: 1
+    revisionHistoryLimit: 10
+    selector:
+      matchLabels:
+        app: vnf-idps-nt-02
+    strategy:
+      rollingUpdate:
+        maxSurge: 25%
+        maxUnavailable: 25%
+      type: RollingUpdate
+    template:
+      metadata:
+        creationTimestamp: null
+        labels:
+          app: vnf-idps-nt-02
+          core-router/role: idps
+      spec:
+        containers:
+        - command:
+          - /bin/sh
+          - -c
+          - echo 'IDPS Running'; sleep infinity
+          image: localhost:32000/alpine:latest
+          imagePullPolicy: IfNotPresent
+          name: idps
+          resources: {}
+          terminationMessagePath: /dev/termination-log
+          terminationMessagePolicy: File
+        dnsPolicy: ClusterFirst
+        restartPolicy: Always
+        schedulerName: default-scheduler
+        securityContext: {}
+        terminationGracePeriodSeconds: 30
+  status:
+    availableReplicas: 1
+    conditions:
+    - lastTransitionTime: "2026-05-22T12:00:48Z"
+      lastUpdateTime: "2026-05-22T12:01:10Z"
+      message: ReplicaSet "vnf-idps-nt-02-797f8b6cfd" has successfully progressed.
+      reason: NewReplicaSetAvailable
+      status: "True"
+      type: Progressing
+    - lastTransitionTime: "2026-08-28T22:44:57Z"
+      lastUpdateTime: "2026-08-28T22:44:57Z"
+      message: Deployment has minimum availability.
+      reason: MinimumReplicasAvailable
+      status: "True"
+      type: Available
+    observedGeneration: 1
+    readyReplicas: 1
+    replicas: 1
+    updatedReplicas: 1
+- apiVersion: apps/v1
+  kind: Deployment
+  metadata:
+    annotations:
+      deployment.kubernetes.io/revision: "1"
+      kubectl.kubernetes.io/last-applied-configuration: |
+        {"apiVersion":"apps/v1","kind":"Deployment","metadata":{"annotations":{},"labels":{"core-router/location":"vinh-1","core-router/role":"idps"},"name":"vnf-idps-vinh-01","namespace":"core-router"},"spec":{"replicas":1,"selector":{"matchLabels":{"app":"vnf-idps-vinh-01"}},"template":{"metadata":{"labels":{"app":"vnf-idps-vinh-01","core-router/role":"idps"}},"spec":{"containers":[{"command":["/bin/sh","-c","echo 'IDPS Running'; sleep infinity"],"image":"localhost:32000/alpine:latest","imagePullPolicy":"IfNotPresent","name":"idps"}]}}}}
+    creationTimestamp: "2026-05-22T11:59:18Z"
+    generation: 1
+    labels:
+      core-router/location: vinh-1
+      core-router/role: idps
+    name: vnf-idps-vinh-01
+    namespace: core-router
+    resourceVersion: "159479121"
+    uid: 502b08ce-b30e-4377-ac6c-e4158f58d275
+  spec:
+    progressDeadlineSeconds: 600
+    replicas: 1
+    revisionHistoryLimit: 10
+    selector:
+      matchLabels:
+        app: vnf-idps-vinh-01
+    strategy:
+      rollingUpdate:
+        maxSurge: 25%
+        maxUnavailable: 25%
+      type: RollingUpdate
+    template:
+      metadata:
+        creationTimestamp: null
+        labels:
+          app: vnf-idps-vinh-01
+          core-router/role: idps
+      spec:
+        containers:
+        - command:
+          - /bin/sh
+          - -c
+          - echo 'IDPS Running'; sleep infinity
+          image: localhost:32000/alpine:latest
+          imagePullPolicy: IfNotPresent
+          name: idps
+          resources: {}
+          terminationMessagePath: /dev/termination-log
+          terminationMessagePolicy: File
+        dnsPolicy: ClusterFirst
+        restartPolicy: Always
+        schedulerName: default-scheduler
+        securityContext: {}
+        terminationGracePeriodSeconds: 30
+  status:
+    availableReplicas: 1
+    conditions:
+    - lastTransitionTime: "2026-05-22T11:59:19Z"
+      lastUpdateTime: "2026-05-22T11:59:23Z"
+      message: ReplicaSet "vnf-idps-vinh-01-56c4c76d84" has successfully progressed.
+      reason: NewReplicaSetAvailable
+      status: "True"
+      type: Progressing
+    - lastTransitionTime: "2026-08-28T22:45:03Z"
+      lastUpdateTime: "2026-08-28T22:45:03Z"
+      message: Deployment has minimum availability.
+      reason: MinimumReplicasAvailable
+      status: "True"
+      type: Available
+    observedGeneration: 1
+    readyReplicas: 1
+    replicas: 1
+    updatedReplicas: 1
+- apiVersion: apps/v1
+  kind: Deployment
+  metadata:
+    annotations:
+      deployment.kubernetes.io/revision: "1"
+      field.cattle.io/publicEndpoints: '[{"port":30528,"protocol":"TCP","serviceName":"core-router:vnf-lb-hcm-03-svc","allNodes":true}]'
+      kubectl.kubernetes.io/last-applied-configuration: |
+        {"apiVersion":"apps/v1","kind":"Deployment","metadata":{"annotations":{},"labels":{"core-router/location":"hcm-1","core-router/role":"lb"},"name":"vnf-lb-hcm-03","namespace":"core-router"},"spec":{"replicas":1,"selector":{"matchLabels":{"app":"vnf-lb-hcm-03"}},"template":{"metadata":{"labels":{"app":"vnf-lb-hcm-03","core-router/role":"lb"}},"spec":{"containers":[{"image":"localhost:32000/nginx:1.27-alpine","imagePullPolicy":"IfNotPresent","name":"lb","ports":[{"containerPort":80}]}]}}}}
+    creationTimestamp: "2026-05-22T12:01:30Z"
+    generation: 2
+    labels:
+      core-router/location: hcm-1
+      core-router/role: lb
+    name: vnf-lb-hcm-03
+    namespace: core-router
+    resourceVersion: "159478826"
+    uid: 5b9b4f25-8b75-40ae-a5ee-60ae95033877
+  spec:
+    progressDeadlineSeconds: 600
+    replicas: 1
+    revisionHistoryLimit: 10
+    selector:
+      matchLabels:
+        app: vnf-lb-hcm-03
+    strategy:
+      rollingUpdate:
+        maxSurge: 25%
+        maxUnavailable: 25%
+      type: RollingUpdate
+    template:
+      metadata:
+        creationTimestamp: null
+        labels:
+          app: vnf-lb-hcm-03
+          core-router/role: lb
+      spec:
+        containers:
+        - image: localhost:32000/nginx:1.27-alpine
+          imagePullPolicy: IfNotPresent
+          name: lb
+          ports:
+          - containerPort: 80
+            protocol: TCP
+          resources: {}
+          terminationMessagePath: /dev/termination-log
+          terminationMessagePolicy: File
+        dnsPolicy: ClusterFirst
+        restartPolicy: Always
+        schedulerName: default-scheduler
+        securityContext: {}
+        terminationGracePeriodSeconds: 30
+  status:
+    availableReplicas: 1
+    conditions:
+    - lastTransitionTime: "2026-05-22T12:01:30Z"
+      lastUpdateTime: "2026-05-22T12:01:42Z"
+      message: ReplicaSet "vnf-lb-hcm-03-597d6fbdbf" has successfully progressed.
+      reason: NewReplicaSetAvailable
+      status: "True"
+      type: Progressing
+    - lastTransitionTime: "2026-08-28T22:44:58Z"
+      lastUpdateTime: "2026-08-28T22:44:58Z"
+      message: Deployment has minimum availability.
+      reason: MinimumReplicasAvailable
+      status: "True"
+      type: Available
+    observedGeneration: 2
+    readyReplicas: 1
+    replicas: 1
+    updatedReplicas: 1
+- apiVersion: apps/v1
+  kind: Deployment
+  metadata:
+    annotations:
+      deployment.kubernetes.io/revision: "1"
+      field.cattle.io/publicEndpoints: '[{"port":30455,"protocol":"TCP","serviceName":"core-router:vnf-lb-hp-03-svc","allNodes":true}]'
+      kubectl.kubernetes.io/last-applied-configuration: |
+        {"apiVersion":"apps/v1","kind":"Deployment","metadata":{"annotations":{},"labels":{"core-router/location":"haiphong-1","core-router/role":"lb"},"name":"vnf-lb-hp-03","namespace":"core-router"},"spec":{"replicas":1,"selector":{"matchLabels":{"app":"vnf-lb-hp-03"}},"template":{"metadata":{"labels":{"app":"vnf-lb-hp-03","core-router/role":"lb"}},"spec":{"containers":[{"image":"localhost:32000/nginx:1.27-alpine","imagePullPolicy":"IfNotPresent","name":"lb","ports":[{"containerPort":80}]}]}}}}
+    creationTimestamp: "2026-05-22T11:59:01Z"
+    generation: 2
+    labels:
+      core-router/location: haiphong-1
+      core-router/role: lb
+    name: vnf-lb-hp-03
+    namespace: core-router
+    resourceVersion: "159478247"
+    uid: 5691c155-a9f6-4b84-bd8d-3abb866c37d3
+  spec:
+    progressDeadlineSeconds: 600
+    replicas: 1
+    revisionHistoryLimit: 10
+    selector:
+      matchLabels:
+        app: vnf-lb-hp-03
+    strategy:
+      rollingUpdate:
+        maxSurge: 25%
+        maxUnavailable: 25%
+      type: RollingUpdate
+    template:
+      metadata:
+        creationTimestamp: null
+        labels:
+          app: vnf-lb-hp-03
+          core-router/role: lb
+      spec:
+        containers:
+        - image: localhost:32000/nginx:1.27-alpine
+          imagePullPolicy: IfNotPresent
+          name: lb
+          ports:
+          - containerPort: 80
+            protocol: TCP
+          resources: {}
+          terminationMessagePath: /dev/termination-log
+          terminationMessagePolicy: File
+        dnsPolicy: ClusterFirst
+        restartPolicy: Always
+        schedulerName: default-scheduler
+        securityContext: {}
+        terminationGracePeriodSeconds: 30
+  status:
+    availableReplicas: 1
+    conditions:
+    - lastTransitionTime: "2026-05-22T11:59:01Z"
+      lastUpdateTime: "2026-05-22T11:59:04Z"
+      message: ReplicaSet "vnf-lb-hp-03-7fd7dc6885" has successfully progressed.
+      reason: NewReplicaSetAvailable
+      status: "True"
+      type: Progressing
+    - lastTransitionTime: "2026-08-28T22:44:49Z"
+      lastUpdateTime: "2026-08-28T22:44:49Z"
+      message: Deployment has minimum availability.
+      reason: MinimumReplicasAvailable
+      status: "True"
+      type: Available
+    observedGeneration: 2
+    readyReplicas: 1
+    replicas: 1
+    updatedReplicas: 1
+- apiVersion: apps/v1
+  kind: Deployment
+  metadata:
+    annotations:
+      deployment.kubernetes.io/revision: "1"
+      field.cattle.io/publicEndpoints: '[{"port":32711,"protocol":"TCP","serviceName":"core-router:vnf-lb-hue-01-svc","allNodes":true}]'
+      kubectl.kubernetes.io/last-applied-configuration: |
+        {"apiVersion":"apps/v1","kind":"Deployment","metadata":{"annotations":{},"labels":{"core-router/location":"hue-1","core-router/role":"lb"},"name":"vnf-lb-hue-01","namespace":"core-router"},"spec":{"replicas":1,"selector":{"matchLabels":{"app":"vnf-lb-hue-01"}},"template":{"metadata":{"labels":{"app":"vnf-lb-hue-01","core-router/role":"lb"}},"spec":{"containers":[{"image":"localhost:32000/nginx:1.27-alpine","imagePullPolicy":"IfNotPresent","name":"lb","ports":[{"containerPort":80}]}]}}}}
+    creationTimestamp: "2026-05-22T11:59:36Z"
+    generation: 2
+    labels:
+      core-router/location: hue-1
+      core-router/role: lb
+    name: vnf-lb-hue-01
+    namespace: core-router
+    resourceVersion: "159478204"
+    uid: 30d37590-334f-4a09-9c81-a25ac90d62a5
+  spec:
+    progressDeadlineSeconds: 600
+    replicas: 1
+    revisionHistoryLimit: 10
+    selector:
+      matchLabels:
+        app: vnf-lb-hue-01
+    strategy:
+      rollingUpdate:
+        maxSurge: 25%
+        maxUnavailable: 25%
+      type: RollingUpdate
+    template:
+      metadata:
+        creationTimestamp: null
+        labels:
+          app: vnf-lb-hue-01
+          core-router/role: lb
+      spec:
+        containers:
+        - image: localhost:32000/nginx:1.27-alpine
+          imagePullPolicy: IfNotPresent
+          name: lb
+          ports:
+          - containerPort: 80
+            protocol: TCP
+          resources: {}
+          terminationMessagePath: /dev/termination-log
+          terminationMessagePolicy: File
+        dnsPolicy: ClusterFirst
+        restartPolicy: Always
+        schedulerName: default-scheduler
+        securityContext: {}
+        terminationGracePeriodSeconds: 30
+  status:
+    availableReplicas: 1
+    conditions:
+    - lastTransitionTime: "2026-05-22T11:59:36Z"
+      lastUpdateTime: "2026-05-22T11:59:42Z"
+      message: ReplicaSet "vnf-lb-hue-01-56d5d7489" has successfully progressed.
+      reason: NewReplicaSetAvailable
+      status: "True"
+      type: Progressing
+    - lastTransitionTime: "2026-08-28T22:44:48Z"
+      lastUpdateTime: "2026-08-28T22:44:48Z"
+      message: Deployment has minimum availability.
+      reason: MinimumReplicasAvailable
+      status: "True"
+      type: Available
+    observedGeneration: 2
+    readyReplicas: 1
+    replicas: 1
+    updatedReplicas: 1
+- apiVersion: apps/v1
+  kind: Deployment
+  metadata:
+    annotations:
+      deployment.kubernetes.io/revision: "1"
+    creationTimestamp: "2026-05-22T09:42:05Z"
+    generation: 1
+    labels:
+      app: vnf-mbb-src-1779442924
+    name: vnf-mbb-src-1779442924
+    namespace: core-router
+    resourceVersion: "208713680"
+    uid: 8097b9b6-0c65-42fb-8827-2e65192d2011
+  spec:
+    progressDeadlineSeconds: 600
+    replicas: 1
+    revisionHistoryLimit: 10
+    selector:
+      matchLabels:
+        app: vnf-mbb-src-1779442924
+    strategy:
+      rollingUpdate:
+        maxSurge: 25%
+        maxUnavailable: 25%
+      type: RollingUpdate
+    template:
+      metadata:
+        creationTimestamp: null
+        labels:
+          app: vnf-mbb-src-1779442924
+      spec:
+        containers:
+        - command:
+          - sh
+          - -c
+          - while true; do sleep 3600; done
+          image: localhost:32000/alpine:latest
+          imagePullPolicy: Always
+          name: alpine
+          resources: {}
+          terminationMessagePath: /dev/termination-log
+          terminationMessagePolicy: File
+        dnsPolicy: ClusterFirst
+        restartPolicy: Always
+        schedulerName: default-scheduler
+        securityContext: {}
+        terminationGracePeriodSeconds: 30
+  status:
+    availableReplicas: 1
+    conditions:
+    - lastTransitionTime: "2026-05-22T09:42:05Z"
+      lastUpdateTime: "2026-05-22T09:42:07Z"
+      message: ReplicaSet "vnf-mbb-src-1779442924-5cbf54f846" has successfully progressed.
+      reason: NewReplicaSetAvailable
+      status: "True"
+      type: Progressing
+    - lastTransitionTime: "2026-11-04T11:42:03Z"
+      lastUpdateTime: "2026-11-04T11:42:03Z"
+      message: Deployment has minimum availability.
+      reason: MinimumReplicasAvailable
+      status: "True"
+      type: Available
+    observedGeneration: 1
+    readyReplicas: 1
+    replicas: 1
+    updatedReplicas: 1
+- apiVersion: apps/v1
+  kind: Deployment
+  metadata:
+    annotations:
+      deployment.kubernetes.io/revision: "1"
+    creationTimestamp: "2026-05-22T11:02:21Z"
+    generation: 1
+    labels:
+      app: vnf-mbb-src-1779447740
+    name: vnf-mbb-src-1779447740
+    namespace: core-router
+    resourceVersion: "208713730"
+    uid: d455298d-83f6-4ee7-9f29-2c6778229e2f
+  spec:
+    progressDeadlineSeconds: 600
+    replicas: 1
+    revisionHistoryLimit: 10
+    selector:
+      matchLabels:
+        app: vnf-mbb-src-1779447740
+    strategy:
+      rollingUpdate:
+        maxSurge: 25%
+        maxUnavailable: 25%
+      type: RollingUpdate
+    template:
+      metadata:
+        creationTimestamp: null
+        labels:
+          app: vnf-mbb-src-1779447740
+      spec:
+        containers:
+        - command:
+          - sh
+          - -c
+          - while true; do sleep 3600; done
+          image: localhost:32000/alpine:latest
+          imagePullPolicy: Always
+          name: alpine
+          resources: {}
+          terminationMessagePath: /dev/termination-log
+          terminationMessagePolicy: File
+        dnsPolicy: ClusterFirst
+        restartPolicy: Always
+        schedulerName: default-scheduler
+        securityContext: {}
+        terminationGracePeriodSeconds: 30
+  status:
+    availableReplicas: 1
+    conditions:
+    - lastTransitionTime: "2026-05-22T11:02:21Z"
+      lastUpdateTime: "2026-05-22T11:02:22Z"
+      message: ReplicaSet "vnf-mbb-src-1779447740-5c86c87895" has successfully progressed.
+      reason: NewReplicaSetAvailable
+      status: "True"
+      type: Progressing
+    - lastTransitionTime: "2026-11-04T11:42:05Z"
+      lastUpdateTime: "2026-11-04T11:42:05Z"
+      message: Deployment has minimum availability.
+      reason: MinimumReplicasAvailable
+      status: "True"
+      type: Available
+    observedGeneration: 1
+    readyReplicas: 1
+    replicas: 1
+    updatedReplicas: 1
+- apiVersion: apps/v1
+  kind: Deployment
+  metadata:
+    annotations:
+      deployment.kubernetes.io/revision: "1"
+      kubectl.kubernetes.io/last-applied-configuration: |
+        {"apiVersion":"apps/v1","kind":"Deployment","metadata":{"annotations":{},"labels":{"core-router/location":"hanoi-2","core-router/role":"nat"},"name":"vnf-mbb-src-1779447740-mig","namespace":"core-router"},"spec":{"replicas":1,"selector":{"matchLabels":{"app":"vnf-mbb-src-1779447740-mig"}},"template":{"metadata":{"labels":{"app":"vnf-mbb-src-1779447740-mig","core-router/role":"nat"}},"spec":{"containers":[{"command":["/bin/sh","-c","echo 'NAT Running'; sleep infinity"],"image":"localhost:32000/alpine:latest","imagePullPolicy":"IfNotPresent","name":"nat","securityContext":{"capabilities":{"add":["NET_ADMIN"]}}}]}}}}
+    creationTimestamp: "2026-05-22T11:02:38Z"
+    generation: 1
+    labels:
+      core-router/location: hanoi-2
+      core-router/role: nat
+    name: vnf-mbb-src-1779447740-mig
+    namespace: core-router
+    resourceVersion: "159479115"
+    uid: d089939f-8fa8-4aa1-a6a4-aba5aaa2cd40
+  spec:
+    progressDeadlineSeconds: 600
+    replicas: 1
+    revisionHistoryLimit: 10
+    selector:
+      matchLabels:
+        app: vnf-mbb-src-1779447740-mig
+    strategy:
+      rollingUpdate:
+        maxSurge: 25%
+        maxUnavailable: 25%
+      type: RollingUpdate
+    template:
+      metadata:
+        creationTimestamp: null
+        labels:
+          app: vnf-mbb-src-1779447740-mig
+          core-router/role: nat
+      spec:
+        containers:
+        - command:
+          - /bin/sh
+          - -c
+          - echo 'NAT Running'; sleep infinity
+          image: localhost:32000/alpine:latest
+          imagePullPolicy: IfNotPresent
+          name: nat
+          resources: {}
+          securityContext:
+            capabilities:
+              add:
+              - NET_ADMIN
+          terminationMessagePath: /dev/termination-log
+          terminationMessagePolicy: File
+        dnsPolicy: ClusterFirst
+        restartPolicy: Always
+        schedulerName: default-scheduler
+        securityContext: {}
+        terminationGracePeriodSeconds: 30
+  status:
+    availableReplicas: 1
+    conditions:
+    - lastTransitionTime: "2026-05-22T11:02:38Z"
+      lastUpdateTime: "2026-05-22T11:02:40Z"
+      message: ReplicaSet "vnf-mbb-src-1779447740-mig-8499568648" has successfully
+        progressed.
+      reason: NewReplicaSetAvailable
+      status: "True"
+      type: Progressing
+    - lastTransitionTime: "2026-08-28T22:45:03Z"
+      lastUpdateTime: "2026-08-28T22:45:03Z"
+      message: Deployment has minimum availability.
+      reason: MinimumReplicasAvailable
+      status: "True"
+      type: Available
+    observedGeneration: 1
+    readyReplicas: 1
+    replicas: 1
+    updatedReplicas: 1
+- apiVersion: apps/v1
+  kind: Deployment
+  metadata:
+    annotations:
+      deployment.kubernetes.io/revision: "1"
+      kubectl.kubernetes.io/last-applied-configuration: |
+        {"apiVersion":"apps/v1","kind":"Deployment","metadata":{"annotations":{},"labels":{"core-router/location":"cantho-1","core-router/role":"nat"},"name":"vnf-nat-ct-02","namespace":"core-router"},"spec":{"replicas":1,"selector":{"matchLabels":{"app":"vnf-nat-ct-02"}},"template":{"metadata":{"labels":{"app":"vnf-nat-ct-02","core-router/role":"nat"}},"spec":{"containers":[{"command":["/bin/sh","-c","echo 'NAT Running'; sleep infinity"],"image":"localhost:32000/alpine:latest","imagePullPolicy":"IfNotPresent","name":"nat","securityContext":{"capabilities":{"add":["NET_ADMIN"]}}}]}}}}
+    creationTimestamp: "2026-05-22T12:01:05Z"
+    generation: 1
+    labels:
+      core-router/location: cantho-1
+      core-router/role: nat
+    name: vnf-nat-ct-02
+    namespace: core-router
+    resourceVersion: "159478810"
+    uid: f4809cca-bb89-4e58-8e56-7896c8cdbb3f
+  spec:
+    progressDeadlineSeconds: 600
+    replicas: 1
+    revisionHistoryLimit: 10
+    selector:
+      matchLabels:
+        app: vnf-nat-ct-02
+    strategy:
+      rollingUpdate:
+        maxSurge: 25%
+        maxUnavailable: 25%
+      type: RollingUpdate
+    template:
+      metadata:
+        creationTimestamp: null
+        labels:
+          app: vnf-nat-ct-02
+          core-router/role: nat
+      spec:
+        containers:
+        - command:
+          - /bin/sh
+          - -c
+          - echo 'NAT Running'; sleep infinity
+          image: localhost:32000/alpine:latest
+          imagePullPolicy: IfNotPresent
+          name: nat
+          resources: {}
+          securityContext:
+            capabilities:
+              add:
+              - NET_ADMIN
+          terminationMessagePath: /dev/termination-log
+          terminationMessagePolicy: File
+        dnsPolicy: ClusterFirst
+        restartPolicy: Always
+        schedulerName: default-scheduler
+        securityContext: {}
+        terminationGracePeriodSeconds: 30
+  status:
+    availableReplicas: 1
+    conditions:
+    - lastTransitionTime: "2026-05-22T12:01:07Z"
+      lastUpdateTime: "2026-05-22T12:01:21Z"
+      message: ReplicaSet "vnf-nat-ct-02-6875dc6fb9" has successfully progressed.
+      reason: NewReplicaSetAvailable
+      status: "True"
+      type: Progressing
+    - lastTransitionTime: "2026-08-28T22:44:57Z"
+      lastUpdateTime: "2026-08-28T22:44:57Z"
+      message: Deployment has minimum availability.
+      reason: MinimumReplicasAvailable
+      status: "True"
+      type: Available
+    observedGeneration: 1
+    readyReplicas: 1
+    replicas: 1
+    updatedReplicas: 1
+- apiVersion: apps/v1
+  kind: Deployment
+  metadata:
+    annotations:
+      deployment.kubernetes.io/revision: "1"
+      kubectl.kubernetes.io/last-applied-configuration: |
+        {"apiVersion":"apps/v1","kind":"Deployment","metadata":{"annotations":{},"labels":{"core-router/location":"danang-1","core-router/role":"nat"},"name":"vnf-nat-dn-01","namespace":"core-router"},"spec":{"replicas":1,"selector":{"matchLabels":{"app":"vnf-nat-dn-01"}},"template":{"metadata":{"labels":{"app":"vnf-nat-dn-01","core-router/role":"nat"}},"spec":{"containers":[{"command":["/bin/sh","-c","echo 'NAT Running'; sleep infinity"],"image":"localhost:32000/alpine:latest","imagePullPolicy":"IfNotPresent","name":"nat","securityContext":{"capabilities":{"add":["NET_ADMIN"]}}}]}}}}
+    creationTimestamp: "2026-05-22T12:00:03Z"
+    generation: 1
+    labels:
+      core-router/location: danang-1
+      core-router/role: nat
+    name: vnf-nat-dn-01
+    namespace: core-router
+    resourceVersion: "159478188"
+    uid: 7ab23e3e-1e29-47cc-ba9f-595104ec4a4f
+  spec:
+    progressDeadlineSeconds: 600
+    replicas: 1
+    revisionHistoryLimit: 10
+    selector:
+      matchLabels:
+        app: vnf-nat-dn-01
+    strategy:
+      rollingUpdate:
+        maxSurge: 25%
+        maxUnavailable: 25%
+      type: RollingUpdate
+    template:
+      metadata:
+        creationTimestamp: null
+        labels:
+          app: vnf-nat-dn-01
+          core-router/role: nat
+      spec:
+        containers:
+        - command:
+          - /bin/sh
+          - -c
+          - echo 'NAT Running'; sleep infinity
+          image: localhost:32000/alpine:latest
+          imagePullPolicy: IfNotPresent
+          name: nat
+          resources: {}
+          securityContext:
+            capabilities:
+              add:
+              - NET_ADMIN
+          terminationMessagePath: /dev/termination-log
+          terminationMessagePolicy: File
+        dnsPolicy: ClusterFirst
+        restartPolicy: Always
+        schedulerName: default-scheduler
+        securityContext: {}
+        terminationGracePeriodSeconds: 30
+  status:
+    availableReplicas: 1
+    conditions:
+    - lastTransitionTime: "2026-05-22T12:00:04Z"
+      lastUpdateTime: "2026-05-22T12:00:22Z"
+      message: ReplicaSet "vnf-nat-dn-01-58bbcb878c" has successfully progressed.
+      reason: NewReplicaSetAvailable
+      status: "True"
+      type: Progressing
+    - lastTransitionTime: "2026-08-28T22:44:48Z"
+      lastUpdateTime: "2026-08-28T22:44:48Z"
+      message: Deployment has minimum availability.
+      reason: MinimumReplicasAvailable
+      status: "True"
+      type: Available
+    observedGeneration: 1
+    readyReplicas: 1
+    replicas: 1
+    updatedReplicas: 1
+- apiVersion: apps/v1
+  kind: Deployment
+  metadata:
+    annotations:
+      deployment.kubernetes.io/revision: "1"
+      kubectl.kubernetes.io/last-applied-configuration: |
+        {"apiVersion":"apps/v1","kind":"Deployment","metadata":{"annotations":{},"labels":{"core-router/location":"hcm-1","core-router/role":"nat"},"name":"vnf-nat-hcm-02","namespace":"core-router"},"spec":{"replicas":1,"selector":{"matchLabels":{"app":"vnf-nat-hcm-02"}},"template":{"metadata":{"labels":{"app":"vnf-nat-hcm-02","core-router/role":"nat"}},"spec":{"containers":[{"command":["/bin/sh","-c","echo 'NAT Running'; sleep infinity"],"image":"localhost:32000/alpine:latest","imagePullPolicy":"IfNotPresent","name":"nat","securityContext":{"capabilities":{"add":["NET_ADMIN"]}}}]}}}}
+    creationTimestamp: "2026-05-22T12:00:56Z"
+    generation: 1
+    labels:
+      core-router/location: hcm-1
+      core-router/role: nat
+    name: vnf-nat-hcm-02
+    namespace: core-router
+    resourceVersion: "159478376"
+    uid: 689c08f9-59db-4de2-a2c9-827873fc45d1
+  spec:
+    progressDeadlineSeconds: 600
+    replicas: 1
+    revisionHistoryLimit: 10
+    selector:
+      matchLabels:
+        app: vnf-nat-hcm-02
+    strategy:
+      rollingUpdate:
+        maxSurge: 25%
+        maxUnavailable: 25%
+      type: RollingUpdate
+    template:
+      metadata:
+        creationTimestamp: null
+        labels:
+          app: vnf-nat-hcm-02
+          core-router/role: nat
+      spec:
+        containers:
+        - command:
+          - /bin/sh
+          - -c
+          - echo 'NAT Running'; sleep infinity
+          image: localhost:32000/alpine:latest
+          imagePullPolicy: IfNotPresent
+          name: nat
+          resources: {}
+          securityContext:
+            capabilities:
+              add:
+              - NET_ADMIN
+          terminationMessagePath: /dev/termination-log
+          terminationMessagePolicy: File
+        dnsPolicy: ClusterFirst
+        restartPolicy: Always
+        schedulerName: default-scheduler
+        securityContext: {}
+        terminationGracePeriodSeconds: 30
+  status:
+    availableReplicas: 1
+    conditions:
+    - lastTransitionTime: "2026-05-22T12:00:57Z"
+      lastUpdateTime: "2026-05-22T12:01:14Z"
+      message: ReplicaSet "vnf-nat-hcm-02-5b454bfbb4" has successfully progressed.
+      reason: NewReplicaSetAvailable
+      status: "True"
+      type: Progressing
+    - lastTransitionTime: "2026-08-28T22:44:51Z"
+      lastUpdateTime: "2026-08-28T22:44:51Z"
+      message: Deployment has minimum availability.
+      reason: MinimumReplicasAvailable
+      status: "True"
+      type: Available
+    observedGeneration: 1
+    readyReplicas: 1
+    replicas: 1
+    updatedReplicas: 1
+- apiVersion: apps/v1
+  kind: Deployment
+  metadata:
+    annotations:
+      deployment.kubernetes.io/revision: "1"
+      kubectl.kubernetes.io/last-applied-configuration: |
+        {"apiVersion":"apps/v1","kind":"Deployment","metadata":{"annotations":{},"labels":{"core-router/location":"hanoi-1","core-router/role":"nat"},"name":"vnf-nat-hn-03","namespace":"core-router"},"spec":{"replicas":1,"selector":{"matchLabels":{"app":"vnf-nat-hn-03"}},"template":{"metadata":{"labels":{"app":"vnf-nat-hn-03","core-router/role":"nat"}},"spec":{"containers":[{"command":["/bin/sh","-c","echo 'NAT Running'; sleep infinity"],"image":"localhost:32000/alpine:latest","imagePullPolicy":"IfNotPresent","name":"nat","securityContext":{"capabilities":{"add":["NET_ADMIN"]}}}]}}}}
+    creationTimestamp: "2026-05-22T11:58:51Z"
+    generation: 1
+    labels:
+      core-router/location: hanoi-1
+      core-router/role: nat
+    name: vnf-nat-hn-03
+    namespace: core-router
+    resourceVersion: "159479153"
+    uid: ef16575d-eb75-47fa-9431-d6d2c9e540b1
+  spec:
+    progressDeadlineSeconds: 600
+    replicas: 1
+    revisionHistoryLimit: 10
+    selector:
+      matchLabels:
+        app: vnf-nat-hn-03
+    strategy:
+      rollingUpdate:
+        maxSurge: 25%
+        maxUnavailable: 25%
+      type: RollingUpdate
+    template:
+      metadata:
+        creationTimestamp: null
+        labels:
+          app: vnf-nat-hn-03
+          core-router/role: nat
+      spec:
+        containers:
+        - command:
+          - /bin/sh
+          - -c
+          - echo 'NAT Running'; sleep infinity
+          image: localhost:32000/alpine:latest
+          imagePullPolicy: IfNotPresent
+          name: nat
+          resources: {}
+          securityContext:
+            capabilities:
+              add:
+              - NET_ADMIN
+          terminationMessagePath: /dev/termination-log
+          terminationMessagePolicy: File
+        dnsPolicy: ClusterFirst
+        restartPolicy: Always
+        schedulerName: default-scheduler
+        securityContext: {}
+        terminationGracePeriodSeconds: 30
+  status:
+    availableReplicas: 1
+    conditions:
+    - lastTransitionTime: "2026-05-22T11:58:51Z"
+      lastUpdateTime: "2026-05-22T11:58:53Z"
+      message: ReplicaSet "vnf-nat-hn-03-55fc9df54f" has successfully progressed.
+      reason: NewReplicaSetAvailable
+      status: "True"
+      type: Progressing
+    - lastTransitionTime: "2026-08-28T22:45:03Z"
+      lastUpdateTime: "2026-08-28T22:45:03Z"
+      message: Deployment has minimum availability.
+      reason: MinimumReplicasAvailable
+      status: "True"
+      type: Available
+    observedGeneration: 1
+    readyReplicas: 1
+    replicas: 1
+    updatedReplicas: 1
+- apiVersion: apps/v1
+  kind: Deployment
+  metadata:
+    annotations:
+      deployment.kubernetes.io/revision: "1"
+      kubectl.kubernetes.io/last-applied-configuration: |
+        {"apiVersion":"apps/v1","kind":"Deployment","metadata":{"annotations":{},"labels":{"core-router/location":"hue-1","core-router/role":"nat"},"name":"vnf-nat-hue-03","namespace":"core-router"},"spec":{"replicas":1,"selector":{"matchLabels":{"app":"vnf-nat-hue-03"}},"template":{"metadata":{"labels":{"app":"vnf-nat-hue-03","core-router/role":"nat"}},"spec":{"containers":[{"command":["/bin/sh","-c","echo 'NAT Running'; sleep infinity"],"image":"localhost:32000/alpine:latest","imagePullPolicy":"IfNotPresent","name":"nat","securityContext":{"capabilities":{"add":["NET_ADMIN"]}}}]}}}}
+    creationTimestamp: "2026-05-22T11:59:53Z"
+    generation: 1
+    labels:
+      core-router/location: hue-1
+      core-router/role: nat
+    name: vnf-nat-hue-03
+    namespace: core-router
+    resourceVersion: "159478115"
+    uid: 7140b762-8e36-4f90-8978-3957e7a1e6b9
+  spec:
+    progressDeadlineSeconds: 600
+    replicas: 1
+    revisionHistoryLimit: 10
+    selector:
+      matchLabels:
+        app: vnf-nat-hue-03
+    strategy:
+      rollingUpdate:
+        maxSurge: 25%
+        maxUnavailable: 25%
+      type: RollingUpdate
+    template:
+      metadata:
+        creationTimestamp: null
+        labels:
+          app: vnf-nat-hue-03
+          core-router/role: nat
+      spec:
+        containers:
+        - command:
+          - /bin/sh
+          - -c
+          - echo 'NAT Running'; sleep infinity
+          image: localhost:32000/alpine:latest
+          imagePullPolicy: IfNotPresent
+          name: nat
+          resources: {}
+          securityContext:
+            capabilities:
+              add:
+              - NET_ADMIN
+          terminationMessagePath: /dev/termination-log
+          terminationMessagePolicy: File
+        dnsPolicy: ClusterFirst
+        restartPolicy: Always
+        schedulerName: default-scheduler
+        securityContext: {}
+        terminationGracePeriodSeconds: 30
+  status:
+    availableReplicas: 1
+    conditions:
+    - lastTransitionTime: "2026-05-22T11:59:54Z"
+      lastUpdateTime: "2026-05-22T12:00:10Z"
+      message: ReplicaSet "vnf-nat-hue-03-76f6494ff5" has successfully progressed.
+      reason: NewReplicaSetAvailable
+      status: "True"
+      type: Progressing
+    - lastTransitionTime: "2026-08-28T22:44:47Z"
+      lastUpdateTime: "2026-08-28T22:44:47Z"
+      message: Deployment has minimum availability.
+      reason: MinimumReplicasAvailable
+      status: "True"
+      type: Available
+    observedGeneration: 1
+    readyReplicas: 1
+    replicas: 1
+    updatedReplicas: 1
+- apiVersion: apps/v1
+  kind: Deployment
+  metadata:
+    annotations:
+      deployment.kubernetes.io/revision: "1"
+      kubectl.kubernetes.io/last-applied-configuration: |
+        {"apiVersion":"apps/v1","kind":"Deployment","metadata":{"annotations":{},"labels":{"core-router/location":"ninhbinh-1","core-router/role":"nat"},"name":"vnf-nat-nb-01","namespace":"core-router"},"spec":{"replicas":1,"selector":{"matchLabels":{"app":"vnf-nat-nb-01"}},"template":{"metadata":{"labels":{"app":"vnf-nat-nb-01","core-router/role":"nat"}},"spec":{"containers":[{"command":["/bin/sh","-c","echo 'NAT Running'; sleep infinity"],"image":"localhost:32000/alpine:latest","imagePullPolicy":"IfNotPresent","name":"nat","securityContext":{"capabilities":{"add":["NET_ADMIN"]}}}]}}}}
+    creationTimestamp: "2026-05-22T11:59:11Z"
+    generation: 1
+    labels:
+      core-router/location: ninhbinh-1
+      core-router/role: nat
+    name: vnf-nat-nb-01
+    namespace: core-router
+    resourceVersion: "159479158"
+    uid: 05406cc8-d2c9-40be-812e-f82a487ece4b
+  spec:
+    progressDeadlineSeconds: 600
+    replicas: 1
+    revisionHistoryLimit: 10
+    selector:
+      matchLabels:
+        app: vnf-nat-nb-01
+    strategy:
+      rollingUpdate:
+        maxSurge: 25%
+        maxUnavailable: 25%
+      type: RollingUpdate
+    template:
+      metadata:
+        creationTimestamp: null
+        labels:
+          app: vnf-nat-nb-01
+          core-router/role: nat
+      spec:
+        containers:
+        - command:
+          - /bin/sh
+          - -c
+          - echo 'NAT Running'; sleep infinity
+          image: localhost:32000/alpine:latest
+          imagePullPolicy: IfNotPresent
+          name: nat
+          resources: {}
+          securityContext:
+            capabilities:
+              add:
+              - NET_ADMIN
+          terminationMessagePath: /dev/termination-log
+          terminationMessagePolicy: File
+        dnsPolicy: ClusterFirst
+        restartPolicy: Always
+        schedulerName: default-scheduler
+        securityContext: {}
+        terminationGracePeriodSeconds: 30
+  status:
+    availableReplicas: 1
+    conditions:
+    - lastTransitionTime: "2026-05-22T11:59:11Z"
+      lastUpdateTime: "2026-05-22T11:59:13Z"
+      message: ReplicaSet "vnf-nat-nb-01-5cc9dbd98f" has successfully progressed.
+      reason: NewReplicaSetAvailable
+      status: "True"
+      type: Progressing
+    - lastTransitionTime: "2026-08-28T22:45:03Z"
+      lastUpdateTime: "2026-08-28T22:45:03Z"
+      message: Deployment has minimum availability.
+      reason: MinimumReplicasAvailable
+      status: "True"
+      type: Available
+    observedGeneration: 1
+    readyReplicas: 1
+    replicas: 1
+    updatedReplicas: 1
+- apiVersion: apps/v1
+  kind: Deployment
+  metadata:
+    annotations:
+      deployment.kubernetes.io/revision: "1"
+      kubectl.kubernetes.io/last-applied-configuration: |
+        {"apiVersion":"apps/v1","kind":"Deployment","metadata":{"annotations":{},"labels":{"core-router/location":"nhatrang-1","core-router/role":"nat"},"name":"vnf-nat-nt-01","namespace":"core-router"},"spec":{"replicas":1,"selector":{"matchLabels":{"app":"vnf-nat-nt-01"}},"template":{"metadata":{"labels":{"app":"vnf-nat-nt-01","core-router/role":"nat"}},"spec":{"containers":[{"command":["/bin/sh","-c","echo 'NAT Running'; sleep infinity"],"image":"localhost:32000/alpine:latest","imagePullPolicy":"IfNotPresent","name":"nat","securityContext":{"capabilities":{"add":["NET_ADMIN"]}}}]}}}}
+    creationTimestamp: "2026-05-22T12:00:41Z"
+    generation: 1
+    labels:
+      core-router/location: nhatrang-1
+      core-router/role: nat
+    name: vnf-nat-nt-01
+    namespace: core-router
+    resourceVersion: "159478280"
+    uid: 50f64617-dd48-4fcd-a5bf-f9521d8dd014
+  spec:
+    progressDeadlineSeconds: 600
+    replicas: 1
+    revisionHistoryLimit: 10
+    selector:
+      matchLabels:
+        app: vnf-nat-nt-01
+    strategy:
+      rollingUpdate:
+        maxSurge: 25%
+        maxUnavailable: 25%
+      type: RollingUpdate
+    template:
+      metadata:
+        creationTimestamp: null
+        labels:
+          app: vnf-nat-nt-01
+          core-router/role: nat
+      spec:
+        containers:
+        - command:
+          - /bin/sh
+          - -c
+          - echo 'NAT Running'; sleep infinity
+          image: localhost:32000/alpine:latest
+          imagePullPolicy: IfNotPresent
+          name: nat
+          resources: {}
+          securityContext:
+            capabilities:
+              add:
+              - NET_ADMIN
+          terminationMessagePath: /dev/termination-log
+          terminationMessagePolicy: File
+        dnsPolicy: ClusterFirst
+        restartPolicy: Always
+        schedulerName: default-scheduler
+        securityContext: {}
+        terminationGracePeriodSeconds: 30
+  status:
+    availableReplicas: 1
+    conditions:
+    - lastTransitionTime: "2026-05-22T12:00:41Z"
+      lastUpdateTime: "2026-05-22T12:00:58Z"
+      message: ReplicaSet "vnf-nat-nt-01-84b86bf46c" has successfully progressed.
+      reason: NewReplicaSetAvailable
+      status: "True"
+      type: Progressing
+    - lastTransitionTime: "2026-08-28T22:44:49Z"
+      lastUpdateTime: "2026-08-28T22:44:49Z"
+      message: Deployment has minimum availability.
+      reason: MinimumReplicasAvailable
+      status: "True"
+      type: Available
+    observedGeneration: 1
+    readyReplicas: 1
+    replicas: 1
+    updatedReplicas: 1
+- apiVersion: apps/v1
+  kind: Deployment
+  metadata:
+    annotations:
+      deployment.kubernetes.io/revision: "1"
+      kubectl.kubernetes.io/last-applied-configuration: |
+        {"apiVersion":"apps/v1","kind":"Deployment","metadata":{"annotations":{},"labels":{"core-router/location":"quynhon-1","core-router/role":"nat"},"name":"vnf-nat-qn-01","namespace":"core-router"},"spec":{"replicas":1,"selector":{"matchLabels":{"app":"vnf-nat-qn-01"}},"template":{"metadata":{"labels":{"app":"vnf-nat-qn-01","core-router/role":"nat"}},"spec":{"containers":[{"command":["/bin/sh","-c","echo 'NAT Running'; sleep infinity"],"image":"localhost:32000/alpine:latest","imagePullPolicy":"IfNotPresent","name":"nat","securityContext":{"capabilities":{"add":["NET_ADMIN"]}}}]}}}}
+    creationTimestamp: "2026-05-22T12:00:39Z"
+    generation: 1
+    labels:
+      core-router/location: quynhon-1
+      core-router/role: nat
+    name: vnf-nat-qn-01
+    namespace: core-router
+    resourceVersion: "159479144"
+    uid: b969ac0a-983a-4afe-a1a3-afbae361577e
+  spec:
+    progressDeadlineSeconds: 600
+    replicas: 1
+    revisionHistoryLimit: 10
+    selector:
+      matchLabels:
+        app: vnf-nat-qn-01
+    strategy:
+      rollingUpdate:
+        maxSurge: 25%
+        maxUnavailable: 25%
+      type: RollingUpdate
+    template:
+      metadata:
+        creationTimestamp: null
+        labels:
+          app: vnf-nat-qn-01
+          core-router/role: nat
+      spec:
+        containers:
+        - command:
+          - /bin/sh
+          - -c
+          - echo 'NAT Running'; sleep infinity
+          image: localhost:32000/alpine:latest
+          imagePullPolicy: IfNotPresent
+          name: nat
+          resources: {}
+          securityContext:
+            capabilities:
+              add:
+              - NET_ADMIN
+          terminationMessagePath: /dev/termination-log
+          terminationMessagePolicy: File
+        dnsPolicy: ClusterFirst
+        restartPolicy: Always
+        schedulerName: default-scheduler
+        securityContext: {}
+        terminationGracePeriodSeconds: 30
+  status:
+    availableReplicas: 1
+    conditions:
+    - lastTransitionTime: "2026-05-22T12:00:39Z"
+      lastUpdateTime: "2026-05-22T12:00:52Z"
+      message: ReplicaSet "vnf-nat-qn-01-6dc9bc79cd" has successfully progressed.
+      reason: NewReplicaSetAvailable
+      status: "True"
+      type: Progressing
+    - lastTransitionTime: "2026-08-28T22:45:03Z"
+      lastUpdateTime: "2026-08-28T22:45:03Z"
+      message: Deployment has minimum availability.
+      reason: MinimumReplicasAvailable
+      status: "True"
+      type: Available
+    observedGeneration: 1
+    readyReplicas: 1
+    replicas: 1
+    updatedReplicas: 1
+- apiVersion: apps/v1
+  kind: Deployment
+  metadata:
+    annotations:
+      deployment.kubernetes.io/revision: "1"
+      kubectl.kubernetes.io/last-applied-configuration: |
+        {"apiVersion":"apps/v1","kind":"Deployment","metadata":{"annotations":{},"labels":{"core-router/location":"vinh-1","core-router/role":"nat"},"name":"vnf-nat-vinh-02","namespace":"core-router"},"spec":{"replicas":1,"selector":{"matchLabels":{"app":"vnf-nat-vinh-02"}},"template":{"metadata":{"labels":{"app":"vnf-nat-vinh-02","core-router/role":"nat"}},"spec":{"containers":[{"command":["/bin/sh","-c","echo 'NAT Running'; sleep infinity"],"image":"localhost:32000/alpine:latest","imagePullPolicy":"IfNotPresent","name":"nat","securityContext":{"capabilities":{"add":["NET_ADMIN"]}}}]}}}}
+    creationTimestamp: "2026-05-22T11:59:28Z"
+    generation: 1
+    labels:
+      core-router/location: vinh-1
+      core-router/role: nat
+    name: vnf-nat-vinh-02
+    namespace: core-router
+    resourceVersion: "159478669"
+    uid: bce12f69-dd04-474d-881f-9d4dae3cc3e2
+  spec:
+    progressDeadlineSeconds: 600
+    replicas: 1
+    revisionHistoryLimit: 10
+    selector:
+      matchLabels:
+        app: vnf-nat-vinh-02
+    strategy:
+      rollingUpdate:
+        maxSurge: 25%
+        maxUnavailable: 25%
+      type: RollingUpdate
+    template:
+      metadata:
+        creationTimestamp: null
+        labels:
+          app: vnf-nat-vinh-02
+          core-router/role: nat
+      spec:
+        containers:
+        - command:
+          - /bin/sh
+          - -c
+          - echo 'NAT Running'; sleep infinity
+          image: localhost:32000/alpine:latest
+          imagePullPolicy: IfNotPresent
+          name: nat
+          resources: {}
+          securityContext:
+            capabilities:
+              add:
+              - NET_ADMIN
+          terminationMessagePath: /dev/termination-log
+          terminationMessagePolicy: File
+        dnsPolicy: ClusterFirst
+        restartPolicy: Always
+        schedulerName: default-scheduler
+        securityContext: {}
+        terminationGracePeriodSeconds: 30
+  status:
+    availableReplicas: 1
+    conditions:
+    - lastTransitionTime: "2026-05-22T11:59:28Z"
+      lastUpdateTime: "2026-05-22T11:59:32Z"
+      message: ReplicaSet "vnf-nat-vinh-02-8d4f95f89" has successfully progressed.
+      reason: NewReplicaSetAvailable
+      status: "True"
+      type: Progressing
+    - lastTransitionTime: "2026-08-28T22:44:56Z"
+      lastUpdateTime: "2026-08-28T22:44:56Z"
+      message: Deployment has minimum availability.
+      reason: MinimumReplicasAvailable
+      status: "True"
+      type: Available
+    observedGeneration: 1
+    readyReplicas: 1
+    replicas: 1
+    updatedReplicas: 1
+- apiVersion: apps/v1
+  kind: Deployment
+  metadata:
+    annotations:
+      deployment.kubernetes.io/revision: "2"
+      kubectl.kubernetes.io/last-applied-configuration: |
+        {"apiVersion":"apps/v1","kind":"Deployment","metadata":{"annotations":{},"labels":{"core-router/location":"hn","core-router/role":"idps"},"name":"vnf-node-1","namespace":"core-router"},"spec":{"replicas":1,"selector":{"matchLabels":{"app":"vnf-node-1"}},"template":{"metadata":{"labels":{"app":"vnf-node-1","core-router/role":"idps"}},"spec":{"containers":[{"command":["/bin/sh","-c","echo 'IDPS Running'; sleep infinity"],"image":"localhost:32000/alpine:latest","imagePullPolicy":"IfNotPresent","name":"idps"}]}}}}
+    creationTimestamp: "2026-05-17T14:40:11Z"
+    generation: 2
+    labels:
+      core-router/location: hn
+      core-router/role: idps
+    name: vnf-node-1
+    namespace: core-router
+    resourceVersion: "159478940"
+    uid: 3eafd400-89be-4f8f-9782-6a14427cb405
+  spec:
+    progressDeadlineSeconds: 600
+    replicas: 1
+    revisionHistoryLimit: 10
+    selector:
+      matchLabels:
+        app: vnf-node-1
+    strategy:
+      rollingUpdate:
+        maxSurge: 25%
+        maxUnavailable: 25%
+      type: RollingUpdate
+    template:
+      metadata:
+        creationTimestamp: null
+        labels:
+          app: vnf-node-1
+          core-router/role: idps
+      spec:
+        containers:
+        - command:
+          - /bin/sh
+          - -c
+          - echo 'IDPS Running'; sleep infinity
+          image: localhost:32000/alpine:latest
+          imagePullPolicy: IfNotPresent
+          name: idps
+          resources: {}
+          terminationMessagePath: /dev/termination-log
+          terminationMessagePolicy: File
+        dnsPolicy: ClusterFirst
+        restartPolicy: Always
+        schedulerName: default-scheduler
+        securityContext: {}
+        terminationGracePeriodSeconds: 30
+  status:
+    availableReplicas: 1
+    conditions:
+    - lastTransitionTime: "2026-05-17T14:40:11Z"
+      lastUpdateTime: "2026-05-18T04:47:57Z"
+      message: ReplicaSet "vnf-node-1-7688d9b486" has successfully progressed.
+      reason: NewReplicaSetAvailable
+      status: "True"
+      type: Progressing
+    - lastTransitionTime: "2026-08-28T22:45:00Z"
+      lastUpdateTime: "2026-08-28T22:45:00Z"
+      message: Deployment has minimum availability.
+      reason: MinimumReplicasAvailable
+      status: "True"
+      type: Available
+    observedGeneration: 2
+    readyReplicas: 1
+    replicas: 1
+    updatedReplicas: 1
+- apiVersion: apps/v1
+  kind: Deployment
+  metadata:
+    annotations:
+      deployment.kubernetes.io/revision: "1"
+      field.cattle.io/publicEndpoints: '[{"port":30951,"protocol":"TCP","serviceName":"core-router:vnf-node-hn-svc","allNodes":true}]'
+      kubectl.kubernetes.io/last-applied-configuration: |
+        {"apiVersion":"apps/v1","kind":"Deployment","metadata":{"annotations":{},"labels":{"core-router/location":"hanoi-1","core-router/role":"lb"},"name":"vnf-node-hn","namespace":"core-router"},"spec":{"replicas":1,"selector":{"matchLabels":{"app":"vnf-node-hn"}},"template":{"metadata":{"labels":{"app":"vnf-node-hn","core-router/role":"lb"}},"spec":{"containers":[{"image":"localhost:32000/nginx:1.27-alpine","imagePullPolicy":"IfNotPresent","name":"lb","ports":[{"containerPort":80}]}]}}}}
+    creationTimestamp: "2026-05-26T08:21:19Z"
+    generation: 2
+    labels:
+      core-router/location: hanoi-1
+      core-router/role: lb
+    name: vnf-node-hn
+    namespace: core-router
+    resourceVersion: "159478293"
+    uid: 22723cb3-d00d-4ee2-b6ff-183ad5eab225
+  spec:
+    progressDeadlineSeconds: 600
+    replicas: 1
+    revisionHistoryLimit: 10
+    selector:
+      matchLabels:
+        app: vnf-node-hn
+    strategy:
+      rollingUpdate:
+        maxSurge: 25%
+        maxUnavailable: 25%
+      type: RollingUpdate
+    template:
+      metadata:
+        creationTimestamp: null
+        labels:
+          app: vnf-node-hn
+          core-router/role: lb
+      spec:
+        containers:
+        - image: localhost:32000/nginx:1.27-alpine
+          imagePullPolicy: IfNotPresent
+          name: lb
+          ports:
+          - containerPort: 80
+            protocol: TCP
+          resources: {}
+          terminationMessagePath: /dev/termination-log
+          terminationMessagePolicy: File
+        dnsPolicy: ClusterFirst
+        restartPolicy: Always
+        schedulerName: default-scheduler
+        securityContext: {}
+        terminationGracePeriodSeconds: 30
+  status:
+    availableReplicas: 1
+    conditions:
+    - lastTransitionTime: "2026-05-26T08:21:19Z"
+      lastUpdateTime: "2026-05-26T08:21:25Z"
+      message: ReplicaSet "vnf-node-hn-6bbb5d468c" has successfully progressed.
+      reason: NewReplicaSetAvailable
+      status: "True"
+      type: Progressing
+    - lastTransitionTime: "2026-08-28T22:44:49Z"
+      lastUpdateTime: "2026-08-28T22:44:49Z"
+      message: Deployment has minimum availability.
+      reason: MinimumReplicasAvailable
+      status: "True"
+      type: Available
+    observedGeneration: 2
+    readyReplicas: 1
+    replicas: 1
+    updatedReplicas: 1
+- apiVersion: apps/v1
+  kind: Deployment
+  metadata:
+    annotations:
+      deployment.kubernetes.io/revision: "1"
+      kubectl.kubernetes.io/last-applied-configuration: |
+        {"apiVersion":"apps/v1","kind":"Deployment","metadata":{"annotations":{},"labels":{"core-router/location":"ninhbinh-1","core-router/role":"router"},"name":"vnf-node-nat","namespace":"core-router"},"spec":{"replicas":1,"selector":{"matchLabels":{"app":"vnf-node-nat"}},"template":{"metadata":{"labels":{"app":"vnf-node-nat","core-router/role":"router"}},"spec":{"containers":[{"image":"localhost:32000/frr:9.1.1","imagePullPolicy":"IfNotPresent","name":"frr","ports":[{"containerPort":2601}],"securityContext":{"capabilities":{"add":["NET_ADMIN","SYS_ADMIN"]}}}]}}}}
+    creationTimestamp: "2026-05-22T11:44:23Z"
+    generation: 1
+    labels:
+      core-router/location: ninhbinh-1
+      core-router/role: router
+    name: vnf-node-nat
+    namespace: core-router
+    resourceVersion: "159479039"
+    uid: 87d51714-b287-48ca-9d37-11d1f340b140
+  spec:
+    progressDeadlineSeconds: 600
+    replicas: 1
+    revisionHistoryLimit: 10
+    selector:
+      matchLabels:
+        app: vnf-node-nat
+    strategy:
+      rollingUpdate:
+        maxSurge: 25%
+        maxUnavailable: 25%
+      type: RollingUpdate
+    template:
+      metadata:
+        creationTimestamp: null
+        labels:
+          app: vnf-node-nat
+          core-router/role: router
+      spec:
+        containers:
+        - image: localhost:32000/frr:9.1.1
+          imagePullPolicy: IfNotPresent
+          name: frr
+          ports:
+          - containerPort: 2601
+            protocol: TCP
+          resources: {}
+          securityContext:
+            capabilities:
+              add:
+              - NET_ADMIN
+              - SYS_ADMIN
+          terminationMessagePath: /dev/termination-log
+          terminationMessagePolicy: File
+        dnsPolicy: ClusterFirst
+        restartPolicy: Always
+        schedulerName: default-scheduler
+        securityContext: {}
+        terminationGracePeriodSeconds: 30
+  status:
+    availableReplicas: 1
+    conditions:
+    - lastTransitionTime: "2026-05-22T11:44:24Z"
+      lastUpdateTime: "2026-05-22T11:44:27Z"
+      message: ReplicaSet "vnf-node-nat-5659c7f6d" has successfully progressed.
+      reason: NewReplicaSetAvailable
+      status: "True"
+      type: Progressing
+    - lastTransitionTime: "2026-08-28T22:45:01Z"
+      lastUpdateTime: "2026-08-28T22:45:01Z"
+      message: Deployment has minimum availability.
+      reason: MinimumReplicasAvailable
+      status: "True"
+      type: Available
+    observedGeneration: 1
+    readyReplicas: 1
+    replicas: 1
+    updatedReplicas: 1
+- apiVersion: apps/v1
+  kind: Deployment
+  metadata:
+    annotations:
+      deployment.kubernetes.io/revision: "1"
+      kubectl.kubernetes.io/last-applied-configuration: |
+        {"apiVersion":"apps/v1","kind":"Deployment","metadata":{"annotations":{},"labels":{"core-router/location":"cantho-1","core-router/role":"router"},"name":"vnf-router-ct-03","namespace":"core-router"},"spec":{"replicas":1,"selector":{"matchLabels":{"app":"vnf-router-ct-03"}},"template":{"metadata":{"labels":{"app":"vnf-router-ct-03","core-router/role":"router"}},"spec":{"containers":[{"image":"localhost:32000/frr:9.1.1","imagePullPolicy":"IfNotPresent","name":"frr","ports":[{"containerPort":2601}],"securityContext":{"capabilities":{"add":["NET_ADMIN","SYS_ADMIN"]}}}]}}}}
+    creationTimestamp: "2026-05-22T12:01:35Z"
+    generation: 1
+    labels:
+      core-router/location: cantho-1
+      core-router/role: router
+    name: vnf-router-ct-03
+    namespace: core-router
+    resourceVersion: "159478912"
+    uid: 8e439705-5765-4338-b68d-5e2e6957c90c
+  spec:
+    progressDeadlineSeconds: 600
+    replicas: 1
+    revisionHistoryLimit: 10
+    selector:
+      matchLabels:
+        app: vnf-router-ct-03
+    strategy:
+      rollingUpdate:
+        maxSurge: 25%
+        maxUnavailable: 25%
+      type: RollingUpdate
+    template:
+      metadata:
+        creationTimestamp: null
+        labels:
+          app: vnf-router-ct-03
+          core-router/role: router
+      spec:
+        containers:
+        - image: localhost:32000/frr:9.1.1
+          imagePullPolicy: IfNotPresent
+          name: frr
+          ports:
+          - containerPort: 2601
+            protocol: TCP
+          resources: {}
+          securityContext:
+            capabilities:
+              add:
+              - NET_ADMIN
+              - SYS_ADMIN
+          terminationMessagePath: /dev/termination-log
+          terminationMessagePolicy: File
+        dnsPolicy: ClusterFirst
+        restartPolicy: Always
+        schedulerName: default-scheduler
+        securityContext: {}
+        terminationGracePeriodSeconds: 30
+  status:
+    availableReplicas: 1
+    conditions:
+    - lastTransitionTime: "2026-05-22T12:01:36Z"
+      lastUpdateTime: "2026-05-22T12:01:47Z"
+      message: ReplicaSet "vnf-router-ct-03-5f7b5949cc" has successfully progressed.
+      reason: NewReplicaSetAvailable
+      status: "True"
+      type: Progressing
+    - lastTransitionTime: "2026-08-28T22:44:59Z"
+      lastUpdateTime: "2026-08-28T22:44:59Z"
+      message: Deployment has minimum availability.
+      reason: MinimumReplicasAvailable
+      status: "True"
+      type: Available
+    observedGeneration: 1
+    readyReplicas: 1
+    replicas: 1
+    updatedReplicas: 1
+- apiVersion: apps/v1
+  kind: Deployment
+  metadata:
+    annotations:
+      deployment.kubernetes.io/revision: "1"
+      kubectl.kubernetes.io/last-applied-configuration: |
+        {"apiVersion":"apps/v1","kind":"Deployment","metadata":{"annotations":{},"labels":{"core-router/location":"haiphong-1","core-router/role":"router"},"name":"vnf-router-hp-02","namespace":"core-router"},"spec":{"replicas":1,"selector":{"matchLabels":{"app":"vnf-router-hp-02"}},"template":{"metadata":{"labels":{"app":"vnf-router-hp-02","core-router/role":"router"}},"spec":{"containers":[{"image":"localhost:32000/frr:9.1.1","imagePullPolicy":"IfNotPresent","name":"frr","ports":[{"containerPort":2601}],"securityContext":{"capabilities":{"add":["NET_ADMIN","SYS_ADMIN"]}}}]}}}}
+    creationTimestamp: "2026-05-22T11:58:57Z"
+    generation: 1
+    labels:
+      core-router/location: haiphong-1
+      core-router/role: router
+    name: vnf-router-hp-02
+    namespace: core-router
+    resourceVersion: "159478475"
+    uid: 39aba5eb-8309-466d-a8c4-cb6688e584d5
+  spec:
+    progressDeadlineSeconds: 600
+    replicas: 1
+    revisionHistoryLimit: 10
+    selector:
+      matchLabels:
+        app: vnf-router-hp-02
+    strategy:
+      rollingUpdate:
+        maxSurge: 25%
+        maxUnavailable: 25%
+      type: RollingUpdate
+    template:
+      metadata:
+        creationTimestamp: null
+        labels:
+          app: vnf-router-hp-02
+          core-router/role: router
+      spec:
+        containers:
+        - image: localhost:32000/frr:9.1.1
+          imagePullPolicy: IfNotPresent
+          name: frr
+          ports:
+          - containerPort: 2601
+            protocol: TCP
+          resources: {}
+          securityContext:
+            capabilities:
+              add:
+              - NET_ADMIN
+              - SYS_ADMIN
+          terminationMessagePath: /dev/termination-log
+          terminationMessagePolicy: File
+        dnsPolicy: ClusterFirst
+        restartPolicy: Always
+        schedulerName: default-scheduler
+        securityContext: {}
+        terminationGracePeriodSeconds: 30
+  status:
+    availableReplicas: 1
+    conditions:
+    - lastTransitionTime: "2026-05-22T11:58:57Z"
+      lastUpdateTime: "2026-05-22T11:58:59Z"
+      message: ReplicaSet "vnf-router-hp-02-78b446d88c" has successfully progressed.
+      reason: NewReplicaSetAvailable
+      status: "True"
+      type: Progressing
+    - lastTransitionTime: "2026-08-28T22:44:52Z"
+      lastUpdateTime: "2026-08-28T22:44:52Z"
+      message: Deployment has minimum availability.
+      reason: MinimumReplicasAvailable
+      status: "True"
+      type: Available
+    observedGeneration: 1
+    readyReplicas: 1
+    replicas: 1
+    updatedReplicas: 1
+- apiVersion: apps/v1
+  kind: Deployment
+  metadata:
+    annotations:
+      deployment.kubernetes.io/revision: "1"
+      kubectl.kubernetes.io/last-applied-configuration: |
+        {"apiVersion":"apps/v1","kind":"Deployment","metadata":{"annotations":{},"labels":{"core-router/location":"hue-1","core-router/role":"router"},"name":"vnf-router-hue-04","namespace":"core-router"},"spec":{"replicas":1,"selector":{"matchLabels":{"app":"vnf-router-hue-04"}},"template":{"metadata":{"labels":{"app":"vnf-router-hue-04","core-router/role":"router"}},"spec":{"containers":[{"image":"localhost:32000/frr:9.1.1","imagePullPolicy":"IfNotPresent","name":"frr","ports":[{"containerPort":2601}],"securityContext":{"capabilities":{"add":["NET_ADMIN","SYS_ADMIN"]}}}]}}}}
+    creationTimestamp: "2026-05-22T11:59:53Z"
+    generation: 1
+    labels:
+      core-router/location: hue-1
+      core-router/role: router
+    name: vnf-router-hue-04
+    namespace: core-router
+    resourceVersion: "159478782"
+    uid: 9a5a7bd4-f64e-438c-977d-79af372ccc0d
+  spec:
+    progressDeadlineSeconds: 600
+    replicas: 1
+    revisionHistoryLimit: 10
+    selector:
+      matchLabels:
+        app: vnf-router-hue-04
+    strategy:
+      rollingUpdate:
+        maxSurge: 25%
+        maxUnavailable: 25%
+      type: RollingUpdate
+    template:
+      metadata:
+        creationTimestamp: null
+        labels:
+          app: vnf-router-hue-04
+          core-router/role: router
+      spec:
+        containers:
+        - image: localhost:32000/frr:9.1.1
+          imagePullPolicy: IfNotPresent
+          name: frr
+          ports:
+          - containerPort: 2601
+            protocol: TCP
+          resources: {}
+          securityContext:
+            capabilities:
+              add:
+              - NET_ADMIN
+              - SYS_ADMIN
+          terminationMessagePath: /dev/termination-log
+          terminationMessagePolicy: File
+        dnsPolicy: ClusterFirst
+        restartPolicy: Always
+        schedulerName: default-scheduler
+        securityContext: {}
+        terminationGracePeriodSeconds: 30
+  status:
+    availableReplicas: 1
+    conditions:
+    - lastTransitionTime: "2026-05-22T11:59:53Z"
+      lastUpdateTime: "2026-05-22T12:00:02Z"
+      message: ReplicaSet "vnf-router-hue-04-749968898f" has successfully progressed.
+      reason: NewReplicaSetAvailable
+      status: "True"
+      type: Progressing
+    - lastTransitionTime: "2026-08-28T22:44:57Z"
+      lastUpdateTime: "2026-08-28T22:44:57Z"
+      message: Deployment has minimum availability.
+      reason: MinimumReplicasAvailable
+      status: "True"
+      type: Available
+    observedGeneration: 1
+    readyReplicas: 1
+    replicas: 1
+    updatedReplicas: 1
+- apiVersion: apps/v1
+  kind: Deployment
+  metadata:
+    annotations:
+      deployment.kubernetes.io/revision: "1"
+      kubectl.kubernetes.io/last-applied-configuration: |
+        {"apiVersion":"apps/v1","kind":"Deployment","metadata":{"annotations":{},"labels":{"core-router/location":"quynhon-1","core-router/role":"router"},"name":"vnf-router-qn-02","namespace":"core-router"},"spec":{"replicas":1,"selector":{"matchLabels":{"app":"vnf-router-qn-02"}},"template":{"metadata":{"labels":{"app":"vnf-router-qn-02","core-router/role":"router"}},"spec":{"containers":[{"image":"localhost:32000/frr:9.1.1","imagePullPolicy":"IfNotPresent","name":"frr","ports":[{"containerPort":2601}],"securityContext":{"capabilities":{"add":["NET_ADMIN","SYS_ADMIN"]}}}]}}}}
+    creationTimestamp: "2026-05-22T12:00:53Z"
+    generation: 1
+    labels:
+      core-router/location: quynhon-1
+      core-router/role: router
+    name: vnf-router-qn-02
+    namespace: core-router
+    resourceVersion: "159478266"
+    uid: 49db05d9-27e2-4cda-b0eb-84fec8d14822
+  spec:
+    progressDeadlineSeconds: 600
+    replicas: 1
+    revisionHistoryLimit: 10
+    selector:
+      matchLabels:
+        app: vnf-router-qn-02
+    strategy:
+      rollingUpdate:
+        maxSurge: 25%
+        maxUnavailable: 25%
+      type: RollingUpdate
+    template:
+      metadata:
+        creationTimestamp: null
+        labels:
+          app: vnf-router-qn-02
+          core-router/role: router
+      spec:
+        containers:
+        - image: localhost:32000/frr:9.1.1
+          imagePullPolicy: IfNotPresent
+          name: frr
+          ports:
+          - containerPort: 2601
+            protocol: TCP
+          resources: {}
+          securityContext:
+            capabilities:
+              add:
+              - NET_ADMIN
+              - SYS_ADMIN
+          terminationMessagePath: /dev/termination-log
+          terminationMessagePolicy: File
+        dnsPolicy: ClusterFirst
+        restartPolicy: Always
+        schedulerName: default-scheduler
+        securityContext: {}
+        terminationGracePeriodSeconds: 30
+  status:
+    availableReplicas: 1
+    conditions:
+    - lastTransitionTime: "2026-05-22T12:00:54Z"
+      lastUpdateTime: "2026-05-22T12:01:10Z"
+      message: ReplicaSet "vnf-router-qn-02-7c8c7d9b86" has successfully progressed.
+      reason: NewReplicaSetAvailable
+      status: "True"
+      type: Progressing
+    - lastTransitionTime: "2026-08-28T22:44:49Z"
+      lastUpdateTime: "2026-08-28T22:44:49Z"
+      message: Deployment has minimum availability.
+      reason: MinimumReplicasAvailable
+      status: "True"
+      type: Available
+    observedGeneration: 1
+    readyReplicas: 1
+    replicas: 1
+    updatedReplicas: 1
+- apiVersion: apps/v1
+  kind: Deployment
+  metadata:
+    annotations:
+      deployment.kubernetes.io/revision: "1"
+      kubectl.kubernetes.io/last-applied-configuration: |
+        {"apiVersion":"apps/v1","kind":"Deployment","metadata":{"annotations":{},"labels":{"core-router/location":"vinh-1","core-router/role":"router"},"name":"vnf-router-vinh-03","namespace":"core-router"},"spec":{"replicas":1,"selector":{"matchLabels":{"app":"vnf-router-vinh-03"}},"template":{"metadata":{"labels":{"app":"vnf-router-vinh-03","core-router/role":"router"}},"spec":{"containers":[{"image":"localhost:32000/frr:9.1.1","imagePullPolicy":"IfNotPresent","name":"frr","ports":[{"containerPort":2601}],"securityContext":{"capabilities":{"add":["NET_ADMIN","SYS_ADMIN"]}}}]}}}}
+    creationTimestamp: "2026-05-22T11:59:38Z"
+    generation: 1
+    labels:
+      core-router/location: vinh-1
+      core-router/role: router
+    name: vnf-router-vinh-03
+    namespace: core-router
+    resourceVersion: "159478917"
+    uid: 94874ff8-3613-4efc-9e64-6d9e0178eede
+  spec:
+    progressDeadlineSeconds: 600
+    replicas: 1
+    revisionHistoryLimit: 10
+    selector:
+      matchLabels:
+        app: vnf-router-vinh-03
+    strategy:
+      rollingUpdate:
+        maxSurge: 25%
+        maxUnavailable: 25%
+      type: RollingUpdate
+    template:
+      metadata:
+        creationTimestamp: null
+        labels:
+          app: vnf-router-vinh-03
+          core-router/role: router
+      spec:
+        containers:
+        - image: localhost:32000/frr:9.1.1
+          imagePullPolicy: IfNotPresent
+          name: frr
+          ports:
+          - containerPort: 2601
+            protocol: TCP
+          resources: {}
+          securityContext:
+            capabilities:
+              add:
+              - NET_ADMIN
+              - SYS_ADMIN
+          terminationMessagePath: /dev/termination-log
+          terminationMessagePolicy: File
+        dnsPolicy: ClusterFirst
+        restartPolicy: Always
+        schedulerName: default-scheduler
+        securityContext: {}
+        terminationGracePeriodSeconds: 30
+  status:
+    availableReplicas: 1
+    conditions:
+    - lastTransitionTime: "2026-05-22T11:59:39Z"
+      lastUpdateTime: "2026-05-22T11:59:44Z"
+      message: ReplicaSet "vnf-router-vinh-03-5b5f9f7745" has successfully progressed.
+      reason: NewReplicaSetAvailable
+      status: "True"
+      type: Progressing
+    - lastTransitionTime: "2026-08-28T22:44:59Z"
+      lastUpdateTime: "2026-08-28T22:44:59Z"
+      message: Deployment has minimum availability.
+      reason: MinimumReplicasAvailable
+      status: "True"
+      type: Available
+    observedGeneration: 1
+    readyReplicas: 1
+    replicas: 1
+    updatedReplicas: 1
+- apiVersion: apps/v1
+  kind: Deployment
+  metadata:
+    annotations:
+      deployment.kubernetes.io/revision: "1"
+      kubectl.kubernetes.io/last-applied-configuration: |
+        {"apiVersion":"apps/v1","kind":"Deployment","metadata":{"annotations":{},"labels":{"core-router/location":"hanoi-1","core-router/role":"nat"},"name":"vnf-test-smoke","namespace":"core-router"},"spec":{"replicas":1,"selector":{"matchLabels":{"app":"vnf-test-smoke"}},"template":{"metadata":{"labels":{"app":"vnf-test-smoke","core-router/role":"nat"}},"spec":{"containers":[{"command":["/bin/sh","-c","echo 'NAT Running'; sleep infinity"],"image":"localhost:32000/alpine:latest","imagePullPolicy":"IfNotPresent","name":"nat","securityContext":{"capabilities":{"add":["NET_ADMIN"]}}}]}}}}
+    creationTimestamp: "2026-11-17T10:38:41Z"
+    generation: 1
+    labels:
+      core-router/location: hanoi-1
+      core-router/role: nat
+    name: vnf-test-smoke
+    namespace: core-router
+    resourceVersion: "217919438"
+    uid: 856adfe9-82cb-4f20-9d22-e5ae19949eb4
+  spec:
+    progressDeadlineSeconds: 600
+    replicas: 1
+    revisionHistoryLimit: 10
+    selector:
+      matchLabels:
+        app: vnf-test-smoke
+    strategy:
+      rollingUpdate:
+        maxSurge: 25%
+        maxUnavailable: 25%
+      type: RollingUpdate
+    template:
+      metadata:
+        creationTimestamp: null
+        labels:
+          app: vnf-test-smoke
+          core-router/role: nat
+      spec:
+        containers:
+        - command:
+          - /bin/sh
+          - -c
+          - echo 'NAT Running'; sleep infinity
+          image: localhost:32000/alpine:latest
+          imagePullPolicy: IfNotPresent
+          name: nat
+          resources: {}
+          securityContext:
+            capabilities:
+              add:
+              - NET_ADMIN
+          terminationMessagePath: /dev/termination-log
+          terminationMessagePolicy: File
+        dnsPolicy: ClusterFirst
+        restartPolicy: Always
+        schedulerName: default-scheduler
+        securityContext: {}
+        terminationGracePeriodSeconds: 30
+  status:
+    availableReplicas: 1
+    conditions:
+    - lastTransitionTime: "2026-11-17T10:38:43Z"
+      lastUpdateTime: "2026-11-17T10:38:43Z"
+      message: Deployment has minimum availability.
+      reason: MinimumReplicasAvailable
+      status: "True"
+      type: Available
+    - lastTransitionTime: "2026-11-17T10:38:41Z"
+      lastUpdateTime: "2026-11-17T10:38:43Z"
+      message: ReplicaSet "vnf-test-smoke-56b788495c" has successfully progressed.
+      reason: NewReplicaSetAvailable
+      status: "True"
+      type: Progressing
+    observedGeneration: 1
+    readyReplicas: 1
+    replicas: 1
+    updatedReplicas: 1
+- apiVersion: apps/v1
+  kind: Deployment
+  metadata:
+    annotations:
+      deployment.kubernetes.io/revision: "1"
+      kubectl.kubernetes.io/last-applied-configuration: |
+        {"apiVersion":"apps/v1","kind":"Deployment","metadata":{"annotations":{},"labels":{"core-router/location":"hanoi-1","core-router/role":"voc"},"name":"vnf-voc-hn-02","namespace":"core-router"},"spec":{"replicas":1,"selector":{"matchLabels":{"app":"vnf-voc-hn-02"}},"template":{"metadata":{"labels":{"app":"vnf-voc-hn-02","core-router/role":"voc"}},"spec":{"containers":[{"command":["python3","/app/vvoc.py"],"env":[{"name":"VVOC_PORT","value":"8000"}],"image":"localhost:32000/python:3.11-alpine","imagePullPolicy":"IfNotPresent","livenessProbe":{"failureThreshold":3,"httpGet":{"path":"/healthz","port":8000},"initialDelaySeconds":10,"periodSeconds":15},"name":"vvoc","ports":[{"containerPort":8000}],"readinessProbe":{"failureThreshold":3,"httpGet":{"path":"/healthz","port":8000},"initialDelaySeconds":3,"periodSeconds":5},"resources":{"limits":{"cpu":"300m","memory":"192Mi"},"requests":{"cpu":"50m","memory":"64Mi"}},"volumeMounts":[{"mountPath":"/app","name":"vvoc-app"}]}],"volumes":[{"configMap":{"name":"vvoc-app"},"name":"vvoc-app"}]}}}}
+    creationTimestamp: "2026-05-22T11:58:45Z"
+    generation: 1
+    labels:
+      core-router/location: hanoi-1
+      core-router/role: voc
+    name: vnf-voc-hn-02
+    namespace: core-router
+    resourceVersion: "159478681"
+    uid: 28346c7d-1315-47af-a943-504b8ca8dc63
+  spec:
+    progressDeadlineSeconds: 600
+    replicas: 1
+    revisionHistoryLimit: 10
+    selector:
+      matchLabels:
+        app: vnf-voc-hn-02
+    strategy:
+      rollingUpdate:
+        maxSurge: 25%
+        maxUnavailable: 25%
+      type: RollingUpdate
+    template:
+      metadata:
+        creationTimestamp: null
+        labels:
+          app: vnf-voc-hn-02
+          core-router/role: voc
+      spec:
+        containers:
+        - command:
+          - python3
+          - /app/vvoc.py
+          env:
+          - name: VVOC_PORT
+            value: "8000"
+          image: localhost:32000/python:3.11-alpine
+          imagePullPolicy: IfNotPresent
+          livenessProbe:
+            failureThreshold: 3
+            httpGet:
+              path: /healthz
+              port: 8000
+              scheme: HTTP
+            initialDelaySeconds: 10
+            periodSeconds: 15
+            successThreshold: 1
+            timeoutSeconds: 1
+          name: vvoc
+          ports:
+          - containerPort: 8000
+            protocol: TCP
+          readinessProbe:
+            failureThreshold: 3
+            httpGet:
+              path: /healthz
+              port: 8000
+              scheme: HTTP
+            initialDelaySeconds: 3
+            periodSeconds: 5
+            successThreshold: 1
+            timeoutSeconds: 1
+          resources:
+            limits:
+              cpu: 300m
+              memory: 192Mi
+            requests:
+              cpu: 50m
+              memory: 64Mi
+          terminationMessagePath: /dev/termination-log
+          terminationMessagePolicy: File
+          volumeMounts:
+          - mountPath: /app
+            name: vvoc-app
+        dnsPolicy: ClusterFirst
+        restartPolicy: Always
+        schedulerName: default-scheduler
+        securityContext: {}
+        terminationGracePeriodSeconds: 30
+        volumes:
+        - configMap:
+            defaultMode: 420
+            name: vvoc-app
+          name: vvoc-app
+  status:
+    availableReplicas: 1
+    conditions:
+    - lastTransitionTime: "2026-05-22T11:58:45Z"
+      lastUpdateTime: "2026-05-22T11:58:55Z"
+      message: ReplicaSet "vnf-voc-hn-02-5fcf8946bb" has successfully progressed.
+      reason: NewReplicaSetAvailable
+      status: "True"
+      type: Progressing
+    - lastTransitionTime: "2026-08-28T22:44:56Z"
+      lastUpdateTime: "2026-08-28T22:44:56Z"
+      message: Deployment has minimum availability.
+      reason: MinimumReplicasAvailable
+      status: "True"
+      type: Available
+    observedGeneration: 1
+    readyReplicas: 1
+    replicas: 1
+    updatedReplicas: 1
+- apiVersion: apps/v1
+  kind: Deployment
+  metadata:
+    annotations:
+      deployment.kubernetes.io/revision: "1"
+      kubectl.kubernetes.io/last-applied-configuration: |
+        {"apiVersion":"apps/v1","kind":"Deployment","metadata":{"annotations":{},"labels":{"core-router/location":"haiphong-1","core-router/role":"voc"},"name":"vnf-voc-hp-01","namespace":"core-router"},"spec":{"replicas":1,"selector":{"matchLabels":{"app":"vnf-voc-hp-01"}},"template":{"metadata":{"labels":{"app":"vnf-voc-hp-01","core-router/role":"voc"}},"spec":{"containers":[{"command":["python3","/app/vvoc.py"],"env":[{"name":"VVOC_PORT","value":"8000"}],"image":"localhost:32000/python:3.11-alpine","imagePullPolicy":"IfNotPresent","livenessProbe":{"failureThreshold":3,"httpGet":{"path":"/healthz","port":8000},"initialDelaySeconds":10,"periodSeconds":15},"name":"vvoc","ports":[{"containerPort":8000}],"readinessProbe":{"failureThreshold":3,"httpGet":{"path":"/healthz","port":8000},"initialDelaySeconds":3,"periodSeconds":5},"resources":{"limits":{"cpu":"300m","memory":"192Mi"},"requests":{"cpu":"50m","memory":"64Mi"}},"volumeMounts":[{"mountPath":"/app","name":"vvoc-app"}]}],"volumes":[{"configMap":{"name":"vvoc-app"},"name":"vvoc-app"}]}}}}
+    creationTimestamp: "2026-05-22T11:58:53Z"
+    generation: 1
+    labels:
+      core-router/location: haiphong-1
+      core-router/role: voc
+    name: vnf-voc-hp-01
+    namespace: core-router
+    resourceVersion: "159478835"
+    uid: 95a63e6a-c3ca-4fbd-802e-407a791c5152
+  spec:
+    progressDeadlineSeconds: 600
+    replicas: 1
+    revisionHistoryLimit: 10
+    selector:
+      matchLabels:
+        app: vnf-voc-hp-01
+    strategy:
+      rollingUpdate:
+        maxSurge: 25%
+        maxUnavailable: 25%
+      type: RollingUpdate
+    template:
+      metadata:
+        creationTimestamp: null
+        labels:
+          app: vnf-voc-hp-01
+          core-router/role: voc
+      spec:
+        containers:
+        - command:
+          - python3
+          - /app/vvoc.py
+          env:
+          - name: VVOC_PORT
+            value: "8000"
+          image: localhost:32000/python:3.11-alpine
+          imagePullPolicy: IfNotPresent
+          livenessProbe:
+            failureThreshold: 3
+            httpGet:
+              path: /healthz
+              port: 8000
+              scheme: HTTP
+            initialDelaySeconds: 10
+            periodSeconds: 15
+            successThreshold: 1
+            timeoutSeconds: 1
+          name: vvoc
+          ports:
+          - containerPort: 8000
+            protocol: TCP
+          readinessProbe:
+            failureThreshold: 3
+            httpGet:
+              path: /healthz
+              port: 8000
+              scheme: HTTP
+            initialDelaySeconds: 3
+            periodSeconds: 5
+            successThreshold: 1
+            timeoutSeconds: 1
+          resources:
+            limits:
+              cpu: 300m
+              memory: 192Mi
+            requests:
+              cpu: 50m
+              memory: 64Mi
+          terminationMessagePath: /dev/termination-log
+          terminationMessagePolicy: File
+          volumeMounts:
+          - mountPath: /app
+            name: vvoc-app
+        dnsPolicy: ClusterFirst
+        restartPolicy: Always
+        schedulerName: default-scheduler
+        securityContext: {}
+        terminationGracePeriodSeconds: 30
+        volumes:
+        - configMap:
+            defaultMode: 420
+            name: vvoc-app
+          name: vvoc-app
+  status:
+    availableReplicas: 1
+    conditions:
+    - lastTransitionTime: "2026-05-22T11:58:53Z"
+      lastUpdateTime: "2026-05-22T11:58:58Z"
+      message: ReplicaSet "vnf-voc-hp-01-57f76c554c" has successfully progressed.
+      reason: NewReplicaSetAvailable
+      status: "True"
+      type: Progressing
+    - lastTransitionTime: "2026-08-28T22:44:58Z"
+      lastUpdateTime: "2026-08-28T22:44:58Z"
+      message: Deployment has minimum availability.
+      reason: MinimumReplicasAvailable
+      status: "True"
+      type: Available
+    observedGeneration: 1
+    readyReplicas: 1
+    replicas: 1
+    updatedReplicas: 1
+- apiVersion: apps/v1
+  kind: Deployment
+  metadata:
+    annotations:
+      deployment.kubernetes.io/revision: "1"
+      kubectl.kubernetes.io/last-applied-configuration: |
+        {"apiVersion":"apps/v1","kind":"Deployment","metadata":{"annotations":{},"labels":{"core-router/location":"hue-1","core-router/role":"voc"},"name":"vnf-voc-hue-02","namespace":"core-router"},"spec":{"replicas":1,"selector":{"matchLabels":{"app":"vnf-voc-hue-02"}},"template":{"metadata":{"labels":{"app":"vnf-voc-hue-02","core-router/role":"voc"}},"spec":{"containers":[{"command":["python3","/app/vvoc.py"],"env":[{"name":"VVOC_PORT","value":"8000"}],"image":"localhost:32000/python:3.11-alpine","imagePullPolicy":"IfNotPresent","livenessProbe":{"failureThreshold":3,"httpGet":{"path":"/healthz","port":8000},"initialDelaySeconds":10,"periodSeconds":15},"name":"vvoc","ports":[{"containerPort":8000}],"readinessProbe":{"failureThreshold":3,"httpGet":{"path":"/healthz","port":8000},"initialDelaySeconds":3,"periodSeconds":5},"resources":{"limits":{"cpu":"300m","memory":"192Mi"},"requests":{"cpu":"50m","memory":"64Mi"}},"volumeMounts":[{"mountPath":"/app","name":"vvoc-app"}]}],"volumes":[{"configMap":{"name":"vvoc-app"},"name":"vvoc-app"}]}}}}
+    creationTimestamp: "2026-05-22T11:59:50Z"
+    generation: 1
+    labels:
+      core-router/location: hue-1
+      core-router/role: voc
+    name: vnf-voc-hue-02
+    namespace: core-router
+    resourceVersion: "159478867"
+    uid: b42f25ea-f12b-45d3-894c-870c3ed0a5cd
+  spec:
+    progressDeadlineSeconds: 600
+    replicas: 1
+    revisionHistoryLimit: 10
+    selector:
+      matchLabels:
+        app: vnf-voc-hue-02
+    strategy:
+      rollingUpdate:
+        maxSurge: 25%
+        maxUnavailable: 25%
+      type: RollingUpdate
+    template:
+      metadata:
+        creationTimestamp: null
+        labels:
+          app: vnf-voc-hue-02
+          core-router/role: voc
+      spec:
+        containers:
+        - command:
+          - python3
+          - /app/vvoc.py
+          env:
+          - name: VVOC_PORT
+            value: "8000"
+          image: localhost:32000/python:3.11-alpine
+          imagePullPolicy: IfNotPresent
+          livenessProbe:
+            failureThreshold: 3
+            httpGet:
+              path: /healthz
+              port: 8000
+              scheme: HTTP
+            initialDelaySeconds: 10
+            periodSeconds: 15
+            successThreshold: 1
+            timeoutSeconds: 1
+          name: vvoc
+          ports:
+          - containerPort: 8000
+            protocol: TCP
+          readinessProbe:
+            failureThreshold: 3
+            httpGet:
+              path: /healthz
+              port: 8000
+              scheme: HTTP
+            initialDelaySeconds: 3
+            periodSeconds: 5
+            successThreshold: 1
+            timeoutSeconds: 1
+          resources:
+            limits:
+              cpu: 300m
+              memory: 192Mi
+            requests:
+              cpu: 50m
+              memory: 64Mi
+          terminationMessagePath: /dev/termination-log
+          terminationMessagePolicy: File
+          volumeMounts:
+          - mountPath: /app
+            name: vvoc-app
+        dnsPolicy: ClusterFirst
+        restartPolicy: Always
+        schedulerName: default-scheduler
+        securityContext: {}
+        terminationGracePeriodSeconds: 30
+        volumes:
+        - configMap:
+            defaultMode: 420
+            name: vvoc-app
+          name: vvoc-app
+  status:
+    availableReplicas: 1
+    conditions:
+    - lastTransitionTime: "2026-05-22T11:59:50Z"
+      lastUpdateTime: "2026-05-22T12:00:03Z"
+      message: ReplicaSet "vnf-voc-hue-02-785585cff4" has successfully progressed.
+      reason: NewReplicaSetAvailable
+      status: "True"
+      type: Progressing
+    - lastTransitionTime: "2026-08-28T22:44:58Z"
+      lastUpdateTime: "2026-08-28T22:44:58Z"
+      message: Deployment has minimum availability.
+      reason: MinimumReplicasAvailable
+      status: "True"
+      type: Available
+    observedGeneration: 1
+    readyReplicas: 1
+    replicas: 1
+    updatedReplicas: 1
+- apiVersion: apps/v1
+  kind: Deployment
+  metadata:
+    annotations:
+      deployment.kubernetes.io/revision: "1"
+      kubectl.kubernetes.io/last-applied-configuration: |
+        {"apiVersion":"apps/v1","kind":"Deployment","metadata":{"annotations":{},"labels":{"core-router/location":"ninhbinh-1","core-router/role":"voc"},"name":"vnf-voc-nb-02","namespace":"core-router"},"spec":{"replicas":1,"selector":{"matchLabels":{"app":"vnf-voc-nb-02"}},"template":{"metadata":{"labels":{"app":"vnf-voc-nb-02","core-router/role":"voc"}},"spec":{"containers":[{"command":["python3","/app/vvoc.py"],"env":[{"name":"VVOC_PORT","value":"8000"}],"image":"localhost:32000/python:3.11-alpine","imagePullPolicy":"IfNotPresent","livenessProbe":{"failureThreshold":3,"httpGet":{"path":"/healthz","port":8000},"initialDelaySeconds":10,"periodSeconds":15},"name":"vvoc","ports":[{"containerPort":8000}],"readinessProbe":{"failureThreshold":3,"httpGet":{"path":"/healthz","port":8000},"initialDelaySeconds":3,"periodSeconds":5},"resources":{"limits":{"cpu":"300m","memory":"192Mi"},"requests":{"cpu":"50m","memory":"64Mi"}},"volumeMounts":[{"mountPath":"/app","name":"vvoc-app"}]}],"volumes":[{"configMap":{"name":"vvoc-app"},"name":"vvoc-app"}]}}}}
+    creationTimestamp: "2026-05-22T11:59:18Z"
+    generation: 1
+    labels:
+      core-router/location: ninhbinh-1
+      core-router/role: voc
+    name: vnf-voc-nb-02
+    namespace: core-router
+    resourceVersion: "159478175"
+    uid: dec0d352-138a-40db-aa90-f6fa5c44cc5c
+  spec:
+    progressDeadlineSeconds: 600
+    replicas: 1
+    revisionHistoryLimit: 10
+    selector:
+      matchLabels:
+        app: vnf-voc-nb-02
+    strategy:
+      rollingUpdate:
+        maxSurge: 25%
+        maxUnavailable: 25%
+      type: RollingUpdate
+    template:
+      metadata:
+        creationTimestamp: null
+        labels:
+          app: vnf-voc-nb-02
+          core-router/role: voc
+      spec:
+        containers:
+        - command:
+          - python3
+          - /app/vvoc.py
+          env:
+          - name: VVOC_PORT
+            value: "8000"
+          image: localhost:32000/python:3.11-alpine
+          imagePullPolicy: IfNotPresent
+          livenessProbe:
+            failureThreshold: 3
+            httpGet:
+              path: /healthz
+              port: 8000
+              scheme: HTTP
+            initialDelaySeconds: 10
+            periodSeconds: 15
+            successThreshold: 1
+            timeoutSeconds: 1
+          name: vvoc
+          ports:
+          - containerPort: 8000
+            protocol: TCP
+          readinessProbe:
+            failureThreshold: 3
+            httpGet:
+              path: /healthz
+              port: 8000
+              scheme: HTTP
+            initialDelaySeconds: 3
+            periodSeconds: 5
+            successThreshold: 1
+            timeoutSeconds: 1
+          resources:
+            limits:
+              cpu: 300m
+              memory: 192Mi
+            requests:
+              cpu: 50m
+              memory: 64Mi
+          terminationMessagePath: /dev/termination-log
+          terminationMessagePolicy: File
+          volumeMounts:
+          - mountPath: /app
+            name: vvoc-app
+        dnsPolicy: ClusterFirst
+        restartPolicy: Always
+        schedulerName: default-scheduler
+        securityContext: {}
+        terminationGracePeriodSeconds: 30
+        volumes:
+        - configMap:
+            defaultMode: 420
+            name: vvoc-app
+          name: vvoc-app
+  status:
+    availableReplicas: 1
+    conditions:
+    - lastTransitionTime: "2026-05-22T11:59:18Z"
+      lastUpdateTime: "2026-05-22T11:59:29Z"
+      message: ReplicaSet "vnf-voc-nb-02-67b4979f5b" has successfully progressed.
+      reason: NewReplicaSetAvailable
+      status: "True"
+      type: Progressing
+    - lastTransitionTime: "2026-08-28T22:44:48Z"
+      lastUpdateTime: "2026-08-28T22:44:48Z"
+      message: Deployment has minimum availability.
+      reason: MinimumReplicasAvailable
+      status: "True"
+      type: Available
+    observedGeneration: 1
+    readyReplicas: 1
+    replicas: 1
+    updatedReplicas: 1
+- apiVersion: apps/v1
+  kind: Deployment
+  metadata:
+    annotations:
+      deployment.kubernetes.io/revision: "1"
+      field.cattle.io/publicEndpoints: '[{"port":31656,"protocol":"TCP","serviceName":"core-router:vnf-voc-phase3-svc","allNodes":true}]'
+      kubectl.kubernetes.io/last-applied-configuration: |
+        {"apiVersion":"apps/v1","kind":"Deployment","metadata":{"annotations":{},"labels":{"app":"vnf-voc-phase3","core-router/location":"hanoi-1","core-router/phase":"3","core-router/role":"voc"},"name":"vnf-voc-phase3","namespace":"core-router"},"spec":{"replicas":1,"selector":{"matchLabels":{"app":"vnf-voc-phase3"}},"template":{"metadata":{"labels":{"app":"vnf-voc-phase3","core-router/role":"voc"}},"spec":{"containers":[{"command":["python3","/app/vvoc.py"],"env":[{"name":"VVOC_PORT","value":"8000"}],"image":"localhost:32000/python:3.11-alpine","livenessProbe":{"failureThreshold":3,"httpGet":{"path":"/healthz","port":8000},"initialDelaySeconds":10,"periodSeconds":15},"name":"vvoc","ports":[{"containerPort":8000}],"readinessProbe":{"failureThreshold":3,"httpGet":{"path":"/healthz","port":8000},"initialDelaySeconds":3,"periodSeconds":5},"resources":{"limits":{"cpu":"300m","memory":"192Mi"},"requests":{"cpu":"50m","memory":"64Mi"}},"volumeMounts":[{"mountPath":"/app","name":"vvoc-app"}]}],"volumes":[{"configMap":{"name":"vvoc-app"},"name":"vvoc-app"}]}}}}
+    creationTimestamp: "2026-11-17T09:57:05Z"
+    generation: 2
+    labels:
+      app: vnf-voc-phase3
+      core-router/location: hanoi-1
+      core-router/phase: "3"
+      core-router/role: voc
+    name: vnf-voc-phase3
+    namespace: core-router
+    resourceVersion: "217900093"
+    uid: 62090b4d-54c1-4e76-9cb4-d934cdd41c49
+  spec:
+    progressDeadlineSeconds: 600
+    replicas: 1
+    revisionHistoryLimit: 10
+    selector:
+      matchLabels:
+        app: vnf-voc-phase3
+    strategy:
+      rollingUpdate:
+        maxSurge: 25%
+        maxUnavailable: 25%
+      type: RollingUpdate
+    template:
+      metadata:
+        creationTimestamp: null
+        labels:
+          app: vnf-voc-phase3
+          core-router/role: voc
+      spec:
+        containers:
+        - command:
+          - python3
+          - /app/vvoc.py
+          env:
+          - name: VVOC_PORT
+            value: "8000"
+          image: localhost:32000/python:3.11-alpine
+          imagePullPolicy: IfNotPresent
+          livenessProbe:
+            failureThreshold: 3
+            httpGet:
+              path: /healthz
+              port: 8000
+              scheme: HTTP
+            initialDelaySeconds: 10
+            periodSeconds: 15
+            successThreshold: 1
+            timeoutSeconds: 1
+          name: vvoc
+          ports:
+          - containerPort: 8000
+            protocol: TCP
+          readinessProbe:
+            failureThreshold: 3
+            httpGet:
+              path: /healthz
+              port: 8000
+              scheme: HTTP
+            initialDelaySeconds: 3
+            periodSeconds: 5
+            successThreshold: 1
+            timeoutSeconds: 1
+          resources:
+            limits:
+              cpu: 300m
+              memory: 192Mi
+            requests:
+              cpu: 50m
+              memory: 64Mi
+          terminationMessagePath: /dev/termination-log
+          terminationMessagePolicy: File
+          volumeMounts:
+          - mountPath: /app
+            name: vvoc-app
+        dnsPolicy: ClusterFirst
+        restartPolicy: Always
+        schedulerName: default-scheduler
+        securityContext: {}
+        terminationGracePeriodSeconds: 30
+        volumes:
+        - configMap:
+            defaultMode: 420
+            name: vvoc-app
+          name: vvoc-app
+  status:
+    availableReplicas: 1
+    conditions:
+    - lastTransitionTime: "2026-11-17T09:57:14Z"
+      lastUpdateTime: "2026-11-17T09:57:14Z"
+      message: Deployment has minimum availability.
+      reason: MinimumReplicasAvailable
+      status: "True"
+      type: Available
+    - lastTransitionTime: "2026-11-17T09:57:05Z"
+      lastUpdateTime: "2026-11-17T09:57:14Z"
+      message: ReplicaSet "vnf-voc-phase3-6687c7fcf9" has successfully progressed.
+      reason: NewReplicaSetAvailable
+      status: "True"
+      type: Progressing
+    observedGeneration: 2
+    readyReplicas: 1
+    replicas: 1
+    updatedReplicas: 1
+- apiVersion: apps/v1
+  kind: Deployment
+  metadata:
+    annotations:
+      deployment.kubernetes.io/revision: "1"
+      kubectl.kubernetes.io/last-applied-configuration: |
+        {"apiVersion":"apps/v1","kind":"Deployment","metadata":{"annotations":{},"labels":{"core-router/location":"quynhon-1","core-router/role":"voc"},"name":"vnf-voc-qn-03","namespace":"core-router"},"spec":{"replicas":1,"selector":{"matchLabels":{"app":"vnf-voc-qn-03"}},"template":{"metadata":{"labels":{"app":"vnf-voc-qn-03","core-router/role":"voc"}},"spec":{"containers":[{"command":["python3","/app/vvoc.py"],"env":[{"name":"VVOC_PORT","value":"8000"}],"image":"localhost:32000/python:3.11-alpine","imagePullPolicy":"IfNotPresent","livenessProbe":{"failureThreshold":3,"httpGet":{"path":"/healthz","port":8000},"initialDelaySeconds":10,"periodSeconds":15},"name":"vvoc","ports":[{"containerPort":8000}],"readinessProbe":{"failureThreshold":3,"httpGet":{"path":"/healthz","port":8000},"initialDelaySeconds":3,"periodSeconds":5},"resources":{"limits":{"cpu":"300m","memory":"192Mi"},"requests":{"cpu":"50m","memory":"64Mi"}},"volumeMounts":[{"mountPath":"/app","name":"vvoc-app"}]}],"volumes":[{"configMap":{"name":"vvoc-app"},"name":"vvoc-app"}]}}}}
+    creationTimestamp: "2026-05-22T12:00:26Z"
+    generation: 1
+    labels:
+      core-router/location: quynhon-1
+      core-router/role: voc
+    name: vnf-voc-qn-03
+    namespace: core-router
+    resourceVersion: "159478906"
+    uid: 143325eb-6584-4fcc-9b87-7182d5ff6629
+  spec:
+    progressDeadlineSeconds: 600
+    replicas: 1
+    revisionHistoryLimit: 10
+    selector:
+      matchLabels:
+        app: vnf-voc-qn-03
+    strategy:
+      rollingUpdate:
+        maxSurge: 25%
+        maxUnavailable: 25%
+      type: RollingUpdate
+    template:
+      metadata:
+        creationTimestamp: null
+        labels:
+          app: vnf-voc-qn-03
+          core-router/role: voc
+      spec:
+        containers:
+        - command:
+          - python3
+          - /app/vvoc.py
+          env:
+          - name: VVOC_PORT
+            value: "8000"
+          image: localhost:32000/python:3.11-alpine
+          imagePullPolicy: IfNotPresent
+          livenessProbe:
+            failureThreshold: 3
+            httpGet:
+              path: /healthz
+              port: 8000
+              scheme: HTTP
+            initialDelaySeconds: 10
+            periodSeconds: 15
+            successThreshold: 1
+            timeoutSeconds: 1
+          name: vvoc
+          ports:
+          - containerPort: 8000
+            protocol: TCP
+          readinessProbe:
+            failureThreshold: 3
+            httpGet:
+              path: /healthz
+              port: 8000
+              scheme: HTTP
+            initialDelaySeconds: 3
+            periodSeconds: 5
+            successThreshold: 1
+            timeoutSeconds: 1
+          resources:
+            limits:
+              cpu: 300m
+              memory: 192Mi
+            requests:
+              cpu: 50m
+              memory: 64Mi
+          terminationMessagePath: /dev/termination-log
+          terminationMessagePolicy: File
+          volumeMounts:
+          - mountPath: /app
+            name: vvoc-app
+        dnsPolicy: ClusterFirst
+        restartPolicy: Always
+        schedulerName: default-scheduler
+        securityContext: {}
+        terminationGracePeriodSeconds: 30
+        volumes:
+        - configMap:
+            defaultMode: 420
+            name: vvoc-app
+          name: vvoc-app
+  status:
+    availableReplicas: 1
+    conditions:
+    - lastTransitionTime: "2026-05-22T12:00:27Z"
+      lastUpdateTime: "2026-05-22T12:00:45Z"
+      message: ReplicaSet "vnf-voc-qn-03-64447fff46" has successfully progressed.
+      reason: NewReplicaSetAvailable
+      status: "True"
+      type: Progressing
+    - lastTransitionTime: "2026-08-28T22:44:59Z"
+      lastUpdateTime: "2026-08-28T22:44:59Z"
+      message: Deployment has minimum availability.
+      reason: MinimumReplicasAvailable
+      status: "True"
+      type: Available
+    observedGeneration: 1
+    readyReplicas: 1
+    replicas: 1
+    updatedReplicas: 1
+kind: List
+metadata:
+  resourceVersion: ""

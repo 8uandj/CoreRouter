@@ -1,0 +1,8 @@
+# captured_utc=2026-11-21T16:51:24Z
+# cmd: kubectl get nodes -o wide
+NAME         STATUS   ROLES    AGE    VERSION    INTERNAL-IP   EXTERNAL-IP   OS-IMAGE                  KERNEL-VERSION                    CONTAINER-RUNTIME
+3s-com       Ready    <none>   444d   v1.32.13   10.10.6.231   <none>        Ubuntu 20.04.6 LTS        5.4.0-216-generic                 containerd://1.6.36
+k8s-master   Ready    <none>   194d   v1.34.5    10.10.7.10    <none>        Oracle Linux Server 9.7   6.12.0-201.74.2.1.el9uek.x86_64   containerd://1.7.28
+worker1      Ready    <none>   434d   v1.32.13   10.10.6.233   <none>        Ubuntu 20.04.6 LTS        5.4.0-216-generic                 containerd://1.6.36
+worker2      Ready    <none>   444d   v1.32.13   10.10.6.234   <none>        Ubuntu 20.04.6 LTS        5.4.0-216-generic                 containerd://1.6.36
+# exit=0

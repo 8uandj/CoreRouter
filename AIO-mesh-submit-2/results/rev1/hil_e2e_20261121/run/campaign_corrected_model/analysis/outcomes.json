@@ -1,0 +1,26 @@
+{
+  "offered": 398,
+  "admitted_http200": 69,
+  "outcomes": {
+    "rejected": 329,
+    "steered": 69
+  },
+  "reject_messages": {
+    "forwarding requires distinct ingress and placement nodes": 43,
+    "requested MSD depth does not match materialized P4 path depth": 231,
+    "materialized path exceeds physical switch MSD profile": 6,
+    "resilience_no_safe_pair_available": 49
+  },
+  "steered": 69,
+  "migrations": 57,
+  "readback_all_present": 69,
+  "probe_packets_sent": 1380,
+  "probe_packets_received": 1280,
+  "probes_with_full_delivery": 64,
+  "by_k8s_node": {
+    "k8s-master|full_delivery=False": 5,
+    "worker1|full_delivery=True": 49,
+    "k8s-master|full_delivery=True": 3,
+    "worker2|full_delivery=True": 12
+  }
+}

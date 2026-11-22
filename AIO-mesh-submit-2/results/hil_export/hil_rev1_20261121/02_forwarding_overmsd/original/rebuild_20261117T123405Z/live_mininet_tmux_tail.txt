@@ -1,0 +1,98 @@
+lay) (s4, s5) (0.10ms delay) (0.10ms delay) (s5, s6) (0.10ms delay) (0.10ms del
+ay) (s6, s7) (1.53ms delay) (1.53ms delay) (s6, s9) (0.10ms delay) (0.10ms dela
+y) (s7, s8) (0.10ms delay) (0.10ms delay) (s8, s9) (0.10ms delay) (0.10ms delay
+) (s9, s10)
+*** Configuring hosts
+h1 h2 h3 h4 h5 h6 h7 h8 h9 h10
+*** Starting controller
+
+*** Starting 10 switches
+s1 s2 s3 s4 s5 s6 s7 s8 s9 s10 ...(0.1ms delay) (0.10ms delay) (0.10ms delay) (
+1.53ms delay) (0.1ms delay) (0.10ms delay) (0.1ms delay) (0.10ms delay) (0.10ms
+ delay) (0.1ms delay) (0.10ms delay) (0.10ms delay) (0.1ms delay) (0.10ms delay
+) (0.10ms delay) (0.1ms delay) (1.53ms delay) (0.10ms delay) (0.10ms delay) (1.
+53ms delay) (0.1ms delay) (0.10ms delay) (0.10ms delay) (0.1ms delay) (0.10ms d
+elay) (0.10ms delay) (0.1ms delay) (1.53ms delay) (0.10ms delay) (0.10ms delay)
+ (0.1ms delay) (0.10ms delay)
+*** [SwitchManager] Starting all P4 switches...
+*** [P4Switch:s1] Starting BMv2 (cpu=2, Thrift=19091)...
+    Container: 35546ab7932c
+    Waiting for Thrift port 19091...
+    ✅ s1 ready (Thrift:19091)
+*** [P4Switch:s2] Starting BMv2 (cpu=3, Thrift=19092)...
+    Container: 70ba12a149d1
+    Waiting for Thrift port 19092...
+    ✅ s2 ready (Thrift:19092)
+*** [P4Switch:s3] Starting BMv2 (cpu=4, Thrift=19093)...
+    Container: ff60b0c8e8df
+    Waiting for Thrift port 19093...
+    ✅ s3 ready (Thrift:19093)
+*** [P4Switch:s4] Starting BMv2 (cpu=5, Thrift=19094)...
+    Container: 358829e11515
+    Waiting for Thrift port 19094...
+    ✅ s4 ready (Thrift:19094)
+*** [P4Switch:s5] Starting BMv2 (cpu=6, Thrift=19095)...
+    Container: 29f1f970d599
+    Waiting for Thrift port 19095...
+    ✅ s5 ready (Thrift:19095)
+*** [P4Switch:s6] Starting BMv2 (cpu=7, Thrift=19096)...
+    Container: b40fa9c19b6e
+    Waiting for Thrift port 19096...
+    ✅ s6 ready (Thrift:19096)
+*** [P4Switch:s7] Starting BMv2 (cpu=8, Thrift=19097)...
+    Container: b5a7d079b73f
+    Waiting for Thrift port 19097...
+    ✅ s7 ready (Thrift:19097)
+*** [P4Switch:s8] Starting BMv2 (cpu=9, Thrift=19098)...
+    Container: 931726cb9eea
+    Waiting for Thrift port 19098...
+    ✅ s8 ready (Thrift:19098)
+*** [P4Switch:s9] Starting BMv2 (cpu=10, Thrift=19099)...
+    Container: 54c9aa9509b5
+    Waiting for Thrift port 19099...
+    ✅ s9 ready (Thrift:19099)
+*** [P4Switch:s10] Starting BMv2 (cpu=11, Thrift=19100)...
+    Container: afbcb86cdedf
+    Waiting for Thrift port 19100...
+    ✅ s10 ready (Thrift:19100)
+*** [SwitchManager] All switches running ✅
+╔══════════════════════════════════════╗
+║  P4 Switch Status                    ║
+╠══════════════════════════════════════╣
+║  s1     cpu=2  gRPC=50051  ✅ UP       ║
+║  s2     cpu=3  gRPC=50052  ✅ UP       ║
+║  s3     cpu=4  gRPC=50053  ✅ UP       ║
+║  s4     cpu=5  gRPC=50054  ✅ UP       ║
+║  s5     cpu=6  gRPC=50055  ✅ UP       ║
+║  s6     cpu=7  gRPC=50056  ✅ UP       ║
+║  s7     cpu=8  gRPC=50057  ✅ UP       ║
+║  s8     cpu=9  gRPC=50058  ✅ UP       ║
+║  s9     cpu=10  gRPC=50059  ✅ UP       ║
+║  s10    cpu=11  gRPC=50060  ✅ UP       ║
+╚══════════════════════════════════════╝
+*** Setting up Mininet ↔ K8s bridge (calico)...
+*** [Transparent Routing] ip_forward + per-host return routes...
+*** [Transparent Routing] Setup complete. NO MASQUERADE. SFC transparency: ON
+*** Bridge setup complete.
+*** [Bãi Mìn 3] Pre-populating ARP/MAC and setting static entries...
+*** [Phase 7] Waiting for 10 BMv2 switches to stabilize (10s)...
+2026-11-17 12:42:37,103 [sdn.controller] INFO: [Controller] Bootstrap: populati
+ng forwarding tables...
+2026-11-17 12:42:41,919 [sdn.controller] INFO: [s1] SID +fc00:1::1
+2026-11-17 12:42:43,461 [sdn.controller] INFO: [s2] SID +fc00:2::1
+2026-11-17 12:42:49,531 [sdn.controller] INFO: [s3] SID +fc00:3::1
+2026-11-17 12:42:57,795 [sdn.controller] INFO: [s4] SID +fc00:4::1
+2026-11-17 12:43:07,975 [sdn.controller] INFO: [s5] SID +fc00:5::1
+2026-11-17 12:43:13,863 [sdn.controller] INFO: [s6] SID +fc00:6::1
+2026-11-17 12:49:34,283 [sdn.controller] INFO: [s7] SID +fc00:7::1
+2026-11-17 12:49:34,933 [sdn.controller] INFO: [s8] SID +fc00:8::1
+2026-11-17 12:49:44,022 [sdn.controller] INFO: [s9] SID +fc00:9::1
+2026-11-17 12:49:44,559 [sdn.controller] INFO: [s10] SID +fc00:10::1
+2026-11-17 12:49:44,559 [sdn.controller] INFO: [Controller] Bootstrap complete
+✅
+*** [Phase 7] SDN Controller REST API: http://0.0.0.0:8765
+*** 3S-COM Phase 7 Data Plane ready. Type 'exit' to stop.
+*** Starting CLI:
+mininet> 2026-11-17 12:49:44,627 [sdn.controller] INFO: [REST] SDN Controller A
+PI listening on :8765
+mininet>

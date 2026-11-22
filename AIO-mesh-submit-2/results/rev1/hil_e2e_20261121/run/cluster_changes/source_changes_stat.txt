@@ -1,0 +1,8 @@
+ infrastructure/sdn/controller.py                   | 14 +++--
+ src/core/state_manager.py                          | 21 +++++++
+ .../backend/app/containers/service_container.py    |  3 +
+ .../backend/app/routers/orchestration_router.py    | 22 ++++++++
+ .../backend/app/services/orchestration_service.py  |  6 +-
+ tests/rev1/test_controller_rule_readback.py        | 12 ++++
+ tests/test_orchestration_api.py                    | 64 +++++++++++++++++++++-
+ 7 files changed, 134 insertions(+), 8 deletions(-)

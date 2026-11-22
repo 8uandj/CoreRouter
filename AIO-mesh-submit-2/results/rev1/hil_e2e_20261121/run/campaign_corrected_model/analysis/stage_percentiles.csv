@@ -1,0 +1,10 @@
+stage,population,n,p50,p95,p99,min,max
+admit_s,all offered,398,0.147,0.243,0.449,0.058,0.559
+submit_to_make_s,steered requests,69,0.208,0.284,0.562,0.159,0.578
+pipelinerun_duration_s,steered requests,69,34.0,45.0,83.0,23.0,148.0
+make_to_pod_ready_k8s_s,steered requests,69,20.438,28.801,32.04,15.158,71.299
+make_to_backend_ready_s,steered requests,69,22.26,30.596,34.327,18.153,72.379
+backend_ready_to_steer_start_s,steered requests,69,0.03,0.14,0.153,0.018,0.364
+rule_install_and_confirm_s,steered requests,69,0.542,0.801,1.088,0.294,1.112
+submit_to_steer_confirm_s,steered requests,69,23.172,31.593,35.119,18.697,73.092
+probe_rtt_p50_ms,steered requests,64,3.28,9.669,10.635,1.91,10.68

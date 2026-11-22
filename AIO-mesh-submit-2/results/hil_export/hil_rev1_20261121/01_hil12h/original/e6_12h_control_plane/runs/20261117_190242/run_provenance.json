@@ -1,0 +1,40 @@
+{
+  "recorded_at_utc": "2026-11-17T19:09:54.640808+00:00",
+  "run_manifest": "run_manifest.json",
+  "git_commit_at_recording": "a2276588b7864ffe50ac03fb51b4bceefc5d424d",
+  "benchmark_and_sampler_source_sha256": {
+    "src/analytics/benchmark/benchmark_testbed/run_all_scenarios.py": "a38dc002cde864e81c29096ab12167c20abcdffa93e5e7cc004aa5b70fe403be",
+    "src/analytics/benchmark/benchmark_testbed/runner.py": "3c400a1c86c9a1bf882577d05c8c2855e9f373baf7a8b2565fc9c38e7d6219ee",
+    "src/analytics/benchmark/benchmark_testbed/preflight.py": "bddfa0548e1918c1db73303450d51cb92fabd025dc2e1d08e571496797ea67c0",
+    "src/analytics/benchmark/benchmark_testbed/http_client.py": "3bb3b9cc00d5a4b17e32a22cfb5c10fcb19db37877e0c94bcb00443144976b8a",
+    "src/analytics/benchmark/benchmark_testbed/scenarios/normal_load.py": "31ddb2d0bd5feb16fe4c6df2253d009081f8218f071a0105a97ef4fc56143de3",
+    "src/analytics/benchmark/benchmark_testbed/scenarios/common.py": "73a650ed5bd76e1512f1e18e6644cabf9b5db7408b998d3c89a674ee26f0f42d",
+    "src/analytics/benchmark/benchmark_testbed/config.py": "b9044b7ec2f45461d8513c2ee5c1c1d8e636c73b2a8c505563f8e1406aba8155",
+    "src/analytics/benchmark/benchmark_testbed/models.py": "3a200f2490fba642ff3fc8f0968cb2bb76690405f65da22ac0ceb4067b915299",
+    "src/analytics/benchmark/benchmark_testbed/exporters.py": "60f0401403eea59741913cfcde1d4839bff83854d389b87c97c312acaa5ce270",
+    "src/analytics/benchmark/benchmark_testbed/metrics.py": "71856f39c977c5e71afd64c435d28012318e69db5a271960570f3a041cf90940",
+    "results/rev1/e6_12h_control_plane/monitor_kubernetes.py": "93fa195a0878388332a0a791d630fa6ff720a167d5e2067b37b301fcb53756a8"
+  },
+  "backend_runtime": {
+    "container_id": "0b62be8d9e13616cec82bf2e505ab4848503e07bdbadd621e8ddb2811d9fd88d",
+    "image_id": "sha256:2967e0e157cf61bc63b261a2223a7f87022eb4c07fdcbbb191dcfa1b94bf2310",
+    "container_created_at": "2026-11-17T18:07:06.693954681Z",
+    "code_directory": "/app (baked into image; no source-code bind mount)",
+    "bind_mounts": [
+      "/var/snap/microk8s/current/credentials/client.config=>/root/.kube/config",
+      "/home/CoreRouter/results/rev1/runtime=>/app/results/rev1/runtime"
+    ],
+    "source_sha256_inside_container": {
+      "src/portal/backend/app/models/schemas.py": "91d844b14ba544004e395b7f44a58ff78da692d553651b5325e4fc9b8764dd85",
+      "src/portal/backend/app/routers/orchestration_router.py": "1e696502a450ea7049405ac1e68eccc55435f002d222267623fd351d28ae36d4",
+      "src/portal/backend/app/services/hybrid_decision.py": "9464d166a072e51673859e68e819e71cd45a1b15ff27fe40c7751df057daa7c8",
+      "src/portal/backend/app/services/p4_pair_realization.py": "eabcb58f8f073b0ccf78421d7f8d2d95ae10843ebf1336fc44e612a8de9e87c2",
+      "src/portal/backend/app/services/realization.py": "6be02e500bc46c9d75b6130d8170bb50d0a258249ad74e65136153533d5c875c",
+      "src/portal/backend/app/services/controller_topology.py": "c4e8c68de853b7d3d3d1b16610540d3d858d95434d8fa7186cf55bcb939e5e4e",
+      "src/portal/backend/app/services/orchestration_service.py": "ef3551693faf272ad72aaf4d321099cf9bc2dcad4ed9de9b2caff04cdf95cba0",
+      "src/core/state_manager.py": "1214cc4c1d63350c413b6bf237263781c4aa49aebb97ee250bb880588691da4f",
+      "infrastructure/sdn/controller.py": "daa42545fbbcee197e41c038c0f8580c40c60d6f278473a358d2347f1b5543ff",
+      "infrastructure/sdn/p4_topology.py": "652aa9bc37c168f6f5d4e6fd5ccb058ec15e5782376e5a81df374326e85e64e4"
+    }
+  }
+}

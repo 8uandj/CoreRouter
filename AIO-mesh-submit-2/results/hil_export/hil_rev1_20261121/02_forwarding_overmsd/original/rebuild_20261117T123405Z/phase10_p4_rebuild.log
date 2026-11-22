@@ -1,0 +1,40 @@
+🔨 Compiling Switch Profile (MSD=4)...
+docker run --rm --entrypoint p4c-bm2-ss \
+	-v /home/CoreRouter/infrastructure/sdn/p4:/p4 p4lang/p4app:latest \
+	--std p4-16 \
+	-D MAX_SID_DEPTH=4 \
+	--target bmv2 --arch v1model \
+	-o /p4/build/msd_4/srv6_msd_4.json \
+	--p4runtime-files /p4/build/msd_4/srv6_msd_4.p4info.txt \
+	/p4/srv6_basic.p4
+✅ Switch binary: build/msd_4/srv6_msd_4.json
+🔨 Compiling Switch Profile (MSD=5)...
+docker run --rm --entrypoint p4c-bm2-ss \
+	-v /home/CoreRouter/infrastructure/sdn/p4:/p4 p4lang/p4app:latest \
+	--std p4-16 \
+	-D MAX_SID_DEPTH=5 \
+	--target bmv2 --arch v1model \
+	-o /p4/build/msd_5/srv6_msd_5.json \
+	--p4runtime-files /p4/build/msd_5/srv6_msd_5.p4info.txt \
+	/p4/srv6_basic.p4
+✅ Switch binary: build/msd_5/srv6_msd_5.json
+🔨 Compiling Switch Profile (MSD=8)...
+docker run --rm --entrypoint p4c-bm2-ss \
+	-v /home/CoreRouter/infrastructure/sdn/p4:/p4 p4lang/p4app:latest \
+	--std p4-16 \
+	-D MAX_SID_DEPTH=8 \
+	--target bmv2 --arch v1model \
+	-o /p4/build/msd_8/srv6_msd_8.json \
+	--p4runtime-files /p4/build/msd_8/srv6_msd_8.p4info.txt \
+	/p4/srv6_basic.p4
+✅ Switch binary: build/msd_8/srv6_msd_8.json
+🔨 Compiling Switch Profile (MSD=10)...
+docker run --rm --entrypoint p4c-bm2-ss \
+	-v /home/CoreRouter/infrastructure/sdn/p4:/p4 p4lang/p4app:latest \
+	--std p4-16 \
+	-D MAX_SID_DEPTH=10 \
+	--target bmv2 --arch v1model \
+	-o /p4/build/msd_10/srv6_msd_10.json \
+	--p4runtime-files /p4/build/msd_10/srv6_msd_10.p4info.txt \
+	/p4/srv6_basic.p4
+✅ Switch binary: build/msd_10/srv6_msd_10.json

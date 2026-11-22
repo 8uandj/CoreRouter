@@ -1,0 +1,40 @@
+vnf,cpu_req,ram_req,msd_req,v_place,placement,v_route,route,accounting_unknown,deployment_ready,k8s_ready,image,k8s_node,pod_ip,created_by
+vnf-attack-004e219d,64.0,32.5,6,8,HoChiMinh,8,HoChiMinh,False,True,1/1,localhost:32000/alpine:latest,worker2,10.1.189.159,baseline (seeded 2026-11-17)
+vnf-attack-0faeed9f,63.0,32.0,4,0,Hanoi,8,HoChiMinh,False,True,1/1,localhost:32000/alpine:latest,k8s-master,10.1.235.205,baseline (seeded 2026-11-17)
+vnf-attack-228edabf,57.0,29.0,6,1,HaiPhong,8,HoChiMinh,False,True,1/1,localhost:32000/alpine:latest,k8s-master,10.1.235.206,baseline (seeded 2026-11-17)
+vnf-attack-2f0aa313,64.0,32.5,6,2,NinhBinh,8,HoChiMinh,False,True,1/1,localhost:32000/alpine:latest,k8s-master,10.1.235.207,baseline (seeded 2026-11-17)
+vnf-attack-57b6f205,58.0,29.5,4,3,Vinh,3,Vinh,False,True,1/1,localhost:32000/alpine:latest,worker1,10.1.235.188,baseline (seeded 2026-11-17)
+vnf-attack-8bf0425e,64.0,32.5,6,5,DaNang,8,HoChiMinh,False,True,1/1,localhost:32000/alpine:latest,worker1,10.1.235.169,baseline (seeded 2026-11-17)
+vnf-attack-af13f6df,56.0,28.5,8,9,CanTho,5,DaNang,False,True,1/1,localhost:32000/alpine:latest,worker2,10.1.189.166,baseline (seeded 2026-11-17)
+vnf-data-2042e77d,5.0,2.5,4,4,Hue,7,NhaTrang,False,True,1/1,localhost:32000/frr:9.1.1,worker1,10.1.235.128,backend e2e campaign (record recovered) recovered_0149
+vnf-data-b6fad338,20.0,10.0,4,1,HaiPhong,7,NhaTrang,False,True,1/1,localhost:32000/frr:9.1.1,k8s-master,10.1.235.212,backend actuation burst #23
+vnf-data-d9296f2b,20.0,10.0,2,6,QuyNhon,7,NhaTrang,False,True,1/1,localhost:32000/frr:9.1.1,worker2,10.1.189.170,"backend e2e campaign (alert, backend MBB) #104"
+vnf-firewall-06223c61,12.0,6.0,2,7,NhaTrang,7,NhaTrang,False,True,1/1,localhost:32000/alpine:latest,worker2,10.1.189.174,driver-orchestrated (admission + /api/deploy + /steer) #85
+vnf-firewall-60c82ba3,7.0,3.5,3,4,Hue,7,NhaTrang,False,True,1/1,localhost:32000/alpine:latest,worker1,10.1.235.185,driver-orchestrated (admission + /api/deploy + /steer) #31
+vnf-firewall-977cd493,12.0,6.0,3,4,Hue,7,NhaTrang,False,True,1/1,localhost:32000/alpine:latest,worker1,10.1.235.145,"backend e2e campaign (alert, backend MBB) #94"
+vnf-firewall-d09bd6c2,5.0,2.5,3,4,Hue,7,NhaTrang,False,True,1/1,localhost:32000/alpine:latest,worker1,10.1.235.180,driver-orchestrated (admission + /api/deploy + /steer) #40
+vnf-idps-6ff25e7b,6.0,3.0,5,2,NinhBinh,7,NhaTrang,False,True,1/1,localhost:32000/alpine:latest,k8s-master,10.1.235.208,driver-orchestrated (admission + /api/deploy + /steer) #73
+vnf-idps-fd4abe1f,12.0,6.0,2,7,NhaTrang,7,NhaTrang,False,True,1/1,localhost:32000/alpine:latest,worker2,10.1.189.129,backend actuation burst #10
+vnf-idps-fdd8a8f7,20.0,10.0,4,9,CanTho,7,NhaTrang,False,True,1/1,localhost:32000/alpine:latest,worker2,10.1.189.147,driver-orchestrated (admission + /api/deploy + /steer) #55
+vnf-lb-67673667,18.0,9.0,2,1,HaiPhong,7,NhaTrang,False,True,1/1,localhost:32000/nginx:1.27-alpine,k8s-master,10.1.235.211,backend actuation burst #12
+vnf-lb-a8f80139,21.0,10.5,2,6,QuyNhon,7,NhaTrang,False,True,1/1,localhost:32000/nginx:1.27-alpine,worker2,10.1.189.180,"backend e2e campaign (alert, backend MBB) #57"
+vnf-lb-c7266b57,6.0,3.0,3,4,Hue,7,NhaTrang,False,True,1/1,localhost:32000/nginx:1.27-alpine,worker1,10.1.235.175,"backend e2e campaign (alert, backend MBB) #129"
+vnf-nat-240e4b06,6.0,3.0,4,6,QuyNhon,7,NhaTrang,False,True,1/1,localhost:32000/alpine:latest,worker2,10.1.189.148,driver-orchestrated (admission + /api/deploy + /steer) #47
+vnf-nat-9890d9ca,6.0,3.0,5,2,NinhBinh,7,NhaTrang,False,True,1/1,localhost:32000/alpine:latest,k8s-master,10.1.235.210,driver-orchestrated (admission + /api/deploy + /steer) #83
+vnf-nat-ff43155a,11.0,5.5,3,4,Hue,7,NhaTrang,False,True,1/1,localhost:32000/alpine:latest,worker1,10.1.235.155,"backend e2e campaign (alert, backend MBB) #83"
+vnf-router-485205ac,6.0,3.0,2,8,HoChiMinh,7,NhaTrang,False,True,1/1,localhost:32000/frr:9.1.1,worker2,10.1.189.177,driver-orchestrated (admission + /api/deploy + /steer) #88
+vnf-router-641b71ca,21.0,10.5,3,3,Vinh,7,NhaTrang,False,True,1/1,localhost:32000/frr:9.1.1,worker1,10.1.235.189,driver-orchestrated (admission + /api/deploy + /steer) #70
+vnf-router-740a9f49,18.0,9.0,3,4,Hue,7,NhaTrang,False,True,1/1,localhost:32000/frr:9.1.1,worker1,10.1.235.182,"backend e2e campaign (alert, backend MBB) #115"
+vnf-router-a699951e,20.0,10.0,4,6,QuyNhon,7,NhaTrang,False,True,1/1,localhost:32000/frr:9.1.1,worker2,10.1.189.132,driver-orchestrated (admission + /api/deploy + /steer) #34
+vnf-video-09771db5,12.0,6.0,4,8,HoChiMinh,7,NhaTrang,False,True,1/1,localhost:32000/frr:9.1.1,worker2,10.1.189.130,driver-orchestrated (admission + /api/deploy + /steer) #42
+vnf-video-20cb7274,18.0,9.0,3,8,HoChiMinh,7,NhaTrang,False,True,1/1,localhost:32000/frr:9.1.1,worker2,10.1.189.138,driver-orchestrated (admission + /api/deploy + /steer) #51
+vnf-video-2d8dea54,11.0,5.5,4,6,QuyNhon,7,NhaTrang,False,True,1/1,localhost:32000/frr:9.1.1,worker2,10.1.189.137,driver-orchestrated (admission + /api/deploy + /steer) #33
+vnf-video-bcb87148,5.0,2.5,2,4,Hue,7,NhaTrang,False,True,1/1,localhost:32000/frr:9.1.1,worker1,10.1.235.190,"backend e2e campaign (alert, backend MBB) #87"
+vnf-voc-1a081337,20.0,10.0,4,6,QuyNhon,7,NhaTrang,False,True,1/1,localhost:32000/python:3.11-alpine,worker2,10.1.189.133,"backend e2e campaign (alert, backend MBB) #99"
+vnf-voc-46114e18,4.0,2.0,3,9,CanTho,7,NhaTrang,False,True,1/1,localhost:32000/python:3.11-alpine,worker2,10.1.189.191,driver-orchestrated (admission + /api/deploy + /steer) #44
+vnf-voc-474040d7,10.0,5.0,2,7,NhaTrang,7,NhaTrang,False,True,1/1,localhost:32000/python:3.11-alpine,worker2,10.1.189.142,driver-orchestrated (admission + /api/deploy + /steer) #90
+vnf-voc-519bcac9,18.0,9.0,3,9,CanTho,7,NhaTrang,False,True,1/1,localhost:32000/python:3.11-alpine,worker2,10.1.189.182,driver-orchestrated (admission + /api/deploy + /steer) #72
+vnf-voc-89cf7868,20.0,10.0,5,2,NinhBinh,7,NhaTrang,False,True,1/1,localhost:32000/python:3.11-alpine,k8s-master,10.1.235.209,driver-orchestrated (admission + /api/deploy + /steer) #80
+vnf-voc-8af9e5bb,12.0,6.0,3,4,Hue,7,NhaTrang,False,True,1/1,localhost:32000/python:3.11-alpine,worker1,10.1.235.146,driver-orchestrated (admission + /api/deploy + /steer) #17
+vnf-voc-f3f8bf18,5.0,2.5,3,4,Hue,7,NhaTrang,False,True,1/1,localhost:32000/python:3.11-alpine,worker1,10.1.235.163,driver-orchestrated (admission + /api/deploy + /steer) #9
+vnf-voc-f6b1a5cf,7.0,3.5,3,4,Hue,7,NhaTrang,False,True,1/1,localhost:32000/python:3.11-alpine,worker1,10.1.235.183,"backend e2e campaign (alert, backend MBB) #144"

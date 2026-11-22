@@ -1,0 +1,149 @@
+index,service_type,msd_req,http,outcome,vnf,reject_message,admit_s,sid_depth,pipelinerun_created_minus_make_s,probe_rtt_p50_ms,pipelinerun_duration_s,backend_ready_to_steer_start_s,readback_all_present,submit_to_make_s,probe_loss,k8s_node,make_to_pod_ready_k8s_s,submit_to_steer_confirm_s,rule_install_and_confirm_s,switch_path,probe_sent,probe_received,probe_mode,placement,make_to_backend_ready_s,migration_old_vnf,msd_violation_delta,captured
+0,voc,2,409,rejected,,requested MSD depth does not match materialized P4 path depth,0.163,,,,,,,,,,,,,,,,,,,,,
+1,idps,5,409,rejected,,requested MSD depth does not match materialized P4 path depth,0.133,,,,,,,,,,,,,,,,,,,,,
+2,nat,4,200,steered,vnf-nat-e549e29f,,0.163,4,-0.764,4.73,28.0,0.049,True,0.177,0,worker1,17.236,20.566,2.158,2-1-6-5,20,20,icmp,4,18.182,,0,"{""src_egress_srv6"": 22, ""place_host_decap"": 20, ""host_vxlan"": 40, ""src_return"": 20}"
+3,lb,4,409,rejected,,requested MSD depth does not match materialized P4 path depth,0.13,,,,,,,,,,,,,,,,,,,,,
+4,firewall,4,409,rejected,,requested MSD depth does not match materialized P4 path depth,0.478,,,,,,,,,,,,,,,,,,,,,
+5,data,2,409,rejected,,requested MSD depth does not match materialized P4 path depth,0.119,,,,,,,,,,,,,,,,,,,,,
+6,video,5,409,rejected,,requested MSD depth does not match materialized P4 path depth,0.122,,,,,,,,,,,,,,,,,,,,,
+7,router,4,409,rejected,,requested MSD depth does not match materialized P4 path depth,0.125,,,,,,,,,,,,,,,,,,,,,
+8,voc,5,409,rejected,,requested MSD depth does not match materialized P4 path depth,0.118,,,,,,,,,,,,,,,,,,,,,
+9,voc,5,409,rejected,,requested MSD depth does not match materialized P4 path depth,0.115,,,,,,,,,,,,,,,,,,,,,
+10,idps,4,409,rejected,,requested MSD depth does not match materialized P4 path depth,0.104,,,,,,,,,,,,,,,,,,,,,
+11,nat,3,409,rejected,,requested MSD depth does not match materialized P4 path depth,0.079,,,,,,,,,,,,,,,,,,,,,
+12,lb,5,409,rejected,,requested MSD depth does not match materialized P4 path depth,0.103,,,,,,,,,,,,,,,,,,,,,
+13,firewall,5,409,rejected,,requested MSD depth does not match materialized P4 path depth,0.13,,,,,,,,,,,,,,,,,,,,,
+14,data,5,409,rejected,,forwarding requires distinct ingress and placement nodes,0.117,,,,,,,,,,,,,,,,,,,,,
+15,video,5,409,rejected,,requested MSD depth does not match materialized P4 path depth,0.108,,,,,,,,,,,,,,,,,,,,,
+16,router,2,409,rejected,,requested MSD depth does not match materialized P4 path depth,0.108,,,,,,,,,,,,,,,,,,,,,
+17,voc,4,409,rejected,,requested MSD depth does not match materialized P4 path depth,0.116,,,,,,,,,,,,,,,,,,,,,
+18,voc,5,409,rejected,,requested MSD depth does not match materialized P4 path depth,0.131,,,,,,,,,,,,,,,,,,,,,
+19,idps,4,200,steered,vnf-idps-0e8d6951,,0.159,4,-0.925,3.06,25.0,0.019,True,0.173,0,worker1,16.075,19.832,1.421,8-7-6-5,20,20,icmp,4,18.218,,0,"{""src_egress_srv6"": 22, ""place_host_decap"": 20, ""host_vxlan"": 40, ""src_return"": 20}"
+20,nat,5,409,rejected,,requested MSD depth does not match materialized P4 path depth,0.105,,,,,,,,,,,,,,,,,,,,,
+21,lb,4,200,steered,vnf-lb-f5f63e78,,0.108,4,-0.351,3.12,25.0,0.027,True,0.121,0,worker1,16.649,19.065,0.703,8-7-6-5,20,20,icmp,4,18.213,,0,"{""src_egress_srv6"": 22, ""place_host_decap"": 20, ""host_vxlan"": 40, ""src_return"": 20}"
+22,firewall,5,409,rejected,,requested MSD depth does not match materialized P4 path depth,0.118,,,,,,,,,,,,,,,,,,,,,
+23,data,2,200,steered,vnf-data-1671ba4a,,0.157,2,-0.77,2.25,30.0,0.032,True,0.171,0,worker2,23.23,25.027,0.471,8-7,20,20,icmp,6,24.353,,0,"{""src_egress_srv6"": 22, ""place_host_decap"": 20, ""host_vxlan"": 40, ""src_return"": 20}"
+24,video,3,409,rejected,,requested MSD depth does not match materialized P4 path depth,0.114,,,,,,,,,,,,,,,,,,,,,
+25,router,4,409,rejected,,requested MSD depth does not match materialized P4 path depth,0.203,,,,,,,,,,,,,,,,,,,,,
+26,voc,5,409,rejected,,requested MSD depth does not match materialized P4 path depth,0.134,,,,,,,,,,,,,,,,,,,,,
+27,voc,3,409,rejected,,requested MSD depth does not match materialized P4 path depth,0.123,,,,,,,,,,,,,,,,,,,,,
+28,idps,5,409,rejected,,requested MSD depth does not match materialized P4 path depth,0.112,,,,,,,,,,,,,,,,,,,,,
+29,nat,5,409,rejected,,requested MSD depth does not match materialized P4 path depth,0.111,,,,,,,,,,,,,,,,,,,,,
+30,lb,2,409,rejected,,requested MSD depth does not match materialized P4 path depth,0.05,,,,,,,,,,,,,,,,,,,,,
+31,firewall,4,409,rejected,,requested MSD depth does not match materialized P4 path depth,0.11,,,,,,,,,,,,,,,,,,,,,
+32,data,4,409,rejected,,forwarding requires distinct ingress and placement nodes,0.097,,,,,,,,,,,,,,,,,,,,,
+33,video,5,409,rejected,,requested MSD depth does not match materialized P4 path depth,0.119,,,,,,,,,,,,,,,,,,,,,
+34,router,3,200,steered,vnf-router-229feee7,,0.171,3,-0.003,2.53,26.0,0.02,True,0.186,0,worker1,17.997,20.937,0.498,7-6-5,20,20,icmp,4,20.233,,0,"{""src_egress_srv6"": 22, ""place_host_decap"": 20, ""host_vxlan"": 40, ""src_return"": 20}"
+35,voc,3,409,rejected,,requested MSD depth does not match materialized P4 path depth,0.18,,,,,,,,,,,,,,,,,,,,,
+36,voc,3,409,rejected,,requested MSD depth does not match materialized P4 path depth,0.128,,,,,,,,,,,,,,,,,,,,,
+37,idps,3,409,rejected,,requested MSD depth does not match materialized P4 path depth,0.108,,,,,,,,,,,,,,,,,,,,,
+38,nat,3,200,actuation_warning_BREAK_UNCONFIRMED,vnf-nat-cb5e25a2,,0.191,3,-0.796,,34.0,0.021,True,0.239,,worker1,16.204,19.777,1.27,3-4-5,,,,4,18.246,vnf-nat-e549e29f,,""""""
+39,lb,5,409,rejected,,requested MSD depth does not match materialized P4 path depth,0.15,,,,,,,,,,,,,,,,,,,,,
+40,firewall,4,409,rejected,,requested MSD depth does not match materialized P4 path depth,0.118,,,,,,,,,,,,,,,,,,,,,
+41,data,5,409,rejected,,requested MSD depth does not match materialized P4 path depth,0.135,,,,,,,,,,,,,,,,,,,,,
+42,video,3,409,rejected,,requested MSD depth does not match materialized P4 path depth,0.115,,,,,,,,,,,,,,,,,,,,,
+43,router,2,409,rejected,,requested MSD depth does not match materialized P4 path depth,0.105,,,,,,,,,,,,,,,,,,,,,
+44,voc,3,409,rejected,,requested MSD depth does not match materialized P4 path depth,0.119,,,,,,,,,,,,,,,,,,,,,
+45,voc,4,409,rejected,,requested MSD depth does not match materialized P4 path depth,0.113,,,,,,,,,,,,,,,,,,,,,
+46,idps,4,409,rejected,,requested MSD depth does not match materialized P4 path depth,0.106,,,,,,,,,,,,,,,,,,,,,
+47,nat,4,409,rejected,,requested MSD depth does not match materialized P4 path depth,0.104,,,,,,,,,,,,,,,,,,,,,
+48,lb,4,409,rejected,,requested MSD depth does not match materialized P4 path depth,0.106,,,,,,,,,,,,,,,,,,,,,
+49,firewall,2,409,rejected,,forwarding requires distinct ingress and placement nodes,0.151,,,,,,,,,,,,,,,,,,,,,
+50,data,4,409,rejected,,requested MSD depth does not match materialized P4 path depth,0.107,,,,,,,,,,,,,,,,,,,,,
+51,video,2,409,rejected,,requested MSD depth does not match materialized P4 path depth,0.137,,,,,,,,,,,,,,,,,,,,,
+52,router,4,200,steered,vnf-router-e0567266,,0.165,4,-0.735,4.68,30.0,0.028,True,0.189,0,worker1,17.265,19.149,0.715,2-1-6-5,20,20,icmp,4,18.217,vnf-router-229feee7,0,"{""src_egress_srv6"": 22, ""place_host_decap"": 20, ""host_vxlan"": 40, ""src_return"": 20}"
+53,voc,5,409,rejected,,requested MSD depth does not match materialized P4 path depth,0.119,,,,,,,,,,,,,,,,,,,,,
+54,voc,2,409,rejected,,requested MSD depth does not match materialized P4 path depth,0.114,,,,,,,,,,,,,,,,,,,,,
+55,idps,4,200,actuation_warning_BREAK_UNCONFIRMED,vnf-idps-0bbfc73a,,0.169,4,-0.433,,32.0,0.03,True,0.195,,worker1,17.567,19.062,0.672,8-7-6-5,,,,4,18.164,vnf-idps-0e8d6951,,""""""
+56,nat,4,200,actuation_warning_BREAK_UNCONFIRMED,vnf-nat-e82a6f4e,,0.143,4,-0.311,,34.0,0.028,True,0.156,,worker1,17.689,21.843,1.386,10-9-6-5,,,,4,20.273,vnf-nat-cb5e25a2,,""""""
+57,lb,2,200,steered,vnf-lb-a8f80139,,0.193,2,-0.512,2.26,27.0,0.026,True,0.211,0,worker2,18.488,20.846,0.308,6-7,20,20,icmp,6,20.302,,0,"{""src_egress_srv6"": 22, ""place_host_decap"": 20, ""host_vxlan"": 40, ""src_return"": 20}"
+58,firewall,4,409,rejected,,requested MSD depth does not match materialized P4 path depth,0.135,,,,,,,,,,,,,,,,,,,,,
+59,data,4,409,rejected,,requested MSD depth does not match materialized P4 path depth,0.099,,,,,,,,,,,,,,,,,,,,,
+60,video,5,409,rejected,,requested MSD depth does not match materialized P4 path depth,0.056,,,,,,,,,,,,,,,,,,,,,
+61,router,3,200,steered,vnf-router-53f56b53,,0.166,3,-0.117,4.26,33.0,0.02,True,0.189,0,worker1,15.883,19.018,0.592,9-6-5,20,20,icmp,4,18.217,vnf-router-e0567266,0,"{""src_egress_srv6"": 22, ""place_host_decap"": 20, ""host_vxlan"": 40, ""src_return"": 20}"
+62,voc,2,409,rejected,,requested MSD depth does not match materialized P4 path depth,0.113,,,,,,,,,,,,,,,,,,,,,
+63,voc,4,409,rejected,,requested MSD depth does not match materialized P4 path depth,0.109,,,,,,,,,,,,,,,,,,,,,
+64,idps,5,409,rejected,,requested MSD depth does not match materialized P4 path depth,0.133,,,,,,,,,,,,,,,,,,,,,
+65,nat,3,200,actuation_warning_BREAK_UNCONFIRMED,vnf-nat-a0d69c02,,0.123,3,-0.668,,33.0,0.029,True,0.139,,worker1,16.332,18.943,0.541,3-4-5,,,,4,18.234,vnf-nat-e82a6f4e,,""""""
+66,lb,4,409,rejected,,requested MSD depth does not match materialized P4 path depth,0.11,,,,,,,,,,,,,,,,,,,,,
+67,firewall,4,409,rejected,,requested MSD depth does not match materialized P4 path depth,0.109,,,,,,,,,,,,,,,,,,,,,
+68,data,4,200,steered,vnf-data-37c635b5,,0.137,4,-0.963,4.94,35.0,0.034,True,0.15,0,worker2,17.037,19.443,1.036,3-1-6-7,20,20,icmp,6,18.223,vnf-data-1671ba4a,0,"{""src_egress_srv6"": 22, ""place_host_decap"": 20, ""host_vxlan"": 40, ""src_return"": 20}"
+69,video,2,409,rejected,,requested MSD depth does not match materialized P4 path depth,0.141,,,,,,,,,,,,,,,,,,,,,
+70,router,4,409,rejected,,requested MSD depth does not match materialized P4 path depth,0.115,,,,,,,,,,,,,,,,,,,,,
+72,voc,4,409,rejected,,requested MSD depth does not match materialized P4 path depth,0.16,,,,,,,,,,,,,,,,,,,,,
+73,idps,3,409,rejected,,requested MSD depth does not match materialized P4 path depth,0.141,,,,,,,,,,,,,,,,,,,,,
+74,nat,5,409,rejected,,requested MSD depth does not match materialized P4 path depth,0.088,,,,,,,,,,,,,,,,,,,,,
+75,lb,5,409,rejected,,requested MSD depth does not match materialized P4 path depth,0.141,,,,,,,,,,,,,,,,,,,,,
+76,firewall,5,409,rejected,,requested MSD depth does not match materialized P4 path depth,0.122,,,,,,,,,,,,,,,,,,,,,
+77,data,4,409,rejected,,requested MSD depth does not match materialized P4 path depth,0.123,,,,,,,,,,,,,,,,,,,,,
+78,video,2,409,rejected,,requested MSD depth does not match materialized P4 path depth,0.116,,,,,,,,,,,,,,,,,,,,,
+79,router,2,409,rejected,,requested MSD depth does not match materialized P4 path depth,0.129,,,,,,,,,,,,,,,,,,,,,
+80,voc,2,409,rejected,,requested MSD depth does not match materialized P4 path depth,0.115,,,,,,,,,,,,,,,,,,,,,
+81,voc,4,409,rejected,,forwarding requires distinct ingress and placement nodes,0.074,,,,,,,,,,,,,,,,,,,,,
+82,idps,4,409,rejected,,forwarding requires distinct ingress and placement nodes,0.082,,,,,,,,,,,,,,,,,,,,,
+83,nat,3,200,steered,vnf-nat-ff43155a,,0.16,3,-0.293,2.82,32.0,0.018,True,0.177,0,worker1,17.707,20.987,0.541,7-6-5,20,20,icmp,4,20.252,vnf-nat-a0d69c02,0,"{""src_egress_srv6"": 22, ""place_host_decap"": 20, ""host_vxlan"": 40, ""src_return"": 20}"
+84,lb,5,409,rejected,,requested MSD depth does not match materialized P4 path depth,0.138,,,,,,,,,,,,,,,,,,,,,
+85,firewall,3,409,rejected,,requested MSD depth does not match materialized P4 path depth,0.144,,,,,,,,,,,,,,,,,,,,,
+86,data,2,409,rejected,,requested MSD depth does not match materialized P4 path depth,0.127,,,,,,,,,,,,,,,,,,,,,
+87,video,2,200,steered,vnf-video-bcb87148,,0.179,2,-0.633,2.02,26.0,0.019,True,0.193,0,worker1,17.367,18.725,0.351,6-5,20,20,icmp,4,18.162,,0,"{""src_egress_srv6"": 22, ""place_host_decap"": 20, ""host_vxlan"": 40, ""src_return"": 20}"
+88,router,3,200,steered,vnf-router-bf3efb0a,,0.158,3,-0.142,2.77,32.0,0.037,True,0.174,0,worker1,15.858,18.949,0.501,3-4-5,20,20,icmp,4,18.238,vnf-router-53f56b53,0,"{""src_egress_srv6"": 22, ""place_host_decap"": 20, ""host_vxlan"": 40, ""src_return"": 20}"
+89,voc,2,409,rejected,,requested MSD depth does not match materialized P4 path depth,0.088,,,,,,,,,,,,,,,,,,,,,
+90,voc,4,200,steered,vnf-voc-79ec0a10,,0.104,4,-0.835,10.477,36.0,0.029,True,0.118,0,worker1,24.165,27.4,0.759,2-1-6-5,20,20,http,4,26.494,vnf-voc-f51532ef,0,"{""src_egress_srv6"": 103, ""place_host_decap"": 101, ""host_vxlan"": 202, ""src_return"": 101}"
+91,idps,2,409,rejected,,requested MSD depth does not match materialized P4 path depth,0.148,,,,,,,,,,,,,,,,,,,,,
+92,nat,5,409,rejected,,requested MSD depth does not match materialized P4 path depth,0.171,,,,,,,,,,,,,,,,,,,,,
+93,lb,2,409,rejected,,requested MSD depth does not match materialized P4 path depth,0.14,,,,,,,,,,,,,,,,,,,,,
+94,firewall,3,200,steered,vnf-firewall-977cd493,,0.181,3,-0.877,2.71,28.0,0.038,True,0.195,0,worker1,18.123,20.994,0.501,3-4-5,20,20,icmp,4,20.26,,0,"{""src_egress_srv6"": 22, ""place_host_decap"": 20, ""host_vxlan"": 40, ""src_return"": 20}"
+95,data,4,200,steered,vnf-data-2e97c8c5,,0.21,4,-0.721,3.34,28.0,0.034,True,0.228,0,worker1,18.279,21.166,0.683,8-7-6-5,20,20,icmp,4,20.221,,0,"{""src_egress_srv6"": 22, ""place_host_decap"": 20, ""host_vxlan"": 40, ""src_return"": 20}"
+96,video,3,409,rejected,,requested MSD depth does not match materialized P4 path depth,0.152,,,,,,,,,,,,,,,,,,,,,
+97,router,5,409,rejected,,requested MSD depth does not match materialized P4 path depth,0.137,,,,,,,,,,,,,,,,,,,,,
+98,voc,5,409,rejected,,requested MSD depth does not match materialized P4 path depth,0.192,,,,,,,,,,,,,,,,,,,,,
+99,voc,4,200,steered,vnf-voc-1a081337,,0.22,4,-0.096,10.755,36.0,0.082,True,0.234,0,worker2,23.904,27.567,0.742,2-1-6-7,20,20,http,6,26.509,vnf-voc-237923df,0,"{""src_egress_srv6"": 103, ""place_host_decap"": 101, ""host_vxlan"": 202, ""src_return"": 101}"
+100,idps,4,409,rejected,,requested MSD depth does not match materialized P4 path depth,0.101,,,,,,,,,,,,,,,,,,,,,
+101,nat,4,409,rejected,,requested MSD depth does not match materialized P4 path depth,0.113,,,,,,,,,,,,,,,,,,,,,
+102,lb,4,200,steered,vnf-lb-42157303,,0.185,4,-0.234,4.93,32.0,0.025,True,0.205,0,worker1,16.766,19.142,0.736,10-9-6-5,20,20,icmp,4,18.175,vnf-lb-f5f63e78,0,"{""src_egress_srv6"": 24, ""place_host_decap"": 20, ""host_vxlan"": 40, ""src_return"": 20}"
+103,firewall,2,409,rejected,,requested MSD depth does not match materialized P4 path depth,0.128,,,,,,,,,,,,,,,,,,,,,
+104,data,2,200,steered,vnf-data-d9296f2b,,0.179,2,-0.827,2.23,34.0,0.031,True,0.198,0,worker2,18.173,20.848,0.346,8-7,20,20,icmp,6,20.273,vnf-data-37c635b5,0,"{""src_egress_srv6"": 22, ""place_host_decap"": 20, ""host_vxlan"": 40, ""src_return"": 20}"
+105,video,4,409,rejected,,requested MSD depth does not match materialized P4 path depth,0.151,,,,,,,,,,,,,,,,,,,,,
+106,router,2,409,rejected,,requested MSD depth does not match materialized P4 path depth,0.142,,,,,,,,,,,,,,,,,,,,,
+107,voc,4,200,steered,vnf-voc-8b90635a,,0.177,4,-0.705,10.565,36.0,0.018,True,0.201,0,worker1,23.295,27.395,0.698,10-9-6-5,20,20,http,4,26.479,vnf-voc-79ec0a10,0,"{""src_egress_srv6"": 104, ""place_host_decap"": 100, ""host_vxlan"": 200, ""src_return"": 100}"
+108,voc,5,409,rejected,,requested MSD depth does not match materialized P4 path depth,0.169,,,,,,,,,,,,,,,,,,,,,
+109,idps,2,409,rejected,,forwarding requires distinct ingress and placement nodes,0.127,,,,,,,,,,,,,,,,,,,,,
+110,nat,5,409,rejected,,requested MSD depth does not match materialized P4 path depth,0.11,,,,,,,,,,,,,,,,,,,,,
+111,lb,3,200,steered,vnf-lb-849742eb,,0.17,3,-0.498,4.1,30.0,0.026,True,0.185,0,worker1,14.502,16.974,0.554,9-6-5,20,20,icmp,4,16.21,vnf-lb-42157303,0,"{""src_egress_srv6"": 22, ""place_host_decap"": 20, ""host_vxlan"": 40, ""src_return"": 20}"
+112,firewall,4,409,rejected,,requested MSD depth does not match materialized P4 path depth,0.157,,,,,,,,,,,,,,,,,,,,,
+113,data,4,200,steered,vnf-data-6ce4038a,,0.172,4,-0.872,4.99,33.0,0.024,True,0.191,0,worker1,17.128,19.118,0.734,2-1-6-5,20,20,icmp,4,18.168,vnf-data-2e97c8c5,0,"{""src_egress_srv6"": 22, ""place_host_decap"": 20, ""host_vxlan"": 40, ""src_return"": 20}"
+114,video,2,409,rejected,,requested MSD depth does not match materialized P4 path depth,0.149,,,,,,,,,,,,,,,,,,,,,
+115,router,3,200,steered,vnf-router-740a9f49,,0.132,3,-0.806,4.06,33.0,0.028,True,0.145,0,worker1,16.194,18.94,0.538,9-6-5,20,20,icmp,4,18.228,vnf-router-bf3efb0a,0,"{""src_egress_srv6"": 22, ""place_host_decap"": 20, ""host_vxlan"": 40, ""src_return"": 20}"
+116,voc,4,409,rejected,,requested MSD depth does not match materialized P4 path depth,0.181,,,,,,,,,,,,,,,,,,,,,
+117,voc,5,409,rejected,,requested MSD depth does not match materialized P4 path depth,0.143,,,,,,,,,,,,,,,,,,,,,
+118,idps,2,409,rejected,,requested MSD depth does not match materialized P4 path depth,0.126,,,,,,,,,,,,,,,,,,,,,
+119,nat,4,409,rejected,,forwarding requires distinct ingress and placement nodes,0.132,,,,,,,,,,,,,,,,,,,,,
+120,lb,4,409,rejected,,requested MSD depth does not match materialized P4 path depth,0.108,,,,,,,,,,,,,,,,,,,,,
+121,firewall,2,409,rejected,,requested MSD depth does not match materialized P4 path depth,0.129,,,,,,,,,,,,,,,,,,,,,
+122,data,2,409,rejected,,requested MSD depth does not match materialized P4 path depth,0.106,,,,,,,,,,,,,,,,,,,,,
+123,video,4,409,rejected,,requested MSD depth does not match materialized P4 path depth,0.098,,,,,,,,,,,,,,,,,,,,,
+124,router,3,409,rejected,,forwarding requires distinct ingress and placement nodes,0.158,,,,,,,,,,,,,,,,,,,,,
+125,voc,3,200,steered,vnf-voc-232fa8db,,0.184,3,-0.279,9.356,35.0,0.026,True,0.2,0,worker1,23.721,25.211,0.527,1-6-5,20,20,http,4,24.457,vnf-voc-8b90635a,0,"{""src_egress_srv6"": 102, ""place_host_decap"": 100, ""host_vxlan"": 200, ""src_return"": 100}"
+126,voc,5,409,rejected,,requested MSD depth does not match materialized P4 path depth,0.156,,,,,,,,,,,,,,,,,,,,,
+127,idps,4,200,steered,vnf-idps-6f9a6794,,0.163,4,-0.763,3.6,35.0,0.033,True,0.178,0,worker1,17.237,19.127,0.667,8-7-6-5,20,20,icmp,4,18.249,vnf-idps-0bbfc73a,0,"{""src_egress_srv6"": 22, ""place_host_decap"": 20, ""host_vxlan"": 40, ""src_return"": 20}"
+128,nat,5,409,rejected,,requested MSD depth does not match materialized P4 path depth,0.119,,,,,,,,,,,,,,,,,,,,,
+129,lb,3,200,steered,vnf-lb-c7266b57,,0.115,3,-0.986,2.73,35.0,0.027,True,0.128,0,worker1,17.014,20.908,0.508,3-4-5,20,20,icmp,4,20.245,vnf-lb-849742eb,0,"{""src_egress_srv6"": 22, ""place_host_decap"": 20, ""host_vxlan"": 40, ""src_return"": 20}"
+130,firewall,4,409,rejected,,forwarding requires distinct ingress and placement nodes,0.12,,,,,,,,,,,,,,,,,,,,,
+131,data,4,409,rejected,,requested MSD depth does not match materialized P4 path depth,0.144,,,,,,,,,,,,,,,,,,,,,
+132,video,2,409,rejected,,requested MSD depth does not match materialized P4 path depth,0.136,,,,,,,,,,,,,,,,,,,,,
+133,router,2,409,rejected,,requested MSD depth does not match materialized P4 path depth,0.122,,,,,,,,,,,,,,,,,,,,,
+134,voc,2,409,rejected,,requested MSD depth does not match materialized P4 path depth,0.108,,,,,,,,,,,,,,,,,,,,,
+135,voc,3,200,steered,vnf-voc-d9eb8c7f,,0.184,3,-0.013,8.936,35.0,0.034,True,0.207,0,worker1,22.987,25.187,0.484,9-6-5,20,20,http,4,24.462,vnf-voc-232fa8db,0,"{""src_egress_srv6"": 102, ""place_host_decap"": 100, ""host_vxlan"": 200, ""src_return"": 100}"
+136,idps,2,409,rejected,,requested MSD depth does not match materialized P4 path depth,0.149,,,,,,,,,,,,,,,,,,,,,
+137,nat,2,409,rejected,,requested MSD depth does not match materialized P4 path depth,0.123,,,,,,,,,,,,,,,,,,,,,
+138,lb,5,409,rejected,,requested MSD depth does not match materialized P4 path depth,0.101,,,,,,,,,,,,,,,,,,,,,
+139,firewall,3,409,rejected,,requested MSD depth does not match materialized P4 path depth,0.115,,,,,,,,,,,,,,,,,,,,,
+140,data,5,409,rejected,,forwarding requires distinct ingress and placement nodes,0.101,,,,,,,,,,,,,,,,,,,,,
+141,video,3,409,rejected,,forwarding requires distinct ingress and placement nodes,0.126,,,,,,,,,,,,,,,,,,,,,
+142,router,3,409,rejected,,requested MSD depth does not match materialized P4 path depth,0.119,,,,,,,,,,,,,,,,,,,,,
+143,voc,3,409,rejected,,requested MSD depth does not match materialized P4 path depth,0.119,,,,,,,,,,,,,,,,,,,,,
+144,voc,3,200,steered,vnf-voc-f6b1a5cf,,0.132,3,-0.816,6.007,37.0,0.021,True,0.146,0,worker1,24.184,27.174,0.515,7-6-5,20,20,http,4,26.492,vnf-voc-d9eb8c7f,0,"{""src_egress_srv6"": 102, ""place_host_decap"": 100, ""host_vxlan"": 200, ""src_return"": 100}"
+145,idps,4,409,rejected,,requested MSD depth does not match materialized P4 path depth,0.124,,,,,,,,,,,,,,,,,,,,,
+146,nat,5,409,rejected,,forwarding requires distinct ingress and placement nodes,0.158,,,,,,,,,,,,,,,,,,,,,
+147,lb,2,409,rejected,,requested MSD depth does not match materialized P4 path depth,0.11,,,,,,,,,,,,,,,,,,,,,
+148,firewall,5,409,rejected,,requested MSD depth does not match materialized P4 path depth,0.123,,,,,,,,,,,,,,,,,,,,,

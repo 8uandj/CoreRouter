@@ -33,3 +33,6 @@ gcp-key.json
 /AIO-mesh-submit-2/**/venv/
 /AIO-mesh-submit-2/**/__pycache__/
 /AIO-mesh-submit-2/**/*.pyc
+
+# Cluster-wide Job dump with third-party credentials (onap, fleet-local); kept only on the testbed host
+/AIO-mesh-submit-2/results/hil_export/hil_rev1_20261121/02_forwarding_overmsd/original/rebuild_20261117T123405Z/phase9_pre_restart/jobs.json

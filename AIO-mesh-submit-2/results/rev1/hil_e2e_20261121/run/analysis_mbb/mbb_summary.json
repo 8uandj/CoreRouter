@@ -1,0 +1,29 @@
+{
+  "migrations": 23,
+  "order_ok": 23,
+  "final_states": {
+    "BREAK_UNCONFIRMED": 4,
+    "COMPLETED": 19
+  },
+  "ready_to_confirm_s": {
+    "n": 23,
+    "p50": 0.613,
+    "p95": 1.292,
+    "p99": 1.414,
+    "max": 1.414
+  },
+  "confirm_to_break_s": {
+    "n": 23,
+    "p50": 1.418,
+    "p95": 1.646,
+    "p99": 1.669,
+    "max": 1.669
+  },
+  "break_to_terminal_s": {
+    "n": 23,
+    "p50": 30.386,
+    "p95": 32.591,
+    "p99": 34.23,
+    "max": 34.23
+  }
+}

@@ -1,0 +1,22 @@
+UID                 PID                 PPID                C                   STIME               TTY                 TIME                CMD
+root                2883198             2883146             0                   16:27               pts/0               00:00:01            /home/CoreRouter/venv/bin/python3 infrastructure/sdn/topo_p4.py --p4
+root                2883299             2883198             0                   16:27               pts/2               00:00:00            bash --norc --noediting -is mininet:h1
+root                2883320             2883198             0                   16:27               pts/3               00:00:00            bash --norc --noediting -is mininet:h2
+root                2883328             2883198             0                   16:27               pts/5               00:00:00            bash --norc --noediting -is mininet:h3
+root                2883373             2883198             0                   16:27               pts/6               00:00:00            bash --norc --noediting -is mininet:h4
+root                2883380             2883198             0                   16:27               pts/7               00:00:00            bash --norc --noediting -is mininet:h5
+root                2883385             2883198             0                   16:27               pts/8               00:00:00            bash --norc --noediting -is mininet:h6
+root                2883420             2883198             0                   16:27               pts/9               00:00:00            bash --norc --noediting -is mininet:h7
+root                2883457             2883198             0                   16:27               pts/10              00:00:00            bash --norc --noediting -is mininet:h8
+root                2883493             2883198             0                   16:27               pts/11              00:00:00            bash --norc --noediting -is mininet:h9
+root                2883496             2883198             0                   16:27               pts/12              00:00:00            bash --norc --noediting -is mininet:h10
+root                2883503             2883198             0                   16:27               pts/13              00:00:00            bash --norc --noediting -is mininet:s1
+root                2883506             2883198             0                   16:27               pts/14              00:00:00            bash --norc --noediting -is mininet:s2
+root                2883509             2883198             0                   16:27               pts/15              00:00:00            bash --norc --noediting -is mininet:s3
+root                2883512             2883198             0                   16:27               pts/16              00:00:00            bash --norc --noediting -is mininet:s4
+root                2883517             2883198             0                   16:27               pts/17              00:00:00            bash --norc --noediting -is mininet:s5
+root                2883521             2883198             0                   16:27               pts/18              00:00:00            bash --norc --noediting -is mininet:s6
+root                2883569             2883198             0                   16:27               pts/19              00:00:00            bash --norc --noediting -is mininet:s7
+root                2883574             2883198             0                   16:27               pts/20              00:00:00            bash --norc --noediting -is mininet:s8
+root                2883598             2883198             0                   16:27               pts/21              00:00:00            bash --norc --noediting -is mininet:s9
+root                2883615             2883198             0                   16:27               pts/22              00:00:00            bash --norc --noediting -is mininet:s10

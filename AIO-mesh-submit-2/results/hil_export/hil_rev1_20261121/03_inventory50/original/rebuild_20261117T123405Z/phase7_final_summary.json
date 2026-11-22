@@ -1,0 +1,24 @@
+{
+  "sqlite_integrity": "ok",
+  "sqlite_topology": "67131a546450606da19276263b00d23988d13fd71c17be38cb24a12637fe9f11",
+  "sqlite_active_records": 7,
+  "sqlite_unknown": 0,
+  "sqlite_sha256": "b462ac0e4532e670c91a02c70933f5dd4655c2c3192b448e0c30167f8eee6ea4",
+  "api_persistence": "durable",
+  "api_active_records": 7,
+  "api_unknown": 0,
+  "api_alert_flag": false,
+  "deployments": [
+    "vnf-attack-004e219d",
+    "vnf-attack-0faeed9f",
+    "vnf-attack-228edabf",
+    "vnf-attack-2f0aa313",
+    "vnf-attack-57b6f205",
+    "vnf-attack-8bf0425e",
+    "vnf-attack-af13f6df"
+  ],
+  "deployment_count": 7,
+  "ready_all": true,
+  "nonterminal_pipelineruns": [],
+  "migration_journal_integrity": "ok"
+}

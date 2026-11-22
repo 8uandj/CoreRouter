@@ -1,0 +1,287 @@
+{
+  "request_id": "vnf-voc-59e617b3",
+  "src_host": "h4",
+  "place_host": "h5",
+  "switch_path": [
+    4,
+    5
+  ],
+  "sid_stack_final_to_first": [
+    "fc00:5::1",
+    "fc00:4::1"
+  ],
+  "pod_ip": "10.1.235.185",
+  "n": 20,
+  "t": {
+    "counters_before_utc": "2026-11-21T20:09:31.336826+00:00",
+    "send_start_utc": "2026-11-21T20:09:38.773920+00:00",
+    "send_end_utc": "2026-11-21T20:09:40.147940+00:00",
+    "counters_after_utc": "2026-11-21T20:09:40.148688+00:00"
+  },
+  "counters_before": {
+    "s4": {
+      "advance": 760,
+      "terminal": 40,
+      "msd_violation": 0
+    },
+    "s5": {
+      "advance": 180,
+      "terminal": 3171,
+      "msd_violation": 50
+    }
+  },
+  "src_setup": {
+    "switch_port": "s4-eth1",
+    "switch_port_mac": "4a:13:7e:88:d7:d3",
+    "seg6_segs_traversal": [
+      "fc00:4::1",
+      "fc00:5::1"
+    ],
+    "commands": "ethtool -K h4-eth0 tx off >/dev/null; ip -6 addr replace 2001:db8:100::4/64 dev h4-eth0 nodad; ip -6 route replace fc00::/16 dev h4-eth0; ip -6 neigh replace fc00:4::1 lladdr 4a:13:7e:88:d7:d3 dev h4-eth0 nud permanent; ip route replace 10.1.235.185/32 encap seg6 mode encap segs fc00:4::1,fc00:5::1 dev h4-eth0; ip route get 10.1.235.185",
+    "output": "10.1.235.185 dev h4-eth0 src 10.0.0.4 uid 0 \n    cache \n"
+  },
+  "mode": "http",
+  "http": [
+    {
+      "seq": 1,
+      "sent_utc": "2026-11-21T20:09:39.293772423",
+      "http_code": 404,
+      "time_connect_s": 0.001969,
+      "time_total_s": 0.004159,
+      "body": "{\"error\": \"not_found\", \"path\": \"/e2e/vnf-voc-59e617b3/01\"}",
+      "marker_echoed_by_vnf": true
+    },
+    {
+      "seq": 2,
+      "sent_utc": "2026-11-21T20:09:39.314394819",
+      "http_code": 404,
+      "time_connect_s": 0.002134,
+      "time_total_s": 0.005232,
+      "body": "{\"error\": \"not_found\", \"path\": \"/e2e/vnf-voc-59e617b3/02\"}",
+      "marker_echoed_by_vnf": true
+    },
+    {
+      "seq": 3,
+      "sent_utc": "2026-11-21T20:09:39.335500429",
+      "http_code": 404,
+      "time_connect_s": 0.002352,
+      "time_total_s": 0.005246,
+      "body": "{\"error\": \"not_found\", \"path\": \"/e2e/vnf-voc-59e617b3/03\"}",
+      "marker_echoed_by_vnf": true
+    },
+    {
+      "seq": 4,
+      "sent_utc": "2026-11-21T20:09:39.359774164",
+      "http_code": 404,
+      "time_connect_s": 0.002272,
+      "time_total_s": 0.005221,
+      "body": "{\"error\": \"not_found\", \"path\": \"/e2e/vnf-voc-59e617b3/04\"}",
+      "marker_echoed_by_vnf": true
+    },
+    {
+      "seq": 5,
+      "sent_utc": "2026-11-21T20:09:39.384527515",
+      "http_code": 404,
+      "time_connect_s": 0.002168,
+      "time_total_s": 0.004999,
+      "body": "{\"error\": \"not_found\", \"path\": \"/e2e/vnf-voc-59e617b3/05\"}",
+      "marker_echoed_by_vnf": true
+    },
+    {
+      "seq": 6,
+      "sent_utc": "2026-11-21T20:09:39.406557201",
+      "http_code": 404,
+      "time_connect_s": 0.002352,
+      "time_total_s": 0.004985,
+      "body": "{\"error\": \"not_found\", \"path\": \"/e2e/vnf-voc-59e617b3/06\"}",
+      "marker_echoed_by_vnf": true
+    },
+    {
+      "seq": 7,
+      "sent_utc": "2026-11-21T20:09:39.440204986",
+      "http_code": 404,
+      "time_connect_s": 0.00189,
+      "time_total_s": 0.004257,
+      "body": "{\"error\": \"not_found\", \"path\": \"/e2e/vnf-voc-59e617b3/07\"}",
+      "marker_echoed_by_vnf": true
+    },
+    {
+      "seq": 8,
+      "sent_utc": "2026-11-21T20:09:39.465734021",
+      "http_code": 404,
+      "time_connect_s": 0.002039,
+      "time_total_s": 0.004455,
+      "body": "{\"error\": \"not_found\", \"path\": \"/e2e/vnf-voc-59e617b3/08\"}",
+      "marker_echoed_by_vnf": true
+    },
+    {
+      "seq": 9,
+      "sent_utc": "2026-11-21T20:09:39.490945039",
+      "http_code": 404,
+      "time_connect_s": 0.002194,
+      "time_total_s": 0.004754,
+      "body": "{\"error\": \"not_found\", \"path\": \"/e2e/vnf-voc-59e617b3/09\"}",
+      "marker_echoed_by_vnf": true
+    },
+    {
+      "seq": 10,
+      "sent_utc": "2026-11-21T20:09:39.512260642",
+      "http_code": 404,
+      "time_connect_s": 0.002042,
+      "time_total_s": 0.004565,
+      "body": "{\"error\": \"not_found\", \"path\": \"/e2e/vnf-voc-59e617b3/10\"}",
+      "marker_echoed_by_vnf": true
+    },
+    {
+      "seq": 11,
+      "sent_utc": "2026-11-21T20:09:39.534395162",
+      "http_code": 404,
+      "time_connect_s": 0.002101,
+      "time_total_s": 0.004855,
+      "body": "{\"error\": \"not_found\", \"path\": \"/e2e/vnf-voc-59e617b3/11\"}",
+      "marker_echoed_by_vnf": true
+    },
+    {
+      "seq": 12,
+      "sent_utc": "2026-11-21T20:09:39.557841225",
+      "http_code": 404,
+      "time_connect_s": 0.002032,
+      "time_total_s": 0.004452,
+      "body": "{\"error\": \"not_found\", \"path\": \"/e2e/vnf-voc-59e617b3/12\"}",
+      "marker_echoed_by_vnf": true
+    },
+    {
+      "seq": 13,
+      "sent_utc": "2026-11-21T20:09:39.584026219",
+      "http_code": 404,
+      "time_connect_s": 0.002403,
+      "time_total_s": 0.005153,
+      "body": "{\"error\": \"not_found\", \"path\": \"/e2e/vnf-voc-59e617b3/13\"}",
+      "marker_echoed_by_vnf": true
+    },
+    {
+      "seq": 14,
+      "sent_utc": "2026-11-21T20:09:39.613538479",
+      "http_code": 404,
+      "time_connect_s": 0.002536,
+      "time_total_s": 0.005384,
+      "body": "{\"error\": \"not_found\", \"path\": \"/e2e/vnf-voc-59e617b3/14\"}",
+      "marker_echoed_by_vnf": true
+    },
+    {
+      "seq": 15,
+      "sent_utc": "2026-11-21T20:09:39.639149442",
+      "http_code": 404,
+      "time_connect_s": 0.002363,
+      "time_total_s": 0.004881,
+      "body": "{\"error\": \"not_found\", \"path\": \"/e2e/vnf-voc-59e617b3/15\"}",
+      "marker_echoed_by_vnf": true
+    },
+    {
+      "seq": 16,
+      "sent_utc": "2026-11-21T20:09:39.696999056",
+      "http_code": 404,
+      "time_connect_s": 0.002351,
+      "time_total_s": 0.009313,
+      "body": "{\"error\": \"not_found\", \"path\": \"/e2e/vnf-voc-59e617b3/16\"}",
+      "marker_echoed_by_vnf": true
+    },
+    {
+      "seq": 17,
+      "sent_utc": "2026-11-21T20:09:39.727441664",
+      "http_code": 404,
+      "time_connect_s": 0.005235,
+      "time_total_s": 0.007395,
+      "body": "{\"error\": \"not_found\", \"path\": \"/e2e/vnf-voc-59e617b3/17\"}",
+      "marker_echoed_by_vnf": true
+    },
+    {
+      "seq": 18,
+      "sent_utc": "2026-11-21T20:09:39.759259775",
+      "http_code": 404,
+      "time_connect_s": 0.005348,
+      "time_total_s": 0.007538,
+      "body": "{\"error\": \"not_found\", \"path\": \"/e2e/vnf-voc-59e617b3/18\"}",
+      "marker_echoed_by_vnf": true
+    },
+    {
+      "seq": 19,
+      "sent_utc": "2026-11-21T20:09:39.789875000",
+      "http_code": 404,
+      "time_connect_s": 0.002276,
+      "time_total_s": 0.004808,
+      "body": "{\"error\": \"not_found\", \"path\": \"/e2e/vnf-voc-59e617b3/19\"}",
+      "marker_echoed_by_vnf": true
+    },
+    {
+      "seq": 20,
+      "sent_utc": "2026-11-21T20:09:39.815912524",
+      "http_code": 404,
+      "time_connect_s": 0.002511,
+      "time_total_s": 0.00501,
+      "body": "{\"error\": \"not_found\", \"path\": \"/e2e/vnf-voc-59e617b3/20\"}",
+      "marker_echoed_by_vnf": true
+    }
+  ],
+  "counters_after": {
+    "s4": {
+      "advance": 860,
+      "terminal": 40,
+      "msd_violation": 0
+    },
+    "s5": {
+      "advance": 180,
+      "terminal": 3271,
+      "msd_violation": 50
+    }
+  },
+  "counter_delta": {
+    "s4": {
+      "advance": 100,
+      "terminal": 0,
+      "msd_violation": 0
+    },
+    "s5": {
+      "advance": 0,
+      "terminal": 100,
+      "msd_violation": 0
+    }
+  },
+  "src_teardown": "10.0.0.0/24 dev h4-eth0 proto kernel scope link src 10.0.0.4 \n10.1.0.0/16 via 10.1.240.1 dev veth-h4-mn \n",
+  "captured_packets": {
+    "src_egress_srv6": 102,
+    "place_host_decap": 100,
+    "host_vxlan": 200,
+    "src_return": 100
+  },
+  "summary": {
+    "sent": 20,
+    "app_received": 20,
+    "loss": 0,
+    "http_codes": [
+      404
+    ],
+    "rtt_total_ms": [
+      4.159,
+      4.257,
+      4.452,
+      4.455,
+      4.565,
+      4.754,
+      4.808,
+      4.855,
+      4.881,
+      4.985,
+      4.999,
+      5.01,
+      5.153,
+      5.221,
+      5.232,
+      5.246,
+      5.384,
+      7.395,
+      7.538,
+      9.313
+    ]
+  }
+}

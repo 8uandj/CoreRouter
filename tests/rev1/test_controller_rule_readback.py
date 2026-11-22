@@ -76,6 +76,7 @@ class ControllerRuleReadbackTests(unittest.TestCase):
             "prefix_len": 128,
             "action_name": "ipv6_forward",
             "action_params": ["020000000021", "020000000012", "2"],
+            "action_params_hex": ["020000000021", "020000000012", "02"],
         }])
 
     def test_exact_route_rule_matches_full_action_and_parameters(self):
@@ -112,6 +113,17 @@ class ControllerRuleReadbackTests(unittest.TestCase):
             entry, "fc00:9::1", "exact", "srv6_end_dx4",
             ["00:00:00:00:00:09", "8a:ad:e9:47:ad:01", 1],
         ))
+
+    def test_end_dx4_matches_compact_mac_with_hex_letter(self):
+        """Regression (HIL 2026-11-21): h10's MAC 00:00:00:00:00:0a prints as '0a'."""
+        dump = END_DX4_DUMP.replace("fc000009", "fc000010").replace("- 09, 8aade947ad01, 01", "- 0a, 3225a8ea71ce, 01")
+        entry = parse_table_dump(dump)[0]
+        self.assertTrue(table_entry_matches(
+            entry, "fc00:10::1", "exact", "srv6_end_dx4",
+            ["00:00:00:00:00:0a", "32:25:a8:ea:71:ce", 1]))
+        self.assertFalse(table_entry_matches(
+            entry, "fc00:10::1", "exact", "srv6_end_dx4",
+            ["00:00:00:00:00:10", "32:25:a8:ea:71:ce", 1]))
 
     def test_malformed_table_dump_fails_closed(self):
         with self.assertRaisesRegex(ValueError, "unrecognized"):

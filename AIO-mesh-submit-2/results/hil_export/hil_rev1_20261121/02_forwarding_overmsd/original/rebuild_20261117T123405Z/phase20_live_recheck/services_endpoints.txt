@@ -1,0 +1,61 @@
+NAME                                  TYPE        CLUSTER-IP       EXTERNAL-IP   PORT(S)        AGE    SELECTOR
+service/ai-scaled-firewall-75-svc     ClusterIP   10.152.183.73    <none>        80/TCP         186d   app=ai-scaled-firewall-75
+service/ai-scaled-firewall-827-svc    ClusterIP   10.152.183.32    <none>        80/TCP         191d   app=ai-scaled-firewall-827
+service/ai-scaled-firewall-900-svc    ClusterIP   10.152.183.141   <none>        80/TCP         186d   app=ai-scaled-firewall-900
+service/ai-scaled-firewall-96-svc     ClusterIP   10.152.183.237   <none>        80/TCP         191d   app=ai-scaled-firewall-96
+service/ai-scaled-idps-226-svc        ClusterIP   10.152.183.19    <none>        80/TCP         186d   app=ai-scaled-idps-226
+service/ai-scaled-idps-632-svc        ClusterIP   10.152.183.241   <none>        80/TCP         186d   app=ai-scaled-idps-632
+service/ai-scaled-idps-658-svc        ClusterIP   10.152.183.121   <none>        80/TCP         186d   app=ai-scaled-idps-658
+service/firewall-hn-1-svc             ClusterIP   10.152.183.165   <none>        80/TCP         186d   app=firewall-hn-1
+service/string-svc                    ClusterIP   10.152.183.230   <none>        2601/TCP       191d   app=string
+service/vnf-attack-004e219d-svc       ClusterIP   10.152.183.49    <none>        80/TCP         183d   app=vnf-attack-004e219d
+service/vnf-attack-0faeed9f-svc       ClusterIP   10.152.183.209   <none>        80/TCP         184d   app=vnf-attack-0faeed9f
+service/vnf-attack-228edabf-svc       ClusterIP   10.152.183.182   <none>        80/TCP         184d   app=vnf-attack-228edabf
+service/vnf-attack-26b864df-svc       ClusterIP   10.152.183.7     <none>        80/TCP         179d   app=vnf-attack-26b864df
+service/vnf-attack-2f0aa313-svc       ClusterIP   10.152.183.79    <none>        80/TCP         183d   app=vnf-attack-2f0aa313
+service/vnf-attack-57b6f205-svc       ClusterIP   10.152.183.196   <none>        80/TCP         184d   app=vnf-attack-57b6f205
+service/vnf-attack-8bf0425e-svc       ClusterIP   10.152.183.149   <none>        80/TCP         184d   app=vnf-attack-8bf0425e
+service/vnf-attack-af13f6df-svc       ClusterIP   10.152.183.245   <none>        80/TCP         184d   app=vnf-attack-af13f6df
+service/vnf-attack-b34ee84e-mig-svc   ClusterIP   10.152.183.4     <none>        2601/TCP       179d   app=vnf-attack-b34ee84e-mig
+service/vnf-data-b26e4918-mig-svc     ClusterIP   10.152.183.2     <none>        2601/TCP       179d   app=vnf-data-b26e4918-mig
+service/vnf-firewall-hp-04-svc        ClusterIP   10.152.183.127   <none>        80/TCP         179d   app=vnf-firewall-hp-04
+service/vnf-lb-hcm-03-svc             NodePort    10.152.183.188   <none>        80:30528/TCP   179d   app=vnf-lb-hcm-03
+service/vnf-lb-hp-03-svc              NodePort    10.152.183.61    <none>        80:30455/TCP   179d   app=vnf-lb-hp-03
+service/vnf-lb-hue-01-svc             NodePort    10.152.183.80    <none>        80:32711/TCP   179d   app=vnf-lb-hue-01
+service/vnf-node-hn-svc               NodePort    10.152.183.185   <none>        80:30951/TCP   175d   app=vnf-node-hn
+service/vnf-test-01-svc               ClusterIP   10.152.183.148   <none>        2601/TCP       192d   app=vnf-test-01
+service/vnf-test-02-svc               ClusterIP   10.152.183.72    <none>        2601/TCP       192d   app=vnf-test-02
+service/vnf-video-90534392-mig-svc    ClusterIP   10.152.183.5     <none>        2601/TCP       179d   app=vnf-video-90534392-mig
+service/vnf-video-ab056843-mig-svc    ClusterIP   10.152.183.15    <none>        2601/TCP       179d   app=vnf-video-ab056843-mig
+service/vnf-voc-phase3-svc            NodePort    10.152.183.236   <none>        80:31656/TCP   192d   app=vnf-voc-phase3
+
+NAME                                    ENDPOINTS         AGE
+endpoints/ai-scaled-firewall-75-svc     <none>            186d
+endpoints/ai-scaled-firewall-827-svc    <none>            191d
+endpoints/ai-scaled-firewall-900-svc    <none>            186d
+endpoints/ai-scaled-firewall-96-svc     <none>            191d
+endpoints/ai-scaled-idps-226-svc        <none>            186d
+endpoints/ai-scaled-idps-632-svc        <none>            186d
+endpoints/ai-scaled-idps-658-svc        <none>            186d
+endpoints/firewall-hn-1-svc             <none>            186d
+endpoints/string-svc                    <none>            191d
+endpoints/vnf-attack-004e219d-svc       10.1.189.159:80   183d
+endpoints/vnf-attack-0faeed9f-svc       10.1.235.205:80   184d
+endpoints/vnf-attack-228edabf-svc       10.1.235.206:80   184d
+endpoints/vnf-attack-26b864df-svc       <none>            179d
+endpoints/vnf-attack-2f0aa313-svc       10.1.235.207:80   183d
+endpoints/vnf-attack-57b6f205-svc       10.1.235.188:80   184d
+endpoints/vnf-attack-8bf0425e-svc       10.1.235.169:80   184d
+endpoints/vnf-attack-af13f6df-svc       10.1.189.166:80   184d
+endpoints/vnf-attack-b34ee84e-mig-svc   <none>            179d
+endpoints/vnf-data-b26e4918-mig-svc     <none>            179d
+endpoints/vnf-firewall-hp-04-svc        <none>            179d
+endpoints/vnf-lb-hcm-03-svc             <none>            179d
+endpoints/vnf-lb-hp-03-svc              <none>            179d
+endpoints/vnf-lb-hue-01-svc             <none>            179d
+endpoints/vnf-node-hn-svc               <none>            175d
+endpoints/vnf-test-01-svc               <none>            192d
+endpoints/vnf-test-02-svc               <none>            192d
+endpoints/vnf-video-90534392-mig-svc    <none>            179d
+endpoints/vnf-video-ab056843-mig-svc    <none>            179d
+endpoints/vnf-voc-phase3-svc            <none>            192d

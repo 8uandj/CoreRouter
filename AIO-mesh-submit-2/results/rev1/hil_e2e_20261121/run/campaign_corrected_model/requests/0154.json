@@ -1,0 +1,28 @@
+{
+  "index": 154,
+  "request": {
+    "service_type": "idps",
+    "cpu_req": 4.0,
+    "ram_req": 2.0,
+    "msd_req": 5,
+    "alert_flag": true,
+    "source_node": 1,
+    "destination_node": 2,
+    "flow_id": "e2e-0154"
+  },
+  "profile": "URLLC",
+  "t": {
+    "submit_utc": "2026-11-21T19:24:48.662615+00:00",
+    "response_utc": "2026-11-21T19:24:48.822951+00:00"
+  },
+  "http_status": 409,
+  "api_rtt_ms": 159.993,
+  "outcome": "rejected",
+  "error": {
+    "status": "error",
+    "code": "NO_SAFE_ACTION",
+    "reason_key": "msd_violation",
+    "message": "materialized path exceeds physical switch MSD profile"
+  },
+  "new_vnfs_after": 20
+}

@@ -1,0 +1,23 @@
+no server running on /tmp/tmux-1000/default
+no server running on /tmp/tmux-1000/default
+1744394 1744333 Ssl     02:30:59 simple_switch --device-id 2 --thrift-port 19092 --log-console --log-level warn -i 1@s2-eth1 -i 2@s2-eth2 /data/srv6_msd_10.json
+1745867 1745818 Ssl     02:30:41 simple_switch --device-id 3 --thrift-port 19093 --log-console --log-level warn -i 1@s3-eth1 -i 2@s3-eth2 -i 3@s3-eth3 /data/srv6_msd_5.json
+1747707 1747655 Ssl     02:30:24 simple_switch --device-id 4 --thrift-port 19094 --log-console --log-level warn -i 1@s4-eth1 -i 2@s4-eth2 -i 3@s4-eth3 /data/srv6_msd_5.json
+1749091 1749045 Ssl     02:30:07 simple_switch --device-id 5 --thrift-port 19095 --log-console --log-level warn -i 1@s5-eth1 -i 2@s5-eth2 -i 3@s5-eth3 /data/srv6_msd_4.json
+1751459 1751242 Ssl     02:29:42 simple_switch --device-id 6 --thrift-port 19096 --log-console --log-level warn -i 1@s6-eth1 -i 4@s6-eth4 -i 2@s6-eth2 -i 3@s6-eth3 -i 5@s6-eth5 /data/srv6_msd_8.json
+1754439 1754376 Ssl     02:29:25 simple_switch --device-id 7 --thrift-port 19097 --log-console --log-level warn -i 1@s7-eth1 -i 2@s7-eth2 -i 3@s7-eth3 /data/srv6_msd_4.json
+1755223 1755166 Ssl     02:29:12 simple_switch --device-id 8 --thrift-port 19098 --log-console --log-level warn -i 1@s8-eth1 -i 2@s8-eth2 -i 3@s8-eth3 /data/srv6_msd_5.json
+1756254 1756227 Ssl     02:28:57 simple_switch --device-id 9 --thrift-port 19099 --log-console --log-level warn -i 1@s9-eth1 -i 4@s9-eth4 -i 2@s9-eth2 -i 3@s9-eth3 /data/srv6_msd_10.json
+2490799 2490736 Ssl        01:54 simple_switch --device-id 1 --thrift-port 19091 --log-console --log-level warn -i 1@s1-eth1 -i 2@s1-eth2 -i 3@s1-eth3 -i 4@s1-eth4 /data/srv6_msd_10.json
+bmv2-s1 Up About a minute
+bmv2-s9 Up 2 hours
+bmv2-s8 Up 2 hours
+bmv2-s7 Up 2 hours
+bmv2-s6 Up 2 hours
+bmv2-s5 Up 3 hours
+bmv2-s4 Up 3 hours
+bmv2-s3 Up 3 hours
+bmv2-s2 Up 3 hours
+curl: (7) Failed to connect to 127.0.0.1 port 8765: Connection refused
+
+{"status":"success","is_migrating":false,"message":"System Idle","latest_pipeline":{"name":"deploy-firewall-508c3d","overallStatus":"Succeeded","tasks":[{"name":"prepare-manifest","status":"Succeeded"},{"name":"instantiate","status":"Succeeded"},{"name":"wait-ready","status":"Succeeded"},{"name":"observe","status":"Succeeded"}]}}

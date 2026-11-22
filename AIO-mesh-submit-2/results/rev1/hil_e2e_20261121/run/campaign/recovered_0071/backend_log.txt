@@ -1,0 +1,12 @@
+2026-11-21T17:27:29.395080179Z INFO:OrchestrationService:PHASE: MAKE - Triggering Tekton for replacement VNF: vnf-voc-f51532ef at hue-1
+2026-11-21T17:27:29.420450436Z INFO:OrchestrationService:PHASE: VERIFY - Polling dynamic endpoint/readiness for vnf-voc-f51532ef
+2026-11-21T17:27:29.429191451Z INFO:     127.0.0.1:57622 - "GET /api/orchestrate/migrations/vnf-voc-f51532ef HTTP/1.1" 200 OK
+2026-11-21T17:27:30.435213508Z INFO:     127.0.0.1:57632 - "GET /api/orchestrate/migrations/vnf-voc-f51532ef HTTP/1.1" 200 OK
+2026-11-21T17:27:31.438382176Z INFO:     127.0.0.1:57648 - "GET /api/orchestrate/migrations/vnf-voc-f51532ef HTTP/1.1" 200 OK
+2026-11-21T17:27:32.444203885Z INFO:     127.0.0.1:57650 - "GET /api/orchestrate/migrations/vnf-voc-f51532ef HTTP/1.1" 200 OK
+2026-11-21T17:27:33.450288453Z INFO:     127.0.0.1:57660 - "GET /api/orchestrate/migrations/vnf-voc-f51532ef HTTP/1.1" 200 OK
+2026-11-21T17:27:34.454604690Z INFO:     127.0.0.1:57664 - "GET /api/orchestrate/migrations/vnf-voc-f51532ef HTTP/1.1" 200 OK
+2026-11-21T17:27:35.460004021Z INFO:     127.0.0.1:57678 - "GET /api/orchestrate/migrations/vnf-voc-f51532ef HTTP/1.1" 200 OK
+2026-11-21T17:27:36.465727102Z INFO:     127.0.0.1:57680 - "GET /api/orchestrate/migrations/vnf-voc-f51532ef HTTP/1.1" 200 OK
+2026-11-21T17:27:37.470754570Z INFO:     127.0.0.1:60108 - "GET /api/orchestrate/migrations/vnf-voc-f51532ef HTTP/1.1" 200 OK
+2026-11-21T17:27:38.476816101Z INFO:     127.0.0.1:60122 - "GET /api/orchestrate/migrations/vnf-voc-f51532ef HTTP/1.1" 200 OK

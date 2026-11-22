@@ -1,0 +1,28 @@
+{
+  "index": 396,
+  "request": {
+    "service_type": "voc",
+    "cpu_req": 11.0,
+    "ram_req": 5.5,
+    "msd_req": 4,
+    "alert_flag": true,
+    "source_node": 7,
+    "destination_node": 9,
+    "flow_id": "e2e-0396"
+  },
+  "profile": "Data",
+  "t": {
+    "submit_utc": "2026-11-21T20:13:24.423142+00:00",
+    "response_utc": "2026-11-21T20:13:24.482037+00:00"
+  },
+  "http_status": 409,
+  "api_rtt_ms": 58.657,
+  "outcome": "rejected",
+  "error": {
+    "status": "error",
+    "code": "NO_SAFE_ACTION",
+    "reason_key": "no_safe_action",
+    "message": "resilience_no_safe_pair_available"
+  },
+  "new_vnfs_after": 29
+}

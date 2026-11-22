@@ -1,0 +1,35 @@
+# captured_utc=2026-11-21T16:26:58Z
+# cmd: bash -c cd /home/CoreRouter && git rev-parse HEAD && git branch --show-current && git status --short && git log --oneline -20 && git reflog -10
+6515a5459d4c64f63d96d29c469bc680d4562dea
+HARP
+6515a54 Add new analysis scripts and results for benchmark completion
+6c964c1 Refresh HARP revision with completed N2 evidence
+3356d89 Update synthetic 100 node benchmark progress log
+0f6e524 Add completed GEANT2 load and chain evidence
+4600427 Add synthetic 100 node model
+da4608a Add synthetic 25 and 50 node models
+91b4957 Add current N-squared ablation models
+b8daa6d Add corrected GEANT2 retrain artifacts
+377f426 Add corrected NSFNET retrain artifacts
+db07e9f Add corrected Vietnam retrain artifacts
+16b9229 Add AIO-Mesh rerun source and current evidence
+4f6b365 Add scripts for load sweep analysis and statistics generation
+7035b43 Refactor documentation and response to reviewers for AIO-Mesh manuscript
+a227658 Merge branch 'HARP' of github.com:8uandj/CoreRouter into HARP
+d3df609 Update audit documentation and source manifest for E1 chain and SID handling
+7b4c7ae Merge remote-tracking branch 'origin/HARP' into HARP-server
+6a8e21e Implement P4 topology and service type enhancements
+73b7e91 Add new scripts for benchmarking and analysis in rev1
+dd5ff67 Merge latest HARP testbed updates into HARP-server
+805efe1 Add scripts for plotting and summarizing manuscript load sweeps and benchmarks
+6515a54 HEAD@{0}: pull --tags origin HARP: Fast-forward
+0f6e524 HEAD@{1}: pull --tags origin HARP: Fast-forward
+4f6b365 HEAD@{2}: commit: Add scripts for load sweep analysis and statistics generation
+7035b43 HEAD@{3}: commit: Refactor documentation and response to reviewers for AIO-Mesh manuscript
+a227658 HEAD@{4}: pull --tags origin HARP: Merge made by the 'recursive' strategy.
+d3df609 HEAD@{5}: commit: Update audit documentation and source manifest for E1 chain and SID handling
+6a8e21e HEAD@{6}: commit: Implement P4 topology and service type enhancements
+29e12df HEAD@{7}: commit: Add SRv6 functionality and tests for P4 pair realization and controller rule readback
+7f4a5eb HEAD@{8}: pull --tags origin HARP: Fast-forward
+a6c3cd2 HEAD@{9}: commit: Refactor migration lock retrieval in orchestration router and update env.py for future annotations
+# exit=0

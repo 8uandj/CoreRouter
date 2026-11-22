@@ -1,0 +1,113 @@
+{
+  "protocol": "live-api-admission-concurrency-noreset-v1",
+  "started_utc": "2026-11-21T16:43:51.137600+00:00",
+  "argv": [
+    "scripts/run_admission_concurrency.py",
+    "04_new_experiments/admission_concurrency_attempt2",
+    "--requests",
+    "200",
+    "--levels",
+    "1",
+    "2",
+    "4",
+    "8",
+    "16",
+    "--seeds",
+    "42",
+    "43",
+    "44"
+  ],
+  "python": "3.8.10",
+  "platform": "Linux-5.4.0-216-generic-x86_64-with-glibc2.29",
+  "requests_per_level": 200,
+  "levels": [
+    1,
+    2,
+    4,
+    8,
+    16
+  ],
+  "seeds": [
+    42,
+    43,
+    44
+  ],
+  "actuation": "disabled by construction (alert_flag=false, no pps, no Attack service)",
+  "reset_used": false,
+  "script_sha256": "8d819bbdb773d1c86f4f02d450dac5e69542993b375a78181a1fcd8f286a6ab7",
+  "source_sha256": {
+    "src/analytics/benchmark/benchmark_testbed/http_client.py": "3bb3b9cc00d5a4b17e32a22cfb5c10fcb19db37877e0c94bcb00443144976b8a",
+    "src/analytics/benchmark/benchmark_testbed/run_concurrency.py": "2f450d888e60fb14894a280558a037c01b5cea568a1f3a3c5a3faa96e88e2162",
+    "src/analytics/benchmark/benchmark_testbed/scenarios/common.py": "73a650ed5bd76e1512f1e18e6644cabf9b5db7408b998d3c89a674ee26f0f42d",
+    "src/portal/backend/app/routers/orchestration_router.py": "1e696502a450ea7049405ac1e68eccc55435f002d222267623fd351d28ae36d4",
+    "src/portal/backend/app/services/hybrid_decision.py": "9464d166a072e51673859e68e819e71cd45a1b15ff27fe40c7751df057daa7c8"
+  },
+  "ledger_backup_before_sha256": "52b573b70cdef5a18a556881ba2dc74b0cc6093d3d114a8b5db36d877e492b24",
+  "state_before": {
+    "http": 200,
+    "mode": "drl",
+    "alert_flag": false,
+    "state_version": 18609,
+    "global_utilization": 0.4259999692440033,
+    "reservation_persistence": "durable",
+    "unaccounted_vnfs": [],
+    "active_vnf_names": [
+      "vnf-attack-004e219d",
+      "vnf-attack-0faeed9f",
+      "vnf-attack-228edabf",
+      "vnf-attack-2f0aa313",
+      "vnf-attack-57b6f205",
+      "vnf-attack-8bf0425e",
+      "vnf-attack-af13f6df"
+    ]
+  },
+  "msd_drops_before": {
+    "s1": 0,
+    "s2": 0,
+    "s3": 0,
+    "s4": 0,
+    "s5": 0,
+    "s6": 0,
+    "s7": 0,
+    "s8": 0,
+    "s9": 0,
+    "s10": 0
+  },
+  "state_after": {
+    "http": 200,
+    "mode": "drl",
+    "alert_flag": false,
+    "state_version": 22331,
+    "global_utilization": 0.4259999692440033,
+    "reservation_persistence": "durable",
+    "unaccounted_vnfs": [],
+    "active_vnf_names": [
+      "vnf-attack-004e219d",
+      "vnf-attack-0faeed9f",
+      "vnf-attack-228edabf",
+      "vnf-attack-2f0aa313",
+      "vnf-attack-57b6f205",
+      "vnf-attack-8bf0425e",
+      "vnf-attack-af13f6df"
+    ]
+  },
+  "msd_drops_after": {
+    "s1": 0,
+    "s2": 0,
+    "s3": 0,
+    "s4": 0,
+    "s5": 0,
+    "s6": 0,
+    "s7": 0,
+    "s8": 0,
+    "s9": 0,
+    "s10": 0
+  },
+  "ledger_backup_after_sha256": "602a778fb6b6055213b78bef4b21dc90a845c64a392f3ea07be0b396fd28be81",
+  "finished_utc": "2026-11-21T16:49:01.289566+00:00",
+  "free_calls": {
+    "total": 353,
+    "ok": 353
+  },
+  "baseline_unchanged": true
+}

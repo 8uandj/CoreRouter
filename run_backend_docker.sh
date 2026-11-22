@@ -36,12 +36,13 @@ run_container() {
         --restart unless-stopped \
         -v /var/snap/microk8s/current/credentials/client.config:/root/.kube/config:ro \
         -v "$PROJECT_ROOT/results/rev1/runtime:/app/results/rev1/runtime" \
+        -v "$PROJECT_ROOT/results/models/retrain_v11_20261119_corrected:/app/results/models/retrain_v11_20261119_corrected:ro" \
         -e CORE_ROUTER_RESERVATION_DB=results/rev1/runtime/reservations.sqlite3 \
         -e CORE_ROUTER_MIGRATION_JOURNAL=results/rev1/runtime/migrations.sqlite3 \
         -e JO_VPPM_ENABLE_MODEL=1 \
         -e JO_VPPM_REQUIRE_MODEL=1 \
-        -e JO_VPPM_MODEL_PATH=results/models/v11/dgrl_v11_final_vietnam.zip \
-        -e JO_VPPM_SCALER_PATH=results/models/v11/vec_normalize_v11_vietnam.pkl \
+        -e JO_VPPM_MODEL_PATH="${JO_VPPM_MODEL_PATH:-results/models/retrain_v11_20261119_corrected/vietnam/dgrl_v11_final_vietnam.zip}" \
+        -e JO_VPPM_SCALER_PATH="${JO_VPPM_SCALER_PATH:-results/models/retrain_v11_20261119_corrected/vietnam/vec_normalize_v11_vietnam.pkl}" \
         -e JO_VPPM_BIGRU_MODEL_PATH="${JO_VPPM_BIGRU_MODEL_PATH:-}" \
         -e JO_VPPM_FORECAST_PPS_THRESHOLD="${JO_VPPM_FORECAST_PPS_THRESHOLD:-800}" \
         "$IMAGE"

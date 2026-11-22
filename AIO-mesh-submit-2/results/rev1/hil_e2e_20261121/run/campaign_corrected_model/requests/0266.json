@@ -1,0 +1,28 @@
+{
+  "index": 266,
+  "request": {
+    "service_type": "data",
+    "cpu_req": 5.0,
+    "ram_req": 2.5,
+    "msd_req": 4,
+    "alert_flag": true,
+    "source_node": 4,
+    "destination_node": 4,
+    "flow_id": "e2e-0266"
+  },
+  "profile": "URLLC",
+  "t": {
+    "submit_utc": "2026-11-21T19:46:51.769770+00:00",
+    "response_utc": "2026-11-21T19:46:51.898959+00:00"
+  },
+  "http_status": 409,
+  "api_rtt_ms": 128.849,
+  "outcome": "rejected",
+  "error": {
+    "status": "error",
+    "code": "NO_SAFE_ACTION",
+    "reason_key": "no_safe_action",
+    "message": "forwarding requires distinct ingress and placement nodes"
+  },
+  "new_vnfs_after": 26
+}

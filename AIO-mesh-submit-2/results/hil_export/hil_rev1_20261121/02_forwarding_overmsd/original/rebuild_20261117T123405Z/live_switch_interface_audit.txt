@@ -1,0 +1,64 @@
+=== UTC ===
+2026-11-17T14:15:38Z
+=== s1 container runtime args ===
+/bmv2-s1 network=host cmd=["--device-id","1","--thrift-port","19091","--log-console","--log-level","warn","-i","1@s1-eth1","-i","2@s1-eth2","-i","3@s1-eth3","-i","4@s1-eth4","/data/srv6_msd_10.json"]
+=== s1 visible port interfaces ===
+35409: s1-eth1@if2: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 1500 qdisc netem master ovs-system state UP mode DEFAULT group default qlen 1000\    link/ether 8e:69:fd:78:b8:30 brd ff:ff:ff:ff:ff:ff link-netnsid 161 promiscuity 2 \    veth \    openvswitch_slave addrgenmode eui64 
+35420: s1-eth2@s2-eth2: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 1500 qdisc netem master ovs-system state UP mode DEFAULT group default qlen 1000\    link/ether 4a:3c:6f:4e:44:f5 brd ff:ff:ff:ff:ff:ff promiscuity 2 \    veth \    openvswitch_slave addrgenmode eui64 
+35422: s1-eth3@s3-eth2: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 1500 qdisc netem master ovs-system state UP mode DEFAULT group default qlen 1000\    link/ether 6a:11:60:d8:e5:80 brd ff:ff:ff:ff:ff:ff promiscuity 2 \    veth \    openvswitch_slave addrgenmode eui64 
+35424: s1-eth4@s6-eth4: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 1500 qdisc netem master ovs-system state UP mode DEFAULT group default qlen 1000\    link/ether 2a:17:f7:cf:54:3c brd ff:ff:ff:ff:ff:ff promiscuity 2 \    veth \    openvswitch_slave addrgenmode eui64 
+=== s2 container runtime args ===
+/bmv2-s2 network=host cmd=["--device-id","2","--thrift-port","19092","--log-console","--log-level","warn","-i","1@s2-eth1","-i","2@s2-eth2","/data/srv6_msd_10.json"]
+=== s2 visible port interfaces ===
+35410: s2-eth1@if2: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 1500 qdisc netem master ovs-system state UP mode DEFAULT group default qlen 1000\    link/ether 12:53:d4:1f:cf:99 brd ff:ff:ff:ff:ff:ff link-netnsid 162 promiscuity 2 \    veth \    openvswitch_slave addrgenmode eui64 
+35419: s2-eth2@s1-eth2: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 1500 qdisc netem master ovs-system state UP mode DEFAULT group default qlen 1000\    link/ether f6:ec:d4:0b:5d:6a brd ff:ff:ff:ff:ff:ff promiscuity 2 \    veth \    openvswitch_slave addrgenmode eui64 
+=== s3 container runtime args ===
+/bmv2-s3 network=host cmd=["--device-id","3","--thrift-port","19093","--log-console","--log-level","warn","-i","1@s3-eth1","-i","2@s3-eth2","-i","3@s3-eth3","/data/srv6_msd_5.json"]
+=== s3 visible port interfaces ===
+35411: s3-eth1@if2: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 1500 qdisc netem master ovs-system state UP mode DEFAULT group default qlen 1000\    link/ether e6:3e:43:89:53:03 brd ff:ff:ff:ff:ff:ff link-netnsid 163 promiscuity 2 \    veth \    openvswitch_slave addrgenmode eui64 
+35421: s3-eth2@s1-eth3: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 1500 qdisc netem master ovs-system state UP mode DEFAULT group default qlen 1000\    link/ether 1e:ef:7e:8b:db:ba brd ff:ff:ff:ff:ff:ff promiscuity 2 \    veth \    openvswitch_slave addrgenmode eui64 
+35426: s3-eth3@s4-eth2: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 1500 qdisc netem master ovs-system state UP mode DEFAULT group default qlen 1000\    link/ether 82:b7:8d:c4:46:4c brd ff:ff:ff:ff:ff:ff promiscuity 2 \    veth \    openvswitch_slave addrgenmode eui64 
+=== s4 container runtime args ===
+/bmv2-s4 network=host cmd=["--device-id","4","--thrift-port","19094","--log-console","--log-level","warn","-i","1@s4-eth1","-i","2@s4-eth2","-i","3@s4-eth3","/data/srv6_msd_5.json"]
+=== s4 visible port interfaces ===
+35412: s4-eth1@if2: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 1500 qdisc netem master ovs-system state UP mode DEFAULT group default qlen 1000\    link/ether 52:df:65:76:78:4a brd ff:ff:ff:ff:ff:ff link-netnsid 164 promiscuity 2 \    veth \    openvswitch_slave addrgenmode eui64 
+35425: s4-eth2@s3-eth3: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 1500 qdisc netem master ovs-system state UP mode DEFAULT group default qlen 1000\    link/ether 8a:47:f3:26:45:31 brd ff:ff:ff:ff:ff:ff promiscuity 2 \    veth \    openvswitch_slave addrgenmode eui64 
+35428: s4-eth3@s5-eth2: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 1500 qdisc netem master ovs-system state UP mode DEFAULT group default qlen 1000\    link/ether f2:d1:d6:b3:8c:02 brd ff:ff:ff:ff:ff:ff promiscuity 2 \    veth \    openvswitch_slave addrgenmode eui64 
+=== s5 container runtime args ===
+/bmv2-s5 network=host cmd=["--device-id","5","--thrift-port","19095","--log-console","--log-level","warn","-i","1@s5-eth1","-i","2@s5-eth2","-i","3@s5-eth3","/data/srv6_msd_4.json"]
+=== s5 visible port interfaces ===
+35413: s5-eth1@if2: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 1500 qdisc netem master ovs-system state UP mode DEFAULT group default qlen 1000\    link/ether e6:ff:fd:62:20:77 brd ff:ff:ff:ff:ff:ff link-netnsid 165 promiscuity 2 \    veth \    openvswitch_slave addrgenmode eui64 
+35427: s5-eth2@s4-eth3: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 1500 qdisc netem master ovs-system state UP mode DEFAULT group default qlen 1000\    link/ether b6:a6:2f:4d:77:05 brd ff:ff:ff:ff:ff:ff promiscuity 2 \    veth \    openvswitch_slave addrgenmode eui64 
+35430: s5-eth3@s6-eth2: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 1500 qdisc netem master ovs-system state UP mode DEFAULT group default qlen 1000\    link/ether 16:04:7d:0c:06:f9 brd ff:ff:ff:ff:ff:ff promiscuity 2 \    veth \    openvswitch_slave addrgenmode eui64 
+=== s6 container runtime args ===
+/bmv2-s6 network=host cmd=["--device-id","6","--thrift-port","19096","--log-console","--log-level","warn","-i","1@s6-eth1","-i","4@s6-eth4","-i","2@s6-eth2","-i","3@s6-eth3","-i","5@s6-eth5","/data/srv6_msd_8.json"]
+=== s6 visible port interfaces ===
+35414: s6-eth1@if2: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 1500 qdisc netem master ovs-system state UP mode DEFAULT group default qlen 1000\    link/ether 1a:55:9c:fb:de:d5 brd ff:ff:ff:ff:ff:ff link-netnsid 166 promiscuity 2 \    veth \    openvswitch_slave addrgenmode eui64 
+35423: s6-eth4@s1-eth4: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 1500 qdisc netem master ovs-system state UP mode DEFAULT group default qlen 1000\    link/ether 7e:d2:dd:37:d9:f0 brd ff:ff:ff:ff:ff:ff promiscuity 2 \    veth \    openvswitch_slave addrgenmode eui64 
+35429: s6-eth2@s5-eth3: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 1500 qdisc netem master ovs-system state UP mode DEFAULT group default qlen 1000\    link/ether 16:fb:f1:7e:c0:ee brd ff:ff:ff:ff:ff:ff promiscuity 2 \    veth \    openvswitch_slave addrgenmode eui64 
+35432: s6-eth3@s7-eth2: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 1500 qdisc netem master ovs-system state UP mode DEFAULT group default qlen 1000\    link/ether ca:da:22:5b:d6:b4 brd ff:ff:ff:ff:ff:ff promiscuity 2 \    veth \    openvswitch_slave addrgenmode eui64 
+35434: s6-eth5@s9-eth4: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 1500 qdisc netem master ovs-system state UP mode DEFAULT group default qlen 1000\    link/ether 8e:83:d1:e3:19:47 brd ff:ff:ff:ff:ff:ff promiscuity 2 \    veth \    openvswitch_slave addrgenmode eui64 
+=== s7 container runtime args ===
+/bmv2-s7 network=host cmd=["--device-id","7","--thrift-port","19097","--log-console","--log-level","warn","-i","1@s7-eth1","-i","2@s7-eth2","-i","3@s7-eth3","/data/srv6_msd_4.json"]
+=== s7 visible port interfaces ===
+35415: s7-eth1@if2: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 1500 qdisc netem master ovs-system state UP mode DEFAULT group default qlen 1000\    link/ether 56:e4:40:e7:87:95 brd ff:ff:ff:ff:ff:ff link-netnsid 167 promiscuity 2 \    veth \    openvswitch_slave addrgenmode eui64 
+35431: s7-eth2@s6-eth3: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 1500 qdisc netem master ovs-system state UP mode DEFAULT group default qlen 1000\    link/ether 22:dd:56:65:5e:f8 brd ff:ff:ff:ff:ff:ff promiscuity 2 \    veth \    openvswitch_slave addrgenmode eui64 
+35436: s7-eth3@s8-eth2: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 1500 qdisc netem master ovs-system state UP mode DEFAULT group default qlen 1000\    link/ether 36:95:b8:92:d9:37 brd ff:ff:ff:ff:ff:ff promiscuity 2 \    veth \    openvswitch_slave addrgenmode eui64 
+=== s8 container runtime args ===
+/bmv2-s8 network=host cmd=["--device-id","8","--thrift-port","19098","--log-console","--log-level","warn","-i","1@s8-eth1","-i","2@s8-eth2","-i","3@s8-eth3","/data/srv6_msd_5.json"]
+=== s8 visible port interfaces ===
+35416: s8-eth1@if2: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 1500 qdisc netem master ovs-system state UP mode DEFAULT group default qlen 1000\    link/ether 86:dd:70:fb:ab:b2 brd ff:ff:ff:ff:ff:ff link-netnsid 168 promiscuity 2 \    veth \    openvswitch_slave addrgenmode eui64 
+35435: s8-eth2@s7-eth3: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 1500 qdisc netem master ovs-system state UP mode DEFAULT group default qlen 1000\    link/ether 62:2e:e9:e9:9b:32 brd ff:ff:ff:ff:ff:ff promiscuity 2 \    veth \    openvswitch_slave addrgenmode eui64 
+35438: s8-eth3@s9-eth2: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 1500 qdisc netem master ovs-system state UP mode DEFAULT group default qlen 1000\    link/ether be:37:32:6a:44:10 brd ff:ff:ff:ff:ff:ff promiscuity 2 \    veth \    openvswitch_slave addrgenmode eui64 
+=== s9 container runtime args ===
+/bmv2-s9 network=host cmd=["--device-id","9","--thrift-port","19099","--log-console","--log-level","warn","-i","1@s9-eth1","-i","4@s9-eth4","-i","2@s9-eth2","-i","3@s9-eth3","/data/srv6_msd_10.json"]
+=== s9 visible port interfaces ===
+35417: s9-eth1@if2: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 1500 qdisc netem master ovs-system state UP mode DEFAULT group default qlen 1000\    link/ether 3a:ce:c3:b0:3a:ae brd ff:ff:ff:ff:ff:ff link-netnsid 169 promiscuity 2 \    veth \    openvswitch_slave addrgenmode eui64 
+35433: s9-eth4@s6-eth5: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 1500 qdisc netem master ovs-system state UP mode DEFAULT group default qlen 1000\    link/ether 36:fe:e3:83:85:f9 brd ff:ff:ff:ff:ff:ff promiscuity 2 \    veth \    openvswitch_slave addrgenmode eui64 
+35437: s9-eth2@s8-eth3: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 1500 qdisc netem master ovs-system state UP mode DEFAULT group default qlen 1000\    link/ether de:25:cc:6e:4a:18 brd ff:ff:ff:ff:ff:ff promiscuity 2 \    veth \    openvswitch_slave addrgenmode eui64 
+35440: s9-eth3@s10-eth2: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 1500 qdisc netem master ovs-system state UP mode DEFAULT group default qlen 1000\    link/ether ca:ad:3e:ab:d8:95 brd ff:ff:ff:ff:ff:ff promiscuity 2 \    veth \    openvswitch_slave addrgenmode eui64 
+=== s10 container runtime args ===
+/bmv2-s10 network=host cmd=["--device-id","10","--thrift-port","19100","--log-console","--log-level","warn","-i","1@s10-eth1","-i","2@s10-eth2","/data/srv6_msd_5.json"]
+=== s10 visible port interfaces ===
+35418: s10-eth1@if2: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 1500 qdisc netem master ovs-system state UP mode DEFAULT group default qlen 1000\    link/ether 6e:86:6c:a8:fa:8d brd ff:ff:ff:ff:ff:ff link-netnsid 170 promiscuity 2 \    veth \    openvswitch_slave addrgenmode eui64 
+35439: s10-eth2@s9-eth3: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 1500 qdisc netem master ovs-system state UP mode DEFAULT group default qlen 1000\    link/ether 5a:39:3e:c5:9e:06 brd ff:ff:ff:ff:ff:ff promiscuity 2 \    veth \    openvswitch_slave addrgenmode eui64 

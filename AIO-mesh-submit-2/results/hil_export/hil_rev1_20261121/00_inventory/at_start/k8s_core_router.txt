@@ -1,0 +1,49 @@
+# captured_utc=2026-11-21T16:26:58Z
+# cmd: bash -c kubectl -n core-router get deployments -o wide; kubectl -n core-router get pods -o wide --field-selector=status.phase=Running; kubectl -n core-router get svc
+NAME                  READY   UP-TO-DATE   AVAILABLE   AGE    CONTAINERS   IMAGES                          SELECTOR
+vnf-attack-004e219d   1/1     1            1           187d   firewall     localhost:32000/alpine:latest   app=vnf-attack-004e219d
+vnf-attack-0faeed9f   1/1     1            1           187d   firewall     localhost:32000/alpine:latest   app=vnf-attack-0faeed9f
+vnf-attack-228edabf   1/1     1            1           188d   firewall     localhost:32000/alpine:latest   app=vnf-attack-228edabf
+vnf-attack-2f0aa313   1/1     1            1           187d   firewall     localhost:32000/alpine:latest   app=vnf-attack-2f0aa313
+vnf-attack-57b6f205   1/1     1            1           188d   firewall     localhost:32000/alpine:latest   app=vnf-attack-57b6f205
+vnf-attack-8bf0425e   1/1     1            1           188d   firewall     localhost:32000/alpine:latest   app=vnf-attack-8bf0425e
+vnf-attack-af13f6df   1/1     1            1           188d   firewall     localhost:32000/alpine:latest   app=vnf-attack-af13f6df
+NAME                                   READY   STATUS    RESTARTS   AGE    IP             NODE         NOMINATED NODE   READINESS GATES
+vnf-attack-004e219d-65dffb4b84-rgnp9   1/1     Running   0          4d2h   10.1.189.159   worker2      <none>           <none>
+vnf-attack-0faeed9f-8d9565bbd-968pr    1/1     Running   0          4d2h   10.1.235.205   k8s-master   <none>           <none>
+vnf-attack-228edabf-ddfbcc646-xh8zv    1/1     Running   0          4d2h   10.1.235.206   k8s-master   <none>           <none>
+vnf-attack-2f0aa313-5bf4fc4f99-mzprc   1/1     Running   0          4d2h   10.1.235.207   k8s-master   <none>           <none>
+vnf-attack-57b6f205-84d4bd6969-z4fbf   1/1     Running   0          4d2h   10.1.235.188   worker1      <none>           <none>
+vnf-attack-8bf0425e-845988f6fd-4d5hh   1/1     Running   0          4d2h   10.1.235.169   worker1      <none>           <none>
+vnf-attack-af13f6df-66d6777b9d-8dbxx   1/1     Running   0          4d2h   10.1.189.166   worker2      <none>           <none>
+NAME                          TYPE        CLUSTER-IP       EXTERNAL-IP   PORT(S)        AGE
+ai-scaled-firewall-75-svc     ClusterIP   10.152.183.73    <none>        80/TCP         190d
+ai-scaled-firewall-827-svc    ClusterIP   10.152.183.32    <none>        80/TCP         194d
+ai-scaled-firewall-900-svc    ClusterIP   10.152.183.141   <none>        80/TCP         190d
+ai-scaled-firewall-96-svc     ClusterIP   10.152.183.237   <none>        80/TCP         194d
+ai-scaled-idps-226-svc        ClusterIP   10.152.183.19    <none>        80/TCP         190d
+ai-scaled-idps-632-svc        ClusterIP   10.152.183.241   <none>        80/TCP         190d
+ai-scaled-idps-658-svc        ClusterIP   10.152.183.121   <none>        80/TCP         190d
+firewall-hn-1-svc             ClusterIP   10.152.183.165   <none>        80/TCP         190d
+string-svc                    ClusterIP   10.152.183.230   <none>        2601/TCP       195d
+vnf-attack-004e219d-svc       ClusterIP   10.152.183.49    <none>        80/TCP         187d
+vnf-attack-0faeed9f-svc       ClusterIP   10.152.183.209   <none>        80/TCP         187d
+vnf-attack-228edabf-svc       ClusterIP   10.152.183.182   <none>        80/TCP         188d
+vnf-attack-26b864df-svc       ClusterIP   10.152.183.7     <none>        80/TCP         183d
+vnf-attack-2f0aa313-svc       ClusterIP   10.152.183.79    <none>        80/TCP         187d
+vnf-attack-57b6f205-svc       ClusterIP   10.152.183.196   <none>        80/TCP         188d
+vnf-attack-8bf0425e-svc       ClusterIP   10.152.183.149   <none>        80/TCP         188d
+vnf-attack-af13f6df-svc       ClusterIP   10.152.183.245   <none>        80/TCP         188d
+vnf-attack-b34ee84e-mig-svc   ClusterIP   10.152.183.4     <none>        2601/TCP       183d
+vnf-data-b26e4918-mig-svc     ClusterIP   10.152.183.2     <none>        2601/TCP       183d
+vnf-firewall-hp-04-svc        ClusterIP   10.152.183.127   <none>        80/TCP         183d
+vnf-lb-hcm-03-svc             NodePort    10.152.183.188   <none>        80:30528/TCP   183d
+vnf-lb-hp-03-svc              NodePort    10.152.183.61    <none>        80:30455/TCP   183d
+vnf-lb-hue-01-svc             NodePort    10.152.183.80    <none>        80:32711/TCP   183d
+vnf-node-hn-svc               NodePort    10.152.183.185   <none>        80:30951/TCP   179d
+vnf-test-01-svc               ClusterIP   10.152.183.148   <none>        2601/TCP       196d
+vnf-test-02-svc               ClusterIP   10.152.183.72    <none>        2601/TCP       196d
+vnf-video-90534392-mig-svc    ClusterIP   10.152.183.5     <none>        2601/TCP       183d
+vnf-video-ab056843-mig-svc    ClusterIP   10.152.183.15    <none>        2601/TCP       183d
+vnf-voc-phase3-svc            NodePort    10.152.183.236   <none>        80:31656/TCP   196d
+# exit=0

@@ -1,0 +1,276 @@
+diff --git a/infrastructure/sdn/controller.py b/infrastructure/sdn/controller.py
+index 5514a82..ea534ac 100644
+--- a/infrastructure/sdn/controller.py
++++ b/infrastructure/sdn/controller.py
+@@ -153,9 +153,8 @@ def parse_table_dump(output: str) -> List[Dict]:
+         elif re.fullmatch(r"[0-9a-fA-F]{32}", match_value):
+             match_value = _canonical_ipv6(match_value)
+         params_text = action.group(2).strip()
+-        params = [] if not params_text else [
+-            _canonical_param(p, from_cli=True) for p in params_text.split(",")
+-        ]
++        raw_params = [] if not params_text else [p.strip().lower() for p in params_text.split(",")]
++        params = [_canonical_param(p, from_cli=True) for p in raw_params]
+         entries.append({
+             "index": index,
+             "match_field": match.group(1),
+@@ -164,6 +163,9 @@ def parse_table_dump(output: str) -> List[Dict]:
+             "prefix_len": prefix_len,
+             "action_name": action.group(1),
+             "action_params": params,
++            # BMv2 prints parameters as compact hex; keep it for MAC comparison
++            # (the decimal canonical form misreads compact MACs such as "0a").
++            "action_params_hex": raw_params,
+         })
+     return entries
+ 
+@@ -181,12 +183,14 @@ def table_entry_matches(entry: Dict, match_value: str, match_type: str,
+             if requested_prefix_len is None:
+                 expected = f"{expected}/{entry.get('prefix_len') or 128}"
+         params = []
+-        for expected_param, observed_param in zip(action_params, entry["action_params"]):
++        raw_hex = entry.get("action_params_hex") or [None] * len(entry["action_params"])
++        for expected_param, observed_param, observed_raw in zip(action_params, entry["action_params"], raw_hex):
+             expected_canonical = _canonical_param(expected_param)
+             if (isinstance(expected_param, str)
+                     and (re.fullmatch(r"(?:[0-9a-f]{2}:){5}[0-9a-f]{2}", expected_param.lower())
+                          or re.fullmatch(r"[0-9a-f]{12}", expected_param.lower()))):
+-                observed_hex = str(observed_param).lower().replace(":", "")
++                observed_hex = (observed_raw if observed_raw is not None
++                                else str(observed_param)).lower().replace(":", "")
+                 if not re.fullmatch(r"[0-9a-f]{1,12}", observed_hex):
+                     return False
+                 observed_canonical = observed_hex.zfill(12)
+diff --git a/src/core/state_manager.py b/src/core/state_manager.py
+index fb85733..c0d7cda 100644
+--- a/src/core/state_manager.py
++++ b/src/core/state_manager.py
+@@ -377,6 +377,27 @@ class NetworkStateManager:
+             self._checkpoint()
+             return True, None
+ 
++    def release_confirmed_absent(self, vnf_name: str) -> Tuple[bool, Optional[str]]:
++        """Release a deployed record only after the caller observed its absence.
++
++        Kubernetes sync keeps vanished deployed records as presence_unconfirmed;
++        this is the explicit lifecycle cleanup for that state. Pending
++        (in-flight) reservations and records still listed by Kubernetes are kept.
++        """
++        with self._lock:
++            record = self._active_vnfs.get(vnf_name)
++            if record is None:
++                return True, None
++            if vnf_name in self._pending_reservations or record.get("is_pending", False):
++                return False, "actuation_in_flight"
++            if not record.get("presence_unconfirmed"):
++                return False, "still_listed_by_kubernetes"
++            self._active_vnfs.pop(vnf_name)
++            self._subtract_placement(record)
++            self._recompute_msd()
++            self._checkpoint()
++            return True, None
++
+     def release_resources(self, vnf_name: str) -> None:
+         with self._lock:
+             if vnf_name in self._pending_reservations:
+diff --git a/src/portal/backend/app/containers/service_container.py b/src/portal/backend/app/containers/service_container.py
+index 9e7c4e9..4ed5e00 100644
+--- a/src/portal/backend/app/containers/service_container.py
++++ b/src/portal/backend/app/containers/service_container.py
+@@ -29,6 +29,9 @@ class ServiceContainer:
+             self.controller, 
+             settings.SDN_CONTROLLER_URL,
+             state_manager=get_state_manager(),
++            # Old-instance absence after BREAK = terminate pipeline + Pod grace
++            # period; 30 s was shorter than observed on the HIL testbed.
++            rollback_timeout_s=float(os.getenv("CORE_ROUTER_ABSENCE_TIMEOUT_S", "120")),
+             migration_journal=MigrationJournal(os.getenv(
+                 "CORE_ROUTER_MIGRATION_JOURNAL", "results/rev1/runtime/migrations.sqlite3")),
+         )
+diff --git a/src/portal/backend/app/routers/orchestration_router.py b/src/portal/backend/app/routers/orchestration_router.py
+index 1a01133..cdef396 100644
+--- a/src/portal/backend/app/routers/orchestration_router.py
++++ b/src/portal/backend/app/routers/orchestration_router.py
+@@ -148,10 +148,13 @@ async def orchestrate_sfc(request: SFCRequest, background_tasks: BackgroundTasks
+         # Mark intent before queuing, so a concurrent TTL cannot release it.
+         state_manager.mark_actuation_requested(vnf_name)
+         # Tìm VNF cũ tốn CPU nhất trên node được chọn để migrate
++        # The reservation for vnf_name was just recorded on this node; it is the
++        # replacement being created, never the old instance to migrate from.
+         existing_vnfs = [
+             vnf for vnf in state_manager.get_vnfs_on_node(choice.v_place)
+             if vnf.get("name", "").startswith(
+                 "vnf-{}-".format(request.service_type.lower()))
++            and vnf.get("name") != vnf_name
+         ]
+         old_vnf = existing_vnfs[0]["name"] if existing_vnfs else None
+ 
+@@ -397,6 +400,25 @@ def reset_network_state():
+         "data": state
+     }
+ 
++@router.post("/orchestrate/reconcile/{vnf_name}")
++async def reconcile_absent_vnf(vnf_name: str):
++    """Release a ledger record whose Deployment and Pods are confirmed absent."""
++    async with get_migration_lock():
++        presence = container.orchestrator.deployment_presence(vnf_name)
++        if presence is not False:
++            raise HTTPException(status_code=409, detail={
++                "code": "ABSENCE_NOT_CONFIRMED", "deployment_presence": presence})
++        sm = get_state_manager()
++        try:
++            sm.sync_with_kubernetes(container.orchestrator.list_vnfs())
++        except Exception as exc:
++            raise HTTPException(status_code=409, detail={"code": "SYNC_FAILED", "reason": str(exc)}) from exc
++        released, reason = sm.release_confirmed_absent(vnf_name)
++        if not released:
++            raise HTTPException(status_code=409, detail={"code": "RECONCILE_BLOCKED", "reason_key": reason})
++        return {"status": "success", "vnf_name": vnf_name, "released": True}
++
++
+ @router.post("/orchestrate/free")
+ def free_network_resources(req: FreeResourceRequest):
+     """
+diff --git a/src/portal/backend/app/services/orchestration_service.py b/src/portal/backend/app/services/orchestration_service.py
+index c74d8a3..f16971a 100644
+--- a/src/portal/backend/app/services/orchestration_service.py
++++ b/src/portal/backend/app/services/orchestration_service.py
+@@ -1,6 +1,7 @@
+ from __future__ import annotations
+ 
+ import asyncio
++import os
+ import time
+ import logging
+ from typing import Dict, Any, List, Optional
+@@ -184,7 +185,10 @@ class OrchestrationService:
+         logger.info(f"PHASE: VERIFY - Polling dynamic endpoint/readiness for {new_name}")
+         endpoint_info = None
+         attempts = 0
+-        max_attempts = 15 # 15 * 2s = 30s Timeout
++        # Tekton deploys observed on the HIL testbed take 25-30 s and the
++        # kubectl-wait Task allows 180 s; poll every 2 s up to that bound.
++        ready_timeout_s = float(os.environ.get("CORE_ROUTER_READY_TIMEOUT_S", "180"))
++        max_attempts = max(1, int(ready_timeout_s // 2))
+         
+         while attempts < max_attempts:
+             status = self.orchestrator.get_replacement_endpoint(new_name)
+diff --git a/tests/rev1/test_controller_rule_readback.py b/tests/rev1/test_controller_rule_readback.py
+index 28d6c50..7d5692a 100644
+--- a/tests/rev1/test_controller_rule_readback.py
++++ b/tests/rev1/test_controller_rule_readback.py
+@@ -76,6 +76,7 @@ class ControllerRuleReadbackTests(unittest.TestCase):
+             "prefix_len": 128,
+             "action_name": "ipv6_forward",
+             "action_params": ["020000000021", "020000000012", "2"],
++            "action_params_hex": ["020000000021", "020000000012", "02"],
+         }])
+ 
+     def test_exact_route_rule_matches_full_action_and_parameters(self):
+@@ -113,6 +114,17 @@ class ControllerRuleReadbackTests(unittest.TestCase):
+             ["00:00:00:00:00:09", "8a:ad:e9:47:ad:01", 1],
+         ))
+ 
++    def test_end_dx4_matches_compact_mac_with_hex_letter(self):
++        """Regression (HIL 2026-11-21): h10's MAC 00:00:00:00:00:0a prints as '0a'."""
++        dump = END_DX4_DUMP.replace("fc000009", "fc000010").replace("- 09, 8aade947ad01, 01", "- 0a, 3225a8ea71ce, 01")
++        entry = parse_table_dump(dump)[0]
++        self.assertTrue(table_entry_matches(
++            entry, "fc00:10::1", "exact", "srv6_end_dx4",
++            ["00:00:00:00:00:0a", "32:25:a8:ea:71:ce", 1]))
++        self.assertFalse(table_entry_matches(
++            entry, "fc00:10::1", "exact", "srv6_end_dx4",
++            ["00:00:00:00:00:10", "32:25:a8:ea:71:ce", 1]))
++
+     def test_malformed_table_dump_fails_closed(self):
+         with self.assertRaisesRegex(ValueError, "unrecognized"):
+             parse_table_dump("Welcome to runtime CLI\nno table output")
+diff --git a/tests/test_orchestration_api.py b/tests/test_orchestration_api.py
+index faedd5d..3906708 100644
+--- a/tests/test_orchestration_api.py
++++ b/tests/test_orchestration_api.py
+@@ -4,7 +4,7 @@ import importlib
+ import sys
+ import unittest
+ from types import ModuleType, SimpleNamespace
+-from unittest.mock import Mock, patch
++from unittest.mock import AsyncMock, Mock, patch
+ 
+ try:
+     from fastapi import FastAPI
+@@ -83,7 +83,7 @@ class TestOrchestrationAPI(unittest.TestCase):
+                 sid_stack=("2001:db8::1",), forwarding_sid=None),
+             decision_state_version=0, admission_state_version=1, timings_ms={},
+         )
+-        def reserve_then_return(manager, request, drl, *, vnf_name):
++        def reserve_then_return(manager, request, drl, *, vnf_name, **_):
+             assert manager.try_reserve(0, 1, 10, 5, 1, vnf_name=vnf_name)[0]
+             return decision
+ 
+@@ -94,6 +94,66 @@ class TestOrchestrationAPI(unittest.TestCase):
+         self.assertEqual(response.json()["detail"]["code"], "UNSUPPORTED_ADMITTED_REALIZATION")
+         self.assertEqual(self.manager._active_vnfs, {})
+ 
++    def test_new_service_creates_instead_of_migrating_from_its_own_reservation(self):
++        """Regression (HIL 2026-11-21): the just-reserved VNF is not an old instance."""
++        from src.portal.backend.app.services.realization import AdmittedRealization
++        decision = SimpleNamespace(
++            choice=SimpleNamespace(v_place=6, v_route=7),
++            branch="drl", method="Hybrid:DRL", sid_stack=["fc00:7::1", "fc00:6::1"],
++            realization=AdmittedRealization(
++                request_id="request-1", operation_id="operation-1",
++                topology_hash=self.manager._topology_identity(), profile_id="p4-path-candidate-v1",
++                sid_stack=("fc00:7::1", "fc00:6::1"), forwarding_sid="fc00:7::1",
++                switch_path=(6, 7), p4_topology_hash="0" * 64),
++            decision_state_version=0, admission_state_version=1, timings_ms={},
++        )
++        def reserve_then_return(manager, request, drl, *, vnf_name, **_):
++            assert manager.try_reserve(6, 7, 10, 5, 2, vnf_name=vnf_name)[0]
++            return decision
++
++        service = Mock(make_before_break_sequence=AsyncMock(return_value={"status": "success"}))
++        self.router_module.container.orchestration_service = service
++        with patch.object(self.router_module, "select_and_reserve", side_effect=reserve_then_return), \
++             patch.object(self.router_module, "get_forecast_service"):
++            response = self.client.post("/api/orchestrate", json={"alert_flag": True, "service_type": "voc"})
++        self.assertIsNone(service.make_before_break_sequence.await_args.kwargs["old_name"])
++        self.assertEqual(response.status_code, 200, response.text)
++        result = response.json()["data"]["migration_result"]
++        self.assertEqual(result["status"], "creating_and_steering")
++        self.assertNotIn("old_vnf", result)
++
++    def _deployed_then_vanished(self, name):
++        self.assertTrue(self.manager.try_reserve(4, 4, 10, 5, 2, vnf_name=name)[0])
++        self.manager.sync_with_kubernetes([{"id": name, "name": name, "desired": 1, "ready": 1, "data": {"location": "hue-1"}}])
++        self.manager.sync_with_kubernetes([])
++        self.assertTrue(self.manager._active_vnfs[name]["presence_unconfirmed"])
++
++    def test_reconcile_releases_only_confirmed_absent_record(self):
++        self._deployed_then_vanished("vnf-nat-old")
++        self.router_module.container.orchestrator = Mock(
++            deployment_presence=Mock(return_value=False), list_vnfs=Mock(return_value=[]))
++        response = self.client.post("/api/orchestrate/reconcile/vnf-nat-old")
++        self.assertEqual(response.status_code, 200, response.text)
++        self.assertNotIn("vnf-nat-old", self.manager._active_vnfs)
++
++    def test_reconcile_refuses_present_or_unknown_presence(self):
++        self._deployed_then_vanished("vnf-nat-old")
++        for presence in (True, None):
++            self.router_module.container.orchestrator = Mock(
++                deployment_presence=Mock(return_value=presence), list_vnfs=Mock(return_value=[]))
++            response = self.client.post("/api/orchestrate/reconcile/vnf-nat-old")
++            self.assertEqual(response.status_code, 409)
++            self.assertIn("vnf-nat-old", self.manager._active_vnfs)
++
++    def test_reconcile_refuses_record_still_listed(self):
++        self.assertTrue(self.manager.try_reserve(4, 4, 10, 5, 2, vnf_name="vnf-nat-live")[0])
++        self.router_module.container.orchestrator = Mock(
++            deployment_presence=Mock(return_value=False),
++            list_vnfs=Mock(return_value=[{"id": "vnf-nat-live", "name": "vnf-nat-live", "desired": 1, "ready": 1, "data": {"location": "hue-1"}}]))
++        response = self.client.post("/api/orchestrate/reconcile/vnf-nat-live")
++        self.assertEqual(response.status_code, 409)
++        self.assertIn("vnf-nat-live", self.manager._active_vnfs)
++
+     def test_invalid_request_is_rejected_before_selection(self):
+         with patch.object(self.router_module, "select_and_reserve") as select:
+             response = self.client.post("/api/orchestrate", json={"msd_req": 0})

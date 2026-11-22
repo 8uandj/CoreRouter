@@ -1,0 +1,162 @@
+{
+  "index": 55,
+  "request": {
+    "service_type": "idps",
+    "cpu_req": 20.0,
+    "ram_req": 10.0,
+    "msd_req": 4,
+    "alert_flag": false,
+    "source_node": 0,
+    "destination_node": 7,
+    "flow_id": "expand-0055"
+  },
+  "profile": "Video",
+  "evidence_class": "driver-orchestrated actuation",
+  "t": {
+    "submit_utc": "2026-11-21T18:03:55.739571+00:00",
+    "response_utc": "2026-11-21T18:03:55.910823+00:00",
+    "deploy_submit_utc": "2026-11-21T18:03:55.910889+00:00",
+    "deployment_object_seen_utc": "2026-11-21T18:04:13.022722+00:00",
+    "rollout_done_utc": "2026-11-21T18:04:15.364173+00:00",
+    "steer_submit_utc": "2026-11-21T18:04:15.563329+00:00",
+    "steer_confirm_seen_utc": "2026-11-21T18:04:16.331931+00:00",
+    "readback_utc": "2026-11-21T18:04:16.331971+00:00"
+  },
+  "http_status": 200,
+  "api_rtt_ms": 170.906,
+  "vnf_name": "vnf-idps-fdd8a8f7",
+  "placement": {
+    "id": 9,
+    "name": "CanTho"
+  },
+  "route": {
+    "id": 7,
+    "name": "NhaTrang"
+  },
+  "realization": {
+    "request_id": "vnf-idps-fdd8a8f7",
+    "operation_id": "bb9ff707-8541-427b-91ca-ce381a422fcf",
+    "topology_hash": "67131a546450606da19276263b00d23988d13fd71c17be38cb24a12637fe9f11",
+    "p4_topology_hash": "ee00b35ebeff5a46d428340fdfd984ecabf2047a4ef0cd79318a81ad732b4dbf",
+    "profile_id": "p4-path-candidate-v1",
+    "switch_path": [
+      1,
+      6,
+      9,
+      10
+    ],
+    "sid_stack": [
+      "fc00:10::1",
+      "fc00:9::1",
+      "fc00:6::1",
+      "fc00:1::1"
+    ]
+  },
+  "server_timings_ms": {
+    "state_sync_ms": 49.690378829836845,
+    "state_snapshot_ms": 1.4469700399786234,
+    "state_construction_ms": 0.3414261154830456,
+    "mask_construction_ms": 0.09431503713130951,
+    "normalization_ms": 0.11895294301211834,
+    "policy_inference_ms": 72.05377705395222,
+    "total_policy_ms": 72.6778069511056,
+    "admission_validation_ms": 33.462078077718616,
+    "decision_policy_and_admission_ms": 107.76806599460542,
+    "controller_handoff_ms": 0.0,
+    "server_decision_ms": 164.10682094283402
+  },
+  "migration_result": null,
+  "deploy_response": {
+    "status": "success",
+    "runName": "deploy-idps-98886a",
+    "message": "Successfully initialized IDPS (standard) instance."
+  },
+  "rollout": {
+    "rc": 0,
+    "out": "Waiting for deployment \"vnf-idps-fdd8a8f7\" rollout to finish: 0 of 1 updated replicas are available...\ndeployment \"vnf-idps-fdd8a8f7\" successfully rolled out\n"
+  },
+  "pod": {
+    "pod": "vnf-idps-fdd8a8f7-6554fb55bc-t25mv",
+    "created": "2026-11-21T18:04:12Z",
+    "node": "worker2",
+    "ip": "10.1.189.147",
+    "conditions": {
+      "PodReadyToStartContainers": "2026-11-21T18:04:15Z",
+      "Initialized": "2026-11-21T18:04:12Z",
+      "Ready": "2026-11-21T18:04:15Z",
+      "ContainersReady": "2026-11-21T18:04:15Z",
+      "PodScheduled": "2026-11-21T18:04:12Z"
+    }
+  },
+  "steer_payload": {
+    "request_id": "vnf-idps-fdd8a8f7",
+    "operation_id": "bb9ff707-8541-427b-91ca-ce381a422fcf",
+    "topology_hash": "67131a546450606da19276263b00d23988d13fd71c17be38cb24a12637fe9f11",
+    "profile_id": "p4-path-candidate-v1",
+    "p4_topology_hash": "ee00b35ebeff5a46d428340fdfd984ecabf2047a4ef0cd79318a81ad732b4dbf",
+    "new_deploy": "vnf-idps-fdd8a8f7",
+    "switch_path": [
+      1,
+      6,
+      9,
+      10
+    ],
+    "sid_stack": [
+      "fc00:10::1",
+      "fc00:9::1",
+      "fc00:6::1",
+      "fc00:1::1"
+    ]
+  },
+  "steer_http": 202,
+  "steer_status": {
+    "steer_state": "failed",
+    "new_deploy": "vnf-idps-fdd8a8f7",
+    "operation_id": "bb9ff707-8541-427b-91ca-ce381a422fcf",
+    "request_id": "vnf-idps-fdd8a8f7",
+    "topology_hash": "67131a546450606da19276263b00d23988d13fd71c17be38cb24a12637fe9f11",
+    "profile_id": "p4-path-candidate-v1",
+    "p4_topology_hash": "ee00b35ebeff5a46d428340fdfd984ecabf2047a4ef0cd79318a81ad732b4dbf",
+    "confirm_steer_done": false
+  },
+  "readback": [
+    {
+      "switch": "s1",
+      "table": "routing_v6",
+      "key": "fc00:6::1/128",
+      "present": true
+    },
+    {
+      "switch": "s6",
+      "table": "routing_v6",
+      "key": "fc00:9::1/128",
+      "present": true
+    },
+    {
+      "switch": "s9",
+      "table": "routing_v6",
+      "key": "fc00:10::1/128",
+      "present": true
+    },
+    {
+      "switch": "s10",
+      "table": "srv6_end_dx4_table",
+      "key": "fc00:10::1",
+      "present": true
+    }
+  ],
+  "outcome": "steer_not_confirmed",
+  "active_total_after": 29,
+  "ledger_record_after": {
+    "name": "vnf-idps-fdd8a8f7",
+    "v_place": 9,
+    "v_route": 7,
+    "cpu_req": 20.0,
+    "ram_req": 10.0,
+    "msd_req": 4,
+    "is_pending": false,
+    "presence_unconfirmed": false,
+    "deployment_ready": true,
+    "accounting_unknown": false
+  }
+}

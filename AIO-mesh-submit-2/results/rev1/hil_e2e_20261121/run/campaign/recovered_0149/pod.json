@@ -1,0 +1,232 @@
+{
+    "apiVersion": "v1",
+    "items": [
+        {
+            "apiVersion": "v1",
+            "kind": "Pod",
+            "metadata": {
+                "annotations": {
+                    "cni.projectcalico.org/containerID": "bbb93ed2b1a2d33e88c8f0199a4c7649762ec7e5d436e52a7c90239e9b3fed20",
+                    "cni.projectcalico.org/podIP": "10.1.235.128/32",
+                    "cni.projectcalico.org/podIPs": "10.1.235.128/32"
+                },
+                "creationTimestamp": "2026-11-21T17:52:50Z",
+                "generateName": "vnf-data-2042e77d-659688ffc5-",
+                "labels": {
+                    "app": "vnf-data-2042e77d",
+                    "core-router/role": "router",
+                    "pod-template-hash": "659688ffc5"
+                },
+                "name": "vnf-data-2042e77d-659688ffc5-8wf4f",
+                "namespace": "core-router",
+                "ownerReferences": [
+                    {
+                        "apiVersion": "apps/v1",
+                        "blockOwnerDeletion": true,
+                        "controller": true,
+                        "kind": "ReplicaSet",
+                        "name": "vnf-data-2042e77d-659688ffc5",
+                        "uid": "d27eb536-65e1-46f1-8b11-a1d2c07e0a11"
+                    }
+                ],
+                "resourceVersion": "220817106",
+                "uid": "c3032edd-e85e-4e3a-bcea-d59d916fdede"
+            },
+            "spec": {
+                "containers": [
+                    {
+                        "image": "localhost:32000/frr:9.1.1",
+                        "imagePullPolicy": "IfNotPresent",
+                        "name": "frr",
+                        "ports": [
+                            {
+                                "containerPort": 2601,
+                                "protocol": "TCP"
+                            }
+                        ],
+                        "resources": {},
+                        "securityContext": {
+                            "capabilities": {
+                                "add": [
+                                    "NET_ADMIN",
+                                    "SYS_ADMIN"
+                                ]
+                            }
+                        },
+                        "terminationMessagePath": "/dev/termination-log",
+                        "terminationMessagePolicy": "File",
+                        "volumeMounts": [
+                            {
+                                "mountPath": "/var/run/secrets/kubernetes.io/serviceaccount",
+                                "name": "kube-api-access-z88sb",
+                                "readOnly": true
+                            }
+                        ]
+                    }
+                ],
+                "dnsPolicy": "ClusterFirst",
+                "enableServiceLinks": true,
+                "nodeName": "worker1",
+                "nodeSelector": {
+                    "kubernetes.io/hostname": "worker1"
+                },
+                "preemptionPolicy": "PreemptLowerPriority",
+                "priority": 0,
+                "restartPolicy": "Always",
+                "schedulerName": "default-scheduler",
+                "securityContext": {},
+                "serviceAccount": "default",
+                "serviceAccountName": "default",
+                "terminationGracePeriodSeconds": 30,
+                "tolerations": [
+                    {
+                        "effect": "NoSchedule",
+                        "key": "dedicated",
+                        "operator": "Equal",
+                        "value": "core-router"
+                    },
+                    {
+                        "effect": "NoSchedule",
+                        "key": "node-role.kubernetes.io/control-plane",
+                        "operator": "Exists"
+                    },
+                    {
+                        "effect": "NoSchedule",
+                        "key": "node-role.kubernetes.io/master",
+                        "operator": "Exists"
+                    },
+                    {
+                        "effect": "NoExecute",
+                        "key": "node.kubernetes.io/not-ready",
+                        "operator": "Exists",
+                        "tolerationSeconds": 300
+                    },
+                    {
+                        "effect": "NoExecute",
+                        "key": "node.kubernetes.io/unreachable",
+                        "operator": "Exists",
+                        "tolerationSeconds": 300
+                    }
+                ],
+                "volumes": [
+                    {
+                        "name": "kube-api-access-z88sb",
+                        "projected": {
+                            "defaultMode": 420,
+                            "sources": [
+                                {
+                                    "serviceAccountToken": {
+                                        "expirationSeconds": 3607,
+                                        "path": "token"
+                                    }
+                                },
+                                {
+                                    "configMap": {
+                                        "items": [
+                                            {
+                                                "key": "ca.crt",
+                                                "path": "ca.crt"
+                                            }
+                                        ],
+                                        "name": "kube-root-ca.crt"
+                                    }
+                                },
+                                {
+                                    "downwardAPI": {
+                                        "items": [
+                                            {
+                                                "fieldRef": {
+                                                    "apiVersion": "v1",
+                                                    "fieldPath": "metadata.namespace"
+                                                },
+                                                "path": "namespace"
+                                            }
+                                        ]
+                                    }
+                                }
+                            ]
+                        }
+                    }
+                ]
+            },
+            "status": {
+                "conditions": [
+                    {
+                        "lastProbeTime": null,
+                        "lastTransitionTime": "2026-11-21T17:52:51Z",
+                        "status": "True",
+                        "type": "PodReadyToStartContainers"
+                    },
+                    {
+                        "lastProbeTime": null,
+                        "lastTransitionTime": "2026-11-21T17:52:50Z",
+                        "status": "True",
+                        "type": "Initialized"
+                    },
+                    {
+                        "lastProbeTime": null,
+                        "lastTransitionTime": "2026-11-21T17:52:51Z",
+                        "status": "True",
+                        "type": "Ready"
+                    },
+                    {
+                        "lastProbeTime": null,
+                        "lastTransitionTime": "2026-11-21T17:52:51Z",
+                        "status": "True",
+                        "type": "ContainersReady"
+                    },
+                    {
+                        "lastProbeTime": null,
+                        "lastTransitionTime": "2026-11-21T17:52:50Z",
+                        "status": "True",
+                        "type": "PodScheduled"
+                    }
+                ],
+                "containerStatuses": [
+                    {
+                        "containerID": "containerd://f11256c9e860848614ce823eb6f1c5b7b8ca666fe807ac79b11ab2a27045535d",
+                        "image": "localhost:32000/frr:9.1.1",
+                        "imageID": "localhost:32000/frr@sha256:9d02a3dd98059379c72dedd8f74642ef8e884f32f32dbbc41be22c759eeff898",
+                        "lastState": {},
+                        "name": "frr",
+                        "ready": true,
+                        "restartCount": 0,
+                        "started": true,
+                        "state": {
+                            "running": {
+                                "startedAt": "2026-11-21T17:52:51Z"
+                            }
+                        },
+                        "volumeMounts": [
+                            {
+                                "mountPath": "/var/run/secrets/kubernetes.io/serviceaccount",
+                                "name": "kube-api-access-z88sb",
+                                "readOnly": true,
+                                "recursiveReadOnly": "Disabled"
+                            }
+                        ]
+                    }
+                ],
+                "hostIP": "10.10.6.233",
+                "hostIPs": [
+                    {
+                        "ip": "10.10.6.233"
+                    }
+                ],
+                "phase": "Running",
+                "podIP": "10.1.235.128",
+                "podIPs": [
+                    {
+                        "ip": "10.1.235.128"
+                    }
+                ],
+                "qosClass": "BestEffort",
+                "startTime": "2026-11-21T17:52:50Z"
+            }
+        }
+    ],
+    "kind": "List",
+    "metadata": {
+        "resourceVersion": ""
+    }
+}

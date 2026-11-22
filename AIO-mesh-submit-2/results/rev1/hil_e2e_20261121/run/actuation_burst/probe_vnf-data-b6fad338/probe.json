@@ -1,0 +1,121 @@
+{
+  "request_id": "vnf-data-b6fad338",
+  "src_host": "h5",
+  "place_host": "h2",
+  "switch_path": [
+    5,
+    6,
+    1,
+    2
+  ],
+  "sid_stack_final_to_first": [
+    "fc00:2::1",
+    "fc00:1::1",
+    "fc00:6::1",
+    "fc00:5::1"
+  ],
+  "pod_ip": "10.1.235.212",
+  "n": 20,
+  "t": {
+    "counters_before_utc": "2026-11-21T18:20:16.852168+00:00",
+    "send_start_utc": "2026-11-21T18:20:25.503322+00:00",
+    "send_end_utc": "2026-11-21T18:20:32.262693+00:00",
+    "counters_after_utc": "2026-11-21T18:20:32.263787+00:00"
+  },
+  "counters_before": {
+    "s5": {
+      "advance": 80,
+      "terminal": 1271,
+      "msd_violation": 50
+    },
+    "s6": {
+      "advance": 1633,
+      "terminal": 0,
+      "msd_violation": 50
+    },
+    "s1": {
+      "advance": 872,
+      "terminal": 0,
+      "msd_violation": 0
+    },
+    "s2": {
+      "advance": 472,
+      "terminal": 20,
+      "msd_violation": 50
+    }
+  },
+  "src_setup": {
+    "switch_port": "s5-eth1",
+    "switch_port_mac": "5e:0c:86:aa:e1:6b",
+    "seg6_segs_traversal": [
+      "fc00:5::1",
+      "fc00:6::1",
+      "fc00:1::1",
+      "fc00:2::1"
+    ],
+    "commands": "ethtool -K h5-eth0 tx off >/dev/null; ip -6 addr replace 2001:db8:100::5/64 dev h5-eth0 nodad; ip -6 route replace fc00::/16 dev h5-eth0; ip -6 neigh replace fc00:5::1 lladdr 5e:0c:86:aa:e1:6b dev h5-eth0 nud permanent; ip route replace 10.1.235.212/32 encap seg6 mode encap segs fc00:5::1,fc00:6::1,fc00:1::1,fc00:2::1 dev h5-eth0; ip route get 10.1.235.212",
+    "output": "10.1.235.212 dev h5-eth0 src 10.0.0.5 uid 0 \n    cache \n"
+  },
+  "mode": "icmp",
+  "icmp_pattern_hex": "0557e59dd0980ba7ec6a9cadb07b8f49",
+  "icmp_raw": "PATTERN: 0x0557e59dd0980ba7ec6a9cadb07b8f49\nPING 10.1.235.212 (10.1.235.212) 56(84) bytes of data.\n\n--- 10.1.235.212 ping statistics ---\n20 packets transmitted, 0 received, 100% packet loss, time 3875ms\n\n",
+  "http": [],
+  "counters_after": {
+    "s5": {
+      "advance": 100,
+      "terminal": 1271,
+      "msd_violation": 50
+    },
+    "s6": {
+      "advance": 1653,
+      "terminal": 0,
+      "msd_violation": 50
+    },
+    "s1": {
+      "advance": 892,
+      "terminal": 0,
+      "msd_violation": 0
+    },
+    "s2": {
+      "advance": 472,
+      "terminal": 40,
+      "msd_violation": 50
+    }
+  },
+  "counter_delta": {
+    "s5": {
+      "advance": 20,
+      "terminal": 0,
+      "msd_violation": 0
+    },
+    "s6": {
+      "advance": 20,
+      "terminal": 0,
+      "msd_violation": 0
+    },
+    "s1": {
+      "advance": 20,
+      "terminal": 0,
+      "msd_violation": 0
+    },
+    "s2": {
+      "advance": 0,
+      "terminal": 20,
+      "msd_violation": 0
+    }
+  },
+  "src_teardown": "10.0.0.0/24 dev h5-eth0 proto kernel scope link src 10.0.0.5 \n10.1.0.0/16 via 10.1.240.1 dev veth-h5-mn \n",
+  "captured_packets": {
+    "src_egress_srv6": 22,
+    "place_host_decap": 20,
+    "host_vxlan": 20,
+    "src_return": 0
+  },
+  "summary": {
+    "sent": 20,
+    "app_received": 0,
+    "loss": 20,
+    "http_codes": [],
+    "rtt_total_ms": []
+  }
+}

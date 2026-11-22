@@ -1,0 +1,4 @@
+round,utc,vnf,mode,switch_path,pod_ready,pod_ip,pod_ip_changed,pod_restarts,sent,received,rtt_p50_ms,rtt_max_ms,msd_violation_delta,captured,error
+0,2026-11-21T18:44:40.745402+00:00,vnf-lb-a8f80139,icmp,6-7,True,10.1.189.180,False,0,20,20,2.21,3.04,0,"{""src_egress_srv6"": 22, ""place_host_decap"": 20, ""host_vxlan"": 40, ""src_return"": 20}",
+1,2026-11-21T18:46:40.851914+00:00,vnf-nat-ff43155a,icmp,7-6-5,True,10.1.235.155,False,0,20,20,2.69,4.6,0,{},
+2,2026-11-21T18:48:40.915024+00:00,vnf-video-bcb87148,icmp,6-5,True,10.1.235.190,False,0,20,20,2.02,2.33,0,{},

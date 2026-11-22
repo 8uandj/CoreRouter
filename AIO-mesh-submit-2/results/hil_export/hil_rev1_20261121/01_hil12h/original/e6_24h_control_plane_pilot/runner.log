@@ -1,0 +1,13 @@
+Running Scenario 1 - Normal Load (normal_load)
+Traceback (most recent call last):
+  File "/usr/lib/python3.8/runpy.py", line 194, in _run_module_as_main
+    return _run_code(code, main_globals, None,
+  File "/usr/lib/python3.8/runpy.py", line 87, in _run_code
+    exec(code, run_globals)
+  File "/home/CoreRouter/src/analytics/benchmark/benchmark_testbed/run_all_scenarios.py", line 202, in <module>
+    main()
+  File "/home/CoreRouter/src/analytics/benchmark/benchmark_testbed/run_all_scenarios.py", line 155, in main
+    records, summary = runner.run(scenario, scenario_dir)
+  File "/home/CoreRouter/src/analytics/benchmark/benchmark_testbed/runner.py", line 93, in run
+    time.sleep(max(0.0, self.config.request_interval_s - (time.perf_counter() - iteration_start)))
+KeyboardInterrupt

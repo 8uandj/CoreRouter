@@ -1,0 +1,20 @@
+{
+  "status": "PASS",
+  "http_status": 409,
+  "response": {
+    "detail": {
+      "status": "error",
+      "code": "UNSUPPORTED_ADMITTED_REALIZATION",
+      "message": "No verified mapping exists from the admitted SID stack to a forwarding profile.",
+      "reservation_released": true,
+      "reservation_release_reason": null
+    }
+  },
+  "alert_clear_http_status": 200,
+  "pipeline_runs_unchanged": true,
+  "deployments_unchanged": true,
+  "ledger_names_unchanged": true,
+  "active_count": 7,
+  "unknown_count": 0,
+  "alert_flag_after": false
+}

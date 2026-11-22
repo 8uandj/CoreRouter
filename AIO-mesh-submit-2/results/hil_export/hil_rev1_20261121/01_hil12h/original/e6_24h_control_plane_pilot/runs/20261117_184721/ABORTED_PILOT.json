@@ -1,0 +1,17 @@
+{
+  "status": "aborted_pilot",
+  "reason": "User shortened the requested control-plane HIL duration from 24 hours to 12 hours before the pilot had produced any persisted request records.",
+  "started_at_utc": "2026-11-17T18:47:21Z",
+  "stopped_at_utc": "2026-11-17T18:58:17Z",
+  "usable_measurement": false,
+  "partial_requests_persisted": false,
+  "cleanup": {
+    "extra_reservation": "vnf-data-8ddfbd18",
+    "deployment_present": false,
+    "migration_record_present": false,
+    "released_by_name_and_exact_profile": true,
+    "baseline_vnfs_after_cleanup": 7,
+    "unaccounted_vnfs_after_cleanup": 0
+  },
+  "note": "Do not combine this pilot with the replacement 12-hour run."
+}

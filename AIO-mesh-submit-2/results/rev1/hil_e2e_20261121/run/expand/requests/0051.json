@@ -1,0 +1,205 @@
+{
+  "index": 51,
+  "request": {
+    "service_type": "video",
+    "cpu_req": 18.0,
+    "ram_req": 9.0,
+    "msd_req": 3,
+    "alert_flag": false,
+    "source_node": 4,
+    "destination_node": 7,
+    "flow_id": "expand-0051"
+  },
+  "profile": "Video",
+  "evidence_class": "driver-orchestrated actuation",
+  "t": {
+    "submit_utc": "2026-11-21T18:03:06.914654+00:00",
+    "response_utc": "2026-11-21T18:03:07.055598+00:00",
+    "deploy_submit_utc": "2026-11-21T18:03:07.055647+00:00",
+    "deployment_object_seen_utc": "2026-11-21T18:03:24.205036+00:00",
+    "rollout_done_utc": "2026-11-21T18:03:24.325551+00:00",
+    "steer_submit_utc": "2026-11-21T18:03:24.519308+00:00",
+    "steer_confirm_seen_utc": "2026-11-21T18:03:25.285983+00:00",
+    "readback_utc": "2026-11-21T18:03:25.286009+00:00",
+    "probe_start_utc": "2026-11-21T18:03:27.735470+00:00"
+  },
+  "http_status": 200,
+  "api_rtt_ms": 140.61,
+  "vnf_name": "vnf-video-20cb7274",
+  "placement": {
+    "id": 8,
+    "name": "HoChiMinh"
+  },
+  "route": {
+    "id": 7,
+    "name": "NhaTrang"
+  },
+  "realization": {
+    "request_id": "vnf-video-20cb7274",
+    "operation_id": "f1fa401c-6bd2-4bfc-9e67-6dad0af6bce1",
+    "topology_hash": "67131a546450606da19276263b00d23988d13fd71c17be38cb24a12637fe9f11",
+    "p4_topology_hash": "ee00b35ebeff5a46d428340fdfd984ecabf2047a4ef0cd79318a81ad732b4dbf",
+    "profile_id": "p4-path-candidate-v1",
+    "switch_path": [
+      5,
+      6,
+      9
+    ],
+    "sid_stack": [
+      "fc00:9::1",
+      "fc00:6::1",
+      "fc00:5::1"
+    ]
+  },
+  "server_timings_ms": {
+    "state_sync_ms": 44.86656398512423,
+    "state_snapshot_ms": 1.3567230198532343,
+    "state_construction_ms": 0.2106411848217249,
+    "mask_construction_ms": 0.1115468330681324,
+    "normalization_ms": 0.09752018377184868,
+    "policy_inference_ms": 65.09656901471317,
+    "total_policy_ms": 65.59616513550282,
+    "admission_validation_ms": 16.74168696627021,
+    "decision_policy_and_admission_ms": 83.86731892824173,
+    "controller_handoff_ms": 0.0,
+    "server_decision_ms": 133.75757890753448
+  },
+  "migration_result": null,
+  "deploy_response": {
+    "status": "success",
+    "runName": "deploy-router-381a11",
+    "message": "Successfully initialized ROUTER (standard) instance."
+  },
+  "rollout": {
+    "rc": 0,
+    "out": "deployment \"vnf-video-20cb7274\" successfully rolled out\n"
+  },
+  "pod": {
+    "pod": "vnf-video-20cb7274-79cb77d69c-jmlph",
+    "created": "2026-11-21T18:03:22Z",
+    "node": "worker2",
+    "ip": "10.1.189.138",
+    "conditions": {
+      "PodReadyToStartContainers": "2026-11-21T18:03:24Z",
+      "Initialized": "2026-11-21T18:03:22Z",
+      "Ready": "2026-11-21T18:03:24Z",
+      "ContainersReady": "2026-11-21T18:03:24Z",
+      "PodScheduled": "2026-11-21T18:03:22Z"
+    }
+  },
+  "steer_payload": {
+    "request_id": "vnf-video-20cb7274",
+    "operation_id": "f1fa401c-6bd2-4bfc-9e67-6dad0af6bce1",
+    "topology_hash": "67131a546450606da19276263b00d23988d13fd71c17be38cb24a12637fe9f11",
+    "profile_id": "p4-path-candidate-v1",
+    "p4_topology_hash": "ee00b35ebeff5a46d428340fdfd984ecabf2047a4ef0cd79318a81ad732b4dbf",
+    "new_deploy": "vnf-video-20cb7274",
+    "switch_path": [
+      5,
+      6,
+      9
+    ],
+    "sid_stack": [
+      "fc00:9::1",
+      "fc00:6::1",
+      "fc00:5::1"
+    ]
+  },
+  "steer_http": 202,
+  "steer_status": {
+    "steer_state": "done",
+    "new_deploy": "vnf-video-20cb7274",
+    "operation_id": "f1fa401c-6bd2-4bfc-9e67-6dad0af6bce1",
+    "request_id": "vnf-video-20cb7274",
+    "topology_hash": "67131a546450606da19276263b00d23988d13fd71c17be38cb24a12637fe9f11",
+    "profile_id": "p4-path-candidate-v1",
+    "p4_topology_hash": "ee00b35ebeff5a46d428340fdfd984ecabf2047a4ef0cd79318a81ad732b4dbf",
+    "confirm_steer_done": true
+  },
+  "readback": [
+    {
+      "switch": "s5",
+      "table": "routing_v6",
+      "key": "fc00:6::1/128",
+      "present": true
+    },
+    {
+      "switch": "s6",
+      "table": "routing_v6",
+      "key": "fc00:9::1/128",
+      "present": true
+    },
+    {
+      "switch": "s9",
+      "table": "srv6_end_dx4_table",
+      "key": "fc00:9::1",
+      "present": true
+    }
+  ],
+  "outcome": "steered",
+  "probe": {
+    "mode": "icmp",
+    "sent": 20,
+    "app_received": 20,
+    "loss": 0,
+    "http_codes": [],
+    "rtt_total_ms": [
+      3.46,
+      3.61,
+      3.64,
+      3.69,
+      3.69,
+      3.75,
+      3.77,
+      3.77,
+      3.95,
+      3.97,
+      4.0,
+      4.06,
+      4.07,
+      4.16,
+      4.24,
+      4.25,
+      4.28,
+      4.3,
+      4.45,
+      4.46
+    ],
+    "delta": {
+      "s5": {
+        "advance": 20,
+        "terminal": 0,
+        "msd_violation": 0
+      },
+      "s6": {
+        "advance": 20,
+        "terminal": 0,
+        "msd_violation": 0
+      },
+      "s9": {
+        "advance": 0,
+        "terminal": 20,
+        "msd_violation": 0
+      }
+    },
+    "captured": {
+      "src_egress_srv6": 22,
+      "place_host_decap": 20,
+      "host_vxlan": 40,
+      "src_return": 20
+    }
+  },
+  "active_total_after": 28,
+  "ledger_record_after": {
+    "name": "vnf-video-20cb7274",
+    "v_place": 8,
+    "v_route": 7,
+    "cpu_req": 18.0,
+    "ram_req": 9.0,
+    "msd_req": 3,
+    "is_pending": false,
+    "presence_unconfirmed": false,
+    "deployment_ready": true,
+    "accounting_unknown": false
+  }
+}

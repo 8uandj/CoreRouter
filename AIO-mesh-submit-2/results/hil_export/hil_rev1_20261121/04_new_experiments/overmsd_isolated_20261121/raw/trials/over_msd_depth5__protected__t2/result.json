@@ -1,0 +1,180 @@
+{
+  "sid_depth": 5,
+  "packets_received_sink": 0,
+  "switch_msd": {
+    "s2": 10.0,
+    "s6": 8.0,
+    "s1": 10.0,
+    "s8": 5.0,
+    "s7": 4.0
+  },
+  "loss": 0,
+  "rules_readback_present": 0,
+  "stamps": {
+    "trial_start_utc": "2026-11-21T16:37:40.264307Z",
+    "rules_installed_utc": "2026-11-21T16:37:41.968701Z",
+    "capture_end_utc": "2026-11-21T16:37:43.574036Z",
+    "switches_ready_utc": "2026-11-21T16:37:41.608316Z",
+    "send_end_utc": "2026-11-21T16:37:43.574024Z",
+    "send_start_utc": "2026-11-21T16:37:43.574015Z",
+    "readback_done_utc": "2026-11-21T16:37:43.235713Z"
+  },
+  "unexpected_entries": 0,
+  "per_hop_egress_captured": {
+    "sink0": 0,
+    "s1-p2": 0,
+    "s7-p2": 0,
+    "s2-p2": 0,
+    "s6-p2": 0
+  },
+  "readback": [
+    {
+      "key": "fc000001000000000000000000000001",
+      "table": "routing_v6",
+      "switch": "s2",
+      "action": "ipv6_forward",
+      "present": false,
+      "installed_by_plan": false
+    },
+    {
+      "key": "fc000006000000000000000000000001",
+      "table": "routing_v6",
+      "switch": "s1",
+      "action": "ipv6_forward",
+      "present": false,
+      "installed_by_plan": false
+    },
+    {
+      "key": "fc000007000000000000000000000001",
+      "table": "routing_v6",
+      "switch": "s6",
+      "action": "ipv6_forward",
+      "present": false,
+      "installed_by_plan": false
+    },
+    {
+      "key": "fc000008000000000000000000000001",
+      "table": "routing_v6",
+      "switch": "s7",
+      "action": "ipv6_forward",
+      "present": false,
+      "installed_by_plan": false
+    },
+    {
+      "key": "fc000008000000000000000000000001",
+      "table": "srv6_end_dx4_table",
+      "switch": "s8",
+      "action": "srv6_end_dx4",
+      "present": false,
+      "installed_by_plan": false
+    }
+  ],
+  "mode": "protected",
+  "readback_ms": 1267.011,
+  "admission_error": "materialized path exceeds physical switch MSD profile",
+  "counter_delta": {
+    "s2": {
+      "srv6_advance_counter": 0,
+      "msd_violation_counter": 0,
+      "srv6_terminal_counter": 0
+    },
+    "s6": {
+      "srv6_advance_counter": 0,
+      "msd_violation_counter": 0,
+      "srv6_terminal_counter": 0
+    },
+    "s1": {
+      "srv6_advance_counter": 0,
+      "msd_violation_counter": 0,
+      "srv6_terminal_counter": 0
+    },
+    "s8": {
+      "srv6_advance_counter": 0,
+      "msd_violation_counter": 0,
+      "srv6_terminal_counter": 0
+    },
+    "s7": {
+      "srv6_advance_counter": 0,
+      "msd_violation_counter": 0,
+      "srv6_terminal_counter": 0
+    }
+  },
+  "msd_drops_total_delta": 0,
+  "sid_stack_final_to_first": [
+    "fc00:8::1",
+    "fc00:7::1",
+    "fc00:6::1",
+    "fc00:1::1",
+    "fc00:2::1"
+  ],
+  "switch_path": [
+    "s2",
+    "s1",
+    "s6",
+    "s7",
+    "s8"
+  ],
+  "rejected_rules_absent": true,
+  "unique_sink_seqs": 0,
+  "packets_sent": 0,
+  "install_ms": 0.014,
+  "counters_before": {
+    "s2": {
+      "srv6_advance_counter": 0,
+      "msd_violation_counter": 0,
+      "srv6_terminal_counter": 0
+    },
+    "s6": {
+      "srv6_advance_counter": 0,
+      "msd_violation_counter": 0,
+      "srv6_terminal_counter": 0
+    },
+    "s1": {
+      "srv6_advance_counter": 0,
+      "msd_violation_counter": 0,
+      "srv6_terminal_counter": 0
+    },
+    "s8": {
+      "srv6_advance_counter": 0,
+      "msd_violation_counter": 0,
+      "srv6_terminal_counter": 0
+    },
+    "s7": {
+      "srv6_advance_counter": 0,
+      "msd_violation_counter": 0,
+      "srv6_terminal_counter": 0
+    }
+  },
+  "sink_inner_ipv4_frames": 0,
+  "rules_installed": 0,
+  "trial": 2,
+  "case": "over_msd_depth5",
+  "admission_decision": "reject",
+  "counters_after": {
+    "s2": {
+      "srv6_advance_counter": 0,
+      "msd_violation_counter": 0,
+      "srv6_terminal_counter": 0
+    },
+    "s6": {
+      "srv6_advance_counter": 0,
+      "msd_violation_counter": 0,
+      "srv6_terminal_counter": 0
+    },
+    "s1": {
+      "srv6_advance_counter": 0,
+      "msd_violation_counter": 0,
+      "srv6_terminal_counter": 0
+    },
+    "s8": {
+      "srv6_advance_counter": 0,
+      "msd_violation_counter": 0,
+      "srv6_terminal_counter": 0
+    },
+    "s7": {
+      "srv6_advance_counter": 0,
+      "msd_violation_counter": 0,
+      "srv6_terminal_counter": 0
+    }
+  }
+}

@@ -153,9 +153,8 @@ def parse_table_dump(output: str) -> List[Dict]:
         elif re.fullmatch(r"[0-9a-fA-F]{32}", match_value):
             match_value = _canonical_ipv6(match_value)
         params_text = action.group(2).strip()
-        params = [] if not params_text else [
-            _canonical_param(p, from_cli=True) for p in params_text.split(",")
-        ]
+        raw_params = [] if not params_text else [p.strip().lower() for p in params_text.split(",")]
+        params = [_canonical_param(p, from_cli=True) for p in raw_params]
         entries.append({
             "index": index,
             "match_field": match.group(1),
@@ -164,6 +163,9 @@ def parse_table_dump(output: str) -> List[Dict]:
             "prefix_len": prefix_len,
             "action_name": action.group(1),
             "action_params": params,
+            # BMv2 prints parameters as compact hex; keep it for MAC comparison
+            # (the decimal canonical form misreads compact MACs such as "0a").
+            "action_params_hex": raw_params,
         })
     return entries
 
@@ -181,12 +183,14 @@ def table_entry_matches(entry: Dict, match_value: str, match_type: str,
             if requested_prefix_len is None:
                 expected = f"{expected}/{entry.get('prefix_len') or 128}"
         params = []
-        for expected_param, observed_param in zip(action_params, entry["action_params"]):
+        raw_hex = entry.get("action_params_hex") or [None] * len(entry["action_params"])
+        for expected_param, observed_param, observed_raw in zip(action_params, entry["action_params"], raw_hex):
             expected_canonical = _canonical_param(expected_param)
             if (isinstance(expected_param, str)
                     and (re.fullmatch(r"(?:[0-9a-f]{2}:){5}[0-9a-f]{2}", expected_param.lower())
                          or re.fullmatch(r"[0-9a-f]{12}", expected_param.lower()))):
-                observed_hex = str(observed_param).lower().replace(":", "")
+                observed_hex = (observed_raw if observed_raw is not None
+                                else str(observed_param)).lower().replace(":", "")
                 if not re.fullmatch(r"[0-9a-f]{1,12}", observed_hex):
                     return False
                 observed_canonical = observed_hex.zfill(12)

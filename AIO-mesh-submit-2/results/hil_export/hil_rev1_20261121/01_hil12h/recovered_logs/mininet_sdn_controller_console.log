@@ -1,0 +1,93 @@
+2026-11-17T18:16:25.060077112Z *** No K8s bridge found (Calico mode). Will create br-k8s-mn
+2026-11-17T18:16:25.073250857Z *** [Phase 7] Starting 10-node P4RuntimeSwitch topology...
+2026-11-17T18:16:25.078770892Z *** Creating network
+2026-11-17T18:16:25.078802021Z *** Adding hosts:
+2026-11-17T18:16:27.032042556Z h1 h2 h3 h4 h5 h6 h7 h8 h9 h10 
+2026-11-17T18:16:27.032075852Z *** Adding switches:
+2026-11-17T18:16:28.947304119Z s1 s2 s3 s4 s5 s6 s7 s8 s9 s10 
+2026-11-17T18:16:28.947335101Z *** Adding links:
+2026-11-17T18:16:29.865549521Z (0.1ms delay) (0.1ms delay) (h1, s1) (0.1ms delay) (0.1ms delay) (h2, s2) (0.1ms delay) (0.1ms delay) (h3, s3) (0.1ms delay) (0.1ms delay) (h4, s4) (0.1ms delay) (0.1ms delay) (h5, s5) (0.1ms delay) (0.1ms delay) (h6, s6) (0.1ms delay) (0.1ms delay) (h7, s7) (0.1ms delay) (0.1ms delay) (h8, s8) (0.1ms delay) (0.1ms delay) (h9, s9) (0.1ms delay) (0.1ms delay) (h10, s10) (0.10ms delay) (0.10ms delay) (s1, s2) (0.10ms delay) (0.10ms delay) (s1, s3) (1.53ms delay) (1.53ms delay) (s1, s6) (0.10ms delay) (0.10ms delay) (s3, s4) (0.10ms delay) (0.10ms delay) (s4, s5) (0.10ms delay) (0.10ms delay) (s5, s6) (0.10ms delay) (0.10ms delay) (s6, s7) (1.53ms delay) (1.53ms delay) (s6, s9) (0.10ms delay) (0.10ms delay) (s7, s8) (0.10ms delay) (0.10ms delay) (s8, s9) (0.10ms delay) (0.10ms delay) (s9, s10) 
+2026-11-17T18:16:29.865600605Z *** Configuring hosts
+2026-11-17T18:16:29.972224891Z h1 h2 h3 h4 h5 h6 h7 h8 h9 h10 
+2026-11-17T18:16:29.972255317Z *** Starting controller
+2026-11-17T18:16:29.972261464Z 
+2026-11-17T18:16:29.972265392Z *** Starting 10 switches
+2026-11-17T18:16:34.175009115Z s1 s2 s3 s4 s5 s6 s7 s8 s9 s10 ...(0.1ms delay) (0.10ms delay) (0.10ms delay) (1.53ms delay) (0.1ms delay) (0.10ms delay) (0.1ms delay) (0.10ms delay) (0.10ms delay) (0.1ms delay) (0.10ms delay) (0.10ms delay) (0.1ms delay) (0.10ms delay) (0.10ms delay) (0.1ms delay) (1.53ms delay) (0.10ms delay) (0.10ms delay) (1.53ms delay) (0.1ms delay) (0.10ms delay) (0.10ms delay) (0.1ms delay) (0.10ms delay) (0.10ms delay) (0.1ms delay) (1.53ms delay) (0.10ms delay) (0.10ms delay) (0.1ms delay) (0.10ms delay) 
+2026-11-17T18:16:41.366422764Z *** [SwitchManager] Starting all P4 switches...
+2026-11-17T18:16:41.435205476Z *** [P4Switch:s1] Starting BMv2 (cpu=2, Thrift=19091)...
+2026-11-17T18:16:41.884914379Z     Container: 0b90a73ee56f
+2026-11-17T18:16:41.884957969Z     Waiting for Thrift port 19091...
+2026-11-17T18:16:42.187418747Z     ✅ s1 ready (Thrift:19091)
+2026-11-17T18:16:42.241139371Z *** [P4Switch:s2] Starting BMv2 (cpu=3, Thrift=19092)...
+2026-11-17T18:16:42.719969407Z     Container: 4a86263b9ad6
+2026-11-17T18:16:42.720007349Z     Waiting for Thrift port 19092...
+2026-11-17T18:16:43.021770096Z     ✅ s2 ready (Thrift:19092)
+2026-11-17T18:16:43.084981994Z *** [P4Switch:s3] Starting BMv2 (cpu=4, Thrift=19093)...
+2026-11-17T18:16:43.558697411Z     Container: ce6995d6a45e
+2026-11-17T18:16:43.558735420Z     Waiting for Thrift port 19093...
+2026-11-17T18:16:43.860939730Z     ✅ s3 ready (Thrift:19093)
+2026-11-17T18:16:43.925786425Z *** [P4Switch:s4] Starting BMv2 (cpu=5, Thrift=19094)...
+2026-11-17T18:16:44.387056986Z     Container: 0b077b6ac566
+2026-11-17T18:16:44.387096020Z     Waiting for Thrift port 19094...
+2026-11-17T18:16:44.689124720Z     ✅ s4 ready (Thrift:19094)
+2026-11-17T18:16:44.752966996Z *** [P4Switch:s5] Starting BMv2 (cpu=6, Thrift=19095)...
+2026-11-17T18:16:45.222380634Z     Container: dceb8508e257
+2026-11-17T18:16:45.222419124Z     Waiting for Thrift port 19095...
+2026-11-17T18:16:45.523940736Z     ✅ s5 ready (Thrift:19095)
+2026-11-17T18:16:45.603559600Z *** [P4Switch:s6] Starting BMv2 (cpu=7, Thrift=19096)...
+2026-11-17T18:16:46.025107190Z     Container: 529fe8e616e6
+2026-11-17T18:16:46.025167350Z     Waiting for Thrift port 19096...
+2026-11-17T18:16:46.627832346Z     ✅ s6 ready (Thrift:19096)
+2026-11-17T18:16:46.690564825Z *** [P4Switch:s7] Starting BMv2 (cpu=8, Thrift=19097)...
+2026-11-17T18:16:47.150604670Z     Container: dba9499eb667
+2026-11-17T18:16:47.150682166Z     Waiting for Thrift port 19097...
+2026-11-17T18:16:47.452568104Z     ✅ s7 ready (Thrift:19097)
+2026-11-17T18:16:47.514780397Z *** [P4Switch:s8] Starting BMv2 (cpu=9, Thrift=19098)...
+2026-11-17T18:16:47.941392363Z     Container: cf6d4dc3aacb
+2026-11-17T18:16:47.941428812Z     Waiting for Thrift port 19098...
+2026-11-17T18:16:48.243009171Z     ✅ s8 ready (Thrift:19098)
+2026-11-17T18:16:48.306859341Z *** [P4Switch:s9] Starting BMv2 (cpu=10, Thrift=19099)...
+2026-11-17T18:16:48.748529715Z     Container: d762c65fabbd
+2026-11-17T18:16:48.748562024Z     Waiting for Thrift port 19099...
+2026-11-17T18:16:49.050137960Z     ✅ s9 ready (Thrift:19099)
+2026-11-17T18:16:49.111742446Z *** [P4Switch:s10] Starting BMv2 (cpu=11, Thrift=19100)...
+2026-11-17T18:16:49.548978892Z     Container: 203c3fd82667
+2026-11-17T18:16:49.549023911Z     Waiting for Thrift port 19100...
+2026-11-17T18:16:49.850737212Z     ✅ s10 ready (Thrift:19100)
+2026-11-17T18:16:49.850791364Z *** [SwitchManager] All switches running ✅
+2026-11-17T18:16:50.227371903Z ╔══════════════════════════════════════╗
+2026-11-17T18:16:50.227424397Z ║  P4 Switch Status                    ║
+2026-11-17T18:16:50.227434057Z ╠══════════════════════════════════════╣
+2026-11-17T18:16:50.227441517Z ║  s1     cpu=2  gRPC=50051  ✅ UP       ║
+2026-11-17T18:16:50.227449020Z ║  s2     cpu=3  gRPC=50052  ✅ UP       ║
+2026-11-17T18:16:50.227458600Z ║  s3     cpu=4  gRPC=50053  ✅ UP       ║
+2026-11-17T18:16:50.227506976Z ║  s4     cpu=5  gRPC=50054  ✅ UP       ║
+2026-11-17T18:16:50.227528601Z ║  s5     cpu=6  gRPC=50055  ✅ UP       ║
+2026-11-17T18:16:50.227536912Z ║  s6     cpu=7  gRPC=50056  ✅ UP       ║
+2026-11-17T18:16:50.227542118Z ║  s7     cpu=8  gRPC=50057  ✅ UP       ║
+2026-11-17T18:16:50.227547018Z ║  s8     cpu=9  gRPC=50058  ✅ UP       ║
+2026-11-17T18:16:50.227554112Z ║  s9     cpu=10  gRPC=50059  ✅ UP       ║
+2026-11-17T18:16:50.227563367Z ║  s10    cpu=11  gRPC=50060  ✅ UP       ║
+2026-11-17T18:16:50.227572826Z ╚══════════════════════════════════════╝
+2026-11-17T18:16:50.227584827Z *** Setting up Mininet ↔ K8s bridge (calico)...
+2026-11-17T18:16:51.272879236Z *** [Transparent Routing] ip_forward + per-host return routes...
+2026-11-17T18:16:51.387144474Z *** [Transparent Routing] Setup complete. NO MASQUERADE. SFC transparency: ON
+2026-11-17T18:16:51.387173392Z *** Bridge setup complete.
+2026-11-17T18:16:51.387178098Z *** [Bãi Mìn 3] Pre-populating ARP/MAC and setting static entries...
+2026-11-17T18:16:52.473909563Z *** [Phase 7] Waiting for 10 BMv2 switches to stabilize (10s)...
+2026-11-17T18:17:02.483764953Z 2026-11-17 18:17:02,482 [sdn.controller] INFO: [Controller] Bootstrap: populating forwarding tables...
+2026-11-17T18:17:03.041863966Z 2026-11-17 18:17:03,041 [sdn.controller] INFO: [s1] SID +fc00:1::1
+2026-11-17T18:17:03.560991483Z 2026-11-17 18:17:03,560 [sdn.controller] INFO: [s2] SID +fc00:2::1
+2026-11-17T18:17:04.070152061Z 2026-11-17 18:17:04,069 [sdn.controller] INFO: [s3] SID +fc00:3::1
+2026-11-17T18:17:04.566356610Z 2026-11-17 18:17:04,565 [sdn.controller] INFO: [s4] SID +fc00:4::1
+2026-11-17T18:17:05.062836695Z 2026-11-17 18:17:05,061 [sdn.controller] INFO: [s5] SID +fc00:5::1
+2026-11-17T18:17:05.548273262Z 2026-11-17 18:17:05,547 [sdn.controller] INFO: [s6] SID +fc00:6::1
+2026-11-17T18:17:06.135698421Z 2026-11-17 18:17:06,135 [sdn.controller] INFO: [s7] SID +fc00:7::1
+2026-11-17T18:17:06.690801075Z 2026-11-17 18:17:06,687 [sdn.controller] INFO: [s8] SID +fc00:8::1
+2026-11-17T18:17:07.202185161Z 2026-11-17 18:17:07,200 [sdn.controller] INFO: [s9] SID +fc00:9::1
+2026-11-17T18:17:07.688858979Z 2026-11-17 18:17:07,687 [sdn.controller] INFO: [s10] SID +fc00:10::1
+2026-11-17T18:17:07.688909673Z 2026-11-17 18:17:07,688 [sdn.controller] INFO: [Controller] Bootstrap complete ✅
+2026-11-17T18:17:07.690029466Z *** [Phase 7] SDN Controller REST API: http://0.0.0.0:8765
+2026-11-17T18:17:07.690283807Z *** 3S-COM Phase 7 Data Plane ready. Type 'exit' to stop.
+2026-11-17T18:17:07.690445317Z *** Starting CLI:
+2026-11-17T18:17:07.722757231Z mininet> 2026-11-17 18:17:07,722 [sdn.controller] INFO: [REST] SDN Controller API listening on :8765

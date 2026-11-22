@@ -1,0 +1,4 @@
+# captured_utc=2026-11-21T16:26:58Z
+# cmd: docker inspect gracious_jackson --format {{.Id}} image={{.Image}} created={{.Created}} started={{.State.StartedAt}} cmd={{json .Config.Cmd}}
+7f9125928d017da2a712458b36326e33d4d39e89b9cc4816170b0eaf14cb83ce image=sha256:44a5fcde557814dd5b3b2c400e7e2c0d34a7b19c3f8bcd1b891580ab89a63e53 created=2026-11-17T18:16:24.417702926Z started=2026-11-17T18:16:24.858788883Z cmd=["-lc","chroot /host /bin/bash -lc \"cd /home/CoreRouter && exec /home/CoreRouter/venv/bin/python3 infrastructure/sdn/topo_p4.py --p4\""]
+# exit=0

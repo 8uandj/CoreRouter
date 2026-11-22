@@ -1,0 +1,23 @@
+{
+  "request": {
+    "flow_id": "hil-unsupported-realization-20261117T1347Z",
+    "cpu_req": 64.0,
+    "ram_req": 32.5,
+    "msd_req": 6,
+    "service_type": "Data",
+    "alert_flag": true,
+    "is_ddos_spike": false
+  },
+  "resource_tuple_source": {
+    "path": "results/benchmark_testbed/20260517_193630/all_records.csv",
+    "line": 707,
+    "run_id": "20260517_193630",
+    "scenario": "topology_physics",
+    "step": 110,
+    "accepted": true,
+    "http_status": 200,
+    "migration_status_at_capture": "triggered",
+    "pipeline_status_at_capture": "Running"
+  },
+  "source_profile_name": "vnf-attack-004e219d"
+}

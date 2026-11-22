@@ -1,0 +1,5 @@
+{"index": 3, "vnf": "vnf-lb-040ad2a7", "utc": "2026-11-21T20:14:29.356422+00:00", "campaign_recv": 0, "pod": {}, "result": "vnf no longer exists (replaced by later migration)"}
+{"index": 4, "vnf": "vnf-firewall-a83f18dc", "utc": "2026-11-21T20:14:29.562550+00:00", "campaign_recv": 0, "pod": {"ip": "10.1.235.214", "ready": true, "node": "k8s-master", "restarts": 0}, "result": {"sent": 20, "received": 20}}
+{"index": 21, "vnf": "vnf-lb-77360985", "utc": "2026-11-21T20:14:57.454982+00:00", "campaign_recv": 0, "pod": {"ip": "10.1.235.215", "ready": true, "node": "k8s-master", "restarts": 0}, "result": {"sent": 20, "received": 20}}
+{"index": 32, "vnf": "vnf-data-11525c8e", "utc": "2026-11-21T20:15:25.109937+00:00", "campaign_recv": 0, "pod": {"ip": "10.1.235.216", "ready": true, "node": "k8s-master", "restarts": 0}, "result": {"sent": 20, "received": 20}}
+{"index": 36, "vnf": "vnf-voc-d8c0a381", "utc": "2026-11-21T20:15:53.116657+00:00", "campaign_recv": 0, "pod": {"ip": "10.1.235.217", "ready": true, "node": "k8s-master", "restarts": 0}, "result": {"sent": 20, "received": 20}}

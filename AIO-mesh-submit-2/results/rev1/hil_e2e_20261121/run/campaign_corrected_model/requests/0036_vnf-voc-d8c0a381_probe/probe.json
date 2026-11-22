@@ -1,0 +1,284 @@
+{
+  "request_id": "vnf-voc-d8c0a381",
+  "src_host": "h3",
+  "place_host": "h2",
+  "switch_path": [
+    3,
+    1,
+    2
+  ],
+  "sid_stack_final_to_first": [
+    "fc00:2::1",
+    "fc00:1::1",
+    "fc00:3::1"
+  ],
+  "pod_ip": "10.1.235.217",
+  "n": 20,
+  "t": {
+    "counters_before_utc": "2026-11-21T18:56:52.183756+00:00",
+    "send_start_utc": "2026-11-21T18:57:00.834435+00:00",
+    "send_end_utc": "2026-11-21T18:57:59.334920+00:00",
+    "counters_after_utc": "2026-11-21T18:57:59.335562+00:00"
+  },
+  "counters_before": {
+    "s3": {
+      "advance": 360,
+      "terminal": 100,
+      "msd_violation": 0
+    },
+    "s1": {
+      "advance": 1052,
+      "terminal": 20,
+      "msd_violation": 0
+    },
+    "s2": {
+      "advance": 572,
+      "terminal": 100,
+      "msd_violation": 50
+    }
+  },
+  "src_setup": {
+    "switch_port": "s3-eth1",
+    "switch_port_mac": "fe:63:eb:c1:be:a8",
+    "seg6_segs_traversal": [
+      "fc00:3::1",
+      "fc00:1::1",
+      "fc00:2::1"
+    ],
+    "commands": "ethtool -K h3-eth0 tx off >/dev/null; ip -6 addr replace 2001:db8:100::3/64 dev h3-eth0 nodad; ip -6 route replace fc00::/16 dev h3-eth0; ip -6 neigh replace fc00:3::1 lladdr fe:63:eb:c1:be:a8 dev h3-eth0 nud permanent; ip route replace 10.1.235.217/32 encap seg6 mode encap segs fc00:3::1,fc00:1::1,fc00:2::1 dev h3-eth0; ip route get 10.1.235.217",
+    "output": "10.1.235.217 dev h3-eth0 src 10.0.0.3 uid 0 \n    cache \n"
+  },
+  "mode": "http",
+  "http": [
+    {
+      "seq": 1,
+      "sent_utc": "2026-11-21T18:57:01.375570661",
+      "http_code": 0,
+      "time_connect_s": 0.0,
+      "time_total_s": 5.001831,
+      "body": "",
+      "marker_echoed_by_vnf": false
+    },
+    {
+      "seq": 2,
+      "sent_utc": "2026-11-21T18:57:06.398548989",
+      "http_code": 0,
+      "time_connect_s": 0.0,
+      "time_total_s": 5.001764,
+      "body": "",
+      "marker_echoed_by_vnf": false
+    },
+    {
+      "seq": 3,
+      "sent_utc": "2026-11-21T18:57:11.418286143",
+      "http_code": 0,
+      "time_connect_s": 0.0,
+      "time_total_s": 5.001249,
+      "body": "",
+      "marker_echoed_by_vnf": false
+    },
+    {
+      "seq": 4,
+      "sent_utc": "2026-11-21T18:57:16.437622952",
+      "http_code": 0,
+      "time_connect_s": 0.0,
+      "time_total_s": 5.001245,
+      "body": "",
+      "marker_echoed_by_vnf": false
+    },
+    {
+      "seq": 5,
+      "sent_utc": "2026-11-21T18:57:21.456533919",
+      "http_code": 0,
+      "time_connect_s": 0.0,
+      "time_total_s": 5.00186,
+      "body": "",
+      "marker_echoed_by_vnf": false
+    },
+    {
+      "seq": 6,
+      "sent_utc": "2026-11-21T18:57:26.481973318",
+      "http_code": 0,
+      "time_connect_s": 0.0,
+      "time_total_s": 5.001655,
+      "body": "",
+      "marker_echoed_by_vnf": false
+    },
+    {
+      "seq": 7,
+      "sent_utc": "2026-11-21T18:57:31.505594367",
+      "http_code": 0,
+      "time_connect_s": 0.0,
+      "time_total_s": 5.001439,
+      "body": "",
+      "marker_echoed_by_vnf": false
+    },
+    {
+      "seq": 8,
+      "sent_utc": "2026-11-21T18:57:36.527331807",
+      "http_code": 0,
+      "time_connect_s": 0.0,
+      "time_total_s": 5.00174,
+      "body": "",
+      "marker_echoed_by_vnf": false
+    },
+    {
+      "seq": 9,
+      "sent_utc": "2026-11-21T18:57:41.549049052",
+      "http_code": 0,
+      "time_connect_s": 0.0,
+      "time_total_s": 5.000963,
+      "body": "",
+      "marker_echoed_by_vnf": false
+    },
+    {
+      "seq": 10,
+      "sent_utc": "2026-11-21T18:57:46.568968462",
+      "http_code": 0,
+      "time_connect_s": 0.0,
+      "time_total_s": 5.002219,
+      "body": "",
+      "marker_echoed_by_vnf": false
+    },
+    {
+      "seq": 11,
+      "sent_utc": "2026-11-21T18:57:51.594515794",
+      "http_code": 0,
+      "time_connect_s": 0.0,
+      "time_total_s": 3.03927,
+      "body": "",
+      "marker_echoed_by_vnf": false
+    },
+    {
+      "seq": 12,
+      "sent_utc": "2026-11-21T18:57:54.659024069",
+      "http_code": 0,
+      "time_connect_s": 0.0,
+      "time_total_s": 0.003261,
+      "body": "",
+      "marker_echoed_by_vnf": false
+    },
+    {
+      "seq": 13,
+      "sent_utc": "2026-11-21T18:57:54.684863111",
+      "http_code": 0,
+      "time_connect_s": 0.0,
+      "time_total_s": 0.003468,
+      "body": "",
+      "marker_echoed_by_vnf": false
+    },
+    {
+      "seq": 14,
+      "sent_utc": "2026-11-21T18:57:54.707635218",
+      "http_code": 0,
+      "time_connect_s": 0.0,
+      "time_total_s": 0.003096,
+      "body": "",
+      "marker_echoed_by_vnf": false
+    },
+    {
+      "seq": 15,
+      "sent_utc": "2026-11-21T18:57:54.731203175",
+      "http_code": 0,
+      "time_connect_s": 0.0,
+      "time_total_s": 0.003179,
+      "body": "",
+      "marker_echoed_by_vnf": false
+    },
+    {
+      "seq": 16,
+      "sent_utc": "2026-11-21T18:57:54.752896631",
+      "http_code": 0,
+      "time_connect_s": 0.0,
+      "time_total_s": 0.003038,
+      "body": "",
+      "marker_echoed_by_vnf": false
+    },
+    {
+      "seq": 17,
+      "sent_utc": "2026-11-21T18:57:54.777426942",
+      "http_code": 0,
+      "time_connect_s": 0.0,
+      "time_total_s": 1.007608,
+      "body": "",
+      "marker_echoed_by_vnf": false
+    },
+    {
+      "seq": 18,
+      "sent_utc": "2026-11-21T18:57:55.808091603",
+      "http_code": 0,
+      "time_connect_s": 0.0,
+      "time_total_s": 1.038582,
+      "body": "",
+      "marker_echoed_by_vnf": false
+    },
+    {
+      "seq": 19,
+      "sent_utc": "2026-11-21T18:57:56.870183589",
+      "http_code": 0,
+      "time_connect_s": 0.0,
+      "time_total_s": 1.027388,
+      "body": "",
+      "marker_echoed_by_vnf": false
+    },
+    {
+      "seq": 20,
+      "sent_utc": "2026-11-21T18:57:57.922599617",
+      "http_code": 0,
+      "time_connect_s": 0.0,
+      "time_total_s": 1.033853,
+      "body": "",
+      "marker_echoed_by_vnf": false
+    }
+  ],
+  "counters_after": {
+    "s3": {
+      "advance": 406,
+      "terminal": 100,
+      "msd_violation": 0
+    },
+    "s1": {
+      "advance": 1098,
+      "terminal": 20,
+      "msd_violation": 0
+    },
+    "s2": {
+      "advance": 572,
+      "terminal": 146,
+      "msd_violation": 50
+    }
+  },
+  "counter_delta": {
+    "s3": {
+      "advance": 46,
+      "terminal": 0,
+      "msd_violation": 0
+    },
+    "s1": {
+      "advance": 46,
+      "terminal": 0,
+      "msd_violation": 0
+    },
+    "s2": {
+      "advance": 0,
+      "terminal": 46,
+      "msd_violation": 0
+    }
+  },
+  "src_teardown": "10.0.0.0/24 dev h3-eth0 proto kernel scope link src 10.0.0.3 \n10.1.0.0/16 via 10.1.240.1 dev veth-h3-mn \n",
+  "captured_packets": {
+    "src_egress_srv6": 48,
+    "place_host_decap": 46,
+    "host_vxlan": 46,
+    "src_return": 0
+  },
+  "summary": {
+    "sent": 20,
+    "app_received": 0,
+    "loss": 20,
+    "http_codes": [
+      0
+    ],
+    "rtt_total_ms": []
+  }
+}

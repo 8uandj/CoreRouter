@@ -1,0 +1,18 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: hil-diag-k8s-master
+  namespace: core-router
+  labels: {purpose: hil-vxlan-diagnosis}
+spec:
+  nodeName: k8s-master
+  hostNetwork: true
+  hostPID: true
+  restartPolicy: Never
+  tolerations: [{operator: Exists}]
+  containers:
+  - name: diag
+    image: 10.10.6.231:32000/alpine:latest
+    imagePullPolicy: IfNotPresent
+    command: ["sleep", "7200"]
+    securityContext: {privileged: true}

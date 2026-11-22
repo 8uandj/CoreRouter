@@ -1,0 +1,6 @@
+msd_req,http_status,reason_key,count,percent_of_offered,source_code_consequence
+1,409,msd_violation,4501,36.52,depth mismatch by construction: msd_req=1 < minimum compiled depth 2 (source != placement); not an MSD-limit exceedance
+1,409,no_safe_action,463,3.76,"reason_key fallback 'no_safe_action'; original HTTP message not retained (e.g. placement == source, or other ValueError)"
+2,200,-,1455,11.81,admitted; requested depth equals compiled source->placement path depth
+2,409,msd_violation,5171,41.96,label 'msd_violation' = message containing 'msd'; with depth <= 2 and min MSD limit 4 this can only be a depth mismatch (placement not adjacent)
+2,409,no_safe_action,735,5.96,"reason_key fallback 'no_safe_action'; original HTTP message not retained (e.g. placement == source, or other ValueError)"

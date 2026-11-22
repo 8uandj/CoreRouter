@@ -1,0 +1,23 @@
+{
+  "offered": 91,
+  "admitted": 19,
+  "outcomes": {
+    "rejected": 72,
+    "steered": 16,
+    "steer_not_confirmed": 3
+  },
+  "reject_messages": {
+    "requested MSD depth does not match materialized P4 path depth": 65,
+    "forwarding requires distinct ingress and placement nodes": 7
+  },
+  "steered": 16,
+  "readback_all_present": 16,
+  "ledger_profile_known": 15,
+  "probe_sent": 320,
+  "probe_received": 260,
+  "by_node_delivery": {
+    "worker1|True": 5,
+    "worker2|True": 8,
+    "k8s-master|False": 3
+  }
+}

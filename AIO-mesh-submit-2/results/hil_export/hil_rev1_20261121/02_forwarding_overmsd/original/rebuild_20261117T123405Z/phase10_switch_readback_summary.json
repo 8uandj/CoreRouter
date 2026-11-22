@@ -1,0 +1,118 @@
+{
+  "switches": [
+    {
+      "switch": "s1",
+      "readback_exit": "124",
+      "required_symbols": false,
+      "port1": "missing",
+      "sid_entry": false,
+      "has_read_error": false,
+      "msd_counter_zero": false,
+      "advance_counter_zero": false,
+      "terminal_counter_zero": false
+    },
+    {
+      "switch": "s2",
+      "readback_exit": "0",
+      "required_symbols": true,
+      "port1": "UP",
+      "sid_entry": false,
+      "has_read_error": false,
+      "msd_counter_zero": true,
+      "advance_counter_zero": true,
+      "terminal_counter_zero": true
+    },
+    {
+      "switch": "s3",
+      "readback_exit": "0",
+      "required_symbols": true,
+      "port1": "UP",
+      "sid_entry": false,
+      "has_read_error": false,
+      "msd_counter_zero": true,
+      "advance_counter_zero": true,
+      "terminal_counter_zero": true
+    },
+    {
+      "switch": "s4",
+      "readback_exit": "124",
+      "required_symbols": false,
+      "port1": "missing",
+      "sid_entry": false,
+      "has_read_error": false,
+      "msd_counter_zero": false,
+      "advance_counter_zero": false,
+      "terminal_counter_zero": false
+    },
+    {
+      "switch": "s5",
+      "readback_exit": "0",
+      "required_symbols": true,
+      "port1": "UP",
+      "sid_entry": false,
+      "has_read_error": false,
+      "msd_counter_zero": true,
+      "advance_counter_zero": true,
+      "terminal_counter_zero": true
+    },
+    {
+      "switch": "s6",
+      "readback_exit": "124",
+      "required_symbols": false,
+      "port1": "missing",
+      "sid_entry": false,
+      "has_read_error": false,
+      "msd_counter_zero": false,
+      "advance_counter_zero": false,
+      "terminal_counter_zero": false
+    },
+    {
+      "switch": "s7",
+      "readback_exit": "0",
+      "required_symbols": true,
+      "port1": "UP",
+      "sid_entry": false,
+      "has_read_error": false,
+      "msd_counter_zero": true,
+      "advance_counter_zero": true,
+      "terminal_counter_zero": true
+    },
+    {
+      "switch": "s8",
+      "readback_exit": "0",
+      "required_symbols": true,
+      "port1": "UP",
+      "sid_entry": false,
+      "has_read_error": false,
+      "msd_counter_zero": true,
+      "advance_counter_zero": true,
+      "terminal_counter_zero": true
+    },
+    {
+      "switch": "s9",
+      "readback_exit": "0",
+      "required_symbols": true,
+      "port1": "UP",
+      "sid_entry": false,
+      "has_read_error": false,
+      "msd_counter_zero": true,
+      "advance_counter_zero": true,
+      "terminal_counter_zero": true
+    },
+    {
+      "switch": "s10",
+      "readback_exit": "0",
+      "required_symbols": true,
+      "port1": "UP",
+      "sid_entry": false,
+      "has_read_error": false,
+      "msd_counter_zero": true,
+      "advance_counter_zero": true,
+      "terminal_counter_zero": true
+    }
+  ],
+  "all_port1_up": false,
+  "all_profiles_readable": false,
+  "all_sids_present": false,
+  "routes_empty_default_drop": true
+}

@@ -1,0 +1,427 @@
+{
+  "protocol": "isolated-bmv2-sid7-injection-v1",
+  "created_utc": "2026-11-21T16:44:40.830147+00:00",
+  "packets_per_trial": 100,
+  "trials": 3,
+  "send_interval_s": 0.01,
+  "msd_profile_by_node": [
+    10.0,
+    10.0,
+    5.0,
+    5.0,
+    4.0,
+    8.0,
+    4.0,
+    5.0,
+    10.0,
+    5.0
+  ],
+  "profile_files": {
+    "4": {
+      "file": "/home/CoreRouter/results/hil/rebuild_20261117T123405Z/offline_p4_build/msd_4/srv6_msd_4.json",
+      "sha256": "266e6b9ff4b92c354e722149bfdbfc65bc5c3bc9911eda0dc074bf74a3bd289f"
+    },
+    "5": {
+      "file": "/home/CoreRouter/results/hil/rebuild_20261117T123405Z/offline_p4_build/msd_5/srv6_msd_5.json",
+      "sha256": "277fc4f5d9ddf63c98dbc7e046a0928597c98e527caea657b6ed72c5aead3964"
+    },
+    "8": {
+      "file": "/home/CoreRouter/results/hil/rebuild_20261117T123405Z/offline_p4_build/msd_8/srv6_msd_8.json",
+      "sha256": "a7b96fab2590d14f0d829106779ad27794d9becf3e7d5f342c071dafb0ab8342"
+    },
+    "10": {
+      "file": "/home/CoreRouter/results/hil/rebuild_20261117T123405Z/offline_p4_build/msd_10/srv6_msd_10.json",
+      "sha256": "267bb90744967b5802212e8bd16c35e7e39359985b5e254e453c92000716f2f6"
+    }
+  },
+  "code_sha256": {
+    "src/portal/backend/app/services/p4_pair_realization.py": "eabcb58f8f073b0ccf78421d7f8d2d95ae10843ebf1336fc44e612a8de9e87c2",
+    "infrastructure/sdn/p4_topology.py": "652aa9bc37c168f6f5d4e6fd5ccb058ec15e5782376e5a81df374326e85e64e4"
+  },
+  "runs": [
+    {
+      "purpose": "admitted depth-4 path; MSD-4 switch s7 is the terminal",
+      "request": {
+        "source_node": 1,
+        "placement_node": 6,
+        "route_node": 6,
+        "requested_depth": 4
+      },
+      "node_path": [
+        1,
+        0,
+        5,
+        6
+      ],
+      "switch_path": [
+        2,
+        1,
+        6,
+        7
+      ],
+      "sid_stack_final_to_first": [
+        "fc00:7::1",
+        "fc00:6::1",
+        "fc00:1::1",
+        "fc00:2::1"
+      ],
+      "switch_msd": {
+        "s2": 10.0,
+        "s1": 10.0,
+        "s6": 8.0,
+        "s7": 4.0
+      },
+      "switch_profile_file": {
+        "s2": "srv6_msd_10.json",
+        "s1": "srv6_msd_10.json",
+        "s6": "srv6_msd_8.json",
+        "s7": "srv6_msd_4.json"
+      },
+      "admission": {
+        "decision": "admit",
+        "error": null,
+        "function": "compile_pair_path"
+      },
+      "install_rules": true,
+      "rules": [
+        {
+          "switch": "s2",
+          "type": "ipv6_route",
+          "prefix": "fc00:1::1",
+          "prefix_len": 128,
+          "dst_mac": "02:00:00:00:01:01",
+          "src_mac": "02:00:00:00:02:02",
+          "out_port": 2
+        },
+        {
+          "switch": "s1",
+          "type": "ipv6_route",
+          "prefix": "fc00:6::1",
+          "prefix_len": 128,
+          "dst_mac": "02:00:00:00:06:01",
+          "src_mac": "02:00:00:00:01:02",
+          "out_port": 2
+        },
+        {
+          "switch": "s6",
+          "type": "ipv6_route",
+          "prefix": "fc00:7::1",
+          "prefix_len": 128,
+          "dst_mac": "02:00:00:00:07:01",
+          "src_mac": "02:00:00:00:06:02",
+          "out_port": 2
+        },
+        {
+          "switch": "s7",
+          "type": "srv6_end_dx4",
+          "sid": "fc00:7::1",
+          "dst_mac": "02:00:00:00:00:02",
+          "src_mac": "02:00:00:00:07:02",
+          "out_port": 2
+        }
+      ],
+      "rules_compiled_but_not_installed": [],
+      "send_packets": true,
+      "port_map": {
+        "s2|s1": {
+          "out_port": 2,
+          "src_mac": "02:00:00:00:02:02",
+          "dst_mac": "02:00:00:00:01:01"
+        },
+        "s1|s6": {
+          "out_port": 2,
+          "src_mac": "02:00:00:00:01:02",
+          "dst_mac": "02:00:00:00:06:01"
+        },
+        "s6|s7": {
+          "out_port": 2,
+          "src_mac": "02:00:00:00:06:02",
+          "dst_mac": "02:00:00:00:07:01"
+        },
+        "s7|host": {
+          "out_port": 2,
+          "src_mac": "02:00:00:00:07:02",
+          "dst_mac": "02:00:00:00:00:02"
+        }
+      },
+      "case": "depth4_path_s2-s1-s6-s7__control_admitted_depth",
+      "mode": "admitted",
+      "expected_parser_drop_at": []
+    },
+    {
+      "purpose": "admitted depth-4 path; MSD-4 switch s7 is the terminal",
+      "request": {
+        "source_node": 1,
+        "placement_node": 6,
+        "route_node": 6,
+        "requested_depth": 4
+      },
+      "node_path": [
+        1,
+        0,
+        5,
+        6
+      ],
+      "switch_path": [
+        2,
+        1,
+        6,
+        7
+      ],
+      "sid_stack_final_to_first": [
+        "fc00:7::1",
+        "fc00:6::1",
+        "fc00:1::1",
+        "fc00:2::1"
+      ],
+      "switch_msd": {
+        "s2": 10.0,
+        "s1": 10.0,
+        "s6": 8.0,
+        "s7": 4.0
+      },
+      "switch_profile_file": {
+        "s2": "srv6_msd_10.json",
+        "s1": "srv6_msd_10.json",
+        "s6": "srv6_msd_8.json",
+        "s7": "srv6_msd_4.json"
+      },
+      "admission": {
+        "decision": "admit",
+        "error": null,
+        "function": "compile_pair_path"
+      },
+      "install_rules": true,
+      "rules": [
+        {
+          "switch": "s2",
+          "type": "ipv6_route",
+          "prefix": "fc00:1::1",
+          "prefix_len": 128,
+          "dst_mac": "02:00:00:00:01:01",
+          "src_mac": "02:00:00:00:02:02",
+          "out_port": 2
+        },
+        {
+          "switch": "s1",
+          "type": "ipv6_route",
+          "prefix": "fc00:6::1",
+          "prefix_len": 128,
+          "dst_mac": "02:00:00:00:06:01",
+          "src_mac": "02:00:00:00:01:02",
+          "out_port": 2
+        },
+        {
+          "switch": "s6",
+          "type": "ipv6_route",
+          "prefix": "fc00:7::1",
+          "prefix_len": 128,
+          "dst_mac": "02:00:00:00:07:01",
+          "src_mac": "02:00:00:00:06:02",
+          "out_port": 2
+        },
+        {
+          "switch": "s7",
+          "type": "srv6_end_dx4",
+          "sid": "fc00:7::1",
+          "dst_mac": "02:00:00:00:00:02",
+          "src_mac": "02:00:00:00:07:02",
+          "out_port": 2
+        }
+      ],
+      "rules_compiled_but_not_installed": [],
+      "send_packets": true,
+      "port_map": {
+        "s2|s1": {
+          "out_port": 2,
+          "src_mac": "02:00:00:00:02:02",
+          "dst_mac": "02:00:00:00:01:01"
+        },
+        "s1|s6": {
+          "out_port": 2,
+          "src_mac": "02:00:00:00:01:02",
+          "dst_mac": "02:00:00:00:06:01"
+        },
+        "s6|s7": {
+          "out_port": 2,
+          "src_mac": "02:00:00:00:06:02",
+          "dst_mac": "02:00:00:00:07:01"
+        },
+        "s7|host": {
+          "out_port": 2,
+          "src_mac": "02:00:00:00:07:02",
+          "dst_mac": "02:00:00:00:00:02"
+        }
+      },
+      "case": "depth4_path_s2-s1-s6-s7__injected_depth7",
+      "mode": "fault_injection",
+      "packet_sid_list_final_to_first": [
+        "fc00:7::1",
+        "fc00:6::1",
+        "fc00:1::1",
+        "fc00:2::1",
+        "2001:db8:ffff::1",
+        "2001:db8:ffff::2",
+        "2001:db8:ffff::3"
+      ],
+      "packet_segments_left": 3,
+      "expected_parser_drop_at": [
+        "s7"
+      ]
+    },
+    {
+      "purpose": "admitted depth-2 path; MSD-4 switch s7 is the ingress",
+      "request": {
+        "source_node": 6,
+        "placement_node": 5,
+        "route_node": 5,
+        "requested_depth": 2
+      },
+      "node_path": [
+        6,
+        5
+      ],
+      "switch_path": [
+        7,
+        6
+      ],
+      "sid_stack_final_to_first": [
+        "fc00:6::1",
+        "fc00:7::1"
+      ],
+      "switch_msd": {
+        "s7": 4.0,
+        "s6": 8.0
+      },
+      "switch_profile_file": {
+        "s7": "srv6_msd_4.json",
+        "s6": "srv6_msd_8.json"
+      },
+      "admission": {
+        "decision": "admit",
+        "error": null,
+        "function": "compile_pair_path"
+      },
+      "install_rules": true,
+      "rules": [
+        {
+          "switch": "s7",
+          "type": "ipv6_route",
+          "prefix": "fc00:6::1",
+          "prefix_len": 128,
+          "dst_mac": "02:00:00:00:06:01",
+          "src_mac": "02:00:00:00:07:02",
+          "out_port": 2
+        },
+        {
+          "switch": "s6",
+          "type": "srv6_end_dx4",
+          "sid": "fc00:6::1",
+          "dst_mac": "02:00:00:00:00:02",
+          "src_mac": "02:00:00:00:06:02",
+          "out_port": 2
+        }
+      ],
+      "rules_compiled_but_not_installed": [],
+      "send_packets": true,
+      "port_map": {
+        "s7|s6": {
+          "out_port": 2,
+          "src_mac": "02:00:00:00:07:02",
+          "dst_mac": "02:00:00:00:06:01"
+        },
+        "s6|host": {
+          "out_port": 2,
+          "src_mac": "02:00:00:00:06:02",
+          "dst_mac": "02:00:00:00:00:02"
+        }
+      },
+      "case": "depth2_path_s7-s6__control_admitted_depth",
+      "mode": "admitted",
+      "expected_parser_drop_at": []
+    },
+    {
+      "purpose": "admitted depth-2 path; MSD-4 switch s7 is the ingress",
+      "request": {
+        "source_node": 6,
+        "placement_node": 5,
+        "route_node": 5,
+        "requested_depth": 2
+      },
+      "node_path": [
+        6,
+        5
+      ],
+      "switch_path": [
+        7,
+        6
+      ],
+      "sid_stack_final_to_first": [
+        "fc00:6::1",
+        "fc00:7::1"
+      ],
+      "switch_msd": {
+        "s7": 4.0,
+        "s6": 8.0
+      },
+      "switch_profile_file": {
+        "s7": "srv6_msd_4.json",
+        "s6": "srv6_msd_8.json"
+      },
+      "admission": {
+        "decision": "admit",
+        "error": null,
+        "function": "compile_pair_path"
+      },
+      "install_rules": true,
+      "rules": [
+        {
+          "switch": "s7",
+          "type": "ipv6_route",
+          "prefix": "fc00:6::1",
+          "prefix_len": 128,
+          "dst_mac": "02:00:00:00:06:01",
+          "src_mac": "02:00:00:00:07:02",
+          "out_port": 2
+        },
+        {
+          "switch": "s6",
+          "type": "srv6_end_dx4",
+          "sid": "fc00:6::1",
+          "dst_mac": "02:00:00:00:00:02",
+          "src_mac": "02:00:00:00:06:02",
+          "out_port": 2
+        }
+      ],
+      "rules_compiled_but_not_installed": [],
+      "send_packets": true,
+      "port_map": {
+        "s7|s6": {
+          "out_port": 2,
+          "src_mac": "02:00:00:00:07:02",
+          "dst_mac": "02:00:00:00:06:01"
+        },
+        "s6|host": {
+          "out_port": 2,
+          "src_mac": "02:00:00:00:06:02",
+          "dst_mac": "02:00:00:00:00:02"
+        }
+      },
+      "case": "depth2_path_s7-s6__injected_depth7",
+      "mode": "fault_injection",
+      "packet_sid_list_final_to_first": [
+        "fc00:6::1",
+        "fc00:7::1",
+        "2001:db8:ffff::1",
+        "2001:db8:ffff::2",
+        "2001:db8:ffff::3",
+        "2001:db8:ffff::4",
+        "2001:db8:ffff::5"
+      ],
+      "packet_segments_left": 1,
+      "expected_parser_drop_at": [
+        "s7"
+      ]
+    }
+  ]
+}

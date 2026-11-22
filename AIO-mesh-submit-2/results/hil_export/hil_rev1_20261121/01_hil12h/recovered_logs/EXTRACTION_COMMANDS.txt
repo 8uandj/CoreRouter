@@ -1,0 +1,8 @@
+# extracted_utc=2026-11-21T16:28:33Z on host 3s-com; read-only commands
+docker logs --timestamps --since 2026-11-17T19:02:00Z --until 2026-11-18T07:03:30Z 3s-com-backend > backend_access_12h_window.log
+docker logs --timestamps 3s-com-backend > backend_full_since_container_start.log
+docker logs --timestamps gracious_jackson > mininet_sdn_controller_console.log
+kubectl -n core-router get pipelineruns -o json | <python CSV projection: name, creationTimestamp, completionTime, status, reason> > k8s_core_router_pipelineruns.csv
+kubectl -n core-router get events --sort-by=.lastTimestamp -o wide > k8s_core_router_events_now.txt
+# backend container 3s-com-backend id=0b62be8d9e13616cec82bf2e505ab4848503e07bdbadd621e8ddb2811d9fd88d started=2026-11-17T18:07:07.068666985Z restarts=0
+# mininet container gracious_jackson id=7f9125928d017da2a712458b36326e33d4d39e89b9cc4816170b0eaf14cb83ce started=2026-11-17T18:16:24.858788883Z

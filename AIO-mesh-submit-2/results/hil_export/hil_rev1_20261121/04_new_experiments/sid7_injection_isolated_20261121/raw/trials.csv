@@ -1,0 +1,13 @@
+case,mode,trial,admission_decision,admission_error,sid_depth,rules_installed,rules_readback_present,rejected_rules_absent,unexpected_entries,packets_sent,packets_received_sink,loss,msd_drops_total_delta,install_ms,readback_ms,switch_path,drop_switch_msd_delta,per_hop_egress_captured
+depth4_path_s2-s1-s6-s7__control_admitted_depth,admitted,1,admit,,4,4,4,True,0,100,100,0,0,285.073,838.747,s2-s1-s6-s7,{},"{""s2-p2"": 100, ""s1-p2"": 100, ""s6-p2"": 100, ""sink0"": 100}"
+depth4_path_s2-s1-s6-s7__control_admitted_depth,admitted,2,admit,,4,4,4,True,0,100,100,0,0,314.217,875.217,s2-s1-s6-s7,{},"{""s2-p2"": 100, ""s1-p2"": 100, ""s6-p2"": 100, ""sink0"": 100}"
+depth4_path_s2-s1-s6-s7__control_admitted_depth,admitted,3,admit,,4,4,4,True,0,100,100,0,0,264.746,821.688,s2-s1-s6-s7,{},"{""s2-p2"": 100, ""s1-p2"": 100, ""s6-p2"": 100, ""sink0"": 100}"
+depth4_path_s2-s1-s6-s7__injected_depth7,fault_injection,1,admit,,7,4,4,True,0,100,0,100,100,293.788,828.146,s2-s1-s6-s7,"{""s7"": 100}","{""s2-p2"": 100, ""s1-p2"": 100, ""s6-p2"": 100, ""sink0"": 0}"
+depth4_path_s2-s1-s6-s7__injected_depth7,fault_injection,2,admit,,7,4,4,True,0,100,0,100,100,337.2,808.508,s2-s1-s6-s7,"{""s7"": 100}","{""s2-p2"": 100, ""s1-p2"": 100, ""s6-p2"": 100, ""sink0"": 0}"
+depth4_path_s2-s1-s6-s7__injected_depth7,fault_injection,3,admit,,7,4,4,True,0,100,0,100,100,261.274,789.22,s2-s1-s6-s7,"{""s7"": 100}","{""s2-p2"": 100, ""s1-p2"": 100, ""s6-p2"": 100, ""sink0"": 0}"
+depth2_path_s7-s6__control_admitted_depth,admitted,1,admit,,2,2,2,True,0,100,100,0,0,129.993,417.149,s7-s6,{},"{""s7-p2"": 100, ""sink0"": 100}"
+depth2_path_s7-s6__control_admitted_depth,admitted,2,admit,,2,2,2,True,0,100,100,0,0,130.325,455.971,s7-s6,{},"{""s7-p2"": 100, ""sink0"": 100}"
+depth2_path_s7-s6__control_admitted_depth,admitted,3,admit,,2,2,2,True,0,100,100,0,0,141.898,446.642,s7-s6,{},"{""s7-p2"": 100, ""sink0"": 100}"
+depth2_path_s7-s6__injected_depth7,fault_injection,1,admit,,7,2,2,True,0,100,0,100,100,166.745,422.185,s7-s6,"{""s7"": 100}","{""s7-p2"": 0, ""sink0"": 0}"
+depth2_path_s7-s6__injected_depth7,fault_injection,2,admit,,7,2,2,True,0,100,0,100,100,132.28,426.82,s7-s6,"{""s7"": 100}","{""s7-p2"": 0, ""sink0"": 0}"
+depth2_path_s7-s6__injected_depth7,fault_injection,3,admit,,7,2,2,True,0,100,0,100,100,131.192,455.301,s7-s6,"{""s7"": 100}","{""s7-p2"": 0, ""sink0"": 0}"

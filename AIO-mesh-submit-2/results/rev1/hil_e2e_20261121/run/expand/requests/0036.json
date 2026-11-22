@@ -1,0 +1,30 @@
+{
+  "index": 36,
+  "request": {
+    "service_type": "voc",
+    "cpu_req": 5.0,
+    "ram_req": 2.5,
+    "msd_req": 3,
+    "alert_flag": false,
+    "source_node": 4,
+    "destination_node": 0,
+    "flow_id": "expand-0036"
+  },
+  "profile": "URLLC",
+  "evidence_class": "driver-orchestrated actuation",
+  "t": {
+    "submit_utc": "2026-11-21T17:59:53.022571+00:00",
+    "response_utc": "2026-11-21T17:59:53.145091+00:00"
+  },
+  "http_status": 409,
+  "api_rtt_ms": 122.24,
+  "outcome": "rejected",
+  "error": {
+    "status": "error",
+    "code": "NO_SAFE_ACTION",
+    "reason_key": "no_safe_action",
+    "message": "forwarding requires distinct ingress and placement nodes"
+  },
+  "active_total_after": 23,
+  "ledger_record_after": null
+}

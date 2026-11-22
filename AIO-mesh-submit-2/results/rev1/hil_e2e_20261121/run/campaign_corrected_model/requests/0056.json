@@ -1,0 +1,278 @@
+{
+  "index": 56,
+  "request": {
+    "service_type": "nat",
+    "cpu_req": 5.0,
+    "ram_req": 2.5,
+    "msd_req": 4,
+    "alert_flag": true,
+    "source_node": 9,
+    "destination_node": 3,
+    "flow_id": "e2e-0056"
+  },
+  "profile": "URLLC",
+  "t": {
+    "submit_utc": "2026-11-21T19:03:05.854559+00:00",
+    "response_utc": "2026-11-21T19:03:06.062861+00:00",
+    "status_terminal_seen_utc": "2026-11-21T19:03:58.904998+00:00",
+    "backend_make_utc": "2026-11-21T19:03:06.125733738Z",
+    "backend_ready_utc": "2026-11-21T19:03:24.359509892Z",
+    "controller_steer_start_utc": "2026-11-21T19:03:24.385967040Z",
+    "controller_confirm_utc": "2026-11-21T19:03:25.101622956Z",
+    "readback_utc": "2026-11-21T19:04:00.671198+00:00",
+    "probe_start_utc": "2026-11-21T19:04:04.151561+00:00"
+  },
+  "http_status": 200,
+  "api_rtt_ms": 207.889,
+  "vnf_name": "vnf-nat-fd293e3a",
+  "placement": {
+    "id": 4,
+    "name": "Hue"
+  },
+  "route": {
+    "id": 5,
+    "name": "DaNang"
+  },
+  "realization": {
+    "request_id": "vnf-nat-fd293e3a",
+    "operation_id": "bb48f3c2-0b60-402d-bae3-7efe415aafa9",
+    "topology_hash": "67131a546450606da19276263b00d23988d13fd71c17be38cb24a12637fe9f11",
+    "p4_topology_hash": "ee00b35ebeff5a46d428340fdfd984ecabf2047a4ef0cd79318a81ad732b4dbf",
+    "profile_id": "p4-path-candidate-v1",
+    "switch_path": [
+      10,
+      9,
+      6,
+      5
+    ],
+    "sid_stack": [
+      "fc00:5::1",
+      "fc00:6::1",
+      "fc00:9::1",
+      "fc00:10::1"
+    ]
+  },
+  "migration_result": {
+    "status": "triggered",
+    "old_vnf": "vnf-nat-ff43155a",
+    "new_vnf": "vnf-nat-fd293e3a",
+    "status_path": "/orchestrate/migrations/vnf-nat-fd293e3a"
+  },
+  "server_timings_ms": {
+    "state_sync_ms": 63.57375718653202,
+    "state_snapshot_ms": 1.5826160088181496,
+    "state_construction_ms": 0.3118941094726324,
+    "mask_construction_ms": 0.06842310540378094,
+    "normalization_ms": 0.08050398901104927,
+    "policy_inference_ms": 82.26894587278366,
+    "total_policy_ms": 82.79399806633592,
+    "admission_validation_ms": 23.973523871973157,
+    "decision_policy_and_admission_ms": 108.52363798767328,
+    "controller_handoff_ms": 0.035291071981191635,
+    "server_decision_ms": 199.49750904925168
+  },
+  "actuation_status": {
+    "status": "success",
+    "message": "Hybrid Orchestration Phase 5/6 sequence COMPLETED",
+    "data": {
+      "old_vnf": "vnf-nat-ff43155a",
+      "new_vnf": "vnf-nat-fd293e3a",
+      "recovery_state": "COMPLETED",
+      "dynamic_endpoint": {
+        "ip": "10.1.235.134",
+        "port": 0
+      },
+      "sid_list": [
+        "fc00:5::1",
+        "fc00:6::1",
+        "fc00:9::1",
+        "fc00:10::1"
+      ],
+      "switch_path": [
+        10,
+        9,
+        6,
+        5
+      ],
+      "steer_status": "CONFIRMED",
+      "steer_operation_id": "bb48f3c2-0b60-402d-bae3-7efe415aafa9",
+      "break_result": {
+        "status": "success",
+        "phase": "BREAK",
+        "oldDeployName": "vnf-nat-ff43155a",
+        "namespace": "core-router",
+        "message": "Old VNF 'vnf-nat-ff43155a' deleted."
+      },
+      "cp_steering_overhead_ms": 2039.06,
+      "k8s_node_hostname": "worker1"
+    }
+  },
+  "controller_rule_log": [
+    "2026-11-21T19:03:24.546120965Z 2026-11-21 19:03:24,545 [sdn.controller] INFO: [s10] route +fc00:9::1/128 \u2192 port2",
+    "2026-11-21T19:03:24.717276520Z 2026-11-21 19:03:24,716 [sdn.controller] INFO: [s9] route +fc00:6::1/128 \u2192 port4",
+    "2026-11-21T19:03:24.909394100Z 2026-11-21 19:03:24,908 [sdn.controller] INFO: [s6] route +fc00:5::1/128 \u2192 port2"
+  ],
+  "backend_log": [
+    "2026-11-21T19:03:06.159800865Z INFO:     127.0.0.1:36680 - \"GET /api/orchestrate/migrations/vnf-nat-fd293e3a HTTP/1.1\" 200 OK",
+    "2026-11-21T19:03:07.164502196Z INFO:     127.0.0.1:44306 - \"GET /api/orchestrate/migrations/vnf-nat-fd293e3a HTTP/1.1\" 200 OK",
+    "2026-11-21T19:03:08.169921106Z INFO:     127.0.0.1:44310 - \"GET /api/orchestrate/migrations/vnf-nat-fd293e3a HTTP/1.1\" 200 OK",
+    "2026-11-21T19:03:09.174072514Z INFO:     127.0.0.1:44312 - \"GET /api/orchestrate/migrations/vnf-nat-fd293e3a HTTP/1.1\" 200 OK",
+    "2026-11-21T19:03:10.177201939Z INFO:     127.0.0.1:44318 - \"GET /api/orchestrate/migrations/vnf-nat-fd293e3a HTTP/1.1\" 200 OK",
+    "2026-11-21T19:03:11.182441407Z INFO:     127.0.0.1:44334 - \"GET /api/orchestrate/migrations/vnf-nat-fd293e3a HTTP/1.1\" 200 OK",
+    "2026-11-21T19:03:12.187164379Z INFO:     127.0.0.1:44344 - \"GET /api/orchestrate/migrations/vnf-nat-fd293e3a HTTP/1.1\" 200 OK",
+    "2026-11-21T19:03:13.191747729Z INFO:     127.0.0.1:44348 - \"GET /api/orchestrate/migrations/vnf-nat-fd293e3a HTTP/1.1\" 200 OK",
+    "2026-11-21T19:03:14.196276315Z INFO:     127.0.0.1:44358 - \"GET /api/orchestrate/migrations/vnf-nat-fd293e3a HTTP/1.1\" 200 OK",
+    "2026-11-21T19:03:15.200965291Z INFO:     127.0.0.1:44362 - \"GET /api/orchestrate/migrations/vnf-nat-fd293e3a HTTP/1.1\" 200 OK",
+    "2026-11-21T19:03:16.205874235Z INFO:     127.0.0.1:44376 - \"GET /api/orchestrate/migrations/vnf-nat-fd293e3a HTTP/1.1\" 200 OK",
+    "2026-11-21T19:03:17.209892665Z INFO:     127.0.0.1:36022 - \"GET /api/orchestrate/migrations/vnf-nat-fd293e3a HTTP/1.1\" 200 OK",
+    "2026-11-21T19:03:18.214401113Z INFO:     127.0.0.1:36026 - \"GET /api/orchestrate/migrations/vnf-nat-fd293e3a HTTP/1.1\" 200 OK",
+    "2026-11-21T19:03:19.218916278Z INFO:     127.0.0.1:36040 - \"GET /api/orchestrate/migrations/vnf-nat-fd293e3a HTTP/1.1\" 200 OK",
+    "2026-11-21T19:03:20.224061247Z INFO:     127.0.0.1:36052 - \"GET /api/orchestrate/migrations/vnf-nat-fd293e3a HTTP/1.1\" 200 OK",
+    "2026-11-21T19:03:21.228436684Z INFO:     127.0.0.1:36060 - \"GET /api/orchestrate/migrations/vnf-nat-fd293e3a HTTP/1.1\" 200 OK",
+    "2026-11-21T19:03:22.282565646Z INFO:     127.0.0.1:36070 - \"GET /api/orchestrate/migrations/vnf-nat-fd293e3a HTTP/1.1\" 200 OK",
+    "2026-11-21T19:03:23.287380072Z INFO:     127.0.0.1:36072 - \"GET /api/orchestrate/migrations/vnf-nat-fd293e3a HTTP/1.1\" 200 OK",
+    "2026-11-21T19:03:24.394817135Z INFO:     127.0.0.1:36074 - \"GET /api/orchestrate/migrations/vnf-nat-fd293e3a HTTP/1.1\" 200 OK",
+    "2026-11-21T19:03:25.398420785Z INFO:     127.0.0.1:36082 - \"GET /api/orchestrate/migrations/vnf-nat-fd293e3a HTTP/1.1\" 200 OK",
+    "2026-11-21T19:03:26.553970831Z INFO:     127.0.0.1:36088 - \"GET /api/orchestrate/migrations/vnf-nat-fd293e3a HTTP/1.1\" 200 OK",
+    "2026-11-21T19:03:27.562929732Z INFO:     127.0.0.1:51148 - \"GET /api/orchestrate/migrations/vnf-nat-fd293e3a HTTP/1.1\" 200 OK",
+    "2026-11-21T19:03:28.569472854Z INFO:     127.0.0.1:51164 - \"GET /api/orchestrate/migrations/vnf-nat-fd293e3a HTTP/1.1\" 200 OK",
+    "2026-11-21T19:03:29.579136427Z INFO:     127.0.0.1:51174 - \"GET /api/orchestrate/migrations/vnf-nat-fd293e3a HTTP/1.1\" 200 OK",
+    "2026-11-21T19:03:30.585081033Z INFO:     127.0.0.1:51190 - \"GET /api/orchestrate/migrations/vnf-nat-fd293e3a HTTP/1.1\" 200 OK",
+    "2026-11-21T19:03:31.591509217Z INFO:     127.0.0.1:51194 - \"GET /api/orchestrate/migrations/vnf-nat-fd293e3a HTTP/1.1\" 200 OK",
+    "2026-11-21T19:03:32.600329207Z INFO:     127.0.0.1:51206 - \"GET /api/orchestrate/migrations/vnf-nat-fd293e3a HTTP/1.1\" 200 OK",
+    "2026-11-21T19:03:33.605713384Z INFO:     127.0.0.1:51214 - \"GET /api/orchestrate/migrations/vnf-nat-fd293e3a HTTP/1.1\" 200 OK",
+    "2026-11-21T19:03:34.620640027Z INFO:     127.0.0.1:51230 - \"GET /api/orchestrate/migrations/vnf-nat-fd293e3a HTTP/1.1\" 200 OK",
+    "2026-11-21T19:03:35.629610330Z INFO:     127.0.0.1:51234 - \"GET /api/orchestrate/migrations/vnf-nat-fd293e3a HTTP/1.1\" 200 OK",
+    "2026-11-21T19:03:36.637994399Z INFO:     127.0.0.1:55736 - \"GET /api/orchestrate/migrations/vnf-nat-fd293e3a HTTP/1.1\" 200 OK",
+    "2026-11-21T19:03:37.645306346Z INFO:     127.0.0.1:55748 - \"GET /api/orchestrate/migrations/vnf-nat-fd293e3a HTTP/1.1\" 200 OK",
+    "2026-11-21T19:03:38.652402603Z INFO:     127.0.0.1:55758 - \"GET /api/orchestrate/migrations/vnf-nat-fd293e3a HTTP/1.1\" 200 OK",
+    "2026-11-21T19:03:39.660417206Z INFO:     127.0.0.1:55762 - \"GET /api/orchestrate/migrations/vnf-nat-fd293e3a HTTP/1.1\" 200 OK",
+    "2026-11-21T19:03:40.667401045Z INFO:     127.0.0.1:55766 - \"GET /api/orchestrate/migrations/vnf-nat-fd293e3a HTTP/1.1\" 200 OK",
+    "2026-11-21T19:03:41.674802852Z INFO:     127.0.0.1:55768 - \"GET /api/orchestrate/migrations/vnf-nat-fd293e3a HTTP/1.1\" 200 OK",
+    "2026-11-21T19:03:42.682079938Z INFO:     127.0.0.1:55772 - \"GET /api/orchestrate/migrations/vnf-nat-fd293e3a HTTP/1.1\" 200 OK",
+    "2026-11-21T19:03:43.692324532Z INFO:     127.0.0.1:55784 - \"GET /api/orchestrate/migrations/vnf-nat-fd293e3a HTTP/1.1\" 200 OK",
+    "2026-11-21T19:03:44.700544052Z INFO:     127.0.0.1:55792 - \"GET /api/orchestrate/migrations/vnf-nat-fd293e3a HTTP/1.1\" 200 OK",
+    "2026-11-21T19:03:45.708683567Z INFO:     127.0.0.1:55806 - \"GET /api/orchestrate/migrations/vnf-nat-fd293e3a HTTP/1.1\" 200 OK"
+  ],
+  "pipelineruns": [
+    {
+      "name": "mig-vnf-nat-fd293e3a-968861",
+      "pipeline": "vnf-migrate-single",
+      "created": "2026-11-21T19:03:06Z",
+      "completed": "2026-11-21T19:03:37Z",
+      "reason": "Succeeded",
+      "params": {
+        "ns": "core-router",
+        "oldDeployName": "vnf-nat-ff43155a",
+        "newDeployName": "vnf-nat-fd293e3a",
+        "fileName": "vnf-nat.yaml",
+        "targetLocation": "hue-1",
+        "nodeHostname": "worker1",
+        "labelSelector": "app=vnf-nat-fd293e3a"
+      }
+    }
+  ],
+  "pod": {
+    "pod": "vnf-nat-fd293e3a-5b977d8c49-n858c",
+    "created": "2026-11-21T19:03:21Z",
+    "node": "worker1",
+    "ip": "10.1.235.134",
+    "conditions": {
+      "PodReadyToStartContainers": "2026-11-21T19:03:23Z",
+      "Initialized": "2026-11-21T19:03:21Z",
+      "Ready": "2026-11-21T19:03:23Z",
+      "ContainersReady": "2026-11-21T19:03:23Z",
+      "PodScheduled": "2026-11-21T19:03:21Z"
+    }
+  },
+  "readback": [
+    {
+      "switch": "s10",
+      "table": "routing_v6",
+      "key": "fc00:9::1/128",
+      "present": true
+    },
+    {
+      "switch": "s9",
+      "table": "routing_v6",
+      "key": "fc00:6::1/128",
+      "present": true
+    },
+    {
+      "switch": "s6",
+      "table": "routing_v6",
+      "key": "fc00:5::1/128",
+      "present": true
+    },
+    {
+      "switch": "s5",
+      "table": "srv6_end_dx4_table",
+      "key": "fc00:5::1",
+      "present": true
+    }
+  ],
+  "migration_old_vnf": "vnf-nat-ff43155a",
+  "old_vnf_pod_after": {},
+  "recovery_state": "COMPLETED",
+  "outcome": "steered",
+  "probe": {
+    "mode": "icmp",
+    "sent": 20,
+    "app_received": 20,
+    "loss": 0,
+    "http_codes": [],
+    "rtt_total_ms": [
+      4.22,
+      4.3,
+      4.47,
+      4.59,
+      4.72,
+      4.72,
+      4.74,
+      4.78,
+      4.88,
+      4.9,
+      4.91,
+      4.96,
+      5.03,
+      5.14,
+      5.21,
+      5.24,
+      5.3,
+      5.45,
+      5.47,
+      5.87
+    ],
+    "delta": {
+      "s10": {
+        "advance": 20,
+        "terminal": 0,
+        "msd_violation": 0
+      },
+      "s9": {
+        "advance": 20,
+        "terminal": 0,
+        "msd_violation": 0
+      },
+      "s6": {
+        "advance": 20,
+        "terminal": 0,
+        "msd_violation": 0
+      },
+      "s5": {
+        "advance": 0,
+        "terminal": 20,
+        "msd_violation": 0
+      }
+    },
+    "captured": {
+      "src_egress_srv6": 24,
+      "place_host_decap": 20,
+      "host_vxlan": 40,
+      "src_return": 20
+    },
+    "first_received_utc": null
+  },
+  "active_total_after": 44,
+  "new_vnfs_after": 11
+}

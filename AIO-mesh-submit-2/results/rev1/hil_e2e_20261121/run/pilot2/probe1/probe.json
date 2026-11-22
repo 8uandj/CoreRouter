@@ -1,0 +1,175 @@
+{
+  "request_id": "vnf-voc-237923df",
+  "src_host": "h6",
+  "place_host": "h7",
+  "switch_path": [
+    6,
+    7
+  ],
+  "sid_stack_final_to_first": [
+    "fc00:7::1",
+    "fc00:6::1"
+  ],
+  "pod_ip": "10.1.189.168",
+  "n": 10,
+  "t": {
+    "counters_before_utc": "2026-11-21T17:10:33.215434+00:00",
+    "send_start_utc": "2026-11-21T17:10:41.049296+00:00",
+    "send_end_utc": "2026-11-21T17:11:32.166330+00:00",
+    "counters_after_utc": "2026-11-21T17:11:32.167041+00:00"
+  },
+  "counters_before": {
+    "s6": {
+      "advance": 0,
+      "terminal": 0,
+      "msd_violation": 0
+    },
+    "s7": {
+      "advance": 0,
+      "terminal": 0,
+      "msd_violation": 0
+    }
+  },
+  "src_setup": {
+    "switch_port": "s6-eth1",
+    "switch_port_mac": "ae:7f:6b:c2:79:48",
+    "seg6_segs_traversal": [
+      "fc00:6::1",
+      "fc00:7::1"
+    ],
+    "commands": "ip -6 addr replace 2001:db8:100::6/64 dev h6-eth0 nodad; ip -6 route replace fc00::/16 dev h6-eth0; ip -6 neigh replace fc00:6::1 lladdr ae:7f:6b:c2:79:48 dev h6-eth0 nud permanent; ip route replace 10.1.189.168/32 encap seg6 mode encap segs fc00:6::1,fc00:7::1 dev h6-eth0; ip route get 10.1.189.168",
+    "output": "10.1.189.168 dev h6-eth0 src 10.0.0.6 uid 0 \n    cache \n"
+  },
+  "http": [
+    {
+      "seq": 1,
+      "sent_utc": "2026-11-21T17:10:41.586008517",
+      "http_code": 0,
+      "time_connect_s": 0.0,
+      "time_total_s": 5.000989,
+      "body": "",
+      "marker_echoed_by_vnf": false
+    },
+    {
+      "seq": 2,
+      "sent_utc": "2026-11-21T17:10:46.608557240",
+      "http_code": 0,
+      "time_connect_s": 0.0,
+      "time_total_s": 5.001325,
+      "body": "",
+      "marker_echoed_by_vnf": false
+    },
+    {
+      "seq": 3,
+      "sent_utc": "2026-11-21T17:10:51.630099466",
+      "http_code": 0,
+      "time_connect_s": 0.0,
+      "time_total_s": 5.001272,
+      "body": "",
+      "marker_echoed_by_vnf": false
+    },
+    {
+      "seq": 4,
+      "sent_utc": "2026-11-21T17:10:56.657617332",
+      "http_code": 0,
+      "time_connect_s": 0.0,
+      "time_total_s": 5.001485,
+      "body": "",
+      "marker_echoed_by_vnf": false
+    },
+    {
+      "seq": 5,
+      "sent_utc": "2026-11-21T17:11:01.679120927",
+      "http_code": 0,
+      "time_connect_s": 0.0,
+      "time_total_s": 5.000636,
+      "body": "",
+      "marker_echoed_by_vnf": false
+    },
+    {
+      "seq": 6,
+      "sent_utc": "2026-11-21T17:11:06.705429344",
+      "http_code": 0,
+      "time_connect_s": 0.0,
+      "time_total_s": 4.999913,
+      "body": "",
+      "marker_echoed_by_vnf": false
+    },
+    {
+      "seq": 7,
+      "sent_utc": "2026-11-21T17:11:11.724978387",
+      "http_code": 0,
+      "time_connect_s": 0.0,
+      "time_total_s": 4.999913,
+      "body": "",
+      "marker_echoed_by_vnf": false
+    },
+    {
+      "seq": 8,
+      "sent_utc": "2026-11-21T17:11:16.764633792",
+      "http_code": 0,
+      "time_connect_s": 0.0,
+      "time_total_s": 5.000779,
+      "body": "",
+      "marker_echoed_by_vnf": false
+    },
+    {
+      "seq": 9,
+      "sent_utc": "2026-11-21T17:11:21.786162299",
+      "http_code": 0,
+      "time_connect_s": 0.0,
+      "time_total_s": 5.000687,
+      "body": "",
+      "marker_echoed_by_vnf": false
+    },
+    {
+      "seq": 10,
+      "sent_utc": "2026-11-21T17:11:26.809115720",
+      "http_code": 0,
+      "time_connect_s": 0.0,
+      "time_total_s": 5.000809,
+      "body": "",
+      "marker_echoed_by_vnf": false
+    }
+  ],
+  "counters_after": {
+    "s6": {
+      "advance": 30,
+      "terminal": 0,
+      "msd_violation": 0
+    },
+    "s7": {
+      "advance": 0,
+      "terminal": 30,
+      "msd_violation": 0
+    }
+  },
+  "counter_delta": {
+    "s6": {
+      "advance": 30,
+      "terminal": 0,
+      "msd_violation": 0
+    },
+    "s7": {
+      "advance": 0,
+      "terminal": 30,
+      "msd_violation": 0
+    }
+  },
+  "src_teardown": "10.0.0.0/24 dev h6-eth0 proto kernel scope link src 10.0.0.6 \n10.1.0.0/16 via 10.1.240.1 dev veth-h6-mn \n",
+  "captured_packets": {
+    "src_egress_srv6": 32,
+    "place_host_decap": 30,
+    "host_vxlan": 0,
+    "src_return": 0
+  },
+  "summary": {
+    "sent": 10,
+    "app_received": 0,
+    "loss": 10,
+    "http_codes": [
+      0
+    ],
+    "rtt_total_ms": []
+  }
+}

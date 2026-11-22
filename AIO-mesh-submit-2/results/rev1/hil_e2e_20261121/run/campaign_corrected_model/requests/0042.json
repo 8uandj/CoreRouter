@@ -1,0 +1,254 @@
+{
+  "index": 42,
+  "request": {
+    "service_type": "video",
+    "cpu_req": 11.0,
+    "ram_req": 5.5,
+    "msd_req": 3,
+    "alert_flag": true,
+    "source_node": 5,
+    "destination_node": 8,
+    "flow_id": "e2e-0042"
+  },
+  "profile": "Data",
+  "t": {
+    "submit_utc": "2026-11-21T18:59:12.313110+00:00",
+    "response_utc": "2026-11-21T18:59:12.493506+00:00",
+    "status_terminal_seen_utc": "2026-11-21T18:59:41.183922+00:00",
+    "backend_make_utc": "2026-11-21T18:59:12.508845112Z",
+    "backend_ready_utc": "2026-11-21T18:59:36.780230918Z",
+    "controller_steer_start_utc": "2026-11-21T18:59:36.802854513Z",
+    "controller_confirm_utc": "2026-11-21T18:59:37.366023563Z",
+    "readback_utc": "2026-11-21T18:59:43.000114+00:00",
+    "probe_start_utc": "2026-11-21T18:59:45.757956+00:00"
+  },
+  "http_status": 200,
+  "api_rtt_ms": 180.12,
+  "vnf_name": "vnf-video-5f703ed3",
+  "placement": {
+    "id": 7,
+    "name": "NhaTrang"
+  },
+  "route": {
+    "id": 9,
+    "name": "CanTho"
+  },
+  "realization": {
+    "request_id": "vnf-video-5f703ed3",
+    "operation_id": "fc3f2904-d1f3-498d-8320-3383b54e4aae",
+    "topology_hash": "67131a546450606da19276263b00d23988d13fd71c17be38cb24a12637fe9f11",
+    "p4_topology_hash": "ee00b35ebeff5a46d428340fdfd984ecabf2047a4ef0cd79318a81ad732b4dbf",
+    "profile_id": "p4-path-candidate-v1",
+    "switch_path": [
+      6,
+      7,
+      8
+    ],
+    "sid_stack": [
+      "fc00:8::1",
+      "fc00:7::1",
+      "fc00:6::1"
+    ]
+  },
+  "migration_result": {
+    "status": "triggered",
+    "old_vnf": "vnf-video-09771db5",
+    "new_vnf": "vnf-video-5f703ed3",
+    "status_path": "/orchestrate/migrations/vnf-video-5f703ed3"
+  },
+  "server_timings_ms": {
+    "state_sync_ms": 55.42002501897514,
+    "state_snapshot_ms": 2.0162558648735285,
+    "state_construction_ms": 0.5912610795348883,
+    "mask_construction_ms": 0.0885350164026022,
+    "normalization_ms": 0.12915302067995071,
+    "policy_inference_ms": 73.89477407559752,
+    "total_policy_ms": 74.78261017240584,
+    "admission_validation_ms": 13.622757978737354,
+    "decision_policy_and_admission_ms": 90.59418691322207,
+    "controller_handoff_ms": 0.0392179936170578,
+    "server_decision_ms": 172.9051019065082
+  },
+  "actuation_status": {
+    "status": "success",
+    "message": "Hybrid Orchestration Phase 5/6 sequence COMPLETED",
+    "data": {
+      "old_vnf": "vnf-video-09771db5",
+      "new_vnf": "vnf-video-5f703ed3",
+      "recovery_state": "COMPLETED",
+      "dynamic_endpoint": {
+        "ip": "10.1.189.154",
+        "port": 0
+      },
+      "sid_list": [
+        "fc00:8::1",
+        "fc00:7::1",
+        "fc00:6::1"
+      ],
+      "switch_path": [
+        6,
+        7,
+        8
+      ],
+      "steer_status": "CONFIRMED",
+      "steer_operation_id": "fc3f2904-d1f3-498d-8320-3383b54e4aae",
+      "break_result": {
+        "status": "success",
+        "phase": "BREAK",
+        "oldDeployName": "vnf-video-09771db5",
+        "namespace": "core-router",
+        "message": "Old VNF 'vnf-video-09771db5' deleted."
+      },
+      "cp_steering_overhead_ms": 2035.4,
+      "k8s_node_hostname": "worker2"
+    }
+  },
+  "controller_rule_log": [
+    "2026-11-21T18:59:36.995168364Z 2026-11-21 18:59:36,994 [sdn.controller] INFO: [s6] route +fc00:7::1/128 \u2192 port3",
+    "2026-11-21T18:59:37.189719099Z 2026-11-21 18:59:37,189 [sdn.controller] INFO: [s7] route +fc00:8::1/128 \u2192 port3"
+  ],
+  "backend_log": [
+    "2026-11-21T18:59:12.545074461Z INFO:     127.0.0.1:56290 - \"GET /api/orchestrate/migrations/vnf-video-5f703ed3 HTTP/1.1\" 200 OK",
+    "2026-11-21T18:59:13.550580899Z INFO:     127.0.0.1:56298 - \"GET /api/orchestrate/migrations/vnf-video-5f703ed3 HTTP/1.1\" 200 OK",
+    "2026-11-21T18:59:14.556252638Z INFO:     127.0.0.1:56314 - \"GET /api/orchestrate/migrations/vnf-video-5f703ed3 HTTP/1.1\" 200 OK",
+    "2026-11-21T18:59:15.561320848Z INFO:     127.0.0.1:56326 - \"GET /api/orchestrate/migrations/vnf-video-5f703ed3 HTTP/1.1\" 200 OK",
+    "2026-11-21T18:59:16.565966510Z INFO:     127.0.0.1:56328 - \"GET /api/orchestrate/migrations/vnf-video-5f703ed3 HTTP/1.1\" 200 OK",
+    "2026-11-21T18:59:17.570970210Z INFO:     127.0.0.1:59532 - \"GET /api/orchestrate/migrations/vnf-video-5f703ed3 HTTP/1.1\" 200 OK",
+    "2026-11-21T18:59:18.575620871Z INFO:     127.0.0.1:59546 - \"GET /api/orchestrate/migrations/vnf-video-5f703ed3 HTTP/1.1\" 200 OK",
+    "2026-11-21T18:59:19.581232997Z INFO:     127.0.0.1:59552 - \"GET /api/orchestrate/migrations/vnf-video-5f703ed3 HTTP/1.1\" 200 OK",
+    "2026-11-21T18:59:20.587526131Z INFO:     127.0.0.1:59568 - \"GET /api/orchestrate/migrations/vnf-video-5f703ed3 HTTP/1.1\" 200 OK",
+    "2026-11-21T18:59:21.593389250Z INFO:     127.0.0.1:59576 - \"GET /api/orchestrate/migrations/vnf-video-5f703ed3 HTTP/1.1\" 200 OK",
+    "2026-11-21T18:59:22.600461317Z INFO:     127.0.0.1:59586 - \"GET /api/orchestrate/migrations/vnf-video-5f703ed3 HTTP/1.1\" 200 OK",
+    "2026-11-21T18:59:23.606939205Z INFO:     127.0.0.1:59594 - \"GET /api/orchestrate/migrations/vnf-video-5f703ed3 HTTP/1.1\" 200 OK",
+    "2026-11-21T18:59:24.614775264Z INFO:     127.0.0.1:59600 - \"GET /api/orchestrate/migrations/vnf-video-5f703ed3 HTTP/1.1\" 200 OK",
+    "2026-11-21T18:59:25.617069645Z INFO:     127.0.0.1:59602 - \"GET /api/orchestrate/migrations/vnf-video-5f703ed3 HTTP/1.1\" 200 OK",
+    "2026-11-21T18:59:26.622515056Z INFO:     127.0.0.1:47288 - \"GET /api/orchestrate/migrations/vnf-video-5f703ed3 HTTP/1.1\" 200 OK",
+    "2026-11-21T18:59:27.628116336Z INFO:     127.0.0.1:47296 - \"GET /api/orchestrate/migrations/vnf-video-5f703ed3 HTTP/1.1\" 200 OK",
+    "2026-11-21T18:59:28.632245735Z INFO:     127.0.0.1:47300 - \"GET /api/orchestrate/migrations/vnf-video-5f703ed3 HTTP/1.1\" 200 OK",
+    "2026-11-21T18:59:29.637614062Z INFO:     127.0.0.1:47302 - \"GET /api/orchestrate/migrations/vnf-video-5f703ed3 HTTP/1.1\" 200 OK",
+    "2026-11-21T18:59:30.640832755Z INFO:     127.0.0.1:47312 - \"GET /api/orchestrate/migrations/vnf-video-5f703ed3 HTTP/1.1\" 200 OK",
+    "2026-11-21T18:59:31.646412654Z INFO:     127.0.0.1:47320 - \"GET /api/orchestrate/migrations/vnf-video-5f703ed3 HTTP/1.1\" 200 OK",
+    "2026-11-21T18:59:32.652105911Z INFO:     127.0.0.1:47332 - \"GET /api/orchestrate/migrations/vnf-video-5f703ed3 HTTP/1.1\" 200 OK",
+    "2026-11-21T18:59:33.658892491Z INFO:     127.0.0.1:47340 - \"GET /api/orchestrate/migrations/vnf-video-5f703ed3 HTTP/1.1\" 200 OK",
+    "2026-11-21T18:59:34.697605412Z INFO:     127.0.0.1:47350 - \"GET /api/orchestrate/migrations/vnf-video-5f703ed3 HTTP/1.1\" 200 OK",
+    "2026-11-21T18:59:35.701389150Z INFO:     127.0.0.1:47358 - \"GET /api/orchestrate/migrations/vnf-video-5f703ed3 HTTP/1.1\" 200 OK",
+    "2026-11-21T18:59:36.810704117Z INFO:     127.0.0.1:48646 - \"GET /api/orchestrate/migrations/vnf-video-5f703ed3 HTTP/1.1\" 200 OK",
+    "2026-11-21T18:59:37.814995841Z INFO:     127.0.0.1:48650 - \"GET /api/orchestrate/migrations/vnf-video-5f703ed3 HTTP/1.1\" 200 OK",
+    "2026-11-21T18:59:39.029974871Z INFO:     127.0.0.1:48666 - \"GET /api/orchestrate/migrations/vnf-video-5f703ed3 HTTP/1.1\" 200 OK",
+    "2026-11-21T18:59:40.036531417Z INFO:     127.0.0.1:48670 - \"GET /api/orchestrate/migrations/vnf-video-5f703ed3 HTTP/1.1\" 200 OK",
+    "2026-11-21T18:59:41.182888672Z INFO:     127.0.0.1:48678 - \"GET /api/orchestrate/migrations/vnf-video-5f703ed3 HTTP/1.1\" 200 OK",
+    "2026-11-21T18:59:12.508845112Z INFO:OrchestrationService:PHASE: MAKE - Triggering Tekton for replacement VNF: vnf-video-5f703ed3 at nhatrang-1",
+    "2026-11-21T18:59:12.537682391Z INFO:OrchestrationService:PHASE: VERIFY - Polling dynamic endpoint/readiness for vnf-video-5f703ed3",
+    "2026-11-21T18:59:36.780230918Z INFO:OrchestrationService:VNF vnf-video-5f703ed3 is READY. Pod IP: 10.1.189.154 on worker2"
+  ],
+  "pipelineruns": [
+    {
+      "name": "mig-vnf-video-5f703ed3-23d232",
+      "pipeline": "vnf-migrate-single",
+      "created": "2026-11-21T18:59:12Z",
+      "completed": null,
+      "reason": "Running",
+      "params": {
+        "ns": "core-router",
+        "oldDeployName": "vnf-video-09771db5",
+        "newDeployName": "vnf-video-5f703ed3",
+        "fileName": "vnf-frr.yaml",
+        "targetLocation": "nhatrang-1",
+        "nodeHostname": "worker2",
+        "labelSelector": "app=vnf-video-5f703ed3"
+      }
+    }
+  ],
+  "pod": {
+    "pod": "vnf-video-5f703ed3-c74f6dc5c-tdl52",
+    "created": "2026-11-21T18:59:32Z",
+    "node": "worker2",
+    "ip": "10.1.189.154",
+    "conditions": {
+      "PodReadyToStartContainers": "2026-11-21T18:59:34Z",
+      "Initialized": "2026-11-21T18:59:32Z",
+      "Ready": "2026-11-21T18:59:34Z",
+      "ContainersReady": "2026-11-21T18:59:34Z",
+      "PodScheduled": "2026-11-21T18:59:32Z"
+    }
+  },
+  "readback": [
+    {
+      "switch": "s6",
+      "table": "routing_v6",
+      "key": "fc00:7::1/128",
+      "present": true
+    },
+    {
+      "switch": "s7",
+      "table": "routing_v6",
+      "key": "fc00:8::1/128",
+      "present": true
+    },
+    {
+      "switch": "s8",
+      "table": "srv6_end_dx4_table",
+      "key": "fc00:8::1",
+      "present": true
+    }
+  ],
+  "migration_old_vnf": "vnf-video-09771db5",
+  "old_vnf_pod_after": {},
+  "recovery_state": "COMPLETED",
+  "outcome": "steered",
+  "probe": {
+    "mode": "icmp",
+    "sent": 20,
+    "app_received": 20,
+    "loss": 0,
+    "http_codes": [],
+    "rtt_total_ms": [
+      2.26,
+      2.36,
+      2.47,
+      2.48,
+      2.49,
+      2.52,
+      2.55,
+      2.58,
+      2.65,
+      2.69,
+      2.7,
+      2.77,
+      2.79,
+      2.9,
+      2.92,
+      2.97,
+      3.06,
+      3.08,
+      3.35,
+      3.51
+    ],
+    "delta": {
+      "s6": {
+        "advance": 20,
+        "terminal": 0,
+        "msd_violation": 0
+      },
+      "s7": {
+        "advance": 20,
+        "terminal": 0,
+        "msd_violation": 0
+      },
+      "s8": {
+        "advance": 0,
+        "terminal": 20,
+        "msd_violation": 0
+      }
+    },
+    "captured": {
+      "src_egress_srv6": 22,
+      "place_host_decap": 20,
+      "host_vxlan": 40,
+      "src_return": 20
+    },
+    "first_received_utc": null
+  },
+  "active_total_after": 43,
+  "new_vnfs_after": 7
+}

@@ -1,0 +1,40 @@
+{
+  "api_health": {
+    "body": {
+      "status": "online",
+      "system": "3S-COM Orchestrator PRO"
+    },
+    "ok": true,
+    "status_code": 200
+  },
+  "sdn_msd_drops": {
+    "body": {
+      "s1": 0,
+      "s10": 0,
+      "s2": 50,
+      "s3": 0,
+      "s4": 0,
+      "s5": 50,
+      "s6": 50,
+      "s7": 0,
+      "s8": 0,
+      "s9": 0
+    },
+    "ok": true,
+    "status_code": 200
+  },
+  "sdn_steer": {
+    "body": {
+      "confirm_steer_done": true,
+      "new_deploy": "vnf-idps-d1e32998",
+      "operation_id": "4fc9064f-969b-452b-8d4d-bada6973f2f9",
+      "p4_topology_hash": "ee00b35ebeff5a46d428340fdfd984ecabf2047a4ef0cd79318a81ad732b4dbf",
+      "profile_id": "p4-path-candidate-v1",
+      "request_id": "vnf-idps-d1e32998",
+      "steer_state": "done",
+      "topology_hash": "67131a546450606da19276263b00d23988d13fd71c17be38cb24a12637fe9f11"
+    },
+    "ok": true,
+    "status_code": 200
+  }
+}

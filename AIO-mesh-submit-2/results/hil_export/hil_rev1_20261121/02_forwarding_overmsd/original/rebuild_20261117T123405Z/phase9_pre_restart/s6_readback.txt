@@ -1,0 +1,29 @@
+Obtaining JSON from switch...
+Done
+Control utility for runtime P4 table manipulation
+RuntimeCmd: SRv6Ingress.routing_v6         [implementation=None, mk=ipv6.dstAddr(lpm, 128)]
+SRv6Ingress.srv6_local_sid     [implementation=None, mk=ipv6.dstAddr(exact, 128)]
+tbl_act                        [implementation=None, mk=]
+tbl_drop                       [implementation=None, mk=]
+tbl_drop_0                     [implementation=None, mk=]
+tbl_srv6_basic277              [implementation=None, mk=]
+tbl_srv6_basic279              [implementation=None, mk=]
+RuntimeCmd: ==========
+TABLE ENTRIES
+**********
+Dumping entry 0x0
+Match key:
+* ipv6.dstAddr        : EXACT     fc000006000000000000000000000001
+Action entry: SRv6Ingress.srv6_advance_segment - 
+==========
+Dumping default entry
+Action entry: NoAction - 
+==========
+RuntimeCmd: ==========
+TABLE ENTRIES
+==========
+Dumping default entry
+Action entry: SRv6Ingress.drop - 
+==========
+RuntimeCmd: msd_violation_counter[0]=  BmCounterValue(packets=0, bytes=0)
+RuntimeCmd: 
