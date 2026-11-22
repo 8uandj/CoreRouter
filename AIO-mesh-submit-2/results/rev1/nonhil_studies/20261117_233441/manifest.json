@@ -1,0 +1,37 @@
+{
+  "created_utc": "2026-11-17T16:34:41.884830+00:00",
+  "git_revision": "dd5ff67b1d98df1489e035f7cb1db2704e4a1025",
+  "python": "3.9.25",
+  "platform": "Linux-5.14.0-611.36.1.el9_7.x86_64-x86_64-with-glibc2.34",
+  "data_path": "data/real_telecom_combined.csv",
+  "data_sha256": "5370da1bb55cd679422150c5c4073175109cc7b831eff9c74491b30a17dcdd2a",
+  "seeds": [
+    42,
+    100,
+    2024,
+    8888,
+    9999,
+    7,
+    17,
+    73,
+    314,
+    2718
+  ],
+  "steps": 3000,
+  "model_path": "results/models/v11/dgrl_v11_final_vietnam.zip",
+  "model_sha256": "b78ce19621882a147a01406b21fffab6b4e8af2563fbae43aac510074eb3043d",
+  "normalizer_path": "results/models/v11/vec_normalize_v11_vietnam.pkl",
+  "normalizer_sha256": "49e3075ca33e2085d2677c49f8778ae5bd35fd7f5b0a0ef5f0cec6e11262047d",
+  "torch_version": "2.7.1+cu118",
+  "torch_threads": 1,
+  "cuda_available": false,
+  "benchmark_workers": 1,
+  "arrival_rate": 1.0,
+  "ttl_range": [
+    100,
+    500
+  ],
+  "scenario": "bursty",
+  "initial_background_chains": 0,
+  "live_api_concurrency": 0
+}

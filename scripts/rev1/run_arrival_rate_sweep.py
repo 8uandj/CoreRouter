@@ -40,19 +40,34 @@ def main() -> None:
     parser.add_argument("--steps", type=int, default=3000)
     parser.add_argument("--seeds", type=int, nargs="+", default=PAPER_SEEDS)
     parser.add_argument("--data-path", type=Path, default=Path("data/real_telecom_combined.csv"))
-    parser.add_argument("--model-root", type=Path, default=Path("results/models"))
+    parser.add_argument("--model-root", type=Path, default=None,
+                        help="Optional legacy layout root; by default use corrected N-squared retrains")
+    parser.add_argument("--corrected-root", type=Path,
+                        default=Path("results/models/retrain_v11_20261119_corrected"))
     parser.add_argument("--version", default="v11")
     parser.add_argument("--output-dir", type=Path, default=Path("results/rev1/arrival_rate_sweep"))
     args = parser.parse_args()
     topologies = list(REAL_TOPOLOGIES) if args.topology == "all" else [args.topology]
     data = resolve_data_path(args.data_path)
-    config = AlgorithmBenchmarkConfig(data_path=data, model_root=args.model_root, version=args.version)
+    configs = {}
     # Check policy artifacts and spaces once per topology before the full sweep.
     for topology in topologies:
+        if args.model_root is None:
+            base = args.corrected_root / topology
+            config = AlgorithmBenchmarkConfig(
+                data_path=data,
+                model_override=base / f"dgrl_v11_final_{topology}.zip",
+                normalizer_override=base / f"vec_normalize_v11_{topology}.pkl",
+            )
+        else:
+            config = AlgorithmBenchmarkConfig(data_path=data, model_root=args.model_root,
+                                              version=args.version)
         preflight_algorithm_inputs(config, [topology], SCENARIO, "stress")
+        configs[topology] = config
 
     rows = []
     for topology in topologies:
+        config = configs[topology]
         model, normalizer = config.model_path(topology), config.norm_path(topology)
         for rate in ARRIVAL_RATES:
             factory = lambda t=topology, r=rate: make_env(
@@ -129,10 +144,10 @@ def main() -> None:
         "policies": manifest_policies(),
         "request_cpu_ram_msd_profile": "unchanged; source data and bursty scenario are fixed",
         "data_path": str(data), "data_sha256": sha256_file(data),
-        "models": {topology: {"checkpoint": str(config.model_path(topology)),
-                              "checkpoint_sha256": sha256_file(config.model_path(topology)),
-                              "normalizer": str(config.norm_path(topology)),
-                              "normalizer_sha256": sha256_file(config.norm_path(topology))}
+        "models": {topology: {"checkpoint": str(configs[topology].model_path(topology)),
+                              "checkpoint_sha256": sha256_file(configs[topology].model_path(topology)),
+                              "normalizer": str(configs[topology].norm_path(topology)),
+                              "normalizer_sha256": sha256_file(configs[topology].norm_path(topology))}
                    for topology in topologies},
         "source_sha256": {
             str(Path(__file__)): sha256_file(Path(__file__)),

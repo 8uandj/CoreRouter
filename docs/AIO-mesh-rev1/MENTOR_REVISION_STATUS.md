@@ -13,8 +13,8 @@
 | B4–B5 | Một phần | Mẫu số/ghép cặp và các trace Bursty lặp lại đã được làm rõ; có đối chứng seed-offset cho benchmark, load và chain. Một số log training ablation cũ vẫn thiếu. |
 | B6 | Đã xác minh trong simulator | Bảng HARP so với baseline mạnh nhất từng ô đã có. Audit Greedy/DAI gồm 180 ô: năm ô NSFNET E/B/C, GEANT2 B/C có placement trùng 100% trên 60.000 quyết định mỗi ô, nhưng action pair chỉ trùng 3,49–7,19%; xem `evidence/mentor_completion_20261121/greedy_decoupled_summary.csv` và script `scripts/rev1/summarize_greedy_decoupled.py`. |
 | B7 | Một phần | Pair oracle cho ba mạng, gồm load 1.2/1.5, có log và bảng. Đây là oracle trong simulator cho cặp endpoint, không phải nghiệm full chain. |
-| B8–B9 | Một phần | Audit pre-step mask/admission cho 180.000 quyết định Bursty: không có rejection khi mask không rỗng; có mask rỗng trở thành không rỗng khi mô phỏng TTL expiry. Job can thiệp post-expiry-mask đang chạy; chưa đổi runtime mặc định. |
-| B10–B12 | Một phần | Có timing thành phần và P95 cho benchmark N², kèm giới hạn job đồng thời; dedicated serialized timing cũ được tách riêng. Thiếu phép đo cô lập và live API/actuation timing; phân tích nguyên nhân đuôi 100 nút chưa được xác lập. |
+| B8–B9 | Đã xác minh trong phạm vi simulator; runtime còn mở | Audit pre-step mask/admission cho 180.000 quyết định Bursty: không có rejection khi mask không rỗng; có mask rỗng trở thành không rỗng khi mô phỏng TTL expiry. Can thiệp mask sau expiry đã đủ 60 ô và đối chiếu per-seed; chênh lệch safe acceptance trung bình −0,005 đến +0,085 pp, CI đều chứa 0. Observation vẫn là pre-expiry; chưa đổi runtime mặc định. |
+| B10–B12 | Một phần | Có timing thành phần và P95 cho benchmark N², kèm giới hạn job đồng thời. Archive timing SAF-H 25/50/100 và dedicated serialized timing cũ đã được đưa vào bundle; 100-nút có feasible-set P95 cao trong cả 10 seed, nhưng không có microtrace để xác định suboperation/điều kiện host gây đuôi. Thiếu phép đo cô lập và live API/actuation timing. |
 | B13 | Một phần, phụ thuộc HIL | Bảng control-plane 12 giờ dựa vào log thô; không suy ra packet forwarding hoặc deployment thành công từ readiness baseline. |
 | C1–C5 | Đã xác minh cho bộ chính N²; provenance ablation một phần | Checkpoint chính và ablation dùng flat `Discrete(N²)`; checkpoint benchmark 2N cũ tách khỏi bảng hiện tại. Chưa đủ archive huấn luyện gốc cho mọi ablation. |
 | C6–C12 | Một phần | Contract pair-action, reward, fallback, Hybrid và giới hạn runtime đã được đối chiếu code; chưa có bằng chứng full-chain forwarding/steering theo packet. |
@@ -22,10 +22,10 @@
 | D2 | Phụ thuộc HIL | Thiếu log packet định danh từng chuỗi qua nhiều VNF; bản thảo không tuyên bố đã đo được. |
 | E1–E11, F1–F6, G1–G2 | Một phần | Bản thảo và response đã cập nhật phạm vi/số liệu chính; còn rà PDF, float, thuật ngữ và đánh số reviewer. Môi trường hiện tại chưa có LaTeX compiler. |
 | G3 | Chờ PI | Hai mã tài trợ khác nhau trong bản đầu và bản sửa; cần hồ sơ xác nhận mã đúng. |
-| P1/P2 simulator | Một phần | Seed-offset Bursty, SAF-H weight sensitivity, sparse adjacency GAT–MLP, oracle load 1.2/1.5 đã có. Sparse graph được suy từ latency, chưa có edge list vật lý được xác minh. Independent training và post-expiry intervention đang chạy. Arrival-rate-only sweep chưa có raw output. Không tự chạy full load sweep mới. |
+| P1/P2 simulator | Một phần | Seed-offset Bursty, SAF-H weight sensitivity, sparse adjacency GAT–MLP, oracle load 1.2/1.5 và can thiệp post-expiry-mask đã có. Sparse graph được suy từ latency, chưa có edge list vật lý được xác minh. Independent training và arrival-rate-only sweep đang chạy; chưa có raw output của sweep cuối. Không tự chạy full offered-intensity sweep mới. |
 
 ## Việc có thể xử lý ngay và việc cần đợi
 
 - **Có thể xử lý trên máy này:** kiểm tra và đồng bộ CSV/manifest đã hoàn thành; rà câu chữ/provenance; xây script tổng hợp cho job đang chạy; tìm hoặc xác minh edge list vật lý; chạy kiểm tra LaTeX input/reference/citation. Các số chưa đủ mẫu không đưa vào bài.
-- **Đợi job hiện tại:** independent training/evaluation Vietnam, post-expiry-mask intervention, arrival-rate-only nếu supervisor thực sự khởi chạy; sau đó mới tổng hợp và tạo lại checksum bundle.
+- **Đợi job hiện tại:** independent training/evaluation Vietnam và arrival-rate-only; sau đó mới tổng hợp và tạo lại checksum bundle. Runner arrival-rate-only đã được sửa để mặc định trỏ vào ba checkpoint N² đúng, preflight ngắn đã chạy trên cả ba topology.
 - **Cần nguồn ngoài máy hoặc quyết định của tác giả:** packet-level HIL, edge list vật lý có nguồn gốc xác nhận, DOI và mã tài trợ; PDF/Overleaf cần môi trường TeX thích hợp.

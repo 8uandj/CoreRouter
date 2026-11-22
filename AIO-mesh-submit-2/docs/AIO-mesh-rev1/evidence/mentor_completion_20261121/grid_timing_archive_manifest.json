@@ -1,0 +1,12 @@
+{
+  "command": "python3 scripts/rev1/summarize_archived_grid_timing.py",
+  "inputs_sha256": {
+    "results/rev1/nonhil_studies/20261117_235132/manifest.json": "896e559ec9f8876bd1a1b3f2d4be27fab64f83fb4983d668782e32d1e71d31df",
+    "results/rev1/nonhil_studies/20261117_235132/topology_scalability.json": "461ee1dce04766d701e7cb51c6afd0f90647991b3cedac0e166d721bd6061bae",
+    "scripts/rev1/summarize_archived_grid_timing.py": "39b4379af31d53d0442cf6eb2923a878459ba355f26c4efcaadb094cf3807d2a"
+  },
+  "output_sha256": {
+    "docs/AIO-mesh-rev1/evidence/mentor_completion_20261121/grid_timing_per_seed.csv": "24f78a1ffef3ac617fcfea4ca2d99b8dbe2caf4be8fbb58795ef2e1b73a48ebc"
+  },
+  "scope": "Historical serialized SAF-H timing; 10 seeds x 3 synthetic grids; not refreshed HARP timing"
+}
