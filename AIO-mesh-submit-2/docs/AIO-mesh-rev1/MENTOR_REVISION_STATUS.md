@@ -2,6 +2,20 @@
 
 Đây là trạng thái theo artifact hiện có trong `AIO-mesh-submit-2`. “Đã xác minh” chỉ áp dụng cho phạm vi ghi ở cột bằng chứng, không tự động đóng toàn bộ tiêu chí nghiệm thu của mentor. Nguồn chi tiết: [NON_HIL_STATUS.md](evidence/mentor_completion_20261121/NON_HIL_STATUS.md), [REPRODUCE.md](../../REPRODUCE.md), và các CSV/manifest trong `evidence/`.
 
+## Kiểm tra các việc còn lại, 22/11/2026 08:12 ICT
+
+| Việc | Kết quả kiểm tra | Bước còn lại |
+|---|---|---|
+| Greedy–DAI | Audit 180 ô và bảng tổng hợp đã có; 5 ô có placement trùng 100% nhưng cặp hành động chỉ trùng 3,49–7,19%. Manuscript và response đã nêu giới hạn so sánh hai trajectory riêng. | Không cộng thêm kết quả vào những ô chưa được audit. |
+| TTL–mask | Can thiệp 60 ô và manifest đã có; chênh lệch acceptance theo topology là +0,065, −0,005, +0,085 điểm phần trăm, CI đều chứa 0. Manuscript và response đã cập nhật. | Chỉ thay đổi thứ tự runtime sau một audit trạng thái đầy đủ; can thiệp hiện tại giữ observation trước expiry. |
+| Biến thiên giữa các lần training | Session `independent_train` còn chạy trên socket tmux `harp_mentor_completion_20261121`; seed 7 đạt 1.425.408/2.001.920 bước lúc 08:16, chưa có final checkpoint/normalizer. Seed 2024 chưa bắt đầu; session `independent_eval` đang đợi cả hai model. Checkpoint trong thư mục `seed_7` là lần chạy trước bị ngắt, không phải một model hoàn tất để tính phương sai. Đã thêm script kiểm tra đủ 60 ô và session `independent_summary` tự chạy script sau evaluation. | Sau khi script xuất CSV/manifest, đối chiếu số liệu rồi cập nhật kết luận manuscript và response. |
+| Checksum bundle | `FILE_SHA256SUMS` được tạo 21/11 23:14 ICT, trước các thay đổi training và tài liệu hôm nay; chưa phải checksum cuối. | Đợi tất cả job ghi bundle xong, chạy `scripts/rev1/refresh_submission_manifest.py`, rồi xác minh toàn bộ inventory. |
+| Manuscript và response | Hai audit đã được đưa vào cả hai file. Đã sửa một hàng giao thức benchmark vẫn ghi seed-level output đang chờ. | Rà PDF, số trang, float, tham chiếu và cập nhật training/arrival-rate sau khi có đủ kết quả. |
+| Provenance và generator | Có script sinh bảng, manifest/hash cho nhiều bộ mới; đã đối chiếu 35 hash input/output trong `evidence/model_refresh_20261120/generator_manifest.json` với file trên đĩa, không có sai khác. `scripts/paper/check_tex_inputs.py` tìm đủ 17 input, 38 reference, 7 figure, 52 citation key. Metadata training gốc của một số ablation variant vẫn chưa đủ. | Tìm archive training ablation gốc và chạy tái tạo bản nộp trên máy sạch; không suy diễn lệnh training từ checkpoint. |
+| Topology cạnh vật lý | `TopologyManager` dùng ngưỡng độ trễ để tạo graph cho Vietnam/NSFNET/GEANT2; thí nghiệm adjacency thưa hiện tại là k-nearest-neighbour tổng hợp. Đã lập [bảng kiểm nguồn cạnh](evidence/mentor_completion_20261121/PHYSICAL_EDGE_SOURCE_REVIEW.md): nguồn NSFNET lịch sử và các dataset GEANT2/NSFNet hiện có không tự khớp node ID hoặc số node của mô hình. | Xác nhận nguồn edge list và ánh xạ node trước khi chạy thí nghiệm cạnh vật lý. |
+| PDF và bố cục | Static input check chạy được; host hiện không có `latexmk`, `pdflatex` hay `tectonic`. | Biên dịch bản đánh dấu/bản sạch và kiểm tra trực quan trên máy có TeX. |
+| HIL | Có kết quả control-plane 12 giờ và 720 mẫu readiness; không có bằng chứng request-level forwarding/packet, deployment hay migration. | Cần thí nghiệm trên server testbed riêng với request triển khai và packet/counter tương ứng. |
+
 | Mục | Trạng thái hiện tại | Bằng chứng và phần còn mở |
 |---|---|---|
 | A1–A3 | Một phần | Có manifest, hash, script sinh bảng và macro cho nhiều số liệu của bộ N² mới. Chưa có đủ provenance lịch sử cho mọi ablation, mọi bảng/hình và mọi số trong lời văn; `make paper` trên máy sạch và kiểm tra PDF chưa hoàn tất. Không dùng các con số kỳ vọng cũ trong checklist làm bằng chứng. |
