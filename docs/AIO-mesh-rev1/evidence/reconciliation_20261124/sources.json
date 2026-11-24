@@ -1,0 +1,8 @@
+{
+  "inputs_sha256": {
+    "AIO-mesh-submit-2/docs/AIO-mesh-rev1/evidence/model_refresh_20261120/stress_per_seed_all_topologies.csv": "cd65885a4f09e15ac3583bc6831bc0f917b93b24243006c7338bc5a0955fcd4e",
+    "AIO-mesh-submit-2/docs/AIO-mesh-rev1/evidence/model_refresh_20261120/load_chain_per_seed.csv": "9204b3c7a89a09d1da187cb112c1df521412b47875c846a01260a5bc0dc4f1c0"
+  },
+  "scope": "Existing concurrent shared-host stress benchmark, Bursty, 20 matched seeds; occupancy on named substrates, not a crossed synthetic-size experiment. No reruns.",
+  "aggregation": "mean and sample SD of seed-level P95; validation timer covers predicates, excludes reservation/actuation."
+}

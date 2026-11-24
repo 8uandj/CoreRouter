@@ -1,0 +1,723 @@
+{
+  "checks": [
+    {
+      "check": "benchmark/sweep input results/evidence/multinode_benchmark_20261120_084017/vietnam/20261120_154021/all_seed_summary.csv",
+      "passed": true
+    },
+    {
+      "check": "benchmark/sweep input results/evidence/multinode_benchmark_20261120_084017/nsfnet/20261120_154022/all_seed_summary.csv",
+      "passed": true
+    },
+    {
+      "check": "benchmark/sweep input results/evidence/multinode_benchmark_20261120_084017/geant2/20261120_154021/all_seed_summary.csv",
+      "passed": true
+    },
+    {
+      "check": "benchmark/sweep input results/evidence/multinode_benchmark_20261120_084017/synthetic_25/20261120_154022/all_seed_summary.csv",
+      "passed": true
+    },
+    {
+      "check": "benchmark/sweep input results/evidence/multinode_benchmark_20261120_084017/synthetic_50/20261120_154022/all_seed_summary.csv",
+      "passed": true
+    },
+    {
+      "check": "benchmark/sweep input results/evidence/multinode_benchmark_20261120_084017/synthetic_100/20261120_154659/all_seed_summary.csv",
+      "passed": true
+    },
+    {
+      "check": "benchmark/sweep input results/evidence/model_refresh_reruns_20261120_163000/load_chain/vietnam/chains_0/vietnam_load_sweep_per_seed.csv",
+      "passed": true
+    },
+    {
+      "check": "benchmark/sweep input results/evidence/model_refresh_reruns_20261120_163000/load_chain/vietnam/chains_25/vietnam_load_sweep_per_seed.csv",
+      "passed": true
+    },
+    {
+      "check": "benchmark/sweep input results/evidence/model_refresh_reruns_20261120_163000/load_chain/vietnam/chains_50/vietnam_load_sweep_per_seed.csv",
+      "passed": true
+    },
+    {
+      "check": "benchmark/sweep input results/evidence/model_refresh_reruns_20261120_163000/load_chain/vietnam/chains_100/vietnam_load_sweep_per_seed.csv",
+      "passed": true
+    },
+    {
+      "check": "benchmark/sweep input results/evidence/model_refresh_reruns_20261120_163000/load_chain/nsfnet/chains_0/nsfnet_load_sweep_per_seed.csv",
+      "passed": true
+    },
+    {
+      "check": "benchmark/sweep input results/evidence/model_refresh_reruns_20261120_163000/load_chain/nsfnet/chains_25/nsfnet_load_sweep_per_seed.csv",
+      "passed": true
+    },
+    {
+      "check": "benchmark/sweep input results/evidence/model_refresh_reruns_20261120_163000/load_chain/nsfnet/chains_50/nsfnet_load_sweep_per_seed.csv",
+      "passed": true
+    },
+    {
+      "check": "benchmark/sweep input results/evidence/model_refresh_reruns_20261120_163000/load_chain/nsfnet/chains_100/nsfnet_load_sweep_per_seed.csv",
+      "passed": true
+    },
+    {
+      "check": "benchmark/sweep input results/evidence/model_refresh_reruns_20261120_163000/load_chain/geant2/chains_0/geant2_load_sweep_per_seed.csv",
+      "passed": true
+    },
+    {
+      "check": "benchmark/sweep input results/evidence/model_refresh_reruns_20261120_163000/load_chain/geant2/chains_25/geant2_load_sweep_per_seed.csv",
+      "passed": true
+    },
+    {
+      "check": "benchmark/sweep input results/evidence/model_refresh_reruns_20261120_163000/load_chain/geant2/chains_50/geant2_load_sweep_per_seed.csv",
+      "passed": true
+    },
+    {
+      "check": "benchmark/sweep input results/evidence/model_refresh_reruns_20261120_163000/load_chain/geant2/chains_100/geant2_load_sweep_per_seed.csv",
+      "passed": true
+    },
+    {
+      "check": "benchmark/sweep output README.md",
+      "passed": true
+    },
+    {
+      "check": "benchmark/sweep output background_chain_summary.csv",
+      "passed": true
+    },
+    {
+      "check": "benchmark/sweep output background_chain_table_rows.tex",
+      "passed": true
+    },
+    {
+      "check": "benchmark/sweep output benchmark_paired_rows.tex",
+      "passed": true
+    },
+    {
+      "check": "benchmark/sweep output cspf_paired_rows.tex",
+      "passed": true
+    },
+    {
+      "check": "benchmark/sweep output load_chain_per_seed.csv",
+      "passed": true
+    },
+    {
+      "check": "benchmark/sweep output load_chain_sources.json",
+      "passed": true
+    },
+    {
+      "check": "benchmark/sweep output load_sweep_paired_rows.tex",
+      "passed": true
+    },
+    {
+      "check": "benchmark/sweep output load_sweep_paired_statistics.csv",
+      "passed": true
+    },
+    {
+      "check": "benchmark/sweep output load_sweep_summary.csv",
+      "passed": true
+    },
+    {
+      "check": "benchmark/sweep output load_sweep_table_rows.tex",
+      "passed": true
+    },
+    {
+      "check": "benchmark/sweep output pair_oracle_summary.csv",
+      "passed": true
+    },
+    {
+      "check": "benchmark/sweep output stress_paired_statistics.csv",
+      "passed": true
+    },
+    {
+      "check": "benchmark/sweep output stress_per_seed_all_topologies.csv",
+      "passed": true
+    },
+    {
+      "check": "benchmark/sweep output stress_summary.csv",
+      "passed": true
+    },
+    {
+      "check": "benchmark/sweep output stress_table_rows.tex",
+      "passed": true
+    },
+    {
+      "check": "benchmark/sweep output synthetic_stress_table_rows.tex",
+      "passed": true
+    },
+    {
+      "check": "HIL input results/rev1/hil_e2e_20261121/run/campaign_corrected_model/analysis/outcomes.json",
+      "passed": true
+    },
+    {
+      "check": "HIL input results/rev1/hil_e2e_20261121/run/campaign_corrected_model/analysis/stage_percentiles.csv",
+      "passed": true
+    },
+    {
+      "check": "HIL input results/rev1/hil_e2e_20261121/run/analysis_mbb_corrected_model/mbb_summary.json",
+      "passed": true
+    },
+    {
+      "check": "HIL input results/rev1/hil_e2e_20261121/run/campaign/analysis/outcomes.json",
+      "passed": true
+    },
+    {
+      "check": "HIL input results/rev1/hil_e2e_20261121/run/campaign/analysis/stage_percentiles.csv",
+      "passed": true
+    },
+    {
+      "check": "HIL input results/rev1/hil_e2e_20261121/run/analysis_mbb/mbb_summary.json",
+      "passed": true
+    },
+    {
+      "check": "HIL input results/rev1/hil_e2e_20261121/run/supplemental_probes/corrected_model_after_vxlan_fix/reprobe_summary.json",
+      "passed": true
+    },
+    {
+      "check": "HIL input results/hil_export/hil_rev1_20261121/generated/overmsd/overmsd_summary.json",
+      "passed": true
+    },
+    {
+      "check": "HIL input results/rev1/hil_e2e_20261121/run/live_fault_injection/summary.json",
+      "passed": true
+    },
+    {
+      "check": "HIL input results/rev1/hil_e2e_20261121/run/long_3h_corrected_model_released/analysis/longrun_summary.json",
+      "passed": true
+    },
+    {
+      "check": "all 398 campaign terminal outcomes classified",
+      "passed": true
+    },
+    {
+      "check": "57 migrations and 12 non-replacement deployments",
+      "passed": true
+    },
+    {
+      "check": "39 initial, 51 final, 30 active names absent from baseline",
+      "passed": true
+    },
+    {
+      "check": "restored arrival figure checksum",
+      "passed": true
+    },
+    {
+      "check": "arrival figure input results/evidence/mentor_completion_20261121/arrival_rate_only/arrival_rate_aggregate.csv",
+      "passed": true
+    },
+    {
+      "check": "arrival figure input results/evidence/mentor_completion_20261121/arrival_rate_only/arrival_rate_manifest.json",
+      "passed": true
+    },
+    {
+      "check": "seven original main sections in original order",
+      "passed": true
+    },
+    {
+      "check": "submitted declaration unchanged: Funding",
+      "passed": true
+    },
+    {
+      "check": "submitted declaration unchanged: CRediT Authorship Contribution Statement",
+      "passed": true
+    },
+    {
+      "check": "submitted declaration unchanged: Declaration of Generative AI and AI-Assisted Technologies in the Writing Process",
+      "passed": true
+    },
+    {
+      "check": "submitted declaration unchanged: Declaration of Competing Interest",
+      "passed": true
+    },
+    {
+      "check": "retained table numeric cells tab:related_comparison",
+      "passed": true
+    },
+    {
+      "check": "retained table numeric cells tab:hard_constraint_failure_mapping",
+      "passed": true
+    },
+    {
+      "check": "retained table numeric cells tab:evaluation_protocols",
+      "passed": true
+    },
+    {
+      "check": "retained table numeric cells tab:simulation_acceptance_summary",
+      "passed": true
+    },
+    {
+      "check": "retained table numeric cells tab:benchmark_paired_statistics",
+      "passed": true
+    },
+    {
+      "check": "retained table numeric cells tab:cspf_paired_statistics",
+      "passed": true
+    },
+    {
+      "check": "retained table numeric cells tab:vietnam_ablation_summary",
+      "passed": true
+    },
+    {
+      "check": "retained table numeric cells tab:timed_full_coverage",
+      "passed": true
+    },
+    {
+      "check": "retained table numeric cells tab:mask_admission",
+      "passed": true
+    },
+    {
+      "check": "retained table numeric cells tab:proposal_violations",
+      "passed": true
+    },
+    {
+      "check": "retained table numeric cells tab:hil_12h",
+      "passed": true
+    },
+    {
+      "check": "retained table numeric cells tab:hil_msd",
+      "passed": true
+    },
+    {
+      "check": "retained table numeric cells tab:hil_longrun",
+      "passed": true
+    },
+    {
+      "check": "retained table numeric cells tab:load_sweep_results",
+      "passed": true
+    },
+    {
+      "check": "retained table numeric cells tab:missed_feasible_oracle",
+      "passed": true
+    },
+    {
+      "check": "retained table numeric cells tab:active_chain_stress",
+      "passed": true
+    },
+    {
+      "check": "retained table numeric cells tab:synthetic_stress",
+      "passed": true
+    },
+    {
+      "check": "retained table numeric cells tab:best_baseline_exploratory",
+      "passed": true
+    },
+    {
+      "check": "retained table numeric cells tab:mask_ttl_audit",
+      "passed": true
+    },
+    {
+      "check": "retained table numeric cells tab:sparse_gat_mlp",
+      "passed": true
+    },
+    {
+      "check": "retained table numeric cells tab:oracle_load_followup",
+      "passed": true
+    },
+    {
+      "check": "retained table numeric cells tab:synthetic_scalability",
+      "passed": true
+    },
+    {
+      "check": "retained table numeric cells tab:load_sweep_paired_statistics",
+      "passed": true
+    },
+    {
+      "check": "retained table numeric cells tab:load_sweep_unprotected",
+      "passed": true
+    },
+    {
+      "check": "retained table numeric cells tab:load_sweep_unprotected_nsfnet",
+      "passed": true
+    },
+    {
+      "check": "retained table numeric cells tab:load_sweep_unprotected_geant2",
+      "passed": true
+    },
+    {
+      "check": "retained table numeric cells tab:unprotected_stress",
+      "passed": true
+    },
+    {
+      "check": "retained table numeric cells tab:stress_qos",
+      "passed": true
+    },
+    {
+      "check": "timing table has all 15 component rows",
+      "passed": true
+    },
+    {
+      "check": "timing printed mean/SD 25/normalize",
+      "passed": true
+    },
+    {
+      "check": "timing printed mean/SD 25/candidate",
+      "passed": true
+    },
+    {
+      "check": "timing printed mean/SD 25/selection",
+      "passed": true
+    },
+    {
+      "check": "timing printed mean/SD 25/validation",
+      "passed": true
+    },
+    {
+      "check": "timing printed mean/SD 25/decision",
+      "passed": true
+    },
+    {
+      "check": "timing printed mean/SD 50/normalize",
+      "passed": true
+    },
+    {
+      "check": "timing printed mean/SD 50/candidate",
+      "passed": true
+    },
+    {
+      "check": "timing printed mean/SD 50/selection",
+      "passed": true
+    },
+    {
+      "check": "timing printed mean/SD 50/validation",
+      "passed": true
+    },
+    {
+      "check": "timing printed mean/SD 50/decision",
+      "passed": true
+    },
+    {
+      "check": "timing printed mean/SD 100/normalize",
+      "passed": true
+    },
+    {
+      "check": "timing printed mean/SD 100/candidate",
+      "passed": true
+    },
+    {
+      "check": "timing printed mean/SD 100/selection",
+      "passed": true
+    },
+    {
+      "check": "timing printed mean/SD 100/validation",
+      "passed": true
+    },
+    {
+      "check": "timing printed mean/SD 100/decision",
+      "passed": true
+    },
+    {
+      "check": "acceptance mean/SD vietnam/elephant_stress/traditional_greedy",
+      "passed": true
+    },
+    {
+      "check": "acceptance mean/SD vietnam/elephant_stress/decoupled_ai",
+      "passed": true
+    },
+    {
+      "check": "acceptance mean/SD vietnam/elephant_stress/saf_h",
+      "passed": true
+    },
+    {
+      "check": "acceptance mean/SD vietnam/elephant_stress/cspf",
+      "passed": true
+    },
+    {
+      "check": "acceptance mean/SD vietnam/elephant_stress/harp",
+      "passed": true
+    },
+    {
+      "check": "acceptance mean/SD vietnam/burst_surge/traditional_greedy",
+      "passed": true
+    },
+    {
+      "check": "acceptance mean/SD vietnam/burst_surge/decoupled_ai",
+      "passed": true
+    },
+    {
+      "check": "acceptance mean/SD vietnam/burst_surge/saf_h",
+      "passed": true
+    },
+    {
+      "check": "acceptance mean/SD vietnam/burst_surge/cspf",
+      "passed": true
+    },
+    {
+      "check": "acceptance mean/SD vietnam/burst_surge/harp",
+      "passed": true
+    },
+    {
+      "check": "acceptance mean/SD vietnam/chaos/traditional_greedy",
+      "passed": true
+    },
+    {
+      "check": "acceptance mean/SD vietnam/chaos/decoupled_ai",
+      "passed": true
+    },
+    {
+      "check": "acceptance mean/SD vietnam/chaos/saf_h",
+      "passed": true
+    },
+    {
+      "check": "acceptance mean/SD vietnam/chaos/cspf",
+      "passed": true
+    },
+    {
+      "check": "acceptance mean/SD vietnam/chaos/harp",
+      "passed": true
+    },
+    {
+      "check": "acceptance mean/SD nsfnet/elephant_stress/traditional_greedy",
+      "passed": true
+    },
+    {
+      "check": "acceptance mean/SD nsfnet/elephant_stress/decoupled_ai",
+      "passed": true
+    },
+    {
+      "check": "acceptance mean/SD nsfnet/elephant_stress/saf_h",
+      "passed": true
+    },
+    {
+      "check": "acceptance mean/SD nsfnet/elephant_stress/cspf",
+      "passed": true
+    },
+    {
+      "check": "acceptance mean/SD nsfnet/elephant_stress/harp",
+      "passed": true
+    },
+    {
+      "check": "acceptance mean/SD nsfnet/burst_surge/traditional_greedy",
+      "passed": true
+    },
+    {
+      "check": "acceptance mean/SD nsfnet/burst_surge/decoupled_ai",
+      "passed": true
+    },
+    {
+      "check": "acceptance mean/SD nsfnet/burst_surge/saf_h",
+      "passed": true
+    },
+    {
+      "check": "acceptance mean/SD nsfnet/burst_surge/cspf",
+      "passed": true
+    },
+    {
+      "check": "acceptance mean/SD nsfnet/burst_surge/harp",
+      "passed": true
+    },
+    {
+      "check": "acceptance mean/SD nsfnet/chaos/traditional_greedy",
+      "passed": true
+    },
+    {
+      "check": "acceptance mean/SD nsfnet/chaos/decoupled_ai",
+      "passed": true
+    },
+    {
+      "check": "acceptance mean/SD nsfnet/chaos/saf_h",
+      "passed": true
+    },
+    {
+      "check": "acceptance mean/SD nsfnet/chaos/cspf",
+      "passed": true
+    },
+    {
+      "check": "acceptance mean/SD nsfnet/chaos/harp",
+      "passed": true
+    },
+    {
+      "check": "acceptance mean/SD geant2/elephant_stress/traditional_greedy",
+      "passed": true
+    },
+    {
+      "check": "acceptance mean/SD geant2/elephant_stress/decoupled_ai",
+      "passed": true
+    },
+    {
+      "check": "acceptance mean/SD geant2/elephant_stress/saf_h",
+      "passed": true
+    },
+    {
+      "check": "acceptance mean/SD geant2/elephant_stress/cspf",
+      "passed": true
+    },
+    {
+      "check": "acceptance mean/SD geant2/elephant_stress/harp",
+      "passed": true
+    },
+    {
+      "check": "acceptance mean/SD geant2/burst_surge/traditional_greedy",
+      "passed": true
+    },
+    {
+      "check": "acceptance mean/SD geant2/burst_surge/decoupled_ai",
+      "passed": true
+    },
+    {
+      "check": "acceptance mean/SD geant2/burst_surge/saf_h",
+      "passed": true
+    },
+    {
+      "check": "acceptance mean/SD geant2/burst_surge/cspf",
+      "passed": true
+    },
+    {
+      "check": "acceptance mean/SD geant2/burst_surge/harp",
+      "passed": true
+    },
+    {
+      "check": "acceptance mean/SD geant2/chaos/traditional_greedy",
+      "passed": true
+    },
+    {
+      "check": "acceptance mean/SD geant2/chaos/decoupled_ai",
+      "passed": true
+    },
+    {
+      "check": "acceptance mean/SD geant2/chaos/saf_h",
+      "passed": true
+    },
+    {
+      "check": "acceptance mean/SD geant2/chaos/cspf",
+      "passed": true
+    },
+    {
+      "check": "acceptance mean/SD geant2/chaos/harp",
+      "passed": true
+    },
+    {
+      "check": "retained supplementary numeric cells tab:related_comparison",
+      "passed": true
+    },
+    {
+      "check": "retained supplementary numeric cells tab:evaluation_protocols",
+      "passed": true
+    },
+    {
+      "check": "retained supplementary numeric cells tab:cspf_paired_statistics",
+      "passed": true
+    },
+    {
+      "check": "retained supplementary numeric cells tab:timed_full_coverage",
+      "passed": true
+    },
+    {
+      "check": "retained supplementary numeric cells tab:mask_admission",
+      "passed": true
+    },
+    {
+      "check": "retained supplementary numeric cells tab:hil_12h",
+      "passed": true
+    },
+    {
+      "check": "retained supplementary numeric cells tab:load_sweep_results",
+      "passed": true
+    },
+    {
+      "check": "retained supplementary numeric cells tab:missed_feasible_oracle",
+      "passed": true
+    },
+    {
+      "check": "retained supplementary numeric cells tab:active_chain_stress",
+      "passed": true
+    },
+    {
+      "check": "retained supplementary numeric cells tab:synthetic_stress",
+      "passed": true
+    },
+    {
+      "check": "retained supplementary numeric cells tab:best_baseline_exploratory",
+      "passed": true
+    },
+    {
+      "check": "retained supplementary numeric cells tab:mask_ttl_audit",
+      "passed": true
+    },
+    {
+      "check": "retained supplementary numeric cells tab:sparse_gat_mlp",
+      "passed": true
+    },
+    {
+      "check": "retained supplementary numeric cells tab:oracle_load_followup",
+      "passed": true
+    },
+    {
+      "check": "retained supplementary numeric cells tab:load_sweep_paired_statistics",
+      "passed": true
+    },
+    {
+      "check": "retained supplementary numeric cells tab:load_sweep_unprotected",
+      "passed": true
+    },
+    {
+      "check": "retained supplementary numeric cells tab:load_sweep_unprotected_nsfnet",
+      "passed": true
+    },
+    {
+      "check": "retained supplementary numeric cells tab:load_sweep_unprotected_geant2",
+      "passed": true
+    },
+    {
+      "check": "retained supplementary numeric cells tab:unprotected_stress",
+      "passed": true
+    },
+    {
+      "check": "retained supplementary numeric cells tab:stress_qos",
+      "passed": true
+    },
+    {
+      "check": "retained supplementary numeric cells tab:arrival_rate_paired_statistics",
+      "passed": true
+    },
+    {
+      "check": "retained supplementary numeric cells tab:independent_training",
+      "passed": true
+    },
+    {
+      "check": "retained supplementary numeric cells tab:hil_msd_detailed",
+      "passed": true
+    },
+    {
+      "check": "25 self-contained supplementary tables",
+      "passed": true
+    },
+    {
+      "check": "main source has no external numeric or table inputs",
+      "passed": true
+    },
+    {
+      "check": "main numeric SD has no baseline plus/minus",
+      "passed": true
+    },
+    {
+      "check": "main labels unique",
+      "passed": true
+    },
+    {
+      "check": "supplement numeric SD has no baseline plus/minus",
+      "passed": true
+    },
+    {
+      "check": "supplement labels unique",
+      "passed": true
+    },
+    {
+      "check": "all original reviewer comments preserved",
+      "passed": true
+    }
+  ],
+  "passed": 175,
+  "failed": 0,
+  "files_sha256": {
+    "docs/AIO-mesh-rev1/rev1.tex": "7c025b47d114eaf6df2a3e426baf1adb61512a9c73367cf1c3b1437f600eeb38",
+    "docs/AIO-mesh-rev1/supplement.tex": "8132a8b8e62029a0d64b57c3fc806c85128054c42303f874a0f44bb3333a04b5",
+    "docs/response_rev1.tex": "756af75681ab514f08f0ffe35e53577af054a437c27b3afbdbe967fb6fa2eadf",
+    "docs/AIO-mesh-rev1/figs/ablation_compute_cost.pdf": "e33f6ed71ec3c32d742e19eb91a08f2776a324aaeac588a6122a2bb5046ce2c9",
+    "docs/AIO-mesh-rev1/figs/ablation_mask_admission.pdf": "3d679e882717d740fe7f9c28b09216d5d75dc56ed3780940849b531cc5835a82",
+    "docs/AIO-mesh-rev1/figs/arrival_rate_only.pdf": "efddb4f0e5e063732ac3442b41284f7de28c68a6952fcb62c285cb0a3da1f258",
+    "docs/AIO-mesh-rev1/figs/benchmark_paired_effects.pdf": "8a7e89b9eb78e828226a52e051257d10b6a3f66a1b10b8f918b32538a8dc5ec5",
+    "docs/AIO-mesh-rev1/figs/geant2_load_sweep.pdf": "3757fb1316f2a9e52f3eaa01e407baa7d2ea6c7d7f4fedef43528779d36811c2",
+    "docs/AIO-mesh-rev1/figs/load_sweep_three_topologies.pdf": "36acc7996f8f110b750a0b352645cce713c4fdbc17a7870d6b8bd79b2a749145",
+    "docs/AIO-mesh-rev1/figs/nsfnet_load_sweep.pdf": "58cc96395f140c5b9aa72d8a8d39c5833a5f9114cabb42827183c52032da04f3",
+    "docs/AIO-mesh-rev1/figs/overview.pdf": "285234b4cf653eddf4b00ca413f0aaf3d4ce95b52f940a416eaa0d33877e95b1",
+    "docs/AIO-mesh-rev1/figs/policy_cost_scalability.pdf": "66823e8710d1077a2510142389a0558f00b66e3694991bfb362b4cddaad0f67d",
+    "docs/AIO-mesh-rev1/figs/testbed.pdf": "bcd068d23fe20a8a937ebc4f65cd3a66599a7f7b05fa86fdb87dbf1543fdceba",
+    "docs/AIO-mesh-rev1/figs/vietnam_load_sweep.pdf": "8a534dad0e2bd8e2da5ca98436fe5ffadf359b6b47e6dcd86ad92d926c37a1f5"
+  },
+  "scope": "Source hashes, exact HIL accounting, preservation of retained table cells, recomputed primary acceptance, references checked separately by TeX. Not a fresh execution of all scientific experiments."
+}
