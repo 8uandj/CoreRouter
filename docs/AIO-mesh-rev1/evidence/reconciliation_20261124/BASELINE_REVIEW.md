@@ -5,7 +5,7 @@ Mốc: `docs/AIO-mesh-submitted 1/submitted-1.tex`. Bao phủ tất cả các ph
 | Phần gốc | Dòng gốc | Trạng thái câu chữ | Lý do |
 |---|---:|---|---|
 | Abstract | 91 | 0 giữ nguyên; 1 sửa; 0 thay/bỏ | R2.1–R2.3/P0.2/P1.2: runtime attribution and audited measurements replace unsupported result claims; original introduction retained. |
-| Introduction | 103 | 0 giữ nguyên; 6 sửa; 4 thay/bỏ | R2.1/R3/R4.1/R5.1/R5.3: runtime contribution, abbreviation definitions, practical MSD failure semantics; no unsupported universal policy advantage. |
+| Introduction | 103 | 2 giữ nguyên; 7 sửa; 1 thay/bỏ | R2.1/R3/R4.1/R5.1/R5.3: runtime contribution, abbreviation definitions, practical MSD failure semantics; no unsupported universal policy advantage. |
 | Background and Related Work | 136 | 1 giữ nguyên; 0 sửa; 0 thay/bỏ | R2.1/R3: original framing retained. |
 | AIOps and MLOps for Cloud-Native Infrastructure | 141 | 2 giữ nguyên; 0 sửa; 0 thay/bỏ | Original background and citations retained. |
 | Learning-Based Resource and Service-Chain Orchestration | 173 | 0 giữ nguyên; 2 sửa; 1 thay/bỏ | R4.1: abbreviation definitions; absent original bibliography keys are not invented. |
@@ -32,10 +32,10 @@ Mốc: `docs/AIO-mesh-submitted 1/submitted-1.tex`. Bao phủ tất cả các ph
 | Reward for Soft Operational Objectives | 554 | 0 giữ nguyên; 1 sửa; 2 thay/bỏ | P0.3/R2.5: replace generic reward presented as implementation with actual reward and callback; preserve separate generic system objective. |
 | Admission and Migration Semantics | 584 | 0 giữ nguyên; 0 sửa; 4 thay/bỏ | P0.4/P1.1: actual training/evaluation/live empty-mask behavior and lifecycle-driven migration replace unsupported policy modes. |
 | Decision Procedure | 607 | 0 giữ nguyên; 2 sửa; 0 thay/bỏ | P0.4/P1.1: guarded inference/fallback replaces nonexistent cached-path selection; restore original procedural explanation and add N² cost. |
-| Experiments and Evaluation | 635 | 0 giữ nguyên; 1 sửa; 0 thay/bỏ | R2.2–R2.5/R4.2/R5.5: retain original five evaluation questions with scope corrections. |
+| Experiments and Evaluation | 635 | 0 giữ nguyên; 0 sửa; 1 thay/bỏ | R2.2–R2.5/R4.2/R5.5: retain the five submitted evaluation topics in a concise section introduction. |
 | Experimental Setup | 647 | 0 giữ nguyên; 0 sửa; 3 thay/bỏ | R2.3/P1.1/P2.1: actual workloads, 20 seeds, models, complete configured adjacency and no K-path cache replace inaccurate submitted protocol. |
 | Baselines, Ablation Variants, and Metrics | 659 | 0 giữ nguyên; 0 sửa; 4 thay/bỏ | R2.2–R2.4/P2.1: actual heuristics, tested ablations, statistics and denominators replace inaccurate baseline/variant descriptions. |
-| Hardware-Safe Admission under Workload Saturation | 669 | 0 giữ nguyên; 1 sửa; 0 thay/bỏ | R2.2/R2.4: retain original saturation question/figure reference; expand with common protected-admission evidence. Detailed sweeps in checklist Section 6.8. |
+| Hardware-Safe Admission under Workload Saturation | 669 | 0 giữ nguyên; 0 sửa; 1 thay/bỏ | R2.2/R2.4: retain original saturation question/figure reference; expand with common protected-admission evidence. Detailed sweeps in checklist Section 6.8. |
 | Simulation Results across Distributed Topologies | 680 | 0 giữ nguyên; 0 sửa; 3 thay/bỏ | R2.3/P2.1: replace unsupported old means/claims with audited tables and paired comparisons. Old burst-results table has no independent verified full metric set and is not relabeled as new evidence. |
 | Ablation Study | 750 | 0 giữ nguyên; 0 sửa; 3 thay/bỏ | R2.2–R2.4/P2.1: actual variants/admission bypass results and timing; old Pareto-optimality figure/claims are not supported by corrected records. |
 | Hardware-in-the-Loop Testbed Validation | 816 | 0 giữ nguyên; 0 sửa; 4 thay/bỏ | P0.2/P0.5/P1.1/P1.2: request-correlated E2E, MSD injections and separate long-run protocols replace unsupported old scenario table. |
@@ -49,4 +49,4 @@ Mốc: `docs/AIO-mesh-submitted 1/submitted-1.tex`. Bao phủ tất cả các ph
 
 Chi tiết từng đoạn và vị trí tương ứng: `submit1_paragraph_review.json`. Diff trực tiếp toàn bộ source, không dùng bản rev1 trung gian làm baseline: `SUBMIT1_TO_REV1.diff`.
 
-Tổng số đoạn văn được lập mục: 117. Số khớp nguyên câu chữ sau khi bỏ markup revision/whitespace: 22. Các phần sửa/thay đều có mục lý do ở trên; cần đọc đoạn gốc và đoạn revision trong JSON khi đánh giá ý nghĩa.
+Tổng số đoạn văn được lập mục: 117. Số khớp nguyên câu chữ sau khi bỏ markup revision/whitespace: 24. Các phần sửa/thay đều có mục lý do ở trên; cần đọc đoạn gốc và đoạn revision trong JSON khi đánh giá ý nghĩa.

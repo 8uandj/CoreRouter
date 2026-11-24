@@ -73,7 +73,7 @@ reasons={
 'Reward for Soft Operational Objectives':'P0.3/R2.5: replace generic reward presented as implementation with actual reward and callback; preserve separate generic system objective.',
 'Admission and Migration Semantics':'P0.4/P1.1: actual training/evaluation/live empty-mask behavior and lifecycle-driven migration replace unsupported policy modes.',
 'Decision Procedure':'P0.4/P1.1: guarded inference/fallback replaces nonexistent cached-path selection; restore original procedural explanation and add N² cost.',
-'Experiments and Evaluation':'R2.2–R2.5/R4.2/R5.5: retain original five evaluation questions with scope corrections.',
+'Experiments and Evaluation':'R2.2–R2.5/R4.2/R5.5: retain the five submitted evaluation topics in a concise section introduction.',
 'Experimental Setup':'R2.3/P1.1/P2.1: actual workloads, 20 seeds, models, complete configured adjacency and no K-path cache replace inaccurate submitted protocol.',
 'Baselines, Ablation Variants, and Metrics':'R2.2–R2.4/P2.1: actual heuristics, tested ablations, statistics and denominators replace inaccurate baseline/variant descriptions.',
 'Hardware-Safe Admission under Workload Saturation':'R2.2/R2.4: retain original saturation question/figure reference; expand with common protected-admission evidence. Detailed sweeps in checklist Section 6.8.',

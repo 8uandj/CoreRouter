@@ -1,0 +1,38 @@
+{
+  "main_tables": 10,
+  "main_wide_tables": 0,
+  "main_pages_before_shortening": 36,
+  "main_pages": 20,
+  "supplement_tables": 27,
+  "marked_clean_text_identical": true,
+  "builds": [
+    {
+      "file": "docs/AIO-mesh-rev1/rev1.pdf",
+      "pages": 20,
+      "sha256": "829283a05b55057b66002cef1e9d700973d284e6ce940f6f2023b5896a4f6149",
+      "undefined_references_or_citations": false,
+      "missing_glyphs": false
+    },
+    {
+      "file": "docs/AIO-mesh-rev1/rev_clean.pdf",
+      "pages": 20,
+      "sha256": "461b67752d4049101bd0774b3ee206d45d9b8acaabef98b2bb77812344528738",
+      "undefined_references_or_citations": false,
+      "missing_glyphs": false
+    },
+    {
+      "file": "docs/AIO-mesh-rev1/supplement.pdf",
+      "pages": 17,
+      "sha256": "920268afd5a5742c49238165543a30a4401a11f9faf8ba294eec738ecfb469e8",
+      "undefined_references_or_citations": false,
+      "missing_glyphs": false
+    },
+    {
+      "file": "docs/response_rev1.pdf",
+      "pages": 12,
+      "sha256": "d28d825a06455fdc1ce76b8dc6f9e7f6ce67e80b7dfcf2d0a0c654abab7718b1",
+      "undefined_references_or_citations": false,
+      "missing_glyphs": false
+    }
+  ]
+}

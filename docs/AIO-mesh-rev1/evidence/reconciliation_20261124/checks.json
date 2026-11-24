@@ -1,4 +1,5 @@
 {
+  "comparison_commit": "2271d032d5706adaca1a6b7b9deef52a7fc249fc",
   "checks": [
     {
       "check": "benchmark/sweep input results/evidence/multinode_benchmark_20261120_084017/vietnam/20261120_154021/all_seed_summary.csv",
@@ -225,115 +226,239 @@
       "passed": true
     },
     {
-      "check": "retained table numeric cells tab:related_comparison",
+      "check": "retained table numeric cells in main or supplement tab:related_comparison",
       "passed": true
     },
     {
-      "check": "retained table numeric cells tab:hard_constraint_failure_mapping",
+      "check": "retained table numeric cells in main or supplement tab:hard_constraint_failure_mapping",
       "passed": true
     },
     {
-      "check": "retained table numeric cells tab:evaluation_protocols",
+      "check": "retained table numeric cells in main or supplement tab:evaluation_protocols",
       "passed": true
     },
     {
-      "check": "retained table numeric cells tab:simulation_acceptance_summary",
+      "check": "retained table numeric cells in main or supplement tab:benchmark_paired_statistics",
       "passed": true
     },
     {
-      "check": "retained table numeric cells tab:benchmark_paired_statistics",
+      "check": "retained table numeric cells in main or supplement tab:cspf_paired_statistics",
       "passed": true
     },
     {
-      "check": "retained table numeric cells tab:cspf_paired_statistics",
+      "check": "retained table numeric cells in main or supplement tab:vietnam_ablation_summary",
       "passed": true
     },
     {
-      "check": "retained table numeric cells tab:vietnam_ablation_summary",
+      "check": "retained table numeric cells in main or supplement tab:timed_full_coverage",
       "passed": true
     },
     {
-      "check": "retained table numeric cells tab:timed_full_coverage",
+      "check": "retained table numeric cells in main or supplement tab:mask_admission",
       "passed": true
     },
     {
-      "check": "retained table numeric cells tab:mask_admission",
+      "check": "retained table numeric cells in main or supplement tab:proposal_violations",
       "passed": true
     },
     {
-      "check": "retained table numeric cells tab:proposal_violations",
+      "check": "retained table numeric cells in main or supplement tab:hil_12h",
       "passed": true
     },
     {
-      "check": "retained table numeric cells tab:hil_12h",
+      "check": "retained table numeric cells in main or supplement tab:hil_e2e",
       "passed": true
     },
     {
-      "check": "retained table numeric cells tab:hil_msd",
+      "check": "retained table numeric cells in main or supplement tab:hil_msd",
       "passed": true
     },
     {
-      "check": "retained table numeric cells tab:hil_longrun",
+      "check": "retained table numeric cells in main or supplement tab:hil_longrun",
       "passed": true
     },
     {
-      "check": "retained table numeric cells tab:load_sweep_results",
+      "check": "retained table numeric cells in main or supplement tab:load_sweep_results",
       "passed": true
     },
     {
-      "check": "retained table numeric cells tab:missed_feasible_oracle",
+      "check": "retained table numeric cells in main or supplement tab:missed_feasible_oracle",
       "passed": true
     },
     {
-      "check": "retained table numeric cells tab:active_chain_stress",
+      "check": "retained table numeric cells in main or supplement tab:active_chain_stress",
       "passed": true
     },
     {
-      "check": "retained table numeric cells tab:synthetic_stress",
+      "check": "retained table numeric cells in main or supplement tab:synthetic_stress",
       "passed": true
     },
     {
-      "check": "retained table numeric cells tab:best_baseline_exploratory",
+      "check": "retained table numeric cells in main or supplement tab:best_baseline_exploratory",
       "passed": true
     },
     {
-      "check": "retained table numeric cells tab:mask_ttl_audit",
+      "check": "retained table numeric cells in main or supplement tab:mask_ttl_audit",
       "passed": true
     },
     {
-      "check": "retained table numeric cells tab:sparse_gat_mlp",
+      "check": "retained table numeric cells in main or supplement tab:sparse_gat_mlp",
       "passed": true
     },
     {
-      "check": "retained table numeric cells tab:oracle_load_followup",
+      "check": "retained table numeric cells in main or supplement tab:oracle_load_followup",
       "passed": true
     },
     {
-      "check": "retained table numeric cells tab:synthetic_scalability",
+      "check": "retained table numeric cells in main or supplement tab:synthetic_scalability",
       "passed": true
     },
     {
-      "check": "retained table numeric cells tab:load_sweep_paired_statistics",
+      "check": "retained table numeric cells in main or supplement tab:occupancy_validation",
       "passed": true
     },
     {
-      "check": "retained table numeric cells tab:load_sweep_unprotected",
+      "check": "retained table numeric cells in main or supplement tab:load_sweep_paired_statistics",
       "passed": true
     },
     {
-      "check": "retained table numeric cells tab:load_sweep_unprotected_nsfnet",
+      "check": "retained table numeric cells in main or supplement tab:load_sweep_unprotected",
       "passed": true
     },
     {
-      "check": "retained table numeric cells tab:load_sweep_unprotected_geant2",
+      "check": "retained table numeric cells in main or supplement tab:load_sweep_unprotected_nsfnet",
       "passed": true
     },
     {
-      "check": "retained table numeric cells tab:unprotected_stress",
+      "check": "retained table numeric cells in main or supplement tab:load_sweep_unprotected_geant2",
       "passed": true
     },
     {
-      "check": "retained table numeric cells tab:stress_qos",
+      "check": "retained table numeric cells in main or supplement tab:unprotected_stress",
+      "passed": true
+    },
+    {
+      "check": "retained table numeric cells in main or supplement tab:stress_qos",
+      "passed": true
+    },
+    {
+      "check": "compact E2E Offered requests",
+      "passed": true
+    },
+    {
+      "check": "compact E2E Admitted / steering confirmed",
+      "passed": true
+    },
+    {
+      "check": "compact E2E Rejected: depth mismatch",
+      "passed": true
+    },
+    {
+      "check": "compact E2E Rejected: switch MSD overflow",
+      "passed": true
+    },
+    {
+      "check": "compact E2E Rejected: ingress equals placement",
+      "passed": true
+    },
+    {
+      "check": "compact E2E Rejected: no feasible resilience pair",
+      "passed": true
+    },
+    {
+      "check": "compact E2E All rejected",
+      "passed": true
+    },
+    {
+      "check": "compact E2E Initial / final active VNFs",
+      "passed": true
+    },
+    {
+      "check": "compact E2E Deployments without replacement",
+      "passed": true
+    },
+    {
+      "check": "compact E2E Migrations / MBB order verified",
+      "passed": true
+    },
+    {
+      "check": "compact E2E Stopping target: active names absent from baseline",
+      "passed": true
+    },
+    {
+      "check": "compact E2E Rule readback complete",
+      "passed": true
+    },
+    {
+      "check": "compact E2E Requests delivering 20/20 packets",
+      "passed": true
+    },
+    {
+      "check": "compact E2E Probe packets received / sent",
+      "passed": true
+    },
+    {
+      "check": "compact E2E timing API response (s)",
+      "passed": true
+    },
+    {
+      "check": "compact E2E timing Deployment to Pod Ready (s)",
+      "passed": true
+    },
+    {
+      "check": "compact E2E timing Rule installation/readback (s)",
+      "passed": true
+    },
+    {
+      "check": "compact E2E timing Submission to steering (s)",
+      "passed": true
+    },
+    {
+      "check": "all eight MSD trials retained",
+      "passed": true
+    },
+    {
+      "check": "compact MSD trial 1",
+      "passed": true
+    },
+    {
+      "check": "compact MSD trial 2",
+      "passed": true
+    },
+    {
+      "check": "compact MSD trial 3",
+      "passed": true
+    },
+    {
+      "check": "compact MSD trial 4",
+      "passed": true
+    },
+    {
+      "check": "compact MSD trial 5",
+      "passed": true
+    },
+    {
+      "check": "compact MSD trial 6",
+      "passed": true
+    },
+    {
+      "check": "compact MSD trial 7",
+      "passed": true
+    },
+    {
+      "check": "compact MSD trial 8",
+      "passed": true
+    },
+    {
+      "check": "compact 12-hour summary",
+      "passed": true
+    },
+    {
+      "check": "compact stability 3 h, saturated",
+      "passed": true
+    },
+    {
+      "check": "compact stability 3 h, released",
       "passed": true
     },
     {
@@ -405,39 +530,7 @@
       "passed": true
     },
     {
-      "check": "acceptance mean/SD vietnam/elephant_stress/decoupled_ai",
-      "passed": true
-    },
-    {
-      "check": "acceptance mean/SD vietnam/elephant_stress/saf_h",
-      "passed": true
-    },
-    {
-      "check": "acceptance mean/SD vietnam/elephant_stress/cspf",
-      "passed": true
-    },
-    {
-      "check": "acceptance mean/SD vietnam/elephant_stress/harp",
-      "passed": true
-    },
-    {
       "check": "acceptance mean/SD vietnam/burst_surge/traditional_greedy",
-      "passed": true
-    },
-    {
-      "check": "acceptance mean/SD vietnam/burst_surge/decoupled_ai",
-      "passed": true
-    },
-    {
-      "check": "acceptance mean/SD vietnam/burst_surge/saf_h",
-      "passed": true
-    },
-    {
-      "check": "acceptance mean/SD vietnam/burst_surge/cspf",
-      "passed": true
-    },
-    {
-      "check": "acceptance mean/SD vietnam/burst_surge/harp",
       "passed": true
     },
     {
@@ -445,7 +538,23 @@
       "passed": true
     },
     {
+      "check": "acceptance mean/SD vietnam/elephant_stress/decoupled_ai",
+      "passed": true
+    },
+    {
+      "check": "acceptance mean/SD vietnam/burst_surge/decoupled_ai",
+      "passed": true
+    },
+    {
       "check": "acceptance mean/SD vietnam/chaos/decoupled_ai",
+      "passed": true
+    },
+    {
+      "check": "acceptance mean/SD vietnam/elephant_stress/saf_h",
+      "passed": true
+    },
+    {
+      "check": "acceptance mean/SD vietnam/burst_surge/saf_h",
       "passed": true
     },
     {
@@ -453,7 +562,23 @@
       "passed": true
     },
     {
+      "check": "acceptance mean/SD vietnam/elephant_stress/cspf",
+      "passed": true
+    },
+    {
+      "check": "acceptance mean/SD vietnam/burst_surge/cspf",
+      "passed": true
+    },
+    {
       "check": "acceptance mean/SD vietnam/chaos/cspf",
+      "passed": true
+    },
+    {
+      "check": "acceptance mean/SD vietnam/elephant_stress/harp",
+      "passed": true
+    },
+    {
+      "check": "acceptance mean/SD vietnam/burst_surge/harp",
       "passed": true
     },
     {
@@ -465,39 +590,7 @@
       "passed": true
     },
     {
-      "check": "acceptance mean/SD nsfnet/elephant_stress/decoupled_ai",
-      "passed": true
-    },
-    {
-      "check": "acceptance mean/SD nsfnet/elephant_stress/saf_h",
-      "passed": true
-    },
-    {
-      "check": "acceptance mean/SD nsfnet/elephant_stress/cspf",
-      "passed": true
-    },
-    {
-      "check": "acceptance mean/SD nsfnet/elephant_stress/harp",
-      "passed": true
-    },
-    {
       "check": "acceptance mean/SD nsfnet/burst_surge/traditional_greedy",
-      "passed": true
-    },
-    {
-      "check": "acceptance mean/SD nsfnet/burst_surge/decoupled_ai",
-      "passed": true
-    },
-    {
-      "check": "acceptance mean/SD nsfnet/burst_surge/saf_h",
-      "passed": true
-    },
-    {
-      "check": "acceptance mean/SD nsfnet/burst_surge/cspf",
-      "passed": true
-    },
-    {
-      "check": "acceptance mean/SD nsfnet/burst_surge/harp",
       "passed": true
     },
     {
@@ -505,7 +598,23 @@
       "passed": true
     },
     {
+      "check": "acceptance mean/SD nsfnet/elephant_stress/decoupled_ai",
+      "passed": true
+    },
+    {
+      "check": "acceptance mean/SD nsfnet/burst_surge/decoupled_ai",
+      "passed": true
+    },
+    {
       "check": "acceptance mean/SD nsfnet/chaos/decoupled_ai",
+      "passed": true
+    },
+    {
+      "check": "acceptance mean/SD nsfnet/elephant_stress/saf_h",
+      "passed": true
+    },
+    {
+      "check": "acceptance mean/SD nsfnet/burst_surge/saf_h",
       "passed": true
     },
     {
@@ -513,7 +622,23 @@
       "passed": true
     },
     {
+      "check": "acceptance mean/SD nsfnet/elephant_stress/cspf",
+      "passed": true
+    },
+    {
+      "check": "acceptance mean/SD nsfnet/burst_surge/cspf",
+      "passed": true
+    },
+    {
       "check": "acceptance mean/SD nsfnet/chaos/cspf",
+      "passed": true
+    },
+    {
+      "check": "acceptance mean/SD nsfnet/elephant_stress/harp",
+      "passed": true
+    },
+    {
+      "check": "acceptance mean/SD nsfnet/burst_surge/harp",
       "passed": true
     },
     {
@@ -525,39 +650,7 @@
       "passed": true
     },
     {
-      "check": "acceptance mean/SD geant2/elephant_stress/decoupled_ai",
-      "passed": true
-    },
-    {
-      "check": "acceptance mean/SD geant2/elephant_stress/saf_h",
-      "passed": true
-    },
-    {
-      "check": "acceptance mean/SD geant2/elephant_stress/cspf",
-      "passed": true
-    },
-    {
-      "check": "acceptance mean/SD geant2/elephant_stress/harp",
-      "passed": true
-    },
-    {
       "check": "acceptance mean/SD geant2/burst_surge/traditional_greedy",
-      "passed": true
-    },
-    {
-      "check": "acceptance mean/SD geant2/burst_surge/decoupled_ai",
-      "passed": true
-    },
-    {
-      "check": "acceptance mean/SD geant2/burst_surge/saf_h",
-      "passed": true
-    },
-    {
-      "check": "acceptance mean/SD geant2/burst_surge/cspf",
-      "passed": true
-    },
-    {
-      "check": "acceptance mean/SD geant2/burst_surge/harp",
       "passed": true
     },
     {
@@ -565,7 +658,23 @@
       "passed": true
     },
     {
+      "check": "acceptance mean/SD geant2/elephant_stress/decoupled_ai",
+      "passed": true
+    },
+    {
+      "check": "acceptance mean/SD geant2/burst_surge/decoupled_ai",
+      "passed": true
+    },
+    {
       "check": "acceptance mean/SD geant2/chaos/decoupled_ai",
+      "passed": true
+    },
+    {
+      "check": "acceptance mean/SD geant2/elephant_stress/saf_h",
+      "passed": true
+    },
+    {
+      "check": "acceptance mean/SD geant2/burst_surge/saf_h",
       "passed": true
     },
     {
@@ -573,11 +682,31 @@
       "passed": true
     },
     {
+      "check": "acceptance mean/SD geant2/elephant_stress/cspf",
+      "passed": true
+    },
+    {
+      "check": "acceptance mean/SD geant2/burst_surge/cspf",
+      "passed": true
+    },
+    {
       "check": "acceptance mean/SD geant2/chaos/cspf",
       "passed": true
     },
     {
+      "check": "acceptance mean/SD geant2/elephant_stress/harp",
+      "passed": true
+    },
+    {
+      "check": "acceptance mean/SD geant2/burst_surge/harp",
+      "passed": true
+    },
+    {
       "check": "acceptance mean/SD geant2/chaos/harp",
+      "passed": true
+    },
+    {
+      "check": "all 45 acceptance mean/SD cells retained",
       "passed": true
     },
     {
@@ -673,11 +802,19 @@
       "passed": true
     },
     {
-      "check": "25 self-contained supplementary tables",
+      "check": "27 self-contained supplementary tables",
       "passed": true
     },
     {
       "check": "main source has no external numeric or table inputs",
+      "passed": true
+    },
+    {
+      "check": "ten one-column main tables",
+      "passed": true
+    },
+    {
+      "check": "submitted five contribution items retained",
       "passed": true
     },
     {
@@ -701,12 +838,12 @@
       "passed": true
     }
   ],
-  "passed": 175,
+  "passed": 209,
   "failed": 0,
   "files_sha256": {
-    "docs/AIO-mesh-rev1/rev1.tex": "7c025b47d114eaf6df2a3e426baf1adb61512a9c73367cf1c3b1437f600eeb38",
-    "docs/AIO-mesh-rev1/supplement.tex": "8132a8b8e62029a0d64b57c3fc806c85128054c42303f874a0f44bb3333a04b5",
-    "docs/response_rev1.tex": "756af75681ab514f08f0ffe35e53577af054a437c27b3afbdbe967fb6fa2eadf",
+    "docs/AIO-mesh-rev1/rev1.tex": "4e4f569f8034d40e8f3299ae07174d0bdc69178ac98bac91df94b26698b903cd",
+    "docs/AIO-mesh-rev1/supplement.tex": "add320f064962ee04be12cb756fea52f086972e828a4b152a7b8f0cec7db49e0",
+    "docs/response_rev1.tex": "c36b1e2747b3b537b7617893b45c4f61688287944ab3e52cd935568f9e7ccba1",
     "docs/AIO-mesh-rev1/figs/ablation_compute_cost.pdf": "e33f6ed71ec3c32d742e19eb91a08f2776a324aaeac588a6122a2bb5046ce2c9",
     "docs/AIO-mesh-rev1/figs/ablation_mask_admission.pdf": "3d679e882717d740fe7f9c28b09216d5d75dc56ed3780940849b531cc5835a82",
     "docs/AIO-mesh-rev1/figs/arrival_rate_only.pdf": "efddb4f0e5e063732ac3442b41284f7de28c68a6952fcb62c285cb0a3da1f258",

@@ -1,38 +1,46 @@
-# Đối soát revision — 24/11/2026
+# Trạng thái bản nộp rút gọn — 24/11/2026
 
-Bản làm việc: `docs/AIO-mesh-rev1/rev1.tex`. Bản neo: `docs/AIO-mesh-submitted 1/submitted-1.tex`. Nguồn bổ sung được người dùng chỉ định: `AIO-mesh-submit-2/docs/AIO-mesh-rev1/rev1.tex` cùng raw records và manifests trong bundle đó. Không sửa bản đã nộp hoặc bundle nguồn.
+Bản chính hiện tại: `docs/AIO-mesh-rev1/rev1.tex`; PDF marked/clean ở cùng thư mục. Bản nền là `docs/AIO-mesh-submitted 1/submitted-1.tex`. Bundle `AIO-mesh-submit-2` được dùng để audit dữ liệu, không phải bản nộp mới nhất.
 
-Giữ tiêu đề, tác giả, bảy section chính và thứ tự lập luận của bản đã nộp; phục hồi phần mở đầu Abstract và ngữ cảnh Introduction còn phù hợp. Giữ các hiệu chỉnh khoa học cần thiết do phản biện, không phục hồi các tuyên bố hiệu năng/safety rộng hơn evidence. Hai citation keys của bản cũ (`cSDAID22`, `jOptimizeSlice24`) không có trong các bibliography được cung cấp: giữ ngữ cảnh tổng quát, bỏ quy kết tới các nghiên cứu không xác định, không tạo bibliography giả.
+## Phạm vi trình bày đã sửa theo yêu cầu mới
 
-Tất cả bảng/hàng bảng và macro số liệu của main manuscript đã được gộp trực tiếp vào `rev1.tex`; không còn `input` bảng hoặc tệp số liệu. Supplementary có source độc lập, cũng chứa trực tiếp toàn bộ bảng. Các artifact/generator gốc vẫn được giữ để audit. Các số ±SD được trình bày bằng superscript; không thay mean/SD/CI/p-value cũ nếu bảng gốc được xác nhận.
+- Rút bản PDF từ 36 xuống 20 trang, gồm references; không đặt appendix chi tiết trong bản chính.
+- Giữ 5 contributions và thứ tự của submit1. Abstract được sửa trực tiếp từ bản gốc, chủ yếu ở các claim implementation/safety và kết quả không còn đúng. Giữ tên bài, tác giả, bảy section chính, formulation tổng quát, Funding/CRediT và declarations theo bản đã nộp.
+- Chỉ giữ 10 bảng cốt yếu trong bản chính. Tất cả là float một cột, không còn `table*`. Benchmark được dàn thành bốn cột theo từng topology để đọc được ở cỡ chữ nhỏ, không ép bảy cột quá hẹp.
+- Bảng vẫn nằm trực tiếp trong source `.tex`; không tách các hàng bảng thành tệp input. Số ±SD tiếp tục là superscript.
+- Supplementary là tài liệu riêng có S1–S27: giữ S1–S25, thêm S26 chứa chi tiết hai long run và S27 chứa timing SAF-H tuần tự lịch sử. Không chạy thêm thí nghiệm và không đổi các giá trị đã xác minh.
 
-| Checklist | Hiệu chỉnh và vị trí thực tế |
+| Bảng chính | Nội dung và lý do giữ |
+|---:|---|
+| 1 | Hard constraints → failure modes, đáp ứng R5.2. |
+| 2 | Safe acceptance của năm policies trên ba topology/ba workloads. |
+| 3 | Paired HARP–SAF-H statistics; pointwise CI và Holm-adjusted p-values. |
+| 4 | Ablation: acceptance, seed-level decision P95 và admitted violations. |
+| 5 | Proposed/admitted hard violations với mẫu số offered requests. |
+| 6 | E2E campaign: đủ 398 terminal outcomes, lifecycle accounting, probes và timing cốt yếu. |
+| 7 | Protected/bypass MSD fault experiments và counter deltas. |
+| 8 | Tóm tắt 12-hour control-plane và hai 3-hour probe/admission runs. |
+| 9 | HARP/SAF-H synthetic timing: candidate, inference/selection, validation và decision. |
+| 10 | Admission-predicate timing tại 0/25/50/100 background chains trên named substrates. |
+
+## Đối chiếu checklist
+
+| Mục | Trạng thái hiện tại |
 |---|---|
-| P0.1 | Figure 5 và Table 23 dùng cùng sáu nhóm 20-seed synthetic Burst-surge HARP/SAF-H, kiểm tra trace hashes theo seed. 100 nodes: HARP decision P95 26.101 ms; SAF-H 416.242 ms. Đây là benchmark chạy đồng thời trên shared host. SAF-H tuần tự lịch sử 83.562 ms được giữ riêng ở Appendix A.1, không trộn phép đo hoặc quy nguyên nhân tail cho scheduling. Theo chỉ đạo tiếp theo của người dùng, không dùng bộ 44.273/11.103 ms cũ. Đồng bộ Sections 5.6, 6.9 và 6.10. |
-| P0.2 | Table 12 giải trình 398 = 69 admitted + 231 depth mismatch + 6 switch-MSD overflow + 43 ingress=placement + 49 resilience-search failure. CSV có đúng 57 migrations, 12 deployments không thay thế. Baseline 39, cuối 51. Target 30 là số tên active không thuộc baseline, không phải tăng ròng 30 VNF; cuối còn 21 tên baseline và 30 tên mới so với baseline. |
-| P0.3 | Giữ thiết kế bốn khối hiện có của Figures 1–2; sửa thứ tự logits → mask → selection → independent validation/reservation, nhánh admitted tới lifecycle và nhánh rejected tới NO_SAFE_ACTION; nhãn Action-Switching Penalty. |
-| P0.4 | Eq. 21 chỉ áp dụng khi feasible set khác rỗng. Sections 5.3/5.5 và Algorithm 2 phân biệt finite-logit fallback trong training, all-true prediction mask khi simulator evaluation, guarded search/rejection khi live runtime. NoMask/SoftMSD dùng unmasked distribution và PPO ratio tương ứng. BW nằm ở cả simulator mask và admission, không ở live local reservation. |
-| P0.5 | Requested depth được thêm vào request tuple. Section 4.5 phân biệt depth consistency với hardware feasibility, lý do exact-depth contract và cách kiểm tra từng profile. Không dùng mismatch làm bằng chứng overflow. |
-| P1.1 | Sections 3.2–3.3/4.5–4.6 giải thích placement, routing-profile anchor, BFS ingress→placement, SID wire order và thời điểm kiểm tra profile; xác nhận không dùng cached candidate paths. Full-chain soundness vẫn là yêu cầu chưa được chứng minh, không tuyên bố hoàn tất multi-VNF validation. |
-| P1.2 | Table 23 và Appendix A.2/S25 tách admission-predicate timer khỏi mask/inference. Dùng log sẵn có: synthetic sizes 25/50/100 tại stress, và occupancy 0/25/50/100 trên named substrates 10/14/23 nodes. Chưa có crossed synthetic-size × occupancy/service-count experiment. Không gọi đây là live API admission overhead. Response R5.5 ghi rõ chỉ đáp ứng một phần: 12h không actuation; 3h probe VNF đã steer, không deploy/steer 209 admissions mới. |
-| P2.1 | Pointwise bootstrap CI không multiplicity-adjusted; Holm áp dụng p-values. Sửa số resamples primary từ mô tả 10,000 thành 20,000 theo generator thực tế; không đổi kết quả. Nêu exact sign-flip, average-rank ties, drop zeros và all-zero p=1. Timing SD là SD của seed-level P95. Tỷ lệ proposed/admitted violations cùng dùng mẫu số offered requests. Khai triển HIL ở Section 4.4. S1–S24 giữ kết quả của source; S25 bổ sung bảng validation từ raw logs đã có. |
-| P2.2 | Sửa `docs/response_rev1.tex`, giữ nguyên cả 20 comment blocks gốc. Dẫn chiếu theo số hình/bảng thực tế sau khi gộp bảng, và nêu rõ các giới hạn chưa có thực nghiệm. |
+| P0.1 | Figure 5 và Table 9 dùng cùng dữ liệu audit được. Bộ 44.273/11.103 ms cũ không dùng theo chỉ đạo người dùng. Phân biệt concurrent benchmark với historical serialized study ở S27. |
+| P0.2 | Table 6: 398 = 69 admitted + 231 mismatch + 6 MSD overflow + 43 ingress=placement + 49 resilience-search failure. Baseline 39; 12 deployments không replacement, 57 migrations, cuối 51. Target 30 là số active names không thuộc baseline. |
+| P0.3 | Figures 1–2: logits → masking → selection → independent validation/reservation; có admitted/rejected branches và Action-Switching Penalty. |
+| P0.4 | Masked distribution hiện là Eq. 23, chỉ có nghĩa khi feasible set khác rỗng; training/simulator/live fallback và bandwidth predicates được phân biệt trong Sections 5.3/5.5 và Algorithm 2. |
+| P0.5 | Requested depth, materialized depth, depth-consistency và hardware-MSD feasibility được tách rõ. |
+| P1.1 | Đã giải thích pair realization, anchor, compiler và no-cache. Cited campaigns chưa tự chứng minh ordered multi-VNF traversal; không suy ra hệ thống không có khả năng đó. |
+| P1.2 | Tables 9–10/S25 có timer predicates riêng. Chưa có đầy đủ crossed size × occupancy × service-count study hoặc multi-hour repeated admission-to-actuation experiment; giới hạn được nêu trong bài/response. |
+| P2.1 | Giữ mean/sample SD, exact conditional Wilcoxon với ties/zeros, 20,000 paired bootstrap resamples, pointwise CI, Holm families và mẫu số. Tất cả bảng S1–S25 vẫn có trong supplement. |
+| P2.2 | Response đã remap số bảng 1–10/S1–S27; 20 reviewer comment blocks gốc được giữ nguyên. |
 
-## Kiểm tra tái lập
+## Kiểm tra
 
-- `python scripts/paper/check_tex_inputs.py`: 1 source chính, 50 references nội bộ, 8 figures, 52 citation keys.
-- `python docs/AIO-mesh-rev1/evidence/reconciliation_20261124/rebuild_timing.py`: tái tính mean/sample SD của seed-level P95 từ raw CSV hiện có; không chạy lại simulator.
-- `python docs/AIO-mesh-rev1/evidence/reconciliation_20261124/check_evidence.py`: 170 checks, gồm input/output SHA-256, 398 terminal outcomes, lifecycle accounting, số liệu bảng giữ lại, 45 cặp mean/SD acceptance được tính lại, timing cells và supplementary lineage. Chi tiết và hashes ở `checks.json`.
-- Figure 5: `MPLCONFIGDIR=/tmp/aio-mpl venv/bin/python scripts/rev1/plot_nonhil_studies.py --cost results/rev1/nonhil_studies/20261117_233441/controlled_policy_cost.json --scale results/rev1/nonhil_studies/20261117_235132/topology_scalability.json --matched-summary docs/AIO-mesh-rev1/evidence/reconciliation_20261124/timing_summary.json --output docs/AIO-mesh-rev1/figs/policy_cost_scalability.pdf`.
-- Figures 1–2: `MPLCONFIGDIR=/tmp/aio-mpl venv/bin/python scripts/paper/make_architecture_figures.py`.
-- Tectonic đã build main marked, main clean, supplementary và response; không unresolved citation/reference, không missing glyph. Hai main PDF có text trích xuất giống nhau. Còn cảnh báo hbox nhỏ của bố cục Elsevier/footnote và hai bảng supplementary; không phải lỗi compile. Đã xem các trang chứa bảng acceptance, HIL, timing, các hình và appendix validation.
+`check_tex_inputs.py` kiểm tra main labels/assets/citations. `check_evidence.py` kiểm tra 209 điều kiện, gồm hashes, bảng giữ lại ở main hoặc supplement, toàn bộ 45 benchmark mean/SD cells, compact E2E/MSD/stability cells và các baseline guards. Snapshot đối chiếu số liệu được pin ở commit `2271d032`, không dựa vào HEAD có thể thay đổi.
 
-Đây là nghiệm thu hiệu chỉnh/source và kiểm tra dữ liệu giữ lại; không chứng nhận thực nghiệm full-chain, ASIC, continuity hoặc multi-hour lifecycle mà artifacts chưa cung cấp.
+Đã build marked, clean, supplementary và response; không undefined reference/citation hoặc missing glyph. Text marked/clean trùng nhau. Đã xem Abstract/Introduction và các trang bảng quan trọng. Các hbox warnings nhỏ của footer/run-in heading không phải lỗi bảng tràn cột.
 
-## Bổ sung sau xác nhận của người dùng
-
-Đã đối soát tiếp với submit1, phục hồi 11 đoạn/khối và Algorithm 1 theo câu chữ/mạch lifecycle gốc. Bảy section chính trùng tên và thứ tự với submit1; xem `SUBMIT1_ANCHOR.md`. Xác minh lại campaign E2E/long run mà người dùng nhắc tới: các record được trích dẫn xác nhận nhiều VNF cùng hoạt động và probe từng VNF; không suy ra phủ định khả năng multi-VNF của hệ thống. PDF marked/clean đã được build lại, text trích xuất trùng nhau, không undefined citation/reference hoặc missing glyph. Citation keys hiện là 53 sau phục hồi citation gốc có bibliography hợp lệ.
-
-## Hoàn tất đối soát baseline toàn bản
-
-Đã rà 42 phần gốc và lập mục 117 đoạn văn, lưu diff trực tiếp submit1→rev1. Hàm mục tiêu tổng quát, MDP/state, evaluation questions và các declaration đã được phục hồi theo submit1; số liệu/công thức implementation vẫn theo evidence. Kiểm tra hiện tại: 175 evidence/baseline checks; 52 references, 8 figures, 53 citation keys. Main marked/clean và response đã build lại, không unresolved citation/reference hoặc missing glyph; text marked/clean giống nhau. Xem `BASELINE_REVIEW.md` và `SUBMIT1_TO_REV1.diff`.
+Đối chiếu trực tiếp với submit1: `BASELINE_REVIEW.md`, `submit1_paragraph_review.json`, `SUBMIT1_TO_REV1.diff`. Đây là nghiệm thu biên tập và dữ liệu hiện có, không thay cho các testbed experiments còn thiếu mà người dùng dự định chạy trên server khác.
