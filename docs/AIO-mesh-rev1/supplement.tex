@@ -82,6 +82,7 @@
 \newcommand{\TrainingMeanMin}{57.375}
 \newcommand{\TrainingMeanMax}{57.657}
 \newcommand{\TrainingMeanSD}{0.156}
+\newcommand{\SD}[1]{\textsuperscript{\ensuremath{\pm #1}}}
 
 \begin{document}
 \begin{frontmatter}
@@ -852,7 +853,7 @@ Live, admitted path & s2-s1-s6-s5 (10,10,8,4) & 11 & bypassed & installed & 0 / 
 \end{table*}
 \begin{table*}[p]
 \centering
-\caption{\newrev{Audited admission-validation overhead from retained benchmark logs. Left: synthetic 25/50/100-node Burst-surge stress, 20 matched seeds. Right: the named-substrate occupancy protocol at intensity 1.0, 20 seeds. All cells are mean\textsuperscript{$\pm$SD} of seed-level P95 (ms); validation covers predicates, excluding resource mutation and external reservation. These protocols do not provide a crossed synthetic-size/occupancy experiment.}}
+\caption{\newrev{Audited admission-validation overhead from retained benchmark logs. Left: synthetic 25/50/100-node Burst-surge stress, 20 matched seeds. Right: the named-substrate occupancy protocol at intensity 1.0, 20 seeds. All cells are mean\textsuperscript{$\pm$SD} of seed-level P95 (ms); validation covers predicates, excluding resource mutation and external reservation. The complete crossed synthetic-size/modeled-occupancy matrix is reported in Supplementary Table~S29.}}
 \label{tab:safety_validation_scaling}
 \begin{minipage}[t]{0.49\textwidth}
 {\color{revisiongreen}
@@ -955,6 +956,95 @@ Nodes & Links & Pairs ($N^2$) & Set P50 & Set P95 & Decision P95 \\
 \end{tabular}%
 }}
 \end{table*}
+
+\begin{table*}[p]
+\centering
+\caption{\newrev{Three-hour repeated exact-old vVOC lifecycle campaign on the live testbed. Each cycle replaced the specified old instance using make-before-break steering while a per-cycle HTTP request probe targeted the old and then replacement Pod IP.}}
+\label{tab:hil_repeated_lifecycle}
+{\color{revisiongreen}
+\small
+\begin{tabular}{@{}lr@{}}
+\toprule
+Metric & Result \\
+\midrule
+Campaign duration & 3 h (10,800 s) \\
+Replacement cycles & 18/18 passed all cycle checks \\
+Start-to-start cycle interval & 600.9--601.4 s \\
+Baseline active VNFs & 18 \\
+Lifecycle checks & New Ready; exact steering confirmed; old Deployment absent; inventory and lock reconciled \\
+Probe requests received / sent & 4,952 / 4,952 \\
+Packet loss / duplicate IDs & 0 / 0 \\
+Maximum within-cycle successful-response gap & 339.8 ms \\
+Observed MSD-violation counter increments & 0 \\
+\bottomrule
+\end{tabular}
+}
+\end{table*}
+
+\newrev{This campaign covers repeated replacement of one vVOC service under one live testbed profile and a fixed 10-minute cycle interval. For each cycle, \texttt{exact-old} named a currently tracked, Ready old VNF of the requested service type; the new instance was the unique VNF name returned by that API request. Each of the 18 separate probe windows first established at least two successful old-endpoint responses before request submission, then sent sequential HTTP \texttt{/echo} requests, with the per-cycle mean send interval ranging from 0.233 to 0.236 s (the sender sleeps 0.2 s after each response), first to the old Pod IP and, after confirmed steering, to the Ready replacement Pod IP. The client changed its /32 SRv6 route over the same checked SRv6/P4 path; this was not a stable virtual service address or one continuous TCP flow. The packet denominator counts all issued request IDs, and a receive is a unique matching ID returned with HTTP 200 and the expected vVOC role. The 339.8-ms maximum is the largest interval between consecutive successful response timestamps within any one cycle, excluding the intervals before the first and after the last response. The probe continued until 10 s after old Deployment absence, and the 18 windows were separated by approximately 10 minutes. Thus the result is zero observed request loss in these bounded migration windows, not uninterrupted traffic observation throughout the three-hour campaign. The campaign does not establish ordered traversal through multiple VNFs, behavior across service types or occupancy levels, a general zero-downtime guarantee, or multi-day stability. Per-cycle packet records, migration evidence, and counter deltas are retained under \texttt{results/hil/p1\_2\_lifecycle\_20261124/three\_hour\_retry/}.}
+\newrev{The crossed synthetic matrix covers all 12 topology/occupancy conditions with 20 matched seeds and 1,000 decisions per seed at load multiplier 1.0. The modeled background chains use a fixed profile (2 CPU, 2 RAM, MSD 1, bandwidth 20) placed round-robin; occupancy is therefore a chain-count intervention, not live Kubernetes load. All protected policy runs had zero admitted hard violations. At 100 nodes, mean per-seed decision P95 across the four occupancy conditions ranged from 106.7 to 118.4~ms for HARP and 251.5 to 257.1~ms for SAF-H; SAF-H feasible-set construction alone ranged from 200.4 to 204.4~ms. Simulator admission-validation P95 varied little with modeled occupancy compared with topology size. Absolute timings are specific to this simulator and execution host and do not estimate live API latency.}
+\begin{table*}[p]
+\centering
+\caption{\newrev{Crossed synthetic topology-by-modeled-occupancy simulator timing. Entries are mean $\pm$ sample SD across 20 seed-level P95 values (ms); 1,000 decisions per seed, 1.0 offered-load multiplier, protected admission, matched traces. HARP construction/selection are mask construction/policy inference; SAF-H construction/selection are feasible-set construction/heuristic selection. Admission is the independent simulator predicate. Total decision P95 is measured separately and is not the sum of component percentiles.}}
+\label{tab:p12_crossed_matrix}
+\scriptsize
+{\color{revisiongreen}
+\setlength{\tabcolsep}{3pt}
+\resizebox{\textwidth}{!}{%
+\begin{tabular}{rrlrrrr}
+\toprule
+Nodes & Chains & Policy & Construction P95 & Selection P95 & Admission P95 & Total decision P95 \\
+\midrule
+25 & 0 & HARP & 3.7603\SD{0.2592} & 5.1949\SD{0.3584} & 0.0244\SD{0.0011} & 10.7179\SD{0.6962} \\
+25 & 0 & SAF-H & 3.8597\SD{0.3485} & 4.5128\SD{0.4068} & 0.0126\SD{0.0015} & 9.8481\SD{0.8000} \\
+25 & 25 & HARP & 3.6544\SD{0.4409} & 5.1039\SD{0.5001} & 0.0233\SD{0.0025} & 10.6289\SD{1.2102} \\
+25 & 25 & SAF-H & 3.9598\SD{0.5982} & 4.6000\SD{0.5916} & 0.0132\SD{0.0025} & 10.2927\SD{1.4074} \\
+25 & 50 & HARP & 3.5102\SD{0.3141} & 4.9800\SD{0.4223} & 0.0214\SD{0.0023} & 10.3579\SD{0.9548} \\
+25 & 50 & SAF-H & 3.6669\SD{0.4463} & 4.2894\SD{0.5498} & 0.0120\SD{0.0022} & 9.6429\SD{1.2164} \\
+25 & 100 & HARP & 3.5452\SD{0.2750} & 4.9824\SD{0.2987} & 0.0225\SD{0.0019} & 10.6200\SD{0.7115} \\
+25 & 100 & SAF-H & 3.6316\SD{0.4450} & 4.2214\SD{0.4643} & 0.0117\SD{0.0021} & 9.7700\SD{1.0932} \\
+50 & 0 & HARP & 13.5508\SD{0.5745} & 11.4448\SD{0.5401} & 0.0264\SD{0.0017} & 26.9441\SD{0.9254} \\
+50 & 0 & SAF-H & 15.1930\SD{0.8001} & 17.8280\SD{0.9733} & 0.0137\SD{0.0014} & 35.4972\SD{1.6221} \\
+50 & 25 & HARP & 13.9819\SD{0.8895} & 11.7630\SD{0.6375} & 0.0271\SD{0.0016} & 27.9294\SD{1.2738} \\
+50 & 25 & SAF-H & 15.6092\SD{0.8486} & 18.3261\SD{0.9203} & 0.0142\SD{0.0016} & 36.3924\SD{1.5801} \\
+50 & 50 & HARP & 13.7478\SD{0.6789} & 11.5149\SD{0.4684} & 0.0257\SD{0.0013} & 27.5556\SD{1.0670} \\
+50 & 50 & SAF-H & 15.2249\SD{1.0499} & 17.8224\SD{1.1631} & 0.0139\SD{0.0017} & 35.8391\SD{1.9607} \\
+50 & 100 & HARP & 13.5563\SD{0.7604} & 11.6887\SD{0.4041} & 0.0259\SD{0.0013} & 27.6983\SD{1.1133} \\
+50 & 100 & SAF-H & 14.9525\SD{0.7644} & 17.5799\SD{1.0814} & 0.0141\SD{0.0014} & 35.2514\SD{1.6961} \\
+100 & 0 & HARP & 52.2363\SD{1.1678} & 69.7504\SD{17.9058} & 0.0270\SD{0.0011} & 118.4451\SD{17.0769} \\
+100 & 0 & SAF-H & 202.2594\SD{6.9934} & 68.6950\SD{1.4391} & 0.0151\SD{0.0010} & 254.8438\SD{9.5456} \\
+100 & 25 & HARP & 51.9894\SD{1.9131} & 62.9520\SD{19.3883} & 0.0272\SD{0.0009} & 111.4411\SD{17.8515} \\
+100 & 25 & SAF-H & 200.4261\SD{5.5271} & 68.7616\SD{1.7746} & 0.0151\SD{0.0011} & 251.5317\SD{8.1081} \\
+100 & 50 & HARP & 52.0506\SD{1.1239} & 57.5248\SD{20.0657} & 0.0270\SD{0.0010} & 106.6725\SD{18.9622} \\
+100 & 50 & SAF-H & 202.1485\SD{7.1237} & 68.1432\SD{1.2903} & 0.0148\SD{0.0009} & 254.1577\SD{9.2391} \\
+100 & 100 & HARP & 52.5391\SD{1.0443} & 62.3403\SD{20.9471} & 0.0275\SD{0.0013} & 111.8693\SD{19.5740} \\
+100 & 100 & SAF-H & 204.3816\SD{7.7629} & 68.0566\SD{1.7802} & 0.0153\SD{0.0010} & 257.1123\SD{9.4944} \\
+\bottomrule
+\end{tabular}%
+}}
+\end{table*}
+
+\newrev{The live no-reset admission-only sweep used 30 selection-only requests on the 10-node testbed, with ten requests at each concurrency level. Accepted reservations remained unactuated, were checked by exact returned VNF name, and were released through the scoped endpoint; no global reset was used. The backend admission-validation timer encloses the reservation call, including its local lock, state mutation, and durable checkpoint, but excludes deployment, steering, and packet forwarding. The runner manifest records Python 3.8.10 on Linux 5.4.0; package versions are not included. HTTP RTT spans the orchestration response.}
+\begin{table*}[p]
+\centering
+\caption{\newrev{Live admission-only overhead on the 10-node testbed. Ten operations were measured at each concurrency level. Admission and server timings are backend measurements; HTTP RTT spans the orchestration response.}}
+\label{tab:p12_live_admission}
+\scriptsize
+{\color{revisiongreen}
+\setlength{\tabcolsep}{3pt}
+\resizebox{\textwidth}{!}{%
+\begin{tabular}{rrrrrrr}
+\toprule
+Concurrency & Requests & Accepted/cleaned & Admission P50/P95/P99 (ms) & Server decision P95 (ms) & HTTP RTT P95 (ms) & API ops/s \\
+\midrule
+1 & 10 & 10/10 & 24.57 / 35.05 / 35.05 & 215.92 & 220.18 & 6.22 \\
+2 & 10 & 10/10 & 17.73 / 28.60 / 28.60 & 170.01 & 311.09 & 7.13 \\
+4 & 10 & 10/10 & 15.11 / 26.24 / 26.24 & 127.67 & 463.47 & 9.26 \\
+\bottomrule
+\end{tabular}%
+}}
+\end{table*}
+
 \clearpage
 \bibliographystyle{elsarticle-num}
 \bibliography{refs}

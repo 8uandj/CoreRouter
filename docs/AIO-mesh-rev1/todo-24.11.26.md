@@ -232,9 +232,13 @@ Nếu chưa có, tôi đề nghị thực hiện một phép đo nhỏ sử dụ
 
 Không cần huấn luyện lại models. Mục tiêu chỉ là bổ sung đúng thành phần overhead reviewer yêu cầu.
 
+**Kết quả triển khai 25/11/2026:** crossed matrix đã hoàn tất đủ 240/240 ô, 20 seed × 1.000 bước cho mỗi cặp topology/occupancy, tổng cộng 480 policy rows. Tất cả 12 cells có đủ seed, trace hash của HARP/SAF-H khớp và không có protected admitted hard violation. Ở 100 nodes, total-decision P95 mean theo occupancy là 106.67–118.45 ms (HARP) và 251.53–257.11 ms (SAF-H); chi tiết đủ 12 cell tại Supplementary S29 và artifacts trong `results/rev1/p1_2_simulator/crossed_matrix_1000steps_fixed/`. Các con số là simulator với background-chain profile cố định, không phải live Kubernetes load.
+
 **B. Long-running stability**
 
-Phép thử 12 giờ không thực hiện deployment hoặc forwarding. Phép thử ba giờ có packet probes nhưng chỉ kiểm tra các VNF đã được steering từ trước; 209 requests mới được admitted không được deploy hoặc steer.&#x20;
+Phép thử 12 giờ không thực hiện deployment hoặc forwarding. Hai phép thử ba giờ trước đó có packet probes nhưng chỉ kiểm tra các VNF đã được steering từ trước; 209 requests mới được admitted không được deploy hoặc steer. Đã bổ sung một campaign riêng để đo lặp lifecycle request-to-actuation dưới điều kiện có kiểm soát.
+
+Campaign exact-old kéo dài ba giờ đã hoàn tất trên testbed live: 18 lần thay vVOC theo make-before-break ở chu kỳ khoảng 10 phút; cả 18 lần đạt readiness, xác nhận steering, xóa VNF cũ, đối soát inventory/lock và kiểm tra flow. Tổng 4,952/4,952 packet nhận được; gap nhận lớn nhất mỗi cycle 339.8 ms; không có MSD counter increment. Đây là bằng chứng repeated lifecycle cho một service và một profile, không chứng minh ordered multi-VNF traversal, zero downtime tổng quát, nhiều service hay multi-day stability. Xem `results/hil/p1_2_lifecycle_20261124/three_hour_retry/` và Supplementary Table S28.
 
 AIO-Mesh.rev1n(3).pdf
 
@@ -242,9 +246,9 @@ AIO-Mesh.rev1n(3).pdf
 
 
 
-Do đó, chưa thể sử dụng hai phép thử này để chứng minh stability của toàn bộ admission-to-actuation lifecycle trong nhiều giờ.
+Hai phép thử admission/probe này tự chúng không chứng minh stability của admission-to-actuation. Campaign exact-old bổ sung bằng chứng lifecycle lặp trong ba giờ, nhưng chỉ với một service/profile và cadence cố định; vì vậy phản hồi reviewer cần mô tả đây là cải thiện có giới hạn, không tuyên bố đã giải quyết toàn bộ yêu cầu long-running hoặc production.
 
-Nếu không bổ sung thực nghiệm, cần ghi rõ giới hạn này trong response letter. Đây là yêu cầu còn được đáp ứng một phần, không nên tuyên bố đã giải quyết hoàn toàn.
+**Cập nhật triển khai 25/11/2026:** Live admission-only overhead trên testbed 10 node (30 selection-only requests, concurrency 1/2/4, không reset) và campaign repeated exact-old lifecycle ba giờ đã hoàn tất; lần lượt xem Supplementary S30 và S28. Crossed simulator matrix đã hoàn tất đủ 240/240 ô và được tích hợp ở Supplementary S29. Bằng chứng P1.2 theo kế hoạch đã đủ và được đồng bộ vào main text, supplement, response và ledger. Giới hạn còn lại được nêu rõ: simulator occupancy là profile mô phỏng cố định; live admission latency chỉ được đo trên profile 10 node; lifecycle 3 giờ chỉ cover vVOC trên một profile, không chứng minh production/multi-day/ordered full-chain forwarding. Cần xác nhận compile và số trang trên Overleaf trước khi chốt bundle nộp.
 
 ## **III. Các hiệu chỉnh thống kê và trình bày bắt buộc khi chốt bản thảo**
 
@@ -291,7 +295,7 @@ R2.5, R3.1, R5.1–5.2
 
 R2.5
 
-**P1.2.** Bổ sung validation overhead hoặc nêu rõ giới hạn; xử lý stability scope
+**P1.2.** Đã hoàn tất các phép đo đã định và đồng bộ giới hạn vào bản thảo; còn chờ Overleaf compile/đánh số trang trước khi khóa bundle.
 
 R5.5
 

@@ -165,3 +165,27 @@ kubectl --dry-run=client --validate=false apply -k infrastructure/k8s/
 ## 7. Smart Admission Control — không phải bug
 
 HTTP `409 NO_SAFE_ACTION` từ `/orchestrate` là hành vi đúng theo Định lý Little (Little's Law): khi không tồn tại cặp `[v_place, v_route]` thoả mọi Hard Constraint (MSD ≤ giới hạn của switch Tofino, CPU/RAM, Alert Flag), hệ thống **PHẢI từ chối** request thay vì ép placement vào node nguy hiểm. Tuyệt đối không "fix" bằng cách bỏ Action Masking, hạ MSD, hay ép node.
+
+## 8. Opt-in HIL VNF Pod chain relay
+
+The two-stage SRv6/P4 relay experiment uses a separate `vnf-chain-inputs` ConfigMap, `prepare-vnf-chain` Task, and `vnf-chain-deploy` Pipeline. It does not add a key to or modify the shared `vnf-inputs` ConfigMap or the regular VNF pipelines. The Pod records the exact inner IPv4 length/hash and echoes a checksummed UDP envelope to a Mininet-host gateway; the gateway checks byte equality before emitting the next P4 leg. The handoff is measured separately from P4.
+
+The live 2026-11-24 evidence is in `results/hil/vnf_pod_chain_20261124/podchain20261124b/`. The run used two uniquely named relay Deployments on worker2, completed the 3-packet pilot and 20-packet follow-up, then deleted its Deployments, Services, workspace PVC, and completed task Pods. PipelineRuns are retained for audit.
+
+To remove only the reusable opt-in support objects:
+
+```bash
+kubectl -n core-router delete pipeline/vnf-chain-deploy task/prepare-vnf-chain \
+  configmap/vnf-chain-inputs configmap/vnf-chain-relay-app
+```
+
+If a run is interrupted, set `RUN` to its `CHAIN_RUN_ID` and remove only that run's resources:
+
+```bash
+RUN=podchain20261124b
+kubectl -n core-router delete "deployment/vnf-chain-${RUN}-s1" "service/vnf-chain-${RUN}-s1-svc" \
+  "deployment/vnf-chain-${RUN}-s2" "service/vnf-chain-${RUN}-s2-svc" --ignore-not-found
+kubectl -n core-router delete pods \
+  -l "tekton.dev/pipeline=vnf-chain-deploy,core-router/chain-run=${RUN}" --ignore-not-found
+kubectl -n core-router delete "pvc/chain-ws-${RUN}" --ignore-not-found
+```

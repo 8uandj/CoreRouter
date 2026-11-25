@@ -3,6 +3,7 @@ import asyncio
 import logging
 import uuid
 import time
+from types import SimpleNamespace
 from weakref import WeakKeyDictionary
 
 from src.ai.dgrl_agent import get_dgrl_agent
@@ -71,6 +72,21 @@ async def orchestrate_sfc(request: SFCRequest, background_tasks: BackgroundTasks
         or request.service_type.lower() == "attack"
         or (forecast_decision.alert if forecast_decision else False)
     )
+    exact_old = request.expected_old_vnf
+    required_place = None
+    if exact_old:
+        if not forecast_alert:
+            raise HTTPException(status_code=409, detail={"status":"error", "code":"EXACT_REPLACEMENT_REQUIRES_ALERT"})
+        if not exact_old.startswith("vnf-{}-".format(request.service_type.lower())):
+            raise HTTPException(status_code=409, detail={"status":"error", "code":"EXACT_REPLACEMENT_SERVICE_MISMATCH"})
+        active = state_manager._active_vnfs.get(exact_old)
+        live = next((item for item in k8s_vnfs if item.get("id", item.get("name")) == exact_old), None)
+        if (not active or not live or not active.get("deployment_ready")
+                or active.get("is_pending") or active.get("accounting_unknown")
+                or active.get("presence_unconfirmed")
+                or live.get("desired", 0) < 1 or live.get("ready", 0) < live.get("desired", 0)):
+            raise HTTPException(status_code=409, detail={"status":"error", "code":"EXACT_OLD_VNF_NOT_READY"})
+        required_place = int(active["v_place"])
     if forecast_alert:
         state_manager.set_forecast_alert(True)
 
@@ -90,8 +106,11 @@ async def orchestrate_sfc(request: SFCRequest, background_tasks: BackgroundTasks
                 "reason": str(exc),
             }) from exc
     try:
+        decision_request = request
+        if required_place is not None:
+            decision_request = SimpleNamespace(**request.dict(), required_v_place=required_place)
         decision = select_and_reserve(
-            state_manager, request,
+            state_manager, decision_request,
             lambda manager, req: get_dgrl_agent().get_action(manager, req),
             vnf_name=vnf_name,
             p4_topology_hash=p4_topology_hash,
@@ -136,8 +155,39 @@ async def orchestrate_sfc(request: SFCRequest, background_tasks: BackgroundTasks
     migration_result = None
     controller_handoff_ms = 0.0
     if branch == "drl" and forecast_alert:
+        exact_lock = None
+        if exact_old:
+            exact_lock = get_migration_lock()
+            if exact_lock.locked():
+                state_manager.release_unactuated_reservation(vnf_name)
+                raise HTTPException(status_code=409, detail={"status":"error", "code":"MIGRATION_BUSY"})
+            await exact_lock.acquire()
+            try:
+                refreshed = container.orchestrator.list_vnfs()
+                state_manager.sync_with_kubernetes(refreshed)
+                current = state_manager._active_vnfs.get(exact_old)
+                current_live = next((item for item in refreshed if item.get("id", item.get("name")) == exact_old), None)
+                if (not current or not current_live or current.get("v_place") != required_place
+                        or not current.get("deployment_ready") or current.get("accounting_unknown")
+                        or current.get("presence_unconfirmed")
+                        or current_live.get("ready", 0) < current_live.get("desired", 0)):
+                    state_manager.release_unactuated_reservation(vnf_name)
+                    exact_lock.release()
+                    raise HTTPException(status_code=409, detail={"status":"error", "code":"EXACT_OLD_VNF_CHANGED"})
+            except HTTPException:
+                raise
+            except Exception:
+                state_manager.release_unactuated_reservation(vnf_name)
+                if exact_lock.locked():
+                    exact_lock.release()
+                raise HTTPException(status_code=409, detail={"status":"error", "code":"EXACT_OLD_VNF_RECHECK_FAILED"})
+        if exact_old and choice.v_place != required_place:
+            state_manager.release_unactuated_reservation(vnf_name)
+            if exact_lock and exact_lock.locked(): exact_lock.release()
+            raise HTTPException(status_code=409, detail={"status":"error", "code":"EXACT_OLD_VNF_PLACEMENT_MISMATCH"})
         if decision.realization.forwarding_sid is None:
             released, release_reason = state_manager.release_unactuated_reservation(vnf_name)
+            if exact_lock and exact_lock.locked(): exact_lock.release()
             raise HTTPException(status_code=409, detail={
                 "status": "error",
                 "code": "UNSUPPORTED_ADMITTED_REALIZATION",
@@ -156,21 +206,35 @@ async def orchestrate_sfc(request: SFCRequest, background_tasks: BackgroundTasks
                 "vnf-{}-".format(request.service_type.lower()))
             and vnf.get("name") != vnf_name
         ]
-        old_vnf = existing_vnfs[0]["name"] if existing_vnfs else None
+        old_vnf = exact_old or (existing_vnfs[0]["name"] if existing_vnfs else None)
 
         if old_vnf:
             handoff_start = time.perf_counter()
             async def background_mbb():
-                async with get_migration_lock():
-                    await container.orchestration_service.make_before_break_sequence(
-                        old_name=old_vnf,
-                        new_name=vnf_name,
-                        file_name=deploy_manifest,
-                        target_location=location_key(str(placement["name"])),
-                        request=request,
-                        ai_node_id=choice.v_place,
-                        admitted_realization=decision.realization,
-                    )
+                try:
+                    if exact_lock:
+                        await container.orchestration_service.make_before_break_sequence(
+                            old_name=old_vnf,
+                            new_name=vnf_name,
+                            file_name=deploy_manifest,
+                            target_location=location_key(str(placement["name"])),
+                            request=request,
+                            ai_node_id=choice.v_place,
+                            admitted_realization=decision.realization,
+                        )
+                    else:
+                        async with get_migration_lock():
+                            await container.orchestration_service.make_before_break_sequence(
+                                old_name=old_vnf,
+                                new_name=vnf_name,
+                                file_name=deploy_manifest,
+                                target_location=location_key(str(placement["name"])),
+                                request=request,
+                                ai_node_id=choice.v_place,
+                                admitted_realization=decision.realization,
+                            )
+                finally:
+                    if exact_lock and exact_lock.locked(): exact_lock.release()
             background_tasks.add_task(background_mbb)
             controller_handoff_ms = (time.perf_counter() - handoff_start) * 1000.0
             migration_result = {"status": "triggered", "old_vnf": old_vnf, "new_vnf": vnf_name,

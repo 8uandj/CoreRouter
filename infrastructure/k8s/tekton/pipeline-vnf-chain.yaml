@@ -1,0 +1,61 @@
+apiVersion: tekton.dev/v1
+kind: Pipeline
+metadata:
+  name: vnf-chain-deploy
+  namespace: core-router
+spec:
+  workspaces:
+  - name: ws
+  params:
+  - name: deployName
+  - name: labelSelector
+  - name: fileName
+    default: vnf-chain-relay.yaml
+  - name: chainRunID
+  - name: chainStage
+  tasks:
+  - name: prepare-manifest
+    taskRef:
+      name: prepare-vnf-chain
+    workspaces:
+    - name: ws
+      workspace: ws
+    params:
+    - name: deployName
+      value: $(params.deployName)
+    - name: fileName
+      value: $(params.fileName)
+    - name: chainRunID
+      value: $(params.chainRunID)
+    - name: chainStage
+      value: $(params.chainStage)
+  - name: instantiate
+    runAfter: [prepare-manifest]
+    taskRef:
+      name: kubectl-apply-file
+    workspaces:
+    - name: ws
+      workspace: ws
+    params:
+    - name: filePath
+      value: /workspace/ws/final.yaml
+    - name: namespace
+      value: core-router
+  - name: wait-ready
+    runAfter: [instantiate]
+    taskRef:
+      name: kubectl-wait
+    params:
+    - name: namespace
+      value: core-router
+    - name: deploymentName
+      value: $(params.deployName)
+  - name: observe
+    runAfter: [wait-ready]
+    taskRef:
+      name: kubectl-get
+    params:
+    - name: namespace
+      value: core-router
+    - name: labelSelector
+      value: $(params.labelSelector)

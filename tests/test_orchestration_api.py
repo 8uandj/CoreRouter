@@ -160,6 +160,13 @@ class TestOrchestrationAPI(unittest.TestCase):
         self.assertEqual(response.status_code, 422)
         select.assert_not_called()
 
+    def test_exact_old_vnf_requires_alert_and_rejects_before_reservation(self):
+        with patch.object(self.router_module, "select_and_reserve") as select:
+            response = self.client.post("/api/orchestrate", json={"expected_old_vnf": "vnf-attack-live"})
+        self.assertEqual(response.status_code, 409)
+        self.assertEqual(response.json()["detail"]["code"], "EXACT_REPLACEMENT_REQUIRES_ALERT")
+        select.assert_not_called()
+
     def test_background_migration_status_can_be_retrieved(self):
         record = {'status': 'warning', 'data': {'steer_operation_id': 'operation',
                                                'recovery_state': 'BREAK_UNCONFIRMED'}}

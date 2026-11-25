@@ -10,7 +10,8 @@ import numpy as np
 
 from .env_factory import make_env
 from .metrics import RunMetrics
-from .model_loader import build_model_from_policy_weights, load_normalizer, normalized_obs
+from .model_loader import (build_model_from_policy_weights, load_normalizer,
+                           normalized_obs, deterministic_masked_policy_action)
 
 
 EnvMaker = Callable[[], object]
@@ -284,7 +285,7 @@ def run_jo_vppm(
         obs_norm = normalized_obs(normalizer, obs)
         normalization_ms = (time.perf_counter() - normalization_start) * 1000.0
         inference_start = time.perf_counter()
-        action, _ = model.predict(obs_norm, action_masks=masks, deterministic=True)
+        action = deterministic_masked_policy_action(model, obs_norm, masks)
         inference_ms = (time.perf_counter() - inference_start) * 1000.0
         obs, reward, done, _, info = raw_env.step(action[0])
         info.update({

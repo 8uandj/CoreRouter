@@ -20,6 +20,7 @@ class SFCRequest(BaseModel):
     destination_node: Optional[Union[int, str]] = None
     ingress_node: Optional[int] = Field(default=None, ge=0)
     pps: Optional[float] = Field(default=None, ge=0.0, description="Observed or estimated packets per second for forecasting.")
+    expected_old_vnf: Optional[str] = Field(default=None, min_length=1, max_length=128)
 
 
 class MigrateSingleRequest(BaseModel):

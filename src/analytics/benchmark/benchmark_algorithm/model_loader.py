@@ -51,6 +51,46 @@ def normalized_obs(normalizer, obs: np.ndarray) -> np.ndarray:
     return obs_2d
 
 
+def deterministic_masked_argmax(logits: torch.Tensor, masks) -> np.ndarray:
+    """Choose the highest-logit feasible discrete action without softmax.
+
+    MaskableCategorical's float32 simplex validation can reject otherwise
+    valid logits at 10,000 actions because summing the softmax probabilities
+    accumulates several ULPs of roundoff. For deterministic policies, argmax
+    over masked logits is exactly equivalent to argmax over their probabilities.
+    """
+    logits = torch.as_tensor(logits)
+    if logits.ndim == 1:
+        logits = logits.unsqueeze(0)
+    if logits.ndim != 2 or not torch.is_floating_point(logits):
+        raise ValueError("action logits must be a rank-2 floating tensor")
+    if not bool(torch.isfinite(logits).all()):
+        raise ValueError("action logits must be finite")
+    mask_tensor = torch.as_tensor(masks, dtype=torch.bool, device=logits.device)
+    if mask_tensor.ndim == 1:
+        mask_tensor = mask_tensor.unsqueeze(0)
+    if mask_tensor.shape != logits.shape:
+        raise ValueError("action mask shape must match action logits")
+    if not bool(mask_tensor.any(dim=-1).all()):
+        raise ValueError("each action mask must allow at least one action")
+    masked_logits = logits.masked_fill(~mask_tensor, -torch.inf)
+    return masked_logits.argmax(dim=-1).cpu().numpy()
+
+
+def deterministic_masked_policy_action(model, observation: np.ndarray, masks) -> np.ndarray:
+    """Evaluate a deterministic SB3 actor and select from its masked logits."""
+    policy = model.policy
+    policy.set_training_mode(False)
+    observation_tensor, _ = policy.obs_to_tensor(observation)
+    with torch.no_grad():
+        features = policy.extract_features(observation_tensor)
+        if isinstance(features, tuple):
+            features = features[0]
+        latent_pi, _ = policy.mlp_extractor(features)
+        action_logits = policy.action_net(latent_pi)
+        return deterministic_masked_argmax(action_logits, masks)
+
+
 def build_model_from_policy_weights(raw_env, model_path: Path) -> MaskablePPO:
     vec_env = DummyVecEnv([lambda: raw_env])
     policy_kwargs = dict(

@@ -1,0 +1,132 @@
+apiVersion: v1
+data:
+  chain_handoff.py: |
+    """Checksummed, bounded envelope used only across the Pod/Mininet handoff."""
+
+    import hashlib
+    import re
+    import struct
+
+    MAGIC = b"CRPOD001"
+    HEADER = struct.Struct("!8sBHBH32s")
+    PORT = 49555
+
+
+    def encode(run_id, packet_id, stage, inner):
+        raw_id = run_id.encode("ascii")
+        if not re.fullmatch(rb"[A-Za-z0-9_-]{1,32}", raw_id):
+            raise ValueError("invalid run ID")
+        if not 1 <= packet_id <= 65535 or not 1 <= stage <= 255:
+            raise ValueError("invalid packet or stage number")
+        if not inner or inner[0] >> 4 != 4 or len(inner) < 20:
+            raise ValueError("handoff must contain an IPv4 packet")
+        total = struct.unpack_from("!H", inner, 2)[0]
+        if total != len(inner) or len(inner) + HEADER.size + len(raw_id) > 65507:
+            raise ValueError("invalid or oversized IPv4 packet")
+        return HEADER.pack(MAGIC, len(raw_id), packet_id, stage, len(inner),
+                           hashlib.sha256(inner).digest()) + raw_id + inner
+
+
+    def decode(data, expected_run=None, expected_stage=None):
+        if len(data) < HEADER.size:
+            raise ValueError("truncated envelope")
+        magic, run_len, packet_id, stage, ip_len, digest = HEADER.unpack_from(data)
+        if magic != MAGIC or not 1 <= run_len <= 32:
+            raise ValueError("invalid envelope header")
+        try:
+            run_id = data[HEADER.size:HEADER.size + run_len].decode("ascii")
+        except UnicodeDecodeError as exc:
+            raise ValueError("invalid run ID") from exc
+        inner = data[HEADER.size + run_len:]
+        if len(inner) != ip_len or hashlib.sha256(inner).digest() != digest:
+            raise ValueError("envelope checksum or size mismatch")
+        if expected_run is not None and run_id != expected_run:
+            raise ValueError("unexpected run ID")
+        if expected_stage is not None and stage != expected_stage:
+            raise ValueError("unexpected stage")
+        if not inner or inner[0] >> 4 != 4 or struct.unpack_from("!H", inner, 2)[0] != len(inner):
+            raise ValueError("invalid inner IPv4 packet")
+        return run_id, packet_id, stage, inner, hashlib.sha256(inner).hexdigest()
+  vnf_chain_relay.py: |
+    #!/usr/bin/env python3
+    """Pod side of the measured handoff: log exact inner bytes and echo them back."""
+
+    import http.server
+    import json
+    import os
+    import re
+    import socket
+    import threading
+    import time
+
+    from chain_handoff import decode
+
+    RUN_ID = os.environ["CHAIN_RUN_ID"]
+    STAGE = int(os.environ["CHAIN_STAGE"])
+    LISTEN_PORT = int(os.environ.get("CHAIN_RELAY_PORT", "49557"))
+    LOG_PATH = os.environ.get("CHAIN_LOG", "/var/run/chain/receipts.jsonl")
+    if not re.fullmatch(r"[A-Za-z0-9_-]{1,32}", RUN_ID) or not 1 <= STAGE <= 255:
+        raise SystemExit("invalid run ID or stage")
+
+
+    class Health(http.server.BaseHTTPRequestHandler):
+        def do_GET(self):
+            if self.path not in ("/healthz", "/readyz"):
+                self.send_error(404)
+                return
+            self.send_response(200)
+            self.end_headers()
+            self.wfile.write(b"ok\n")
+
+        def log_message(self, *_args):
+            pass
+
+
+    def marker_matches(inner, packet_id):
+        import struct
+        if len(inner) < 28 or inner[9] != 17:
+            return False
+        ihl = (inner[0] & 15) * 4
+        if ihl < 20 or len(inner) < ihl + 8:
+            return False
+        udp = inner[ihl:]
+        if struct.unpack_from("!H", udp, 2)[0] != 49555:
+            return False
+        payload = udp[8:]
+        expected = "CRCHAIN|{}|{}".format(RUN_ID, packet_id).encode("ascii")
+        return payload == expected
+
+
+    def main():
+        os.makedirs(os.path.dirname(LOG_PATH), exist_ok=True)
+        threading.Thread(target=lambda: http.server.ThreadingHTTPServer(
+            ("0.0.0.0", 8080), Health).serve_forever(), daemon=True).start()
+        sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+        sock.bind(("0.0.0.0", LISTEN_PORT))
+        with open(LOG_PATH, "a", buffering=1) as log:
+            while True:
+                data, peer = sock.recvfrom(65535)
+                try:
+                    run_id, packet_id, stage, inner, digest = decode(data, RUN_ID, STAGE)
+                except ValueError:
+                    continue
+                if not marker_matches(inner, packet_id):
+                    continue
+                event = {"event": "vnf_pod_rx", "run_id": run_id, "stage": stage,
+                         "packet_id": packet_id, "inner_sha256": digest,
+                         "inner_len": len(inner), "time_ns": time.time_ns(),
+                         "handoff_peer": peer[0]}
+                line = json.dumps(event, sort_keys=True)
+                log.write(line + "\n")
+                print(line, flush=True)
+                # Echo the identical envelope, including the full original IP bytes.
+                sock.sendto(data, peer)
+
+
+    if __name__ == "__main__":
+        main()
+kind: ConfigMap
+metadata:
+  creationTimestamp: null
+  name: vnf-chain-relay-app
+  namespace: core-router

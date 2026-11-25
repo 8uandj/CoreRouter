@@ -1,0 +1,99 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: PLACEHOLDER_NAME
+  namespace: core-router
+  labels:
+    core-router/role: chain-relay
+    core-router/chain-run: PLACEHOLDER_RUN_ID
+    core-router/chain-stage: "PLACEHOLDER_STAGE"
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: PLACEHOLDER_NAME
+  template:
+    metadata:
+      labels:
+        app: PLACEHOLDER_NAME
+        core-router/role: chain-relay
+        core-router/chain-run: PLACEHOLDER_RUN_ID
+        core-router/chain-stage: "PLACEHOLDER_STAGE"
+    spec:
+      nodeSelector:
+        kubernetes.io/hostname: worker2
+      containers:
+      - name: relay
+        image: localhost:32000/python:3.11-alpine
+        imagePullPolicy: IfNotPresent
+        command: ["python3", "/app/vnf_chain_relay.py"]
+        env:
+        - name: CHAIN_RUN_ID
+          value: "PLACEHOLDER_RUN_ID"
+        - name: CHAIN_STAGE
+          value: "PLACEHOLDER_STAGE"
+        - name: CHAIN_RELAY_PORT
+          value: "49557"
+        ports:
+        - name: handoff
+          containerPort: 49557
+          protocol: UDP
+        - name: health
+          containerPort: 8080
+          protocol: TCP
+        resources:
+          requests:
+            cpu: 25m
+            memory: 32Mi
+          limits:
+            cpu: 200m
+            memory: 96Mi
+        readinessProbe:
+          httpGet:
+            path: /readyz
+            port: health
+          initialDelaySeconds: 2
+          periodSeconds: 3
+          failureThreshold: 4
+        livenessProbe:
+          httpGet:
+            path: /healthz
+            port: health
+          initialDelaySeconds: 5
+          periodSeconds: 10
+          failureThreshold: 3
+        volumeMounts:
+        - name: relay-app
+          mountPath: /app
+          readOnly: true
+        - name: relay-log
+          mountPath: /var/run/chain
+      volumes:
+      - name: relay-app
+        configMap:
+          name: vnf-chain-relay-app
+      - name: relay-log
+        emptyDir: {}
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: PLACEHOLDER_NAME-svc
+  namespace: core-router
+  labels:
+    core-router/role: chain-relay
+    core-router/chain-run: PLACEHOLDER_RUN_ID
+    core-router/chain-stage: "PLACEHOLDER_STAGE"
+spec:
+  type: ClusterIP
+  selector:
+    app: PLACEHOLDER_NAME
+  ports:
+  - name: handoff
+    port: 49557
+    targetPort: handoff
+    protocol: UDP
+  - name: health
+    port: 8080
+    targetPort: health
+    protocol: TCP

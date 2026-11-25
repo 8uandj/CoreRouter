@@ -743,6 +743,9 @@ class NetworkStateManager:
         with self._lock:
             masks = np.zeros(self.num_nodes * self.num_nodes, dtype=bool)
             for place in range(self.num_nodes):
+                required_place = getattr(request, "required_v_place", None)
+                if required_place is not None and place != int(required_place):
+                    continue
                 if not self.can_reserve(place, request.cpu_req, request.ram_req, request.msd_req):
                     continue
                 for route in range(self.num_nodes):

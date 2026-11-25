@@ -122,7 +122,8 @@ class TopologyManager:
     def __init__(self, topology_name: str = "vietnam"):
         if topology_name.startswith("synthetic_"):
             try:
-                synthetic_size = int(topology_name.removeprefix("synthetic_"))
+                # Keep the pinned Python 3.8 HIL/benchmark environment compatible.
+                synthetic_size = int(topology_name[len("synthetic_"):])
             except ValueError as exc:
                 raise ValueError(f"Invalid synthetic topology name: {topology_name}") from exc
             data = _synthetic_grid_topology(synthetic_size)

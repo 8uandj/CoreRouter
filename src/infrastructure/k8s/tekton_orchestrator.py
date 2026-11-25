@@ -266,6 +266,12 @@ class TektonOrchestrator(IOrchestrator):
         """
         if not self.custom_api:
             return {"status": "error", "message": "K8s connection failed"}
+        if not self.apps_api:
+            return {"status": "error", "message": "Cannot verify old Deployment presence"}
+        try:
+            self.apps_api.read_namespaced_deployment(old_deploy_name, namespace)
+        except Exception as exc:
+            return {"status": "error", "message": f"Old Deployment precondition failed: {exc}"}
 
         run_name = f"mig-{new_deploy_name[:24]}-{uuid.uuid4().hex[:6]}"
         pipeline_run = {

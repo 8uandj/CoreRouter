@@ -45,7 +45,24 @@ spec:
       default: ""
 
   tasks:
+    - name: verify-old-vnf
+      params:
+        - name: namespace
+          value: $(params.ns)
+        - name: oldDeployName
+          value: $(params.oldDeployName)
+      taskSpec:
+        params:
+          - name: namespace
+          - name: oldDeployName
+        steps:
+          - name: check
+            image: localhost:32000/kubectl:1.30
+            command: ["kubectl"]
+            args: ["-n", "$(params.namespace)", "get", "deployment", "$(params.oldDeployName)"]
+
     - name: prepare-replacement
+      runAfter: [verify-old-vnf]
       taskRef: { name: prepare-vnf }
       workspaces:
         - name: ws
@@ -78,8 +95,8 @@ spec:
       params:
         - name: namespace
           value: $(params.ns)
-        - name: labelSelector
-          value: app=$(params.newDeployName)
+        - name: deploymentName
+          value: $(params.newDeployName)
 
     - name: observe-replacement
       runAfter: [wait-replacement-ready]
